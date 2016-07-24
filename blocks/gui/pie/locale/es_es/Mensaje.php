@@ -1,4 +1,0 @@
-<?php
-$this->idioma["parametroEjemplo"]="Cadena";
-
-?>
