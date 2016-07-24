@@ -1,0 +1,36 @@
+/* 
+    Document   : miestilo
+    Created on : 29/08/2013, 12:11:16 PM
+    Author     : esanchez
+    Description:
+        Purpose of the stylesheet follows.
+*/
+#scroll {
+     width:600px;
+     height:270px;
+     background-color:#F2F2F2;
+     overflow:auto;
+}
+
+.contenedor-tabla{
+
+display: table;
+
+}
+
+.contenedor-fila{
+
+display: table-row;
+
+}
+
+.contenedor-columna{
+
+display: table-cell;
+
+}
+
+#tablaCandidatos{	border: solid 1px #333;	width: 100%; }
+#tablaCandidatos tbody tr{ background: #E0F0FA; }
+.fila-base{ display: none; } /* fila base oculta */
+.eliminar{ cursor: pointer; color: #000; }

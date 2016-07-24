@@ -1,0 +1,50 @@
+<?php
+if (! isset ( $GLOBALS ["autorizado"] )) {
+	include ("index.php");
+	exit ();
+} else {
+	
+	// 1. Verificar que el usuario esté registrado en el sistema
+	
+	/*
+	 * $conexion="aplicativo"; $esteRecursoDB=$this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+	 */
+	
+	$conexion = "estructura";
+	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+	
+	if (! $esteRecursoDB) {
+		
+		// Este se considera un error fatal
+		exit ();
+	}
+	
+	$cadena_sql = $this->sql->cadena_sql ( 'buscarUsuario', '' );
+	
+	$registro = $esteRecursoDB->ejecutarAcceso ( $cadena_sql, "busqueda" );
+	
+	if ($registro) {
+		
+		// 0. Verificar que las claves coincidan
+		
+		if ($this->miConfigurador->fabricaConexiones->crypto->decodificar ( $registro [0]['clave'] ) == $_REQUEST ['clave']) {
+			// 1. Crear una sesión de trabajo
+			$estaSesion = $this->miSesion->crearSesion ( $registro [0] ["id_usuario"] );
+			
+			if ($estaSesion) {
+				
+				$registro [0] ["sesionID"] = $estaSesion;
+				// Redirigir a la página principal del usuario, en el arreglo $registro se encuentran los datos de la
+				// sesion:
+				$this->funcion->redireccionar ( "indexUsuario", $registro [0] );
+				return true;
+			}
+		}	
+		
+	}
+	
+	// Redirigir a la página de inicio con mensaje de error en usuario/clave
+	$this->funcion->redireccionar ( "paginaPrincipal" );
+}
+
+?>

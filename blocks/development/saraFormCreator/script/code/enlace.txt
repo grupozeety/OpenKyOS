@@ -1,0 +1,15 @@
+ // -----------------CONTROL: Link development ---------------------------------------------------------------- 
+ $esteCampo = 'linkDevelopment'; 
+ $atributos['id'] = $esteCampo; 
+ $linkPagina = 'development'; 
+ $direccion = getLink::obtener($linkPagina); 
+ $atributos['enlace'] = 'development'; 
+ $atributos['ENLACECODIFICAR'] = 'development'; 
+ $atributos['tabIndex'] = $tab; 
+ $atributos['tipo'] = 'link'; 
+ $atributos['estilo'] = 'jqueryui'; 
+ $atributos['enlaceTexto'] = $this -> lenguaje -> getCadena($esteCampo); 
+ $tab++; 
+ // Aplica atributos globales al control
+ $atributos = array_merge($atributos, $atributosGlobales); 
+ echo $this -> miFormulario -> enlace($atributos);

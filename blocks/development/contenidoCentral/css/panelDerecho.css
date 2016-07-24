@@ -1,0 +1,49 @@
+#divPanelDerecho
+  {
+        position:relative;
+        top:20px;
+        width:220px;
+        height:300px;
+        padding:10px;
+        font-size: 12px;
+        font-family: "Arial", Verdana, Trebuchet MS, Helvetica, sans-serif;
+        z-index:21;
+        float:left;
+        
+
+  }
+  
+ div.iconoPanelDerecho
+  {
+  		height:70px;
+    	background:url(../imagen/sgsi.png) no-repeat center top;
+    	z-index:100;
+  }
+  
+  
+ div.iconoPanelDerecho:hover
+  {
+  		background:url(../imagen/sgsiOn.png) no-repeat center top;    	
+  }
+ 
+div.tituloPanelDerecho
+  {
+        font-size: 14px;
+        font-family: 'arial', sans-serif;
+        font-weight:bolder;
+        text-align:center;
+        border-width: 0px 0px 0px 0px;
+		border-style:solid ;
+        border-color:#AAAAAA;
+        color:#555555;
+        z-index:20;
+
+  }
+  div.cuerpoPanelDerecho
+  {
+    color:#555555;
+    font-size: 13px;
+	text-align:center;
+    float:left;
+
+  }

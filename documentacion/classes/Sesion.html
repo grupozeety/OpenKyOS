@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/Namshi.html">\Namshi</a></li>
+                                                        <li><a href="../namespaces/spec.html">\spec</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">1531</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">22</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">2</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1492294292"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1492294292" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-46919685"></a>
+                                <a href="../namespaces/Namshi.html" style="margin-left: 30px; padding-left: 0">Namshi</a>
+            </div>
+            <div id="namespace-46919685" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-502412835"></a>
+                                <a href="../namespaces/Namshi.Notificator.html" style="margin-left: 30px; padding-left: 0">Notificator</a>
+            </div>
+            <div id="namespace-502412835" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2078948266"></a>
+                                <a href="../namespaces/Namshi.Notificator.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-2078948266" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Namshi.Notificator.Exception.ExecutableNotFoundException.html">ExecutableNotFoundException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1172906579"></a>
+                                <a href="../namespaces/Namshi.Notificator.Messaging.html" style="margin-left: 30px; padding-left: 0">Messaging</a>
+            </div>
+            <div id="namespace-1172906579" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-242936772"></a>
+                                <a href="../namespaces/Namshi.Notificator.Messaging.RabbitMQ.html" style="margin-left: 30px; padding-left: 0">RabbitMQ</a>
+            </div>
+            <div id="namespace-242936772" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-549221224"></a>
+                                <a href="../namespaces/Namshi.Notificator.Messaging.RabbitMQ.Symfony2.html" style="margin-left: 30px; padding-left: 0">Symfony2</a>
+            </div>
+            <div id="namespace-549221224" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Namshi.Notificator.Messaging.RabbitMQ.Symfony2.Consumer.html">Consumer</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-941863256"></a>
+                                <a href="../namespaces/Namshi.Notificator.Notification.html" style="margin-left: 30px; padding-left: 0">Notification</a>
+            </div>
+            <div id="namespace-941863256" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-443204987"></a>
+                                <a href="../namespaces/Namshi.Notificator.Notification.Email.html" style="margin-left: 30px; padding-left: 0">Email</a>
+            </div>
+            <div id="namespace-443204987" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1517277578"></a>
+                                <a href="../namespaces/Namshi.Notificator.Notification.Email.Emailvision.html" style="margin-left: 30px; padding-left: 0">Emailvision</a>
+            </div>
+            <div id="namespace-1517277578" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Namshi.Notificator.Notification.Email.Emailvision.ClientInterface.html">ClientInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Namshi.Notificator.Notification.Email.Emailvision.EmailvisionNotificationInterface.html">EmailvisionNotificationInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.Email.Emailvision.EmailvisionNotification.html">EmailvisionNotification</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Namshi.Notificator.Notification.Email.EmailNotificationInterface.html">EmailNotificationInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.Email.EmailNotification.html">EmailNotification</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1529621036"></a>
+                                <a href="../namespaces/Namshi.Notificator.Notification.Handler.html" style="margin-left: 30px; padding-left: 0">Handler</a>
+            </div>
+            <div id="namespace-1529621036" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Namshi.Notificator.Notification.Handler.HandlerInterface.html">HandlerInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.Handler.Email.html">Email</a></li>
+                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.Handler.Emailvision.html">Emailvision</a></li>
+                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.Handler.HipChat.html">HipChat</a></li>
+                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.Handler.NotifySend.html">NotifySend</a></li>
+                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.Handler.RabbitMQ.html">RabbitMQ</a></li>
+                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.Handler.SMSCountry.html">SMSCountry</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-516043286"></a>
+                                <a href="../namespaces/Namshi.Notificator.Notification.HipChat.html" style="margin-left: 30px; padding-left: 0">HipChat</a>
+            </div>
+            <div id="namespace-516043286" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Namshi.Notificator.Notification.HipChat.HipChatNotificationInterface.html">HipChatNotificationInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.HipChat.HipChatNotification.html">HipChatNotification</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1741425629"></a>
+                                <a href="../namespaces/Namshi.Notificator.Notification.NotifySend.html" style="margin-left: 30px; padding-left: 0">NotifySend</a>
+            </div>
+            <div id="namespace-1741425629" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Namshi.Notificator.Notification.NotifySend.NotifySendNotificationInterface.html">NotifySendNotificationInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.NotifySend.NotifySendNotification.html">NotifySendNotification</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1283341634"></a>
+                                <a href="../namespaces/Namshi.Notificator.Notification.RabbitMQ.html" style="margin-left: 30px; padding-left: 0">RabbitMQ</a>
+            </div>
+            <div id="namespace-1283341634" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Namshi.Notificator.Notification.RabbitMQ.RabbitMQNotificationInterface.html">RabbitMQNotificationInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.RabbitMQ.RabbitMQNotification.html">RabbitMQNotification</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-230152170"></a>
+                                <a href="../namespaces/Namshi.Notificator.Notification.Sms.html" style="margin-left: 30px; padding-left: 0">Sms</a>
+            </div>
+            <div id="namespace-230152170" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Namshi.Notificator.Notification.Sms.SmsNotificationInterface.html">SmsNotificationInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.Sms.SmsNotification.html">SmsNotification</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Namshi.Notificator.ManagerInterface.html">ManagerInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Namshi.Notificator.NotificationInterface.html">NotificationInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Namshi.Notificator.Manager.html">Manager</a></li>
+                                                    <li class="class"><a href="../classes/Namshi.Notificator.Notification.html">Notification</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-833428807"></a>
+                                <a href="../namespaces/spec.html" style="margin-left: 30px; padding-left: 0">spec</a>
+            </div>
+            <div id="namespace-833428807" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-498940626"></a>
+                                <a href="../namespaces/spec.Namshi.html" style="margin-left: 30px; padding-left: 0">Namshi</a>
+            </div>
+            <div id="namespace-498940626" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-239984685"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.html" style="margin-left: 30px; padding-left: 0">Notificator</a>
+            </div>
+            <div id="namespace-239984685" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-721588040"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-721588040" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Exception.ExecutableNotFoundExceptionSpec.html">ExecutableNotFoundExceptionSpec</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1800889272"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.Messaging.html" style="margin-left: 30px; padding-left: 0">Messaging</a>
+            </div>
+            <div id="namespace-1800889272" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1652424537"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.Messaging.RabbitMQ.html" style="margin-left: 30px; padding-left: 0">RabbitMQ</a>
+            </div>
+            <div id="namespace-1652424537" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-990022263"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.Messaging.RabbitMQ.Symfony2.html" style="margin-left: 30px; padding-left: 0">Symfony2</a>
+            </div>
+            <div id="namespace-990022263" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Messaging.RabbitMQ.Symfony2.ConsumerSpec.html">ConsumerSpec</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-941852990"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.Notification.html" style="margin-left: 30px; padding-left: 0">Notification</a>
+            </div>
+            <div id="namespace-941852990" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1827503126"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.Notification.Email.html" style="margin-left: 30px; padding-left: 0">Email</a>
+            </div>
+            <div id="namespace-1827503126" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-32506392"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.Notification.Email.Emailvision.html" style="margin-left: 30px; padding-left: 0">Emailvision</a>
+            </div>
+            <div id="namespace-32506392" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Notification.Email.Emailvision.EmailvisionNotificationSpec.html">EmailvisionNotificationSpec</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Notification.Email.EmailNotificationSpec.html">EmailNotificationSpec</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1474086335"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.Notification.Handler.html" style="margin-left: 30px; padding-left: 0">Handler</a>
+            </div>
+            <div id="namespace-1474086335" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Notification.Handler.EmailvisionSpec.html">EmailvisionSpec</a></li>
+                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Notification.Handler.HipChatSpec.html">HipChatSpec</a></li>
+                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Notification.Handler.NotifySendSpec.html">NotifySendSpec</a></li>
+                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Notification.Handler.RabbitMQSpec.html">RabbitMQSpec</a></li>
+                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Notification.Handler.SMSCountrySpec.html">SMSCountrySpec</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1708141521"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.Notification.HipChat.html" style="margin-left: 30px; padding-left: 0">HipChat</a>
+            </div>
+            <div id="namespace-1708141521" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Notification.HipChat.HipChatNotificationSpec.html">HipChatNotificationSpec</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1069415359"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.Notification.NotifySend.html" style="margin-left: 30px; padding-left: 0">NotifySend</a>
+            </div>
+            <div id="namespace-1069415359" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Notification.NotifySend.NotifySendNotificationSpec.html">NotifySendNotificationSpec</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1449663245"></a>
+                                <a href="../namespaces/spec.Namshi.Notificator.Notification.RabbitMQ.html" style="margin-left: 30px; padding-left: 0">RabbitMQ</a>
+            </div>
+            <div id="namespace-1449663245" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.Notification.RabbitMQ.RabbitMQNotificationSpec.html">RabbitMQNotificationSpec</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.ManagerSpec.html">ManagerSpec</a></li>
+                                                    <li class="class"><a href="../classes/spec.Namshi.Notificator.NotificationSpec.html">NotificationSpec</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Bloque.html">Bloque</a></li>
+                                                    <li class="interface"><a href="../classes/Conector.html">Conector</a></li>
+                                                                                                    <li class="class"><a href="../classes/AbstractProcessor.html">AbstractProcessor</a></li>
+                                                    <li class="class"><a href="../classes/Aes.html">Aes</a></li>
+                                                    <li class="class"><a href="../classes/AesCtr.html">AesCtr</a></li>
+                                                    <li class="class"><a href="../classes/Agregador.html">Agregador</a></li>
+                                                    <li class="class"><a href="../classes/AliasBuilder.html">AliasBuilder</a></li>
+                                                    <li class="class"><a href="../classes/Aplicacion.html">Aplicacion</a></li>
+                                                    <li class="class"><a href="../classes/ArchivoConfiguracion.html">ArchivoConfiguracion</a></li>
+                                                    <li class="class"><a href="../classes/ArmadorPagina.html">ArmadorPagina</a></li>
+                                                    <li class="class"><a href="../classes/Autenticador.html">Autenticador</a></li>
+                                                    <li class="class"><a href="../classes/Bloquebanner.html">Bloquebanner</a></li>
+                                                    <li class="class"><a href="../classes/BloquecontenidoCentral.html">BloquecontenidoCentral</a></li>
+                                                    <li class="class"><a href="../classes/Bloquedesenlace.html">Bloquedesenlace</a></li>
+                                                    <li class="class"><a href="../classes/BloquemenuLateral.html">BloquemenuLateral</a></li>
+                                                    <li class="class"><a href="../classes/Bloquenotificador.html">Bloquenotificador</a></li>
+                                                    <li class="class"><a href="../classes/Bloquepie.html">Bloquepie</a></li>
+                                                    <li class="class"><a href="../classes/Bootstrap.html">Bootstrap</a></li>
+                                                    <li class="class"><a href="../classes/BotonHtml.html">BotonHtml</a></li>
+                                                    <li class="class"><a href="../classes/BuilderSql.html">BuilderSql</a></li>
+                                                    <li class="class"><a href="../classes/CharacterSetBuilder.html">CharacterSetBuilder</a></li>
+                                                    <li class="class"><a href="../classes/CheckBoxHtml.html">CheckBoxHtml</a></li>
+                                                    <li class="class"><a href="../classes/CheckBuilder.html">CheckBuilder</a></li>
+                                                    <li class="class"><a href="../classes/CollationBuilder.html">CollationBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ColumnDefinitionBuilder.html">ColumnDefinitionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ColumnDefinitionProcessor.html">ColumnDefinitionProcessor</a></li>
+                                                    <li class="class"><a href="../classes/ColumnListBuilder.html">ColumnListBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ColumnListProcessor.html">ColumnListProcessor</a></li>
+                                                    <li class="class"><a href="../classes/ColumnReferenceBuilder.html">ColumnReferenceBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ColumnTypeBracketExpressionBuilder.html">ColumnTypeBracketExpressionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ColumnTypeBuilder.html">ColumnTypeBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ConectorDb.html">ConectorDb</a></li>
+                                                    <li class="class"><a href="../classes/ConfiguracionDesenlace.html">ConfiguracionDesenlace</a></li>
+                                                    <li class="class"><a href="../classes/Configurador.html">Configurador</a></li>
+                                                    <li class="class"><a href="../classes/ConstantBuilder.html">ConstantBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ConstraintBuilder.html">ConstraintBuilder</a></li>
+                                                    <li class="class"><a href="../classes/CreateBuilder.html">CreateBuilder</a></li>
+                                                    <li class="class"><a href="../classes/CreateDefinitionProcessor.html">CreateDefinitionProcessor</a></li>
+                                                    <li class="class"><a href="../classes/CreateProcessor.html">CreateProcessor</a></li>
+                                                    <li class="class"><a href="../classes/CreateStatementBuilder.html">CreateStatementBuilder</a></li>
+                                                    <li class="class"><a href="../classes/CreateTableBuilder.html">CreateTableBuilder</a></li>
+                                                    <li class="class"><a href="../classes/CreateTableDefinitionBuilder.html">CreateTableDefinitionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/CreateTableOptionsBuilder.html">CreateTableOptionsBuilder</a></li>
+                                                    <li class="class"><a href="../classes/CreateTableSelectOptionBuilder.html">CreateTableSelectOptionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/Cruder.html">Cruder</a></li>
+                                                    <li class="class"><a href="../classes/DatabaseBuilder.html">DatabaseBuilder</a></li>
+                                                    <li class="class"><a href="../classes/DataTypeBuilder.html">DataTypeBuilder</a></li>
+                                                    <li class="class"><a href="../classes/DatoConexion.html">DatoConexion</a></li>
+                                                    <li class="class"><a href="../classes/Dbms.html">Dbms</a></li>
+                                                    <li class="class"><a href="../classes/DefaultProcessor.html">DefaultProcessor</a></li>
+                                                    <li class="class"><a href="../classes/DeleteBuilder.html">DeleteBuilder</a></li>
+                                                    <li class="class"><a href="../classes/DeleteProcessor.html">DeleteProcessor</a></li>
+                                                    <li class="class"><a href="../classes/DeleteStatementBuilder.html">DeleteStatementBuilder</a></li>
+                                                    <li class="class"><a href="../classes/DescProcessor.html">DescProcessor</a></li>
+                                                    <li class="class"><a href="../classes/DescribeProcessor.html">DescribeProcessor</a></li>
+                                                    <li class="class"><a href="../classes/DirectionBuilder.html">DirectionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/Disparador.html">Disparador</a></li>
+                                                    <li class="class"><a href="../classes/Disparador.html">Disparador</a></li>
+                                                    <li class="class"><a href="../classes/Div.html">Div</a></li>
+                                                    <li class="class"><a href="../classes/DropProcessor.html">DropProcessor</a></li>
+                                                    <li class="class"><a href="../classes/DuplicateProcessor.html">DuplicateProcessor</a></li>
+                                                    <li class="class"><a href="../classes/Encriptador.html">Encriptador</a></li>
+                                                    <li class="class"><a href="../classes/EngineBuilder.html">EngineBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ExplainProcessor.html">ExplainProcessor</a></li>
+                                                    <li class="class"><a href="../classes/ExpressionListProcessor.html">ExpressionListProcessor</a></li>
+                                                    <li class="class"><a href="../classes/ExpressionToken.html">ExpressionToken</a></li>
+                                                    <li class="class"><a href="../classes/ExpressionType.html">ExpressionType</a></li>
+                                                    <li class="class"><a href="../classes/FabricaDbConexion.html">FabricaDbConexion</a></li>
+                                                    <li class="class"><a href="../classes/Fieldset.html">Fieldset</a></li>
+                                                    <li class="class"><a href="../classes/ForeignKeyBuilder.html">ForeignKeyBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ForeignRefBuilder.html">ForeignRefBuilder</a></li>
+                                                    <li class="class"><a href="../classes/Form.html">Form</a></li>
+                                                    <li class="class"><a href="../classes/FormCreator.html">FormCreator</a></li>
+                                                    <li class="class"><a href="../classes/FormularioHtml.html">FormularioHtml</a></li>
+                                                    <li class="class"><a href="../classes/FromBuilder.html">FromBuilder</a></li>
+                                                    <li class="class"><a href="../classes/FromProcessor.html">FromProcessor</a></li>
+                                                    <li class="class"><a href="../classes/Fronterabanner.html">Fronterabanner</a></li>
+                                                    <li class="class"><a href="../classes/FronteracontenidoCentral.html">FronteracontenidoCentral</a></li>
+                                                    <li class="class"><a href="../classes/Fronteradesenlace.html">Fronteradesenlace</a></li>
+                                                    <li class="class"><a href="../classes/FronteramenuLateral.html">FronteramenuLateral</a></li>
+                                                    <li class="class"><a href="../classes/Fronteranotificador.html">Fronteranotificador</a></li>
+                                                    <li class="class"><a href="../classes/Fronterapie.html">Fronterapie</a></li>
+                                                    <li class="class"><a href="../classes/Funcionbanner.html">Funcionbanner</a></li>
+                                                    <li class="class"><a href="../classes/FuncioncontenidoCentral.html">FuncioncontenidoCentral</a></li>
+                                                    <li class="class"><a href="../classes/Funciondesenlace.html">Funciondesenlace</a></li>
+                                                    <li class="class"><a href="../classes/FuncionmenuLateral.html">FuncionmenuLateral</a></li>
+                                                    <li class="class"><a href="../classes/Funcionnotificador.html">Funcionnotificador</a></li>
+                                                    <li class="class"><a href="../classes/Funcionpie.html">Funcionpie</a></li>
+                                                    <li class="class"><a href="../classes/FunctionBuilder.html">FunctionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/GroupByBuilder.html">GroupByBuilder</a></li>
+                                                    <li class="class"><a href="../classes/GroupByProcessor.html">GroupByProcessor</a></li>
+                                                    <li class="class"><a href="../classes/HavingProcessor.html">HavingProcessor</a></li>
+                                                    <li class="class"><a href="../classes/HtmlBase.html">HtmlBase</a></li>
+                                                    <li class="class"><a href="../classes/Img.html">Img</a></li>
+                                                    <li class="class"><a href="../classes/IndexColumnBuilder.html">IndexColumnBuilder</a></li>
+                                                    <li class="class"><a href="../classes/IndexColumnListProcessor.html">IndexColumnListProcessor</a></li>
+                                                    <li class="class"><a href="../classes/IndexParserBuilder.html">IndexParserBuilder</a></li>
+                                                    <li class="class"><a href="../classes/IndexSizeBuilder.html">IndexSizeBuilder</a></li>
+                                                    <li class="class"><a href="../classes/IndexTypeBuilder.html">IndexTypeBuilder</a></li>
+                                                    <li class="class"><a href="../classes/InListBuilder.html">InListBuilder</a></li>
+                                                    <li class="class"><a href="../classes/Input.html">Input</a></li>
+                                                    <li class="class"><a href="../classes/InsertBuilder.html">InsertBuilder</a></li>
+                                                    <li class="class"><a href="../classes/InsertProcessor.html">InsertProcessor</a></li>
+                                                    <li class="class"><a href="../classes/InsertStatementBuilder.html">InsertStatementBuilder</a></li>
+                                                    <li class="class"><a href="../classes/InspectorHTML.html">InspectorHTML</a></li>
+                                                    <li class="class"><a href="../classes/Instalador.html">Instalador</a></li>
+                                                    <li class="class"><a href="../classes/IntoProcessor.html">IntoProcessor</a></li>
+                                                    <li class="class"><a href="../classes/InvalidParameterException.html">InvalidParameterException</a></li>
+                                                    <li class="class"><a href="../classes/JoinBuilder.html">JoinBuilder</a></li>
+                                                    <li class="class"><a href="../classes/Lenguaje.html">Lenguaje</a></li>
+                                                    <li class="class"><a href="../classes/Lenguajebanner.html">Lenguajebanner</a></li>
+                                                    <li class="class"><a href="../classes/LenguajecontenidoCentral.html">LenguajecontenidoCentral</a></li>
+                                                    <li class="class"><a href="../classes/Lenguajedesenlace.html">Lenguajedesenlace</a></li>
+                                                    <li class="class"><a href="../classes/LenguajemenuLateral.html">LenguajemenuLateral</a></li>
+                                                    <li class="class"><a href="../classes/Lenguajenotificador.html">Lenguajenotificador</a></li>
+                                                    <li class="class"><a href="../classes/Lenguajepie.html">Lenguajepie</a></li>
+                                                    <li class="class"><a href="../classes/LexerSplitter.html">LexerSplitter</a></li>
+                                                    <li class="class"><a href="../classes/LikeBuilder.html">LikeBuilder</a></li>
+                                                    <li class="class"><a href="../classes/LikeExpressionBuilder.html">LikeExpressionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/LimitBuilder.html">LimitBuilder</a></li>
+                                                    <li class="class"><a href="../classes/LimitProcessor.html">LimitProcessor</a></li>
+                                                    <li class="class"><a href="../classes/Link.html">Link</a></li>
+                                                    <li class="class"><a href="../classes/ListHTML.html">ListHTML</a></li>
+                                                    <li class="class"><a href="../classes/Mensaje.html">Mensaje</a></li>
+                                                    <li class="class"><a href="../classes/Mysql.html">Mysql</a></li>
+                                                    <li class="class"><a href="../classes/Oci8.html">Oci8</a></li>
+                                                    <li class="class"><a href="../classes/OperatorBuilder.html">OperatorBuilder</a></li>
+                                                    <li class="class"><a href="../classes/OrderByAliasBuilder.html">OrderByAliasBuilder</a></li>
+                                                    <li class="class"><a href="../classes/OrderByBuilder.html">OrderByBuilder</a></li>
+                                                    <li class="class"><a href="../classes/OrderByProcessor.html">OrderByProcessor</a></li>
+                                                    <li class="class"><a href="../classes/Pagina.html">Pagina</a></li>
+                                                    <li class="class"><a href="../classes/Pgsql.html">Pgsql</a></li>
+                                                    <li class="class"><a href="../classes/PHPSQLCreator.html">PHPSQLCreator</a></li>
+                                                    <li class="class"><a href="../classes/PHPSQLLexer.html">PHPSQLLexer</a></li>
+                                                    <li class="class"><a href="../classes/PHPSQLParser.html">PHPSQLParser</a></li>
+                                                    <li class="class"><a href="../classes/PHPSQLParserConstants.html">PHPSQLParserConstants</a></li>
+                                                    <li class="class"><a href="../classes/PHPSQLParserUtils.html">PHPSQLParserUtils</a></li>
+                                                    <li class="class"><a href="../classes/PositionBuilder.html">PositionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/PositionCalculator.html">PositionCalculator</a></li>
+                                                    <li class="class"><a href="../classes/PrimaryKeyBuilder.html">PrimaryKeyBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ProcedureBuilder.html">ProcedureBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ProcesadorPagina.html">ProcesadorPagina</a></li>
+                                                    <li class="class"><a href="../classes/RadioButtonHtml.html">RadioButtonHtml</a></li>
+                                                    <li class="class"><a href="../classes/RecaptchaHtml.html">RecaptchaHtml</a></li>
+                                                    <li class="class"><a href="../classes/RecordBuilder.html">RecordBuilder</a></li>
+                                                    <li class="class"><a href="../classes/RecordProcessor.html">RecordProcessor</a></li>
+                                                    <li class="class"><a href="../classes/RefClauseBuilder.html">RefClauseBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ReferenceDefinitionProcessor.html">ReferenceDefinitionProcessor</a></li>
+                                                    <li class="class"><a href="../classes/RefTypeBuilder.html">RefTypeBuilder</a></li>
+                                                    <li class="class"><a href="../classes/RegistradorElemento.html">RegistradorElemento</a></li>
+                                                    <li class="class"><a href="../classes/RenameProcessor.html">RenameProcessor</a></li>
+                                                    <li class="class"><a href="../classes/ReplaceProcessor.html">ReplaceProcessor</a></li>
+                                                    <li class="class"><a href="../classes/ReservedBuilder.html">ReservedBuilder</a></li>
+                                                    <li class="class"><a href="../classes/Select.html">Select</a></li>
+                                                    <li class="class"><a href="../classes/SelectBracketExpressionBuilder.html">SelectBracketExpressionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/SelectBuilder.html">SelectBuilder</a></li>
+                                                    <li class="class"><a href="../classes/SelectExpressionBuilder.html">SelectExpressionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/SelectExpressionProcessor.html">SelectExpressionProcessor</a></li>
+                                                    <li class="class"><a href="../classes/SelectProcessor.html">SelectProcessor</a></li>
+                                                    <li class="class"><a href="../classes/SelectStatementBuilder.html">SelectStatementBuilder</a></li>
+                                                    <li class="class"><a href="../classes/Sesion.html">Sesion</a></li>
+                                                    <li class="class"><a href="../classes/SesionBase.html">SesionBase</a></li>
+                                                    <li class="class"><a href="../classes/SesionSql.html">SesionSql</a></li>
+                                                    <li class="class"><a href="../classes/SetBuilder.html">SetBuilder</a></li>
+                                                    <li class="class"><a href="../classes/SetExpressionBuilder.html">SetExpressionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/SetProcessor.html">SetProcessor</a></li>
+                                                    <li class="class"><a href="../classes/ShowBuilder.html">ShowBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ShowProcessor.html">ShowProcessor</a></li>
+                                                    <li class="class"><a href="../classes/ShowStatementBuilder.html">ShowStatementBuilder</a></li>
+                                                    <li class="class"><a href="../classes/Sql.html">Sql</a></li>
+                                                    <li class="class"><a href="../classes/Sqlbanner.html">Sqlbanner</a></li>
+                                                    <li class="class"><a href="../classes/SQLChunkProcessor.html">SQLChunkProcessor</a></li>
+                                                    <li class="class"><a href="../classes/SqlcontenidoCentral.html">SqlcontenidoCentral</a></li>
+                                                    <li class="class"><a href="../classes/Sqldesenlace.html">Sqldesenlace</a></li>
+                                                    <li class="class"><a href="../classes/SqlmenuLateral.html">SqlmenuLateral</a></li>
+                                                    <li class="class"><a href="../classes/Sqlnotificador.html">Sqlnotificador</a></li>
+                                                    <li class="class"><a href="../classes/Sqlpie.html">Sqlpie</a></li>
+                                                    <li class="class"><a href="../classes/SQLProcessor.html">SQLProcessor</a></li>
+                                                    <li class="class"><a href="../classes/SubQueryBuilder.html">SubQueryBuilder</a></li>
+                                                    <li class="class"><a href="../classes/SubTreeBuilder.html">SubTreeBuilder</a></li>
+                                                    <li class="class"><a href="../classes/TableBracketExpressionBuilder.html">TableBracketExpressionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/TableBuilder.html">TableBuilder</a></li>
+                                                    <li class="class"><a href="../classes/TableExpressionBuilder.html">TableExpressionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/TableProcessor.html">TableProcessor</a></li>
+                                                    <li class="class"><a href="../classes/TextArea.html">TextArea</a></li>
+                                                    <li class="class"><a href="../classes/UnableToCalculatePositionException.html">UnableToCalculatePositionException</a></li>
+                                                    <li class="class"><a href="../classes/UnableToCreateSQLException.html">UnableToCreateSQLException</a></li>
+                                                    <li class="class"><a href="../classes/UnionProcessor.html">UnionProcessor</a></li>
+                                                    <li class="class"><a href="../classes/UnsupportedFeatureException.html">UnsupportedFeatureException</a></li>
+                                                    <li class="class"><a href="../classes/UpdateBuilder.html">UpdateBuilder</a></li>
+                                                    <li class="class"><a href="../classes/UpdateProcessor.html">UpdateProcessor</a></li>
+                                                    <li class="class"><a href="../classes/UpdateStatementBuilder.html">UpdateStatementBuilder</a></li>
+                                                    <li class="class"><a href="../classes/UserVariableBuilder.html">UserVariableBuilder</a></li>
+                                                    <li class="class"><a href="../classes/UsingProcessor.html">UsingProcessor</a></li>
+                                                    <li class="class"><a href="../classes/ValuesBuilder.html">ValuesBuilder</a></li>
+                                                    <li class="class"><a href="../classes/ValuesProcessor.html">ValuesProcessor</a></li>
+                                                    <li class="class"><a href="../classes/WhereBracketExpressionBuilder.html">WhereBracketExpressionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/WhereBuilder.html">WhereBuilder</a></li>
+                                                    <li class="class"><a href="../classes/WhereExpressionBuilder.html">WhereExpressionBuilder</a></li>
+                                                    <li class="class"><a href="../classes/WhereProcessor.html">WhereProcessor</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/default.html">\</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\</small>Sesion</h1>
+                    <p><em></em></p>
+                    
+
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/SesionBase.html#method_setSesionId" class="">setSesionId()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_setSesionExpiracion" class="">setSesionExpiracion()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_setConexion" class="">setConexion()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_setSesionNivel" class="">setSesionNivel()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_setIdUsuario" class="">setIdUsuario()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_setSesionUsuario" class="">setSesionUsuario()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_setTiempoExpiracion" class="">setTiempoExpiracion()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_setPrefijoTablas" class="">setPrefijoTablas()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_getValorSesion" class="">getValorSesion()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_getSesionId" class="">getSesionId()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_getSesionUsuarioId" class="">getSesionUsuarioId()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_getSesionNivel" class="">getSesionNivel()</a><br />
+                                                                    <a href="../classes/SesionBase.html#method_getSesionExpiracion" class="">getSesionExpiracion()</a><br />
+                                                                    <a href="../classes/Sesion.html#method_singleton" class="">singleton()</a><br />
+                                                                    <a href="../classes/Sesion.html#method_verificarSesion" class="">verificarSesion()</a><br />
+                                                                    <a href="../classes/Sesion.html#method_numeroSesion" class="">numeroSesion()</a><br />
+                                                                    <a href="../classes/Sesion.html#method_abrirSesion" class="">abrirSesion()</a><br />
+                                                                    <a href="../classes/Sesion.html#method_caracteresValidos" class="">caracteresValidos()</a><br />
+                                                                    <a href="../classes/Sesion.html#method_crearSesion" class="">crearSesion()</a><br />
+                                                                    <a href="../classes/Sesion.html#method_guardarValorSesion" class="">guardarValorSesion()</a><br />
+                                                                    <a href="../classes/Sesion.html#method_setValorSesion" class="">setValorSesion()</a><br />
+                                                                    <a href="../classes/Sesion.html#method_borrarValorSesion" class="">borrarValorSesion()</a><br />
+                                                                    <a href="../classes/Sesion.html#method_borrarSesionExpirada" class="">borrarSesionExpirada()</a><br />
+                                                                    <a href="../classes/Sesion.html#method_terminarSesion" class="">terminarSesion()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/SesionBase.html#property_sesionId" class="">$sesionId</a><br />
+                                                                    <a href="../classes/SesionBase.html#property_sesionExpiracion" class="">$sesionExpiracion</a><br />
+                                                                    <a href="../classes/SesionBase.html#property_sesionUsuarioId" class="">$sesionUsuarioId</a><br />
+                                                                    <a href="../classes/SesionBase.html#property_registro_sesion" class="">$registro_sesion</a><br />
+                                                                    <a href="../classes/SesionBase.html#property_miSql" class="">$miSql</a><br />
+                                                                    <a href="../classes/SesionBase.html#property_prefijoTablas" class="">$prefijoTablas</a><br />
+                                                                    <a href="../classes/SesionBase.html#property_tiempoExpiracion" class="">$tiempoExpiracion</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Sesion.html#constant_SESIONID" class="">SESIONID</a><br />
+                                                                    <a href="../classes/Sesion.html#constant_EXPIRACION" class="">EXPIRACION</a><br />
+                                                                    <a href="../classes/Sesion.html#constant_APLICATIVO" class="">APLICATIVO</a><br />
+                                                                    <a href="../classes/Sesion.html#constant_ACCEDER" class="">ACCEDER</a><br />
+                                                                    <a href="../classes/Sesion.html#constant_BUSCAR" class="">BUSCAR</a><br />
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <a href="../classes/Sesion.html#method___construct" class="">__construct()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Sesion.html#property_instancia" class="">$instancia</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/core.auth.Sesion.class.html"><div class="path-wrapper">core/auth/Sesion.class.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                
+                                        <div class="namespace-wrapper"><a href="../classes/SesionBase.html">\SesionBase</a></div>
+                                                                                                    <div class="namespace-wrapper">\Sesion</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr><td colspan="2"><em>None found</em></td></tr>
+                                        </table>
+                </aside>
+            </div>
+
+                                    <a id="constants" name="constants"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Constants</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_SESIONID" name="constant_SESIONID" class="anchor"></a>
+            <article id="constant_SESIONID" class="constant">
+                <h3 class="">SESIONID</h3>
+                <pre class="signature">SESIONID</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_EXPIRACION" name="constant_EXPIRACION" class="anchor"></a>
+            <article id="constant_EXPIRACION" class="constant">
+                <h3 class="">EXPIRACION</h3>
+                <pre class="signature">EXPIRACION</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_APLICATIVO" name="constant_APLICATIVO" class="anchor"></a>
+            <article id="constant_APLICATIVO" class="constant">
+                <h3 class="">APLICATIVO</h3>
+                <pre class="signature">APLICATIVO</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ACCEDER" name="constant_ACCEDER" class="anchor"></a>
+            <article id="constant_ACCEDER" class="constant">
+                <h3 class="">ACCEDER</h3>
+                <pre class="signature">ACCEDER</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_BUSCAR" name="constant_BUSCAR" class="anchor"></a>
+            <article id="constant_BUSCAR" class="constant">
+                <h3 class="">BUSCAR</h3>
+                <pre class="signature">BUSCAR</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_sesionId" name="property_sesionId" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$sesionId</h3>
+                <pre class="signature">$sesionId : </pre>
+                <p><em>Atributos de la sesión</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_sesionExpiracion" name="property_sesionExpiracion" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$sesionExpiracion</h3>
+                <pre class="signature">$sesionExpiracion : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_sesionUsuarioId" name="property_sesionUsuarioId" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$sesionUsuarioId</h3>
+                <pre class="signature">$sesionUsuarioId : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_registro_sesion" name="property_registro_sesion" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$registro_sesion</h3>
+                <pre class="signature">$registro_sesion : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_miSql" name="property_miSql" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$miSql</h3>
+                <pre class="signature">$miSql : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_prefijoTablas" name="property_prefijoTablas" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$prefijoTablas</h3>
+                <pre class="signature">$prefijoTablas : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_tiempoExpiracion" name="property_tiempoExpiracion" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$tiempoExpiracion</h3>
+                <pre class="signature">$tiempoExpiracion : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_instancia" name="property_instancia" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$instancia</h3>
+                <pre class="signature">$instancia : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setSesionId" name="method_setSesionId" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setSesionId()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setSesionId( <span class="argument">$sesionId</span>) : \valor</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$sesionId </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    \valor
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            METHOD
+                        </th>
+                        <td>
+                                                                                            <p>setSesionId
+Asigna el valor del atributo sesionId</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setSesionExpiracion" name="method_setSesionExpiracion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setSesionExpiracion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setSesionExpiracion( <span class="argument">$expiracion</span>) : \valor</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$expiracion </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    \valor
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            METHOD
+                        </th>
+                        <td>
+                                                                                            <p>setSesionExpiracion</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setConexion" name="method_setConexion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setConexion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setConexion( <span class="argument">$conexion</span>)</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$conexion </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setSesionNivel" name="method_setSesionNivel" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setSesionNivel()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setSesionNivel( <span class="argument">$nivel</span>)</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$nivel </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            METHOD
+                        </th>
+                        <td>
+                                                                                            <p>setSesionNivel</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setIdUsuario" name="method_setIdUsuario" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setIdUsuario()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setIdUsuario( <span class="argument">$idUsuario</span>) : \valor</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$idUsuario </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    \valor
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            METHOD
+                        </th>
+                        <td>
+                                                                                            <p>setIdusuario</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setSesionUsuario" name="method_setSesionUsuario" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setSesionUsuario()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setSesionUsuario( <span class="argument">$valor</span>)</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$valor </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setTiempoExpiracion" name="method_setTiempoExpiracion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setTiempoExpiracion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setTiempoExpiracion( <span class="argument">$valor</span>)</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$valor </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setPrefijoTablas" name="method_setPrefijoTablas" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setPrefijoTablas()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setPrefijoTablas( <span class="argument">$valor</span>)</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$valor </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getValorSesion" name="method_getValorSesion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getValorSesion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getValorSesion( <span class="argument">$variable</span>) : boolean</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variable </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            METHOD
+                        </th>
+                        <td>
+                                                                                            <p>rescatar_valor_sesion</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            PARAM
+                        </th>
+                        <td>
+                                                                                            <p>variable</p>
+                                                                                            <p>usuario_aplicativo ??</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getSesionId" name="method_getSesionId" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getSesionId()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getSesionId()</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getSesionUsuarioId" name="method_getSesionUsuarioId" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getSesionUsuarioId()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getSesionUsuarioId()</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getSesionNivel" name="method_getSesionNivel" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getSesionNivel()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getSesionNivel()</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getSesionExpiracion" name="method_getSesionExpiracion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getSesionExpiracion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getSesionExpiracion()</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/SesionBase.html"><div class="path-wrapper">\SesionBase</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_singleton" name="method_singleton" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">singleton()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">singleton()</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_verificarSesion" name="method_verificarSesion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">verificarSesion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">verificarSesion() : void</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>sesiones Verifica la existencia de una sesion válida en la máquina del cliente</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_numeroSesion" name="method_numeroSesion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">numeroSesion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">numeroSesion() : \valor</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    \valor
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            METHOD
+                        </th>
+                        <td>
+                                                                                            <p>numero_sesion
+Rescata el número de sesion correspondiente a la máquina</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            PARAM
+                        </th>
+                        <td>
+                                                                                            <p>sesion</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_abrirSesion" name="method_abrirSesion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">abrirSesion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">abrirSesion( <span class="argument">$sesion</span>) : \valor</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$sesion </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    \valor
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            METHOD
+                        </th>
+                        <td>
+                                                                                            <p>abrir_sesion
+Busca la sesión en la base de datos</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            PARAM
+                        </th>
+                        <td>
+                                                                                            <p>sesion</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_caracteresValidos" name="method_caracteresValidos" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">caracteresValidos()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">caracteresValidos( <span class="argument">$cadena</span>) : \valor</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$cadena </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    \valor
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            METHOD
+                        </th>
+                        <td>
+                                                                                            <p>caracteres_validos
+Verifica que los caracteres en el identificador de sesión sean válidos</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            PARAM
+                        </th>
+                        <td>
+                                                                                            <p>cadena</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_crearSesion" name="method_crearSesion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">crearSesion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">crearSesion( <span class="argument">$usuarioId</span>) : boolean</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$usuarioId </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            METHOD
+                        </th>
+                        <td>
+                                                                                            <p>crear_sesion
+Crea una nueva sesión en la base de datos.</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            PARAM
+                        </th>
+                        <td>
+                                                                                            <p>usuario_aplicativo</p>
+                                                                                            <p>nivel_acceso</p>
+                                                                                            <p>expiracion</p>
+                                                                                            <p>conexion_id</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_guardarValorSesion" name="method_guardarValorSesion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">guardarValorSesion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">guardarValorSesion( <span class="argument">$variable</span>,  <span class="argument">$valor</span>,  <span class="argument">$sesion</span>,  <span class="argument">$expiracion</span>) : boolean</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variable </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$valor </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$sesion </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$expiracion </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            METHOD
+                        </th>
+                        <td>
+                                                                                            <p>guardar_valor_sesion</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            PARAM
+                        </th>
+                        <td>
+                                                                                            <p>variable</p>
+                                                                                            <p>valor</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setValorSesion" name="method_setValorSesion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setValorSesion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setValorSesion( <span class="argument">$variable</span>,  <span class="argument">$valor</span>)</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variable </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$valor </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_borrarValorSesion" name="method_borrarValorSesion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">borrarValorSesion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">borrarValorSesion( <span class="argument">$variable</span>,  <span class="argument">$sesion</span>) : boolean</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$variable </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$sesion </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            METHOD
+                        </th>
+                        <td>
+                                                                                            <p>borrar_valor_sesion</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            PARAM
+                        </th>
+                        <td>
+                                                                                            <p>variable</p>
+                                                                                            <p>valor</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_borrarSesionExpirada" name="method_borrarSesionExpirada" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">borrarSesionExpirada()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">borrarSesionExpirada() : void</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>borrar_sesion_expirada</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_terminarSesion" name="method_terminarSesion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">terminarSesion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">terminarSesion( <span class="argument">$sesion</span>) : boolean</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$sesion </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>terminar_sesion</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct()</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>sesiones</p>
+<pre><code>  constructor</code></pre>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">Sesion.class.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/core/auth/Sesion.class.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/Namshi.html">\Namshi</a></li>
+                                                                            <li><a href="../namespaces/spec.html">\spec</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on July 31st, 2014 at 09:18.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

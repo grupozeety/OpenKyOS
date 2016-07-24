@@ -1,0 +1,61 @@
+{
+	"default": {
+		"header1":[
+			"// -----------------INICIO CONTROL: Botón Radial ------------------------------------"
+		],
+		"$esteCampo": "'botonAceptar'",
+		"$atributos": {
+			"":0,
+			"":0,
+			"":0,
+			"":0
+		},		
+		"footer1":[
+			"unset ( $atributos );",
+			"// -----------------FIN CONTROL: Botón Radial ------------------------------------"
+	    ],
+	    "content":false,
+	    "footer2":false
+	},
+	"options": {
+		"$atributos": {
+			"anchoCaja":[],
+			"anchoEtiqueta":[],
+			"columnas":[],
+			"enlace":[],
+			"enlaceCodificar":[],
+			"estilo":[],
+			"estiloArea":[],
+			"estiloBoton":[],
+			"estiloContenido":[],
+			"estiloEnLinea":[],
+			"estiloEtiqueta":[],
+			"estiloMarco":[],
+			"etiqueta":[],
+			"hidden":[],
+			"id":[],
+			"inicio":[],
+			"jqueryui":[],
+			"leyenda":[],
+			"marco":[],
+			"maximoTamanno":[],
+			"mensaje":[],
+			"metodo":[],
+			"nombreFormulario":[],
+			"onClick":[],
+			"seleccionado":[],
+			"sinDivision":[],
+			"tabIndex":[],
+			"tamanno":[],
+			"texto":[],
+			"textoEnriquecido":[],
+			"tipo":[],
+			"tipoFormulario":[],
+			"tipoSubmit":[],
+			"titulo":[],
+			"valor":[],
+			"verificarFormulario":[]
+		}
+	}
+}
+

@@ -1,0 +1,75 @@
+{
+	"default": {
+		"header1":[
+			"// ---------------- SECCION: Parámetros Generales del Formulario --------------"
+		],
+		"$esteCampo": "$esteBloque ['nombre']",
+		"$atributos": {
+			"id":0,
+			"nombre":"$esteCampo",
+			"tipoFormulario":0,
+			"metodo":0,
+			"action":"'index.php'",
+			"titulo":0,
+			"estilo":0,
+			"marco":0
+		},		
+		"footer1":[
+			"$tab = 1;",
+	        "// ---------------- FIN SECCION: de Parámetros Generales del Formulario --------",
+	        "// ----------------INICIAR EL FORMULARIO ---------------------------------------",
+	        "$atributos ['tipoEtiqueta'] = 'inicio';",
+	        "echo $this->miFormulario->formulario ( $atributos );",
+	        "// ---------------- SECCION: Controles del Formulario --------------------------"
+	    ],
+	    "content":true,
+	    "footer2":[
+			"// ---------------- FIN SECCION: Controles del Formulario ----------------------",
+	        "// ----------------FINALIZAR EL FORMULARIO -------------------------------------",
+	        "// Se debe declarar el mismo atributo de marco con que se inició el formulario.",
+	        "$atributos ['marco'] = true;",
+	        "$atributos ['tipoEtiqueta'] = 'fin';",
+	        "echo $this->miFormulario->formulario ( $atributos );"
+	    ]
+	},
+	"options": {
+		"$atributos": {
+			"anchoCaja":[],
+			"anchoEtiqueta":[],
+			"columnas":[],
+			"enlace":[],
+			"enlaceCodificar":[],
+			"estilo":["''"],
+			"estiloArea":[],
+			"estiloBoton":[],
+			"estiloContenido":[],
+			"estiloEnLinea":[],
+			"estiloEtiqueta":[],
+			"estiloMarco":[],
+			"etiqueta":[],
+			"hidden":[],
+			"id":["$esteCampo"],
+			"inicio":[],
+			"jqueryui":[],
+			"leyenda":[],
+			"marco":["true"],
+			"maximoTamanno":[],
+			"mensaje":[],
+			"metodo":["'POST'"],
+			"nombreFormulario":[],
+			"onClick":[],
+			"seleccionado":[],
+			"sinDivision":[],
+			"tabIndex":[],
+			"tamanno":[],
+			"texto":[],
+			"textoEnriquecido":[],
+			"tipo":[],
+			"tipoFormulario":["''"],
+			"tipoSubmit":[],
+			"titulo":["$this->lenguaje->getCadena ( $esteCampo )"],
+			"valor":[],
+			"verificarFormulario":[]
+		}
+	}
+}

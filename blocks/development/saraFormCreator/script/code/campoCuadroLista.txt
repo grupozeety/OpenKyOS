@@ -1,0 +1,37 @@
+// ---------------------- CONTROL LISTA DESPLEGABLE ---------------------//
+$esteCampo = "dependencia";
+$atributos ['columnas'] = 1;
+$atributos ['nombre'] = $esteCampo;
+$atributos ['id'] = $esteCampo;
+$atributos ['evento'] = '';
+$atributos ['deshabilitado'] = true;
+$atributos ["etiquetaObligatorio"] = false;
+$atributos ['tab'] = $tab;
+$atributos ['tamanno'] = 1;
+$atributos ['estilo'] = 'jqueryui';
+$atributos ['validar'] = '';
+$atributos ['limitar'] = 1;
+$atributos ['anchoCaja'] = 70;
+$atributos ['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+$atributos ['anchoEtiqueta'] = 280;
+if (isset($_REQUEST [$esteCampo])) {
+$atributos ['seleccion'] = $_REQUEST [$esteCampo];
+} else {
+$atributos ['seleccion'] = - 1;
+}
+// $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "dependencias" );
+$matrizItems = array(
+array(
+' ',
+'Seleccion ... '
+)
+);
+$atributos ['matrizItems'] = $matrizItems;
+// Utilizar lo siguiente cuando no se pase un arreglo:
+// $atributos['baseDatos']='ponerAquiElNombreDeLaConexión';
+// $atributos ['cadena_sql']='ponerLaCadenaSqlAEjecutar';
+$tab ++;
+$atributos = array_merge($atributos, $atributosGlobales);
+echo $this->miFormulario->campoCuadroLista($atributos);
+unset($atributos);
+//---------------------------------------------------------------------------------

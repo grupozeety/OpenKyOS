@@ -1,0 +1,58 @@
+#divPaneles{
+	
+	    border-width: 0px;
+		border-style:solid ;
+        border-color:#000000;
+        margin:0 auto;
+		overflow:hidden;
+		width:95%;
+		padding:15px 0px 0px 0px;		    
+}
+
+#divPanelIzquierdo
+  {
+        position:relative;
+        top:20px;
+        width:220px;
+        height:300px;
+        padding:10px;
+        font-size: 12px;
+        font-family: "Arial", Verdana, Trebuchet MS, Helvetica, sans-serif;
+        z-index:21;
+        float:left;
+        
+
+  }
+  
+ div.iconoPanelIzquierdo
+  {
+  		height:70px;
+    	background:url(../imagen/proceso.png) no-repeat center top;
+    	z-index:100;
+  }
+  
+ div.iconoPanelIzquierdo:hover
+  {
+  		background:url(../imagen/procesoOn.png) no-repeat center top;    	
+  }
+ 
+div.tituloPanelIzquierdo
+  {
+        font-size: 14px;
+        font-family: 'arial', sans-serif;
+        font-weight:bolder;
+        text-align:center;
+        border-width: 0px 0px 0px 0px;
+		border-style:solid ;
+        border-color:#AAAAAA;
+        color:#555555;
+
+  }
+  div.cuerpoPanelIzquierdo
+  {
+    color:#555555;
+    font-size: 13px;
+    text-align:center;
+    float:left;
+
+  }

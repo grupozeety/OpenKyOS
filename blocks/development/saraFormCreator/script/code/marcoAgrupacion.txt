@@ -1,0 +1,7 @@
+
+$esteCampo = "marcoDatosBasicos";
+$atributos ['id'] = $esteCampo;
+$atributos ["estilo"] = "jqueryui";
+$atributos ['tipoEtiqueta'] = 'inicio';
+$atributos ["leyenda"] = "Consultar y Modificar Acta Recibido";
+echo $this->miFormulario->marcoAgrupacion('inicio', $atributos);

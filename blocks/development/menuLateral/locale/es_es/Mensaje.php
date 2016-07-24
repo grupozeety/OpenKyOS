@@ -1,0 +1,5 @@
+<?php
+$this->idioma ['desenlace'] = 'Desenlace';
+$this->idioma ['desenlaceTooltip'] = 'Analizar una URL para determinar la composición de la página.';
+
+?>

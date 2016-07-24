@@ -1,0 +1,53 @@
+#navegador{
+	
+	width:60%;
+	border:1px solid #AAAAAA;
+	height:100px;
+}
+
+
+#seccionAG, #seccionEG{
+	
+	width:90%;
+	border:1px solid #AAAAAA;
+	height:50px;	
+	margin:10px auto;
+	clear:both;
+}
+
+#seccionBG, #seccionDG{
+	
+	width:20%;
+	border:1px solid #AAAAAA;
+	height:200px;
+	float:left;
+	margin:10px;
+}
+
+#seccionCG {
+	
+	width:50%;
+	border:1px solid #AAAAAA;
+	height:200px;
+	float:left;
+	margin:10px;
+}
+
+
+
+
+#columna1,#columna2{
+	
+	float:left;
+	
+}
+
+#columna1{
+	width:30%;	
+}
+
+#columna2{
+	text-alig:center;
+	width:60%;
+	
+}

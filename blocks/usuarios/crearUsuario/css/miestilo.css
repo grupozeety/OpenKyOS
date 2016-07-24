@@ -1,0 +1,41 @@
+#botonValidar {    font-family: verdana, arial, sans-serif;
+   font-size: 12pt;
+   padding: 5px;
+   background-color: #eeeeee;
+   color: #000000;
+   border-radius: 8px;
+   margin: 0 auto;
+   text-align: center;
+   text-decoration: none;
+}
+#botonValidar:link,
+#botonValidar:visited {
+   border-top: 1px solid #cccccc;
+   border-bottom: 2px solid #cccccc;
+   border-left: 1px solid #cccccc;
+   border-right: 2px solid #cccccc;
+}
+#botonValidar:hover {
+    border-bottom: 1px solid #cccccc;
+   border-top: 2px solid #cccccc;
+   border-right: 1px solid #cccccc;
+   border-left: 2px solid #cccccc;
+}
+body {font-family:arial;font-size:15}
+    td {font-family:arial;font-size:15} 
+
+.padre-enlace{
+	display:block;
+	position:relative;
+}
+
+
+#botonValidar {
+	display: block;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	width: 125px;
+}
+
+

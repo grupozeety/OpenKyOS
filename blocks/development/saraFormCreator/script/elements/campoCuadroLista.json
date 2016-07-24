@@ -1,0 +1,85 @@
+{
+	"default": {
+		"header1": [
+			"// -----------------INICIO CONTROL: Lista Desplegable --------------------------------"
+		],
+		"$esteCampo": "'dependencia'",
+		"$matrizItems": [
+			"array(", 
+			"	array(", 
+			"		 ' ',",
+			"	     'Seleccion ... '", 
+			"    )", 
+			");"
+		],
+		"$atributos": {
+			"columnas": "1",
+			"nombre": "$esteCampo",
+			"id": 0,
+			"evento": "''",
+			"deshabilitado": "true",
+			"etiquetaObligatorio": "false",
+			"tab": "$tab",
+			"tamanno": 0,
+			"estilo": 0,
+			"validar": "''",
+			"limitar": "1",
+			"anchoCaja": 0,
+			"etiqueta": 0,
+			"anchoEtiqueta": 0,
+			"seleccion": "-1",
+			"cadena_sql": "$this->miSql->getCadenaSql ( 'dependencias' )",
+			"matrizItems": "$matrizItems",
+			"baseDatos": "'ponerAquiElNombreDeLaConexión'"
+		},
+		"footer1": [
+			"$tab ++;", 
+			"$atributos = array_merge($atributos, $atributosGlobales);", 
+			"echo $this->miFormulario->campoCuadroLista($atributos);", 
+			"unset($atributos);", 
+			"// -----------------FIN CONTROL: Lista Desplegable --------------------------------"
+		],
+		"content": false,
+		"footer2": false
+	},
+	"options": {
+		"$atributos": {
+			"anchoCaja": ["70"],
+			"anchoEtiqueta": ["280"],
+			"columnas": [],
+			"enlace": [],
+			"enlaceCodificar": [],
+			"estilo": ["'jqueryui'"],
+			"estiloArea": [],
+			"estiloBoton": [],
+			"estiloContenido": [],
+			"estiloEnLinea": [],
+			"estiloEtiqueta": [],
+			"estiloMarco": [],
+			"etiqueta": ["$this->lenguaje->getCadena($esteCampo)"],
+			"hidden": [],
+			"id": ["$esteCampo"],
+			"inicio": [],
+			"jqueryui": [],
+			"leyenda": [],
+			"marco": [],
+			"maximoTamanno": [],
+			"mensaje": [],
+			"metodo": [],
+			"nombreFormulario": [],
+			"onClick": [],
+			"seleccionado": [],
+			"sinDivision": [],
+			"tabIndex": [],
+			"tamanno": ["1"],
+			"texto": [],
+			"textoEnriquecido": [],
+			"tipo": [],
+			"tipoFormulario": [],
+			"tipoSubmit": [],
+			"titulo": [],
+			"valor": [],
+			"verificarFormulario": []
+		}
+	}
+}

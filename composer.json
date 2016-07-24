@@ -1,0 +1,11 @@
+{
+	"name" : "udistrital/saraAcademico",
+	"require" : {
+		"namshi/notificator" : "~1.1"
+	},
+	"authors" : [{
+			"name" : "pcoronado",
+			"email" : "paulo_cesar@udistrital.edu.co"
+		}
+	]
+}

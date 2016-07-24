@@ -1,0 +1,67 @@
+  _________   _____ __________    _____   
+ /   _____/  /  _  \\______   \  /  _  \  
+ \_____  \  /  /_\  \|       _/ /  /_\  \ 
+ /        \/    |    \    |   \/    |    \
+/_______  /\____|__  /____|_  /\____|__  /
+        \/         \/       \/         \/ 
+
+		    	Framework
+	------------------------------
+UNIVERSIDAD DISTRITAL Francisco José de Caldas
+GLUD - Grupo GNU/Linux 
+Grupo de Investigación y Desarrollo en Tecnologías de la Información
+Zeety S.A.S 2016
+
+UNIVERSIDAD DISTRITAL Francisco José de Caldas
+Oficina asesora de Sistemas 2012
+
+Descripción
+-----------------
+
+SARA, Sistema para la Articulación Rápida de Aplicaciones
+(System for Addressing the Rapid development of Applications),
+es un marco de trabajo para el desarrollo de aplicaciones
+orientadas a la web.
+
+Está escrito en lenguaje PHP y propende por una arquitectura
+dividida en capas.
+
+Instalación
+-----------------
+SARA requiere para su funcionamiento un servidor web, preferiblemente
+Apache HTTP (con soporte para PHP), un motor de bases de datos - 
+soporta PostgreSQL, MySQL, Oracle.
+
+Historia
+-----------------
+SARA es una evolución del marco de desarrollo que desde el
+año 2005 se ha venido trabajando en la Universidad Distrital
+Francisco José de Caldas. Desde el año 2008, es dirigido 
+conforme a los lineamientos de la Oficina Asesora de Sistemas
+y se distribuye como software libre como muestra del compromiso
+institucional con la Política Distrital de Fomento al Software
+Libre. 
+
+En el 2016 la Oficina Asesora de Sistemas decide abandonar el 
+desarrollo basado en SARA, siendo recogido su soporte y evolución 
+por un grupo de los desarrolladores principales pertenecientes al 
+grupo GNU/Linux de la Universidad Distrital y a la empresa Zeety
+S.A.S.
+
+Aspectos de seguridad
+-----------------------------------
+Se recomienda que el acceso a las carpetas de SARA dea deshabilitado
+dede la configuración del servidor web.
+
+Derechos de Autor
+------------------
+SARA This program is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public 
+License as published by the Free Software Foundation, either
+version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.

@@ -1,0 +1,72 @@
+{
+	"default": {
+		"header1":[
+			"// ---------------- CONTROL: Cuadro de Texto -------------------------------"
+		],
+		"$esteCampo": "'nombreCampo'",
+		"$atributos": {
+			"id":0,
+			"nombre":"$esteCampo",
+			"tabIndex":0,
+			"tipo":0,
+			"submit":"true",
+			"estiloMarco":0,
+			"estiloBoton":0,
+			"verificar":"''",
+			"tipoSubmit":0,
+			"valor":0,
+			"nombreFormulario":0
+		},		
+		"footer1":[
+			"$tab ++;",
+			"// Aplica atributos globales al control",
+	        "$atributos = array_merge ( $atributos, $atributosGlobales );",
+	        "echo $this->miFormulario->campoCuadroTexto ( $atributos );",
+	        "unset ( $atributos );",
+	        "// --------------- FIN CONTROL : Cuadro de Texto ----------------------------"
+	    ],
+	    "content":false,
+	    "footer2":false
+	},
+	"options": {
+		"$atributos": {
+			"anchoCaja":[],
+			"anchoEtiqueta":[],
+			"columnas":[],
+			"enlace":[],
+			"enlaceCodificar":[],
+			"estilo":[],
+			"estiloArea":[],
+			"estiloBoton":["'jqueryui'"],
+			"estiloContenido":[],
+			"estiloEnLinea":[],
+			"estiloEtiqueta":[],
+			"estiloMarco":["''"],
+			"etiqueta":[],
+			"hidden":[],
+			"id":["$esteCampo"],
+			"inicio":[],
+			"jqueryui":[],
+			"leyenda":[],
+			"marco":[],
+			"maximoTamanno":[],
+			"mensaje":[],
+			"metodo":[],
+			"nombreFormulario":["$esteBloque ['nombre']"],
+			"onClick":[],
+			"seleccionado":[],
+			"sinDivision":[],
+			"tabIndex":["$tab"],
+			"tamanno":[],
+			"texto":[],
+			"textoEnriquecido":[],
+			"tipo":["'text'"],
+			"tipoFormulario":[],
+			"tipoSubmit":["'jquery'"],
+			"titulo":[],
+			"valor":["$this->lenguaje->getCadena ( $esteCampo )"],
+			"verificarFormulario":[]
+		}
+	}
+}
+        

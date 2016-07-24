@@ -1,0 +1,4 @@
+6/07/2014 - Se incluye php-sql-parser como un plugin general de SARA
+6/07/2014 - Se considra la uitlización de Composer dentro de SARA (TO DO)
+31/07/2014 - Ahora se pueden trabajar dos tipos de action (recargando la página y procesando solo el bloque, procesando el bloque)
+4/08/2014 - Se elimina la carpeta classes del framework y se crea la carpeta component

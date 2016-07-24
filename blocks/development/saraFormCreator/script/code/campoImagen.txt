@@ -1,0 +1,21 @@
+ // ---------------- CONTROL: Cuadro Lista --------------------------------------------------------
+$esteCampo = 'perfil';
+$atributos ['nombre'] = $esteCampo;
+$atributos ['id'] = $esteCampo;
+$atributos['imagen'] = $rutaBloque . "/images/prueba.jpg"; //ruta de la imagen (requerido)
+$atributos['borde'] = 'solid'; //Borde decorativo de la imagen (opcional)
+$atributos['ancho'] = 150; //Ancho de la imagen (opcional)
+$atributos['alto'] = 150; //Altura de la imagen (opcional)
+//$atributos ['columnas'] = 2;
+$atributos ['tab'] = $tab;
+$atributos ['estilo'] = 'jqueryui';
+$atributos ['centrar'] = true;
+$atributos ['limitar'] = false;
+$atributos ['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+// Utilizar lo siguiente cuando no se pase un arreglo:
+// $atributos['baseDatos']='ponerAquiElNombreDeLaConexión';
+// $atributos ['cadena_sql']='ponerLaCadenaSqlAEjecutar';
+$tab ++;
+$atributos = array_merge($atributos, $atributosGlobales);
+echo $this->miFormulario->campoImagen($atributos);
+unset($atributos);

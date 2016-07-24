@@ -1,0 +1,233 @@
+<?php
+
+require_once ("core/builder/HtmlBase.class.php");
+
+/**
+ * Para elemento DIV:
+ * $atributos['estilo'] 
+ * $atributos['estiloEnLinea']
+ * $atributos['titulo']
+ * $atributos['id']
+ * 
+ * Para Cuadros de Mensaje
+ * $atributos['tipo']
+ * $atributos['mensaje']
+ *  
+ * Para campoTexto
+ * $atributos['texto'] (Requerido)
+ * $atributos['estilo'] (Opcional)
+ * $atributos['columnas'] (Opcional)
+ * $atributos['etiqueta'] (Opcional)
+ * 
+ * Para CampoMensaje
+ * $atributos['mensaje']
+ * $atributos['estilo'] 
+ * $atributos['estiloEnLinea']
+ * $atributos['etiqueta']
+ * $atributos['estiloEtiqueta']
+ * $atributos['contenido']
+ * $atributos['estiloContenido']
+ * $atributos['tamanno']
+ * $atributos['linea']: Define si se coloca una línea horizontal de separación
+ * 
+ */
+
+class Div extends HtmlBase{
+    
+    function division($tipo, $atributos = "") {
+    
+        $this->cadenaHTML = "";
+        if ($tipo == self::INICIO) {
+            if (isset ( $atributos [self::ESTILO] )) {
+                $this->cadenaHTML = "<div class='" . $atributos [self::ESTILO] . "' ";
+            } else {
+                $this->cadenaHTML = "<div ";
+            }
+    
+            if (isset ( $atributos [self::ESTILOENLINEA] ) && $atributos [self::ESTILOENLINEA] != "") {
+                $this->cadenaHTML .= "style='" . $atributos [self::ESTILOENLINEA] . "' ";
+            }
+    
+            if (isset ( $atributos [self::TITULO] )) {
+                $this->cadenaHTML .= "title='" . $atributos [self::TITULO] . "' ";
+            }
+    
+            $this->cadenaHTML .= "id='" . $atributos ["id"] . "' ";
+    
+            $this->cadenaHTML .= ">\n";
+        } else {
+    
+            $this->cadenaHTML .= "\n</div>\n";
+        }
+    
+        return $this->cadenaHTML;
+    
+    }
+    
+    function cuadroMensaje($atributos) {
+    
+        $this->cadenaHTML = "<div id='mensaje' class='" . $atributos ["tipo"] . " shadow " . $atributos [self::ESTILO] . "' >";
+        $this->cadenaHTML .= "<span>" . $atributos ["mensaje"] . "</span>";
+        $this->cadenaHTML .= "</div><br>";
+        return $this->cadenaHTML;
+    
+    }
+    
+    function campoTexto($atributos) {
+    
+        if (isset ( $atributos [self::ESTILO] ) && $atributos [self::ESTILO] != "") {
+            if ($atributos [self::ESTILO] == self::JQUERYUI) {
+                $this->cadenaHTML = "<div class='ui-widget ";
+            } else {
+                $this->cadenaHTML = "<div class='" . $atributos [self::ESTILO] . " ";
+            }
+        } else {
+            $this->cadenaHTML = "<div class='campoTexto' ";
+        }
+    
+        if (isset ( $atributos [self::COLUMNAS] ) && $atributos [self::COLUMNAS] != "" && is_numeric ( $atributos [self::COLUMNAS] )) {
+            $this->cadenaHTML .= " anchoColumna" . $atributos [self::COLUMNAS] . "' ";
+        } else {
+            $this->cadenaHTML .= " anchoColumna1' ";
+        }
+    
+        $this->cadenaHTML .= ">\n";
+        if (isset ( $atributos [self::ETIQUETA] )) {
+            $this->cadenaHTML .= "<div class='campoTextoEtiqueta'>\n";
+            $this->cadenaHTML .= $atributos [self::ETIQUETA];
+            $this->cadenaHTML .= "\n</div>\n";
+            $this->cadenaHTML .= "<div class='campoTextoContenido'>\n";
+        } else {
+            $this->cadenaHTML .= "<div class='campoTextoContenidoSolo'>\n";
+        }
+    
+        if ($atributos [self::TEXTO] != "") {
+            $this->cadenaHTML .= nl2br ( $atributos [self::TEXTO] );
+        } else {
+            $this->cadenaHTML .= "--";
+        }
+        $this->cadenaHTML .= "\n</div>\n";
+        $this->cadenaHTML .= "\n</div>\n";
+    
+        return $this->cadenaHTML;
+    
+    }
+    
+    function campoMensaje($atributos) {
+    
+        if (isset ( $atributos [self::ESTILO] ) && $atributos [self::ESTILO] == self::JQUERYUI) {
+            return $this->campoMensajeEstilo ( $atributos );
+        }
+    
+        if (! isset ( $atributos [self::ESTILO] )) {
+            $atributos [self::ESTILO] = 'campoMensaje';
+        }
+    
+        $this->cadenaHTML = "<div class='" . $atributos [self::ESTILO] . "' ";
+    
+        if (isset ( $atributos [self::ESTILOENLINEA] ) && $atributos [self::ESTILOENLINEA] != "") {
+            $this->cadenaHTML .= "style='" . $atributos [self::ESTILOENLINEA] . "' ";
+        }
+    
+        $this->cadenaHTML .= ">\n";
+    
+        $inicioSpan = '';
+        $finSpan = '';
+    
+        if (isset ( $atributos [self::TAMANNO] )) {
+    
+            $atributos [self::TAMANNO] = ucfirst ( $atributos [self::TAMANNO] );
+            $inicioSpan = "<span class='texto" . $atributos [self::TAMANNO] . "'> ";
+            $finSpan = '</span>';
+        }
+        $this->cadenaHTML .= $inicioSpan . $atributos [self::MENSAJE] . $finSpan;
+    
+        if (isset ( $atributos ['linea'] ) && $atributos ['linea']) {
+            $this->cadenaHTML .= "<hr class='hr_division'>";
+        }
+        $this->cadenaHTML .= "</div>\n";
+    
+        return $this->cadenaHTML;
+    
+    }
+    
+    private function campoMensajeEstilo($atributos) {
+    
+        $this->cadenaHTML = "<div  class='ui-accordion ui-widget ui-helper-reset'>";
+        if (isset ( $atributos [self::ETIQUETA] )) {
+            switch ($atributos [self::ETIQUETA]) {
+            	case 'simple' :
+            	    $this->cadenaHTML .= '<h3 class="ui-accordion-header ui-state-default">' . $this->cadenaHTML .= $atributos [self::MENSAJE] . "</h3>";
+            	    break;
+    
+            	case 'encabezado2' :
+            	    $this->cadenaHTML .= '<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top ui-accordion-icons">' . $this->cadenaHTML .= $atributos [self::MENSAJE] . "</h3>";
+            	    break;
+    
+            	default :
+            	    $this->cadenaHTML .= '<h3 class="ui-accordion-header ui-state-default ui-accordion-icons ui-corner-all">';
+            	    $this->cadenaHTML .= "<span class='ui-accordion-header-icon ui-icon ui-icon-document'></span>" . $atributos [self::MENSAJE] . "</h3>";
+            }
+        }
+        $this->cadenaHTML .= "</div>";
+        return $this->cadenaHTML;
+    
+    }
+    
+
+    function campoMensajeEtiqueta($atributos) {
+    
+        if (isset ( $atributos [self::ESTILO] ) && $atributos [self::ESTILO] != "") {
+            $this->cadenaHTML = "<div class='" . $atributos [self::ESTILO] . "'>\n";
+        } else {
+            $this->cadenaHTML = "<div class='campoMensajeEtiqueta'>\n";
+        }
+    
+        if (isset ( $atributos [self::ESTILOETIQUETA] ) && $atributos [self::ESTILOETIQUETA] != "") {
+            $this->cadenaHTML .= "<div class='" . $atributos [self::ESTILOETIQUETA] . "'>\n";
+        } else {
+            $this->cadenaHTML .= "<div class='campoEtiquetaMensaje'>\n";
+        }
+        $this->cadenaHTML .= $atributos [self::ETIQUETA];
+        $this->cadenaHTML .= "\n</div>\n";
+    
+        if (isset ( $atributos [self::ESTILOCONTENIDO] ) && $atributos [self::ESTILOCONTENIDO] != "") {
+            $this->cadenaHTML .= "<div class='" . $atributos [self::ESTILOCONTENIDO] . "'>\n";
+        } else {
+            $this->cadenaHTML .= "<div class='campoContenidoMensaje'>\n";
+        }
+        if ($atributos [self::TEXTO] != "") {
+            $this->cadenaHTML .= nl2br ( $atributos [self::TEXTO] );
+        } else {
+            $this->cadenaHTML .= "--";
+        }
+        $this->cadenaHTML .= "\n</div>\n";
+        $this->cadenaHTML .= "\n</div>\n";
+    
+        return $this->cadenaHTML;
+    
+    }
+    
+    function campoEspacio() {
+    
+        $this->cadenaHTML = "<div class='espacioBlanco'>\n</div>\n";
+        return $this->cadenaHTML;
+    
+    }
+    
+    function campoMapa($atributos) {
+    
+        $this->cadenaCampoMapa = "<div class='campoMapaEtiqueta'>\n";
+        $this->cadenaCampoMapa .= $atributos [self::ETIQUETA];
+        $this->cadenaCampoMapa .= "</div>\n";
+        $this->cadenaCampoMapa .= "<div class='campoMapa'>\n";
+        $this->cadenaCampoMapa .= $this->division ( self::INICIO, $atributos );
+        $this->cadenaCampoMapa .= $this->division ( "fin", $atributos );
+        $this->cadenaCampoMapa .= "\n</div>\n";
+    
+        return $this->cadenaCampoMapa;
+    
+    }
+    
+    
+}

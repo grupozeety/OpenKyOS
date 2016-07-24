@@ -1,0 +1,63 @@
+.celda_titulo_horario {
+    background: linear-gradient(to bottom, #F2F6F8 0%, #D8E1E7 50%, #B5C6D0 51%, #E0EFF9 100%) repeat scroll 0 0 transparent;
+    height: 40px;
+}
+
+.celda_titulo_horario_pequeno {
+    background: linear-gradient(to bottom, #F2F6F8 0%, #D8E1E7 50%, #B5C6D0 51%, #E0EFF9 100%) repeat scroll 0 0 transparent;
+    height: 20px;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 10px;
+}
+
+.celda_hora {
+    background: linear-gradient(to bottom, #FFFFFF 0%, #F3F3F3 50%, #EDEDED 51%, #FFFFFF 100%) repeat scroll 0 0 transparent;
+    border: 1px solid #DDDDDD;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 10px;
+    padding: 2px;
+}
+
+.celda_hora_seleccionada {
+    background: rgb(252,234,187); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(252,234,187,1) 0%, rgba(252,205,77,1) 73%, rgba(251,223,147,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,234,187,1)), color-stop(73%,rgba(252,205,77,1)), color-stop(100%,rgba(251,223,147,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(252,234,187,1) 0%,rgba(252,205,77,1) 73%,rgba(251,223,147,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(252,234,187,1) 0%,rgba(252,205,77,1) 73%,rgba(251,223,147,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(252,234,187,1) 0%,rgba(252,205,77,1) 73%,rgba(251,223,147,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(252,234,187,1) 0%,rgba(252,205,77,1) 73%,rgba(251,223,147,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#fbdf93',GradientType=0 ); /* IE6-9 */
+    border: 1px solid #DDDDDD;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 10px;
+    padding: 2px;
+}
+
+.celda_titulo_cursos {
+   background: rgb(228,245,252); /* Old browsers */
+background: -moz-radial-gradient(center, ellipse cover, rgba(228,245,252,1) 0%, rgba(191,232,249,1) 100%, rgba(159,216,239,1) 100%, rgba(42,176,237,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(228,245,252,1)), color-stop(100%,rgba(191,232,249,1)), color-stop(100%,rgba(159,216,239,1)), color-stop(100%,rgba(42,176,237,1))); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(center, ellipse cover, rgba(228,245,252,1) 0%,rgba(191,232,249,1) 100%,rgba(159,216,239,1) 100%,rgba(42,176,237,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(center, ellipse cover, rgba(228,245,252,1) 0%,rgba(191,232,249,1) 100%,rgba(159,216,239,1) 100%,rgba(42,176,237,1) 100%); /* Opera 12+ */
+background: -ms-radial-gradient(center, ellipse cover, rgba(228,245,252,1) 0%,rgba(191,232,249,1) 100%,rgba(159,216,239,1) 100%,rgba(42,176,237,1) 100%); /* IE10+ */
+background: radial-gradient(ellipse at center, rgba(228,245,252,1) 0%,rgba(191,232,249,1) 100%,rgba(159,216,239,1) 100%,rgba(42,176,237,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4f5fc', endColorstr='#2ab0ed',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+height: 30px;
+    border: 1px solid #DDDDDD;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 10px;
+    padding: 2px;
+    vertical-align: middle;
+    alignment-adjust: middle;
+} 
+
+.celda_sin_registros {
+    background: linear-gradient(to bottom, #FFFFFF 0%, #F3F3F3 50%, #EDEDED 51%, #FFFFFF 100%) repeat scroll 0 0 transparent;
+    border: 1px solid #DDDDDD;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 10px;
+    padding: 2px;
+    vertical-align: middle;
+    alignment-adjust: middle;
+    text-align: center;
+}

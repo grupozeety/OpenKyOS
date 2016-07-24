@@ -1,0 +1,149 @@
+
+/*-------------------------Pie----------------------------------*/
+
+.pieCentral {
+    margin:0 auto;
+    padding:0px;
+   }
+
+.footer {
+    background:#EEEEEE;
+    padding:10px 30px 0px 30px ;
+    
+}
+
+.footer_enlaces {
+    padding:0px 30px 0px 30px ;
+    
+}
+
+.footer_lista {
+    width:20%;
+    padding:20px 5px 25px 5px ;
+    border:0px;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    border-style: solid;
+    
+
+}
+
+.footer_mensajeLista {
+    width:25%;
+    margin: 0px 0px 0px 20px;
+    padding:0px 0px 0px 0px ;
+    
+
+}
+
+ .footer_mensajeLista p{
+    font-size: 11px;
+    font-family: "Arial", Verdana, Trebuchet MS, Helvetica, sans-serif;
+    margin-top: 0em;
+    margin-bottom: 0.7em;
+    padding:0px 0px 0px 10px;
+    }
+
+.footer_mensajeLista a{
+	
+
+ }
+
+
+.footer_logo
+{
+    padding:10px 30px 0px 0px ;
+    font-size: 14px;
+    font-family: "Arial", Verdana, Trebuchet MS, Helvetica, sans-serif;
+    
+}
+
+
+.fleft{
+    float:left;
+    }
+
+.fright{
+    float:right;
+   }
+
+
+
+.footer_messages {
+    padding:0px 30px 0px 30px ;
+    background:#EEEEEE;
+}
+
+.footer_messages p {
+    width:100%;
+    text-align:left;
+    font:normal 11px Arial, Helvetica, sans-serif;
+    margin:0 auto;
+    padding:20px 10px 0 10px;
+    }
+
+ .footer_messages a{
+    font-weight: bold;
+    text-decoration: underline;
+ }
+
+ .footer_messages a:visited{
+    font-weight: bold;
+    text-decoration: underline;
+ }
+
+ .footer_messages a:hover{
+
+ }
+
+ .footer_lista p{
+    font-size: 11px;
+    font-family: "Arial", Verdana, Trebuchet MS, Helvetica, sans-serif;
+    margin-top: 0em;
+    margin-bottom: 0.7em;
+    padding:0px 0px 0px 25px;
+    
+    }
+
+.footer_lista a:link{
+	text-decoration: none;
+	color:#555555;
+
+ }
+
+ .footer_lista a:visited{
+ 
+    text-decoration: none;
+    color:#555555;
+ }
+
+ .footer_lista a:hover{
+    font-weight: bold;
+    text-decoration: underline;
+    color:#555555;
+ }
+
+.listaEncabezado{
+    font-size: 12px;
+    font-family: "Arial", Verdana, Trebuchet MS, Helvetica, sans-serif;
+    font-weight: bold;
+    color:#555555;
+}
+
+.encabezadoFooter{
+    font-size: 16px;
+    font-family: "Arial", Verdana, Trebuchet MS, Helvetica, sans-serif;
+    font-weight: bold;
+    color:#555555;
+ 
+}
+
+hr.hr_divisionPie
+{
+	border: 0;
+	color: #000000;
+	background-color: #999999;
+	height: 1px;
+	width: 100%;
+	text-align: left;
+}

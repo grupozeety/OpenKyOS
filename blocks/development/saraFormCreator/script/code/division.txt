@@ -1,0 +1,13 @@
+		// ------------------Inicio Inicio Division para los botones-------------------------
+        $atributos ['id'] = 'botones';
+        $atributos ['estilo'] = 'marcoBotones';
+        echo $this->miFormulario->division ( 'inicio', $atributos );
+        // ----------------  Fin Inicio Division para los botones ----------------------------
+        // ---------------- SECCION: Controles dentro de la division -------------------------
+        
+        
+        // ---------------- FIN SECCION: Controles dentro de la division ----------------------
+
+		// ------------------Inicio Fin Division para los botones-------------------------
+		echo $this->miFormulario->division ( 'fin' );
+		// ------------------Fin Fin Division para los botones-------------------------

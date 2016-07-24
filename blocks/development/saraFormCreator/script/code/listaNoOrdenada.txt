@@ -1,0 +1,9 @@
+	// -------------------- Listado de Pestañas (Como lista No Ordenada) -------------------------------
+$items = array (
+"tabRegistrar" => $this->lenguaje->getCadena ( "tabRegistrar" ),
+"tabRegistrarMasivo" => $this->lenguaje->getCadena ( "tabRegistrarMasivo" )
+);
+$atributos ["items"] = $items;
+$atributos ["estilo"] = "jqueryui";
+$atributos ["pestañas"] = "true";
+echo $this->miFormulario->listaNoOrdenada ( $atributos );

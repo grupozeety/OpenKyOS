@@ -1,0 +1,71 @@
+#bogota{
+    background-image: url(../imagen/bogota.gif);
+    width: 54px;
+}
+
+#unidistrital{
+    background-image: url(../imagen/unidistrital.gif);
+    width: 54px;
+}
+#cidc{
+    background-image: url(../imagen/cidc.gif);
+    width: 54px;
+}
+
+#minEducacion{
+    background-image: url(../imagen/men.gif);
+    width: 141px;
+}
+#segEducacionBogota{
+    background-image: url(../imagen/sed.gif);
+    width: 53px;
+}
+
+.pieImagenes{
+    clear:both;
+    border:0px;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    border-color: #000000;
+    border-style: solid;
+    text-align:center;
+    background:#EEEEEE;
+    width:310px;
+    margin:0px auto;
+}
+
+.pieMenuImagen{
+
+    margin:5px auto;
+    border:0px;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    border-color: #000000;
+    border-style: solid;
+    height:40px;   
+    
+
+}
+
+.pieImagen{
+    background:#EEEEEE;
+}
+
+.pieImagen a{
+	
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    display: block;
+    height: 40px;
+}
+
+.pieImagen span{
+    display: none;
+}
+
+.pieImagen a:hover{
+    background-position: 0 -44px!important;
+}
+
+
+
