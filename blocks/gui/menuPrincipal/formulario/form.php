@@ -95,16 +95,17 @@ class FormularioMenu {
 		
 		$respuesta ['rol'] = array (
 				
-				0 => "Application/general",
-				1 => "Application/supervisor",
-				2 => "Application/supervisor" 
+				1 => "Application/general",
+				2 => "Application/admin",
+				3 => "Application/supervisor" 
 		);
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( "datosMenu", $roles );
+		$cadenaSql = $this->miSql->getCadenaSql ( "consultarDatosMenu", $respuesta ['rol'] );
+		
 		$datosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
-		die ();
-		
+
+		var_dump($datosMenu);exit;
 		/*
 		 * Se generan la estructura de un arreglo 3dimensional y se llena con arreglos vacíos.
 		 */
