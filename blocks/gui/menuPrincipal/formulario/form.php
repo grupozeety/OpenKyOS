@@ -2,10 +2,6 @@
 
 namespace gui\menuPrincipal\formulario;
 
-include_once ("core/auth/SesionSso.class.php");
-
-include_once ($this->ruta . "/builder/DibujarMenu.class.php");
-use gui\menuPrincipal\builder\Dibujar;
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
 	exit ();
@@ -16,7 +12,6 @@ class FormularioMenu {
 	var $miFormulario;
 	var $miSql;
 	var $miSesionSso;
-	
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -27,8 +22,6 @@ class FormularioMenu {
 		$this->miFormulario = $formulario;
 		
 		$this->miSql = $sql;
-		
-		$this->miSesionSso = \SesionSso::singleton ();
 	}
 	function formulario() {
 		
@@ -66,8 +59,6 @@ class FormularioMenu {
 		
 		// -------------------------------------------------------------------------------------------------
 		
-		
-		
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
 		$esteCampo = $esteBloque ['nombre'];
 		$atributos ['id'] = $esteCampo;
@@ -93,81 +84,77 @@ class FormularioMenu {
 		// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
 		
 		$conexion = "estructura";
-		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
 		$atributos ['tipoEtiqueta'] = 'inicio';
-// 		$atributos = array_merge ( $atributos, $atributosGlobales );
+		// $atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->formulario ( $atributos );
 		unset ( $atributos );
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
+		$respuesta ['rol'] = array (
+				
+				0 => "Application/general",
+				1 => "Application/supervisor",
+				2 => "Application/supervisor" 
+		);
 		
-		$respuesta = $this->miSesionSso->getParametrosSesionAbierta();
-		
-		$roles = array();
-		
-		foreach ($respuesta['rol'] as $rol){
-			if($rol =="Application/admin"){
-				$roles[] = 1;
-			}else if("Application/cliente"){
-				$roles[] = 2;
-			}
-		}
-		
-		$cadenaSql = $this->miSql->getCadenaSql ( "datosMenu", $roles);
+		$cadenaSql = $this->miSql->getCadenaSql ( "datosMenu", $roles );
 		$datosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		die ();
 		
 		/*
 		 * Se generan la estructura de un arreglo 3dimensional y se llena con arreglos vacíos.
 		 */
 		foreach ( $datosMenu as $menu => $item ) {
-				
-			$enlaces ['menu'.$item ['menu']]['columna'. $item ['columna']][$item ['clase_enlace']][$this->lenguaje->getCadena ($item ['titulo'])] = array ();
+			
+			$enlaces ['menu' . $item ['menu']] ['columna' . $item ['columna']] [$item ['clase_enlace']] [$this->lenguaje->getCadena ( $item ['titulo'] )] = array ();
 		}
 		foreach ( $datosMenu as $menu => $item ) {
-			//Se instancia el enlace como # que significa que el enlace no existe inicialmente.
+			// Se instancia el enlace como # que significa que el enlace no existe inicialmente.
 			$enlace = '#';
-			//Dependiendo de la clase del enlace (menú, submenú, normal) se da un enlace al componente.
-			switch($item['clase_enlace']){
-				case 'menu'://Cuando el enlace es clase menú.
-					//Dependiendo del tipo de enlace (interno o externo) se codifica o no el enlace.
-					switch($item['tipo_enlace']){
-						case 'interno'://Cuando el enlace del menú es de tipo interno.
-							$enlace = 'pagina=' . $item ['enlace'].$item['parametros'];
+			// Dependiendo de la clase del enlace (menú, submenú, normal) se da un enlace al componente.
+			switch ($item ['clase_enlace']) {
+				case 'menu' : // Cuando el enlace es clase menú.
+				              // Dependiendo del tipo de enlace (interno o externo) se codifica o no el enlace.
+					switch ($item ['tipo_enlace']) {
+						case 'interno' : // Cuando el enlace del menú es de tipo interno.
+							$enlace = 'pagina=' . $item ['enlace'] . $item ['parametros'];
 							$enlace = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $directorio );
 							break;
-						case 'externo':
-							$enlace = $item ['enlace'].$item['parametros'];
+						case 'externo' :
+							$enlace = $item ['enlace'] . $item ['parametros'];
 							break;
 					}
 					break;
-				case 'submenu':
-					switch($item['tipo_enlace']){
-						case 'interno'://Cuando el enlace del submenú es de tipo interno.
+				case 'submenu' :
+					switch ($item ['tipo_enlace']) {
+						case 'interno' : // Cuando el enlace del submenú es de tipo interno.
 							$enlace = '#';
 							break;
-						case 'externo':
+						case 'externo' :
 							$enlace = '#';
 							break;
 					}
 					break;
-				case 'normal':
-					switch($item['tipo_enlace']){
-						case 'interno'://Cuando el enlace normal es de tipo interno.
-							$enlace = 'pagina=' . $item ['enlace'].$item['parametros'];
+				case 'normal' :
+					switch ($item ['tipo_enlace']) {
+						case 'interno' : // Cuando el enlace normal es de tipo interno.
+							$enlace = 'pagina=' . $item ['enlace'] . $item ['parametros'];
 							$enlace = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $directorio );
 							break;
-						case 'externo':
-							$enlace = $item ['enlace'].$item['parametros'];
+						case 'externo' :
+							$enlace = $item ['enlace'] . $item ['parametros'];
 							break;
 					}
-				break;
+					break;
 			}
-			$enlaces ['menu'.$item ['menu']]['columna'. $item ['columna']][$item ['clase_enlace']][$this->lenguaje->getCadena ($item ['titulo'])] = $enlace;
+			$enlaces ['menu' . $item ['menu']] ['columna' . $item ['columna']] [$item ['clase_enlace']] [$this->lenguaje->getCadena ( $item ['titulo'] )] = $enlace;
 		}
 		
-		$atributos ['enlaces'] = $enlaces;		
+		$atributos ['enlaces'] = $enlaces;
 		
 		$crearMenu = new Dibujar ();
 		echo $crearMenu->html ( $atributos );
@@ -200,7 +187,7 @@ class FormularioMenu {
 		 * codificar el nombre de cada campo.
 		 */
 		$valorCodificado .= "&campoSeguro=" . $_REQUEST ['tiempo'];
-		$valorCodificado .= "&tiempo=" . time();
+		$valorCodificado .= "&tiempo=" . time ();
 		// Paso 2: codificar la cadena resultante
 		$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );
 		

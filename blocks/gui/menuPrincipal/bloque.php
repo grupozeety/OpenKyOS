@@ -1,6 +1,7 @@
 <?php
 
 namespace gui\menuPrincipal;
+
 // Evitar un acceso directo a este archivo
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
@@ -63,18 +64,22 @@ if (class_exists ( 'Bloque' ) === false) {
 			$this->miFrontera = new Frontera ();
 			
 			$this->miLenguaje = new Lenguaje ();
+			
+			
 		}
 		public function bloque() {
 			if (isset ( $_REQUEST ['botonCancelar'] ) && $_REQUEST ['botonCancelar'] == "true") {
 				$this->miFuncion->redireccionar ( "paginaPrincipal" );
 			} else {
 				
+				
 				if (! isset ( $_REQUEST ['action'] )) {
-					
+					var_dump($_REQUEST);
 					$this->miFrontera->setSql ( $this->miSql );
 					$this->miFrontera->setFuncion ( $this->miFuncion );
 					$this->miFrontera->setLenguaje ( $this->miLenguaje );
 					$this->miFrontera->frontera ();
+					
 				} else {
 					
 					$this->miFuncion->setSql ( $this->miSql );
@@ -82,6 +87,7 @@ if (class_exists ( 'Bloque' ) === false) {
 					$this->miFuncion->setLenguaje ( $this->miLenguaje );
 					$this->miFuncion->action ();
 				}
+			
 			}
 		}
 	}
