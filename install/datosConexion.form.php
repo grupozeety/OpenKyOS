@@ -12,7 +12,7 @@
 $indice = strpos ( $_SERVER ["REQUEST_URI"], "/index.php" );
 
 if ($indice === false) {
-    $indice = strpos ( $_SERVER ["REQUEST_URI"], "/", 1 );
+	$indice = strpos ( $_SERVER ["REQUEST_URI"], "/", 1 );
 }
 $sitio = substr ( $_SERVER ["REQUEST_URI"], 0, $indice );
 
@@ -50,7 +50,7 @@ body {
 	font-size: 12px;
 }
 
-p,h1,form,button {
+p, h1, form, button {
 	border: 0;
 	margin: 0;
 	padding: 0;
@@ -151,24 +151,24 @@ p,h1,form,button {
 
 <?php
 if (isset ( $_REQUEST ["instalador"] )) {
-    ?>
+	?>
 	<div class="clean-red"><?php echo $mensajeError?></div>	
 	<?php
 }
 ?>
 	<div id="formulario" class="miFormulario">
 		<form id="<?php
-echo $formulario;
-?>"
+		echo $formulario;
+		?>"
 			name="<?php
-echo $formulario;
-?>" method="post" action="index.php"
+			echo $formulario;
+			?>" method="post" action="index.php"
 			accept-charset="UTF-8">
 			<h1>Informaci&oacute;n de Conexi&oacute;n</h1>
 			<p>Informaci&oacute;n de conexi&oacute;n a la base de datos principal
 				del aplicativo.</p>
 			<label>Tipo: <span class="textoPequenno">Motor de DB a utilizar</span></label>
-			<select id="dbsys" name="dbsys">
+			<select id="dbsys" name="dbsys" onchange="puertoPredeterminado()">
 				<option value="mysql">Mysql</option>
 				<option value="pgsql">PostgreSQL</option>
 				<option value="oracle">Oracle</option>
@@ -176,58 +176,58 @@ echo $formulario;
 					servidor de base de datos</span></label> <input type="text"
 				name="dbdns" id="dbDns"
 				value="<?php
-    if (isset ( $_REQUEST ["dbdns"] )) {
-        echo $_REQUEST ["dbdns"];
-    } else {
-        echo "localhost";
-    }
-    ?>" /> <label>Puerto <span class="textoPequenno">Puerto de acceso al
+				if (isset ( $_REQUEST ["dbdns"] )) {
+					echo $_REQUEST ["dbdns"];
+				} else {
+					echo "localhost";
+				}
+				?>" /> <label>Puerto <span class="textoPequenno">Puerto de acceso al
 					servidor de base de datos</span></label> <input type="text"
 				name="dbpuerto" id="dbPuerto"
 				value="<?php
-    if (isset ( $_REQUEST ["dbpuerto"] )) {
-        echo $_REQUEST ["dbpuerto"];
-    } else {
-        echo "0";
-    }
-    ?>" /> <label>Esquema <span class="textoPequenno">Dejar vacio si hay un único esquema
-    </span></label> <input type="text"
+				if (isset ( $_REQUEST ["dbpuerto"] )) {
+					echo $_REQUEST ["dbpuerto"];
+				} else {
+					echo "3306";
+				}
+				?>" /> <label>Esquema <span class="textoPequenno">Dejar vacio si hay
+					un único esquema </span></label> <input type="text"
 				name="dbesquema" id="dbesquema"
 				value="<?php
-    
-    if (isset ( $_REQUEST ["dbesquema"] )) {
-        echo $_REQUEST ["dbesquema"];
-    }
-    ?>" />  <label>Nombre <span class="textoPequenno">Nombre de la base
+				
+				if (isset ( $_REQUEST ["dbesquema"] )) {
+					echo $_REQUEST ["dbesquema"];
+				}
+				?>" /> <label>Nombre <span class="textoPequenno">Nombre de la base
 					de datos principal</span></label> <input type="text"
 				name="dbnombre" id="dbNombre"
 				value="<?php
-    
-    if (isset ( $_REQUEST ["dbnombre"] )) {
-        echo $_REQUEST ["dbnombre"];
-    }
-    ?>" /> <label>Usuario <span class="textoPequenno">Usuario de la base
+				
+				if (isset ( $_REQUEST ["dbnombre"] )) {
+					echo $_REQUEST ["dbnombre"];
+				}
+				?>" /> <label>Usuario <span class="textoPequenno">Usuario de la base
 					de datos principal</span>
 			</label> <input type="text" name="dbusuario" id="dbUsuario"
 				value="<?php
-    if (isset ( $_REQUEST ["dbusuario"] )) {
-        echo $_REQUEST ["dbusuario"];
-    } else {
-        echo "";
-    }
-    ?>" /> <label>Clave <span class="textoPequenno">Clave de acceso a la
+				if (isset ( $_REQUEST ["dbusuario"] )) {
+					echo $_REQUEST ["dbusuario"];
+				} else {
+					echo "";
+				}
+				?>" /> <label>Clave <span class="textoPequenno">Clave de acceso a la
 					base de datos.</span>
 			</label> <input type="password" name="dbclave" id="dbClave" /> <label>Prefijo
 				<span class="textoPequenno">Prefijo para las tablas de la base de
 					datos</span>
 			</label> <input type="text" name="prefijo" id="prefijo"
 				value="<?php
-    if (isset ( $_REQUEST ["prefijo"] )) {
-        echo $_REQUEST ["prefijo"];
-    } else {
-        echo "aplicativo_";
-    }
-    ?>" />
+				if (isset ( $_REQUEST ["prefijo"] )) {
+					echo $_REQUEST ["prefijo"];
+				} else {
+					echo "aplicativo_";
+				}
+				?>" />
 
 			<div class="spacer"></div>
 			<div class="spacer">
@@ -242,12 +242,12 @@ echo $formulario;
 					255 letras</span></label> <input type="text"
 				name="nombreAplicativo" id="nombreAplicativo"
 				value="<?php
-    if (isset ( $_REQUEST ["nombreAplicativo"] )) {
-        echo $_REQUEST ["nombreAplicativo"];
-    } else {
-        echo "";
-    }
-    ?>" /> <label>Directorio ra&iacute;z en el servidor <span
+				if (isset ( $_REQUEST ["nombreAplicativo"] )) {
+					echo $_REQUEST ["nombreAplicativo"];
+				} else {
+					echo "";
+				}
+				?>" /> <label>Directorio ra&iacute;z en el servidor <span
 				class="textoPequenno">En caso de duda preguntar al administrador de
 					su servidor.</span>
 			</label> <input type="text" name="raizDocumento" id="raizDocumento"
@@ -263,49 +263,62 @@ echo $formulario;
 			<input type="text" name="nombreAdministrador"
 				id="nombreAdministrador"
 				value="<?php
-    if (isset ( $_REQUEST ["nombreAdministrador"] )) {
-        echo $_REQUEST ["nombreAdministrador"];
-    } else {
-        echo "administrador";
-    }
-    ?>" /> <label>Clave Administrador <span class="textoPequenno">Clave
+				if (isset ( $_REQUEST ["nombreAdministrador"] )) {
+					echo $_REQUEST ["nombreAdministrador"];
+				} else {
+					echo "administrador";
+				}
+				?>" /> <label>Clave Administrador <span class="textoPequenno">Clave
 					de acceso del administrador.</span>
-			</label> <input type="password" name="claveAdministrador"
+			</label> <input type="text" name="claveAdministrador"
 				id="claveAdministrador" /> <label>Correo Administrador <span
 				class="textoPequenno">e-mail del administrador.</span>
 			</label> <input type="text" name="correoAdministrador"
 				id="correoAdministrador"
 				value="<?php
-    if (isset ( $_REQUEST ["correoAdministrador"] )) {
-        echo $_REQUEST ["correoAdministrador"];
-    } else {
-        echo "";
-    }
-    ?>" /> <label>Indice de Parámetros <span class="textoPequenno">Nombre
+				if (isset ( $_REQUEST ["correoAdministrador"] )) {
+					echo $_REQUEST ["correoAdministrador"];
+				} else {
+					echo "";
+				}
+				?>" /> <label>Indice de Parámetros <span class="textoPequenno">Nombre
 					del parámetro GET.</span>
 			</label> <input type="text" name="enlace" id="enlace"
 				value="<?php
-    if (isset ( $_REQUEST ["enlace"] )) {
-        echo $_REQUEST ["enlace"];
-    } else {
-        echo "data";
-    }
-    ?>" />
-        <label>Estilo predeterminado <span class="textoPequenno">Estilo jquery-ui predeterminado</span></label> <input type="text"
-    				name="estiloPredeterminado" id="estiloPredeterminado"
-    				value="<?php
-        if (isset ( $_REQUEST ['estiloPredeterminado'] )) {
-            echo $_REQUEST ['estiloPredeterminado'];
-        } else {
-            echo 'cupertino';
-        }
-        ?>" />
-            <div class="spacer"></div>
+				if (isset ( $_REQUEST ["enlace"] )) {
+					echo $_REQUEST ["enlace"];
+				} else {
+					echo "data";
+				}
+				?>" /> <label>JQuery-ui predeterminado <span class="textoPequenno">Estilo
+					jquery-ui predeterminado</span></label> <input type="text"
+				name="estiloPredeterminado" id="estiloPredeterminado"
+				value="<?php
+				if (isset ( $_REQUEST ['estiloPredeterminado'] )) {
+					echo $_REQUEST ['estiloPredeterminado'];
+				} else {
+					echo 'cupertino';
+				}
+				?>" /> <label>Bootstrap predeterminado <span
+				class="textoPequenno">Estilo bootstrap predeterminado</span></label>
+			<select id="estiloPredeterminadoBootstrap"
+				name="estiloPredeterminadoBootstrap"> 
+        <?php
+				$directorio = 'plugin/scripts/bootstrap/themes';
+				$archivos = scandir ( $directorio );
+				foreach ( $archivos as $key => $value ) {
+					if (!in_array($value,array(".","..")))
+					{
+					echo '<option value="'.$value.'">'.$value.'</option>';
+					}
+				}
+		?></select>
+			<div class="spacer"></div>
 			<div class="spacer"></div>
 			<h1>Módulo de desarrollo</h1>
 			<p>Definir si el aplicativo incluirá módulos de desarrollo.</p>
 			<label>Instalar módulo de desarrollo</label><input type="checkbox"
-				name="moduloDesarrollo" value="moduloDesarrollo" checked="checked"/>
+				name="moduloDesarrollo" value="moduloDesarrollo" checked="checked" />
 			<div class="spacer"></div>
 			<div class="spacer"></div>
 			<h1>Servicios Web</h1>

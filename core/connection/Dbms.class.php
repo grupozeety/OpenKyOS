@@ -59,13 +59,8 @@ class Dbms {
 	function getRecursoDb() {
 		if (isset ( $this->dbsys )) {
 			$clase = trim ( $this->dbsys );
-			
-			try {
-				$recurso = new $clase ( $this->configuracion );
-				return $recurso;
-			} catch ( Exception $e ) {
-				error_log('SARA - FATAL: No se pudo crear la clase de conexion a la base de datos. Dbms.class.php');
-			}
+			$recurso = new $clase ( $this->configuracion );
+			return $recurso;
 		}
 		return false;
 	}

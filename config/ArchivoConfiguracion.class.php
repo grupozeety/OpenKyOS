@@ -75,13 +75,20 @@ class ArchivoConfiguracion {
 	}
 	private function abrirArchivoConfiguracion($ruta = "") {
 		$respuesta = false;
+		
 		if ($ruta == '') {
 			$ruta = 'config/';
 		}
-		
-		$fp = fopen ( $ruta . 'config.inc.php', "r" );
-		if ($fp) {
+		$archivo = $ruta . 'config.inc.php';
+		try {
 			
+			if (! file_exists ( $archivo )) {
+				throw new Exception ( 'SARA - config/config.inc.php no existe.' );
+			}
+			$fp = fopen ( $archivo, "r" );
+			if (! $fp) {
+				throw new Exception ( 'SARA - Error al abrir config/config.inc.php' );
+			}
 			$i = 0;
 			while ( ! feof ( $fp ) && $i < 10 ) {
 				$linea [$i] = $this->cripto->decodificar ( fgets ( $fp, 4096 ), "" );
@@ -103,6 +110,8 @@ class ArchivoConfiguracion {
 				
 				$respuesta = true;
 			}
+		} catch ( Exception $e ) {
+			error_log ( $e->getMessage () );
 		}
 		
 		return $respuesta;
