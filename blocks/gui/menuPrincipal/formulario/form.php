@@ -24,6 +24,7 @@ class FormularioMenu {
 		$this->miSql = $sql;
 	}
 	function formulario() {
+		// echo "<a href='http://code.jquery.com/jquery-1.10.2.min.js'>qwe</a>";exit;
 		
 		// Rescatar los datos de este bloque
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
@@ -105,8 +106,6 @@ class FormularioMenu {
 		$this->atributosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		$this->ConstruirMenu ();
-		var_dump ( $datosMenu );
-		die ();
 		
 		// /*
 		// * Se generan la estructura de un arreglo 3dimensional y se llena con arreglos vacíos.
@@ -219,7 +218,6 @@ class FormularioMenu {
 		echo $this->miFormulario->formulario ( $atributos );
 	}
 	function ConstruirMenu() {
-		// var_dump($this->atributosMenu);
 		$menu = '';
 		$i = 0;
 		
@@ -241,47 +239,52 @@ class FormularioMenu {
 			}
 		}
 		
-
-		foreach ( $this->atributosMenu as $valor ) {
+		foreach ( $arreglo as $valor => $key ) {
 			
-			
-			
-			foreach ($valor as $key ){
-				
-				
-				if ($key ['clase_enlace'] == 'menu') {
-				
-					$menu .= ($i == 0) ? '<li class="active"><a href="' . $atributos ['enlace'] . '">' . $atributos ['nombre_menu'] . '</a></li>' : '  <li><a href="' . $atributos ['enlace'] . '" class="dropdown-toggle" data-toggle="dropdown">' . $atributos ['nombre_menu'] . '<b class="caret"></b></a></li> ';
-				} elseif ($atributos ['clase_enlace'] == 'submenu') {
-				
-				
-					$menu
-				
-				}
-				
-				
-				
-				
-			}
-			
-			
-			
-			
-			
-		
+			$menu .= $this->ConstruirGrupoGeneralMenu ( $key, $valor );
 		}
 		
 		$cadenaHTML = '<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 					    <div class="container">
+						 <div class="navbar-header">
+					            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					                <span class="sr-only">Toggle navigation</span>
+					                <span class="icon-bar"></span>
+					                <span class="icon-bar"></span>
+					                <span class="icon-bar"></span>
+					            </button>
+					            <a class="navbar-brand" >OpenKyOS</a>
+					        </div>
 					         <div class="collapse navbar-collapse">
-					                  <ul class="nav navbar-nav">';
+					                  <ul class="nav navbar-nav">
+				
+				';
 		$cadenaHTML .= $menu;
 		
 		$cadenaHTML .= '                      </ul>
 						                </div>
 						            </div>
 								</div>';
+		
 		echo $cadenaHTML;
+	}
+	function ConstruirGrupoGeneralMenu($ArrayAtributos, $nombre) {
+		$submenu = '';
+		$i = 0;
+		foreach ( $ArrayAtributos as $valor ) {
+			
+			$submenu .= '<li><a href="' . $valor ['enlace'] . '">' . $valor ['titulo_enlace'] . '</a></li>';
+		}
+		
+		$cadena = '';
+		
+		$cadena .= '<li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $nombre . '<b class="caret"></b></a>
+                    <ul class="dropdown-menu multi-level">';
+		$cadena .= $submenu;
+		$cadena .= '  </ul>
+                </li>';
+		return $cadena;
 	}
 }
 

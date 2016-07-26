@@ -1,7 +1,6 @@
 <?php
 $indice=0;
-$estilo[$indice++]="bootstrap.min.css";
-// $estilo[$indice++]="estiloBloque_Bootstrap.css";
+// $estilo[$indice++]="bootstrap.min.css";
 $estilo[$indice++]="estiloBloque.css";
 
 
@@ -13,7 +12,7 @@ if($unBloque["grupo"]==""){
 }else{
 	$rutaBloque.="/blocks/".$unBloque["grupo"]."/".$unBloque["nombre"];
 }
-
+echo '<link href="'.$rutaBloque.'/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">';
 foreach ($estilo as $nombre){
 	echo "<link rel='stylesheet' type='text/css' href='".$rutaBloque."/css/".$nombre."'>\n";
 
