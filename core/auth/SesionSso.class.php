@@ -114,7 +114,7 @@ class SesionSSO {
 		$registro['opcion'] = 'INGRESO';
 		$this->logger->log_usuario($registro);
 		
-		$this->sesionUsuario->crearSesion($atributos['fname'][0]);
+		$this->sesionUsuario->crearSesion($atributos['sn'][0]);
 		return $atributos;
     }
 
