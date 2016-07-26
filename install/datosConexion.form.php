@@ -304,7 +304,7 @@ if (isset ( $_REQUEST ["instalador"] )) {
 			<select id="estiloPredeterminadoBootstrap"
 				name="estiloPredeterminadoBootstrap"> 
         <?php
-				$directorio = 'plugin/scripts/bootstrap/themes';
+				$directorio = 'plugin/scripts/javascript/bootstrap/themes';
 				$archivos = scandir ( $directorio );
 				foreach ( $archivos as $key => $value ) {
 					if (!in_array($value,array(".","..")))

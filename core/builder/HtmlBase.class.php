@@ -28,6 +28,8 @@ class HtmlBase {
     
     var $miConfigurador;
     
+    var $atributosPersonalizados;
+    
     const NOMBRE = 'nombre';
     
     const SELECCION = 'seleccion';
@@ -152,7 +154,13 @@ class HtmlBase {
     function setAtributos($misAtributos) {
         
         $this->atributos = $misAtributos;
-    
+        if(isset($this->atributos['atributos'])){
+        	foreach ($this->atributos['atributos'] as $key=>$value){
+        		echo $key.'='.$value.'<br>';
+        	}
+        	
+        }
+     
     }
     
     public function setConfiguracion($configuracion) {
@@ -161,9 +169,7 @@ class HtmlBase {
     
     }
     
-    function etiqueta($misAtributos) {
-        
-        $this->setAtributos ( $misAtributos );
+    function etiqueta() {        
         
         $this->mi_etiqueta = "";
         
@@ -220,6 +226,16 @@ class HtmlBase {
         }
     
     }
+    /**
+     * El programador puede especificar cual es el estilo (clase) css se va a aplicar al control. 
+     * El modelo de estilos predeterminado es jqueryui, por tanto si el programador en $atributo['estilo']
+     * coloca jquery o jqueryui se cambia por la familia de estilos de jqueryui. Para el caso de otros
+     * frameworks (como bootstrap) debe colocarse de manera explícita las clases que se quieren aplicar a cada
+     * control. 
+     * @todo Tomar las clases de acuerdo al framework y tema declarado en la configuración.
+     * 
+     * @param string $estilo
+     */
     
     function definirEstilo($estilo = '') {
         

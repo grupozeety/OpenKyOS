@@ -20,6 +20,7 @@ class RegistradorBloque {
     }
     
     function procesarFormulario() {
+    	
         
         $resultado=true;
         // 1. Verificar la integridad de las variables        

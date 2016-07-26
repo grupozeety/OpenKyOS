@@ -1,6 +1,6 @@
 <?php
 
-namespace bloquesModelo\bloqueModelo1;
+namespace complementos\registrarPortatil;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Listado de funciones javascript que deben ser incluidas en todas las páginas del aplicativo.
+ * 
+ * @var unknown $host
+ */
 $host = $this->miConfigurador->getVariableConfiguracion ( 'host' );
 $sitio = $this->miConfigurador->getVariableConfiguracion ( 'site' );
 $estiloPredeterminado = $this->miConfigurador->getVariableConfiguracion ( 'estiloPredeterminado' );
@@ -32,18 +37,20 @@ if (isset ( $_REQUEST ['bootstrap'] )) {
 	if($_REQUEST ['bootstrap'] != 'true'){
 		$boostrap = explode(".min", $_REQUEST ['bootstrap']);
 		if(!strrpos($_REQUEST ['bootstrap'],".min")){
-			$funcion [$indice] = 'bootstrap/bootstrap-'. $boostrap[0] .'-dist/js/bootstrap.js';
+			$funcion [$indice] = 'javascript/bootstrap/bootstrap-'. $boostrap[0] .'-dist/js/bootstrap.js';
 		} else {
-			$funcion [$indice] = 'bootstrap/bootstrap-'. $boostrap[0] .'-dist/js/bootstrap.min.js';
+			$funcion [$indice] = 'javascript/bootstrap/bootstrap-'. $boostrap[0] .'-dist/js/bootstrap.min.js';
 		}		
 	} else {
-		$funcion [$indice] = 'bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js';
+		$funcion [$indice] = 'javascript/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js';
 	}
-	$indice ++;	
+	$indice ++;
+	$funcion [$indice] = 'javascript/bootstrap/bootstrap-filestyle.min.js';
+	$indice ++;
 }
 
 if (isset ( $_REQUEST ['bootstrap-validation'] ) ) {
-	$funcion [$indice] = 'bootstrap/bootstrap-3.3.5-dist/js/validator.js';
+	$funcion [$indice] = 'javascript/bootstrap/bootstrap-3.3.5-dist/js/validator.js';
 	$indice ++;
 }
 

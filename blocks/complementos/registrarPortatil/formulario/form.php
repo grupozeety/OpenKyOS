@@ -1,11 +1,10 @@
 <?php 
-namespace bloquesModelo\bloqueModelo1\formulario;
+namespace complementos\registrarPortatil;
 
 if(!isset($GLOBALS["autorizado"])) {
 	include("../index.php");
 	exit;
 }
-
 
 class Formulario {
 
@@ -29,8 +28,8 @@ class Formulario {
 
         /**
          * IMPORTANTE: Este formulario está utilizando jquery.
-         * Por tanto en el archivo ready.php se delaran algunas funciones js
-         * que lo complementan.
+         * Por tanto en el archivo script/ready.php y script/ready.js se declaran 
+         * algunas funciones js que lo complementan.
          */
 
         // Rescatar los datos de este bloque
@@ -39,12 +38,13 @@ class Formulario {
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
         /**
         * Atributos que deben ser aplicados a todos los controles de este formulario.
-        * Se utiliza un arreglo
-        * independiente debido a que los atributos individuales se reinician cada vez que se declara un campo.
+        * Se utiliza un arreglo independiente debido a que los atributos individuales se reinician cada vez que se 
+        * declara un campo.
         *
         * Si se utiliza esta técnica es necesario realizar un mezcla entre este arreglo y el específico en cada control:
         * $atributos= array_merge($atributos,$atributosGlobales);
         */
+        
         $atributosGlobales ['campoSeguro'] = 'true';
         $_REQUEST['tiempo']=time();
         
@@ -74,21 +74,23 @@ class Formulario {
         // ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
         $atributos ['tipoEtiqueta'] = 'inicio';
         echo $this->miFormulario->formulario ( $atributos );
+        unset($atributos);
 
         // ---------------- SECCION: Controles del Formulario -----------------------------------------------
 
-        // ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
-        $esteCampo = 'nombreBloque';
+        // ---------------- CONTROL: INPUT tipo file --------------------------------------------------------
+        $esteCampo = 'archivoDatos';
         $atributos ['id'] = $esteCampo;
         $atributos ['nombre'] = $esteCampo;
-        $atributos ['tipo'] = 'text';
-        $atributos ['estilo'] = 'jqueryui';
+        $atributos ['tipo'] = 'file';
+        $atributos ['estilo'] = 'filestyle';
         $atributos ['marco'] = true;
         $atributos ['columnas'] = 1;
         $atributos ['dobleLinea'] = false;
         $atributos ['tabIndex'] = $tab;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
         $atributos ['validar'] = '';
+        $atributos ['atributos']['data-icon']= 'false';
 
         if (isset ( $_REQUEST [$esteCampo] )) {
             $atributos ['valor'] = $_REQUEST [$esteCampo];
@@ -104,12 +106,15 @@ class Formulario {
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTexto ( $atributos );
-        // --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
+        unset($atributos);
+        
+        // --------------- FIN CONTROL : Input tipo File --------------------------------------------------
 
         // ------------------Division para los botones-------------------------
         $atributos ["id"] = "botones";
         $atributos ["estilo"] = "marcoBotones";
         echo $this->miFormulario->division ( "inicio", $atributos );
+        unset($atributos);
 
         // -----------------CONTROL: Botón ----------------------------------------------------------------
         $esteCampo = 'botonAceptar';
@@ -130,6 +135,7 @@ class Formulario {
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoBoton ( $atributos );
+        unset($atributos);
         // -----------------FIN CONTROL: Botón -----------------------------------------------------------
 
         // -----------------CONTROL: Botón ----------------------------------------------------------------
@@ -151,6 +157,7 @@ class Formulario {
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoBoton ( $atributos );
+        unset($atributos);
         // -----------------FIN CONTROL: Botón -----------------------------------------------------------
 
         // ------------------Fin Division para los botones-------------------------
