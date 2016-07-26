@@ -74,7 +74,7 @@ if (class_exists ( 'Bloque' ) === false) {
 				
 				
 				if (! isset ( $_REQUEST ['action'] )) {
-					var_dump($_REQUEST);
+					
 					$this->miFrontera->setSql ( $this->miSql );
 					$this->miFrontera->setFuncion ( $this->miFuncion );
 					$this->miFrontera->setLenguaje ( $this->miLenguaje );

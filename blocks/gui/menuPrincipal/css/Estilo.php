@@ -1,8 +1,8 @@
 <?php
 $indice=0;
 $estilo[$indice++]="bootstrap.min.css";
-$estilo[$indice++]="estiloBloque_Bootstrap.css";
-$estilo[$indice++]="main.css";
+// $estilo[$indice++]="estiloBloque_Bootstrap.css";
+$estilo[$indice++]="estiloBloque.css";
 
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");

@@ -11,7 +11,7 @@ class FormularioMenu {
 	var $lenguaje;
 	var $miFormulario;
 	var $miSql;
-	var $miSesionSso;
+	var $atributosMenu;
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -102,63 +102,69 @@ class FormularioMenu {
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( "consultarDatosMenu", $respuesta ['rol'] );
 		
-		$datosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		$this->atributosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
-
-		var_dump($datosMenu);exit;
-		/*
-		 * Se generan la estructura de un arreglo 3dimensional y se llena con arreglos vacíos.
-		 */
-		foreach ( $datosMenu as $menu => $item ) {
-			
-			$enlaces ['menu' . $item ['menu']] ['columna' . $item ['columna']] [$item ['clase_enlace']] [$this->lenguaje->getCadena ( $item ['titulo'] )] = array ();
-		}
-		foreach ( $datosMenu as $menu => $item ) {
-			// Se instancia el enlace como # que significa que el enlace no existe inicialmente.
-			$enlace = '#';
-			// Dependiendo de la clase del enlace (menú, submenú, normal) se da un enlace al componente.
-			switch ($item ['clase_enlace']) {
-				case 'menu' : // Cuando el enlace es clase menú.
-				              // Dependiendo del tipo de enlace (interno o externo) se codifica o no el enlace.
-					switch ($item ['tipo_enlace']) {
-						case 'interno' : // Cuando el enlace del menú es de tipo interno.
-							$enlace = 'pagina=' . $item ['enlace'] . $item ['parametros'];
-							$enlace = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $directorio );
-							break;
-						case 'externo' :
-							$enlace = $item ['enlace'] . $item ['parametros'];
-							break;
-					}
-					break;
-				case 'submenu' :
-					switch ($item ['tipo_enlace']) {
-						case 'interno' : // Cuando el enlace del submenú es de tipo interno.
-							$enlace = '#';
-							break;
-						case 'externo' :
-							$enlace = '#';
-							break;
-					}
-					break;
-				case 'normal' :
-					switch ($item ['tipo_enlace']) {
-						case 'interno' : // Cuando el enlace normal es de tipo interno.
-							$enlace = 'pagina=' . $item ['enlace'] . $item ['parametros'];
-							$enlace = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $directorio );
-							break;
-						case 'externo' :
-							$enlace = $item ['enlace'] . $item ['parametros'];
-							break;
-					}
-					break;
-			}
-			$enlaces ['menu' . $item ['menu']] ['columna' . $item ['columna']] [$item ['clase_enlace']] [$this->lenguaje->getCadena ( $item ['titulo'] )] = $enlace;
-		}
+		$this->ConstruirMenu ();
+		var_dump ( $datosMenu );
+		die ();
 		
-		$atributos ['enlaces'] = $enlaces;
+		// /*
+		// * Se generan la estructura de un arreglo 3dimensional y se llena con arreglos vacíos.
+		// */
+		// foreach ( $datosMenu as $menu => $item ) {
 		
-		$crearMenu = new Dibujar ();
-		echo $crearMenu->html ( $atributos );
+		// $enlaces ['menu' . $item ['menu']] ['columna' . $item ['columna']] [$item ['clase_enlace']] [$this->lenguaje->getCadena ( $item ['titulo'] )] = array ();
+		// }
+		
+		// var_dump ( $enlaces);
+		// die ();
+		
+		// foreach ( $datosMenu as $menu => $item ) {
+		// // Se instancia el enlace como # que significa que el enlace no existe inicialmente.
+		// $enlace = '#';
+		// // Dependiendo de la clase del enlace (menú, submenú, normal) se da un enlace al componente.
+		// switch ($item ['clase_enlace']) {
+		// case 'menu' : // Cuando el enlace es clase menú.
+		// // Dependiendo del tipo de enlace (interno o externo) se codifica o no el enlace.
+		// switch ($item ['tipo_enlace']) {
+		// case 'interno' : // Cuando el enlace del menú es de tipo interno.
+		// $enlace = 'pagina=' . $item ['enlace'] . $item ['parametros'];
+		// $enlace = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $directorio );
+		// break;
+		// case 'externo' :
+		// $enlace = $item ['enlace'] . $item ['parametros'];
+		// break;
+		// }
+		// break;
+		// case 'submenu' :
+		// switch ($item ['tipo_enlace']) {
+		// case 'interno' : // Cuando el enlace del submenú es de tipo interno.
+		// $enlace = '#';
+		// break;
+		// case 'externo' :
+		// $enlace = '#';
+		// break;
+		// }
+		// break;
+		// case 'normal' :
+		// switch ($item ['tipo_enlace']) {
+		// case 'interno' : // Cuando el enlace normal es de tipo interno.
+		// $enlace = 'pagina=' . $item ['enlace'] . $item ['parametros'];
+		// $enlace = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $directorio );
+		// break;
+		// case 'externo' :
+		// $enlace = $item ['enlace'] . $item ['parametros'];
+		// break;
+		// }
+		// break;
+		// }
+		// $enlaces ['menu' . $item ['menu']] ['columna' . $item ['columna']] [$item ['clase_enlace']] [$this->lenguaje->getCadena ( $item ['titulo'] )] = $enlace;
+		// }
+		
+		// $atributos ['enlaces'] = $enlaces;
+		
+		// $crearMenu = new Dibujar ();
+		// echo $crearMenu->html ( $atributos );
 		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
 		
@@ -212,42 +218,28 @@ class FormularioMenu {
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->formulario ( $atributos );
 	}
-	function mensaje() {
+	function ConstruirMenu() {
+		var_dump ( $this->atributosMenu );
+		exit ();
 		
-		// Si existe algun tipo de error en el login aparece el siguiente mensaje
-		$mensaje = $this->miConfigurador->getVariableConfiguracion ( 'mostrarMensaje' );
-		$this->miConfigurador->setVariableConfiguracion ( 'mostrarMensaje', null );
+		$cadenaHTML = '<div class="navbar-wrapper">
+					    <div class="container-fluid">
+					        <nav class="navbar navbar-fixed-top">
+					            <div class="container">
+					                <div id="navbar" class="navbar-collapse collapse">
+					                    <ul class="nav navbar-nav">';
 		
-		if ($mensaje) {
-			
-			$tipoMensaje = $this->miConfigurador->getVariableConfiguracion ( 'tipoMensaje' );
-			
-			if ($tipoMensaje == 'json') {
-				
-				$atributos ['mensaje'] = $mensaje;
-				$atributos ['json'] = true;
-			} else {
-				$atributos ['mensaje'] = $this->lenguaje->getCadena ( $mensaje );
-			}
-			// -------------Control texto-----------------------
-			$esteCampo = 'divMensaje';
-			$atributos ['id'] = $esteCampo;
-			$atributos ["tamanno"] = '';
-			$atributos ["estilo"] = 'information';
-			$atributos ['efecto'] = 'desvanecer';
-			$atributos ["etiqueta"] = '';
-			$atributos ["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-			echo $this->miFormulario->campoMensaje ( $atributos );
-			unset ( $atributos );
-		}
-		
-		return true;
+		$cadenaHTML .= '                      </ul>
+						                </div>
+						            </div>
+						        </nav>
+						    </div>
+						</div>';
 	}
 }
 
 $miFormulario = new FormularioMenu ( $this->lenguaje, $this->miFormulario, $this->sql );
 
 $miFormulario->formulario ();
-$miFormulario->mensaje ();
 
 ?>
