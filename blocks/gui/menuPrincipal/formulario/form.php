@@ -219,22 +219,69 @@ class FormularioMenu {
 		echo $this->miFormulario->formulario ( $atributos );
 	}
 	function ConstruirMenu() {
-		var_dump ( $this->atributosMenu );
-		exit ();
+		// var_dump($this->atributosMenu);
+		$menu = '';
+		$i = 0;
 		
-		$cadenaHTML = '<div class="navbar-wrapper">
-					    <div class="container-fluid">
-					        <nav class="navbar navbar-fixed-top">
-					            <div class="container">
-					                <div id="navbar" class="navbar-collapse collapse">
-					                    <ul class="nav navbar-nav">';
+		$menuGeneral = array ();
+		foreach ( $this->atributosMenu as $valor ) {
+			
+			$menuGeneral [] = $valor ['nombre_menu'];
+		}
+		$menuGeneral = array_unique ( $menuGeneral );
+		
+		foreach ( $menuGeneral as $valor ) {
+			
+			foreach ( $this->atributosMenu as $valorMenu ) {
+				
+				if ($valor == $valorMenu ['nombre_menu']) {
+					
+					$arreglo [$valor] [] = $valorMenu;
+				}
+			}
+		}
+		
+
+		foreach ( $this->atributosMenu as $valor ) {
+			
+			
+			
+			foreach ($valor as $key ){
+				
+				
+				if ($key ['clase_enlace'] == 'menu') {
+				
+					$menu .= ($i == 0) ? '<li class="active"><a href="' . $atributos ['enlace'] . '">' . $atributos ['nombre_menu'] . '</a></li>' : '  <li><a href="' . $atributos ['enlace'] . '" class="dropdown-toggle" data-toggle="dropdown">' . $atributos ['nombre_menu'] . '<b class="caret"></b></a></li> ';
+				} elseif ($atributos ['clase_enlace'] == 'submenu') {
+				
+				
+					$menu
+				
+				}
+				
+				
+				
+				
+			}
+			
+			
+			
+			
+			
+		
+		}
+		
+		$cadenaHTML = '<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+					    <div class="container">
+					         <div class="collapse navbar-collapse">
+					                  <ul class="nav navbar-nav">';
+		$cadenaHTML .= $menu;
 		
 		$cadenaHTML .= '                      </ul>
 						                </div>
 						            </div>
-						        </nav>
-						    </div>
-						</div>';
+								</div>';
+		echo $cadenaHTML;
 	}
 }
 
