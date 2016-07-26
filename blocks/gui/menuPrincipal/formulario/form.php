@@ -219,7 +219,6 @@ class FormularioMenu {
 	}
 	function ConstruirMenu() {
 		$menu = '';
-		$i = 0;
 		
 		$menuGeneral = array ();
 		foreach ( $this->atributosMenu as $valor ) {
@@ -238,10 +237,17 @@ class FormularioMenu {
 				}
 			}
 		}
-		
+		$i = 0;
 		foreach ( $arreglo as $valor => $key ) {
 			
-			$menu .= $this->ConstruirGrupoGeneralMenu ( $key, $valor );
+			if (isset ( $key [0] ['clase_enlace'] ) && $key [0] ['clase_enlace'] == 'menu') {
+				
+				$menu .= ($i == 0) ? '<li><a data-toggle="dropdown" href="' . $this->CrearUrl ( $key [0] ) . '">' . $valor . '</a></li>' : '<li><a href="' . $this->CrearUrl ( $key [0] ) . '" data-toggle="dropdown">' . $valor . '</a><li>';
+			} else {
+				
+				$menu .= $this->ConstruirGrupoGeneralMenu ( $key, $valor );
+			}
+			$i ++;
 		}
 		
 		$cadenaHTML = '<div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -273,7 +279,7 @@ class FormularioMenu {
 		$i = 0;
 		foreach ( $ArrayAtributos as $valor ) {
 			
-			$submenu .= '<li><a href="' . $valor ['enlace'] . '">' . $valor ['titulo_enlace'] . '</a></li>';
+			$submenu .= '<li><a href="' . $this->CrearUrl ( $valor ) . '">' . $valor ['titulo_enlace'] . '</a></li>';
 		}
 		
 		$cadena = '';
@@ -285,6 +291,30 @@ class FormularioMenu {
 		$cadena .= '  </ul>
                 </li>';
 		return $cadena;
+	}
+	function CrearUrl($atributos) {
+
+		if ($atributos ['tipo_enlace'] == 'interno' && ! is_null ( $atributos ['enlace'] )) {
+			
+			$url = $this->miConfigurador->configuracion ['host'] . $this->miConfigurador->configuracion ['site'] . '/index.php?';
+			
+			$enlace = $this->miConfigurador->configuracion ['enlace'] . "=";
+			
+			$variable = "pagina=" . $atributos ['enlace'];
+			$variable .= "&" . $atributos ['parametros'];
+			
+			$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
+			
+			$direccion = $url . $enlace . $variable;
+		} elseif ($atributos ['tipo_enlace'] == 'externo' && ! is_null ( $atributos ['enlace'] )) {
+			
+			$direccion = $atributos ['enlace'];
+		}else{
+			
+			$direccion='#';
+		}
+		
+		return $direccion;
 	}
 }
 
