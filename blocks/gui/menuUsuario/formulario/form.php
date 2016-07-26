@@ -25,7 +25,6 @@ class FormularioMenuUsuario {
 	}
 	function formulario() {
 		
-		
 		// Rescatar los datos de este bloque
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
 		$miPaginaActual = $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
@@ -105,10 +104,7 @@ class FormularioMenuUsuario {
 		
 		$this->atributosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
-		
-// 		echo '  <a href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">asdad</a>';
-		
-echo '<div class="navbar-custom-menu">
+		echo '<div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown messages-menu">
@@ -124,7 +120,7 @@ echo '<div class="navbar-custom-menu">
                   <li><!-- start message -->
                     <a href="#">
                       <div class="pull-left">
-                        <img src="Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Support Team
@@ -137,7 +133,7 @@ echo '<div class="navbar-custom-menu">
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         AdminLTE Design Team
@@ -149,7 +145,7 @@ echo '<div class="navbar-custom-menu">
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Developers
@@ -161,7 +157,7 @@ echo '<div class="navbar-custom-menu">
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Sales Department
@@ -173,7 +169,7 @@ echo '<div class="navbar-custom-menu">
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Reviewers
@@ -306,7 +302,7 @@ echo '<div class="navbar-custom-menu">
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/foto.png" class="user-image" alt="User Image"  width="30" height="30">
+              <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/foto.png" class="user-image" alt="User Image" >
               <span class="hidden-xs">Stiv Verdugo</span>
             </a>
             <ul class="dropdown-menu">
@@ -538,7 +534,6 @@ echo '<div class="navbar-custom-menu">
 		return $cadena;
 	}
 	function CrearUrl($atributos) {
-
 		if ($atributos ['tipo_enlace'] == 'interno' && ! is_null ( $atributos ['enlace'] )) {
 			
 			$url = $this->miConfigurador->configuracion ['host'] . $this->miConfigurador->configuracion ['site'] . '/index.php?';
@@ -554,9 +549,9 @@ echo '<div class="navbar-custom-menu">
 		} elseif ($atributos ['tipo_enlace'] == 'externo' && ! is_null ( $atributos ['enlace'] )) {
 			
 			$direccion = $atributos ['enlace'];
-		}else{
+		} else {
 			
-			$direccion='#';
+			$direccion = '#';
 		}
 		
 		return $direccion;

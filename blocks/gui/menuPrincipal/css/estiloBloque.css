@@ -1,10 +1,18 @@
+
+.navbar-fixed-top, .navbar-fixed-bottom {
+    position: static;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
 body {
-	padding-top: 1000px;
+	padding-top: 50px;
 }
 
 div.formulario {
 	padding: 0px;
 }
+
 
 .dropdown-submenu {
 	position: relative;
