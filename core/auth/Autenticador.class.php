@@ -61,13 +61,12 @@ class Autenticador {
     
     }
     
-    function iniciarAutenticacion() {
-        
+    function iniciarAutenticacion() {    	
+    	        
         $respuesta = '';
         $resultado = $this->verificarExistenciaPagina ();
         if ($resultado) {
             $resultado = $this->cargarSesionUsuario ();
-            
             if ($resultado) {
                 // Verificar que el usuario está autorizado para el nivel de acceso de la página
                 
@@ -83,11 +82,12 @@ class Autenticador {
             	 * Para la autenticación con SingleSignOn se verifica que esté habilitado en la base de datos "_configuracion"
             	 */
             	$resultado = $this->verificarAutenticacionSSO();
+            	 
             	//La única página que no se valida por SSO es el index
             	if($resultado){
-            		if($this->getPagina()=='index'){
-            			return true;
-            		}
+//             		if($this->getPagina()=='index'){
+//             			return true;
+//             		}
             		$resultado = $this->iniciarAutenticacionSSO();
             		if($resultado){
             			return true;
