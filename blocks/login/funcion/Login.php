@@ -16,7 +16,7 @@ class Login {
 			$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
 			$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 			$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-			$valorCodificado = "pagina=autenticado";
+			$valorCodificado = "pagina=paginaPrincipal";
 			$valorCodificado .= "&sesion=true";
 			$valorCodificado .= "&respuesta=''";
 			$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );

@@ -126,8 +126,7 @@ class FormularioMenu {
 				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-				$valorCodificado = "pagina=inicio";
-				//$valorCodificado .= "&autenticado=true";
+				$valorCodificado = "pagina=paginaPrincipal";
 				$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );
 				$enlace = $directorio.'='.$valorCodificado;
 				header('Location: '.$enlace);
@@ -142,7 +141,7 @@ class FormularioMenu {
 				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-				$valorCodificado = "pagina=inicio";
+				$valorCodificado = "pagina=paginaPrincipal";
 				$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );
 				$enlace = $directorio.'='.$valorCodificado;
 				header('Location: '.$enlace);
