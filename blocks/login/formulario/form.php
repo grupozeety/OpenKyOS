@@ -104,8 +104,6 @@ class FormularioMenu {
 		unset ( $atributos );
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		var_dump("Aqui");
-		die;
 	if(isset($_REQUEST['event']) && $_REQUEST['event']=="logout"){
 				
 			include $this->site.'funcion/Logout.php';
