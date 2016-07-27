@@ -3,7 +3,7 @@
 namespace gui\menuPrincipal\formulario;
 
 include_once ("core/auth/SesionSso.class.php");
-
+var_dump("Aqui");
 include_once ($this->ruta . "/builder/DibujarMenu.class.php");
 use gui\menuPrincipal\builder\Dibujar;
 if (! isset ( $GLOBALS ["autorizado"] )) {
