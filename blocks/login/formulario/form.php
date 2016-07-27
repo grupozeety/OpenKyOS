@@ -3,7 +3,6 @@
 namespace gui\menuPrincipal\formulario;
 
 include_once ("core/auth/SesionSso.class.php");
-var_dump("Aqui");
 include_once ($this->ruta . "/builder/DibujarMenu.class.php");
 use gui\menuPrincipal\builder\Dibujar;
 if (! isset ( $GLOBALS ["autorizado"] )) {
@@ -105,6 +104,8 @@ class FormularioMenu {
 		unset ( $atributos );
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
+		var_dump("Aqui");
+		die;
 	if(isset($_REQUEST['event']) && $_REQUEST['event']=="logout"){
 				
 			include $this->site.'funcion/Logout.php';
