@@ -120,7 +120,7 @@ class FormularioMenuUsuario {
                   <li><!-- start message -->
                     <a href="#">
                       <div class="pull-left">
-                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Support Team
@@ -133,7 +133,7 @@ class FormularioMenuUsuario {
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         AdminLTE Design Team
@@ -145,7 +145,7 @@ class FormularioMenuUsuario {
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Developers
@@ -157,7 +157,7 @@ class FormularioMenuUsuario {
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Sales Department
@@ -169,7 +169,7 @@ class FormularioMenuUsuario {
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Reviewers
@@ -302,13 +302,13 @@ class FormularioMenuUsuario {
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/foto.png" class="user-image" alt="User Image" >
+              <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/foto.png" class="user-image" alt="User Image" >
               <span class="hidden-xs">Stiv Verdugo</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/formulario/foto.png" class="img-circle" alt="User Image">
+                <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/foto.png" class="img-circle" alt="User Image">
 
                 <p>
                   Stiv Verdugo - Web Developer
@@ -347,64 +347,7 @@ class FormularioMenuUsuario {
           </li>
         </ul>
       </div>';
-		
-		// /*
-		// * Se generan la estructura de un arreglo 3dimensional y se llena con arreglos vacíos.
-		// */
-		// foreach ( $datosMenu as $menu => $item ) {
-		
-		// $enlaces ['menu' . $item ['menu']] ['columna' . $item ['columna']] [$item ['clase_enlace']] [$this->lenguaje->getCadena ( $item ['titulo'] )] = array ();
-		// }
-		
-		// var_dump ( $enlaces);
-		// die ();
-		
-		// foreach ( $datosMenu as $menu => $item ) {
-		// // Se instancia el enlace como # que significa que el enlace no existe inicialmente.
-		// $enlace = '#';
-		// // Dependiendo de la clase del enlace (menú, submenú, normal) se da un enlace al componente.
-		// switch ($item ['clase_enlace']) {
-		// case 'menu' : // Cuando el enlace es clase menú.
-		// // Dependiendo del tipo de enlace (interno o externo) se codifica o no el enlace.
-		// switch ($item ['tipo_enlace']) {
-		// case 'interno' : // Cuando el enlace del menú es de tipo interno.
-		// $enlace = 'pagina=' . $item ['enlace'] . $item ['parametros'];
-		// $enlace = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $directorio );
-		// break;
-		// case 'externo' :
-		// $enlace = $item ['enlace'] . $item ['parametros'];
-		// break;
-		// }
-		// break;
-		// case 'submenu' :
-		// switch ($item ['tipo_enlace']) {
-		// case 'interno' : // Cuando el enlace del submenú es de tipo interno.
-		// $enlace = '#';
-		// break;
-		// case 'externo' :
-		// $enlace = '#';
-		// break;
-		// }
-		// break;
-		// case 'normal' :
-		// switch ($item ['tipo_enlace']) {
-		// case 'interno' : // Cuando el enlace normal es de tipo interno.
-		// $enlace = 'pagina=' . $item ['enlace'] . $item ['parametros'];
-		// $enlace = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $directorio );
-		// break;
-		// case 'externo' :
-		// $enlace = $item ['enlace'] . $item ['parametros'];
-		// break;
-		// }
-		// break;
-		// }
-		// $enlaces ['menu' . $item ['menu']] ['columna' . $item ['columna']] [$item ['clase_enlace']] [$this->lenguaje->getCadena ( $item ['titulo'] )] = $enlace;
-		// }
-		
-		// $atributos ['enlaces'] = $enlaces;
-		
-		// $crearMenu = new Dibujar ();
-		// echo $crearMenu->html ( $atributos );
+	
 		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
 		
