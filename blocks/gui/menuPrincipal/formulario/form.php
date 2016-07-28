@@ -98,20 +98,15 @@ class FormularioMenu {
 		unset ( $atributos );
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
+		$respuesta = $this->miSesionSso->getParametrosSesionAbierta ();
 		
-		
-		$respuesta = $this->miSesionSso->getParametrosSesionAbierta();
-		
-		$roles = array();
-		var_dump($respuesta);exit;
-		foreach ($respuesta['rol'] as $rol){
-			if($rol =="Application/admin"){
-				$roles[] = 1;
-			}else if("Application/cliente"){
-				$roles[] = 2;
-			}
+		foreach ( $respuesta ['description'] as $key => $rol ) {
+			
+			$respuesta ['rol'] [] = $rol;
 		}
 		
+		var_dump ( $respuesta ['rol'] );
+		exit ();
 		$respuesta ['rol'] = array (
 				
 				1 => "Application/general",
