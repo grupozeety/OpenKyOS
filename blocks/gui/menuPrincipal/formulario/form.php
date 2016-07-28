@@ -105,14 +105,13 @@ class FormularioMenu {
 			$respuesta ['rol'] [] = $rol;
 		}
 		
-		var_dump ( $respuesta ['rol'] );
-		exit ();
-		$respuesta ['rol'] = array (
+	
+// 		$respuesta ['rol'] = array (
 				
-				1 => "Application/general",
-				2 => "Application/admin",
-				3 => "Application/supervisor" 
-		);
+// 				1 => "Application/general",
+// 				2 => "Application/admin",
+// 				3 => "Application/supervisor" 
+// 		);
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( "consultarDatosMenu", $respuesta ['rol'] );
 		
