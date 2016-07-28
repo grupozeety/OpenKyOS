@@ -99,7 +99,7 @@ class FormularioMenu {
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
 		$respuesta = $this->miSesionSso->getParametrosSesionAbierta ();
-		
+		var_dump($respuesta);
 		foreach ( $respuesta ['description'] as $key => $rol ) {
 			
 			$respuesta ['rol'] [] = $rol;
