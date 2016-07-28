@@ -99,19 +99,12 @@ class FormularioMenu {
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
 		$respuesta = $this->miSesionSso->getParametrosSesionAbierta ();
-		var_dump($respuesta);
+		
 		foreach ( $respuesta ['description'] as $key => $rol ) {
 			
 			$respuesta ['rol'] [] = $rol;
 		}
 		
-	
-// 		$respuesta ['rol'] = array (
-				
-// 				1 => "Application/general",
-// 				2 => "Application/admin",
-// 				3 => "Application/supervisor" 
-// 		);
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( "consultarDatosMenu", $respuesta ['rol'] );
 		
