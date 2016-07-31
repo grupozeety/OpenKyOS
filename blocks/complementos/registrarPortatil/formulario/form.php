@@ -88,10 +88,14 @@ class Formulario {
         $atributos ['columnas'] = 1;
         $atributos ['dobleLinea'] = false;
         $atributos ['tabIndex'] = $tab;
-        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ['validar'] = '';
-        $atributos ['atributos']['data-icon']= 'false';
-
+        $atributos ['etiqueta'] = '';
+        $atributos ['validar'] = 'required';
+        $atributos ['atributos']['multiple']="multiple";
+        $atributos ['atributos']['data-buttonText']="Seleccionar Archivo";
+        $atributos ['atributos']['data-buttonName']="btn-primary";
+        $atributos ['atributos']['data-placeholder']="Ningún Archivo";
+        $atributos ['atributos']['data-badge']="true";
+        
         if (isset ( $_REQUEST [$esteCampo] )) {
             $atributos ['valor'] = $_REQUEST [$esteCampo];
         } else {
@@ -99,7 +103,7 @@ class Formulario {
         }
         $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
         $atributos ['deshabilitado'] = false;
-        $atributos ['tamanno'] = 50;
+        $atributos ['tamanno'] = '10';
         $atributos ['maximoTamanno'] = '';
         $tab ++;
 
@@ -109,6 +113,28 @@ class Formulario {
         unset($atributos);
         
         // --------------- FIN CONTROL : Input tipo File --------------------------------------------------
+        
+        // -----------------CONTROL: Botón ----------------------------------------------------------------
+        $esteCampo = 'botonLimpiar';
+        $atributos ["id"] = $esteCampo;
+        $atributos ["tabIndex"] = $tab;
+        $atributos ["tipo"] = 'boton';
+        // submit: no se coloca si se desea un tipo button genérico
+        $atributos ['submit'] = true;
+        $atributos ["estiloMarco"] = '';
+        $atributos ["estiloBoton"]	 = 'btn btn-warning';
+        // verificar: true para verificar el formulario antes de pasarlo al servidor.
+        $atributos ["verificar"] = '';
+        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+        $atributos ["valor"] = 'Limpiar';
+        $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+        $tab ++;
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoBoton ( $atributos );
+        unset($atributos);
+        // -----------------FIN CONTROL: Botón -----------------------------------------------------------
 
         // ------------------Division para los botones-------------------------
         $atributos ["id"] = "botones";
@@ -124,7 +150,7 @@ class Formulario {
         // submit: no se coloca si se desea un tipo button genérico
         $atributos ['submit'] = true;
         $atributos ["estiloMarco"] = '';
-        $atributos ["estiloBoton"] = 'jqueryui';
+        $atributos ["estiloBoton"] = 'btn btn-primary';
         // verificar: true para verificar el formulario antes de pasarlo al servidor.
         $atributos ["verificar"] = '';
         $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
@@ -146,7 +172,7 @@ class Formulario {
         // submit: no se coloca si se desea un tipo button genérico
         $atributos ['submit'] = true;
         $atributos ["estiloMarco"] = '';
-        $atributos ["estiloBoton"] = 'jqueryui';
+        $atributos ["estiloBoton"] = 'btn btn-primary';
         // verificar: true para verificar el formulario antes de pasarlo al servidor.
         $atributos ["verificar"] = '';
         $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js

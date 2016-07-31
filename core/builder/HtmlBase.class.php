@@ -28,7 +28,7 @@ class HtmlBase {
     
     var $miConfigurador;
     
-    var $atributosPersonalizados;
+    var $atributosPersonalizados='';
     
     const NOMBRE = 'nombre';
     
@@ -156,7 +156,7 @@ class HtmlBase {
         $this->atributos = $misAtributos;
         if(isset($this->atributos['atributos'])){
         	foreach ($this->atributos['atributos'] as $key=>$value){
-        		echo $key.'='.$value.'<br>';
+        		$this->atributosPersonalizados.=$key.'=\''.$value.'\' ';
         	}
         	
         }
@@ -286,6 +286,8 @@ class HtmlBase {
         if (isset ( $this->atributos [self::ESTILOENLINEA] ) && $this->atributos [self::ESTILOENLINEA] != "") {
             $cadena .= "style='" . $this->atributos [self::ESTILOENLINEA] . "' ";
         }
+        
+        $cadena.= $this->atributosPersonalizados;
         
         return $cadena;
     

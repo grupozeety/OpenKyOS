@@ -58,7 +58,7 @@ class Input extends HtmlBase {
 			if (isset ( $this->atributos [self::ESTILOMARCO] )) {
 				$this->cadenaHTML .= "<div class='" . $this->atributos [self::ESTILOMARCO] . " ";
 			} else {
-				$this->cadenaHTML .= "<div class='" . $this->atributos [self::ESTILO] . " ";
+				$this->cadenaHTML .= "<div class='";
 			}
 			
 			if (isset ( $this->atributos [self::COLUMNAS] ) && $this->atributos [self::COLUMNAS] != "" && is_numeric ( $this->atributos [self::COLUMNAS] )) {
