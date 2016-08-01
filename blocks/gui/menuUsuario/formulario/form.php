@@ -104,6 +104,8 @@ class FormularioMenuUsuario {
 		
 		$this->atributosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+		
+		$url = $this->miConfigurador->configuracion ['host'] . $this->miConfigurador->configuracion ['site'];
 		echo '<div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
@@ -120,7 +122,7 @@ class FormularioMenuUsuario {
                   <li><!-- start message -->
                     <a href="#">
                       <div class="pull-left">
-                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="'.$url.'/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Support Team
@@ -133,7 +135,7 @@ class FormularioMenuUsuario {
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="'.$url.'/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         AdminLTE Design Team
@@ -145,7 +147,7 @@ class FormularioMenuUsuario {
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="'.$url.'/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Developers
@@ -157,7 +159,7 @@ class FormularioMenuUsuario {
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="'.$url.'/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Sales Department
@@ -169,7 +171,7 @@ class FormularioMenuUsuario {
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
+                        <img src="'.$url.'/blocks/gui/menuUsuario/css/imagenes/Imagen_2.jpg" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Reviewers
@@ -302,13 +304,13 @@ class FormularioMenuUsuario {
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/foto.png" class="user-image" alt="User Image" >
+              <img src="'.$url.'/blocks/gui/menuUsuario/css/imagenes/foto.png" class="user-image" alt="User Image" >
               <span class="hidden-xs">Stiv Verdugo</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="http://localhost/OpenKyOS/blocks/gui/menuUsuario/css/imagenes/foto.png" class="img-circle" alt="User Image">
+                <img src="'.$url.'/blocks/gui/menuUsuario/css/imagenes/foto.png" class="img-circle" alt="User Image">
 
                 <p>
                   Stiv Verdugo - Web Developer

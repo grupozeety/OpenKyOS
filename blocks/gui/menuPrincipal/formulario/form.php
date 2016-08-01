@@ -6,12 +6,15 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
 	exit ();
 }
+
+include_once ("core/auth/SesionSso.class.php");
 class FormularioMenu {
 	var $miConfigurador;
 	var $lenguaje;
 	var $miFormulario;
 	var $miSql;
 	var $atributosMenu;
+	var $miSesionSso;
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -22,9 +25,10 @@ class FormularioMenu {
 		$this->miFormulario = $formulario;
 		
 		$this->miSql = $sql;
+		
+		$this->miSesionSso = \SesionSso::singleton ();
 	}
 	function formulario() {
-		// echo "<a href='http://code.jquery.com/jquery-1.10.2.min.js'>qwe</a>";exit;
 		
 		// Rescatar los datos de este bloque
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
@@ -94,19 +98,19 @@ class FormularioMenu {
 		unset ( $atributos );
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		$respuesta ['rol'] = array (
-				
-				1 => "Application/general",
-				2 => "Application/admin",
-				3 => "Application/supervisor" 
-		);
+		$respuesta = $this->miSesionSso->getParametrosSesionAbierta ();
+		
+		foreach ( $respuesta ['description'] as $key => $rol ) {
+			
+			$respuesta ['rol'] [] = $rol;
+		}
+		
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( "consultarDatosMenu", $respuesta ['rol'] );
 		
 		$this->atributosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		$this->ConstruirMenu ();
-		
 		
 		// En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
 		
@@ -223,7 +227,6 @@ class FormularioMenu {
 		return $cadena;
 	}
 	function CrearUrl($atributos) {
-
 		if ($atributos ['tipo_enlace'] == 'interno' && ! is_null ( $atributos ['enlace'] )) {
 			
 			$url = $this->miConfigurador->configuracion ['host'] . $this->miConfigurador->configuracion ['site'] . '/index.php?';
@@ -239,9 +242,9 @@ class FormularioMenu {
 		} elseif ($atributos ['tipo_enlace'] == 'externo' && ! is_null ( $atributos ['enlace'] )) {
 			
 			$direccion = $atributos ['enlace'];
-		}else{
+		} else {
 			
-			$direccion='#';
+			$direccion = '#';
 		}
 		
 		return $direccion;
