@@ -7,7 +7,7 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 	exit ();
 }
 
-include_once ("core/auth/SesionSso.class.php");
+// include_once ("core/auth/SesionSso.class.php");
 class FormularioMenu {
 	var $miConfigurador;
 	var $lenguaje;
@@ -26,7 +26,7 @@ class FormularioMenu {
 		
 		$this->miSql = $sql;
 		
-		$this->miSesionSso = \SesionSso::singleton ();
+// 		$this->miSesionSso = \SesionSso::singleton ();
 	}
 	function formulario() {
 		
@@ -98,12 +98,18 @@ class FormularioMenu {
 		unset ( $atributos );
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
 		
-		$respuesta = $this->miSesionSso->getParametrosSesionAbierta ();
+// 		$respuesta = $this->miSesionSso->getParametrosSesionAbierta ();
 		
-		foreach ( $respuesta ['description'] as $key => $rol ) {
+// 		foreach ( $respuesta ['description'] as $key => $rol ) {
 			
-			$respuesta ['rol'] [] = $rol;
-		}
+// 			$respuesta ['rol'] [] = $rol;
+			
+// 		}
+		
+		
+		$respuesta ['rol'] [] = '/spagobi/admin';
+// 		$respuesta ['rol'] [] = '';
+// 		$respuesta ['rol'] [] = '';
 		
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( "consultarDatosMenu", $respuesta ['rol'] );
