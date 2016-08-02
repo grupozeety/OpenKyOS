@@ -91,16 +91,17 @@ class Formulario {
         $atributos ['dobleLinea'] = false;
         $atributos ['tabIndex'] = $tab;
         $atributos ['etiqueta'] = '';
-        $atributos ['validar'] = 'required';
+        //$atributos ['validar'] = 'required';
         
         /**
          * Atributos específicos para Bootstrap	
          */
-        $atributos ['atributos']['multiple']="multiple";
-        $atributos ['atributos']['data-buttonText']="Seleccionar Archivo";
-        $atributos ['atributos']['data-buttonName']="btn-primary";
-        $atributos ['atributos']['data-placeholder']="Ningún Archivo";
-        $atributos ['atributos']['data-badge']="true";
+        $atributos ['atributos']['multiple']='multiple';
+        $atributos ['atributos']['data-buttonText']='Seleccionar Archivo';
+        $atributos ['atributos']['data-buttonName']='btn-primary';
+        $atributos ['atributos']['data-placeholder']='Ningún Archivo';
+        $atributos ['atributos']['data-badge']='true';
+        $atributos ['atributos']['required']='';
         
         if (isset ( $_REQUEST [$esteCampo] )) {
             $atributos ['valor'] = $_REQUEST [$esteCampo];
@@ -119,19 +120,14 @@ class Formulario {
         unset($atributos);
         
         // --------------- FIN CONTROL : Input tipo File --------------------------------------------------
-        
+
         // -----------------CONTROL: Botón ----------------------------------------------------------------
         $esteCampo = 'botonLimpiar';
         $atributos ["id"] = $esteCampo;
         $atributos ["tabIndex"] = $tab;
         $atributos ["tipo"] = 'boton';
-        // submit: no se coloca si se desea un tipo button genérico
-        $atributos ['submit'] = true;
         $atributos ["estiloMarco"] = '';
         $atributos ["estiloBoton"]	 = 'btn btn-warning';
-        // verificar: true para verificar el formulario antes de pasarlo al servidor.
-        $atributos ["verificar"] = '';
-        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
         $atributos ["valor"] = 'Limpiar';
         $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
         $tab ++;
@@ -176,12 +172,10 @@ class Formulario {
         $atributos ["tabIndex"] = $tab;
         $atributos ["tipo"] = 'boton';
         // submit: no se coloca si se desea un tipo button genérico
-        $atributos ['submit'] = true;
         $atributos ["estiloMarco"] = '';
         $atributos ["estiloBoton"] = 'btn btn-primary';
         // verificar: true para verificar el formulario antes de pasarlo al servidor.
         $atributos ["verificar"] = '';
-        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
         $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
         $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
         $tab ++;

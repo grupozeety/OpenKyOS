@@ -32,7 +32,8 @@ class Funcion {
     
     function procesarFormulario() {
     
-        include_once ($this->ruta . "funcion/formProcessor.php");
+       // include_once ($this->ruta . "funcion/formProcessor.php");
+    	include_once ($this->ruta . "funcion/ParserXML.class.php");
     
         return $resultado;
     }

@@ -48,9 +48,7 @@ if (isset ( $_REQUEST ['bootstrap'] )) {
 	}
 	$indice ++;
 	$funcion [$indice] = 'javascript/bootstrap/bootstrap-filestyle.min.js';
-	$indice ++;
-	$funcion [$indice] = 'javascript/bootstrap/bootstrap-3.3.5-dist/js/validator.js';
-	$indice ++;
+	$indice ++;	
 }
 
 foreach ( $funcion as $nombre ) {
