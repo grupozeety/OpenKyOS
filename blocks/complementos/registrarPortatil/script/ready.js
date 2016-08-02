@@ -1,21 +1,6 @@
+$('#registrarPortatil').validator();
 
-// Asociar el widget de validación al formulario
-$("#login").validationEngine({
-	promptPosition : "centerRight",
-	scroll : false
-});
-
-$('#usuario').keydown(function(e) {
-    if (e.keyCode == 13) {
-        $('#login').submit();
-    }
-});
-
-$('#clave').keydown(function(e) {
-    if (e.keyCode == 13) {
-        $('#login').submit();
-    }
-});
+//Configurar el comportamiento del Tooltip en este bloque
 
 $(function() {
 	$(document).tooltip({
@@ -28,8 +13,11 @@ $(function() {
 	);
 });
 
+//Deshabilitar el comportamiento predeterminado de los botones 
+
 $(function() {
 	$("button").button().click(function(event) {
 		event.preventDefault();
-	});
+	;
+})
 });

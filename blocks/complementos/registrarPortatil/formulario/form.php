@@ -46,8 +46,10 @@ class Formulario {
         */
         
         $atributosGlobales ['campoSeguro'] = 'true';
-        $_REQUEST['tiempo']=time();
-        
+                
+        if(!isset($_REQUEST['tiempo'])){
+        	$_REQUEST['tiempo']=time();
+        }
         // -------------------------------------------------------------------------------------------------
 
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -90,6 +92,10 @@ class Formulario {
         $atributos ['tabIndex'] = $tab;
         $atributos ['etiqueta'] = '';
         $atributos ['validar'] = 'required';
+        
+        /**
+         * Atributos específicos para Bootstrap	
+         */
         $atributos ['atributos']['multiple']="multiple";
         $atributos ['atributos']['data-buttonText']="Seleccionar Archivo";
         $atributos ['atributos']['data-buttonName']="btn-primary";

@@ -210,6 +210,10 @@ class HtmlBase {
     }
     
     function campoSeguro($campo = '') {
+    	
+    	/**
+    	 * Sección normal
+    	 */
         
         if (isset ( $_REQUEST ['tiempo'] )) {
             $this->atributos ['tiempo'] = $_REQUEST ['tiempo'];
@@ -223,6 +227,8 @@ class HtmlBase {
             if ($campo == 'form') {
                 $_REQUEST ['formSecureId'] = $this->atributos [self::ID];
             }
+        }elseif(isset($_REQUEST['ready'])){
+        	$this->atributos [self::ID] = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $campo . $this->atributos ['tiempo'] );
         }
     
     }
