@@ -5,7 +5,7 @@ $indice = 0;
  *Esquema de Adición estilos css.
  */
 
-$estilo [$indice] = "estiloBloque.css";
+$estilo [$indice ++] = "estiloBloque.css";
 
 
 $indice ++;

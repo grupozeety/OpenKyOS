@@ -79,7 +79,7 @@ class CrearPlugin {
 		$contenidoArchivo = explode ( "\n", $contenidoArchivo );
 		
 		if ($_REQUEST ['tipo'] == 'css') {
-			$cadenaAgregar = '$estilo [$indice] = "' . $this->archivo ['name'] . '";';
+			$cadenaAgregar = '$estilo [$indice ++] = "' . $this->archivo ['name'] . '";';
 			
 			$i = 0;
 			foreach ( $contenidoArchivo as $key => $valor ) {

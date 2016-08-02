@@ -66,7 +66,7 @@ class EliminarPlugin {
 		$contenidoArchivo = explode ( "\n", $contenidoArchivo );
 		
 		if ($this->extension == 'css') {
-			$cadenaComparar = '$estilo [$indice] = "' . $_REQUEST ['id'] . '";';
+			$cadenaComparar = '$estilo [$indice ++] = "' . $_REQUEST ['id'] . '";';
 			
 			foreach ( $contenidoArchivo as $valor ) {
 				
