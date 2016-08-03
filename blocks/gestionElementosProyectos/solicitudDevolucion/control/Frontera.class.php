@@ -44,7 +44,7 @@ class Frontera {
 		$miBloque = $this->miConfigurador->getVariableConfiguracion ( 'esteBloque' );
 		$resultado = $this->miConfigurador->getVariableConfiguracion ( 'errorFormulario' );
 		
-		include_once ($this->ruta . "frontera/miFormulario.php");
+		include_once ($this->ruta . "frontera/registroSolicitud.php");
 	}
 }
 ?>

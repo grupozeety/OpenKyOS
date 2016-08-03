@@ -1,4 +1,5 @@
 <?php
+
 namespace gestionElementosProyectos\solicitudDevolucion\frontera;
 /**
  * IMPORTANTE: Este formulario está utilizando jquery.
@@ -18,8 +19,8 @@ class Registrador {
 		
 		$this->miFormulario = $formulario;
 	}
-	function seleccionarForm() {
-		var_dump($_REQUEST);
+	function mostrarFormulario() {
+		var_dump ( $_REQUEST );
 		// Rescatar los datos de este bloque
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
 		
@@ -48,10 +49,16 @@ class Registrador {
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
 		{
+		
+		/**
+		 * Código Formulario
+		 */
 			
-			/**
-			 * Código Formulario
-			 */		
+			
+			
+			
+			
+			
 		}
 		
 		// ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
@@ -95,10 +102,10 @@ class Registrador {
 	}
 }
 
-$miSeleccionador = new Registrador ( $this->lenguaje, $this->miFormulario );
+$miSeleccionador = new Registrador( $this->lenguaje, $this->miFormulario );
 
 $miSeleccionador->mensaje ();
 
-$miSeleccionador->seleccionarForm ();
+$miSeleccionador->mostrarFormulario();
 
 ?>
