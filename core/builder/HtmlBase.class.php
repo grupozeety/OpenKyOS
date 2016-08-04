@@ -61,6 +61,8 @@ class HtmlBase {
     const MARCO = 'marco';
 	
 	const TEXTOFONDO = 'textoFondo';
+	
+	const PLACEHOLDER = 'placeholder';
     
     const ESTILO = 'estilo';
     
@@ -112,9 +114,13 @@ class HtmlBase {
     
     const JQUERYUI = 'jqueryui';
     
+    const BOOTSTRAP = 'bootstrap';
+    
     const LEYENDA = 'leyenda';
     
     const ENLACE = 'enlace';
+    
+    const MINIMO = 'minimo';
     
     const ENLACECODIFICAR = 'enlaceCodificar';
     
@@ -146,7 +152,7 @@ class HtmlBase {
     
     function __construct(&$instanciaAgregador='') {
     	//Se hace una referencia a la instancia del Agregador que es de la que hereda el FormularioHtml
-    	$this->instanciaFormulario = $instanciaAgregador;  
+    	$this->instanciaFormulario = $instanciaAgregador; 
         $this->miConfigurador = Configurador::singleton ();
     
     }
@@ -192,7 +198,7 @@ class HtmlBase {
         
         $this->mi_etiqueta .= "for='" . $this->atributos [self::ID] . "' >";
         $this->mi_etiqueta .= $this->atributos [self::ETIQUETA] . self::HTMLENDLABEL;
-        
+
         if (isset ( $this->atributos ["etiquetaObligatorio"] ) && $this->atributos ["etiquetaObligatorio"]) {
             $this->mi_etiqueta .= "<span class='texto_rojo texto_pie'>* </span>";
         } else {
