@@ -65,37 +65,41 @@ class Registrador {
 			unset ( $atributos );
 			{
 				
-				$esteCampo = "proyecto";
-				$atributos ['id'] = $esteCampo;
+				
+				
+
+				$esteCampo = 'proyecto';
 				$atributos ['nombre'] = $esteCampo;
-				$atributos ['tipo'] = 'text';
-				$atributos ['estilo'] = 'jqueryui';
-				$atributos ['marco'] = true;
-				$atributos ['estiloMarco'] = '';
-				$atributos ["etiquetaObligatorio"] = true;
-				$atributos ['columnas'] = 1;
-				$atributos ['dobleLinea'] = 0;
-				$atributos ['tabIndex'] = $tab;
+				$atributos ['tipo'] = "text";
+				$atributos ['id'] = $esteCampo;
 				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-				$atributos ['validar'] = '';
-				$atributos ['textoFondo'] = 'Ingrese Nombre Proyecto';
+				$atributos ["etiquetaObligatorio"] = true;
+				$atributos ['tab'] = $tab ++;
+				$atributos ['anchoEtiqueta'] = 1; // de 0 a 12
+				$atributos ['evento'] = '';
 				if (isset ( $_REQUEST [$esteCampo] )) {
 					$atributos ['valor'] = $_REQUEST [$esteCampo];
 				} else {
 					$atributos ['valor'] = '';
 				}
-				$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
+				$atributos ['estilo'] = "bootstrap";
 				$atributos ['deshabilitado'] = false;
-				$atributos ['tamanno'] = 25;
-				$atributos ['maximoTamanno'] = '';
-				$atributos ['anchoEtiqueta'] = 100;
-				$tab ++;
-				
+				$atributos ['columnas'] = '';
+				$atributos ['tamanno'] = '';
+				$atributos ['placeholder'] = "Ingrese Nombre Proyecto"; //Texto de fondo de los campos.
+				$atributos ['minimo'] = "1"; //Para input tipo number se establece un mínimo
+				$atributos ['ajax_function'] = "";
+				$atributos ['ajax_control'] = $esteCampo;
+				$atributos ['limitar'] = false;
+				$atributos ['anchoCaja'] = 5; //de 0 a 12 teniendo en cuenta el anchoEtiqueta
+				$atributos ['miEvento'] = '';
+				$atributos ['validar'] = 'required'; //Valida campos obligatorios
 				// Aplica atributos globales al control
 				$atributos = array_merge ( $atributos, $atributosGlobales );
-				echo $this->miFormulario->campoCuadroTexto ( $atributos );
+				echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
 				unset ( $atributos );
 				
+					
 				$esteCampo = 'id_proyecto';
 				$atributos ["id"] = $esteCampo; // No cambiar este nombre
 				$atributos ["tipo"] = "hidden";
@@ -132,7 +136,7 @@ class Registrador {
 			$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 			$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 			$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-			$valorCodificado .= "&opcion= ";
+			$valorCodificado .= "&opcion=registrarSolicitud";
 			
 			/**
 			 * SARA permite que los nombres de los campos sean dinámicos.

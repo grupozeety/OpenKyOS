@@ -12,6 +12,8 @@ $indice = 0;
  */
  
 //$funcion [$indice ++] = " "; 
+$funcion [$indice ++] = "jquery.autocomplete.min.js";
+$funcion [$indice ++] = "jquery.autocomplete.js";
 $funcion [$indice ++] = "grid.locale-es.js";
 $funcion [$indice ++] = "jquery.jqGrid.min.js";
 
@@ -42,6 +44,8 @@ include("ajax.php");
 
 
 ?>
+
+
 
 
 

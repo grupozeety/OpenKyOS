@@ -2,6 +2,42 @@
 /** 
  * Código Correspondiente a las Url de la peticiones Ajax.
  */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+
+// Variables para Con
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$cadenaACodificar .= "&funcion=consultarProyectos";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $cadenaACodificar, $enlace );
+
+// URL Consultar Proyectos
+$urlConsultarProyectos = $url . $cadena;
+
+// Variables
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$cadenaACodificar .= "&funcion=consultarActividades";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $cadenaACodificar, $enlace );
+
+// URL Consultar Actividades
+$urlConsultarActividades = $url . $cadena;
+
 ?>
 <script type='text/javascript'>
 
@@ -12,11 +48,43 @@
 
  $(document).ready(function() {
 
+
+
+
+
+     $( "#<?php echo $this->campoSeguro('proyecto')?>" ).change(function() {
+         
+     	if($("#<?php echo $this->campoSeguro('proyecto') ?>").val()==''){
+     		$("#<?php echo $this->campoSeguro('id_proyecto') ?>").val('');
+         	
+         	}
+     
+     	
+             });
+     
+     $("#<?php echo $this->campoSeguro('proyecto') ?>").autocomplete({
+     	minChars: 3,
+     	serviceUrl: '<?php echo $urlConsultarProyectos ?>',
+     	onSelect: function (suggestion) {
+         	
+     	        $("#<?php echo $this->campoSeguro('id_proyecto') ?>").val(suggestion.data);
+     	    }
+                 
+     });
+
+
+
+
+
+
+
+
+	 
 		
 		$(function() {
 		         	$('#tabla_elementos_actividades').ready(function() {
 		         		 $("#tabla_elementos_actividades").jqGrid({
-		                     url:	"<?php// echo $urlTablaDinamica?>",
+		                     url:	'<?php echo $urlConsultarActividades ?>&Proyecto='+$("#<?php echo $this->campoSeguro('id_proyecto') ?>").val(),
 		                     datatype: "json",
 		                     mtype: "GET",
 		                     styleUI : "Bootstrap",

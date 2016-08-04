@@ -1,5 +1,7 @@
 <?php
+
 namespace gestionElementosProyectos\solicitudDevolucion\entidad;
+
 class procesarAjax {
 	var $miConfigurador;
 	var $sql;
@@ -9,18 +11,18 @@ class procesarAjax {
 		$this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
 		
 		$this->sql = $sql;
-
 		
 		switch ($_REQUEST ['funcion']) {
 			
-			case 'ejemploFuncion' :
+			case 'consultarProyectos' :
 				
 				/**
-				 * Código de Logica Procesar Ajax 
+				 * Código de Logica Procesar Ajax
 				 */
 				
+				include_once ("consultarProyectos.php");
+				
 				break;
-			
 		}
 	}
 }
