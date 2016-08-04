@@ -1,9 +1,9 @@
 <?php
 
-namespace bloquesModelo\bloqueModelo1\funcion;
+namespace complementos\registrarPortatil\funcion;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
-	include ("../seleccionarModo/funcion/index.php");
+	include ("../index.php");
 	exit ();
 }
 class Redireccionador {
