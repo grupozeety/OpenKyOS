@@ -1,9 +1,9 @@
 <?php
 
-namespace bloquesModelo\bloqueModelo1\funcion;
+namespace complementos\registrarPortatil\funcion;
 
 
-include_once('../seleccionarModo/funcion/Redireccionador.php');
+include_once('Redireccionador.php');
 
 class FormProcessor {
     
