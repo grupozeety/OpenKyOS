@@ -8,20 +8,8 @@ class RadioButtonBootstrapHtml extends HtmlBase{
         $this->setAtributos ( $atributos );
         $this->campoSeguro();
     
-//         if (isset ( $this->atributos [self::ESTILO] ) && $this->atributos [self::ESTILO] != "") {
-//             $this->cadenaHTML = "<div class='" . $this->atributos [self::ESTILO] . "'>\n";
-//         } else {
-//             $this->cadenaHTML = "<div class='campoBotonRadial'>\n";
-//         }
-    
-        $this->cadenaHTML = "<div class='" . "radio" . "'>\n";
-        
-        if (isset ( $this->atributos [self::ETIQUETA] ) && $this->atributos [self::ETIQUETA] != "") {
-            $this->cadenaHTML .= '<label>';
-        }
-    
         $this->cadenaHTML .= $this->radioButton ();
-        $this->cadenaHTML .= "\n</div>\n";
+
         return $this->cadenaHTML;
     
     }
@@ -35,12 +23,17 @@ class RadioButtonBootstrapHtml extends HtmlBase{
     
         if (isset ( $this->atributos ["opciones"] )) {
             $opciones = explode ( "|", $this->atributos ["opciones"] );
-    
             if (is_array ( $opciones )) {
     
                 $this->miOpcion .= $this->opcionesRadioButton ( $opciones );
             }
         } else {
+        	
+        	$this->cadenaHTML = "<div class='" . "radio" . "'>\n";
+        	
+        	if (isset ( $this->atributos [self::ETIQUETA] ) && $this->atributos [self::ETIQUETA] != "") {
+        		$this->cadenaHTML .= '<label>';
+        	}
     
             $this->miOpcion .= "<input type='radio' ";
             $this->miOpcion .= self::HTMLNAME . "'" . $id . "' ";
@@ -52,15 +45,15 @@ class RadioButtonBootstrapHtml extends HtmlBase{
             if (isset ( $this->atributos [self::TABINDEX] )) {
                 $this->miOpcion .= self::HTMLTABINDEX . "'" . $this->atributos [self::TABINDEX] . "' ";
             }
-    
             if (isset ( $this->atributos [self::SELECCIONADO] ) & $this->atributos [self::SELECCIONADO]) {
                 $this->miOpcion .= "checked='true' ";
             }
     
             $this->miOpcion .= "/> ";
             $this->miOpcion .= $this->atributos['etiqueta'];
-            $this->miOpcion .= self::HTMLENDLABEL;
-            $this->miOpcion .= '<br>';
+            $this->miOpcion .= "</label>";
+            $this->miOpcion .= "\n</div>\n";
+            $cadena .= "<br>";
         }
         return $this->miOpcion;
     
@@ -69,26 +62,36 @@ class RadioButtonBootstrapHtml extends HtmlBase{
     function opcionesRadioButton($opciones) {
     
         $cadena = '';
+        
+        $nombre = $this->atributos['id'];
+        
         foreach ( $opciones as $clave => $valor ) {
+        	
+        	
+        	$id = $clave;
+        	
             $opcion = explode ( "&", $valor );
             if ($opcion [0] != "") {
-                if ($opcion [0] != $this->atributos ["seleccion"]) {
-                    $cadena .= "<div>";
-                    $cadena .= "<input type='radio' id='" . $id . "' " . self::HTMLNAME . "'" . $nombre . "' value='" . $opcion [0] . "' />";
-                    $cadena .= self::HTMLLABEL . "'" . $id . "'>";
+                if ($opcion [0] != $this->atributos ["seleccion"]) {var_dump($opcion [0]);
+                    $cadena .= '<div class="radio">';
+                	$cadena .= "<label>";
+                    $cadena .= "<input type='radio' id='" . $id . "' " . self::HTMLNAME . "'" . $nombre . "' value='" . $opcion [0] . "' >";
                     $cadena .= $opcion [1] . "";
                     $cadena .= "</label>";
                     $cadena .= "</div>";
+                     $cadena .= "<br>";
                 } else {
-                    $cadena .= "<div>";
-                    $cadena .= "<input type='radio' id='" . $id . "' " . self::HTMLNAME . "'" . $nombre . "' value='" . $opcion [0] . "' checked /> ";
-                    $cadena .= self::HTMLLABEL . "'" . $id . "'>";
+                    $cadena .= '<div class="radio">';
+                    $cadena .= "<label>";
+                    $cadena .= "<input type='radio' id='" . $id . "' " . self::HTMLNAME . "'" . $nombre . "' value='" . $opcion [0] . "' checked='true' > ";
                     $cadena .= $opcion [1] . "";
                     $cadena .= "</label>";
                     $cadena .= "</div>";
+                    $cadena .= "<br>";
                 }
             }
         }
+        
     
         return $cadena;
     
