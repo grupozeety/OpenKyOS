@@ -25,7 +25,15 @@ if ($unBloque ["grupo"] == "") {
 foreach ( $estilo as $nombre ) {
 	echo "<link rel='stylesheet' type='text/css' href='" . $rutaBloque . "/frontera/css/" . $nombre . "'>\n";
 }
+
+
+echo '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">';
+
+
 ?>
+
+
+
 
 
 
