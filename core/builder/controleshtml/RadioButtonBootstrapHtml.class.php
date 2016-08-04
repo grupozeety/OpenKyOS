@@ -72,7 +72,7 @@ class RadioButtonBootstrapHtml extends HtmlBase{
         	
             $opcion = explode ( "&", $valor );
             if ($opcion [0] != "") {
-                if ($opcion [0] != $this->atributos ["seleccion"]) {var_dump($opcion [0]);
+                if ($opcion [0] != $this->atributos ["seleccion"]) {
                     $cadena .= '<div class="radio">';
                 	$cadena .= "<label>";
                     $cadena .= "<input type='radio' id='" . $id . "' " . self::HTMLNAME . "'" . $nombre . "' value='" . $opcion [0] . "' >";
