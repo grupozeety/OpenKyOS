@@ -97,6 +97,7 @@ class FormBootstrap extends HtmlBase {
     private function procesarAtributosFormulario() {
         
         $cadena = "<!-- Inicio del Formulario -->";
+        
         $cadena .=	 '<form role="form" ';
         
         $nombre = '';

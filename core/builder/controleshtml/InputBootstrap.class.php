@@ -31,6 +31,9 @@ class InputBootstrap extends HtmlBase {
 	function campoCuadroTextoBootstrap($atributos) {
 		
 		$this->setAtributos ( $atributos );
+		
+		$this->cadenaHTML = '';
+				
 		/**
 		 * @todo explicar esta funcionalidad
 		 */
@@ -40,26 +43,37 @@ class InputBootstrap extends HtmlBase {
 			$this->instanciaFormulario->validadorCampos [$this->atributos ["id"]] =  '';
 		}
 		
-		$this->cadenaHTML = '';
+// 		if (isset($atributos [self::COLUMNAS]) && $atributos [self::COLUMNAS] != '' && is_numeric($atributos [self::COLUMNAS])) {
 		
-		
+// 			$this->cadenaHTML .= "<div class='campoCuadroTexto anchoColumna" . $atributos [self::COLUMNAS] . "'>\n";
+// 		} else {
+// 			$this->cadenaHTML .= "<div class='campoCuadroTexto'>\n";
+// 		}
 		
 		$this->campoSeguro ();
 		
 		$final = '';
 		
 			
-		if (isset ( $this->atributos [self::COLUMNAS] ) && $this->atributos [self::COLUMNAS] != "" && is_numeric ( $this->atributos [self::COLUMNAS] )) {
-			$this->cadenaHTML .= '<div class="col-xs-' . $this->atributos [self::COLUMNAS] . '">';
-			$final = '</div>';
-		}
 		
 		$this->cadenaHTML .= '<div class="';
-		$this->cadenaHTML .= 'form-group';
+		$this->cadenaHTML .= 'form-group row';
 		$this->cadenaHTML .= '">';
 		
 		if (isset ( $this->atributos [self::ETIQUETA] ) && $this->atributos [self::ETIQUETA] != "") {
-			$this->cadenaHTML .= self::etiqueta ();
+			
+	        $this->cadenaHTML .= '<label for="';
+	        $this->cadenaHTML .= $this->atributos['id'];
+	        $this->cadenaHTML .= '" class="col-xs-';
+	        $this->cadenaHTML .= $this->atributos['anchoEtiqueta'];
+	        $this->cadenaHTML .= ' col-form-label">';
+	        $this->cadenaHTML .= $this->atributos['etiqueta'];
+	        $this->cadenaHTML .= '</label>';
+	        $this->cadenaHTML .= '<div class="col-xs-';
+	        $this->cadenaHTML .= $this->atributos['anchoCaja'];
+	        $this->cadenaHTML .= '">';
+	        
+	         
 		}
 		
 		if (isset ( $this->atributos ["dobleLinea"] ) && $this->atributos ["dobleLinea"]) {
@@ -70,7 +84,12 @@ class InputBootstrap extends HtmlBase {
 		
 		$this->cadenaHTML .= '</div>';
 		
-		$this->cadenaHTML .= $final;
+		$this->cadenaHTML .= '</div>';
+		
+// 		$this->cadenaHTML .= '</div>';
+
+		unset($atributos);
+		unset($this->atributos);
 		
 		return $this->cadenaHTML;
 	}
@@ -78,9 +97,6 @@ class InputBootstrap extends HtmlBase {
 	
 	function cuadro_texto($atributos='') {
 		
-		if($atributos!=''){
-			$this->setAtributos ( $atributos );
-		}
 		
 		
 		$cadena = '<input ';
@@ -117,6 +133,10 @@ class InputBootstrap extends HtmlBase {
 		
 		if (isset ( $this->atributos [self::DESHABILITADO] ) && $this->atributos [self::DESHABILITADO]) {
 			$cadena .= "disabled ";
+		}
+		
+		if (isset ( $this->atributos [self::MINIMO] )) {
+			$cadena .= "min=" . "'" . $this->atributos [self::MINIMO] . "' ";
 		}
 		
 		if (isset ( $this->atributos [self::VALOR] )) {
@@ -161,25 +181,5 @@ class InputBootstrap extends HtmlBase {
 		
 		// ----------- Fin del atributo class ----------------------------
 	}
-	function campoFecha($atributos = '') {
-		$this->setAtributos ( $atributos );
-		
-		if (isset ( $this->atributos [self::ESTILO] ) && $this->atributos [self::ESTILO] != "") {
-			$this->cadenaHTML = "<div class='" . $this->atributos [self::ESTILO] . "'>\n";
-		} else {
-			$this->cadenaHTML = "<div class='campoFecha'>\n";
-		}
-		$this->cadenaHTML .= $this->etiqueta ( $this->atributos );
-		$this->cadenaHTML .= "<div style='display:table-cell;vertical-align:top;float:left;'><span style='white-space:pre;'> </span>";
-		$this->cadenaHTML .= $this->cuadro_texto ( $this->configuracion, $this->atributos );
-		$this->cadenaHTML .= "</div>";
-		$this->cadenaHTML .= "<div style='display:table-cell;vertical-align:top;float:left;'>";
-		$this->cadenaHTML .= "<span style='white-space:pre;'> </span><img src=\"" . $this->configuracion ["host"] . $this->configuracion ["site"] . $this->configuracion ["grafico"] . "/calendarito.jpg\" ";
-		$this->cadenaHTML .= "id=\"imagen" . $this->atributos ["id"] . "\" style=\"cursor: pointer; border: 0px solid red;\" ";
-		$this->cadenaHTML .= "title=\"Selector de Fecha\" alt=\"Selector de Fecha\" onmouseover=\"this.style.background='red';\" onmouseout=\"this.style.background=''\" />";
-		$this->cadenaHTML .= "</div>";
-		$this->cadenaHTML .= "</div>\n";
-		
-		return $this->cadenaHTML;
-	}
+	
 }

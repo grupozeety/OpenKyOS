@@ -120,6 +120,8 @@ class HtmlBase {
     
     const ENLACE = 'enlace';
     
+    const MINIMO = 'minimo';
+    
     const ENLACECODIFICAR = 'enlaceCodificar';
     
     const COLUMNAS = 'columnas';
