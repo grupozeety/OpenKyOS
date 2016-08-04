@@ -43,13 +43,12 @@ if (isset ( $_REQUEST ['bootstrap'] )) {
 		}		
 	} else {
 		$funcion [$indice] = 'javascript/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js';
+		$indice++;	
+		
 	}
 	$indice ++;
 	$funcion [$indice] = 'javascript/bootstrap/bootstrap-filestyle.min.js';
 	$indice ++;
-}
-
-if (isset ( $_REQUEST ['bootstrap-validation'] ) ) {
 	$funcion [$indice] = 'javascript/bootstrap/bootstrap-3.3.5-dist/js/validator.js';
 	$indice ++;
 }

@@ -23,12 +23,12 @@ if (isset ( $_REQUEST ['bootstrap'] )) {
 	if($_REQUEST ['bootstrap'] != 'true'){
 		$boostrap = explode(".min", $_REQUEST ['bootstrap']);
 		if(!strrpos($_REQUEST ['bootstrap'],".min")){
-			$estilo [$indice] = 'scripts/bootstrap/bootstrap-'. $boostrap[0] .'-dist/css/bootstrap.css';
+			$estilo [$indice] = 'scripts/javascript/bootstrap/bootstrap-'. $boostrap[0] .'-dist/css/bootstrap.css';
 		} else {
-			$estilo [$indice] = 'scripts/bootstrap/bootstrap-'. $boostrap[0] .'-dist/css/bootstrap.min.css';
+			$estilo [$indice] = 'scripts/javascript/bootstrap/bootstrap-'. $boostrap[0] .'-dist/css/bootstrap.min.css';
 		}
 	} else {
-		$estilo [$indice] = 'scripts/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css';
+		$estilo [$indice] = 'scripts/javascript/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css';
 	}
 	$plugin [$indice] = true; //El css está en la carpeta plugin
 	$indice ++;
