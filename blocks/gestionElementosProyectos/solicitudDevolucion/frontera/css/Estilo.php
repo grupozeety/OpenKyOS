@@ -7,6 +7,9 @@ $indice = 0;
 
 $estilo [$indice ++] = "estiloBloque.css";	
 
+$estilo [$indice ++] = "ui.jqgrid-bootstrap-ui.css";
+$estilo [$indice ++] = "ui.jqgrid.css";
+$estilo [$indice ++] = "ui.jqgrid-bootstrap.css";
 
 $indice ++;
 
@@ -20,9 +23,18 @@ if ($unBloque ["grupo"] == "") {
 }
 
 foreach ( $estilo as $nombre ) {
-	echo "<link rel='stylesheet' type='text/css' href='" . $rutaBloque . "/css/" . $nombre . "'>\n";
+	echo "<link rel='stylesheet' type='text/css' href='" . $rutaBloque . "/frontera/css/" . $nombre . "'>\n";
 }
 ?>
+
+
+
+
+
+
+
+
+
 
 
 

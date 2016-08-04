@@ -12,6 +12,8 @@ $indice = 0;
  */
  
 //$funcion [$indice ++] = " "; 
+$funcion [$indice ++] = "grid.locale-es.js";
+$funcion [$indice ++] = "jquery.jqGrid.min.js";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion ( "site" );
@@ -24,7 +26,7 @@ $_REQUEST ['tiempo'] = time ();
 if (isset ( $funcion [0] )) {
 	foreach ( $funcion as $clave => $nombre ) {
 		if (! isset ( $embebido [$clave] )) {
-			echo "\n<script type='text/javascript' src='" . $rutaBloque . "/script/" . $nombre . "'>\n</script>\n";
+			echo "\n<script type='text/javascript' src='" . $rutaBloque . "/frontera/script/" . $nombre . "'>\n</script>\n";
 		} else {
 			echo "\n<script type='text/javascript'>";
 			include ($nombre);
@@ -40,6 +42,16 @@ include("ajax.php");
 
 
 ?>
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -86,7 +86,7 @@ class Registrador {
 				}
 				$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
 				$atributos ['deshabilitado'] = false;
-				$atributos ['tamanno'] = 60;
+				$atributos ['tamanno'] = 25;
 				$atributos ['maximoTamanno'] = '';
 				$atributos ['anchoEtiqueta'] = 100;
 				$tab ++;
@@ -111,6 +111,19 @@ class Registrador {
 				$atributos = array_merge ( $atributos, $atributosGlobales );
 				echo $this->miFormulario->campoCuadroTexto ( $atributos );
 				unset ( $atributos );
+				
+				echo "<br><br><br><br>";
+
+				echo $mostrarHtml = "<center>
+										<table id='tabla_elementos_actividades'>
+										
+										</table>
+								    	    <div id='barra_herramientas'>
+							            </div>
+						     		</center>";
+				
+				
+				
 			}
 			echo $this->miFormulario->agrupacion ( 'fin' );
 			unset ( $atributos );
