@@ -13,33 +13,53 @@ class Proyectos {
 		
 		$this->miSql = $sql;
 		
-		
-		
-		
 		/**
 		 * Infomación de Proyectos
 		 */
+		$this->estructurarInformacionProyectos ();
 		
+		/**
+		 * Restornar Proyectos
+		 */
 		
-		
-		
-		
-		
+		$this->restornarProyectos ();
 	}
-	
 	function estructurarInformacionProyectos() {
+		$this->infoProyectos [] = array (
+				"data" => '1',
+				"value" => 'Conexiones Digitales II: Sucre y Córdoba' 
+		);
 		
+		$this->infoProyectos [] = array (
+				"data" => '2',
+				"value" => 'Sistema de Información y Web Services' 
+		);
 		
-
+		$this->infoProyectos [] = array (
+				"data" => '3',
+				"value" => 'Instalación y Puesta en Servicio' 
+		);
+		
+		$this->infoProyectos [] = array (
+				"data" => '4',
+				"value" => 'Componente Gestión de Proyectos' 
+		);
+		
+		$this->infoProyectos [] = array (
+				"data" => '5',
+				"value" => 'Inventariar equipos portatiles' 
+		);
 	}
-	
-	
-	
-	function consultarProyectos() {
+	function restornarProyectos() {
+		foreach ( $this->infoProyectos as $key => $values ) {
+			$keys = array (
+					'value',
+					'data' 
+			);
+			$resultado [$key] = array_intersect_key ( $this->infoProyectos [$key], array_flip ( $keys ) );
+		}
 		
-		// Aquí va la lógica de procesamiento
-		
-		// Al final se ejecuta la redirección la cual pasará el control a otra página
+		echo '{"suggestions":' . json_encode ( $resultado ) . '}';
 	}
 }
 
