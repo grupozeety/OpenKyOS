@@ -16,11 +16,12 @@ class procesarAjax {
 			
 			case 'consultarProyectos' :
 				
-				/**
-				 * Código de Logica Procesar Ajax
-				 */
-				
 				include_once ("consultarProyectos.php");
+				
+				break;
+			
+			default :
+				var_dump ( $_REQUEST );
 				
 				break;
 		}

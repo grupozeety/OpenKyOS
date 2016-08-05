@@ -65,9 +65,6 @@ class Registrador {
 			unset ( $atributos );
 			{
 				
-				
-				
-
 				$esteCampo = 'proyecto';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['tipo'] = "text";
@@ -86,20 +83,19 @@ class Registrador {
 				$atributos ['deshabilitado'] = false;
 				$atributos ['columnas'] = '';
 				$atributos ['tamanno'] = '';
-				$atributos ['placeholder'] = "Ingrese Nombre Proyecto"; //Texto de fondo de los campos.
-				$atributos ['minimo'] = "1"; //Para input tipo number se establece un mínimo
+				$atributos ['placeholder'] = "Ingrese Nombre Proyecto"; // Texto de fondo de los campos.
+				$atributos ['minimo'] = "1"; // Para input tipo number se establece un mínimo
 				$atributos ['ajax_function'] = "";
 				$atributos ['ajax_control'] = $esteCampo;
 				$atributos ['limitar'] = false;
-				$atributos ['anchoCaja'] = 5; //de 0 a 12 teniendo en cuenta el anchoEtiqueta
+				$atributos ['anchoCaja'] = 5; // de 0 a 12 teniendo en cuenta el anchoEtiqueta
 				$atributos ['miEvento'] = '';
-				$atributos ['validar'] = 'required'; //Valida campos obligatorios
-				// Aplica atributos globales al control
+				$atributos ['validar'] = 'required'; // Valida campos obligatorios
+				                                     // Aplica atributos globales al control
 				$atributos = array_merge ( $atributos, $atributosGlobales );
 				echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
 				unset ( $atributos );
 				
-					
 				$esteCampo = 'id_proyecto';
 				$atributos ["id"] = $esteCampo; // No cambiar este nombre
 				$atributos ["tipo"] = "hidden";
@@ -112,22 +108,23 @@ class Registrador {
 				} else {
 					$atributos ['valor'] = '';
 				}
-				$atributos = array_merge ( $atributos, $atributosGlobales );
+				// $atributos = array_merge ( $atributos, $atributosGlobales );
 				echo $this->miFormulario->campoCuadroTexto ( $atributos );
 				unset ( $atributos );
 				
 				echo "<br><br><br><br>";
-
-				echo $mostrarHtml = "<center>
-										<table id='tabla_elementos_actividades'>
-										
-										</table>
-								    	    <div id='barra_herramientas'>
-							            </div>
-						     		</center>";
 				
+				// ------------------Division para los botones-------------------------
+				$atributos ["id"] = "marcoTabla";
+				$atributos ["estilo"] = "marcoCentrado";
+				echo $this->miFormulario->division ( "inicio", $atributos );
+				{
+					
+					
+				}
 				
-				
+				// ------------------Fin Division para los botones-------------------------
+				echo $this->miFormulario->division ( "fin" );
 			}
 			echo $this->miFormulario->agrupacion ( 'fin' );
 			unset ( $atributos );
@@ -204,8 +201,6 @@ class Registrador {
 }
 
 $miSeleccionador = new Registrador ( $this->lenguaje, $this->miFormulario );
-
-$miSeleccionador->mensaje ();
 
 $miSeleccionador->mostrarFormulario ();
 
