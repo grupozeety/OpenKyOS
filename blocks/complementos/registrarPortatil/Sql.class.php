@@ -35,79 +35,9 @@ class Sql extends \Sql {
             /**
              * Clausulas específicas
              */
-            case 'insertarRegistro' :
-                $cadenaSql = 'INSERT INTO ';
-                $cadenaSql .= $prefijo . 'pagina ';
-                $cadenaSql .= '( ';
-                $cadenaSql .= 'nombre,';
-                $cadenaSql .= 'descripcion,';
-                $cadenaSql .= 'modulo,';
-                $cadenaSql .= 'nivel,';
-                $cadenaSql .= 'parametro';
-                $cadenaSql .= ') ';
-                $cadenaSql .= 'VALUES ';
-                $cadenaSql .= '( ';
-                $cadenaSql .= '\'' . $_REQUEST ['nombrePagina'] . '\', ';
-                $cadenaSql .= '\'' . $_REQUEST ['descripcionPagina'] . '\', ';
-                $cadenaSql .= '\'' . $_REQUEST ['moduloPagina'] . '\', ';
-                $cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
-                $cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
-                $cadenaSql .= ') ';
-                break;
             
-            case 'actualizarRegistro' :
-                $cadenaSql = 'INSERT INTO ';
-                $cadenaSql .= $prefijo . 'pagina ';
-                $cadenaSql .= '( ';
-                $cadenaSql .= 'nombre,';
-                $cadenaSql .= 'descripcion,';
-                $cadenaSql .= 'modulo,';
-                $cadenaSql .= 'nivel,';
-                $cadenaSql .= 'parametro';
-                $cadenaSql .= ') ';
-                $cadenaSql .= 'VALUES ';
-                $cadenaSql .= '( ';
-                $cadenaSql .= '\'' . $_REQUEST ['nombrePagina'] . '\', ';
-                $cadenaSql .= '\'' . $_REQUEST ['descripcionPagina'] . '\', ';
-                $cadenaSql .= '\'' . $_REQUEST ['moduloPagina'] . '\', ';
-                $cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
-                $cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
-                $cadenaSql .= ') ';
-                break;
-            
-            case 'buscarRegistro' :
-                
-                $cadenaSql = 'SELECT ';
-                $cadenaSql .= 'id_pagina as PAGINA, ';
-                $cadenaSql .= 'nombre as NOMBRE, ';
-                $cadenaSql .= 'descripcion as DESCRIPCION,';
-                $cadenaSql .= 'modulo as MODULO,';
-                $cadenaSql .= 'nivel as NIVEL,';
-                $cadenaSql .= 'parametro as PARAMETRO ';
-                $cadenaSql .= 'FROM ';
-                $cadenaSql .= $prefijo . 'pagina ';
-                $cadenaSql .= 'WHERE ';
-                $cadenaSql .= 'nombre=\'' . $_REQUEST ['nombrePagina'] . '\' ';
-                break;
-
-            case 'borrarRegistro' :
-                $cadenaSql = 'INSERT INTO ';
-                $cadenaSql .= $prefijo . 'pagina ';
-                $cadenaSql .= '( ';
-                $cadenaSql .= 'nombre,';
-                $cadenaSql .= 'descripcion,';
-                $cadenaSql .= 'modulo,';
-                $cadenaSql .= 'nivel,';
-                $cadenaSql .= 'parametro';
-                $cadenaSql .= ') ';
-                $cadenaSql .= 'VALUES ';
-                $cadenaSql .= '( ';
-                $cadenaSql .= '\'' . $_REQUEST ['nombrePagina'] . '\', ';
-                $cadenaSql .= '\'' . $_REQUEST ['descripcionPagina'] . '\', ';
-                $cadenaSql .= '\'' . $_REQUEST ['moduloPagina'] . '\', ';
-                $cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
-                $cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
-                $cadenaSql .= ') ';
+            case 'nombresColumnas' :
+                $cadenaSql=$this->nombresColumnas();
                 break;
         
         }
@@ -115,5 +45,27 @@ class Sql extends \Sql {
         return $cadenaSql;
     
     }
+    
+    function nombresColumnas(){
+    	$cadenaSql = 'INSERT INTO ';
+    	$cadenaSql .= $prefijo . 'pagina ';
+    	$cadenaSql .= '( ';
+    	$cadenaSql .= 'nombre,';
+    	$cadenaSql .= 'descripcion,';
+    	$cadenaSql .= 'modulo,';
+    	$cadenaSql .= 'nivel,';
+    	$cadenaSql .= 'parametro';
+    	$cadenaSql .= ') ';
+    	$cadenaSql .= 'VALUES ';
+    	$cadenaSql .= '( ';
+    	$cadenaSql .= '\'' . $_REQUEST ['nombrePagina'] . '\', ';
+    	$cadenaSql .= '\'' . $_REQUEST ['descripcionPagina'] . '\', ';
+    	$cadenaSql .= '\'' . $_REQUEST ['moduloPagina'] . '\', ';
+    	$cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
+    	$cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
+    	$cadenaSql .= ') ';
+    	return $cadenaSQL;
+    }
+    
 }
 ?>
