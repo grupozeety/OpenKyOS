@@ -112,7 +112,7 @@ class Registrador {
 				echo $this->miFormulario->campoCuadroTexto ( $atributos );
 				unset ( $atributos );
 				
-				echo "<br><br><br><br>";
+	
 				
 				// ------------------Division para los botones-------------------------
 				$atributos ["id"] = "marcoTabla";

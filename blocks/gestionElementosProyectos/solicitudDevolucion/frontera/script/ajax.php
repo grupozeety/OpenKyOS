@@ -102,15 +102,14 @@ $urlConsultarActividades = $url . $cadena;
 		  			rownumbers: false,
 		  			loadonce : false,
 		        rowNum: 100, 
-		        width: 1050,
-
+		        width:$("#marcoTabla").width() - 5,
 		  		responsive: true,
 		        pager: "#barra_herramientas",
 		        caption: "Actividades"
 
 		     });   
 
-
+		   	 $("#tabla_elementos_actividades").trigger("reloadGrid"); 
 
 		   	 	
 
