@@ -67,6 +67,7 @@ class ModalBootstrap  extends HtmlBase{
     	$cadena .= '</div>';
     	$cadena .= '<div class="modal-body">';
     	 
+    	 
     	return $cadena;
     
     }
@@ -74,15 +75,9 @@ class ModalBootstrap  extends HtmlBase{
     private function finModal() {
     
     	$cadena = ' </div>';
-    	$cadena .= '<div class="modal-footer">';
-    	$cadena .= '<button type="button" class="btn btn-default" data-dismiss="modal">';
-    	$cadena .= 'Cerrar';
-    	$cadena .= '</button>';
-    	$cadena .= '</div>';
     	$cadena .= '</div>';
     	$cadena .= ' </div>';
     	$cadena .= ' </div>';
-    	
     
     	return $cadena;
     
