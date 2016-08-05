@@ -38,6 +38,23 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $cad
 // URL Consultar Actividades
 $urlConsultarActividades = $url . $cadena;
 
+
+// Variables
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$cadenaACodificar .= "&funcion=consultarElementos";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $cadenaACodificar, $enlace );
+
+// URL Consultar Actividades
+$urlConsultarElementos = $url . $cadena;
+
+
 ?>
 
 
@@ -127,7 +144,7 @@ $urlConsultarActividades = $url . $cadena;
            		pager_id = "p_"+subgrid_table_id;
            		$("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
            		jQuery("#"+subgrid_table_id).jqGrid({
-           			url:'<?php ?>&id='+row_id,
+           			url:'<?php echo $urlConsultarElementos?>&id_actividad='+row_id,
            			datatype: "json",
 	                     mtype: "GET",
            			colNames: ['Identificador Elemento ','Descripción Elemento','Cantidad Sobrante','Devolución'],
@@ -156,7 +173,7 @@ $urlConsultarActividades = $url . $cadena;
                				index:"cantidad",
                				width:15,
                				key:true,
-               				align:"left",
+               				align:"center",
                				sorttype:'number', 
 	                		},
            				{
@@ -168,14 +185,14 @@ $urlConsultarActividades = $url . $cadena;
                				sorttype:'text',
            				 }
            			],
-           		   	rowNum:20,
+           		   	rowNum:10,
            		   	pager: pager_id,
            		    styleUI : "Bootstrap",
            		   	viewrecords: false,
            			responsive: true,
-           		   	sortname: 'num',
+           		   	sortname: 'idelemento',
            		    sortorder: "asc",
-           		    height: 100,
+           		    height: 150,
            		    width:$("#marcoTabla").width() - 60,
            		    caption: "Plugins",
                		    

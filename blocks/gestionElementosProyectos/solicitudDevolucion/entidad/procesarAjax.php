@@ -25,8 +25,13 @@ class procesarAjax {
 				include_once ("consultarActividades.php");
 				
 				break;
+			
+			case 'consultarElementos' :
 				
+				include_once ("consultarElementos.php");
 				
+				break;
+			
 			default :
 				var_dump ( $_REQUEST );
 				
