@@ -6,14 +6,17 @@ if(!isset($GLOBALS["autorizado"])) {
 	exit;
 }
 
+
 class Formulario {
 
+	
     var $miConfigurador;
     var $lenguaje;
     var $miFormulario;
 
     function __construct($lenguaje, $formulario) {
 
+    	$a=0;
         $this->miConfigurador = \Configurador::singleton ();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
@@ -160,6 +163,9 @@ class Formulario {
          
         // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
         	
+        echo '<input type="hidden" name="cont" value="0">';
+        $a = "10";
+        
         $esteCampo = 'cantidad';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = "number";
@@ -306,6 +312,43 @@ class Formulario {
          
         // ----------------FIN CONTROL: Lista Actividad--------------------------------------------------------
 
+        
+        // ----------------INICIO CONTROL: Lista Actividad--------------------------------------------------------
+        
+        $esteCampo = 'almacen';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['evento'] = '';
+        if (isset ( $_REQUEST [$esteCampo] )) {
+        	$atributos ['seleccion'] = $_REQUEST [$esteCampo];
+        } else {
+        	$atributos ['seleccion'] = - 1;
+        }
+        $atributos ['deshabilitado'] = false;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = 'required';
+        
+        $atributos ['matrizItems'] = array(0=>array(0=>0,1=>'Almacen 1'),1=>array(0=>0,1=>'Almacen 2'), array(0=>0,1=>'Almacen 3'));
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------FIN CONTROL: Lista Actividad--------------------------------------------------------
+        
+        
 		echo '<div id="toolbar" class="btn-group pull-right">
     	<button id="add" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
         <i class="glyphicon glyphicon-plus"></i>

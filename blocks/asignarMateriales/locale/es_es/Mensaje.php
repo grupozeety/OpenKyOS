@@ -15,6 +15,7 @@ $this->idioma["nombreBeneficiario"]="Nombre del Beneficiario";
 
 $this->idioma["actividad"]="Actividad";
 $this->idioma["proyecto"]="Proyecto";
+$this->idioma["almacen"]="Almacén Origen";
 
 $this->idioma["material"]="Material";
 $this->idioma["unidad"]="Unidad";

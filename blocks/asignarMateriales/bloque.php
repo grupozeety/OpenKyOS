@@ -33,6 +33,7 @@ use hojaDeVida\crearDocente\funcion\redireccion;
 // Para evitar redefiniciones de clases el nombre de la clase del archivo bloque debe corresponder al nombre del bloque
 // precedida por la palabra Bloque
 
+
 if (! class_exists ( '\\hojaDeVida\\crearDocente\\Bloque' )) {
 	class Bloque implements \Bloque {
 		var $nombreBloque;
