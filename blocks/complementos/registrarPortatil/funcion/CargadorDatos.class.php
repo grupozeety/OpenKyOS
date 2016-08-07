@@ -4,7 +4,48 @@ namespace complementos\registrarPortatil\funcion;
 
 class CargadorDatos {
 	var $miConfigurador;
-	var $equipo;
+	var $equipo=array(
+			'estado_registro'=>'activo',
+			'estado_equipo'=>'excelente',
+			'tipo_equipo'=>'Computador portatil',
+			'ancho'=>'34.54cm',
+			'largo'=>'24.15cm',
+			'alto'=>'2.29 cm',
+			'peso'=>'1.9 kg',
+			'pantalla_tipo'=>'HD SVA anti-brillo retroiluminada LED',
+			'pantalla_tamanno'=>'14" diagonal ',
+			'pantalla_resolucion'=>'1366 x 768',
+			'teclado_tipo'=>'Tamaño completo con textura estilo isla negro',
+			'teclado_idioma'=>'Español',
+			'mouse_tipo'=>'Touchpad con capacidad multi-touch',
+			'mouse_fabricante'=>'PixArt',
+			'camara_tipo'=>'Integrada',
+			'camara_version'=>'HP Truevision HD',
+			'audio_tipo'=>'Mono/Estereo',
+			'audio_version'=>'DTS Sound+',
+			'audio_fabricante'=>'Advanced Micro Devices, Inc. [AMD/ATI]',
+			'audio_conector'=>'headphone/microphone combo jack',
+			'parlantes_tipo'=>'Integrado',
+			'parlantes_version'=>'Dual speakers',
+			'red_estandar'=>'Ethernet',
+			'red_tipo_conector'=>'RJ-45',
+			'red_ipv4'=>'',
+			'red_ipv6'=>'',
+			'wifi_estandar'=>'802.11b/g/n',
+			'wifi_codificacion'=>'WPA-PSK + WPA2-PSK',
+			'bluetooth_velocidad'=>'12Mbit/s',
+			'puerto_usb2_total'=>'2',
+			'puerto_usb3_total'=>'3',
+			'puerto_hdmi_total'=>'1',
+			'puerto_vga_total'=>'1',
+			'slot_expansion_tipo'=>'multi-format digital media reader(soporta SD, SDHC, SDXC)',
+			'alimentacion_tipo'=>'AC',
+			'alimentacion_dispositivo'=>'Adaptador Smart AC',
+			'alimentacion_voltaje'=>'100 v a 120 v',
+			'alimentacion_frecuencia'=>'50 Hz a 60 Hz',
+			'bateria_certificacion'=>'FCC - ENERGY STAR - UL'
+			
+	);
 	var $parser;
 	var $procesado;
 	var $elementos;
@@ -50,6 +91,10 @@ class CargadorDatos {
 					'bateria_autonomia' => 'Design Capacity: ' 
 			) 
 	);
+	
+	
+	
+	
 	function __construct($lenguaje, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		$this->lenguaje = $lenguaje;
@@ -72,50 +117,121 @@ class CargadorDatos {
 			
 			if (isset ( $valor ['attributes'] ) && isset ( $valor ['attributes'] ['id'] )) {
 				
-				switch($valor ['attributes'] ['id']){
+				switch ($valor ['attributes'] ['id']) {
 					
-					case 'cpu':
+					case 'cpu' :
 						$this->datosCPU ( $clave, $valor );
 						break;
-					case 'disk':
+					case 'disk' :
 						$this->datosDisco ( $clave, $valor );
+						break;
 					
+					case 'display' :
+						$this->datosVideo ( $clave, $valor );
+						break;
+					
+					case 'network' :
+						$this->datosNetwork ( $clave, $valor );
+						break;
+					
+					case 'usb' :
+						$this->datosBluetooth ( $clave, $valor );
+						break;
 				}
-				
 			}
 		}
 		
 		var_dump ( $this->equipo );
 		var_dump ( $this->arregloAtributos );
 	}
-	
-	
+	function datosNetwork($clave, $valor) {
+		$indice = $clave + 1;
+		
+		// echo strpos($this->arregloAtributos [$indice] ['value'],'Ethernet');exit;
+		
+		if ($this->arregloAtributos [$indice] ['tag'] == 'description' && strpos ( $this->arregloAtributos [$indice] ['value'], 'Ethernet' ) === 0) {
+			$red = 'red';
+		} else {
+			$red = 'wifi';
+		}
+		
+		do {
+			
+			if ($this->arregloAtributos [$indice] ['tag'] == 'vendor') {
+				$this->equipo [$red . '_fabricante'] = $this->arregloAtributos [$indice] ['value'];
+			} elseif ($this->arregloAtributos [$indice] ['tag'] == 'description') {
+				$this->equipo [$red . '_tipo'] = $this->arregloAtributos [$indice] ['value'];
+			} elseif ($this->arregloAtributos [$indice] ['tag'] == 'product') {
+				$this->equipo [$red . '_version'] = $this->arregloAtributos [$indice] ['value'];
+			} elseif ($this->arregloAtributos [$indice] ['tag'] == 'serial') {
+				$this->equipo [$red . '_serial'] = $this->arregloAtributos [$indice] ['value'];
+			} elseif ($this->arregloAtributos [$indice] ['tag'] == 'product') {
+				$this->equipo [$red . '_version'] = $this->arregloAtributos [$indice] ['value'];
+			} elseif ($this->arregloAtributos [$indice] ['tag'] == 'capacity') {
+				$this->equipo [$red . '_velocidad'] = $this->arregloAtributos [$indice] ['value'];
+			}
+			$indice ++;
+		} while ( $this->arregloAtributos [$indice] ['type'] == 'complete' );
+	}
+	function datosBluetooth($clave, $valor) {
+		$indice = $clave + 1;
+		
+		// echo strpos($this->arregloAtributos [$indice] ['value'],'Ethernet');exit;
+		
+		if ($this->arregloAtributos [$indice] ['tag'] == 'description' && strpos ( $this->arregloAtributos [$indice] ['value'], 'Bluetooth' )) {
+			$red = 'bluetooth';
+			
+			do {
+				
+				if ($this->arregloAtributos [$indice] ['tag'] == 'vendor') {
+					$this->equipo [$red . '_fabricante'] = $this->arregloAtributos [$indice] ['value'];
+				} elseif ($this->arregloAtributos [$indice] ['tag'] == 'description') {
+					$this->equipo [$red . '_tipo'] = $this->arregloAtributos [$indice] ['value'];
+				} elseif ($this->arregloAtributos [$indice] ['tag'] == 'product') {
+					$this->equipo [$red . '_version'] = $this->arregloAtributos [$indice] ['value'];
+				} elseif ($this->arregloAtributos [$indice] ['tag'] == 'capacity') {
+					$this->equipo [$red . '_velocidad'] = $this->arregloAtributos [$indice] ['value'];
+				}
+				$indice ++;
+			} while ( $this->arregloAtributos [$indice] ['type'] == 'complete' );
+		}
+	}
+	function datosVideo($clave, $valor) {
+		// Datos Video
+		$indice = $clave + 1;
+		
+		do {
+			
+			if ($this->arregloAtributos [$indice] ['tag'] == 'vendor') {
+				$this->equipo ['video_fabricante'] = $this->arregloAtributos [$indice] ['value'];
+			} elseif ($this->arregloAtributos [$indice] ['tag'] == 'description') {
+				$this->equipo ['video_tipo'] = $this->arregloAtributos [$indice] ['value'];
+			} elseif ($this->arregloAtributos [$indice] ['tag'] == 'product') {
+				$this->equipo ['video_version'] = $this->arregloAtributos [$indice] ['value'];
+			}
+			$indice ++;
+		} while ( $this->arregloAtributos [$indice] ['type'] == 'complete' );
+	}
 	function datosDisco($clave, $valor) {
 		// Datos Disco
 		$indice = $clave + 1;
-	
+		
 		do {
-				
+			
 			if ($this->arregloAtributos [$indice] ['tag'] == 'vendor') {
 				$this->equipo ['disco_fabricante'] = $this->arregloAtributos [$indice] ['value'];
 			} elseif ($this->arregloAtributos [$indice] ['tag'] == 'description') {
 				$this->equipo ['disco_tipo'] = $this->arregloAtributos [$indice] ['value'];
-			}elseif($this->arregloAtributos [$indice] ['tag'] == 'product'){
+			} elseif ($this->arregloAtributos [$indice] ['tag'] == 'product') {
 				$this->equipo ['disco_version'] = $this->arregloAtributos [$indice] ['value'];
-			}elseif($this->arregloAtributos [$indice] ['tag'] == 'serial'){
+			} elseif ($this->arregloAtributos [$indice] ['tag'] == 'serial') {
 				$this->equipo ['disco_version'] = $this->arregloAtributos [$indice] ['value'];
-			}elseif($this->arregloAtributos [$indice] ['tag'] == 'size'){
+			} elseif ($this->arregloAtributos [$indice] ['tag'] == 'size') {
 				$this->equipo ['disco_capacidad'] = $this->arregloAtributos [$indice] ['value'];
 			}
-				
 			$indice ++;
 		} while ( $this->arregloAtributos [$indice] ['type'] == 'complete' );
-	
-		
 	}
-	
-	
-	
 	function datosCPU($clave, $valor) {
 		// Datos CPU
 		$indice = $clave + 1;
