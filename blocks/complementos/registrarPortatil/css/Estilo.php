@@ -7,6 +7,10 @@ if(!isset($GLOBALS["autorizado"])) {
 $indice=0;
 $estilo[$indice++]="estiloBloque.css";
 $estilo[$indice++]="validationEngine.jquery.css";
+$estilo[$indice++]="base.css";
+$estilo[$indice++]="vendor.css";
+$estilo[$indice++]="main.css";
+
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");

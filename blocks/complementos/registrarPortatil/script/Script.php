@@ -10,8 +10,19 @@ $indice++;
 $funcion[$indice]="jquery.validationEngine-es.js";
 $indice++;
 */
+$funcion[$indice]="modernizr.js";
+$indice++;
+$funcion[$indice]="pace.min.js";
+$indice++;
 $funcion[$indice]="validator.js";
 $indice++;
+$funcion[$indice]="plugins.js";
+$indice++;
+$funcion[$indice]="main.js";
+$indice++;
+
+
+
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion ( "site" );
 

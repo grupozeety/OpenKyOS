@@ -141,8 +141,8 @@ class CargadorDatos {
 			}
 		}
 		
-		var_dump ( $this->equipo );
-		var_dump ( $this->arregloAtributos );
+		//var_dump ( $this->equipo );
+		//var_dump ( $this->arregloAtributos );
 	}
 	function datosNetwork($clave, $valor) {
 		$indice = $clave + 1;
@@ -304,7 +304,7 @@ class CargadorDatos {
 
 $myParser = new CargadorDatos ( $this->lenguaje, $this->sql );
 
-// $resultado = $myParser->procesarArchivoTXT ();
+$resultado = $myParser->procesarArchivoTXT ();
 $resultado = $myParser->procesarArchivoXML ();
 
 
