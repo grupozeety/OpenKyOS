@@ -131,8 +131,6 @@ class BotonBootstrapHtml extends HtmlBase{
     	$this->cadenaBoton = "<input ";
     	$this->cadenaBoton .= "class='".$this->atributos [self::ESTILOBOTON]." ".$this->atributos ['block'] . "' ";
     	$this->cadenaBoton .= self::HTMLVALUE . "'" . $this->atributos [self::VALOR] . "' ";
-    	$this->cadenaBoton .= self::HTMLNAME . "'" . $this->atributos [self::ID] . "' ";
-    	$this->cadenaBoton .= "id='" . $this->atributos [self::ID] . "' ";
     	$this->cadenaBoton .= self::HTMLTABINDEX . "'" . $this->atributos [self::TABINDEX] . "' ";
     	$this->cadenaBoton .= "type='submit' ";
     	$this->cadenaBoton .= ">";

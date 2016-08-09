@@ -66,6 +66,7 @@ class ModalBootstrap  extends HtmlBase{
     	$cadena .= '</h4>';
     	$cadena .= '</div>';
     	$cadena .= '<div class="modal-body">';
+    	$cadena .= '<form role="form" id="form'. $this->atributos ['id'] . 'Bootstrap">';
     	 
     	 
     	return $cadena;
@@ -74,7 +75,8 @@ class ModalBootstrap  extends HtmlBase{
     
     private function finModal() {
     
-    	$cadena = ' </div>';
+    	$cadena = '</form>';
+    	$cadena .= ' </div>';
     	$cadena .= '</div>';
     	$cadena .= ' </div>';
     	$cadena .= ' </div>';
