@@ -85,148 +85,7 @@ class Formulario {
 
         
         
-        $atributos ['tipoEtiqueta'] = 'inicio';
-        $atributos ['titulo'] = 'Materiales';
-        $atributos ['id'] = 'myModal';
-        echo $this->miFormulario->modal ( $atributos ); 
-        unset($atributos);
-        // ----------------INICIO CONTROL: Lista Proyecto--------------------------------------------------------
-        	
-        $esteCampo = 'material';
-        $atributos ['nombre'] = $esteCampo;
-        $atributos ['id'] = $esteCampo;
-        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ["etiquetaObligatorio"] = true;
-        $atributos ['tab'] = $tab ++;
-        $atributos ['anchoEtiqueta'] = 2;
-        $atributos ['estilo'] = "bootstrap";
-        $atributos ['evento'] = '';
-        if (isset ( $_REQUEST [$esteCampo] )) {
-        	$atributos ['seleccion'] = $_REQUEST [$esteCampo];
-        } else {
-        	$atributos ['seleccion'] = - 1;
-        }
-        $atributos ['deshabilitado'] = false;
-        $atributos ['columnas'] = 1;
-        $atributos ['tamanno'] = 1;
-        $atributos ['placeholder'] = "";
-        $atributos ['valor'] = "";
-        $atributos ['ajax_function'] = "";
-        $atributos ['ajax_control'] = $esteCampo;
-        $atributos ['limitar'] = false;
-        $atributos ['anchoCaja'] = 10;
-        $atributos ['miEvento'] = '';
-//         $atributos ['validar'] = '';
-        
-        $atributos ['matrizItems'] = array(0=>array(0=>0,1=>'Material 1'),1=>array(0=>1,1=>'Material 2'), array(0=>2,1=>'Material 3'));
-        
-        // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-        unset ( $atributos );
-         
-        // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
-        
-        
-         $esteCampo = 'unidad';
-        $atributos ['nombre'] = $esteCampo;
-        $atributos ['id'] = $esteCampo;
-        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ["etiquetaObligatorio"] = true;
-        $atributos ['tab'] = $tab ++;
-        $atributos ['anchoEtiqueta'] = 2;
-        $atributos ['estilo'] = "bootstrap";
-        $atributos ['evento'] = '';
-        if (isset ( $_REQUEST [$esteCampo] )) {
-        	$atributos ['seleccion'] = $_REQUEST [$esteCampo];
-        } else {
-        	$atributos ['seleccion'] = - 1;
-        }
-        $atributos ['deshabilitado'] = false;
-        $atributos ['columnas'] = 1;
-        $atributos ['tamanno'] = 1;
-        $atributos ['placeholder'] = "";
-        $atributos ['valor'] = "";
-        $atributos ['ajax_function'] = "";
-        $atributos ['ajax_control'] = $esteCampo;
-        $atributos ['limitar'] = false;
-        $atributos ['anchoCaja'] = 10;
-        $atributos ['miEvento'] = '';
-//         $atributos ['validar'] = '';
-        
-        $atributos ['matrizItems'] = array(0=>array(0=>0,1=>'Tipo Unidad 1'),1=>array(0=>1,1=>'Tipo Unidad 2'), array(0=>2,1=>'Tipo Unidad 3'));
-        
-        // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-        unset ( $atributos );
-         
-        // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
-        	
-        $esteCampo = 'cantidad';
-        $atributos ['nombre'] = $esteCampo;
-        $atributos ['tipo'] = "number";
-        $atributos ['id'] = $esteCampo;
-        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ["etiquetaObligatorio"] = true;
-        $atributos ['tab'] = $tab ++;
-        $atributos ['anchoEtiqueta'] = 2;
-        $atributos ['evento'] = '';
-        if (isset ( $_REQUEST [$esteCampo] )) {
-        	$atributos ['seleccion'] = $_REQUEST [$esteCampo];
-        } else {
-        	$atributos ['seleccion'] = - 1;
-        }
-        $atributos ['estilo'] = "bootstrap";
-        $atributos ['deshabilitado'] = false;
-        $atributos ['columnas'] = 1;
-        $atributos ['tamanno'] = 1;
-        $atributos ['placeholder'] = "";
-        $atributos ['valor'] = "1";
-        $atributos ['minimo'] = "1";
-        $atributos ['ajax_function'] = "";
-        $atributos ['ajax_control'] = $esteCampo;
-        $atributos ['limitar'] = false;
-        $atributos ['anchoCaja'] = 10;
-        $atributos ['miEvento'] = '';
-//         $atributos ['validar'] = '';
-        // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
-        unset ( $atributos );
-        
-        // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
-        
-        
-        // -----------------CONTROL: Botón ----------------------------------------------------------------
-        $esteCampo = 'botonAgregar';
-        $atributos ["id"] = $esteCampo;
-        $atributos ["tabIndex"] = $tab;
-        $atributos ["tipo"] = 'boton';
-        $atributos ["simple"] = true;
-        // submit: no se coloca si se desea un tipo button genérico
-        $atributos ['submit'] = true;
-        $atributos ["estiloMarco"] = 'text-center';
-        $atributos ["estiloBoton"] = 'default';
-        $atributos ["block"] = false;
-        // verificar: true para verificar el formulario antes de pasarlo al servidor.
-        $atributos ["verificar"] = '';
-        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-        $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-        $tab ++;
-        
-        // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
-        unset($atributos);
-        // -----------------FIN CONTROL: Botón -----------------------------------------------------------
-        
-        
-        
-        $atributos ['tipoEtiqueta'] = 'fin';
-        echo $this->miFormulario->modal ( $atributos );
-        unset($atributos);
+      
         
         
         $esteCampo = 'ficheros';
@@ -532,36 +391,187 @@ class Formulario {
         $atributos ['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario ( $atributos );
 
+        
+        $atributos ['tipoEtiqueta'] = 'inicio';
+        $atributos ['titulo'] = 'Materiales';
+        $atributos ['id'] = 'myModal';
+        echo $this->miFormulario->modal ( $atributos );
+        unset($atributos);
+        // ----------------INICIO CONTROL: Lista Proyecto--------------------------------------------------------
+        
+        $esteCampo = 'material';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['evento'] = '';
+        if (isset ( $_REQUEST [$esteCampo] )) {
+        	$atributos ['seleccion'] = $_REQUEST [$esteCampo];
+        } else {
+        	$atributos ['seleccion'] = - 1;
+        }
+        $atributos ['deshabilitado'] = false;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['placeholder'] = "";
+        $atributos ['valor'] = "";
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = 'required';
+        
+        $atributos ['matrizItems'] = array(0=>array(0=>0,1=>'Material 1'),1=>array(0=>1,1=>'Material 2'), array(0=>2,1=>'Material 3'));
+         
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        unset ( $atributos );
+        
+        // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
+         
+         
+        $esteCampo = 'unidad';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['evento'] = '';
+        if (isset ( $_REQUEST [$esteCampo] )) {
+        	$atributos ['seleccion'] = $_REQUEST [$esteCampo];
+        } else {
+        	$atributos ['seleccion'] = - 1;
+        }
+        $atributos ['deshabilitado'] = false;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['placeholder'] = "";
+        $atributos ['valor'] = "";
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = 'required';
+        
+        $atributos ['matrizItems'] = array(0=>array(0=>0,1=>'Tipo Unidad 1'),1=>array(0=>1,1=>'Tipo Unidad 2'), array(0=>2,1=>'Tipo Unidad 3'));
+         
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        unset ( $atributos );
+        
+        // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
+        
+        $esteCampo = 'cantidad';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = "number";
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['evento'] = '';
+        if (isset ( $_REQUEST [$esteCampo] )) {
+        	$atributos ['seleccion'] = $_REQUEST [$esteCampo];
+        } else {
+        	$atributos ['seleccion'] = - 1;
+        }
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['deshabilitado'] = false;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['placeholder'] = "";
+        $atributos ['valor'] = "1";
+        $atributos ['minimo'] = "1";
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = 'required';
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
+         
+         
+        // -----------------CONTROL: Botón ----------------------------------------------------------------
+        $esteCampo = 'botonAgregar';
+        $atributos ["id"] = $esteCampo;
+        $atributos ["tabIndex"] = $tab;
+        $atributos ["tipo"] = 'boton';
+        $atributos ["simple"] = true;
+        // submit: no se coloca si se desea un tipo button genérico
+        $atributos ['submit'] = true;
+        $atributos ["estiloMarco"] = 'text-center';
+        $atributos ["estiloBoton"] = 'default';
+        $atributos ["block"] = false;
+        // verificar: true para verificar el formulario antes de pasarlo al servidor.
+        $atributos ["verificar"] = '';
+        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+        $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+        $tab ++;
+         
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
+        unset($atributos);
+        // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+         
+         
+         
+        $atributos ['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal ( $atributos );
+        unset($atributos);
+         
+        }
+        
+        function mensaje() {
+        
+        	// Si existe algun tipo de error en el login aparece el siguiente mensaje
+        	$mensaje = $this->miConfigurador->getVariableConfiguracion ( 'mostrarMensaje' );
+        	$this->miConfigurador->setVariableConfiguracion ( 'mostrarMensaje', null );
+        
+        	if ($mensaje) {
+        
+        		$tipoMensaje = $this->miConfigurador->getVariableConfiguracion ( 'tipoMensaje' );
+        
+        		if ($tipoMensaje == 'json') {
+        
+        			$atributos ['mensaje'] = $mensaje;
+        			$atributos ['json'] = true;
+        		} else {
+        			$atributos ['mensaje'] = $this->lenguaje->getCadena ( $mensaje );
+        		}
+        		// -------------Control texto-----------------------
+        		$esteCampo = 'divMensaje';
+        		$atributos ['id'] = $esteCampo;
+        		$atributos ["tamanno"] = '';
+        		$atributos ["estilo"] = 'information';
+        		$atributos ["etiqueta"] = '';
+        		$atributos ["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+        		echo $this->miFormulario->campoMensaje ( $atributos );
+        		unset ( $atributos );
+        
         return true;
 
     }
-
-    function mensaje() {
-
-        // Si existe algun tipo de error en el login aparece el siguiente mensaje
-        $mensaje = $this->miConfigurador->getVariableConfiguracion ( 'mostrarMensaje' );
-        $this->miConfigurador->setVariableConfiguracion ( 'mostrarMensaje', null );
-
-        if ($mensaje) {
-
-            $tipoMensaje = $this->miConfigurador->getVariableConfiguracion ( 'tipoMensaje' );
-
-            if ($tipoMensaje == 'json') {
-
-                $atributos ['mensaje'] = $mensaje;
-                $atributos ['json'] = true;
-            } else {
-                $atributos ['mensaje'] = $this->lenguaje->getCadena ( $mensaje );
-            }
-            // -------------Control texto-----------------------
-            $esteCampo = 'divMensaje';
-            $atributos ['id'] = $esteCampo;
-            $atributos ["tamanno"] = '';
-            $atributos ["estilo"] = 'information';
-            $atributos ["etiqueta"] = '';
-            $atributos ["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-            echo $this->miFormulario->campoMensaje ( $atributos );
-            unset ( $atributos );
+    
+    
+    function elementosAdicionales(){
+    	
+    	
 
              
         }

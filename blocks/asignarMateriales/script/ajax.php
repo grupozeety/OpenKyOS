@@ -58,13 +58,9 @@ function codificarNombre(elem, request, response){
 
 var i=1;
 
-$("#<?php echo $this->campoSeguro('botonAgregar')?>").click(function(){
+$(".<?php echo $this->campoSeguro('botonAgregar')?>").click(function(){
 
 	
-	
-	$("#addr0").html('');
-	
-	codificarNombre();
 	 
 	
 });
@@ -76,3 +72,11 @@ $("#remove").click(function(){
     	}
     }
 });
+
+
+$("#formBootstrap").submit(function(e){
+    e.preventDefault();
+    $("#addr0").html('');
+	codificarNombre();
+  });
+  
