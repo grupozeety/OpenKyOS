@@ -9,6 +9,8 @@ include_once ("core/manager/Configurador.class.php");
  * $atributos['anchoEtiqueta']: Entero. Define el ancho de la etqiueta en pixeles.
  */
 class HtmlBase {
+	
+    var $a=0;
     
 	var $instanciaFormulario;
 	
@@ -220,7 +222,6 @@ class HtmlBase {
     	/**
     	 * Sección normal
     	 */
-        
         if (isset ( $_REQUEST ['tiempo'] )) {
             $this->atributos ['tiempo'] = $_REQUEST ['tiempo'];
         }else{
@@ -235,9 +236,11 @@ class HtmlBase {
             }
         }elseif(isset($_REQUEST['ready'])){
         	$this->atributos [self::ID] = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $campo . $this->atributos ['tiempo'] );
+        	return $this->atributos [self::ID];
         }
     
     }
+    
     /**
      * El programador puede especificar cual es el estilo (clase) css se va a aplicar al control. 
      * El modelo de estilos predeterminado es jqueryui, por tanto si el programador en $atributo['estilo']
