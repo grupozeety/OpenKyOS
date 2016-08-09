@@ -10,8 +10,6 @@ include_once ("core/manager/Configurador.class.php");
  */
 class HtmlBase {
 	
-    var $a=0;
-    
 	var $instanciaFormulario;
 	
     var $conexion_id;
