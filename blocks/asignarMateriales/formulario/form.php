@@ -163,9 +163,6 @@ class Formulario {
          
         // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
         	
-        echo '<input type="hidden" name="cont" value="0">';
-        $a = "10";
-        
         $esteCampo = 'cantidad';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = "number";

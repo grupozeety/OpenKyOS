@@ -10,6 +10,9 @@ $funcion[$indice++]="select2.min.js";
 $funcion[$indice++]="bootstrap-table.min.js";
 $funcion[$indice++]="bootstrap-table-toolbar.min.js";
 
+$embebido [$indice] = true;
+$funcion [$indice ++] = "ajax.php";
+
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion ( "site" );
