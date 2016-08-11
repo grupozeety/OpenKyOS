@@ -1,0 +1,2205 @@
+<?xml version="1.0" standalone="yes" ?>
+<!-- generado por lshw-B.02.17 -->
+<!-- GCC 5.2.1 20151010 -->
+<!-- Linux 4.2.0-35-generic #40-Ubuntu SMP Tue Mar 15 22:15:45 UTC 2016 x86_64 -->
+<!-- GNU libc 2 (glibc 2.21) -->
+<list>
+<node id="user-hp-245-g4-notebook-pc" claimed="true" class="system" handle="">
+ <description>Computer</description>
+ <width units="bits">64</width>
+ <capabilities>
+  <capability id="smbios-2.8" >SMBIOS version 2.8</capability>
+  <capability id="vsyscall32" >procesos 32-bit</capability>
+ </capabilities>
+  <node id="core" claimed="true" class="bus" handle="">
+   <description>Motherboard</description>
+   <physid>0</physid>
+    <node id="memory" claimed="true" class="memory" handle="">
+     <description>Memoria de sistema</description>
+     <physid>0</physid>
+     <size units="bytes">3580633088</size>
+    </node>
+    <node id="cpu" claimed="true" class="processor" handle="">
+     <product>AMD A8-7410 APU with AMD Radeon R5 Graphics</product>
+     <vendor>Advanced Micro Devices [AMD]</vendor>
+     <physid>1</physid>
+     <businfo>cpu@0</businfo>
+     <size units="Hz">1300000000</size>
+     <capacity units="Hz">2200000000</capacity>
+     <width units="bits">64</width>
+     <capabilities>
+      <capability id="fpu" >mathematical co-processor</capability>
+      <capability id="fpu_exception" >FPU exceptions reporting</capability>
+      <capability id="wp" />
+      <capability id="vme" >virtual mode extensions</capability>
+      <capability id="de" >debugging extensions</capability>
+      <capability id="pse" >page size extensions</capability>
+      <capability id="tsc" >time stamp counter</capability>
+      <capability id="msr" >model-specific registers</capability>
+      <capability id="pae" >4GB+ memory addressing (Physical Address Extension)</capability>
+      <capability id="mce" >machine check exceptions</capability>
+      <capability id="cx8" >compare and exchange 8-byte</capability>
+      <capability id="apic" >on-chip advanced programmable interrupt controller (APIC)</capability>
+      <capability id="sep" >fast system calls</capability>
+      <capability id="mtrr" >memory type range registers</capability>
+      <capability id="pge" >page global enable</capability>
+      <capability id="mca" >machine check architecture</capability>
+      <capability id="cmov" >conditional move instruction</capability>
+      <capability id="pat" >page attribute table</capability>
+      <capability id="pse36" >36-bit page size extensions</capability>
+      <capability id="clflush" />
+      <capability id="mmx" >multimedia extensions (MMX)</capability>
+      <capability id="fxsr" >fast floating point save/restore</capability>
+      <capability id="sse" >streaming SIMD extensions (SSE)</capability>
+      <capability id="sse2" >streaming SIMD extensions (SSE2)</capability>
+      <capability id="ht" >HyperThreading</capability>
+      <capability id="syscall" >fast system calls</capability>
+      <capability id="nx" >no-execute bit (NX)</capability>
+      <capability id="mmxext" >multimedia extensions (MMXExt)</capability>
+      <capability id="fxsr_opt" />
+      <capability id="pdpe1gb" />
+      <capability id="rdtscp" />
+      <capability id="x86-64" >64bits extensions (x86-64)</capability>
+      <capability id="constant_tsc" />
+      <capability id="rep_good" />
+      <capability id="nopl" />
+      <capability id="nonstop_tsc" />
+      <capability id="extd_apicid" />
+      <capability id="aperfmperf" />
+      <capability id="eagerfpu" />
+      <capability id="pni" />
+      <capability id="pclmulqdq" />
+      <capability id="monitor" />
+      <capability id="ssse3" />
+      <capability id="cx16" />
+      <capability id="sse4_1" />
+      <capability id="sse4_2" />
+      <capability id="movbe" />
+      <capability id="popcnt" />
+      <capability id="aes" />
+      <capability id="xsave" />
+      <capability id="avx" />
+      <capability id="f16c" />
+      <capability id="rdrand" />
+      <capability id="lahf_lm" />
+      <capability id="cmp_legacy" />
+      <capability id="svm" />
+      <capability id="extapic" />
+      <capability id="cr8_legacy" />
+      <capability id="abm" />
+      <capability id="sse4a" />
+      <capability id="misalignsse" />
+      <capability id="3dnowprefetch" />
+      <capability id="osvw" />
+      <capability id="ibs" />
+      <capability id="skinit" />
+      <capability id="wdt" />
+      <capability id="topoext" />
+      <capability id="perfctr_nb" />
+      <capability id="bpext" />
+      <capability id="perfctr_l2" />
+      <capability id="arat" />
+      <capability id="cpb" />
+      <capability id="hw_pstate" />
+      <capability id="npt" />
+      <capability id="lbrv" />
+      <capability id="svm_lock" />
+      <capability id="nrip_save" />
+      <capability id="tsc_scale" />
+      <capability id="flushbyasid" />
+      <capability id="decodeassists" />
+      <capability id="pausefilter" />
+      <capability id="pfthreshold" />
+      <capability id="vmmcall" />
+      <capability id="bmi1" />
+      <capability id="xsaveopt" />
+      <capability id="cpufreq" >CPU Frequency scaling</capability>
+     </capabilities>
+    </node>
+    <node id="pci:0" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>100</physid>
+     <businfo>pci@0000:00:00.0</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+      <node id="display" claimed="true" class="display" handle="PCI:0000:00:01.0">
+       <description>VGA compatible controller</description>
+       <product>Mullins [Radeon R4/R5 Graphics]</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD/ATI]</vendor>
+       <physid>1</physid>
+       <businfo>pci@0000:00:01.0</businfo>
+       <version>45</version>
+       <width units="bits">64</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="radeon" />
+        <setting id="latency" value="0" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="pciexpress" >PCI Express</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="vga_controller" />
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+        <capability id="rom" >extension ROM</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="35" />
+        <resource type="memoria" value="e0000000-efffffff" />
+        <resource type="memoria" value="f0800000-f0ffffff" />
+        <resource type="ioport" value="3000(size=256)" />
+        <resource type="memoria" value="f0400000-f043ffff" />
+        <resource type="memoria" value="f0480000-f049ffff" />
+       </resources>
+      </node>
+      <node id="multimedia:0" claimed="true" class="multimedia" handle="PCI:0000:00:01.1">
+       <description>Audio device</description>
+       <product>Kabini HDMI/DP Audio</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD/ATI]</vendor>
+       <physid>1.1</physid>
+       <businfo>pci@0000:00:01.1</businfo>
+       <version>00</version>
+       <width units="bits">64</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="snd_hda_intel" />
+        <setting id="latency" value="0" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="pciexpress" >PCI Express</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="41" />
+        <resource type="memoria" value="f0460000-f0463fff" />
+       </resources>
+      </node>
+      <node id="pci:0" claimed="true" class="bridge" handle="PCIBUS:0000:01">
+       <description>PCI bridge</description>
+       <product>Family 16h Processor Functions 5:1</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>2.2</physid>
+       <businfo>pci@0000:00:02.2</businfo>
+       <version>00</version>
+       <width units="bits">32</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="pcieport" />
+       </configuration>
+       <capabilities>
+        <capability id="pci" />
+        <capability id="pm" >Power Management</capability>
+        <capability id="pciexpress" >PCI Express</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="ht" >HyperTransport</capability>
+        <capability id="normal_decode" />
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="24" />
+        <resource type="ioport" value="2000(size=4096)" />
+        <resource type="memoria" value="f1000000-f1ffffff" />
+        <resource type="ioport" value="f0000000(size=1048576)" />
+       </resources>
+        <node id="network" claimed="true" class="network" handle="PCI:0000:01:00.0">
+         <description>Ethernet interface</description>
+         <product>RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller</product>
+         <vendor>Realtek Semiconductor Co., Ltd.</vendor>
+         <physid>0</physid>
+         <businfo>pci@0000:01:00.0</businfo>
+         <logicalname>eno1</logicalname>
+         <version>15</version>
+         <serial>70:5a:0f:84:99:14</serial>
+         <size units="bit/s">10000000</size>
+         <capacity>1000000000</capacity>
+         <width units="bits">64</width>
+         <clock units="Hz">33000000</clock>
+         <configuration>
+          <setting id="autonegotiation" value="on" />
+          <setting id="broadcast" value="yes" />
+          <setting id="driver" value="r8169" />
+          <setting id="driverversion" value="2.3LK-NAPI" />
+          <setting id="duplex" value="half" />
+          <setting id="firmware" value="rtl8168h-2_0.0.2 02/26/15" />
+          <setting id="latency" value="0" />
+          <setting id="link" value="no" />
+          <setting id="multicast" value="yes" />
+          <setting id="port" value="MII" />
+          <setting id="speed" value="10Mbit/s" />
+         </configuration>
+         <capabilities>
+          <capability id="pm" >Power Management</capability>
+          <capability id="msi" >Message Signalled Interrupts</capability>
+          <capability id="pciexpress" >PCI Express</capability>
+          <capability id="msix" >MSI-X</capability>
+          <capability id="bus_master" >bus mastering</capability>
+          <capability id="cap_list" >PCI capabilities listing</capability>
+          <capability id="ethernet" />
+          <capability id="physical" >Interfaz fsica</capability>
+          <capability id="tp" >par trenzado</capability>
+          <capability id="mii" >Media Independent Interface</capability>
+          <capability id="10bt" >10Mbit/s</capability>
+          <capability id="10bt-fd" >10Mbit/s (bidireccional)</capability>
+          <capability id="100bt" >100Mbit/s</capability>
+          <capability id="100bt-fd" >100Mbit/s  (bidireccional)</capability>
+          <capability id="1000bt" >1Gbit/s</capability>
+          <capability id="1000bt-fd" >1Gbit/s (bidireccional)</capability>
+          <capability id="autonegotiation" >Autonegociacin</capability>
+         </capabilities>
+         <resources>
+          <resource type="irq" value="33" />
+          <resource type="ioport" value="2000(size=256)" />
+          <resource type="memoria" value="f1004000-f1004fff" />
+          <resource type="memoria" value="f1000000-f1003fff" />
+         </resources>
+        </node>
+      </node>
+      <node id="pci:1" claimed="true" class="bridge" handle="PCIBUS:0000:05">
+       <description>PCI bridge</description>
+       <product>Family 16h Processor Functions 5:1</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>2.3</physid>
+       <businfo>pci@0000:00:02.3</businfo>
+       <version>00</version>
+       <width units="bits">32</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="pcieport" />
+       </configuration>
+       <capabilities>
+        <capability id="pci" />
+        <capability id="pm" >Power Management</capability>
+        <capability id="pciexpress" >PCI Express</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="ht" >HyperTransport</capability>
+        <capability id="normal_decode" />
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="25" />
+        <resource type="memoria" value="f0300000-f03fffff" />
+       </resources>
+        <node id="network" claimed="true" class="network" handle="PCI:0000:05:00.0">
+         <description>Interfaz inalmbrica</description>
+         <product>Wireless 3160</product>
+         <vendor>Intel Corporation</vendor>
+         <physid>0</physid>
+         <businfo>pci@0000:05:00.0</businfo>
+         <logicalname>wlo1</logicalname>
+         <version>83</version>
+         <serial>2c:6e:85:42:39:bb</serial>
+         <width units="bits">64</width>
+         <clock units="Hz">33000000</clock>
+         <configuration>
+          <setting id="broadcast" value="yes" />
+          <setting id="driver" value="iwlwifi" />
+          <setting id="driverversion" value="4.2.0-35-generic" />
+          <setting id="firmware" value="25.30.13.0" />
+          <setting id="latency" value="0" />
+          <setting id="link" value="no" />
+          <setting id="multicast" value="yes" />
+          <setting id="wireless" value="IEEE 802.11abgn" />
+         </configuration>
+         <capabilities>
+          <capability id="pm" >Power Management</capability>
+          <capability id="msi" >Message Signalled Interrupts</capability>
+          <capability id="pciexpress" >PCI Express</capability>
+          <capability id="bus_master" >bus mastering</capability>
+          <capability id="cap_list" >PCI capabilities listing</capability>
+          <capability id="ethernet" />
+          <capability id="physical" >Interfaz fsica</capability>
+          <capability id="wireless" >LAN inalmbrica</capability>
+         </capabilities>
+         <resources>
+          <resource type="irq" value="39" />
+          <resource type="memoria" value="f0300000-f0301fff" />
+         </resources>
+        </node>
+      </node>
+      <node id="generic" claimed="true" class="generic" handle="PCI:0000:00:08.0">
+       <description>Encryption controller</description>
+       <product>Advanced Micro Devices, Inc. [AMD]</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>8</physid>
+       <businfo>pci@0000:00:08.0</businfo>
+       <version>00</version>
+       <width units="bits">64</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="AMD Cryptographic Coprocessor" />
+        <setting id="latency" value="0" />
+       </configuration>
+       <capabilities>
+        <capability id="msix" >MSI-X</capability>
+        <capability id="ht" >HyperTransport</capability>
+        <capability id="pm" >Power Management</capability>
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="0" />
+        <resource type="memoria" value="f0440000-f045ffff" />
+        <resource type="memoria" value="f0200000-f02fffff" />
+        <resource type="memoria" value="f046f000-f046ffff" />
+        <resource type="memoria" value="f046a000-f046bfff" />
+       </resources>
+      </node>
+      <node id="usb:0" claimed="true" class="bus" handle="PCI:0000:00:10.0">
+       <description>USB controller</description>
+       <product>FCH USB XHCI Controller</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>10</physid>
+       <businfo>pci@0000:00:10.0</businfo>
+       <version>11</version>
+       <width units="bits">64</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="xhci_hcd" />
+        <setting id="latency" value="0" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="msix" >MSI-X</capability>
+        <capability id="pciexpress" >PCI Express</capability>
+        <capability id="xhci" />
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="18" />
+        <resource type="memoria" value="f0468000-f0469fff" />
+       </resources>
+        <node id="usbhost:0" claimed="true" class="bus" handle="USB:2:1">
+         <product>xHCI Host Controller</product>
+         <vendor>Linux 4.2.0-35-generic xhci-hcd</vendor>
+         <physid>0</physid>
+         <businfo>usb@2</businfo>
+         <logicalname>usb2</logicalname>
+         <version>4.02</version>
+         <configuration>
+          <setting id="driver" value="hub" />
+          <setting id="slots" value="2" />
+          <setting id="speed" value="5000Mbit/s" />
+         </configuration>
+         <capabilities>
+          <capability id="usb-3.00" />
+         </capabilities>
+        </node>
+        <node id="usbhost:1" claimed="true" class="bus" handle="USB:1:1">
+         <product>xHCI Host Controller</product>
+         <vendor>Linux 4.2.0-35-generic xhci-hcd</vendor>
+         <physid>1</physid>
+         <businfo>usb@1</businfo>
+         <logicalname>usb1</logicalname>
+         <version>4.02</version>
+         <configuration>
+          <setting id="driver" value="hub" />
+          <setting id="slots" value="2" />
+          <setting id="speed" value="480Mbit/s" />
+         </configuration>
+         <capabilities>
+          <capability id="usb-2.00" >USB 2.0</capability>
+         </capabilities>
+        </node>
+      </node>
+      <node id="storage" claimed="true" class="storage" handle="PCI:0000:00:11.0">
+       <description>SATA controller</description>
+       <product>FCH SATA Controller [AHCI mode]</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>11</physid>
+       <businfo>pci@0000:00:11.0</businfo>
+       <version>39</version>
+       <width units="bits">32</width>
+       <clock units="Hz">66000000</clock>
+       <configuration>
+        <setting id="driver" value="ahci" />
+        <setting id="latency" value="64" />
+       </configuration>
+       <capabilities>
+        <capability id="storage" />
+        <capability id="pm" >Power Management</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="ahci_1.0" />
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="32" />
+        <resource type="ioport" value="3118(size=8)" />
+        <resource type="ioport" value="3124(size=4)" />
+        <resource type="ioport" value="3110(size=8)" />
+        <resource type="ioport" value="3120(size=4)" />
+        <resource type="ioport" value="3100(size=16)" />
+        <resource type="memoria" value="f046e000-f046e3ff" />
+       </resources>
+      </node>
+      <node id="usb:1" claimed="true" class="bus" handle="PCI:0000:00:12.0">
+       <description>USB controller</description>
+       <product>FCH USB EHCI Controller</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>12</physid>
+       <businfo>pci@0000:00:12.0</businfo>
+       <version>39</version>
+       <width units="bits">32</width>
+       <clock units="Hz">66000000</clock>
+       <configuration>
+        <setting id="driver" value="ehci-pci" />
+        <setting id="latency" value="32" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="debug" >Debug port</capability>
+        <capability id="ehci" >Enhanced Host Controller Interface (USB2)</capability>
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="18" />
+        <resource type="memoria" value="f046d000-f046d0ff" />
+       </resources>
+        <node id="usbhost" claimed="true" class="bus" handle="USB:3:1">
+         <product>EHCI Host Controller</product>
+         <vendor>Linux 4.2.0-35-generic ehci_hcd</vendor>
+         <physid>1</physid>
+         <businfo>usb@3</businfo>
+         <logicalname>usb3</logicalname>
+         <version>4.02</version>
+         <configuration>
+          <setting id="driver" value="hub" />
+          <setting id="slots" value="2" />
+          <setting id="speed" value="480Mbit/s" />
+         </configuration>
+         <capabilities>
+          <capability id="usb-2.00" >USB 2.0</capability>
+         </capabilities>
+          <node id="usb" claimed="true" class="bus" handle="USB:3:2">
+           <description>USB hub</description>
+           <vendor>Advanced Micro Devices, Inc.</vendor>
+           <physid>1</physid>
+           <businfo>usb@3:1</businfo>
+           <version>0.18</version>
+           <configuration>
+            <setting id="driver" value="hub" />
+            <setting id="maxpower" value="100mA" />
+            <setting id="slots" value="4" />
+            <setting id="speed" value="480Mbit/s" />
+           </configuration>
+           <capabilities>
+            <capability id="usb-2.00" >USB 2.0</capability>
+           </capabilities>
+            <node id="usb" claimed="true" class="multimedia" handle="USB:3:3">
+             <description>Vdeo</description>
+             <product>HP Truevision HD</product>
+             <vendor>SuYin</vendor>
+             <physid>4</physid>
+             <businfo>usb@3:1.4</businfo>
+             <version>1.01</version>
+             <serial>HF1026-T841-HN01-1-REV0101</serial>
+             <configuration>
+              <setting id="driver" value="uvcvideo" />
+              <setting id="maxpower" value="500mA" />
+              <setting id="speed" value="480Mbit/s" />
+             </configuration>
+             <capabilities>
+              <capability id="usb-2.00" >USB 2.0</capability>
+             </capabilities>
+            </node>
+          </node>
+        </node>
+      </node>
+      <node id="usb:2" claimed="true" class="bus" handle="PCI:0000:00:13.0">
+       <description>USB controller</description>
+       <product>FCH USB EHCI Controller</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>13</physid>
+       <businfo>pci@0000:00:13.0</businfo>
+       <version>39</version>
+       <width units="bits">32</width>
+       <clock units="Hz">66000000</clock>
+       <configuration>
+        <setting id="driver" value="ehci-pci" />
+        <setting id="latency" value="32" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="debug" >Debug port</capability>
+        <capability id="ehci" >Enhanced Host Controller Interface (USB2)</capability>
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="18" />
+        <resource type="memoria" value="f046c000-f046c0ff" />
+       </resources>
+        <node id="usbhost" claimed="true" class="bus" handle="USB:4:1">
+         <product>EHCI Host Controller</product>
+         <vendor>Linux 4.2.0-35-generic ehci_hcd</vendor>
+         <physid>1</physid>
+         <businfo>usb@4</businfo>
+         <logicalname>usb4</logicalname>
+         <version>4.02</version>
+         <configuration>
+          <setting id="driver" value="hub" />
+          <setting id="slots" value="2" />
+          <setting id="speed" value="480Mbit/s" />
+         </configuration>
+         <capabilities>
+          <capability id="usb-2.00" >USB 2.0</capability>
+         </capabilities>
+          <node id="usb" claimed="true" class="bus" handle="USB:4:2">
+           <description>USB hub</description>
+           <vendor>Advanced Micro Devices, Inc.</vendor>
+           <physid>1</physid>
+           <businfo>usb@4:1</businfo>
+           <version>0.18</version>
+           <configuration>
+            <setting id="driver" value="hub" />
+            <setting id="maxpower" value="100mA" />
+            <setting id="slots" value="4" />
+            <setting id="speed" value="480Mbit/s" />
+           </configuration>
+           <capabilities>
+            <capability id="usb-2.00" >USB 2.0</capability>
+           </capabilities>
+            <node id="usb" claimed="true" class="communication" handle="USB:4:3">
+             <description>Interfaz Bluetooth</description>
+             <vendor>Intel Corp.</vendor>
+             <physid>1</physid>
+             <businfo>usb@4:1.1</businfo>
+             <version>0.01</version>
+             <configuration>
+              <setting id="driver" value="btusb" />
+              <setting id="maxpower" value="100mA" />
+              <setting id="speed" value="12Mbit/s" />
+             </configuration>
+             <capabilities>
+              <capability id="bluetooth" >Radio Bluetooth</capability>
+              <capability id="usb-2.00" >USB 2.0</capability>
+             </capabilities>
+            </node>
+          </node>
+        </node>
+      </node>
+      <node id="serial" claimed="true" class="bus" handle="PCI:0000:00:14.0">
+       <description>SMBus</description>
+       <product>FCH SMBus Controller</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>14</physid>
+       <businfo>pci@0000:00:14.0</businfo>
+       <version>42</version>
+       <width units="bits">32</width>
+       <clock units="Hz">66000000</clock>
+       <configuration>
+        <setting id="driver" value="piix4_smbus" />
+        <setting id="latency" value="0" />
+       </configuration>
+       <resources>
+        <resource type="irq" value="0" />
+       </resources>
+      </node>
+      <node id="multimedia:1" claimed="true" class="multimedia" handle="PCI:0000:00:14.2">
+       <description>Audio device</description>
+       <product>FCH Azalia Controller</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>14.2</physid>
+       <businfo>pci@0000:00:14.2</businfo>
+       <version>02</version>
+       <width units="bits">64</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="snd_hda_intel" />
+        <setting id="latency" value="32" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="42" />
+        <resource type="memoria" value="f0464000-f0467fff" />
+       </resources>
+      </node>
+      <node id="isa" claimed="true" class="bridge" handle="PCI:0000:00:14.3">
+       <description>ISA bridge</description>
+       <product>FCH LPC Bridge</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>14.3</physid>
+       <businfo>pci@0000:00:14.3</businfo>
+       <version>11</version>
+       <width units="bits">32</width>
+       <clock units="Hz">66000000</clock>
+       <configuration>
+        <setting id="latency" value="0" />
+       </configuration>
+       <capabilities>
+        <capability id="isa" />
+        <capability id="bus_master" >bus mastering</capability>
+       </capabilities>
+      </node>
+    </node>
+    <node id="pci:1" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>101</physid>
+     <businfo>pci@0000:00:02.0</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+    </node>
+    <node id="pci:2" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>102</physid>
+     <businfo>pci@0000:00:18.0</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+    </node>
+    <node id="pci:3" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>103</physid>
+     <businfo>pci@0000:00:18.1</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+    </node>
+    <node id="pci:4" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>104</physid>
+     <businfo>pci@0000:00:18.2</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+    </node>
+    <node id="pci:5" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>105</physid>
+     <businfo>pci@0000:00:18.3</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+     <configuration>
+      <setting id="driver" value="k10temp" />
+     </configuration>
+     <resources>
+      <resource type="irq" value="0" />
+     </resources>
+    </node>
+    <node id="pci:6" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>106</physid>
+     <businfo>pci@0000:00:18.4</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+     <configuration>
+      <setting id="driver" value="fam15h_power" />
+     </configuration>
+     <resources>
+      <resource type="irq" value="0" />
+     </resources>
+    </node>
+    <node id="pci:7" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>107</physid>
+     <businfo>pci@0000:00:18.5</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+    </node>
+    <node id="scsi" claimed="true" class="storage" handle="">
+     <physid>2</physid>
+     <logicalname>scsi0</logicalname>
+     <capabilities>
+      <capability id="emulated" >Emulated device</capability>
+     </capabilities>
+      <node id="disk" claimed="true" class="disk" handle="SCSI:00:00:00:00">
+       <description>ATA Disk</description>
+       <product>TOSHIBA MQ01ABF0</product>
+       <vendor>Toshiba</vendor>
+       <physid>0.0.0</physid>
+       <businfo>scsi@0:0.0.0</businfo>
+       <logicalname>/dev/sda</logicalname>
+       <dev>8:0</dev>
+       <version>2C</version>
+       <serial>16I8C6L5T</serial>
+       <size units="bytes">500107862016</size>
+       <configuration>
+        <setting id="ansiversion" value="5" />
+        <setting id="logicalsectorsize" value="512" />
+        <setting id="sectorsize" value="4096" />
+        <setting id="signature" value="fc4583d2" />
+       </configuration>
+       <capabilities>
+        <capability id="partitioned" >Partitioned disk</capability>
+        <capability id="partitioned:dos" >MS-DOS partition table</capability>
+       </capabilities>
+        <node id="volume:0" claimed="true" class="volume" handle="">
+         <description>particin EXT4</description>
+         <vendor>Linux</vendor>
+         <physid>1</physid>
+         <businfo>scsi@0:0.0.0,1</businfo>
+         <logicalname>/dev/sda1</logicalname>
+         <logicalname>/</logicalname>
+         <dev>8:1</dev>
+         <version>1.0</version>
+         <serial>da832244-3c53-4c07-9d34-be6e2e2ae62e</serial>
+         <size units="bytes">496384344064</size>
+         <capacity>496384344064</capacity>
+         <configuration>
+          <setting id="created" value="2016-04-23 09:13:18" />
+          <setting id="filesystem" value="ext4" />
+          <setting id="lastmountpoint" value="/tmp/root_reinst.j4uNsb" />
+          <setting id="modified" value="2016-07-28 11:54:45" />
+          <setting id="mount.fstype" value="ext4" />
+          <setting id="mount.options" value="rw,relatime,errors=remount-ro,data=ordered" />
+          <setting id="mounted" value="2016-05-31 16:29:18" />
+          <setting id="state" value="mounted" />
+         </configuration>
+         <capabilities>
+          <capability id="primary" >Primary partition</capability>
+          <capability id="bootable" >Bootable partition (active)</capability>
+          <capability id="journaled" />
+          <capability id="extended_attributes" >Atributos extendidos</capability>
+          <capability id="large_files" >archivos 4GB+</capability>
+          <capability id="huge_files" >archivos 16TB+</capability>
+          <capability id="dir_nlink" >directorios con 65000+ subdirectorios</capability>
+          <capability id="extents" >ubicacin basada en extensin</capability>
+          <capability id="ext4" />
+          <capability id="ext2" >EXT2/EXT3</capability>
+          <capability id="initialized" >Volumen iniciado</capability>
+         </capabilities>
+        </node>
+        <node id="volume:1" claimed="true" class="volume" handle="">
+         <description>Extended partition</description>
+         <physid>2</physid>
+         <businfo>scsi@0:0.0.0,2</businfo>
+         <logicalname>/dev/sda2</logicalname>
+         <dev>8:2</dev>
+         <size units="bytes">3720348672</size>
+         <capacity>3720348672</capacity>
+         <capabilities>
+          <capability id="primary" >Primary partition</capability>
+          <capability id="extended" >Extended partition</capability>
+          <capability id="partitioned" >Partitioned disk</capability>
+          <capability id="partitioned:extended" >Extended partition</capability>
+         </capabilities>
+          <node id="logicalvolume" claimed="true" class="volume" handle="">
+           <description>Linux swap / Solaris partition</description>
+           <physid>5</physid>
+           <logicalname>/dev/sda5</logicalname>
+           <dev>8:5</dev>
+           <capacity>3720347648</capacity>
+           <capabilities>
+            <capability id="nofs" >No filesystem</capability>
+           </capabilities>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+</node>
+</list>
+# dmidecode 2.12
+SMBIOS 2.8 present.
+45 structures occupying 2487 bytes.
+Table at 0x000E4630.
+
+Handle 0x0000, DMI type 0, 24 bytes
+BIOS Information
+	Vendor: Insyde
+	Version: F.1C
+	Release Date: 10/29/2015
+	Address: 0xE0000
+	Runtime Size: 128 kB
+	ROM Size: 8192 kB
+	Characteristics:
+		PCI is supported
+		BIOS is upgradeable
+		BIOS shadowing is allowed
+		Boot from CD is supported
+		Selectable boot is supported
+		BIOS ROM is socketed
+		EDD is supported
+		Japanese floppy for NEC 9800 1.2 MB is supported (int 13h)
+		Japanese floppy for Toshiba 1.2 MB is supported (int 13h)
+		5.25"/360 kB floppy services are supported (int 13h)
+		5.25"/1.2 MB floppy services are supported (int 13h)
+		3.5"/720 kB floppy services are supported (int 13h)
+		3.5"/2.88 MB floppy services are supported (int 13h)
+		8042 keyboard services are supported (int 9h)
+		CGA/mono video services are supported (int 10h)
+		ACPI is supported
+		USB legacy is supported
+		Targeted content distribution is supported
+		UEFI is supported
+	BIOS Revision: 15.28
+	Firmware Revision: 98.14
+
+Handle 0x0001, DMI type 1, 27 bytes
+System Information
+	Manufacturer: HP
+	Product Name: HP 245 G4 Notebook PC
+	Version: Type1ProductConfigId
+	Serial Number: 5CG6130HFH
+	UUID: 1FA13D1A-FDDE-4F42-BC55-7AB50FE50A1F
+	Wake-up Type: Power Switch
+	SKU Number: T6E76LA#ABM
+	Family: 103C_5336AN G=N L=SMB B=HP S=245        
+
+Handle 0x0002, DMI type 2, 16 bytes
+Base Board Information
+	Manufacturer: HP
+	Product Name: 80C7
+	Version: KBC Version 98.0E
+	Serial Number: PBZWE00WB170F1
+	Asset Tag: Base Board Asset Tag
+	Features:
+		Board is a hosting board
+		Board is replaceable
+	Location In Chassis: Base Board Chassis Location
+	Chassis Handle: 0x0003
+	Type: Motherboard
+	Contained Object Handles: 0
+
+Handle 0x0003, DMI type 3, 23 bytes
+Chassis Information
+	Manufacturer: HP
+	Type: Notebook
+	Lock: Not Present
+	Version: Chassis Version
+	Serial Number: Chassis Serial Number
+	Asset Tag: Chassis Asset Tag
+	Boot-up State: Safe
+	Power Supply State: Safe
+	Thermal State: Safe
+	Security Status: None
+	OEM Information: 0x00000000
+	Height: Unspecified
+	Number Of Power Cords: 1
+	Contained Elements: 0
+	SKU Number: Not Specified
+
+Handle 0x0004, DMI type 4, 42 bytes
+Processor Information
+	Socket Designation: Socket FT3b
+	Type: Central Processor
+	Family: A-Series
+	Manufacturer: AMD processor
+	ID: 01 0F 73 00 FF FB 8B 17
+	Signature: Family 22, Model 48, Stepping 1
+	Flags:
+		FPU (Floating-point unit on-chip)
+		VME (Virtual mode extension)
+		DE (Debugging extension)
+		PSE (Page size extension)
+		TSC (Time stamp counter)
+		MSR (Model specific registers)
+		PAE (Physical address extension)
+		MCE (Machine check exception)
+		CX8 (CMPXCHG8 instruction supported)
+		APIC (On-chip APIC hardware supported)
+		SEP (Fast system call)
+		MTRR (Memory type range registers)
+		PGE (Page global enable)
+		MCA (Machine check architecture)
+		CMOV (Conditional move instruction supported)
+		PAT (Page attribute table)
+		PSE-36 (36-bit page size extension)
+		CLFSH (CLFLUSH instruction supported)
+		MMX (MMX technology supported)
+		FXSR (FXSAVE and FXSTOR instructions supported)
+		SSE (Streaming SIMD extensions)
+		SSE2 (Streaming SIMD extensions 2)
+		HTT (Multi-threading)
+	Version: AMD A8-7410 APU with AMD Radeon R5 Graphics    
+	Voltage: 1.3 V
+	External Clock: 100 MHz
+	Max Speed: 2200 MHz
+	Current Speed: 2200 MHz
+	Status: Populated, Enabled
+	Upgrade: None
+	L1 Cache Handle: 0x0005
+	L2 Cache Handle: 0x0006
+	L3 Cache Handle: Not Provided
+	Serial Number: NotSupport
+	Asset Tag: FFFF
+	Part Number: FFFF
+	Core Count: 4
+	Core Enabled: 4
+	Thread Count: 4
+	Characteristics:
+		64-bit capable
+
+Handle 0x0005, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L1 Cache
+	Configuration: Enabled, Not Socketed, Level 1
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 256 kB
+	Maximum Size: 256 kB
+	Supported SRAM Types:
+		Pipeline Burst
+	Installed SRAM Type: Pipeline Burst
+	Speed: 1 ns
+	Error Correction Type: Multi-bit ECC
+	System Type: Unified
+	Associativity: 2-way Set-associative
+
+Handle 0x0006, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L2 Cache
+	Configuration: Enabled, Not Socketed, Level 2
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 2048 kB
+	Maximum Size: 2048 kB
+	Supported SRAM Types:
+		Pipeline Burst
+	Installed SRAM Type: Pipeline Burst
+	Speed: 1 ns
+	Error Correction Type: Multi-bit ECC
+	System Type: Unified
+	Associativity: 16-way Set-associative
+
+Handle 0x0007, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J3203
+	Internal Connector Type: None
+	External Reference Designator: Keyboard
+	External Connector Type: PS/2
+	Port Type: Keyboard Port
+
+Handle 0x0008, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J3806
+	Internal Connector Type: None
+	External Reference Designator: Mouse
+	External Connector Type: PS/2
+	Port Type: Mouse Port
+
+Handle 0x0009, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1500
+	Internal Connector Type: None
+	External Reference Designator: USB
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x000A, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1500
+	Internal Connector Type: None
+	External Reference Designator: USB
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x000B, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J3805
+	Internal Connector Type: None
+	External Reference Designator: USB
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x000C, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1301
+	Internal Connector Type: None
+	External Reference Designator: Network
+	External Connector Type: RJ-45
+	Port Type: Network Port
+
+Handle 0x000D, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1707
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Sata HDD
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x000E, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1705
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: Sata ODD
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x000F, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1101
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: DP0
+	External Connector Type: None
+	Port Type: Video Port
+
+Handle 0x0010, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1100
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: DP1
+	External Connector Type: None
+	Port Type: Video Port
+
+Handle 0x0011, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J900
+	Internal Connector Type: None
+	External Reference Designator: CRT
+	External Connector Type: DB-15 female
+	Port Type: Video Port
+
+Handle 0x0012, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J2105
+	Internal Connector Type: None
+	External Reference Designator: Microphone In
+	External Connector Type: Mini Jack (headphones)
+	Port Type: Audio Port
+
+Handle 0x0013, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J2104
+	Internal Connector Type: None
+	External Reference Designator: Head Phone
+	External Connector Type: Mini Jack (headphones)
+	Port Type: Audio Port
+
+Handle 0x0014, DMI type 9, 17 bytes
+System Slot Information
+	Designation: J1105
+	Type: x4 PCI Express 2 x4
+	Current Usage: Available
+	Length: Short
+	ID: 1
+	Characteristics:
+		3.3 V is provided
+		PME signal is supported
+		Hot-plug devices are supported
+	Bus Address: 0000:00:02.1
+
+Handle 0x0015, DMI type 9, 17 bytes
+System Slot Information
+	Designation: J3702
+	Type: x1 PCI Express x1
+	Current Usage: Available
+	Length: Short
+	ID: 2
+	Characteristics:
+		3.3 V is provided
+		PME signal is supported
+		Hot-plug devices are supported
+	Bus Address: 0000:00:02.2
+
+Handle 0x0016, DMI type 9, 17 bytes
+System Slot Information
+	Designation: J3700
+	Type: x1 PCI Express x1
+	Current Usage: Available
+	Length: Short
+	ID: 3
+	Characteristics:
+		3.3 V is provided
+		PME signal is supported
+		Hot-plug devices are supported
+	Bus Address: 0000:00:02.2
+
+Handle 0x0017, DMI type 9, 17 bytes
+System Slot Information
+	Designation: J3850
+	Type: x1 PCI Express x1
+	Current Usage: Available
+	Length: Short
+	ID: 4
+	Characteristics:
+		3.3 V is provided
+		PME signal is supported
+		Hot-plug devices are supported
+	Bus Address: 0000:00:02.4
+
+Handle 0x0018, DMI type 9, 17 bytes
+System Slot Information
+	Designation: J3856
+	Type: x1 PCI Express x1
+	Current Usage: Available
+	Length: Short
+	ID: 4
+	Characteristics:
+		3.3 V is provided
+		PME signal is supported
+		Hot-plug devices are supported
+	Bus Address: 0000:00:02.5
+
+Handle 0x0019, DMI type 9, 17 bytes
+System Slot Information
+	Designation: J4102
+	Type: 32-bit PC-98/Card
+	Current Usage: Available
+	Length: Long
+	Characteristics:
+		5.0 V is provided
+		3.3 V is provided
+		Cardbus is supported
+		Modem ring resume is supported
+		PME signal is supported
+		SMBus signal is supported
+	Bus Address: 0000:00:14.7
+
+Handle 0x001A, DMI type 11, 5 bytes
+OEM Strings
+	String 1: $HP$
+	String 2: LOC#yyy
+	String 3: ABS 70/71 78 79 7A 7B
+	String 4: String4 for Original Equipment Manufacturer
+	String 5: HP_Mute_LED_0_A
+	String 6: String6 for Original Equipment Manufacturer
+	String 7: String7 for Original Equipment Manufacturer
+	String 8: String8 for Original Equipment Manufacturer
+	String 9: FBYTE#3Y6D6b9T9sapawbp.Dr;
+	String 10: BUILDID#15WW2SML601#SABM#DABM;
+	String 11: String11 for Original Equipment Manufacturer
+
+Handle 0x001B, DMI type 12, 5 bytes
+System Configuration Options
+	Option 1: String1 for Type12 Equipment Manufacturer
+	Option 2: String2 for Type12 Equipment Manufacturer
+	Option 3: String3 for Type12 Equipment Manufacturer
+	Option 4: String4 for Type12 Equipment Manufacturer
+	Option 5: String5 for Type12 Equipment Manufacturer
+	Option 6: String6 for Type12 Equipment Manufacturer
+	Option 7: String7 for Type12 Equipment Manufacturer
+	Option 8: String8 for Type12 Equipment Manufacturer
+
+Handle 0x001C, DMI type 13, 22 bytes
+BIOS Language Information
+	Language Description Format: Long
+	Installable Languages: 5
+		en|US|iso8859-1
+		fr|CA|iso8859-1
+		es|ES|iso8859-1
+		zh|TW|unicode
+		zh|CN|unicode
+	Currently Installed Language: en|US|iso8859-1
+
+Handle 0x001D, DMI type 16, 23 bytes
+Physical Memory Array
+	Location: System Board Or Motherboard
+	Use: System Memory
+	Error Correction Type: None
+	Maximum Capacity: 16 GB
+	Error Information Handle: 0x0021
+	Number Of Devices: 2
+
+Handle 0x001E, DMI type 17, 40 bytes
+Memory Device
+	Array Handle: 0x001D
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: SODIMM
+	Set: None
+	Locator: Bottom-Slot 1(top)
+	Bank Locator: CHANNEL A
+	Type: Unknown
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Empty
+	Serial Number: Empty
+	Asset Tag: Asset Tag: 
+	Part Number: Empty
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum voltage:  Unknown
+	Maximum voltage:  Unknown
+	Configured voltage:  Unknown
+
+Handle 0x001F, DMI type 17, 40 bytes
+Memory Device
+	Array Handle: 0x001D
+	Error Information Handle: 0x0020
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 4096 MB
+	Form Factor: SODIMM
+	Set: None
+	Locator: Bottom-Slot 2(under)
+	Bank Locator: CHANNEL A
+	Type: DDR3
+	Type Detail: Synchronous Unbuffered (Unregistered)
+	Speed: 1600 MHz
+	Manufacturer: Micron Technology
+	Serial Number: 1155CB7E
+	Asset Tag: Asset Tag: 
+	Part Number: 8KTF51264HZ-1G6N1 
+	Rank: 1
+	Configured Clock Speed: 800 MHz
+	Minimum voltage:  Unknown
+	Maximum voltage:  Unknown
+	Configured voltage:  Unknown
+
+Handle 0x0020, DMI type 18, 23 bytes
+32-bit Memory Error Information
+	Type: OK
+	Granularity: Unknown
+	Operation: Unknown
+	Vendor Syndrome: Unknown
+	Memory Array Address: Unknown
+	Device Address: Unknown
+	Resolution: Unknown
+
+Handle 0x0021, DMI type 18, 23 bytes
+32-bit Memory Error Information
+	Type: OK
+	Granularity: Unknown
+	Operation: Unknown
+	Vendor Syndrome: Unknown
+	Memory Array Address: Unknown
+	Device Address: Unknown
+	Resolution: Unknown
+
+Handle 0x0022, DMI type 19, 31 bytes
+Memory Array Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x000FFFFFFFF
+	Range Size: 4 GB
+	Physical Array Handle: 0x001D
+	Partition Width: 255
+
+Handle 0x0023, DMI type 20, 35 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x000FFFFFFFF
+	Range Size: 4 GB
+	Physical Device Handle: 0x001F
+	Memory Array Mapped Address Handle: 0x0022
+	Partition Row Position: 1
+
+Handle 0x0024, DMI type 21, 7 bytes
+Built-in Pointing Device
+	Type: Touch Pad
+	Interface: PS/2
+	Buttons: 4
+
+Handle 0x0025, DMI type 22, 26 bytes
+Portable Battery
+	Location: Primary
+	Manufacturer: 31-42-6E
+	Manufacture Date: 2/29/2016
+	Serial Number: 10393 2/29/2016
+	Name: HS04041
+	Chemistry: Lithium Ion
+	Design Capacity: 41610 mWh
+	Design Voltage: 14600 mV
+	SBDS Version: Not Specified
+	Maximum Error: 1%
+	OEM-specific Information: 0x000A070C
+
+Handle 0x0026, DMI type 26, 22 bytes
+Voltage Probe
+	Description: Voltage Probe Description.
+	Location: Unknown
+	Status: Unknown
+	Maximum Value: Unknown
+	Minimum Value: Unknown
+	Resolution: Unknown
+	Tolerance: Unknown
+	Accuracy: Unknown
+	OEM-specific Information: 0x00000000
+	Nominal Value: Unknown
+
+Handle 0x0027, DMI type 32, 20 bytes
+System Boot Information
+	Status: No errors detected
+
+Handle 0x0028, DMI type 40, 18 bytes
+Additional Information 1
+	Referenced Handle: 0x0014
+	Referenced Offset: 0x05
+	String: PCIExpressx16
+	Value: 0xaa
+Additional Information 2
+	Referenced Handle: 0x0000
+	Referenced Offset: 0x05
+	String: Compiler Version: VC 9.0
+	Value: 0x05dc
+
+Handle 0x0029, DMI type 41, 11 bytes
+Onboard Device
+	Reference Designation: Hanksville Gbe Lan Connection
+	Type: Ethernet
+	Status: Enabled
+	Type Instance: 1
+	Bus Address: 0000:01:00.0
+
+Handle 0x002A, DMI type 41, 11 bytes
+Onboard Device
+	Reference Designation:  
+	Type: Other
+	Status: Enabled
+	Type Instance: 1
+	Bus Address: 0000:05:00.0
+
+Handle 0x002B, DMI type 128, 8 bytes
+OEM-specific Type
+	Header and Data:
+		80 08 2B 00 55 AA 55 AA
+	Strings:
+		Oem Test 1
+		Oem Test 2
+
+Handle 0x002C, DMI type 127, 4 bytes
+End Of Table
+
+<?xml version="1.0" standalone="yes" ?>
+<!-- generado por lshw-B.02.17 -->
+<!-- GCC 5.2.1 20151010 -->
+<!-- Linux 4.2.0-35-generic #40-Ubuntu SMP Tue Mar 15 22:15:45 UTC 2016 x86_64 -->
+<!-- GNU libc 2 (glibc 2.21) -->
+<list>
+<node id="user-hp-245-g4-notebook-pc" claimed="true" class="system" handle="">
+ <description>Computer</description>
+ <width units="bits">64</width>
+ <capabilities>
+  <capability id="smbios-2.8" >SMBIOS version 2.8</capability>
+  <capability id="vsyscall32" >procesos 32-bit</capability>
+ </capabilities>
+  <node id="core" claimed="true" class="bus" handle="">
+   <description>Motherboard</description>
+   <physid>0</physid>
+    <node id="memory" claimed="true" class="memory" handle="">
+     <description>Memoria de sistema</description>
+     <physid>0</physid>
+     <size units="bytes">3580633088</size>
+    </node>
+    <node id="cpu" claimed="true" class="processor" handle="">
+     <product>AMD A8-7410 APU with AMD Radeon R5 Graphics</product>
+     <vendor>Advanced Micro Devices [AMD]</vendor>
+     <physid>1</physid>
+     <businfo>cpu@0</businfo>
+     <size units="Hz">1300000000</size>
+     <capacity units="Hz">2200000000</capacity>
+     <width units="bits">64</width>
+     <capabilities>
+      <capability id="fpu" >mathematical co-processor</capability>
+      <capability id="fpu_exception" >FPU exceptions reporting</capability>
+      <capability id="wp" />
+      <capability id="vme" >virtual mode extensions</capability>
+      <capability id="de" >debugging extensions</capability>
+      <capability id="pse" >page size extensions</capability>
+      <capability id="tsc" >time stamp counter</capability>
+      <capability id="msr" >model-specific registers</capability>
+      <capability id="pae" >4GB+ memory addressing (Physical Address Extension)</capability>
+      <capability id="mce" >machine check exceptions</capability>
+      <capability id="cx8" >compare and exchange 8-byte</capability>
+      <capability id="apic" >on-chip advanced programmable interrupt controller (APIC)</capability>
+      <capability id="sep" >fast system calls</capability>
+      <capability id="mtrr" >memory type range registers</capability>
+      <capability id="pge" >page global enable</capability>
+      <capability id="mca" >machine check architecture</capability>
+      <capability id="cmov" >conditional move instruction</capability>
+      <capability id="pat" >page attribute table</capability>
+      <capability id="pse36" >36-bit page size extensions</capability>
+      <capability id="clflush" />
+      <capability id="mmx" >multimedia extensions (MMX)</capability>
+      <capability id="fxsr" >fast floating point save/restore</capability>
+      <capability id="sse" >streaming SIMD extensions (SSE)</capability>
+      <capability id="sse2" >streaming SIMD extensions (SSE2)</capability>
+      <capability id="ht" >HyperThreading</capability>
+      <capability id="syscall" >fast system calls</capability>
+      <capability id="nx" >no-execute bit (NX)</capability>
+      <capability id="mmxext" >multimedia extensions (MMXExt)</capability>
+      <capability id="fxsr_opt" />
+      <capability id="pdpe1gb" />
+      <capability id="rdtscp" />
+      <capability id="x86-64" >64bits extensions (x86-64)</capability>
+      <capability id="constant_tsc" />
+      <capability id="rep_good" />
+      <capability id="nopl" />
+      <capability id="nonstop_tsc" />
+      <capability id="extd_apicid" />
+      <capability id="aperfmperf" />
+      <capability id="eagerfpu" />
+      <capability id="pni" />
+      <capability id="pclmulqdq" />
+      <capability id="monitor" />
+      <capability id="ssse3" />
+      <capability id="cx16" />
+      <capability id="sse4_1" />
+      <capability id="sse4_2" />
+      <capability id="movbe" />
+      <capability id="popcnt" />
+      <capability id="aes" />
+      <capability id="xsave" />
+      <capability id="avx" />
+      <capability id="f16c" />
+      <capability id="rdrand" />
+      <capability id="lahf_lm" />
+      <capability id="cmp_legacy" />
+      <capability id="svm" />
+      <capability id="extapic" />
+      <capability id="cr8_legacy" />
+      <capability id="abm" />
+      <capability id="sse4a" />
+      <capability id="misalignsse" />
+      <capability id="3dnowprefetch" />
+      <capability id="osvw" />
+      <capability id="ibs" />
+      <capability id="skinit" />
+      <capability id="wdt" />
+      <capability id="topoext" />
+      <capability id="perfctr_nb" />
+      <capability id="bpext" />
+      <capability id="perfctr_l2" />
+      <capability id="arat" />
+      <capability id="cpb" />
+      <capability id="hw_pstate" />
+      <capability id="npt" />
+      <capability id="lbrv" />
+      <capability id="svm_lock" />
+      <capability id="nrip_save" />
+      <capability id="tsc_scale" />
+      <capability id="flushbyasid" />
+      <capability id="decodeassists" />
+      <capability id="pausefilter" />
+      <capability id="pfthreshold" />
+      <capability id="vmmcall" />
+      <capability id="bmi1" />
+      <capability id="xsaveopt" />
+      <capability id="cpufreq" >CPU Frequency scaling</capability>
+     </capabilities>
+    </node>
+    <node id="pci:0" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>100</physid>
+     <businfo>pci@0000:00:00.0</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+      <node id="display" claimed="true" class="display" handle="PCI:0000:00:01.0">
+       <description>VGA compatible controller</description>
+       <product>Mullins [Radeon R4/R5 Graphics]</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD/ATI]</vendor>
+       <physid>1</physid>
+       <businfo>pci@0000:00:01.0</businfo>
+       <version>45</version>
+       <width units="bits">64</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="radeon" />
+        <setting id="latency" value="0" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="pciexpress" >PCI Express</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="vga_controller" />
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+        <capability id="rom" >extension ROM</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="35" />
+        <resource type="memoria" value="e0000000-efffffff" />
+        <resource type="memoria" value="f0800000-f0ffffff" />
+        <resource type="ioport" value="3000(size=256)" />
+        <resource type="memoria" value="f0400000-f043ffff" />
+        <resource type="memoria" value="f0480000-f049ffff" />
+       </resources>
+      </node>
+      <node id="multimedia:0" claimed="true" class="multimedia" handle="PCI:0000:00:01.1">
+       <description>Audio device</description>
+       <product>Kabini HDMI/DP Audio</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD/ATI]</vendor>
+       <physid>1.1</physid>
+       <businfo>pci@0000:00:01.1</businfo>
+       <version>00</version>
+       <width units="bits">64</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="snd_hda_intel" />
+        <setting id="latency" value="0" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="pciexpress" >PCI Express</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="41" />
+        <resource type="memoria" value="f0460000-f0463fff" />
+       </resources>
+      </node>
+      <node id="pci:0" claimed="true" class="bridge" handle="PCIBUS:0000:01">
+       <description>PCI bridge</description>
+       <product>Family 16h Processor Functions 5:1</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>2.2</physid>
+       <businfo>pci@0000:00:02.2</businfo>
+       <version>00</version>
+       <width units="bits">32</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="pcieport" />
+       </configuration>
+       <capabilities>
+        <capability id="pci" />
+        <capability id="pm" >Power Management</capability>
+        <capability id="pciexpress" >PCI Express</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="ht" >HyperTransport</capability>
+        <capability id="normal_decode" />
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="24" />
+        <resource type="ioport" value="2000(size=4096)" />
+        <resource type="memoria" value="f1000000-f1ffffff" />
+        <resource type="ioport" value="f0000000(size=1048576)" />
+       </resources>
+        <node id="network" claimed="true" class="network" handle="PCI:0000:01:00.0">
+         <description>Ethernet interface</description>
+         <product>RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller</product>
+         <vendor>Realtek Semiconductor Co., Ltd.</vendor>
+         <physid>0</physid>
+         <businfo>pci@0000:01:00.0</businfo>
+         <logicalname>eno1</logicalname>
+         <version>15</version>
+         <serial>70:5a:0f:84:99:14</serial>
+         <size units="bit/s">10000000</size>
+         <capacity>1000000000</capacity>
+         <width units="bits">64</width>
+         <clock units="Hz">33000000</clock>
+         <configuration>
+          <setting id="autonegotiation" value="on" />
+          <setting id="broadcast" value="yes" />
+          <setting id="driver" value="r8169" />
+          <setting id="driverversion" value="2.3LK-NAPI" />
+          <setting id="duplex" value="half" />
+          <setting id="firmware" value="rtl8168h-2_0.0.2 02/26/15" />
+          <setting id="latency" value="0" />
+          <setting id="link" value="no" />
+          <setting id="multicast" value="yes" />
+          <setting id="port" value="MII" />
+          <setting id="speed" value="10Mbit/s" />
+         </configuration>
+         <capabilities>
+          <capability id="pm" >Power Management</capability>
+          <capability id="msi" >Message Signalled Interrupts</capability>
+          <capability id="pciexpress" >PCI Express</capability>
+          <capability id="msix" >MSI-X</capability>
+          <capability id="bus_master" >bus mastering</capability>
+          <capability id="cap_list" >PCI capabilities listing</capability>
+          <capability id="ethernet" />
+          <capability id="physical" >Interfaz fsica</capability>
+          <capability id="tp" >par trenzado</capability>
+          <capability id="mii" >Media Independent Interface</capability>
+          <capability id="10bt" >10Mbit/s</capability>
+          <capability id="10bt-fd" >10Mbit/s (bidireccional)</capability>
+          <capability id="100bt" >100Mbit/s</capability>
+          <capability id="100bt-fd" >100Mbit/s  (bidireccional)</capability>
+          <capability id="1000bt" >1Gbit/s</capability>
+          <capability id="1000bt-fd" >1Gbit/s (bidireccional)</capability>
+          <capability id="autonegotiation" >Autonegociacin</capability>
+         </capabilities>
+         <resources>
+          <resource type="irq" value="33" />
+          <resource type="ioport" value="2000(size=256)" />
+          <resource type="memoria" value="f1004000-f1004fff" />
+          <resource type="memoria" value="f1000000-f1003fff" />
+         </resources>
+        </node>
+      </node>
+      <node id="pci:1" claimed="true" class="bridge" handle="PCIBUS:0000:05">
+       <description>PCI bridge</description>
+       <product>Family 16h Processor Functions 5:1</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>2.3</physid>
+       <businfo>pci@0000:00:02.3</businfo>
+       <version>00</version>
+       <width units="bits">32</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="pcieport" />
+       </configuration>
+       <capabilities>
+        <capability id="pci" />
+        <capability id="pm" >Power Management</capability>
+        <capability id="pciexpress" >PCI Express</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="ht" >HyperTransport</capability>
+        <capability id="normal_decode" />
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="25" />
+        <resource type="memoria" value="f0300000-f03fffff" />
+       </resources>
+        <node id="network" claimed="true" class="network" handle="PCI:0000:05:00.0">
+         <description>Interfaz inalmbrica</description>
+         <product>Wireless 3160</product>
+         <vendor>Intel Corporation</vendor>
+         <physid>0</physid>
+         <businfo>pci@0000:05:00.0</businfo>
+         <logicalname>wlo1</logicalname>
+         <version>83</version>
+         <serial>2c:6e:85:42:39:bb</serial>
+         <width units="bits">64</width>
+         <clock units="Hz">33000000</clock>
+         <configuration>
+          <setting id="broadcast" value="yes" />
+          <setting id="driver" value="iwlwifi" />
+          <setting id="driverversion" value="4.2.0-35-generic" />
+          <setting id="firmware" value="25.30.13.0" />
+          <setting id="latency" value="0" />
+          <setting id="link" value="no" />
+          <setting id="multicast" value="yes" />
+          <setting id="wireless" value="IEEE 802.11abgn" />
+         </configuration>
+         <capabilities>
+          <capability id="pm" >Power Management</capability>
+          <capability id="msi" >Message Signalled Interrupts</capability>
+          <capability id="pciexpress" >PCI Express</capability>
+          <capability id="bus_master" >bus mastering</capability>
+          <capability id="cap_list" >PCI capabilities listing</capability>
+          <capability id="ethernet" />
+          <capability id="physical" >Interfaz fsica</capability>
+          <capability id="wireless" >LAN inalmbrica</capability>
+         </capabilities>
+         <resources>
+          <resource type="irq" value="39" />
+          <resource type="memoria" value="f0300000-f0301fff" />
+         </resources>
+        </node>
+      </node>
+      <node id="generic" claimed="true" class="generic" handle="PCI:0000:00:08.0">
+       <description>Encryption controller</description>
+       <product>Advanced Micro Devices, Inc. [AMD]</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>8</physid>
+       <businfo>pci@0000:00:08.0</businfo>
+       <version>00</version>
+       <width units="bits">64</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="AMD Cryptographic Coprocessor" />
+        <setting id="latency" value="0" />
+       </configuration>
+       <capabilities>
+        <capability id="msix" >MSI-X</capability>
+        <capability id="ht" >HyperTransport</capability>
+        <capability id="pm" >Power Management</capability>
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="0" />
+        <resource type="memoria" value="f0440000-f045ffff" />
+        <resource type="memoria" value="f0200000-f02fffff" />
+        <resource type="memoria" value="f046f000-f046ffff" />
+        <resource type="memoria" value="f046a000-f046bfff" />
+       </resources>
+      </node>
+      <node id="usb:0" claimed="true" class="bus" handle="PCI:0000:00:10.0">
+       <description>USB controller</description>
+       <product>FCH USB XHCI Controller</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>10</physid>
+       <businfo>pci@0000:00:10.0</businfo>
+       <version>11</version>
+       <width units="bits">64</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="xhci_hcd" />
+        <setting id="latency" value="0" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="msix" >MSI-X</capability>
+        <capability id="pciexpress" >PCI Express</capability>
+        <capability id="xhci" />
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="18" />
+        <resource type="memoria" value="f0468000-f0469fff" />
+       </resources>
+        <node id="usbhost:0" claimed="true" class="bus" handle="USB:2:1">
+         <product>xHCI Host Controller</product>
+         <vendor>Linux 4.2.0-35-generic xhci-hcd</vendor>
+         <physid>0</physid>
+         <businfo>usb@2</businfo>
+         <logicalname>usb2</logicalname>
+         <version>4.02</version>
+         <configuration>
+          <setting id="driver" value="hub" />
+          <setting id="slots" value="2" />
+          <setting id="speed" value="5000Mbit/s" />
+         </configuration>
+         <capabilities>
+          <capability id="usb-3.00" />
+         </capabilities>
+        </node>
+        <node id="usbhost:1" claimed="true" class="bus" handle="USB:1:1">
+         <product>xHCI Host Controller</product>
+         <vendor>Linux 4.2.0-35-generic xhci-hcd</vendor>
+         <physid>1</physid>
+         <businfo>usb@1</businfo>
+         <logicalname>usb1</logicalname>
+         <version>4.02</version>
+         <configuration>
+          <setting id="driver" value="hub" />
+          <setting id="slots" value="2" />
+          <setting id="speed" value="480Mbit/s" />
+         </configuration>
+         <capabilities>
+          <capability id="usb-2.00" >USB 2.0</capability>
+         </capabilities>
+        </node>
+      </node>
+      <node id="storage" claimed="true" class="storage" handle="PCI:0000:00:11.0">
+       <description>SATA controller</description>
+       <product>FCH SATA Controller [AHCI mode]</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>11</physid>
+       <businfo>pci@0000:00:11.0</businfo>
+       <version>39</version>
+       <width units="bits">32</width>
+       <clock units="Hz">66000000</clock>
+       <configuration>
+        <setting id="driver" value="ahci" />
+        <setting id="latency" value="64" />
+       </configuration>
+       <capabilities>
+        <capability id="storage" />
+        <capability id="pm" >Power Management</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="ahci_1.0" />
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="32" />
+        <resource type="ioport" value="3118(size=8)" />
+        <resource type="ioport" value="3124(size=4)" />
+        <resource type="ioport" value="3110(size=8)" />
+        <resource type="ioport" value="3120(size=4)" />
+        <resource type="ioport" value="3100(size=16)" />
+        <resource type="memoria" value="f046e000-f046e3ff" />
+       </resources>
+      </node>
+      <node id="usb:1" claimed="true" class="bus" handle="PCI:0000:00:12.0">
+       <description>USB controller</description>
+       <product>FCH USB EHCI Controller</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>12</physid>
+       <businfo>pci@0000:00:12.0</businfo>
+       <version>39</version>
+       <width units="bits">32</width>
+       <clock units="Hz">66000000</clock>
+       <configuration>
+        <setting id="driver" value="ehci-pci" />
+        <setting id="latency" value="32" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="debug" >Debug port</capability>
+        <capability id="ehci" >Enhanced Host Controller Interface (USB2)</capability>
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="18" />
+        <resource type="memoria" value="f046d000-f046d0ff" />
+       </resources>
+        <node id="usbhost" claimed="true" class="bus" handle="USB:3:1">
+         <product>EHCI Host Controller</product>
+         <vendor>Linux 4.2.0-35-generic ehci_hcd</vendor>
+         <physid>1</physid>
+         <businfo>usb@3</businfo>
+         <logicalname>usb3</logicalname>
+         <version>4.02</version>
+         <configuration>
+          <setting id="driver" value="hub" />
+          <setting id="slots" value="2" />
+          <setting id="speed" value="480Mbit/s" />
+         </configuration>
+         <capabilities>
+          <capability id="usb-2.00" >USB 2.0</capability>
+         </capabilities>
+          <node id="usb" claimed="true" class="bus" handle="USB:3:2">
+           <description>USB hub</description>
+           <vendor>Advanced Micro Devices, Inc.</vendor>
+           <physid>1</physid>
+           <businfo>usb@3:1</businfo>
+           <version>0.18</version>
+           <configuration>
+            <setting id="driver" value="hub" />
+            <setting id="maxpower" value="100mA" />
+            <setting id="slots" value="4" />
+            <setting id="speed" value="480Mbit/s" />
+           </configuration>
+           <capabilities>
+            <capability id="usb-2.00" >USB 2.0</capability>
+           </capabilities>
+            <node id="usb" claimed="true" class="multimedia" handle="USB:3:3">
+             <description>Vdeo</description>
+             <product>HP Truevision HD</product>
+             <vendor>SuYin</vendor>
+             <physid>4</physid>
+             <businfo>usb@3:1.4</businfo>
+             <version>1.01</version>
+             <serial>HF1026-T841-HN01-1-REV0101</serial>
+             <configuration>
+              <setting id="driver" value="uvcvideo" />
+              <setting id="maxpower" value="500mA" />
+              <setting id="speed" value="480Mbit/s" />
+             </configuration>
+             <capabilities>
+              <capability id="usb-2.00" >USB 2.0</capability>
+             </capabilities>
+            </node>
+          </node>
+        </node>
+      </node>
+      <node id="usb:2" claimed="true" class="bus" handle="PCI:0000:00:13.0">
+       <description>USB controller</description>
+       <product>FCH USB EHCI Controller</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>13</physid>
+       <businfo>pci@0000:00:13.0</businfo>
+       <version>39</version>
+       <width units="bits">32</width>
+       <clock units="Hz">66000000</clock>
+       <configuration>
+        <setting id="driver" value="ehci-pci" />
+        <setting id="latency" value="32" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="debug" >Debug port</capability>
+        <capability id="ehci" >Enhanced Host Controller Interface (USB2)</capability>
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="18" />
+        <resource type="memoria" value="f046c000-f046c0ff" />
+       </resources>
+        <node id="usbhost" claimed="true" class="bus" handle="USB:4:1">
+         <product>EHCI Host Controller</product>
+         <vendor>Linux 4.2.0-35-generic ehci_hcd</vendor>
+         <physid>1</physid>
+         <businfo>usb@4</businfo>
+         <logicalname>usb4</logicalname>
+         <version>4.02</version>
+         <configuration>
+          <setting id="driver" value="hub" />
+          <setting id="slots" value="2" />
+          <setting id="speed" value="480Mbit/s" />
+         </configuration>
+         <capabilities>
+          <capability id="usb-2.00" >USB 2.0</capability>
+         </capabilities>
+          <node id="usb" claimed="true" class="bus" handle="USB:4:2">
+           <description>USB hub</description>
+           <vendor>Advanced Micro Devices, Inc.</vendor>
+           <physid>1</physid>
+           <businfo>usb@4:1</businfo>
+           <version>0.18</version>
+           <configuration>
+            <setting id="driver" value="hub" />
+            <setting id="maxpower" value="100mA" />
+            <setting id="slots" value="4" />
+            <setting id="speed" value="480Mbit/s" />
+           </configuration>
+           <capabilities>
+            <capability id="usb-2.00" >USB 2.0</capability>
+           </capabilities>
+            <node id="usb" claimed="true" class="communication" handle="USB:4:3">
+             <description>Interfaz Bluetooth</description>
+             <vendor>Intel Corp.</vendor>
+             <physid>1</physid>
+             <businfo>usb@4:1.1</businfo>
+             <version>0.01</version>
+             <configuration>
+              <setting id="driver" value="btusb" />
+              <setting id="maxpower" value="100mA" />
+              <setting id="speed" value="12Mbit/s" />
+             </configuration>
+             <capabilities>
+              <capability id="bluetooth" >Radio Bluetooth</capability>
+              <capability id="usb-2.00" >USB 2.0</capability>
+             </capabilities>
+            </node>
+          </node>
+        </node>
+      </node>
+      <node id="serial" claimed="true" class="bus" handle="PCI:0000:00:14.0">
+       <description>SMBus</description>
+       <product>FCH SMBus Controller</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>14</physid>
+       <businfo>pci@0000:00:14.0</businfo>
+       <version>42</version>
+       <width units="bits">32</width>
+       <clock units="Hz">66000000</clock>
+       <configuration>
+        <setting id="driver" value="piix4_smbus" />
+        <setting id="latency" value="0" />
+       </configuration>
+       <resources>
+        <resource type="irq" value="0" />
+       </resources>
+      </node>
+      <node id="multimedia:1" claimed="true" class="multimedia" handle="PCI:0000:00:14.2">
+       <description>Audio device</description>
+       <product>FCH Azalia Controller</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>14.2</physid>
+       <businfo>pci@0000:00:14.2</businfo>
+       <version>02</version>
+       <width units="bits">64</width>
+       <clock units="Hz">33000000</clock>
+       <configuration>
+        <setting id="driver" value="snd_hda_intel" />
+        <setting id="latency" value="32" />
+       </configuration>
+       <capabilities>
+        <capability id="pm" >Power Management</capability>
+        <capability id="msi" >Message Signalled Interrupts</capability>
+        <capability id="bus_master" >bus mastering</capability>
+        <capability id="cap_list" >PCI capabilities listing</capability>
+       </capabilities>
+       <resources>
+        <resource type="irq" value="42" />
+        <resource type="memoria" value="f0464000-f0467fff" />
+       </resources>
+      </node>
+      <node id="isa" claimed="true" class="bridge" handle="PCI:0000:00:14.3">
+       <description>ISA bridge</description>
+       <product>FCH LPC Bridge</product>
+       <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+       <physid>14.3</physid>
+       <businfo>pci@0000:00:14.3</businfo>
+       <version>11</version>
+       <width units="bits">32</width>
+       <clock units="Hz">66000000</clock>
+       <configuration>
+        <setting id="latency" value="0" />
+       </configuration>
+       <capabilities>
+        <capability id="isa" />
+        <capability id="bus_master" >bus mastering</capability>
+       </capabilities>
+      </node>
+    </node>
+    <node id="pci:1" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>101</physid>
+     <businfo>pci@0000:00:02.0</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+    </node>
+    <node id="pci:2" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>102</physid>
+     <businfo>pci@0000:00:18.0</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+    </node>
+    <node id="pci:3" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>103</physid>
+     <businfo>pci@0000:00:18.1</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+    </node>
+    <node id="pci:4" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>104</physid>
+     <businfo>pci@0000:00:18.2</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+    </node>
+    <node id="pci:5" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>105</physid>
+     <businfo>pci@0000:00:18.3</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+     <configuration>
+      <setting id="driver" value="k10temp" />
+     </configuration>
+     <resources>
+      <resource type="irq" value="0" />
+     </resources>
+    </node>
+    <node id="pci:6" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>106</physid>
+     <businfo>pci@0000:00:18.4</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+     <configuration>
+      <setting id="driver" value="fam15h_power" />
+     </configuration>
+     <resources>
+      <resource type="irq" value="0" />
+     </resources>
+    </node>
+    <node id="pci:7" claimed="true" class="bridge" handle="PCIBUS:0000:00">
+     <description>Host bridge</description>
+     <product>Advanced Micro Devices, Inc. [AMD]</product>
+     <vendor>Advanced Micro Devices, Inc. [AMD]</vendor>
+     <physid>107</physid>
+     <businfo>pci@0000:00:18.5</businfo>
+     <version>00</version>
+     <width units="bits">32</width>
+     <clock units="Hz">33000000</clock>
+    </node>
+    <node id="scsi" claimed="true" class="storage" handle="">
+     <physid>2</physid>
+     <logicalname>scsi0</logicalname>
+     <capabilities>
+      <capability id="emulated" >Emulated device</capability>
+     </capabilities>
+      <node id="disk" claimed="true" class="disk" handle="SCSI:00:00:00:00">
+       <description>ATA Disk</description>
+       <product>TOSHIBA MQ01ABF0</product>
+       <vendor>Toshiba</vendor>
+       <physid>0.0.0</physid>
+       <businfo>scsi@0:0.0.0</businfo>
+       <logicalname>/dev/sda</logicalname>
+       <dev>8:0</dev>
+       <version>2C</version>
+       <serial>16I8C6L5T</serial>
+       <size units="bytes">500107862016</size>
+       <configuration>
+        <setting id="ansiversion" value="5" />
+        <setting id="logicalsectorsize" value="512" />
+        <setting id="sectorsize" value="4096" />
+        <setting id="signature" value="fc4583d2" />
+       </configuration>
+       <capabilities>
+        <capability id="partitioned" >Partitioned disk</capability>
+        <capability id="partitioned:dos" >MS-DOS partition table</capability>
+       </capabilities>
+        <node id="volume:0" claimed="true" class="volume" handle="">
+         <description>particin EXT4</description>
+         <vendor>Linux</vendor>
+         <physid>1</physid>
+         <businfo>scsi@0:0.0.0,1</businfo>
+         <logicalname>/dev/sda1</logicalname>
+         <logicalname>/</logicalname>
+         <dev>8:1</dev>
+         <version>1.0</version>
+         <serial>da832244-3c53-4c07-9d34-be6e2e2ae62e</serial>
+         <size units="bytes">496384344064</size>
+         <capacity>496384344064</capacity>
+         <configuration>
+          <setting id="created" value="2016-04-23 09:13:18" />
+          <setting id="filesystem" value="ext4" />
+          <setting id="lastmountpoint" value="/tmp/root_reinst.j4uNsb" />
+          <setting id="modified" value="2016-07-28 11:54:45" />
+          <setting id="mount.fstype" value="ext4" />
+          <setting id="mount.options" value="rw,relatime,errors=remount-ro,data=ordered" />
+          <setting id="mounted" value="2016-05-31 16:29:18" />
+          <setting id="state" value="mounted" />
+         </configuration>
+         <capabilities>
+          <capability id="primary" >Primary partition</capability>
+          <capability id="bootable" >Bootable partition (active)</capability>
+          <capability id="journaled" />
+          <capability id="extended_attributes" >Atributos extendidos</capability>
+          <capability id="large_files" >archivos 4GB+</capability>
+          <capability id="huge_files" >archivos 16TB+</capability>
+          <capability id="dir_nlink" >directorios con 65000+ subdirectorios</capability>
+          <capability id="extents" >ubicacin basada en extensin</capability>
+          <capability id="ext4" />
+          <capability id="ext2" >EXT2/EXT3</capability>
+          <capability id="initialized" >Volumen iniciado</capability>
+         </capabilities>
+        </node>
+        <node id="volume:1" claimed="true" class="volume" handle="">
+         <description>Extended partition</description>
+         <physid>2</physid>
+         <businfo>scsi@0:0.0.0,2</businfo>
+         <logicalname>/dev/sda2</logicalname>
+         <dev>8:2</dev>
+         <size units="bytes">3720348672</size>
+         <capacity>3720348672</capacity>
+         <capabilities>
+          <capability id="primary" >Primary partition</capability>
+          <capability id="extended" >Extended partition</capability>
+          <capability id="partitioned" >Partitioned disk</capability>
+          <capability id="partitioned:extended" >Extended partition</capability>
+         </capabilities>
+          <node id="logicalvolume" claimed="true" class="volume" handle="">
+           <description>Linux swap / Solaris partition</description>
+           <physid>5</physid>
+           <logicalname>/dev/sda5</logicalname>
+           <dev>8:5</dev>
+           <capacity>3720347648</capacity>
+           <capabilities>
+            <capability id="nofs" >No filesystem</capability>
+           </capabilities>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+</node>
+</list>

@@ -57,8 +57,8 @@ class Frontera {
         
         //Como se tiene un solo formulario no es necesario un switch para cargarlo:
         $this->ruta=$this->miConfigurador->getVariableConfiguracion("rutaBloque");
-        //include_once ($this->ruta . "/formulario/form.php");
-        include_once ($this->ruta . "/formulario/hojaPortatil.php");
+        include_once ($this->ruta . "/formulario/form.php");
+        //include_once ($this->ruta . "/formulario/hojaPortatil.php");
         
     }
 
