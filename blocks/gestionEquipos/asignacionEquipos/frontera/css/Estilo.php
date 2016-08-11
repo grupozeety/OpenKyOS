@@ -20,6 +20,6 @@ if ($unBloque ["grupo"] == "") {
 }
 
 foreach ( $estilo as $nombre ) {
-	echo "<link rel='stylesheet' type='text/css' href='" . $rutaBloque . "/css/" . $nombre . "'>\n";
+	echo "<link rel='stylesheet' type='text/css' href='" . $rutaBloque . "/frontera/css/" . $nombre . "'>\n";
 }
 ?>
