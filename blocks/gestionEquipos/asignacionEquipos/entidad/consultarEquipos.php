@@ -1,12 +1,14 @@
 <?php
 namespace gestionEquipos\asignacionEquipos\entidad;
 
+include_once "core/builder/FormularioHtml.class.php";
+
 class ConsultarEquipos {
 
     public $miConfigurador;
     public $miSql;
     public $conexion;
-
+    public $infEquipos;
     public function __construct($sql) {
 
         $this->miConfigurador = \Configurador::singleton();
@@ -16,51 +18,66 @@ class ConsultarEquipos {
         /**
          * Infomación de Beneficiarios
          */
-        $this->estructurarInformacionBeneficiarios();
+        $this->estructurarInformacionEquipos();
 
         /**
          * Restornar Proyectos
          */
 
-        $this->retornarBeneficiarios();
+        $this->retornarEquipos();
 
     }
 
-    public function estructurarInformacionBeneficiarios() {
-        $this->infoProyectos[] = array(
+    public function estructurarInformacionEquipos() {
+        $this->infEquipos[] = array(
             "identificador" => '1026276984',
-            "marca" => '1026276984 - Michael Stiv Verdugo Marquez',
-            "serial" => '',
-            "descripcion" => '',
+            "marca" => 'Lenovo',
+            "serial" => 'ajw123tya',
+            "descripcion" => 'descripcion',
+
         );
 
-        $this->infoProyectos[] = array(
-            "data" => '2131325551',
-            "value" => '2131325551 - Emmanuel Taborda',
+        $this->infEquipos[] = array(
+            "identificador" => '1256346154',
+            "marca" => 'Hewlett-Packard',
+            "serial" => 'aas123tya',
+            "descripcion" => 'descripcion',
+
         );
 
-        $this->infoProyectos[] = array(
-            "data" => '32222222111',
-            "value" => '32222222111 - Violeta Ana Luz Sosa León',
+        $this->infEquipos[] = array(
+            "identificador" => '6622626622',
+            "marca" => 'Asus',
+            "serial" => 'ajd123tya',
+            "descripcion" => 'descripcion',
+
         );
 
-        $this->infoProyectos[] = array(
-            "data" => '441414141414',
-            "value" => '441414141414 - Paulo Cesar Coronado',
+        $this->infEquipos[] = array(
+            "identificador" => '9898989898',
+            "marca" => 'Toshiva',
+            "serial" => 'sda123tya',
+            "descripcion" => 'descripcion',
+
         );
 
-        $this->infoProyectos[] = array(
-            "data" => '2222323232323',
-            "value" => '2222323232323 - Diana Tinjaca',
+        $this->infEquipos[] = array(
+            "identificador" => '565656564732',
+            "marca" => 'iMac',
+            "serial" => 'uys123tya',
+            "descripcion" => 'descripcion',
+
         );
     }
-    public function retornarBeneficiarios() {
-        foreach ($this->infoProyectos as $key => $values) {
+    public function retornarEquipos() {
+
+        var_dump($this->infEquipos);exit;
+        foreach ($this->infEquipos as $key => $values) {
             $keys = array(
                 'value',
                 'data',
             );
-            $resultado[$key] = array_intersect_key($this->infoProyectos[$key], array_flip($keys));
+            $resultado[$key] = array_intersect_key($this->infEquipos[$key], array_flip($keys));
         }
 
         echo '{"suggestions":' . json_encode($resultado) . '}';
