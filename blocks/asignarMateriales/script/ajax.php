@@ -119,6 +119,60 @@ $urlllamarApi = $url . $cadena;
 
 <!-- función encargada de llamar al componente llamarApi. -->
 
+
+function getTree() {
+	  // Some logic to retrieve, or generate tree structure
+	  return data;
+	}
+
+var json = '[' +
+		'{' +
+			'"text": "Parent 1",' +
+			'"nodes": [' +
+				'{' +
+					'"text": "Child 1",' +
+					'"nodes": [' +
+						'{' +
+							'"text": "Grandchild 1" ,' +
+							'"nodes": [' +
+						'{' +
+							'"text": "Grandchild 1.1"' +
+						'},' +
+						
+						'{' +
+							'"text": "Grandchild 1.2"' +
+						'}' +
+					']' +
+						'},' +
+						
+						'{' +
+							'"text": "Grandchild 2"' +
+						'}' +
+					']' +
+				'},' +
+				'{' +
+					'"text": "Child 2"' +
+				'}' +
+			']' +
+		'},' +
+		'{' +
+			'"text": "Parent 2"' +
+		'},' +
+		'{' +
+			'"text": "Parent 3"' +
+		'},' +
+		'{' +
+			'"text": "Parent 4"' +
+		'},' +
+		'{' +
+			'"text": "Parent 5"' +
+		'}' +
+	']';
+	
+<!-- 	var json2 = '[{"text":"Conexiones Digitales II: Sucre y C\u00f3rdoba","id":2,"name":"Conexiones Digitales II: Sucre y C\u00f3rdoba","nodes":[{"text":"Instalaci\u00f3n y Puesta en Servicio","id":6,"name":"Instalaci\u00f3n y Puesta en Servicio","nodes":[{"text":"C\u00f3rdoba","id":3,"name":"C\u00f3rdoba"}]}]}]'; -->
+<!-- 	$('#tree').treeview({data: json2}); -->
+		
+	
 function consulMateriales(elem, request, response){
 	
 	$.ajax({
@@ -127,6 +181,8 @@ function consulMateriales(elem, request, response){
 		data: {metodo:'almacenes'},
 		success: function(data){
 		
+			$('#tree').treeview({data: data});
+			
 			dataGlobal = data;
 		
 			var material = $("#<?php echo $this->campoSeguro('material')?> option:selected").text();

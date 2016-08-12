@@ -9,6 +9,8 @@ $funcion[$indice++]="bootstrap.min.js";
 $funcion[$indice++]="select2.min.js";
 $funcion[$indice++]="bootstrap-table.min.js";
 $funcion[$indice++]="bootstrap-table-toolbar.min.js";
+$funcion[$indice++]="bootstrap-treeview.min.js";
+
 
 $embebido [$indice] = true;
 $funcion [$indice ++] = "ajax.php";

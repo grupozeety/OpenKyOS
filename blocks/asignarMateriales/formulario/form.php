@@ -233,6 +233,8 @@ class Formulario {
     	</thead>
 		</table><br>';
 		
+		
+		echo '<div id="tree"></div>';
         // ----------------INICIO CONTROL: Lista Actividad--------------------------------------------------------
         
         $esteCampo = 'identBeneficiario';
@@ -463,7 +465,7 @@ class Formulario {
         } else {
         	$atributos ['seleccion'] = - 1;
         }
-        $atributos ['deshabilitado'] = false;
+        $atributos ['deshabilitado'] = true;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";

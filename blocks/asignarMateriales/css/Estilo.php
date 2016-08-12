@@ -9,8 +9,7 @@ $estilo[$indice++]="bootstrap-table.min.css";
 $estilo[$indice++]="bootstrap.min.css";
 $estilo[$indice++]="select2.min.css";
 $estilo[$indice++]="miestilo.css";
-
-
+$estilo[$indice++]="bootstrap-treeview.min.css";
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");
