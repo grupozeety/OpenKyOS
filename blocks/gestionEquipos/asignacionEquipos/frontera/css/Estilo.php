@@ -29,3 +29,9 @@ foreach ($estilo as $nombre) {
 
 
 
+
+
+
+
+
+

@@ -54,6 +54,7 @@ class Registrador {
         echo $this->miFormulario->formulario($atributos);
         {
 
+            var_dump($_REQUEST);
             /**
              * Código Formulario
              */
@@ -65,52 +66,73 @@ class Registrador {
             unset($atributos);
             {
 
-                $esteCampo = 'beneficiario';
+                $esteCampo = 'bodega';
                 $atributos['nombre'] = $esteCampo;
-                $atributos['tipo'] = "text";
                 $atributos['id'] = $esteCampo;
                 $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                 $atributos["etiquetaObligatorio"] = true;
                 $atributos['tab'] = $tab++;
-                $atributos['anchoEtiqueta'] = 1; // de 0 a 12
+                $atributos['anchoEtiqueta'] = 1;
+                $atributos['estilo'] = "bootstrap";
                 $atributos['evento'] = '';
                 if (isset($_REQUEST[$esteCampo])) {
-                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                    $atributos['seleccion'] = $_REQUEST[$esteCampo];
                 } else {
-                    $atributos['valor'] = '';
+                    $atributos['seleccion'] = -1;
                 }
-                $atributos['estilo'] = "bootstrap";
                 $atributos['deshabilitado'] = false;
-                $atributos['columnas'] = '';
-                $atributos['tamanno'] = '';
-                $atributos['placeholder'] = "Ingrese Identificación o  Nombre del Beneficiario"; // Texto de fondo de los campos.
-                $atributos['minimo'] = "1"; // Para input tipo number se establece un mínimo
+                $atributos['columnas'] = 1;
+                $atributos['tamanno'] = 1;
+                $atributos['valor'] = "";
                 $atributos['ajax_function'] = "";
                 $atributos['ajax_control'] = $esteCampo;
                 $atributos['limitar'] = false;
-                $atributos['anchoCaja'] = 10; // de 0 a 12 teniendo en cuenta el anchoEtiqueta
+                $atributos['anchoCaja'] = 10;
                 $atributos['miEvento'] = '';
-                $atributos['validar'] = 'required'; // Valida campos obligatorios
+                $atributos['validar'] = 'required';
+
+                $atributos['matrizItems'] = array(
+                    0 => array(0 => 0, 1 => 'Bodega 1'),
+                    1 => array(0 => 1, 1 => 'Bodega 2'),
+                    2 => array(0 => 2, 1 => 'Bodega 3'),
+                    3 => array(0 => 2, 1 => 'Bodega 4'),
+                    4 => array(0 => 2, 1 => 'Bodega 5'),
+                    5 => array(0 => 2, 1 => 'Bodega 6'),
+                    6 => array(0 => 2, 1 => 'Bodega 7'),
+                    7 => array(0 => 2, 1 => 'Bodega 8'),
+                    8 => array(0 => 2, 1 => 'Bodega 9'),
+                    9 => array(0 => 2, 1 => 'Bodega 10'),
+                    10 => array(0 => 2, 1 => 'Bodega 11'),
+                );
+
                 // Aplica atributos globales al control
                 $atributos = array_merge($atributos, $atributosGlobales);
-                echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                 unset($atributos);
 
-                $esteCampo = 'id_beneficiario';
-                $atributos["id"] = $esteCampo; // No cambiar este nombre
-                $atributos["tipo"] = "hidden";
-                $atributos['estilo'] = '';
-                $atributos["obligatorio"] = false;
-                $atributos['marco'] = true;
-                $atributos["etiqueta"] = "";
-                $atributos['validar'] = 'required';
-                if (isset($_REQUEST[$esteCampo])) {
-                    $atributos['valor'] = $_REQUEST[$esteCampo];
-                } else {
-                    $atributos['valor'] = '';
+                // ------------------Division para los botones-------------------------
+                $atributos["id"] = "marcoTabla";
+                $atributos["estilo"] = "";
+                echo $this->miFormulario->division("inicio", $atributos);
+                {
+
+                    echo '<table id="tablaEquipos" class="display" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Identificador</th>
+                                    <th>Marca</th>
+                                    <th>Serial</th>
+                                    <th>Descripción</th>
+                                    <th>Asignar</th>
+
+                                </tr>
+                            </thead>
+                                    </table>';
+
                 }
-                $atributos = array_merge($atributos, $atributosGlobales);
-                echo $this->miFormulario->campoCuadroTexto($atributos);
+
+                // ------------------Fin Division para los botones-------------------------
+                echo $this->miFormulario->division("fin");
                 unset($atributos);
 
                 // ------------------Division para los botones-------------------------

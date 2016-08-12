@@ -13,11 +13,16 @@ class procesarAjax {
 
         switch ($_REQUEST['funcion']) {
 
-        case 'consultarBeneficiarios':
+            case 'consultarBeneficiarios':
 
-            include_once "consultarBeneficiarios.php";
+                include_once "consultarBeneficiarios.php";
 
-            break;
+                break;
+            case 'consultarEquipos':
+
+                include_once "consultarEquipos.php";
+
+                break;
 
         }
     }
