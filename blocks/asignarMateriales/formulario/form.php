@@ -204,19 +204,19 @@ class Formulario {
          
         // ----------------FIN CONTROL: Lista Actividad--------------------------------------------------------
         
-        
+       
 		echo '<div id="toolbar" class="btn-group pull-right">
     	<button id="add" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
         <i class="glyphicon glyphicon-plus"></i>
     	</button>
     	<button id="remove" type="button" class="btn btn-default">
-        <i class="glyphicon glyphicon-trash"></i>
+        <i class="glyphicon glyphicon-trash" ></i>
     	</button>
 		</div>
-		<table id="tabla1" data-toggle="table">
+		<table id="tabla1" data-toggle="table" required>
     	<thead>
     	<tr>
-        <th data-field="numero">Numero</th>
+        <th data-field="numero">ítem</th>
         <th data-field="material">Material</th>
         <th data-field="unidad">Unidad</th>
         <th data-field="catidad">Cantidad</th>
@@ -257,7 +257,6 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
         
         $atributos ['matrizItems'] = array(0=>array(0=>0,1=>'Beneficiario 1'),1=>array(0=>0,1=>'Beneficiario 2'), array(0=>0,1=>'Beneficiario 3'));
         
@@ -295,7 +294,6 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['estilo'] = "bootstrap";
-        $atributos ['validar'] = 'required';
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
@@ -303,7 +301,22 @@ class Formulario {
          
         // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
         
-        
+        $esteCampo = 'elementos';
+      	$atributos ["id"] = $esteCampo; // No cambiar este nombre
+		$atributos ["tipo"] = "hidden";
+		$atributos ['estilo'] = '';
+		$atributos ["obligatorio"] = false;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		if (isset ( $_REQUEST [$esteCampo] )) {
+			$atributos ['valor'] = $_REQUEST [$esteCampo];
+		} else {
+			$atributos ['valor'] = '';
+		}
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+         
         // ------------------Division para los botones-------------------------
         $atributos ["id"] = "botones";
         $atributos ["estilo"] = "marcoBotones";
@@ -387,6 +400,7 @@ class Formulario {
 
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
         // Se debe declarar el mismo atributo de marco con que se inició el formulario.
+        
         $atributos ['marco'] = true;
         $atributos ['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario ( $atributos );
@@ -465,7 +479,7 @@ class Formulario {
          
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
         unset ( $atributos );
         
         // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
