@@ -12,7 +12,7 @@ class Procesador {
 	var $conn = '';
 	var $error = array ();
 	var $datosConexion = array (
-			'host' => 'http://52.90.66.82',
+			'host' => 'http://52.90.42.196',
 			'auth_url' => '/api/method/login',
 			'api_url' => '/api/resource/',
 			'auth' => array (
@@ -41,11 +41,13 @@ class Procesador {
 	function __construct() {
 		$this->consultar = new Consultar ();
 		$this->procesar();
+		
 	}
 
 	function procesar() {
 		if(isset($_REQUEST['metodo']) && $_REQUEST['metodo']=="almacenes"){
-			$resultado = $this->consultar->obtenerAlmacen( $this->datosConexion );
+// 			$resultado = $this->consultar->obtenerAlmacen( $this->datosConexion );
+			$resultado = $this->consultar->obtenerProjecto();
 		}else if(isset($_REQUEST['metodo']) && $_REQUEST['metodo']=="almacenes"){
 			$resultado = $this->consultar->obtenerAlmacen( $this->datosConexion );
 		}

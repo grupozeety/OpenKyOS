@@ -1,5 +1,6 @@
 <?php
 require (dirname ( __FILE__ ) . '/FrappeClient.php');
+require (dirname ( __FILE__ ) . '/OpenProject.php');
 
 class Consultar {
 	var $ordenVenta = '';
@@ -10,7 +11,8 @@ class Consultar {
 	var $numeroFactura = '';
 	var $cantidad = 0;
 	var $producto = '0';
-	var $client;
+	var $clientFrappe;
+	var $clientOpenProject;
 	var $expenseAccount;
 	var $debitAccount;
 	var $debitToAccount;
@@ -18,8 +20,9 @@ class Consultar {
 	function configurar($datosConexion) {
 		
 		try {
-			$this->client = new FrappeClient ();
-			$this->client->configurar ( $datosConexion );
+			$this->clientFrappe = new FrappeClient ();
+			$this->clientOpenProject = new OpenProject();
+			$this->clientFrappe->configurar ( $datosConexion );
 		} catch ( Exception $e ) {
 			var_dump ( $e );
 		}
@@ -41,7 +44,7 @@ class Consultar {
 				"stock_uom"
 		);
 		
-		$result = $this->client->search ( "Item",$data,$fields );
+		$result = $this->clientFrappe->search ( "Item",$data,$fields );
 	
 		if (! empty ( $result->body->data )) {
 			
@@ -63,15 +66,77 @@ class Consultar {
 				"warehouse_name"
 		);
 		
-		$result = $this->client->search ( "Warehouse",$data,$fields );
+		$result = $this->clientFrappe->search ( "Warehouse",$data,$fields );
 		
 		if (! empty ( $result->body->data )) {
 				
-			return $result->body->data[0]->warehouse_name;
+			echo json_encode($result->body->data[0]->warehouse_name);
 				
 		}
+		
 		return false;
 		
+	}
+	
+	function obtenerProjecto(){
+	
+		$this->clientOpenProject = new OpenProject();
+		
+		$result = $this->clientOpenProject->search ( );
+		
+		$arreglo = array();
+		
+		if (! empty ( $result )) {
+		
+			$tree = $this->buildTree($result->body['projects']);
+			
+// 			$tree = array(array(1,2,3,4,5), 'nodes'=>array(1,2,3));
+			print_r(json_encode($tree));
+// 			echo '[' . json_encode($tree, true) . ']';
+		
+		}
+		return false;
+	
+	}
+	
+// 	function buildTree(array &$elements, $parentId = 0) {
+// 	    $branch = array();
+	
+// 	    foreach ($elements as $element) {
+// 	        if ($element['parent_id'] == $parentId) {
+// 	            $children = $this->buildTree($elements, $element['id']);
+// 	            if ($children) {
+// 	                $element['nodes'] = $children;
+// 	            }
+// 	            $branch[$element['id']] = $element;
+// 	            unset($elements[$element['id']]);
+// 	        }
+// 	    }
+// 	    return $branch;
+// 	}
+	
+	function buildTree(array &$elements, $parentId = 0) {
+		$branch = array();
+	
+		foreach ($elements as $element) {
+			if ($element['parent_id'] == $parentId) {
+				$children = $this->buildTree($elements, $element['id']);
+				if ($children) {
+// 					$element['nodes'] = $children;
+					$branch[] = array('text'=> $element['name'], $element, 'nodes'=>$children);
+				}else{
+					$branch[] = array('text'=> $element['name'], $element);
+				}
+				
+// 				if(isset($element['nodes'])){
+// 					$branch[] = array('text'=> $element['name'], 'id'=>$element['id'], 'name'=>$element['name'], 'nodes'=>$element['nodes']);
+// 				}else{
+// 					$branch[] = array('text'=> $element['name'], 'id'=>$element['id'], 'name'=>$element['name']);
+// 				}
+				unset($elements[$element['id']]);
+			}
+		}
+		return $branch;
 	}
 	
 	
