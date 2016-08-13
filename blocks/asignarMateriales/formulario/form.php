@@ -95,10 +95,12 @@ class Formulario {
         unset ( $atributos );
 
         // ----------------INICIO CONTROL: Lista Proyecto--------------------------------------------------------
-         
+        
+        echo '<div id="proyectos_tree"></div>';
+       
         $esteCampo = 'proyecto';
         $atributos ['nombre'] = $esteCampo;
-        $atributos ['tipo'] = "email";
+        $atributos ['tipo'] = "text";
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
         $atributos ["etiquetaObligatorio"] = true;
@@ -112,6 +114,7 @@ class Formulario {
         	$atributos ['seleccion'] = - 1;
         }
         $atributos ['deshabilitado'] = false;
+        $atributos ['readonly'] = true;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -127,11 +130,12 @@ class Formulario {
         
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
         unset ( $atributos );
          
         // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
         
+        echo '<div id="actividades_tree"></div>';
         
         // ----------------INICIO CONTROL: Lista Actividad--------------------------------------------------------
 
@@ -150,6 +154,7 @@ class Formulario {
         }
         $atributos ['deshabilitado'] = false;
         $atributos ['columnas'] = 1;
+        $atributos ['readonly'] = true;
         $atributos ['tamanno'] = 1;
         $atributos ['ajax_function'] = "";
         $atributos ['ajax_control'] = $esteCampo;
@@ -163,7 +168,7 @@ class Formulario {
         
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
         unset ( $atributos );
          
         // ----------------FIN CONTROL: Lista Actividad--------------------------------------------------------
@@ -465,8 +470,9 @@ class Formulario {
         } else {
         	$atributos ['seleccion'] = - 1;
         }
-        $atributos ['deshabilitado'] = true;
+        $atributos ['deshabilitado'] = false;
         $atributos ['columnas'] = 1;
+//         $atributos ['readonly'] = true;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
         $atributos ['valor'] = "";
