@@ -3,17 +3,31 @@
 class OpenProject{
 	
 	private $_curl_timeout = 30;
-	private $_limit_page_length = 20;
+	private $_limit_page_length = 50;
+	private $type = 'json';
+	private $token = "";
+	private $_api_url = "";
+
 	public $errorno = 0;
 	public $error;
 	public $body;
 	public $header;
+
+	function configurar($datos) {
+		$this->_api_url = $datos['host'].$datos['api_url'];
+		$this->type = $datos['type'];
+		$this->token = $datos['token'];
+	}
 	
-	function search(){
+	function search($rb, $conditions = '', $fields = '', $limit_start = 0, $limit_page_length = 0){
 		
 		try {
 			
-			$url = 'http://54.197.17.207:3000/api/v2/projects.json?key=515907a8d1990c75daacf6d36aff7e94482f13fc';
+			if($conditions==''){
+				$url = $this->_api_url . "/" . $rb . "/" . $fields . "." . $this->type ."?key=" . $this->token; 
+			}else{
+				$url = $this->_api_url . "/" . $rb . "/" . $conditions . "/" . $fields . "." . $this->type ."?key=" . $this->token; 
+			}
 			
 			$ch = curl_init($url);
 			

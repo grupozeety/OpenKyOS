@@ -16,13 +16,26 @@ class Consultar {
 	var $expenseAccount;
 	var $debitAccount;
 	var $debitToAccount;
+	var $name;
 	
-	function configurar($datosConexion) {
+	function configurarERPNext($datosConexion) {
 		
 		try {
 			$this->clientFrappe = new FrappeClient ();
-			$this->clientOpenProject = new OpenProject();
 			$this->clientFrappe->configurar ( $datosConexion );
+		} catch ( Exception $e ) {
+			var_dump ( $e );
+		}
+		set_error_handler ( function ($errno, $errstr, $errfile, $errline) {
+			throw new ErrorException ( $errstr, 0, $errno, $errfile, $errline );
+		} );
+	}
+	
+	function configurarOpenProject($datosConexion) {
+	
+		try {
+			$this->clientOpenProject = new OpenProject();
+			$this->clientOpenProject->configurar ( $datosConexion );
 		} catch ( Exception $e ) {
 			var_dump ( $e );
 		}
@@ -33,7 +46,7 @@ class Consultar {
 
 	function obtenerAlmacen( $datosConexion){
 		
-		$this->configurar ( $datosConexion );
+		$this->configurarERPNext ( $datosConexion );
 		
 		$data = array (
 		);
@@ -78,11 +91,17 @@ class Consultar {
 		
 	}
 	
-	function obtenerProjecto(){
-	
-		$this->clientOpenProject = new OpenProject();
+	function obtenerProjectos($datosConexion){
 		
-		$result = $this->clientOpenProject->search ( );
+		$this->configurarOpenProject ( $datosConexion );
+		
+		$this->name= 'name';
+		
+		$data = '';
+		
+		$fields= 'projects';
+	
+		$result = $this->clientOpenProject->search ("",$data,$fields );
 		
 		$arreglo = array();
 		
@@ -90,10 +109,31 @@ class Consultar {
 		
 			$tree = $this->buildTree($result->body['projects']);
 			
-// 			$tree = array(array(1,2,3,4,5), 'nodes'=>array(1,2,3));
-			print_r(json_encode($tree));
-// 			echo '[' . json_encode($tree, true) . ']';
+			echo json_encode($tree);
 		
+		}
+		return false;
+	
+	}
+	
+	function obtenerActividades($datosConexion){
+	
+		$this->configurarOpenProject ( $datosConexion );
+		
+		$this->name= 'subject';
+		
+		$data = 5;
+		
+		$fields= 'planning_elements';
+		
+		$result = $this->clientOpenProject->search ("projects",$data,$fields );
+	
+		if (! empty ( $result )) {
+	
+			$tree = $this->buildTree($result->body['planning_elements']);
+				
+			echo json_encode($tree);
+	
 		}
 		return false;
 	
@@ -122,18 +162,11 @@ class Consultar {
 			if ($element['parent_id'] == $parentId) {
 				$children = $this->buildTree($elements, $element['id']);
 				if ($children) {
-// 					$element['nodes'] = $children;
-					$branch[] = array('text'=> $element['name'], $element, 'nodes'=>$children);
+					$branch[] = array('text'=> $element[$this->name], 'custom'=> $element['id'], $element, 'nodes'=>$children);
 				}else{
-					$branch[] = array('text'=> $element['name'], $element);
+					$branch[] = array('text'=> $element[$this->name], 'custom'=> $element['id'], $element);
 				}
-				
-// 				if(isset($element['nodes'])){
-// 					$branch[] = array('text'=> $element['name'], 'id'=>$element['id'], 'name'=>$element['name'], 'nodes'=>$element['nodes']);
-// 				}else{
-// 					$branch[] = array('text'=> $element['name'], 'id'=>$element['id'], 'name'=>$element['name']);
-// 				}
-				unset($elements[$element['id']]);
+// 				unset($elements[$element['id']]);
 			}
 		}
 		return $branch;
