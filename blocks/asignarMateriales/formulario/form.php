@@ -96,6 +96,22 @@ class Formulario {
 
         // ----------------INICIO CONTROL: Lista Proyecto--------------------------------------------------------
         
+        $esteCampo = 'id_proyecto';
+        $atributos ["id"] = $esteCampo; // No cambiar este nombre
+        $atributos ["tipo"] = "hidden";
+        $atributos ['estilo'] = '';
+        $atributos ["obligatorio"] = false;
+        $atributos ['marco'] = true;
+        $atributos ["etiqueta"] = "";
+        if (isset ( $_REQUEST [$esteCampo] )) {
+        	$atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+        	$atributos ['valor'] = '';
+        }
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        unset ( $atributos );
+         
         echo '<div id="proyectos_tree"></div>';
        
         $esteCampo = 'proyecto';
@@ -135,6 +151,22 @@ class Formulario {
          
         // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
         
+        $esteCampo = 'id_actividad';
+        $atributos ["id"] = $esteCampo; // No cambiar este nombre
+        $atributos ["tipo"] = "hidden";
+        $atributos ['estilo'] = '';
+        $atributos ["obligatorio"] = false;
+        $atributos ['marco'] = true;
+        $atributos ["etiqueta"] = "";
+        if (isset ( $_REQUEST [$esteCampo] )) {
+        	$atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+        	$atributos ['valor'] = '';
+        }
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        unset ( $atributos );
+         
         echo '<div id="actividades_tree"></div>';
         
         // ----------------INICIO CONTROL: Lista Actividad--------------------------------------------------------
@@ -200,7 +232,7 @@ class Formulario {
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
         
-        $atributos ['matrizItems'] = array(0=>array(0=>0,1=>'Almacen 1'),1=>array(0=>0,1=>'Almacen 2'), array(0=>0,1=>'Almacen 3'));
+        $atributos ['matrizItems'] = array(0=>array(0=>"",1=>'Seleccione .....'));
         
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
@@ -239,7 +271,6 @@ class Formulario {
 		</table><br>';
 		
 		
-		echo '<div id="tree"></div>';
         // ----------------INICIO CONTROL: Lista Actividad--------------------------------------------------------
         
         $esteCampo = 'identBeneficiario';
@@ -269,7 +300,7 @@ class Formulario {
         
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
         unset ( $atributos );
          
         // ----------------FIN CONTROL: Lista Actividad--------------------------------------------------------
@@ -446,7 +477,7 @@ class Formulario {
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
         
-        $atributos ['matrizItems'] = array(0=>array(0=>0,1=>'Material 1'),1=>array(0=>1,1=>'Material 2'), array(0=>2,1=>'Material 3'));
+        $atributos ['matrizItems'] = array(0=>array(0=>"",1=>'Seleccione .....'));
          
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
@@ -472,7 +503,7 @@ class Formulario {
         }
         $atributos ['deshabilitado'] = false;
         $atributos ['columnas'] = 1;
-//         $atributos ['readonly'] = true;
+        $atributos ['readonly'] = true;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
         $atributos ['valor'] = "";

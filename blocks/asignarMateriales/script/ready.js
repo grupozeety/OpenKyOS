@@ -6,6 +6,14 @@ $(function() {
 });
 });
 
-$(".readonly").keydown(function(e){
+$("#<?php echo $this->campoSeguro('proyecto')?>").keydown(function(e){
+    e.preventDefault();
+});
+
+$("#<?php echo $this->campoSeguro('actividad')?>").keydown(function(e){
+    e.preventDefault();
+});
+
+$("#<?php echo $this->campoSeguro('unidad')?>").keydown(function(e){
     e.preventDefault();
 });

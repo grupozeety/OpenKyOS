@@ -117,34 +117,7 @@ $urlllamarApi = $url . $cadena;
 
 ?>
 
-<!-- función encargada de llamar al componente llamarApi. -->
-
-function consulMateriales(elem, request, response){
-	
-	$.ajax({
-		url: "<?php echo $urlllamarApi?>",
-		dataType: "json",
-		data: {metodo:'almacenes'},
-		success: function(data){
-		
-			dataGlobal = data;
-		
-			var material = $("#<?php echo $this->campoSeguro('material')?> option:selected").text();
-			var unidad = $("#<?php echo $this->campoSeguro('unidad')?> option:selected").text();
-			var cantidad = $("#<?php echo $this->campoSeguro('cantidad')?>").val();
-			
-			if(data[0]!=" "){
-				$("#<?php echo $this->campoSeguro('material')?>").html('');
-				$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('material')?>");
-				$.each(data , function(indice,valor){
-					$("<option value='"+data[ indice ].name+"'>"+data[ indice ].name+"</option>").appendTo("#<?php echo $this->campoSeguro('material')?>");
-				});
-			}
- 
-		}
-	});
-};
-
+var id_proyecto;
 
 function consulProyectos(elem, request, response){
 	
@@ -159,8 +132,18 @@ function consulProyectos(elem, request, response){
 			$('#proyectos_tree').treeview('collapseAll', { silent: true });
 
 			$('#proyectos_tree').on('nodeSelected', function(event, node) {
-    			$("#<?php echo $this->campoSeguro('proyecto')?>").val(node[0].name);
+			
+ 	  			$("#<?php echo $this->campoSeguro('proyecto')?>").val(node[0].name);
     			$("#<?php echo $this->campoSeguro('proyecto')?>").change();
+    			$("#<?php echo $this->campoSeguro('id_proyecto')?>").val(node[0].id);
+    			
+    			$("#<?php echo $this->campoSeguro('actividad')?>").val('');
+    			$("#<?php echo $this->campoSeguro('actividad')?>").change();
+    			
+    			id_proyecto = node[0].id;
+				
+				consulActividades();
+				
 			});
 		}
 	});
@@ -171,7 +154,7 @@ function consulActividades(elem, request, response){
 	$.ajax({
 		url: "<?php echo $urlllamarApi?>",
 		dataType: "json",
-		data: {metodo:'actividades'},
+		data: {metodo:'actividades', proyecto: id_proyecto},
 		success: function(data){
 		
 			var $tree =$('#actividades_tree').treeview({data: data});
@@ -181,18 +164,59 @@ function consulActividades(elem, request, response){
 			$('#actividades_tree').on('nodeSelected', function(event, node) {
     			$("#<?php echo $this->campoSeguro('actividad')?>").val(node[0].subject);
     			$("#<?php echo $this->campoSeguro('actividad')?>").change();
+    			$("#<?php echo $this->campoSeguro('id_actividad')?>").val(node[0].id);
+    			
 			});
 		}
 	});
 };
 
-<!-- Al iniciarce el formulario se llama la función consultarMateriales, que es la función encargada de llamar al componente llamarApi. -->
+
+<!-- función encargada de llamar al componente llamarApi. -->
+
+function consulAlmacenes(elem, request, response){
+	
+	$.ajax({
+		url: "<?php echo $urlllamarApi?>",
+		dataType: "json",
+		data: {metodo:'almacenes'},
+		success: function(data){
+		
+			dataGlobal = data;
+		
+			if(data[0]!=" "){
+				
+				$("#<?php echo $this->campoSeguro('almacen')?>").html('');
+				$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('almacen')?>");
+				
+				$.each(data , function(indice,valor){
+					$("<option value='"+data[ indice ].default_warehouse+"'>"+data[ indice ].default_warehouse+"</option>").appendTo("#<?php echo $this->campoSeguro('almacen')?>");
+				});
+			}
  
-consulMateriales();
+		}
+	});
+};
 
-consulProyectos();
+<!-- Función que establece las unidades según sea el material seleccionado -->
 
-consulActividades();
+$("#<?php echo $this->campoSeguro('almacen')?>").change(function() {
+	
+	var almacen = $("#<?php echo $this->campoSeguro('almacen')?>").val();
+		
+	$("#<?php echo $this->campoSeguro('material')?>").html('');
+	$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('material')?>");
+	
+	if(almacen != ""){
+		
+		$.each(dataGlobal , function(indice,valor){
+			if(dataGlobal[indice].default_warehouse == almacen){
+					$("<option value='"+dataGlobal [indice ].name+"'>"+dataGlobal[ indice ].name+"</option>").appendTo("#<?php echo $this->campoSeguro('material')?>");
+			}
+		});
+	}
+	
+});
 
 
 <!-- Función que establece las unidades según sea el material seleccionado -->
@@ -209,5 +233,11 @@ $("#<?php echo $this->campoSeguro('material')?>").change(function() {
 		});
 	}
 });
+
+<!-- Al iniciarce el formulario se llama la función consultarMateriales, que es la función encargada de llamar al componente llamarApi. -->
+ 
+consulAlmacenes();
+
+consulProyectos();
 
 
