@@ -116,7 +116,7 @@ class Formulario {
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
         
-        $atributos ['matrizItems'] = array(0=>array(0=>"",1=>'Seleccione .....'));
+        $atributos ['matrizItems'] = array(0=>array(0=>"1",1=>'Orden de trabajo 1'));
         
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
