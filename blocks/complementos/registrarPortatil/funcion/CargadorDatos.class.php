@@ -322,109 +322,127 @@ class CargadorDatos {
 		} else {
 			//echo $this->equipo ['id_interno_bodega'] . ':ERROR<br>';
 		}
-	}
+	} 
 	function armarHoja($ruta) {
 		include ($ruta . '/formulario/portatil.template.php');
 		
-		echo '<table style="font-family:arial; border-collapse: collapse; border: 1px solid black;width:900px">';
-		echo '<tr>';
-		echo '<td>';
-		echo '<img src="img/politecnica2.png"';
-		echo '</td>';
-		echo '<td colspan="2" style="color:#4B5897;text-align:center"><h2>HOJA DE VIDA DE EQUIPO</h2>';
-		echo '</td>';
-		echo '<td>';
-		echo '<table style="font-family:arial;font-size:10px; border:solid 1px">';
-		echo '<tr>';
-		echo '<td>';
-		echo 'Codigo: CPN-FO-CDII-53';
-		echo '</td>';
-		echo '</tr>';
-		echo '<td>';
-		echo 'Versión: 1.0';
-		echo '</td>';
-		echo '<tr>';
-		echo '<td>';
-		echo 'Fecha:'.date('d/m/Y');
-		echo '</td>';
-		echo '</tr>';
-		echo '<tr>';
-		echo '</tr>';
-		echo '</table>';
-		echo '</td>';
-		echo '</tr>';
+		$html='<html>';
+		$html.='<head>';
+		$html.='<meta charset="utf-8"/>';
+		$html.='</head>';
+		$html.= '<table style="font-family:arial; border-collapse: collapse; border: 1px solid black;width:900px; page-break-inside: avoid;">';
+		$html.= '<tr>';
+		$html.= '<td>';
+		$html.= '<img src="img/politecnica2.png"';
+		$html.= '</td>';
+		$html.= '<td colspan="2" style="color:#4B5897;text-align:center"><h2>HOJA DE VIDA DE EQUIPO</h2>';
+		$html.= '</td>';
+		$html.= '<td style="text-align:center">';
+		$html.= '<table style="font-family:arial;font-size:10px; border:solid 1px;margin: 0 auto;">';
+		$html.= '<tr>';
+		$html.= '<td>';
+		$html.= 'Codigo: CPN-FO-CDII-53';
+		$html.= '</td>';
+		$html.= '</tr>';
+		$html.= '<td>';
+		$html.= 'Versión: 1.0';
+		$html.= '</td>';
+		$html.= '<tr>';
+		$html.= '<td>';
+		$html.= 'Fecha:'.date('d/m/Y');
+		$html.= '</td>';
+		$html.= '</tr>';
+		$html.= '<tr>';
+		$html.= '</tr>';
+		$html.= '</table>';
+		$html.= '</td>';
+		$html.= '</tr>';
 		
 		
 		foreach ( $plantilla as $clave => $valor ) {
 			
 			
-			echo '<tr>';
-			echo '<td colspan="4" bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">'.$clave.'</td>';
-			echo '</tr>';
-			echo '<tr>';
-			echo '<td bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Paŕametro</td>';
-			echo '<td bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Especificación</td>';
-			echo '<td bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Aprobado</td>';
-			echo '<td bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Observación</td>';
-			echo '</tr>';
+			$html.= '<tr>';
+			$html.= '<td colspan="4" bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">'.$clave.'</td>';
+			$html.= '</tr>';
+			$html.= '<tr>';
+			$html.= '<td bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Paŕametro</td>';
+			$html.= '<td bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Especificación</td>';
+			$html.= '<td bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Aprobado</td>';
+			$html.= '<td bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Observación</td>';
+			$html.= '</tr>';
 			
 			
 			foreach ( $valor as $campo => $etiqueta ) {
 				
-				echo "<tr>\n";
-				echo "<td style='font-size:11px; border: 1px solid black'>\n";
-				echo $campo;
-				echo "</td>\n";
-				echo "<td style='font-size:11px; border: 1px solid black;'>\n";
-				echo $this->equipo [$etiqueta] . "\n";
-				echo "</td>\n";
-				echo "<td style='font-size:11px; border: 1px solid black;width:10%'>\n";
-				echo "</td>\n";
-				echo "<td style='font-size:11px; border: 1px solid black;width:30%'>\n";
-				echo "</td>\n";
-				echo "</tr>\n";
+				$html.= "<tr>\n";
+				$html.= "<td style='font-size:11px; border: 1px solid black'>\n";
+				$html.= $campo;
+				$html.= "</td>\n";
+				$html.= "<td style='font-size:11px; border: 1px solid black;'>\n";
+				$html.= $this->equipo [$etiqueta] . "\n";
+				$html.= "</td>\n";
+				$html.= "<td style='font-size:11px; border: 1px solid black;width:7%'>\n";
+				$html.= "</td>\n";
+				$html.= "<td style='font-size:11px; border: 1px solid black;width:30%'>\n";
+				$html.= "</td>\n";
+				$html.= "</tr>\n";
 			}
 			
 			
 		}
-		echo '<tr>';
-		echo '<td colspan="4" bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Registro Fotográfico</td>';
-		echo '</tr>';
-		echo "<tr>\n";
-		echo "<td colspan=2 style='font-size:11px; border: 1px solid black;width:10%'>\n";
-		echo '<img src="img/1.png">';
-		echo "</td>\n";
-		echo "<td colspan=2 style='font-size:11px; border: 1px solid black;width:30%'>\n";
-		echo '<img src="img/2.png">';
-		echo "</td>\n";
-		echo "</tr>\n";
-		echo '<tr>';
-		echo '<td colspan="4" bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Observaciones</td>';
-		echo '</tr>';
-		echo "<tr>\n";
-		echo "<td colspan=4 style='font-size:11px; border: 1px solid black;width:10%;height:100px'>\n";
-		echo "</td>\n";
-		echo "</tr>\n";
-		echo '<tr>';
-		echo '<td colspan="4" bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Revisión</td>';
-		echo '</tr>';
-		echo "<tr>\n";
-		echo "<td colspan=2 style='font-size:11px; border: 1px solid black;width:10%;height:100px'>\n";
-		echo '<table>';
-		echo '<tr>';
-		echo '</tr>';
-		echo "</td>\n";
-		echo "<td colspan=2 style='font-size:11px; border: 1px solid black;width:10%;height:100px'>\n";
-		echo "</td>\n";		
-		echo "</tr>\n";
+		$html.= '<tr>';
+		$html.= '<td colspan="4" bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Registro Fotográfico</td>';
+		$html.= '</tr>';
+		$html.= "<tr>\n";
+		$html.= "<td colspan=2 style='font-size:11px; border: 1px solid black;width:7%'>\n";
+		$html.= '<img src="img/1.png">';
+		$html.= "</td>\n";
+		$html.= "<td colspan=2 style='font-size:11px; border: 1px solid black;width:30%'>\n";
+		$html.= '<img src="img/2.png">';
+		$html.= "</td>\n";
+		$html.= "</tr>\n";
+		$html.= '<tr>';
+		$html.= '<td colspan="4" bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Observaciones</td>';
+		$html.= '</tr>';
+		$html.= "<tr>\n";
+		$html.= "<td colspan=4 style='font-size:11px; border: 1px solid black;width:10%;height:100px'>\n";
+		$html.= "</td>\n";
+		$html.= "</tr>\n";
+				
+		//Revisión
+		$html.= '<tr>';
+		$html.= '<td colspan="4" bgcolor="#62B2FF" style="padding:3px;vertical-align: middle;font-size:13px; text-align:center; font-weight: bold; border: 1px solid black">Revisión</td>';
+		$html.= '</tr>';
+		$html.= "<tr>\n";
+		$html.= "<td colspan=2 style='text-align:center;font-size:11px; border: 1px solid black'>\n";
+		$html.= "Inspeccionado Por</td>\n";
+		$html.= "<td colspan=2 style='text-align:center;font-size:11px; border: 1px solid black'>\n";
+		$html.= "Supervisado Por</td>\n";		
+		$html.= "</tr>\n";
+		$html.= "<tr>\n";
+		$html.= "<td colspan=2 style='font-size:11px; border: 1px solid black'>\n";
+		$html.= "<br><br>Nombre:<br><br>No Documento:</td>\n";
+		$html.= "<td colspan=2 style='font-size:11px; border: 1px solid black'>\n";
+		$html.= "<br><br>Nombre:<br><br>No Documento:</td>\n";
+		$html.= "</tr>\n";
+		$html.= "<tr>\n";
+		$html.= "<td colspan=2 style='vertical-align: top;font-size:11px; border: 1px solid black;height:100px'>\n";
+		$html.= "Firma</td>\n";
+		$html.= "<td colspan=2 style='vertical-align: top;font-size:11px; border: 1px solid black;height:100px'>\n";
+		$html.= "Firma</td>\n";
+		$html.= "</tr>\n";
+		$html.= "</table>\n";
+		$html.= "<br><hr>";
+		$html.='</html>';
+		
+		$myfile = fopen("equiposhtml/".$this->equipo ['serial'] .".html", "w") or die("Unable to open file!");
+		fwrite($myfile, $html);
+		fclose($myfile);
 		
 		
-		
-		
-		echo "</table>\n";
-		
-		echo "<br><hr>";
-		exit();
+		//echo $html;
+		//exit();
 	}
 	function cargarEnLote() {
 		$cadenaCampos = '';
@@ -437,8 +455,16 @@ class CargadorDatos {
 		$cadenaCampos = substr ( $cadenaCampos, 0, strlen ( $cadenaCampos ) - 1 );
 		$cadenaValores = substr ( $cadenaValores, 0, strlen ( $cadenaValores ) - 1 );
 		$cadenasql = 'INSERT INTO politecnica_portatil (' . $cadenaCampos . ') VALUES(' . $cadenaValores . ')';
+		var_dump($this->conexion);
 		
-		echo $cadenasql;
+		$resultado=$this->conexion->ejecutarAcceso($cadenasql,'acceso');
+		if($resultado){
+			echo 'Registro insertado<br>';
+		}else{
+			echo $cadenasql;
+			echo $this->conexion->error;exit();
+		}
+		
 	}
 }
 
@@ -446,8 +472,8 @@ $myParser = new CargadorDatos ( $this->lenguaje, $this->sql );
 
 $this->archivoXML = '0062.xml';
 $this->archivoTXT = 'b.txt';
-
-for($i = 1; $i < 2000; $i ++) {
+$total=0;
+for($i = 1; $i <= 2000; $i ++) {
 	
 	if ($i < 100) {
 		$directorio = '00' . $i;
@@ -459,13 +485,13 @@ for($i = 1; $i < 2000; $i ++) {
 	if (file_exists ( 'equipos/' . $directorio )) {
 		
 		$myParser->equipo ['id_interno_bodega'] = $i;
-		$myParser->equipo ['fecha_compra'] = 'N/D';
-		$myParser->equipo ['fecha_instalacion'] = 'N/D';
-		$myParser->equipo ['dimensiones'] = '34.54cm x 24.15 x 2.29';
+		//$myParser->equipo ['fecha_compra'] = time();
+		//$myParser->equipo ['fecha_instalacion'] = time();
+		//$myParser->equipo ['dimensiones'] = '34.54cm x 24.15 x 2.29';
 		$myParser->equipo ['ubicacion'] = 'Bodega Sincelejo';
 		$myParser->equipo ['responsable'] = 'Mauricio Cáceres';
 		$myParser->equipo ['telefonoContacto'] = '3208549499';
-		$myParser->equipo ['arquitectura'] = '64 bits';
+		//$myParser->equipo ['arquitectura'] = '64 bits';
 		$myParser->equipo ['disco_cache'] = '8 Mb';
 		$myParser->equipo ['disco_velocidad'] = '5.400 rpm';
 		$myParser->equipo ['disco_proteccion'] = 'Active hard-drive protection';
@@ -478,7 +504,7 @@ for($i = 1; $i < 2000; $i ++) {
 		$myParser->equipo ['suite_ofimatica'] = 'OpenOffice';
 		$myParser->equipo ['antivirus'] = 'Clamav Antivirus';
 		$myParser->equipo ['distribuidor_nombre'] = 'TecnoMusic';
-		$myParser->equipo ['distribuidor_direccion'] = 'Calle 34 #4-56';
+		$myParser->equipo ['distribuidor_direccion'] = 'Calle 18a # 6-17 Neiva-Huila';
 		$myParser->equipo ['distribuidor_telefono'] = '8812382';
 		
 		
@@ -490,17 +516,21 @@ for($i = 1; $i < 2000; $i ++) {
 			$resultado = $myParser->procesarArchivoTXT ();
 			$resultado = $myParser->procesarArchivoXML ();
 			
-			$resultado = $myParser->armarHoja ( $this->ruta );
+			//$resultado = $myParser->armarHoja ( $this->ruta );
+			$resultado = $myParser->cargarEnLote();
+			$total++;
 			
-			// $resultado = $myParser->cargarEnLote();
 		} else {
 			echo $i . '<br>';
 		}
 	} else {
 		
-		// echo $directorio.'<br>';
+		echo $directorio.'<br>';
 	}
-}exit;
+}
+
+echo 'Se procesaron:'.$total;	
+exit;
 
 
 

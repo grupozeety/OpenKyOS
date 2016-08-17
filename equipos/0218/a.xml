@@ -24,7 +24,7 @@
      <vendor>Advanced Micro Devices [AMD]</vendor>
      <physid>1</physid>
      <businfo>cpu@0</businfo>
-     <size units="Hz">1000000000</size>
+     <size units="Hz">2200000000</size>
      <capacity units="Hz">2200000000</capacity>
      <width units="bits">64</width>
      <capabilities>
@@ -774,10 +774,10 @@
           <setting id="created" value="2016-04-23 09:13:18" />
           <setting id="filesystem" value="ext4" />
           <setting id="lastmountpoint" value="/" />
-          <setting id="modified" value="2016-07-22 16:07:00" />
+          <setting id="modified" value="2016-08-10 10:52:58" />
           <setting id="mount.fstype" value="ext4" />
           <setting id="mount.options" value="rw,relatime,errors=remount-ro,data=ordered" />
-          <setting id="mounted" value="2016-05-25 13:50:23" />
+          <setting id="mounted" value="2016-07-22 16:07:06" />
           <setting id="state" value="mounted" />
          </configuration>
          <capabilities>

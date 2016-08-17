@@ -20,6 +20,11 @@ $funcion[$indice]="plugins.js";
 $indice++;
 $funcion[$indice]="main.js";
 $indice++;
+//Datatables
+$funcion[$indice]="DataTables-1.10.12/media/js/jquery.dataTables.min.js";
+$indice++;
+
+
 
 
 

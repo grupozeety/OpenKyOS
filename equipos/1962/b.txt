@@ -1,6 +1,6 @@
 # dmidecode 2.12
 SMBIOS 2.8 present.
-45 structures occupying 2487 bytes.
+45 structures occupying 2475 bytes.
 Table at 0x000E4630.
 
 Handle 0x0000, DMI type 0, 24 bytes
@@ -39,8 +39,8 @@ System Information
 	Manufacturer: HP
 	Product Name: HP 245 G4 Notebook PC
 	Version: Type1ProductConfigId
-	Serial Number: 5CG6130KXV
-	UUID: 41F18C2C-07F2-40F7-9FBE-DB50ADEB8976
+	Serial Number: 5CG61233TT
+	UUID: 9B1A24EF-29E4-4005-A7A4-D2AC167A47D9
 	Wake-up Type: Power Switch
 	SKU Number: T6E76LA#ABM
 	Family: 103C_5336AN G=N L=SMB B=HP S=245        
@@ -50,7 +50,7 @@ Base Board Information
 	Manufacturer: HP
 	Product Name: 80C7
 	Version: KBC Version 98.0E
-	Serial Number: PBZWE00WB1716C
+	Serial Number: PBZWE00WB165A9
 	Asset Tag: Base Board Asset Tag
 	Features:
 		Board is a hosting board
@@ -428,10 +428,10 @@ Memory Device
 	Type: DDR3
 	Type Detail: Synchronous Unbuffered (Unregistered)
 	Speed: 1600 MHz
-	Manufacturer: Micron Technology
-	Serial Number: 1156C2C8
+	Manufacturer: Hynix
+	Serial Number: 04CD383F
 	Asset Tag: Asset Tag: 
-	Part Number: 8KTF51264HZ-1G6N1 
+	Part Number: HMT451S6BFR8A-PB  
 	Rank: 1
 	Configured Clock Speed: 800 MHz
 	Minimum voltage:  Unknown
@@ -484,15 +484,15 @@ Built-in Pointing Device
 Handle 0x0025, DMI type 22, 26 bytes
 Portable Battery
 	Location: Primary
-	Manufacturer: 31-42-6E
-	Manufacture Date: 2/25/2016
-	Serial Number: 14422 2/25/2016
+	Manufacturer: 11-83-72
+	Manufacture Date: 1/31/2016
+	Serial Number: 30120 1/31/2016
 	Name: HS04041
 	Chemistry: Lithium Ion
-	Design Capacity: 41610 mWh
-	Design Voltage: 14600 mV
+	Design Capacity: 41440 mWh
+	Design Voltage: 14800 mV
 	SBDS Version: Not Specified
-	Maximum Error: 1%
+	Maximum Error: 24%
 	OEM-specific Information: 0x000A070C
 
 Handle 0x0026, DMI type 26, 22 bytes

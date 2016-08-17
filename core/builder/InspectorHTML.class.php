@@ -28,9 +28,11 @@ class InspectorHTML {
 		}
 
 		foreach ($arreglo as $clave => $valor) {
-			if (!in_array($clave, $variables)) {
-
+			if (!in_array($clave, $variables) && is_string($valor)) {
 				$arreglo[$clave] = strip_tags($valor);
+			}else{
+				error_log('ADVERTENCIA: InspectorHTML No pudo revisar la integridad de las variables.');
+				
 			}
 		}
 
@@ -47,9 +49,12 @@ class InspectorHTML {
 		}
 
 		foreach ($arreglo as $clave => $valor) {
-			if (!in_array($clave, $variables)) {
+			if (!in_array($clave, $variables) && is_string($valor)) {
 
 				$arreglo[$clave] = addcslashes($valor, '%_');
+			}else{
+				error_log('ADVERTENCIA: InspectorHTML No pudo revisar la integridad de las variables.');
+				
 			}
 		}
 

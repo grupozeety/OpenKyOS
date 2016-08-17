@@ -10,6 +10,7 @@ $estilo[$indice++]="validationEngine.jquery.css";
 $estilo[$indice++]="base.css";
 $estilo[$indice++]="vendor.css";
 $estilo[$indice++]="main.css";
+$estilo[$indice++]="jquery.dataTables.min.css";
 
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");

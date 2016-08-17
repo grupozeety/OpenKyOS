@@ -24,7 +24,7 @@
      <vendor>Advanced Micro Devices [AMD]</vendor>
      <physid>1</physid>
      <businfo>cpu@0</businfo>
-     <size units="Hz">1000000000</size>
+     <size units="Hz">1600000000</size>
      <capacity units="Hz">2200000000</capacity>
      <width units="bits">64</width>
      <capabilities>
@@ -217,7 +217,7 @@
          <businfo>pci@0000:01:00.0</businfo>
          <logicalname>eno1</logicalname>
          <version>15</version>
-         <serial>70:5a:0f:84:da:e2</serial>
+         <serial>70:5a:0f:81:cc:45</serial>
          <size units="bit/s">10000000</size>
          <capacity>1000000000</capacity>
          <width units="bits">64</width>
@@ -296,7 +296,7 @@
          <businfo>pci@0000:05:00.0</businfo>
          <logicalname>wlo1</logicalname>
          <version>83</version>
-         <serial>2c:6e:85:5f:76:d4</serial>
+         <serial>2c:6e:85:42:31:af</serial>
          <width units="bits">64</width>
          <clock units="Hz">33000000</clock>
          <configuration>
@@ -500,11 +500,11 @@
             <node id="usb" claimed="true" class="multimedia" handle="USB:3:3">
              <description>Vdeo</description>
              <product>HP Truevision HD</product>
-             <vendor>SuYin</vendor>
+             <vendor>Generic</vendor>
              <physid>4</physid>
              <businfo>usb@3:1.4</businfo>
-             <version>1.01</version>
-             <serial>HF1026-T841-HN01-1-REV0101</serial>
+             <version>19.17</version>
+             <serial>200901010001</serial>
              <configuration>
               <setting id="driver" value="uvcvideo" />
               <setting id="maxpower" value="500mA" />
@@ -746,7 +746,7 @@
        <logicalname>/dev/sda</logicalname>
        <dev>8:0</dev>
        <version>2C</version>
-       <serial>16I3CM13T</serial>
+       <serial>Z5CDWYV6T</serial>
        <size units="bytes">500107862016</size>
        <configuration>
         <setting id="ansiversion" value="5" />
@@ -774,10 +774,10 @@
           <setting id="created" value="2016-04-23 09:13:18" />
           <setting id="filesystem" value="ext4" />
           <setting id="lastmountpoint" value="/" />
-          <setting id="modified" value="2016-07-29 13:20:38" />
+          <setting id="modified" value="2016-08-10 11:19:20" />
           <setting id="mount.fstype" value="ext4" />
           <setting id="mount.options" value="rw,relatime,errors=remount-ro,data=ordered" />
-          <setting id="mounted" value="2016-06-01 01:25:07" />
+          <setting id="mounted" value="2016-07-27 10:43:46" />
           <setting id="state" value="mounted" />
          </configuration>
          <capabilities>
