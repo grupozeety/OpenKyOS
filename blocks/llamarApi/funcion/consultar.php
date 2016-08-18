@@ -116,13 +116,13 @@ class Consultar {
 	
 	}
 	
-	function obtenerActividades($datosConexion){
+	function obtenerActividades($datosConexion, $proyecto){
 	
 		$this->configurarOpenProject ( $datosConexion );
 		
 		$this->name= 'subject';
 		
-		$data = 5;
+		$data = $proyecto;
 		
 		$fields= 'planning_elements';
 		
@@ -138,22 +138,6 @@ class Consultar {
 		return false;
 	
 	}
-	
-// 	function buildTree(array &$elements, $parentId = 0) {
-// 	    $branch = array();
-	
-// 	    foreach ($elements as $element) {
-// 	        if ($element['parent_id'] == $parentId) {
-// 	            $children = $this->buildTree($elements, $element['id']);
-// 	            if ($children) {
-// 	                $element['nodes'] = $children;
-// 	            }
-// 	            $branch[$element['id']] = $element;
-// 	            unset($elements[$element['id']]);
-// 	        }
-// 	    }
-// 	    return $branch;
-// 	}
 	
 	function buildTree(array &$elements, $parentId = 0) {
 		$branch = array();
@@ -171,6 +155,18 @@ class Consultar {
 		}
 		return $branch;
 	}
+	
+	function obtenerOrdenTrabajo($datosConexion){
+	
+		
+		$datos = array(array('material'=>'material1', 'unidad'=>'Unidad', 'cantidad'=>46), array('material'=>'material2', 'unidad'=>'Metro(s)', 'cantidad'=>100));
+		
+		echo json_encode($datos);
+		
+		return false;
+	
+	}
+	
 	
 	
 	

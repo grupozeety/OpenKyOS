@@ -60,8 +60,10 @@ class Procesador {
 			$resultado = $this->consultar->obtenerAlmacen( $this->datosConexionERPNext );
 		}else if(isset($_REQUEST['metodo']) && $_REQUEST['metodo']=="proyectos"){
 			$resultado = $this->consultar->obtenerProjectos($this->datosConexionOpenProject);
-		}else if(isset($_REQUEST['metodo']) && $_REQUEST['metodo']=="actividades"){
-			$resultado = $this->consultar->obtenerActividades($this->datosConexionOpenProject);
+		}else if(isset($_REQUEST['metodo']) && $_REQUEST['metodo']=="actividades" && isset($_REQUEST['proyecto'])){
+			$resultado = $this->consultar->obtenerActividades($this->datosConexionOpenProject, $_REQUEST['proyecto']);
+		}else if(isset($_REQUEST['metodo']) && $_REQUEST['metodo']=="ordenTrabajo"){
+			$resultado = $this->consultar->obtenerOrdenTrabajo($this->datosConexionOpenProject);
 		}
 	}
 }
