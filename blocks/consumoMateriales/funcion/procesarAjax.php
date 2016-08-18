@@ -15,8 +15,6 @@ $_REQUEST['ready']= true;
 if ($_REQUEST ['funcion'] == "codificarNombre") {
 	
 	$codificado['material'] = $miFormulario->campoSeguro("material".$_REQUEST ['valor']);
-	$codificado['unidad'] = $miFormulario->campoSeguro("unidad".$_REQUEST ['valor']);
-	$codificado['cantidad'] = $miFormulario->campoSeguro("cantidad".$_REQUEST ['valor']);
 	
 	echo json_encode($codificado);
 	
