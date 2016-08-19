@@ -53,12 +53,12 @@ function ordenTrabajo(){
 	});
 };
 
-function detalleOrden(){
+function detalleOrden(nombre){
 
 	$.ajax({
 		url: "<?php echo $urlFuncionCodificarNombre?>",
 		dataType: "json",
-		data: { metodo:'obtenerDetalleOrden', nombre: orden},
+		data: { metodo:'obtenerDetalleOrden', nombre: nombre},
 		success: function(data){
 			$("#<?php echo $this->campoSeguro('proyecto')?>").val(data[0].project);
 			$("#<?php echo $this->campoSeguro('proyecto')?>").change();
@@ -79,6 +79,8 @@ function cargarMateriales(){
 			
 			if(data[0]!=" "){
 		
+				detalleOrden(data[0].parent);
+				
 				$.each(data , function(indice,valor){ 
 				
 					var objeto = {};
@@ -142,7 +144,7 @@ $("#<?php echo $this->campoSeguro('ordenTrabajo')?>").change(function() {
 		
 		orden = $("#<?php echo $this->campoSeguro('ordenTrabajo')?>").val();
 		cargarMateriales();
-		detalleOrden();
+<!-- 		detalleOrden(); -->
 		
 	}
 	

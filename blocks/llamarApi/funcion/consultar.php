@@ -214,7 +214,8 @@ class Consultar {
 				"uom",
 				"description",
 				"item_code",
-				"qty"
+				"qty",
+				"parent"
 				
 		);
 		
@@ -243,7 +244,7 @@ class Consultar {
 		$this->configurarERPNext ( $datosConexion );
 	
 		$data = array (
-				"orden_trabajo" => str_replace(' ', '%20', $nombre)
+				"name" => str_replace(' ', '%20', $nombre)
 		);
 	
 		$fields=array(

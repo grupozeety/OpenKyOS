@@ -100,8 +100,8 @@ class Sql extends \Sql {
 				$cadenaSql = "INSERT INTO interoperacion.consumo_material(";
 				$cadenaSql .= "nombre,";
 				$cadenaSql .= "orden_trabajo,";
-				$cadenaSql .= "proyecto,";
 				$cadenaSql .= "descripcion,";
+				$cadenaSql .= "proyecto,";
 				$cadenaSql .= "nombre_material,";
 				$cadenaSql .= "consumo,";
 				$cadenaSql .= "porcentaje_consumo,";
@@ -113,8 +113,8 @@ class Sql extends \Sql {
 					$cadenaSql .= "(";
 					$cadenaSql .= "'" . $valor['name'] . "',";
 					$cadenaSql .= "'" . $valor['ordenTrabajo'] . "',";
-					$cadenaSql .= "'" . $valor['proyecto'] . "',";
 					$cadenaSql .= "'" . $valor['descripcion'] . "',";
+					$cadenaSql .= "'" . $valor['proyecto'] . "',";
 					$cadenaSql .= "'" . $valor['material'] . "',";
 					$cadenaSql .= "'" . $valor['consume'] . "',";
 					$cadenaSql .= "'" . $valor['porcentajecons'] . "',";

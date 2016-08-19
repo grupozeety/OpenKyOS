@@ -12,7 +12,7 @@ class Procesador {
 	var $conn = '';
 	var $error = array ();
 	var $datosConexionERPNext = array (
-			'host' => 'http://52.90.42.196/',
+			'host' => 'http://52.90.43.211/',
 			'auth_url' => '/api/method/login',
 			'api_url' => '/api/resource/',
 			'auth' => array (
