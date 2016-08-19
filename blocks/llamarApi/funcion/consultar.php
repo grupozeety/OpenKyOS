@@ -215,17 +215,44 @@ class Consultar {
 				"description",
 				"item_code",
 				"qty"
+				
 		);
-	
+		
 		$result = $this->clientFrappe->search ( "Stock Entry Detail",$data,$fields );
 		
 		$contador = 0;
-		
+
 		foreach ($result->body->data as $data){
 			$data->{"material"} = $this->codificarNombre("material:".$data->name.":".$data->item_name);
 			$data->{"project"} = "proyecto";
 			$contador++;
 		}
+		
+		if (! empty ( $result->body->data )) {
+	
+			echo json_encode($result->body->data);
+	
+		}
+	
+		return false;
+	
+	}
+	
+	function obtenerDetalleOrden($datosConexion, $nombre){
+	
+		$this->configurarERPNext ( $datosConexion );
+	
+		$data = array (
+				"orden_trabajo" => str_replace(' ', '%20', $nombre)
+		);
+	
+		$fields=array(
+				"project",
+				"descripcion_orden"
+		);
+	
+		$result = $this->clientFrappe->search ( "Stock Entry",$data,$fields );
+	
 		
 		if (! empty ( $result->body->data )) {
 	
