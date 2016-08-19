@@ -23,7 +23,7 @@ class Procesador {
 			'basic_auth' => array (),
 			'puerto' => '',
 			'database' => '',
-			'cookie_file' => '/var/www/html/workspace/cookie.txt' 
+			'cookie_file' => '/var/www/html/cookie.txt' 
 	);
 	
 	var $datosConexionOpenProject = array (
