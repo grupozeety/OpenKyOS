@@ -173,7 +173,7 @@ class InputBootstrap extends HtmlBase {
 		
 		// --------------Atributo class --------------------------------
 		
-		$this->atributos[self::ESTILO] = 'form-control';
+		$this->atributos[self::ESTILO] = 'form-control ';
 		
 		$cadena .= $this->atributos[self::ESTILO];
 		
