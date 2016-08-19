@@ -175,10 +175,6 @@ class InputBootstrap extends HtmlBase {
 		
 		$this->atributos[self::ESTILO] = 'form-control ';
 		
-		if(isset($this->atributos['readonly'])){
-			$this->atributos[self::ESTILO] .= 'readonly ';
-		}
-		
 		$cadena .= $this->atributos[self::ESTILO];
 		
 		return $cadena .= "' ";

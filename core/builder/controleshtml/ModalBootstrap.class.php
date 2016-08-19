@@ -57,7 +57,8 @@ class ModalBootstrap  extends HtmlBase{
     	 
     	$cadena = '<div class="modal-dialog">';
     	$cadena .= '<div class="modal-content">';
-    	$cadena .= '<div class="modal-header">';
+    	$cadena .= '<div class="modal-header ';
+    	$cadena .= '">';
     	$cadena .= '<button type="button" class="close" data-dismiss="modal">';
     	$cadena .= '&times;';
     	$cadena .= '</button>';
