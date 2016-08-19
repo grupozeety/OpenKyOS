@@ -8,7 +8,9 @@ $this->idioma["botonCancelar"]="Cancelar";
 $this->idioma["noDefinido"]="No definido";
 $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonAgregar"]="Agregar";
-
+$this->idioma["botonContinuar"]="Continuar";
+$this->idioma["confirma"]="Se ha registrado correctamente el consumo de materiales para la orden de trabajo.";
+$this->idioma["error"]="No se ha podido registrar el consumo de materiales para la orden de trabajo.";
 
 $this->idioma["identBeneficiario"]="Identificación del Beneficiario";
 $this->idioma["nombreBeneficiario"]="Nombre del Beneficiario";
@@ -18,6 +20,9 @@ $this->idioma["proyecto"]="Proyecto";
 $this->idioma["ordenTrabajo"]="Orden de  Trabajo";
 $this->idioma["geolocalizacion"]="Geolocalización";
 $this->idioma["porcentajecons"]="Porcentaje de Consumo";
+
+$this->idioma["mensajeRegistro"]="Se ha registrado correctamente el consumo de materiales.";
+
 
 
 

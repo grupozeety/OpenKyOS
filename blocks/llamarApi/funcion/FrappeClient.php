@@ -33,7 +33,7 @@ class FrappeClient {
 	private $_auth = array ();
 	private $_basic_auth = array ();
 	private $_curl_timeout = 30;
-	private $_limit_page_length = 20;
+	private $_limit_page_length =50;
 	
 	
 	

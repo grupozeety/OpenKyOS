@@ -12,7 +12,7 @@ class Procesador {
 	var $conn = '';
 	var $error = array ();
 	var $datosConexionERPNext = array (
-			'host' => 'http://52.90.42.196',
+			'host' => 'http://52.90.43.211',
 			'auth_url' => '/api/method/login',
 			'api_url' => '/api/resource/',
 			'auth' => array (
@@ -63,7 +63,9 @@ class Procesador {
 		}else if(isset($_REQUEST['metodo']) && $_REQUEST['metodo']=="actividades" && isset($_REQUEST['proyecto'])){
 			$resultado = $this->consultar->obtenerActividades($this->datosConexionOpenProject, $_REQUEST['proyecto']);
 		}else if(isset($_REQUEST['metodo']) && $_REQUEST['metodo']=="ordenTrabajo"){
-			$resultado = $this->consultar->obtenerOrdenTrabajo($this->datosConexionOpenProject);
+			$resultado = $this->consultar->obtenerOrdenTrabajo($this->datosConexionERPNext);
+		}else if(isset($_REQUEST['metodo']) && $_REQUEST['metodo']=="obtenerMateriales"){
+			$resultado = $this->consultar->obtenerMaterialesOrden($this->datosConexionERPNext, $_REQUEST['nombre']);
 		}
 	}
 }

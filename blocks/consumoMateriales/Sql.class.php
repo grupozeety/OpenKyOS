@@ -95,9 +95,62 @@ class Sql extends \Sql {
 			/* Consultas del desarrollo */
 			
 				
-				case "asignar" :
-					$cadenaSql = "INSERT ";
-					break;
+			case "registrarConsumo" :
+				
+				$cadenaSql = "INSERT INTO interoperacion.consumo_material(";
+				$cadenaSql .= "nombre,";
+				$cadenaSql .= "orden_trabajo,";
+				$cadenaSql .= "proyecto,";
+				$cadenaSql .= "nombre_material,";
+				$cadenaSql .= "consumo,";
+				$cadenaSql .= "porcentaje_consumo,";
+				$cadenaSql .= "geolocalizacion";
+				$cadenaSql .= ") values ";
+				
+				foreach ( $variable as $clave => $valor ) {
+					
+					$cadenaSql .= "(";
+					$cadenaSql .= "'" . $valor['name'] . "',";
+					$cadenaSql .= "'" . $valor['ordenTrabajo'] . "',";
+					$cadenaSql .= "'" . $valor['proyecto'] . "',";
+					$cadenaSql .= "'" . $valor['material'] . "',";
+					$cadenaSql .= "'" . $valor['consume'] . "',";
+					$cadenaSql .= "'" . $valor['porcentajecons'] . "',";
+					$cadenaSql .= "'" . $valor['geolocalizacion'] . "'";
+					$cadenaSql .= "),";
+				}
+				
+				$cadenaSql = substr ( $cadenaSql, 0, (strlen ( $cadenaSql ) - 1) );
+				
+				break;
+				
+			case "actualizarConsumo" :
+				
+				$cadenaSql = "UPDATE interoperacion.consumo_material ";
+				$cadenaSql .= "SET ";
+				$cadenaSql .= "estado_registro=FALSE ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "nombre ";
+				$cadenaSql .= "IN ";
+				$cadenaSql .= "(";
+				
+				foreach ( $variable as $clave => $valor ) {
+						
+					$cadenaSql .= "'" . $valor['name'] . "',";
+				
+				}
+						
+				$cadenaSql = substr ( $cadenaSql, 0, (strlen ( $cadenaSql ) - 1) );
+				$cadenaSql .= ")";
+				
+				break;
+				
+			case "obtenerConsumo" :
+				
+				$cadenaSql = "SELECT consumo,geolocalizacion, porcentaje_consumo from interoperacion.consumo_material where nombre='" . $variable ."' AND estado_registro=TRUE;";
+				
+				break;
+		
 		}
 		
 		return $cadenaSql;

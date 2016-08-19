@@ -1,4 +1,7 @@
 <?php
+
+use hojaDeVida\titulosAcademicos\Sql;
+
 require (dirname ( __FILE__ ) . '/FrappeClient.php');
 require (dirname ( __FILE__ ) . '/OpenProject.php');
 
@@ -17,6 +20,8 @@ class Consultar {
 	var $debitAccount;
 	var $debitToAccount;
 	var $name;
+	var $miConfigurador;
+	var $sql;
 	
 	function configurarERPNext($datosConexion) {
 		
@@ -43,7 +48,24 @@ class Consultar {
 			throw new ErrorException ( $errstr, 0, $errno, $errfile, $errline );
 		} );
 	}
-
+	
+	function codificarNombre($nombre){
+		
+		include_once ("core/builder/FormularioHtml.class.php");
+		
+		$miFormulario = new \FormularioHtml();
+		
+		if(!isset($_REQUEST['tiempo'])){
+			$_REQUEST['tiempo']=time();
+		}
+		//Estas funciones se llaman desde ajax.php y estas a la vez realizan las consultas de Sql.class.php
+		
+		$_REQUEST['ready']= true;
+		
+		return $miFormulario->campoSeguro($nombre);
+		
+	}
+	
 	function obtenerAlmacen( $datosConexion){
 		
 		$this->configurarERPNext ( $datosConexion );
@@ -157,12 +179,60 @@ class Consultar {
 	}
 	
 	function obtenerOrdenTrabajo($datosConexion){
+		
+		$this->configurarERPNext ( $datosConexion );
+		
+		$data = array (
+		);
 	
+		$fields=array(
+				"item_code"
+		);
+	
+		$result = $this->clientFrappe->search ( "Stock Entry Detail",$data,$fields );
+	
+		if (! empty ( $result->body->data )) {
+			echo json_encode($result->body->data);
+	
+		}
+	
+		return false;
+	
+	}
+	
+	function obtenerMaterialesOrden($datosConexion, $nombre){
+	
+		$this->configurarERPNext ( $datosConexion );
+	
+		$data = array (
+			"item_code" => str_replace(' ', '%20', $nombre)
+		);
+	
+		$fields=array(
+				"name",
+				"item_name",
+				"uom",
+				"description",
+				"item_code",
+				"qty"
+		);
+	
+		$result = $this->clientFrappe->search ( "Stock Entry Detail",$data,$fields );
 		
-		$datos = array(array('material'=>'material1', 'unidad'=>'Unidad', 'cantidad'=>46), array('material'=>'material2', 'unidad'=>'Metro(s)', 'cantidad'=>100));
+		$contador = 0;
 		
-		echo json_encode($datos);
+		foreach ($result->body->data as $data){
+			$data->{"material"} = $this->codificarNombre("material:".$data->name.":".$data->item_name);
+			$data->{"project"} = "proyecto";
+			$contador++;
+		}
 		
+		if (! empty ( $result->body->data )) {
+	
+			echo json_encode($result->body->data);
+	
+		}
+	
 		return false;
 	
 	}

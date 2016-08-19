@@ -53,6 +53,7 @@ class Formulario {
         if(!isset($_REQUEST['tiempo'])){
         	$_REQUEST['tiempo']=time();
         }
+        
         // -------------------------------------------------------------------------------------------------
 
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -82,6 +83,22 @@ class Formulario {
         unset($atributos);
 
         // ---------------- SECCION: Controles del Formulario -----------------------------------------------
+
+        $mensaje ='';
+        
+        if(isset($_REQUEST['mensaje'])){
+        	$esteCampo = 'mensajemodal';
+        	$atributos ["id"] = $esteCampo; // No cambiar este nombre
+        	$atributos ["tipo"] = "hidden";
+        	$atributos ['estilo'] = '';
+        	$atributos ["obligatorio"] = false;
+        	$atributos ['marco'] = true;
+        	$atributos ["etiqueta"] = "";
+        	$atributos ['valor'] = $_REQUEST['mensaje'];
+        	$atributos = array_merge ( $atributos, $atributosGlobales );
+        	echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        	unset ( $atributos );
+        }
         
         $esteCampo = 'ficheros';
         $atributos ['id'] = $esteCampo;
@@ -89,7 +106,6 @@ class Formulario {
         echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
         unset ( $atributos );
 
-        
         // ----------------INICIO CONTROL: Lista Actividad--------------------------------------------------------
         
         $esteCampo = 'ordenTrabajo';
@@ -403,7 +419,7 @@ class Formulario {
         $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
         $valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
         $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-        $valorCodificado .= "&opcion=asignar";
+        $valorCodificado .= "&opcion=registrarConsumo";
         /**
          * SARA permite que los nombres de los campos sean dinámicos.
          * Para ello utiliza la hora en que es creado el formulario para
@@ -534,7 +550,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 12;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = 'required';
         // Aplica atributos globales al control
 //         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
@@ -571,7 +587,21 @@ class Formulario {
         echo $this->miFormulario->modal ( $atributos );
         unset($atributos);
          
+        $atributos ['tipoEtiqueta'] = 'inicio';
+        $atributos ['titulo'] = 'Mensaje';
+        $atributos ['id'] = 'myModalMensaje';
+        echo $this->miFormulario->modal ( $atributos );
+        unset($atributos);
+        
+        echo "<h5><p>". $this->lenguaje->getCadena ( $_REQUEST['mensaje'] ) . "</p></h5>";
+        
+        $atributos ['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal ( $atributos );
+        unset($atributos);
+         
+        
         }
+        
         
         function mensaje() {
         

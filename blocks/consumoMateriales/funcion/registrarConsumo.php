@@ -28,9 +28,27 @@ class Registrar {
 	}
 	function procesarFormulario() {
 		
-		var_dump($_REQUEST); die;
+		$consumoMaterial = array();
 		
-		$conexion = "";
+		$contador=0;
+		
+		foreach ($_REQUEST as $key=>$consumo){
+			
+			$materiales = explode(":", $key);
+			
+			if($materiales[0] == "material"){
+				$consumoMaterial[$contador]['name'] = $materiales[1];
+				$consumoMaterial[$contador]['ordenTrabajo'] = $_REQUEST['ordenTrabajo'];
+				$consumoMaterial[$contador]['proyecto'] = $_REQUEST['proyecto'];
+				$consumoMaterial[$contador]['material'] = $materiales[2];
+				$consumoMaterial[$contador]['consume'] = $consumo;
+				$consumoMaterial[$contador]['porcentajecons'] = $_REQUEST['porcentajecons'];
+				$consumoMaterial[$contador]['geolocalizacion'] = $_REQUEST['geolocalizacion'];
+				$contador++;
+			}
+		}
+		
+		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
@@ -39,11 +57,19 @@ class Registrar {
 		$rutaBloque .= $esteBloque ['nombre'];
 		$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/" . $esteBloque ['nombre'];
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'asignar', $_REQUEST );
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarConsumo', $consumoMaterial );
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 		
 		if ($resultado) {
-			redireccion::redireccionar ( 'inserto',  $_REQUEST['MENSAJE']);
+			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConsumo', $consumoMaterial );
+			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
+		} else {
+			redireccion::redireccionar ( 'noInserto' );
+			exit ();
+		}
+		
+		if ($resultado) {
+			redireccion::redireccionar ( 'inserto');
 			exit ();
 		} else {
 			redireccion::redireccionar ( 'noInserto' );

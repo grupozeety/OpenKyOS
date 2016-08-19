@@ -59,11 +59,11 @@ if (!isset($GLOBALS["autorizado"])) {
     if ($_REQUEST['mensaje'] == 'confirma') {
 
         $tipo = 'success';
-        $mensaje =  $this->lenguaje->getCadena('mensajeRegistro') . $_REQUEST ['docente'] . ".";
+        $mensaje =  $this->lenguaje->getCadena('mensajeRegistro');
         $boton = "continuar";
 		
         $valorCodificado = "pagina=".$esteBloque['nombre'];
-        $valorCodificado.="&opcion=nuevo";
+        $valorCodificado.="&opcion=regresar";
         $valorCodificado.="&bloque=" . $esteBloque["id_bloque"];
         $valorCodificado.="&bloqueGrupo=" . $esteBloque["grupo"];
         

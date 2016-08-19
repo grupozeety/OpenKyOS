@@ -1,24 +1,13 @@
 <?php
 
-include_once ("core/builder/FormularioHtml.class.php");
+$conexion = "interoperacion";
+$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 
-$miFormulario = new \FormularioHtml();
+//Esta Función es la que permite ir realizando las consultas a medida que se van ingresando caracteres ya sean números o letras en el campo docentes.
 
-if(!isset($_REQUEST['tiempo'])){
-	$_REQUEST['tiempo']=time();
-}
-//Estas funciones se llaman desde ajax.php y estas a la vez realizan las consultas de Sql.class.php 
+	$cadenaSql = $this->sql->getCadenaSql ( 'obtenerConsumo', $_REQUEST['valor'] );
+	$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	echo json_encode ( $resultadoItems );
 
-$_REQUEST['ready']= true;
-
-
-if ($_REQUEST ['funcion'] == "codificarNombre") {
-	
-	$codificado['material'] = $miFormulario->campoSeguro("material".$_REQUEST ['valor']);
-	
-	echo json_encode($codificado);
-	
-}
-	
 
 ?>
