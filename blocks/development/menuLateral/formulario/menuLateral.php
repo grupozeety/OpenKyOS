@@ -33,6 +33,16 @@ $enlace = 'pagina=registro';
 $enlace .= '&development=true';
 $items [$item] ['urlCodificada'] = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $directorio );
 
+
+$item = 'gestionBloques';
+$items [$item] ['nombre'] = 'Gestión Bloques';
+$items [$item] ['enlace'] = true; // El <li> es un enlace directo
+$items [$item] ['icono'] = 'ui-icon-circle-triangle-e'; // El <li> es un enlace directo
+$enlace = 'pagina=gestionBloques';
+$enlace .= '&development=true';
+$items [$item] ['urlCodificada'] = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $enlace, $directorio );
+
+
 $item = 'gestionConexiones';
 $items [$item] ['nombre'] = 'Gestión Conexiones';
 $items [$item] ['enlace'] = true; // El <li> es un enlace directo
