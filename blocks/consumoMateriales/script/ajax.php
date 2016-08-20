@@ -232,13 +232,18 @@ function ordenConsumoMaterial(nombre, id){
 		dataType: "json",
 		data: { valor: nombre},
 		success: function(data){
-			$("#" + id).val(data[0]['consumo']);
-			$("#" + id).change();
 			
-			$("#<?php echo $this->campoSeguro('porcentajecons')?>").val(data[0]['porcentaje_consumo']);
-			$("#<?php echo $this->campoSeguro('porcentajecons')?>").change();
-			$("#<?php echo $this->campoSeguro('geolocalizacion')?>").val(data[0]['geolocalizacion']);
-			$("#<?php echo $this->campoSeguro('porcentajecons')?>").change();
+			if(typeof data[0] != "undefined"){
+			
+				$("#" + id).val(data[0]['consumo']);
+				$("#" + id).change();
+				
+				$("#<?php echo $this->campoSeguro('porcentajecons')?>").val(data[0]['porcentaje_consumo']);
+				$("#<?php echo $this->campoSeguro('porcentajecons')?>").change();
+				$("#<?php echo $this->campoSeguro('geolocalizacion')?>").val(data[0]['geolocalizacion']);
+				$("#<?php echo $this->campoSeguro('porcentajecons')?>").change();
+			}
+			
 		}
 		
 	});

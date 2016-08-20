@@ -485,9 +485,11 @@ class Formulario {
           					handleLocationError(false, infoWindow, map.getCenter());
         				}
         		
-        				$("#myModal").on("shown.bs.modal", function () {
-    						initMap();
-						});
+        				if($("#myModal").length > 0){
+        					$("#myModal").on("shown.bs.modal", function () {
+    							initMap();
+							});
+        				}
 						
         				google.maps.event.addListener(map, "click", function (e) {
 		
