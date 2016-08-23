@@ -1,0 +1,18 @@
+@media ( min-width : 768px) .navbar-nav {
+	float
+	:
+	 
+	right
+	;
+	
+    
+	margin
+	:
+	 
+	0;
+}
+
+.navbar-custom-menu {
+	float: right;
+	position: relative;
+}
