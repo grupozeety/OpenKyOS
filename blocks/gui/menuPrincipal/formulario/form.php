@@ -199,7 +199,8 @@ class FormularioMenu {
 					                <span class="icon-bar"></span>
 					                <span class="icon-bar"></span>
 					            </button>
-					            <a class="navbar-brand" >OpenKyOS</a>
+					            <a class="navbar-brand" >Sistema Gestión Administrativa Conexiones Digitales II</a>
+								<p style="color:#777";>Sucre y Córdoba</p>
 					        </div>
 					         <div class="collapse navbar-collapse">
 					                  <ul class="nav navbar-nav">
