@@ -107,7 +107,7 @@ class FormularioMenuUsuario {
 		
 		$url = $this->miConfigurador->configuracion ['host'] . $this->miConfigurador->configuracion ['site'];
 		echo '<div class="navbar-custom-menu">
-         <img height="50px" src="'.$url.'/blocks/gui/menuUsuario/css/imagenes/encabezado.jpg">
+         <img height="50px" src="'.$url.'/blocks/gui/encabezado/css/imagenes/encabezado.jpg">
       </div>';
 	
 		
