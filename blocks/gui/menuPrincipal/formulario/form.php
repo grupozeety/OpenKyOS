@@ -192,10 +192,6 @@ class FormularioMenu {
 		
 		$cadenaHTML = '<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 					    <div class="container">
-					 <div class="navbar-header">
-					            <a class="navbar-brand"><b>OpenKyOS</b> Sistema Gestión Administrativa Conexiones Digitales II</a>
-								<p style="color:#777";>Sucre y Córdoba</p>
-					        </div>
 					         <div class="collapse navbar-collapse">
 					                  <ul class="nav navbar-nav">
 				
