@@ -192,23 +192,7 @@ class FormularioMenu {
 		
 		$cadenaHTML = '<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 					    <div class="container">
-						 <div class="navbar-header">
-					            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					                <span class="sr-only">Toggle navigation</span>
-					                <span class="icon-bar"></span>
-					                <span class="icon-bar"></span>
-					                <span class="icon-bar"></span>
-					            </button>
-					            <a class="navbar-brand" >Sistema Gestión Administrativa Conexiones Digitales II</a>
-								<p style="color:#777";>Sucre y Córdoba</p>
-					        </div>
 					 <div class="navbar-header">
-					            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					                <span class="sr-only">Toggle navigation</span>
-					                <span class="icon-bar"></span>
-					                <span class="icon-bar"></span>
-					                <span class="icon-bar"></span>
-					            </button>
 					            <a class="navbar-brand"><b>OpenKyOS</b> Sistema Gestión Administrativa Conexiones Digitales II</a>
 								<p style="color:#777";>Sucre y Córdoba</p>
 					        </div>
