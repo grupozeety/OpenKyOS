@@ -98,7 +98,7 @@ class Formulario {
 // ---------------- SECCION: Controles del Formulario -----------------------------------------------
 
         echo '<div class="embed-container">';
-        echo '<iframe width="1300" height="780" scrolling="yes" name="erp" src="' . $enlace[0]['enlace'] . '" frameborder="0" allowfullscreen"></iframe>';
+        echo '<iframe width="100%" height="1050" scrolling="yes" name="erp" src="' . $enlace[0]['enlace'] . '" frameborder="0" allowfullscreen"></iframe>';
         echo '</div>';
         echo $this->miFormulario->marcoAgrupacion('fin');
 
