@@ -8,6 +8,9 @@ if (!isset($GLOBALS["autorizado"])) {
 }
 
 include_once "core/auth/SesionSso.class.php";
+
+include_once "../funcion/GetLink.php";
+
 class FormularioMenu {
     public $miConfigurador;
     public $lenguaje;
@@ -98,7 +101,11 @@ class FormularioMenu {
         unset($atributos);
         // ---------------- SECCION: Controles del Formulario -----------------------------------------------
 
+        $link = new GetLink();
+
         $respuesta = $this->miSesionSso->getParametrosSesionAbierta();
+
+        $salida = (isset($respuesta['description']) == false) ? $link->ir("index") : "";
 
         foreach ($respuesta['description'] as $key => $rol) {
 
