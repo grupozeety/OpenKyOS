@@ -118,6 +118,7 @@ class Sql extends \Sql {
                 $cadenaSql .= "porcentaje_consumo,";
                 $cadenaSql .= "geolocalizacion,";
                 $cadenaSql .= "usuario";
+                $cadenaSql .= ") VALUES ";
 
                 foreach ($variable as $clave => $valor) {
 
