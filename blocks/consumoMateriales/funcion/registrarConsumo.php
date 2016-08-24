@@ -42,6 +42,7 @@ class Registrar {
 				$consumoMaterial[$contador]['proyecto'] = $_REQUEST['proyecto'];
 				$consumoMaterial[$contador]['descripcion'] = $_REQUEST['actividad'];
 				$consumoMaterial[$contador]['material'] = $materiales[2];
+				$consumoMaterial[$contador]['asignada'] = $materiales[3];
 				$consumoMaterial[$contador]['consume'] = $consumo;
 				$consumoMaterial[$contador]['porcentajecons'] = $_REQUEST['porcentajecons'];
 				$consumoMaterial[$contador]['geolocalizacion'] = $_REQUEST['geolocalizacion'];

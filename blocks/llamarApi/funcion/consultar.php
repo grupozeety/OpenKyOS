@@ -224,7 +224,7 @@ class Consultar {
 		$contador = 0;
 
 		foreach ($result->body->data as $data){
-			$data->{"material"} = $this->codificarNombre("material:".$data->name.":".$data->item_name);
+			$data->{"material"} = $this->codificarNombre("material:".$data->name.":".$data->item_name.":".$data->qty);
 			$data->{"project"} = "proyecto";
 			$contador++;
 		}
