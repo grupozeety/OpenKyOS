@@ -103,6 +103,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "descripcion,";
 				$cadenaSql .= "proyecto,";
 				$cadenaSql .= "nombre_material,";
+				$cadenaSql .= "cantidad_asignada,";
 				$cadenaSql .= "consumo,";
 				$cadenaSql .= "porcentaje_consumo,";
 				$cadenaSql .= "geolocalizacion";
@@ -116,6 +117,7 @@ class Sql extends \Sql {
 					$cadenaSql .= "'" . $valor['descripcion'] . "',";
 					$cadenaSql .= "'" . $valor['proyecto'] . "',";
 					$cadenaSql .= "'" . $valor['material'] . "',";
+					$cadenaSql .= "'" . $valor['asignada'] . "',";
 					$cadenaSql .= "'" . $valor['consume'] . "',";
 					$cadenaSql .= "'" . $valor['porcentajecons'] . "',";
 					$cadenaSql .= "'" . $valor['geolocalizacion'] . "'";
