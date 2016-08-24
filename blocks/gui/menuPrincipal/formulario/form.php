@@ -9,7 +9,7 @@ if (!isset($GLOBALS["autorizado"])) {
 
 include_once "core/auth/SesionSso.class.php";
 
-include_once "../funcion/GetLink.php";
+include_once $this->ruta . "/funcion/GetLink.php";
 
 class FormularioMenu {
     public $miConfigurador;
