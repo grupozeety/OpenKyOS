@@ -1,9 +1,9 @@
 <?php
+namespace gui\menuPrincipal\funcion;
 if (!isset($GLOBALS['autorizado'])) {
     include 'index.php';
     exit();
 }
-
 class GetLink {
     public static function obtener($nombrePagina) {
         $miConfigurador = \Configurador::singleton();

@@ -9,8 +9,6 @@ if (!isset($GLOBALS["autorizado"])) {
 
 include_once "core/auth/SesionSso.class.php";
 
-include_once $this->ruta . "funcion/GetLink.php";
-
 class FormularioMenu {
     public $miConfigurador;
     public $lenguaje;
@@ -31,6 +29,22 @@ class FormularioMenu {
 
         $this->miSesionSso = \SesionSso::singleton();
     }
+    public function logout() {
+
+        foreach ($_REQUEST as $clave => $valor) {
+            unset($_REQUEST[$clave]);
+        }
+
+        $variable = "pagina=index&&event=logout";
+        $url = $this->miConfigurador->configuracion["host"] . $this->miConfigurador->configuracion["site"] . "/index.php?";
+        $enlace = $this->miConfigurador->configuracion['enlace'];
+        $variable = $this->miConfigurador->fabricaConexiones->crypto->codificar($variable);
+        $_REQUEST[$enlace] = $enlace . '=' . $variable;
+        $redireccion = $url . $_REQUEST[$enlace];
+        echo "<script>location.replace('" . $redireccion . "')</script>";
+        exit();
+    }
+
     public function formulario() {
 
         // Rescatar los datos de este bloque
@@ -103,7 +117,7 @@ class FormularioMenu {
 
         $respuesta = $this->miSesionSso->getParametrosSesionAbierta();
 
-        $salida = (isset($respuesta['description']) == false) ? GetLink()->ir("index") : "";
+        $salida = (isset($respuesta['description']) == false) ? $this->logout() : "";
 
         foreach ($respuesta['description'] as $key => $rol) {
 
