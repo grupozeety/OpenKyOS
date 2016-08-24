@@ -2,6 +2,8 @@
 
 namespace gui\menuPrincipal\formulario;
 
+use gui\menuPrincipal\funcion\GetLink;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -103,7 +105,7 @@ class FormularioMenu {
 
         $respuesta = $this->miSesionSso->getParametrosSesionAbierta();
 
-        $salida = (isset($respuesta['description']) == false) ? GetLink()->ir("index") : "";
+        $salida = (isset($respuesta['description']) == false) ? GetLink::ir("index") : "";
 
         foreach ($respuesta['description'] as $key => $rol) {
 
