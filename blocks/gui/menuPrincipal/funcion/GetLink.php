@@ -4,8 +4,6 @@ if (!isset($GLOBALS['autorizado'])) {
     exit();
 }
 
-namespace gui\menuPrincipal\funcion;
-
 class GetLink {
     public static function obtener($nombrePagina) {
         $miConfigurador = \Configurador::singleton();
