@@ -186,10 +186,12 @@ class Consultar {
 		);
 	
 		$fields=array(
-				"item_code"
+				"orden_trabajo",
+				"name",
+				"purpose"
 		);
 	
-		$result = $this->clientFrappe->search ( "Stock Entry Detail",$data,$fields );
+		$result = $this->clientFrappe->search ( "Stock Entry",$data,$fields );
 	
 		if (! empty ( $result->body->data )) {
 			echo json_encode($result->body->data);
@@ -205,7 +207,7 @@ class Consultar {
 		$this->configurarERPNext ( $datosConexion );
 	
 		$data = array (
-			"item_code" => str_replace(' ', '%20', $nombre)
+			"parent" => str_replace(' ', '%20', $nombre)
 		);
 	
 		$fields=array(
@@ -224,8 +226,7 @@ class Consultar {
 		$contador = 0;
 
 		foreach ($result->body->data as $data){
-			$data->{"material"} = $this->codificarNombre("material:".$data->name.":".$data->item_name.":".$data->qty);
-			$data->{"project"} = "proyecto";
+			$data->{"material"} = $this->codificarNombre("material:".$data->name.":".$data->item_name.":".$data->qty.":".$data->parent);			
 			$contador++;
 		}
 		
@@ -248,6 +249,7 @@ class Consultar {
 		);
 	
 		$fields=array(
+				"orden_trabajo",
 				"project",
 				"descripcion_orden"
 		);

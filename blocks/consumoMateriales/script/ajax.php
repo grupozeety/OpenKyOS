@@ -42,11 +42,11 @@ function ordenTrabajo(){
 		dataType: "json",
 		data: { metodo:'ordenTrabajo'},
 		success: function(data){
-		
-			data = unique(data);
-		
+	
 			$.each(data , function(indice,valor){
-				$("<option value='"+data[ indice ].item_code+"'>"+data[ indice ].item_code+"</option>").appendTo("#<?php echo $this->campoSeguro('ordenTrabajo')?>");
+				if(data[ indice ].purpose == "Material Issue"){ 
+					$("<option value='"+data[ indice ].name+"'>"+data[ indice ].orden_trabajo + " - " + data[ indice ].name + "</option>").appendTo("#<?php echo $this->campoSeguro('ordenTrabajo')?>");
+				}
 			});
 		}
 		
@@ -60,10 +60,13 @@ function detalleOrden(nombre){
 		dataType: "json",
 		data: { metodo:'obtenerDetalleOrden', nombre: nombre},
 		success: function(data){
+			$("#<?php echo $this->campoSeguro('ordenTrabajoReal')?>").val(data[0].orden_trabajo);
+			$("#<?php echo $this->campoSeguro('ordenTrabajoReal')?>").change();
 			$("#<?php echo $this->campoSeguro('proyecto')?>").val(data[0].project);
 			$("#<?php echo $this->campoSeguro('proyecto')?>").change();
 			$("#<?php echo $this->campoSeguro('actividad')?>").val(data[0].descripcion_orden);
 			$("#<?php echo $this->campoSeguro('actividad')?>").change();
+			
 		}
 		
 	});
@@ -143,9 +146,7 @@ $("#<?php echo $this->campoSeguro('ordenTrabajo')?>").change(function() {
 	if($("#<?php echo $this->campoSeguro('ordenTrabajo')?>").val() != ""){
 		
 		orden = $("#<?php echo $this->campoSeguro('ordenTrabajo')?>").val();
-		cargarMateriales();
-<!-- 		detalleOrden(); -->
-		
+		cargarMateriales();		
 	}
 	
 });

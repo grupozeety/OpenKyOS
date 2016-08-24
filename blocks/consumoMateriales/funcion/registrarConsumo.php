@@ -38,8 +38,9 @@ class Registrar {
 			
 			if($materiales[0] == "material"){
 				$consumoMaterial[$contador]['name'] = $materiales[1];
-				$consumoMaterial[$contador]['ordenTrabajo'] = $_REQUEST['ordenTrabajo'];
+				$consumoMaterial[$contador]['ordenTrabajo'] = $_REQUEST['ordenTrabajoReal'];
 				$consumoMaterial[$contador]['proyecto'] = $_REQUEST['proyecto'];
+				$consumoMaterial[$contador]['salida'] = $materiales[4];
 				$consumoMaterial[$contador]['descripcion'] = $_REQUEST['actividad'];
 				$consumoMaterial[$contador]['material'] = $materiales[2];
 				$consumoMaterial[$contador]['asignada'] = $materiales[3];
