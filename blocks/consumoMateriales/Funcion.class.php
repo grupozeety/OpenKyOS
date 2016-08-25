@@ -2,7 +2,7 @@
 
 namespace consumoMateriales;
 
-use hojaDeVida\crearDocente\funcion\redireccion;
+use consumoMateriales\funcion\redireccion;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
