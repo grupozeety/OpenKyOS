@@ -2,7 +2,7 @@
 
 namespace consumoMateriales\funcion;
 
-use hojaDeVida\crearDocente\funcion\redireccionar;
+use consumoMateriales\funcion\redireccionar;
 
 include_once ('redireccionar.php');
 if (! isset ( $GLOBALS ["autorizado"] )) {
