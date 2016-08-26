@@ -46,6 +46,7 @@ class Registrador {
         $atributos['metodo'] = 'POST';
         // Si no se coloca, entonces toma el valor predeterminado 'index.php' (Recomendado)
         $atributos['action'] = 'index.php';
+        echo $esteCampo;
         $atributos['titulo'] = $this->lenguaje->getCadena($esteCampo);
         // Si no se coloca, entonces toma el valor predeterminado.
         $atributos['estilo'] = '';
@@ -73,7 +74,7 @@ class Registrador {
                 $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                 $atributos["etiquetaObligatorio"] = true;
                 $atributos['tab'] = $tab++;
-                $atributos['anchoEtiqueta'] = 2;
+                $atributos['anchoEtiqueta'] = 1;
                 $atributos['evento'] = '';
                 $atributos['seleccion'] = -1;
                 $atributos['deshabilitado'] = false;
@@ -87,7 +88,7 @@ class Registrador {
                 $atributos['miEvento'] = '';
                 $atributos['validar'] = 'required';
 
-                $atributos['matrizItems'] = array(0 => array(0 => "", 1 => 'Seleccione...'));
+                $atributos['matrizItems'] = array(0 => array(0 => "", 1 => "Sin proyectos asociados a salidas"));
 
                 // Aplica atributos globales al control
                 $atributos = array_merge($atributos, $atributosGlobales);
@@ -131,6 +132,47 @@ class Registrador {
             echo $this->miFormulario->agrupacion('fin');
             unset($atributos);
         }
+
+        {
+            /**
+             * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
+             * SARA permite realizar esto a través de tres
+             * mecanismos:
+             * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
+             * la base de datos.
+             * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
+             * formsara, cuyo valor será una cadena codificada que contiene las variables.
+             * (c) a través de campos ocultos en los formularios. (deprecated)
+             */
+
+            // En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
+
+            // Paso 1: crear el listado de variables
+
+            $valorCodificado = "action=" . $esteBloque["nombre"];
+            $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+            $valorCodificado .= "&opcion=generarReporte";
+
+            /**
+             * SARA permite que los nombres de los campos sean dinámicos.
+             * Para ello utiliza la hora en que es creado el formulario para
+             * codificar el nombre de cada campo.
+             */
+            $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
+            // Paso 2: codificar la cadena resultante
+            $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);
+
+            $atributos["id"] = "formSaraData"; // No cambiar este nombre
+            $atributos["tipo"] = "hidden";
+            $atributos['estilo'] = '';
+            $atributos["obligatorio"] = false;
+            $atributos['marco'] = true;
+            $atributos["etiqueta"] = "";
+            $atributos["valor"] = $valorCodificado;
+            echo $this->miFormulario->campoCuadroTexto($atributos);
+            unset($atributos);}
 
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
         // Se debe declarar el mismo atributo de marco con que se inició el formulario.
