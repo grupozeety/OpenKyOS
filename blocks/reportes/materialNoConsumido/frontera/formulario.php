@@ -6,7 +6,10 @@ namespace reportes\materialNoConsumido\frontera;
  * que lo complementan.
  */
 
-var_dump($_REQUEST);
+if (!isset($GLOBALS["autorizado"])) {
+    include "../index.php";
+    exit;
+}
 
 class Registrador {
     public $miConfigurador;
