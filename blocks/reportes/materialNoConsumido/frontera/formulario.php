@@ -44,12 +44,11 @@ class Registrador {
         $atributos['id'] = $esteCampo;
         $atributos['nombre'] = $esteCampo;
         // Si no se coloca, entonces toma el valor predeterminado 'application/x-www-form-urlencoded'
-        $atributos['tipoFormulario'] = '';
+        $atributos['tipoFormulario'] = 'multipart/form-data';
         // Si no se coloca, entonces toma el valor predeterminado 'POST'
         $atributos['metodo'] = 'POST';
         // Si no se coloca, entonces toma el valor predeterminado 'index.php' (Recomendado)
         $atributos['action'] = 'index.php';
-        echo $esteCampo;
         $atributos['titulo'] = $this->lenguaje->getCadena($esteCampo);
         // Si no se coloca, entonces toma el valor predeterminado.
         $atributos['estilo'] = '';
@@ -98,36 +97,68 @@ class Registrador {
                 echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                 unset($atributos);
 
+                $esteCampo = 'ordenes';
+                $atributos["id"] = $esteCampo; // No cambiar este nombre
+                $atributos["tipo"] = "hidden";
+                $atributos['estilo'] = '';
+                $atributos["obligatorio"] = false;
+                $atributos['marco'] = true;
+                $atributos["etiqueta"] = "";
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['valor'] = '';
+                }
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroTexto($atributos);
+                unset($atributos);
+
+                $esteCampo = 'elementos';
+                $atributos["id"] = $esteCampo; // No cambiar este nombre
+                $atributos["tipo"] = "hidden";
+                $atributos['estilo'] = '';
+                $atributos["obligatorio"] = false;
+                $atributos['marco'] = true;
+                $atributos["etiqueta"] = "";
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['valor'] = '';
+                }
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroTexto($atributos);
+                unset($atributos);
+
                 // ------------------Division para los botones-------------------------
                 $atributos["id"] = "botones";
                 $atributos["estilo"] = "marcoBotones";
                 echo $this->miFormulario->division("inicio", $atributos);
                 unset($atributos);
+                {
+                    // -----------------CONTROL: Botón ----------------------------------------------------------------
+                    $esteCampo = 'botonAceptar';
+                    $atributos["id"] = $esteCampo;
+                    $atributos["tabIndex"] = $tab;
+                    $atributos["tipo"] = 'boton';
+                    // submit: no se coloca si se desea un tipo button genérico
+                    $atributos['submit'] = true;
+                    $atributos["simple"] = true;
+                    $atributos["estiloMarco"] = '';
+                    $atributos["estiloBoton"] = 'default';
+                    $atributos["block"] = false;
+                    // verificar: true para verificar el formulario antes de pasarlo al servidor.
+                    $atributos["verificar"] = '';
+                    $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+                    $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos['nombreFormulario'] = $esteBloque['nombre'];
+                    $tab++;
 
-                // -----------------CONTROL: Botón ----------------------------------------------------------------
-                $esteCampo = 'botonAceptar';
-                $atributos["id"] = $esteCampo;
-                $atributos["tabIndex"] = $tab;
-                $atributos["tipo"] = 'boton';
-                // submit: no se coloca si se desea un tipo button genérico
-                $atributos['submit'] = true;
-                $atributos["simple"] = true;
-                $atributos["estiloMarco"] = '';
-                $atributos["estiloBoton"] = 'default';
-                $atributos["block"] = false;
-                // verificar: true para verificar el formulario antes de pasarlo al servidor.
-                $atributos["verificar"] = '';
-                $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-                $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
-                $atributos['nombreFormulario'] = $esteBloque['nombre'];
-                $tab++;
-
-                // Aplica atributos globales al control
-                $atributos = array_merge($atributos, $atributosGlobales);
-                echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
-                unset($atributos);
-                // -----------------FIN CONTROL: Botón -----------------------------------------------------------
-
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
+                    unset($atributos);
+                    // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+                }
                 // ------------------Fin Division para los botones-------------------------
                 echo $this->miFormulario->division("fin");
                 unset($atributos);

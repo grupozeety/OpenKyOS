@@ -27,6 +27,69 @@ $urlApi = $url . $cadena;
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
  */
 
+ function consultarIdentificadoresSalida(){
+
+	$.ajax({
+		url: "<?php echo $urlApi;?>",
+		dataType: "json",
+		data: { metodo:'obtenerIdentificadoresSalida',proyecto: $("#<?php echo $this->campoSeguro('proyecto');?>").val()},
+		success: function(data){
+
+			$.each(data , function(indice,valor){
+
+			 $("#<?php echo $this->campoSeguro('elementos');?>").val(data[indice]);
+
+
+
+			  $.ajax({
+					url: "<?php echo $urlApi;?>",
+					dataType: "text",
+					data: { metodo:'obtenerMateriales',salida: data[indice]},
+					success: function(data){
+
+
+
+						 $("#<?php echo $this->campoSeguro('elementos');?>").val(btoa(data));
+
+
+					}
+
+				});
+
+
+
+
+
+
+			 $.ajax({
+					url: "<?php echo $urlApi;?>",
+					dataType: "text",
+					data: { metodo:'obtenerMateriales',nombre: data[indice]},
+					success: function(data){
+
+
+
+						 $("#<?php echo $this->campoSeguro('elementos');?>").val(btoa(data));
+
+
+					}
+
+				});
+
+
+			});
+		}
+
+	});
+
+};
+
+
+
+
+
+
+
 
  function consultarProyectosSalida(){
 	$("#<?php echo $this->campoSeguro('proyecto');?>").html('');
@@ -53,6 +116,13 @@ $(function() {
          	$("#<?php echo $this->campoSeguro('proyecto');?>").ready(function() {
 
 					consultarProyectosSalida();
+
+        	});
+
+
+        	$("#<?php echo $this->campoSeguro('proyecto');?>").change(function() {
+
+					consultarIdentificadoresSalida();
 
         	});
 
