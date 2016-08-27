@@ -29,7 +29,7 @@ class Sql extends \Sql {
 
             case 'elementosConsumidos':
 
-                $cadenaSql = " SELECT nombre ";
+                $cadenaSql = " SELECT nombre, ";
                 $cadenaSql .= " cantidad_asignada, consumo ";
                 $cadenaSql .= " FROM interoperacion.consumo_material";
                 $cadenaSql .= " WHERE proyecto ='" . $_REQUEST['proyecto'] . "' ";

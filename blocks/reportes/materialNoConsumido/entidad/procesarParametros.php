@@ -10,6 +10,7 @@ class FormProcessor {
     public $conexion;
     public $elementos_projecto;
     public $elementos_consumidos;
+    public $elementos_reporte;
 
     public function __construct($lenguaje, $sql) {
 
@@ -19,6 +20,7 @@ class FormProcessor {
         $this->miSql = $sql;
 
         $_REQUEST['tiempo'] = time();
+        var_dump($_REQUEST);
 
         /**
          *  1. Crear arreglo de elementos del Proyectos
@@ -38,9 +40,50 @@ class FormProcessor {
 
         $this->validarElementos();
 
+        /**
+         *  3. Generar Documento PDF
+         **/
+        var_dump($this->elementos_reporte);
+
+        $this->generarDocumentoPDF();
+
+    }
+
+    public function generarDocumentoPDF() {
+        include_once "generarDocumentoPdf.php";
     }
 
     public function validarElementos() {
+
+        if ($this->elementos_consumidos) {
+
+            foreach ($this->elementos_projecto as $key => $value) {
+
+                $elemento = $value;
+
+                foreach ($this->elementos_consumidos as $key => $value) {
+
+                    if ($elemento['name'] == $value['nombre']) {
+
+                        $elemento['qty'] = $elemento['qty'] - $value['consumo'];
+
+                    }
+
+                }
+
+                if ($elemento['qty'] > 0) {
+
+                    $elementos_reporte[] = $elemento;
+
+                }
+
+            }
+
+        } else {
+            $elementos_reporte = $this->elementos_projecto;
+        }
+
+        $this->elementos_reporte = $elementos_reporte;
 
     }
     public function consultarElementosConsumidos() {
