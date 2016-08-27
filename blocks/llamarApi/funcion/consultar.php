@@ -304,6 +304,49 @@ class Consultar {
 
     }
 
+    /**
+     * Funcion Consultar Identificadores Salida en ErpNext
+     * Consultar los identificadores relacionados con la salida
+     * Autor: Verdugo,S
+     * Version : 1.0.0.0
+     * Fecha : 2016/08/26
+     **/
+    public function obtenerIdentificadoresSalida($datosConexion = '', $proyecto = '') {
+
+        $this->configurarERPNext($datosConexion);
+
+        $data = array(
+            "project" => str_replace(' ', '%20', $proyecto),
+        );
+
+        $fields = array(
+            "name",
+        );
+
+        $result = $this->clientFrappe->search("Stock Entry", $data, $fields);
+
+        if (!empty($result->body->data)) {
+
+            $array = json_decode(json_encode($result->body->data), True);
+
+            foreach ($array as $value) {
+                if (!is_null($value['name'])) {
+                    $idSalida[] = $value['name'];
+                }
+
+            }
+
+            // Eliminar Duplicados
+            $idSalida = array_unique($idSalida);
+
+            echo json_encode($idSalida);
+
+        }
+
+        return false;
+
+    }
+
 }
 
 ?>
