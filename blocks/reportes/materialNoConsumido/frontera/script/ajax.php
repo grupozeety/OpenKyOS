@@ -35,21 +35,31 @@ $urlApi = $url . $cadena;
 		data: { metodo:'obtenerIdentificadoresSalida',proyecto: $("#<?php echo $this->campoSeguro('proyecto');?>").val()},
 		success: function(data){
 
-			$.each(data , function(indice,valor){
 
-			 $("#<?php echo $this->campoSeguro('elementos');?>").val(data[indice]);
+			variable = data;
 
-
+			$.each(variable , function(indice,valor){
 
 			  $.ajax({
 					url: "<?php echo $urlApi;?>",
 					dataType: "text",
-					data: { metodo:'obtenerMateriales',salida: data[indice]},
+					data: { metodo:'obtenerDetalleOrden',nombre: variable[indice]},
 					success: function(data){
 
 
 
-						 $("#<?php echo $this->campoSeguro('elementos');?>").val(btoa(data));
+						if($("#<?php echo $this->campoSeguro('ordenes');?>").val()==''){
+
+						$("#<?php echo $this->campoSeguro('ordenes');?>").val(btoa(data));
+
+						}else{
+
+						contenido = $("#<?php echo $this->campoSeguro('ordenes');?>").val();
+
+						$("#<?php echo $this->campoSeguro('ordenes');?>").val(contenido +"@"+btoa(data));
+
+
+						}
 
 
 					}
@@ -57,20 +67,26 @@ $urlApi = $url . $cadena;
 				});
 
 
-
-
-
-
 			 $.ajax({
 					url: "<?php echo $urlApi;?>",
 					dataType: "text",
-					data: { metodo:'obtenerMateriales',nombre: data[indice]},
+					data: { metodo:'obtenerMateriales',nombre: variable[indice]},
 					success: function(data){
 
 
 
-						 $("#<?php echo $this->campoSeguro('elementos');?>").val(btoa(data));
+						if($("#<?php echo $this->campoSeguro('elementos');?>").val()==''){
 
+						$("#<?php echo $this->campoSeguro('elementos');?>").val(btoa(data));
+
+						}else{
+
+						contenido = $("#<?php echo $this->campoSeguro('elementos');?>").val();
+
+						$("#<?php echo $this->campoSeguro('elementos');?>").val(contenido +"@"+btoa(data));
+
+
+						}
 
 					}
 

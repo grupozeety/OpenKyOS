@@ -41,7 +41,7 @@ class Entidad {
     }
 
     public function generarReporte() {
-        include_once $this->ruta . "entidad/generarReporte.php";
+        include_once $this->ruta . "entidad/procesarParametros.php";
     }
 
     public function action() {
