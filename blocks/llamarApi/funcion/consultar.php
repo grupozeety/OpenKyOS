@@ -247,6 +247,7 @@ class Consultar {
         );
 
         $fields = array(
+            "name",
             "orden_trabajo",
             "project",
             "descripcion_orden",
