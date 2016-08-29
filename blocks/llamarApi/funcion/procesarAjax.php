@@ -56,22 +56,44 @@ class Procesador {
     }
 
     public function procesar() {
-        if (isset($_REQUEST['metodo']) && $_REQUEST['metodo'] == "almacenes") {
-            $resultado = $this->consultar->obtenerAlmacen($this->datosConexionERPNext);
-        } else if (isset($_REQUEST['metodo']) && $_REQUEST['metodo'] == "proyectos") {
-            $resultado = $this->consultar->obtenerProjectos($this->datosConexionOpenProject);
-        } else if (isset($_REQUEST['metodo']) && $_REQUEST['metodo'] == "actividades" && isset($_REQUEST['proyecto'])) {
-            $resultado = $this->consultar->obtenerActividades($this->datosConexionOpenProject, $_REQUEST['proyecto']);
-        } else if (isset($_REQUEST['metodo']) && $_REQUEST['metodo'] == "ordenTrabajo") {
-            $resultado = $this->consultar->obtenerOrdenTrabajo($this->datosConexionERPNext);
-        } else if (isset($_REQUEST['metodo']) && $_REQUEST['metodo'] == "obtenerMateriales") {
-            $resultado = $this->consultar->obtenerMaterialesOrden($this->datosConexionERPNext, $_REQUEST['nombre']);
-        } else if (isset($_REQUEST['metodo']) && $_REQUEST['metodo'] == "obtenerDetalleOrden") {
-            $resultado = $this->consultar->obtenerDetalleOrden($this->datosConexionERPNext, $_REQUEST['nombre']);
-        } else if (isset($_REQUEST['metodo']) && $_REQUEST['metodo'] == "obtenerProjectosSalida") {
-            $resultado = $this->consultar->obtenerProjectosSalida($this->datosConexionERPNext);
+
+        if (isset($_REQUEST['metodo'])) {
+            switch ($_REQUEST['metodo']) {
+
+                case 'almacenes':
+                    $resultado = $this->consultar->obtenerAlmacen($this->datosConexionERPNext);
+                    break;
+
+                case 'proyectos':
+                    $resultado = $this->consultar->obtenerProjectos($this->datosConexionOpenProject);
+                    break;
+                case 'actividades':
+                    $resultado = $this->consultar->obtenerActividades($this->datosConexionOpenProject, $_REQUEST['proyecto']);
+                    break;
+                case 'ordenTrabajo':
+                    $resultado = $this->consultar->obtenerOrdenTrabajo($this->datosConexionERPNext);
+                    break;
+
+                case 'obtenerMateriales':
+                    $resultado = $this->consultar->obtenerMaterialesOrden($this->datosConexionERPNext, $_REQUEST['nombre']);
+                    break;
+
+                case 'obtenerDetalleOrden':
+                    $resultado = $this->consultar->obtenerDetalleOrden($this->datosConexionERPNext, $_REQUEST['nombre']);
+                    break;
+                case 'obtenerProjectosSalida':
+                    $resultado = $this->consultar->obtenerProjectosSalida($this->datosConexionERPNext);
+                    break;
+
+                case 'obtenerIdentificadoresSalida':
+                    $resultado = $this->consultar->obtenerIdentificadoresSalida($this->datosConexionERPNext, $_REQUEST['proyecto']);
+                    break;
+
+            }
         }
+
     }
+
 }
 
 $api = new Procesador();
