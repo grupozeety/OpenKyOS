@@ -62,6 +62,10 @@ $urlApi = $url . $cadena;
 						}
 
 
+
+
+
+
 					}
 
 				});
@@ -87,6 +91,15 @@ $urlApi = $url . $cadena;
 
 
 						}
+
+
+						if($("#<?php echo $this->campoSeguro('ordenes');?>").val()!='' && $("#<?php echo $this->campoSeguro('elementos');?>").val()!=''){
+
+   								$("#botones").css('display','block');
+
+								}
+
+
 
 					}
 
@@ -129,6 +142,7 @@ $urlApi = $url . $cadena;
 
 
 $(function() {
+
          	$("#<?php echo $this->campoSeguro('proyecto');?>").ready(function() {
 
 					consultarProyectosSalida();
@@ -138,7 +152,11 @@ $(function() {
 
         	$("#<?php echo $this->campoSeguro('proyecto');?>").change(function() {
 
+        			$("#botones").css('display','none');
+					$("#<?php echo $this->campoSeguro('ordenes');?>").val('');
+ 					$("#<?php echo $this->campoSeguro('elementos');?>").val('');
 					consultarIdentificadoresSalida();
+
 
         	});
 

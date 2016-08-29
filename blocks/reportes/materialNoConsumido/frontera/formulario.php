@@ -132,6 +132,7 @@ class Registrador {
                 // ------------------Division para los botones-------------------------
                 $atributos["id"] = "botones";
                 $atributos["estilo"] = "marcoBotones";
+                $atributos["estiloEnLinea"] = "display:none;";
                 echo $this->miFormulario->division("inicio", $atributos);
                 unset($atributos);
                 {

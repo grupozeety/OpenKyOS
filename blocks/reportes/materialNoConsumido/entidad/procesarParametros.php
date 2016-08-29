@@ -20,7 +20,6 @@ class FormProcessor {
         $this->miSql = $sql;
 
         $_REQUEST['tiempo'] = time();
-        var_dump($_REQUEST);
 
         /**
          *  1. Crear arreglo de elementos del Proyectos
@@ -43,7 +42,6 @@ class FormProcessor {
         /**
          *  3. Generar Documento PDF
          **/
-        var_dump($this->elementos_reporte);
 
         $this->generarDocumentoPDF();
 
