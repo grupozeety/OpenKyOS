@@ -18,11 +18,20 @@ class GenerarDocumento {
     public $miSql;
     public $conexion;
     public $contenidoPagina;
+    public $rutaURL;
     public function __construct($sql, $elementos) {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
         $this->elementos = $elementos;
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+
+        if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
+
+            $this->rutaURL .= "/blocks/" . $_REQUEST["bloque"] . "/";
+        } else {
+            $this->rutaURL .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
+        }
 
         /**
          *  1. Estruturar Documento
@@ -42,7 +51,7 @@ class GenerarDocumento {
 
         ob_start();
         $html2pdf = new \HTML2PDF('L', 'LETTER', 'es', true, 'UTF-8', array(
-            1,
+            2,
             2,
             2,
             10,
@@ -74,24 +83,27 @@ class GenerarDocumento {
 
 							        font-weight: bold; /* Make sure they're bold */
 							        text-align: center;
-							        font-size:10px
+							        font-size:10px;
 							    }
 							    td {
 
 							        text-align: left;
-							        font-size:10px
+
 							    }
 							</style>
 
 
-							<page backtop='1mm' backbottom='1mm' backleft='5mm' backright='5mm' footer='page'>
+							<page backtop='2mm' backbottom='1mm' backleft='5mm' backright='5mm' footer='page'>
 
 							        <table align='left' style='width:100%;' >
 							            <tr>
-							                   <td align='center' style='width:100%;border=none;' >
-							                    <font size='7px'><b>Relación de Materiales No Consumidos para Devolución a Bodega</b></font>
+							            	   <td align='center' style='width:50%;border=none;' >
+                    							<img src='" . $this->rutaURL . "frontera/css/imagen/politecnica.png'  width='300' height='110'>
+                								</td>
+							                   <td align='center' style='width:50%;border=none;' >
+							                    <font size='40px'><b>Relación de Materiales No Consumidos para Devolución a Bodega</b></font>
 							                     <br>
-							                    <font size='12	px'><b>Proyecto : " . $_REQUEST['proyecto'] . "</b></font>
+							                    <font size='50px'><b>Proyecto : " . $_REQUEST['proyecto'] . "</b></font>
 							                     <br>
 							                     <font size='4px'>" . date("Y-m-d") . "</font>
 							                </td>
@@ -106,23 +118,31 @@ class GenerarDocumento {
         						<br>
 	 							<table style='width:100%;'>
 								<tr>
+								<td style='width:5%;text-align=center;'>N°</td>
 								<td style='width:10%;text-align=center;'>Identificador Material</td>
-								<td style='width:40%;text-align=center;'>Descripción Material</td>
+								<td style='width:35%;text-align=center;'>Descripción Material</td>
 								<td style='width:10%;text-align=center;'>Cantidad de Material No Consumido</td>
+								<td style='width:10%;text-align=center;'>Cantidad de Material Entregado </td>
 								<td style='width:5%;text-align=center;'>Número Orden Trabajo</td>
-								<td style='width:35%;text-align=center;'>Descripción Orden Trabajo</td>
+								<td style='width:25%;text-align=center;'>Descripción Orden Trabajo</td>
 								</tr>";
+
+        $i = 1;
 
         foreach ($this->elementos as $valor) {
 
             $contenidoPagina .= "
 							            <tr>
+							            <td style='width:5%;text-align=center;'>" . $i . "</td>
 							            <td style='width:10%;text-align=center;'>" . $valor['name'] . "</td>
-							            <td style='width:40%;text-align=center;'>" . $valor['description'] . "</td>
+							            <td style='width:35%;text-align=center;'>" . $valor['description'] . "</td>
 							            <td style='width:10%;text-align=center;'>" . $valor['qty'] . "</td>
+							            <td style='width:10%;text-align=center;'></td>
 							            <td style='width:5%;text-align=center;'>" . $valor['numero_orden'] . "</td>
-							            <td style='width:35%;text-align=center;'>" . $valor['descripcion_orden'] . "</td>
+							            <td style='width:25%;text-align=center;'>" . $valor['descripcion_orden'] . "</td>
 							            </tr>";
+
+            $i++;
 
         }
 
@@ -138,13 +158,16 @@ class GenerarDocumento {
 
 						<table style='width:100%; background:#FFFFFF ; border: 0px  #FFFFFF;'>
 						<tr>
-						<td style='width:100%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>_______________________________________________________</td>
+						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>_____________________</td>
+						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>_____________________</td>
+						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>_____________________</td>
 						</tr>
 						<tr>
-						<td style='width:100%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>Firma Responsable</td>
+						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>Firma Solicitante</td>
+						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>Firma Líder Técnico</td>
+						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>Firma Almacenista</td>
 						</tr>
 						</table>
-
 			</page_footer>
 					";
 
