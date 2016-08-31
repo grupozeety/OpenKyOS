@@ -94,7 +94,7 @@ class GenerarDocumento {
 
 
 
-						<page backtop='35mm' backbottom='1mm' backleft='5mm' backright='5mm' footer='page'>
+						<page backtop='35mm' backbottom='30mm' backleft='5mm' backright='5mm' footer='page'>
 							<page_header>
     								<table align='left' style='width:100%;' >
 							            <tr>
