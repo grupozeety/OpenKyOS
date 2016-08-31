@@ -93,12 +93,13 @@ class GenerarDocumento {
 							</style>
 
 
-							<page backtop='2mm' backbottom='1mm' backleft='5mm' backright='5mm' footer='page'>
 
-							        <table align='left' style='width:100%;' >
+						<page backtop='35mm' backbottom='1mm' backleft='5mm' backright='5mm' footer='page'>
+							<page_header>
+    								<table align='left' style='width:100%;' >
 							            <tr>
 							            	   <td align='center' style='width:50%;border=none;' >
-                    							<img src='" . $this->rutaURL . "frontera/css/imagen/politecnica.png'  width='300' height='110'>
+                    							<img src='" . $this->rutaURL . "frontera/css/imagen/politecnica.png'  width='250' height='80'>
                 								</td>
 							                   <td align='center' style='width:50%;border=none;' >
 							                    <font size='40px'><b>Relación de Materiales No Consumidos para Devolución a Bodega</b></font>
@@ -108,14 +109,11 @@ class GenerarDocumento {
 							                     <font size='4px'>" . date("Y-m-d") . "</font>
 							                </td>
 							            </tr>
-							        </table>";
+							        </table>
+
+						</page_header>";
 
         $contenidoPagina .= "
-
-
-        						<br>
-        						<br>
-        						<br>
 	 							<table style='width:100%;'>
 								<tr>
 								<td style='width:5%;text-align=center;'>N°</td>
