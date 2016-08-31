@@ -11,6 +11,8 @@ $funcion[$indice++]="bootstrap-table.min.js";
 $funcion[$indice++]="bootstrap-table-toolbar.min.js";
 $funcion[$indice++]="bootstrap-treeview.js";
 
+$funcion[$indice++]="familiar.js";
+
 
 $embebido [$indice] = true;
 $funcion [$indice ++] = "ajax.php";

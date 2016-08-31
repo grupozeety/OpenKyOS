@@ -19,7 +19,7 @@ $this->idioma["nombre_beneficiario"]="Nombre Completo";
 $this->idioma["genero_beneficiario"]="Genero";
 $this->idioma["edad_beneficiario"]="Edad";
 $this->idioma["nivel_estudio"]="Nivel de Estudio";
-$this->idioma["correo"]="Correo Electónico";
+$this->idioma["correo"]="Correo Electrónico";
 $this->idioma["direccion"]="Dirección";
 $this->idioma["tipo_vivienda"]="Tipo de Vivienda";
 $this->idioma["direccion"]="Dirección";
@@ -36,11 +36,17 @@ $this->idioma["jefe_hogar"]="Jefe de Hogar";
 $this->idioma["pertenencia_etnica"]="Pertenencia Étnica";
 $this->idioma["ocupacion"]="Ocupación";
 
-
+$this->idioma["identificacion_familiar"]="Identificación";
 $this->idioma["nombre_familiar"]="Nombre Completo";
 $this->idioma["genero_familiar"]="Genero";
 $this->idioma["edad_familiar"]="Edad";
-$this->idioma["nivel_estudio"]="Nivel de Estudio";
+$this->idioma["nivel_estudio_familiar"]="Nivel de Estudio";
+$this->idioma["correo_familiar"]="Correo Electrónico";
+$this->idioma["grado"]="Grado";
+$this->idioma["institucion_educativa"]="Institución Educativa";
+$this->idioma["pertenencia_etnica_familiar"]="Pertenencia Étnica";
+$this->idioma["ocupacion_familiar"]="Ocupación";
+
 
 
 

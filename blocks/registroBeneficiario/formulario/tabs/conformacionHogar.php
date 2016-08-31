@@ -37,6 +37,10 @@ class Formulario {
 
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
+        
+        $rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );
+        $rutaBloque .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/";
+        $rutaBloque .= $esteBloque ['grupo'] . '/' . $esteBloque ['nombre'];
 
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
         /**
@@ -98,12 +102,52 @@ class Formulario {
         	unset ( $atributos );
         }
         
-        $esteCampo = 'conformacionHogar';
+        $esteCampo = 'hogar';
         $atributos ['id'] = $esteCampo;
         $atributos ['leyenda'] = "Conformación de Hogar";
         echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
         unset ( $atributos );
         
+        $esteCampo = 'div_1';
+        $atributos ['id'] = $esteCampo;
+        $atributos ['leyenda'] = "Familiar";
+        echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
+        unset ( $atributos );
+        
+        
+//         // ----------------INICIO CONTROL: Eliminar Familiar --------------------------------------------------------
+//         $esteCampo = "botonEliminar";
+//         $atributos ["id"] = $esteCampo;
+//         $atributos ["tabIndex"] = $tab ++;
+//         $atributos ["borde"] = 0;
+//         $atributos ["ancho"] = 30;
+//         $atributos ["alto"] = 30;
+//         $atributos ['columnas'] = 1;
+//         $atributos ["etiqueta"] = "Eliminar";
+//         $atributos ["imagen"] = $rutaBloque . "/imagenes/add_list_256_modificado.png";
+//         $atributos ["alineacion"] = "right";
+//         $atributos ["verificar"] = ""; // Se coloca true si se desea verificar el formulario antes de pasarlo al servidor.
+//         $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+//         echo $this->miFormulario->campoImagen ( $atributos );
+//         unset ( $atributos );
+//         // ----------------FIN CONTROL: Eliminar Familiar --------------------------------------------------------
+        
+//         // ----------------INICIO CONTROL: Agregar Familiar --------------------------------------------------------
+        
+//         $esteCampo = "botonAgregar";
+//         $atributos ["id"] = $esteCampo;
+//         $atributos ["tabIndex"] = $tab ++;
+//         $atributos ["borde"] = 0;
+//         $atributos ["ancho"] = 30;
+//         $atributos ["alto"] = 30;
+//         $atributos ['columnas'] = 1;
+//         $atributos ["alineacion"] = "right";
+//         $atributos ["etiqueta"] = "Agregar";
+//         $atributos ["imagen"] = $rutaBloque . "/imagenes/add_list_256.png";
+//         echo $this->miFormulario->campoImagen ( $atributos );
+//         unset ( $atributos );
+        
+        // ----------------FIN CONTROL: Agregar Familiar --------------------------------------------------------
         
         
         // ----------------INICIO CONTROL: Campo Texto Identificación del Beneficiario--------------------------------------------------------
@@ -357,7 +401,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Lista Pertenencia Étnica--------------------------------------------------------
         
-        $esteCampo = 'pertenencia_etnica';
+        $esteCampo = 'pertenencia_etnica_familiar';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
@@ -388,7 +432,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Lista Ocupación--------------------------------------------------------
         
-        $esteCampo = 'ocupacion';
+        $esteCampo = 'ocupacion_familiar';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
@@ -416,6 +460,13 @@ class Formulario {
         unset ( $atributos );
          
         // ----------------FIN CONTROL: Lista Ocupación--------------------------------------------------------
+        
+        echo $this->miFormulario->agrupacion ( 'fin' );
+        unset ( $atributos );
+        
+        echo '<img src="'. $rutaBloque . "/imagenes/add_list_256_modificado.png" . '" id="botonEliminar" alt="Eliminar" style="width:30px;height:30px;">';
+        echo '<img src="'. $rutaBloque . "/imagenes/add_list_256.png" . '" id="botonAgregar" alt="Agregar" style="width:30px;height:30px;">';
+        echo '<p style="clear: right;"></p>';
         
         // ------------------Division para los botones-------------------------
         $atributos ["id"] = "botones";
@@ -506,16 +557,6 @@ class Formulario {
         $atributos ['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario ( $atributos );
 
-        $esteCampo = "botonAgregar";
-        $atributos ["id"] = $esteCampo;
-        $atributos ["tabIndex"] = $tab ++;
-        $atributos ["borde"] = 0;
-        $atributos ["ancho"] = 20;
-        $atributos ["alto"] = 20;
-        $atributos ["etiqueta"] = "Agregar";
-        $atributos ["imagen"] = $this->ruta . "/imagenes/add_list_256.png";
-        echo $this->miFormulario->campoImagen ( $atributos );
-        unset ( $atributos );
         // -------------FIN CONTROL: Imagen Agregar Estudiante----------------------
         
         }
