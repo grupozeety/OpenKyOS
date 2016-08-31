@@ -99,7 +99,7 @@ class GenerarDocumento {
     								<table align='left' style='width:100%;' >
 							            <tr>
 							            	   <td align='center' style='width:50%;border=none;' >
-                    							<img src='" . $this->rutaURL . "frontera/css/imagen/politecnica.png'  width='300' height='110'>
+                    							<img src='" . $this->rutaURL . "frontera/css/imagen/politecnica.png'  width='250' height='80'>
                 								</td>
 							                   <td align='center' style='width:50%;border=none;' >
 							                    <font size='40px'><b>Relación de Materiales No Consumidos para Devolución a Bodega</b></font>
