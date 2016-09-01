@@ -46,6 +46,8 @@ $this->idioma["grado"]="Grado";
 $this->idioma["institucion_educativa"]="Institución Educativa";
 $this->idioma["pertenencia_etnica_familiar"]="Pertenencia Étnica";
 $this->idioma["ocupacion_familiar"]="Ocupación";
+$this->idioma["parentesco"]="Parentesco";
+
 
 
 

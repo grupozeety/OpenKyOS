@@ -18,17 +18,17 @@ class Sql extends \Sql {
     public function __construct() {
         $this->miConfigurador = \Configurador::singleton();
 
-        $this->miSesionSso = \SesionSso::singleton();
+//         $this->miSesionSso = \SesionSso::singleton();
     }
     public function getCadenaSql($tipo, $variable = "") {
 
-        $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
+//         $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
 
-        foreach ($info_usuario['description'] as $key => $rol) {
+//         foreach ($info_usuario['description'] as $key => $rol) {
 
-            $info_usuario['rol'][] = $rol;
+//             $info_usuario['rol'][] = $rol;
 
-        }
+//         }
 
         /**
          * 1.
@@ -169,6 +169,146 @@ class Sql extends \Sql {
 
                 break;
 
+                
+            case "parametroTipoBeneficiario":
+               	$cadenaSql = "SELECT        ";
+               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= "param.descripcion ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "parametros.parametros as param ";
+               	$cadenaSql .= "INNER JOIN ";
+               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
+               	$cadenaSql .= "ON ";
+               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "rparam.descripcion = 'Tipo de Beneficario o Cliente' ";
+               	break;
+                	
+            case "parametroGenero":
+            	$cadenaSql = "SELECT        ";
+                $cadenaSql .= " id_parametro, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Genero' ";
+                break;
+                
+            case "parametroNivelEstudio":
+               	$cadenaSql = "SELECT        ";
+               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= "param.descripcion ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "parametros.parametros as param ";
+               	$cadenaSql .= "INNER JOIN ";
+               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
+               	$cadenaSql .= "ON ";
+               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "rparam.descripcion = 'Nivel de Estudio' ";
+               	break;
+               	
+            case "parametroTipoVivienda":
+            	$cadenaSql = "SELECT        ";
+            	$cadenaSql .= " id_parametro, ";
+             	$cadenaSql .= "param.descripcion ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "parametros.parametros as param ";
+               	$cadenaSql .= "INNER JOIN ";
+               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
+               	$cadenaSql .= "ON ";
+               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "rparam.descripcion = 'Tipo de Vivienda' ";
+               	break;
+               	
+            case "parametroTerritorio":
+              	$cadenaSql = "SELECT        ";
+               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= "param.descripcion ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "parametros.parametros as param ";
+               	$cadenaSql .= "INNER JOIN ";
+               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
+               	$cadenaSql .= "ON ";
+               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "rparam.descripcion = 'Territorio' ";
+               	break;
+               	
+            case "parametroEstrato":
+             	$cadenaSql = "SELECT        ";
+               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= "param.descripcion ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "parametros.parametros as param ";
+               	$cadenaSql .= "INNER JOIN ";
+               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
+               	$cadenaSql .= "ON ";
+               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "rparam.descripcion = 'Estrato' ";
+               	break;
+               	
+            case "parametroJefeHogar":
+            	$cadenaSql = "SELECT        ";
+               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= "param.descripcion ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "parametros.parametros as param ";
+               	$cadenaSql .= "INNER JOIN ";
+               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
+               	$cadenaSql .= "ON ";
+               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "rparam.descripcion = 'Jefe de Hogar' ";
+               	break;
+               	
+            case "parametroPertenenciaEtnica":
+              	$cadenaSql = "SELECT        ";
+               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= "param.descripcion ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "parametros.parametros as param ";
+               	$cadenaSql .= "INNER JOIN ";
+               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
+               	$cadenaSql .= "ON ";
+               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "rparam.descripcion = 'Pertinencia Étnica' ";
+               	break;
+               	
+             case "parametroOcupacion":
+               	$cadenaSql = "SELECT        ";
+               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= "param.descripcion ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "parametros.parametros as param ";
+               	$cadenaSql .= "INNER JOIN ";
+               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
+               	$cadenaSql .= "ON ";
+               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "rparam.descripcion = 'Ocupación' ";
+               	break;
+               	
+             case "parametroParentesco":
+             	$cadenaSql = "SELECT        ";
+               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= "param.descripcion ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "parametros.parametros as param ";
+               	$cadenaSql .= "INNER JOIN ";
+               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
+               	$cadenaSql .= "ON ";
+               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "rparam.descripcion = 'Parentesco con jefe de hogar' ";
+               	break;
         }
 
         return $cadenaSql;

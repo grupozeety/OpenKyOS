@@ -13,8 +13,9 @@ class Formulario {
     var $miConfigurador;
     var $lenguaje;
     var $miFormulario;
+    var $miSql;
 
-    function __construct($lenguaje, $formulario) {
+    function __construct($lenguaje, $formulario, $sql) {
 
     	$a=0;
         $this->miConfigurador = \Configurador::singleton ();
@@ -24,6 +25,8 @@ class Formulario {
         $this->lenguaje = $lenguaje;
 
         $this->miFormulario = $formulario;
+        
+        $this->miSql = $sql;
 
     }
 
@@ -35,6 +38,9 @@ class Formulario {
          * algunas funciones js que lo complementan.
          */
 
+    	$conexion = "estructura";
+    	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+    	
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
         
@@ -233,9 +239,15 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
-        
-        $atributos ['matrizItems'] = array(0=>array(0=>"",1=>'Seleccione...'));
-        
+        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroGenero" );
+        $matrizItems = array (
+        		array (
+        				0,
+        				' '
+        		)
+        );
+        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+        $atributos ['matrizItems'] = $matrizItems;
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
@@ -296,9 +308,15 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
-        
-        $atributos ['matrizItems'] = array(0=>array(0=>"",1=>'Seleccione...'));
-        
+        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroNivelEstudio" );
+        $matrizItems = array (
+        		array (
+        				0,
+        				' '
+        		)
+        );
+        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+        $atributos ['matrizItems'] = $matrizItems;
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
@@ -368,6 +386,43 @@ class Formulario {
          
         // ----------------FIN CONTROL: Lista Grado--------------------------------------------------------
         
+        // ----------------INICIO CONTROL: Lista Parentesco--------------------------------------------------------
+        
+//         $esteCampo = 'parentesco';
+//         $atributos ['nombre'] = $esteCampo;
+//         $atributos ['id'] = $esteCampo;
+//         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+//         $atributos ["etiquetaObligatorio"] = true;
+//         $atributos ['tab'] = $tab ++;
+//         $atributos ['anchoEtiqueta'] = 2;
+//         $atributos ['evento'] = '';
+//         $atributos ['seleccion'] = - 1;
+//         $atributos ['deshabilitado'] = false;
+//         $atributos ['columnas'] = 1;
+//         $atributos ['tamanno'] = 1;
+//         $atributos ['ajax_function'] = "";
+//         $atributos ['ajax_control'] = $esteCampo;
+//         $atributos ['estilo'] = "bootstrap";
+//         $atributos ['limitar'] = false;
+//         $atributos ['anchoCaja'] = 10;
+//         $atributos ['miEvento'] = '';
+//         $atributos ['validar'] = 'required';
+//         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroParentesco" );
+//         $matrizItems = array (
+//         		array (
+//         				0,
+//         				' '
+//         		)
+//         );
+//         $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+//         $atributos ['matrizItems'] = $matrizItems;
+//         // Aplica atributos globales al control
+//         $atributos = array_merge ( $atributos, $atributosGlobales );
+//         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------FIN CONTROL: Lista Parentesco--------------------------------------------------------
+        
         // ----------------INICIO CONTROL: Campo Texto Nombre de Institución Educativa--------------------------------------------------------
         
         $esteCampo = 'institucion_educativa';
@@ -420,9 +475,15 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
-        
-        $atributos ['matrizItems'] = array(0=>array(0=>"",1=>'Seleccione...'));
-        
+        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroPertenenciaEtnica" );
+        $matrizItems = array (
+        		array (
+        				0,
+        				' '
+        		)
+        );
+        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+        $atributos ['matrizItems'] = $matrizItems;
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
@@ -451,9 +512,15 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
-        
-        $atributos ['matrizItems'] = array(0=>array(0=>"",1=>'Seleccione...'));
-        
+        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroOcupacion" );
+        $matrizItems = array (
+        		array (
+        				0,
+        				' '
+        		)
+        );
+        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+        $atributos ['matrizItems'] = $matrizItems;
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
@@ -607,7 +674,7 @@ class Formulario {
 
 }
 
-$miFormulario = new Formulario ( $this->lenguaje, $this->miFormulario );
+$miFormulario = new Formulario ( $this->lenguaje, $this->miFormulario, $this->sql);
 
 
 $miFormulario->formulario ();
