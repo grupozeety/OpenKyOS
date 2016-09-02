@@ -10,7 +10,7 @@ $funcion[$indice++]="select2.min.js";
 $funcion[$indice++]="bootstrap-table.min.js";
 $funcion[$indice++]="bootstrap-table-toolbar.min.js";
 $funcion[$indice++]="bootstrap-treeview.js";
-
+$funcion[$indice++]="fileinput.min.js";
 $funcion[$indice++]="familiar.js";
 
 

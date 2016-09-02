@@ -548,7 +548,7 @@ class Formulario {
         $atributos ["tipo"] = 'boton';
         // submit: no se coloca si se desea un tipo button genérico
         $atributos ['submit'] = true;
-        $atributos ["simple"] = true;
+        $atributos ["basico"] = true;
         $atributos ["estiloMarco"] = '';
         $atributos ["estiloBoton"] = 'default';
         $atributos ["block"] = false;

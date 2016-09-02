@@ -35,6 +35,8 @@ $this->idioma["geolocalizacion"]="Ubicación geográfica";
 $this->idioma["jefe_hogar"]="Jefe de Hogar";
 $this->idioma["pertenencia_etnica"]="Pertenencia Étnica";
 $this->idioma["ocupacion"]="Ocupación";
+$this->idioma["foto"]="Foto";
+
 
 $this->idioma["identificacion_familiar"]="Identificación";
 $this->idioma["nombre_familiar"]="Nombre Completo";

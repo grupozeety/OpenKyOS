@@ -34,33 +34,32 @@ unset ( $atributos );
 
 	echo '
 			<div class="row">
-                <div class="board">
-                    <div class="board-inner">
-                    	<ul class="nav nav-tabs" id="myTab">
-                    		<div class="liner"></div>
-                     		<li class="active">
+                <div class="wizard">
+                    <div class="wizard-inner">
+						<div class="connecting-line"></div>
+							<ul class="nav nav-tabs" role="tablist">
+                    			<li role="presentation" class="active">
                      			<a href="#datosBasicos" data-toggle="tab" title="Datos Básicos de Beneficiario">
                       				<span class="round-tabs one">
                               			<i class="glyphicon glyphicon-user"></i>
                       				</span>
-                  			</a></li>
-	
-                  			<li><a href="#conformacionHogar" data-toggle="tab" title="Conformación Hogar Beneficiario">
+                  				</a></li>
+							 	<li role="presentation" class="disabled">
+                  				<a href="#conformacionHogar" data-toggle="tab" title="Conformación Hogar Beneficiario">
                      			<span class="round-tabs two">
                          			<i class="glyphicon glyphicon-home"></i>
                      			</span>
-           					</a></li>
-			
-                 			<li><a href="#otrasSecciones" data-toggle="tab" title="Otras Secciones">
-                     			<span class="round-tabs three">
-                          			<i class="glyphicon glyphicon-tasks"></i>
-                     			</span>
-							</a></li>
-           
-                     	</ul>
-					</div>
+           						</a></li>
+								<li role="presentation" class="disabled">
+                 				<a href="#otrasSecciones" data-toggle="tab" title="Otras Secciones">
+                     				<span class="round-tabs three">
+                          				<i class="glyphicon glyphicon-tasks"></i>
+                     				</span>
+								</a></li>
+                     		</ul>
+						</div>
 	
-                    <div class="tab-content">';
+                    	<div class="tab-content">';
 	
 						echo '<div class="tab-pane fade in active" id="datosBasicos">';
 				
@@ -85,6 +84,7 @@ unset ( $atributos );
 					</div>
 					</div>
 					</div>
+		            </div>
 		            ';
 }
 echo $this->miFormulario->division ( "fin" );

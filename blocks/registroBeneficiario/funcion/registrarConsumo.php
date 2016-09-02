@@ -28,6 +28,8 @@ class Registrar {
 	}
 	function procesarFormulario() {
 		
+		
+		var_dump($_REQUEST); die();
 		$consumoMaterial = array();
 		
 		$contador=0;

@@ -376,6 +376,39 @@ class Formulario {
          
         // ----------------FIN CONTROL: Campo Texto Correo Electrónico-------------------------------------------------------
         
+        
+        // ----------------INICIO CONTROL: Campo Texto Foto--------------------------------------------------------
+        
+        $esteCampo = 'foto';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = "file";
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['evento'] = '';
+        $atributos ['deshabilitado'] = false;
+        $atributos ['readonly'] = true;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['placeholder'] = "";
+        $atributos ['valor'] = "";
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = 'required';
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------FIN CONTROL: Campo Texto Foto-------------------------------------------------------
+        
+        
         // ----------------INICIO CONTROL: Campo Texto Dirección--------------------------------------------------------
         
         $esteCampo = 'direccion';
@@ -558,9 +591,15 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
-        
-        $atributos ['matrizItems'] = array(0=>array(0=>"",1=>'Seleccione...'));
-        
+        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTerritorio" );
+        $matrizItems = array (
+        		array (
+        				0,
+        				' '
+        		)
+        );
+        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+        $atributos ['matrizItems'] = $matrizItems;
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
@@ -589,9 +628,15 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
-        
-        $atributos ['matrizItems'] = array(0=>array(0=>"",1=>'Seleccione...'));
-        
+        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTerritorio" );
+        $matrizItems = array (
+        		array (
+        				0,
+        				' '
+        		)
+        );
+        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+        $atributos ['matrizItems'] = $matrizItems;
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
@@ -727,7 +772,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+        $atributos ['validar'] = '';
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
@@ -853,15 +898,15 @@ class Formulario {
         unset($atributos);
 
         // -----------------CONTROL: Botón ----------------------------------------------------------------
-        $esteCampo = 'botonAceptar';
+        $esteCampo = 'botonContinuar';
         $atributos ["id"] = $esteCampo;
         $atributos ["tabIndex"] = $tab;
         $atributos ["tipo"] = 'boton';
         // submit: no se coloca si se desea un tipo button genérico
-        $atributos ['submit'] = true;
-        $atributos ["simple"] = true;
+        $atributos ['submit'] = false;
+        $atributos ["basico"] = true;
         $atributos ["estiloMarco"] = '';
-        $atributos ["estiloBoton"] = 'default';
+        $atributos ["estiloBoton"] = 'primary';
         $atributos ["block"] = false;
         // verificar: true para verificar el formulario antes de pasarlo al servidor.
         $atributos ["verificar"] = '';
@@ -1063,6 +1108,8 @@ class Formulario {
         $atributos ["estiloMarco"] = 'text-center';
         $atributos ["estiloBoton"] = 'default';
         $atributos ["block"] = false;
+        $atributos ['deshabilitado'] = true;
+        
         // verificar: true para verificar el formulario antes de pasarlo al servidor.
         $atributos ["verificar"] = '';
         $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
