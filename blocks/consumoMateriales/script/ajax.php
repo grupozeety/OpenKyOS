@@ -45,7 +45,7 @@ function ordenTrabajo(){
 	
 			$.each(data , function(indice,valor){
 				if(data[ indice ].purpose == "Material Issue"){ 
-					$("<option value='"+data[ indice ].name+"'>"+data[ indice ].orden_trabajo + " - " + data[ indice ].name + "</option>").appendTo("#<?php echo $this->campoSeguro('ordenTrabajo')?>");
+					$("<option value='"+data[ indice ].name+"'>"+data[ indice ].id_orden_trabajo + " - " + data[ indice ].name + "</option>").appendTo("#<?php echo $this->campoSeguro('ordenTrabajo')?>");
 				}
 			});
 		}
@@ -60,7 +60,7 @@ function detalleOrden(nombre){
 		dataType: "json",
 		data: { metodo:'obtenerDetalleOrden', nombre: nombre},
 		success: function(data){
-			$("#<?php echo $this->campoSeguro('ordenTrabajoReal')?>").val(data[0].orden_trabajo);
+			$("#<?php echo $this->campoSeguro('ordenTrabajoReal')?>").val(data[0].id_orden_trabajo);
 			$("#<?php echo $this->campoSeguro('ordenTrabajoReal')?>").change();
 			$("#<?php echo $this->campoSeguro('proyecto')?>").val(data[0].project);
 			$("#<?php echo $this->campoSeguro('proyecto')?>").change();
