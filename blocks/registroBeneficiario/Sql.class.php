@@ -172,7 +172,7 @@ class Sql extends \Sql {
                 
             case "parametroTipoBeneficiario":
                	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= "codigo, ";
                	$cadenaSql .= "param.descripcion ";
                	$cadenaSql .= "FROM ";
                	$cadenaSql .= "parametros.parametros as param ";
@@ -186,7 +186,7 @@ class Sql extends \Sql {
                 	
             case "parametroGenero":
             	$cadenaSql = "SELECT        ";
-                $cadenaSql .= " id_parametro, ";
+                $cadenaSql .= " codigo, ";
                 $cadenaSql .= "param.descripcion ";
                 $cadenaSql .= "FROM ";
                 $cadenaSql .= "parametros.parametros as param ";
@@ -200,7 +200,7 @@ class Sql extends \Sql {
                 
             case "parametroNivelEstudio":
                	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= " codigo, ";
                	$cadenaSql .= "param.descripcion ";
                	$cadenaSql .= "FROM ";
                	$cadenaSql .= "parametros.parametros as param ";
@@ -214,7 +214,7 @@ class Sql extends \Sql {
                	
             case "parametroTipoVivienda":
             	$cadenaSql = "SELECT        ";
-            	$cadenaSql .= " id_parametro, ";
+            	$cadenaSql .= " codigo, ";
              	$cadenaSql .= "param.descripcion ";
                	$cadenaSql .= "FROM ";
                	$cadenaSql .= "parametros.parametros as param ";
@@ -228,7 +228,7 @@ class Sql extends \Sql {
                	
             case "parametroTerritorio":
               	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= " codigo, ";
                	$cadenaSql .= "param.descripcion ";
                	$cadenaSql .= "FROM ";
                	$cadenaSql .= "parametros.parametros as param ";
@@ -242,7 +242,7 @@ class Sql extends \Sql {
                	
             case "parametroEstrato":
              	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= " codigo, ";
                	$cadenaSql .= "param.descripcion ";
                	$cadenaSql .= "FROM ";
                	$cadenaSql .= "parametros.parametros as param ";
@@ -270,7 +270,7 @@ class Sql extends \Sql {
                	
             case "parametroPertenenciaEtnica":
               	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= " codigo, ";
                	$cadenaSql .= "param.descripcion ";
                	$cadenaSql .= "FROM ";
                	$cadenaSql .= "parametros.parametros as param ";
@@ -298,7 +298,7 @@ class Sql extends \Sql {
                	
              case "parametroParentesco":
              	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= " codigo, ";
                	$cadenaSql .= "param.descripcion ";
                	$cadenaSql .= "FROM ";
                	$cadenaSql .= "parametros.parametros as param ";
@@ -308,6 +308,22 @@ class Sql extends \Sql {
                	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
                	$cadenaSql .= "WHERE ";
                	$cadenaSql .= "rparam.descripcion = 'Parentesco con jefe de hogar' ";
+               	break;
+               	
+            case "parametroDepartamento":
+             	$cadenaSql = "SELECT ";
+             	$cadenaSql .= "codigo_dep, ";
+               	$cadenaSql .= "departamento ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "parametros.departamento ";
+               	break;
+               	
+             case "parametroMunicipio":
+             	$cadenaSql = "SELECT ";
+             	$cadenaSql .= "codigo_mun, ";
+               	$cadenaSql .= "municipio ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "parametros.municipio ";
                	break;
         }
 

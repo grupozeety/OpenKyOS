@@ -51,9 +51,9 @@ unset ( $atributos );
                      			</span>
            						</a></li>
 								<li role="presentation" class="disabled">
-                 				<a href="#otrasSecciones" data-toggle="tab" title="Otras Secciones">
+                 				<a href="#otrasSecciones" data-toggle="tab" title="Registro Completo">
                      				<span class="round-tabs three">
-                          				<i class="glyphicon glyphicon-tasks"></i>
+                          				<i class="glyphicon glyphicon-ok"></i>
                      				</span>
 								</a></li>
                      		</ul>
@@ -74,7 +74,8 @@ unset ( $atributos );
 			            echo '</div>';
 				
 			            echo '<div class="tab-pane fade" id="otrasSecciones">';
-			            
+			            	
+			            	include ($this->ruta . "formulario/tabs/finalizacionRegistro.php");
 			            
 			            echo '</div>';
 			            

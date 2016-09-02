@@ -12,6 +12,7 @@ $("#<?php echo $this->campoSeguro('ocupacion')?>").select2({width:'100%'});
 
 $("#<?php echo $this->campoSeguro('genero_familiar')?>").select2({width:'100%'});
 $("#<?php echo $this->campoSeguro('nivel_estudio_familiar')?>").select2({width:'100%'});
-$("#<?php echo $this->campoSeguro('grado')?>").select2({width:'100%'});
 $("#<?php echo $this->campoSeguro('pertenencia_etnica_familiar')?>").select2({width:'100%'});
 $("#<?php echo $this->campoSeguro('ocupacion_familiar')?>").select2({width:'100%'});
+$("#<?php echo $this->campoSeguro('parentesco')?>").select2({width:'100%'});
+

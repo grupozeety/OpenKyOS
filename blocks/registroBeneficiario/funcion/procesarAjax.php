@@ -16,6 +16,7 @@ if ($_REQUEST ['funcion'] == "codificar") {
 	
 	$codificado['identificacion'] = $miFormulario->campoSeguro("identificacion_familiar_".$_REQUEST ['valor']);
 	$codificado['nombre'] = $miFormulario->campoSeguro("nombre_familiar_".$_REQUEST ['valor']);
+	$codificado['parentesco'] = $miFormulario->campoSeguro("parentesco".$_REQUEST ['valor']);
 	$codificado['genero'] = $miFormulario->campoSeguro("genero_familiar_".$_REQUEST ['valor']);
 	$codificado['edad'] = $miFormulario->campoSeguro("edad_familiar_".$_REQUEST ['valor']);
 	$codificado['nivel_estudio'] = $miFormulario->campoSeguro("nivel_estudio_familiar_".$_REQUEST ['valor']);

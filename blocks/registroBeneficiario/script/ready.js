@@ -5,22 +5,6 @@ $(function() {
 	});
 });
 
-$("#<?php echo $this->campoSeguro("proyecto")?>").keydown(function(e){
-    e.preventDefault();
-});
-
-$("#<?php echo $this->campoSeguro("actividad")?>").keydown(function(e){
-    e.preventDefault();
-});
-
-$("#<?php echo $this->campoSeguro("geomodal")?>").keydown(function(e){
-    e.preventDefault();
-});
-
-$("#<?php echo $this->campoSeguro("porcentajecons")?>").keydown(function(e){
-    e.preventDefault();
-});
-
 $("#<?php echo $this->campoSeguro("geolocalizacion")?>").keydown(function(e){
     e.preventDefault();
 });
@@ -150,3 +134,13 @@ $(document).ready(function () {
 
 	  $('div.wizard div a.btn-primary').trigger('click');
 	});
+
+function generar(longitud)
+{
+  var caracteres = "abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789";
+  var contraseña = "";
+  for (i=0; i<longitud; i++) contraseña += caracteres.charAt(Math.floor(Math.random()*caracteres.length));
+  return contraseña;
+}
+
+$("#<?php echo $this->campoSeguro("id_beneficiario")?>").val(generar(5));

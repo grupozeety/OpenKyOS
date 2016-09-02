@@ -121,41 +121,6 @@ class Formulario {
         unset ( $atributos );
         
         
-//         // ----------------INICIO CONTROL: Eliminar Familiar --------------------------------------------------------
-//         $esteCampo = "botonEliminar";
-//         $atributos ["id"] = $esteCampo;
-//         $atributos ["tabIndex"] = $tab ++;
-//         $atributos ["borde"] = 0;
-//         $atributos ["ancho"] = 30;
-//         $atributos ["alto"] = 30;
-//         $atributos ['columnas'] = 1;
-//         $atributos ["etiqueta"] = "Eliminar";
-//         $atributos ["imagen"] = $rutaBloque . "/imagenes/add_list_256_modificado.png";
-//         $atributos ["alineacion"] = "right";
-//         $atributos ["verificar"] = ""; // Se coloca true si se desea verificar el formulario antes de pasarlo al servidor.
-//         $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-//         echo $this->miFormulario->campoImagen ( $atributos );
-//         unset ( $atributos );
-//         // ----------------FIN CONTROL: Eliminar Familiar --------------------------------------------------------
-        
-//         // ----------------INICIO CONTROL: Agregar Familiar --------------------------------------------------------
-        
-//         $esteCampo = "botonAgregar";
-//         $atributos ["id"] = $esteCampo;
-//         $atributos ["tabIndex"] = $tab ++;
-//         $atributos ["borde"] = 0;
-//         $atributos ["ancho"] = 30;
-//         $atributos ["alto"] = 30;
-//         $atributos ['columnas'] = 1;
-//         $atributos ["alineacion"] = "right";
-//         $atributos ["etiqueta"] = "Agregar";
-//         $atributos ["imagen"] = $rutaBloque . "/imagenes/add_list_256.png";
-//         echo $this->miFormulario->campoImagen ( $atributos );
-//         unset ( $atributos );
-        
-        // ----------------FIN CONTROL: Agregar Familiar --------------------------------------------------------
-        
-        
         // ----------------INICIO CONTROL: Campo Texto Identificación del Beneficiario--------------------------------------------------------
         
         $esteCampo = 'identificacion_familiar';
@@ -220,7 +185,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Lista Genero del Beneficiario--------------------------------------------------------
         
-        $esteCampo = 'genero_familiar';
+        $esteCampo = 'parentesco';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
@@ -239,6 +204,43 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
+        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroParentesco" );
+        $matrizItems = array (
+        		array (
+        				0,
+        				' '
+        		)
+        );
+        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+        $atributos ['matrizItems'] = $matrizItems;
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------FIN CONTROL: Lista Tipo de Beneficiario--------------------------------------------------------
+        
+        // ----------------INICIO CONTROL: Lista Genero del Beneficiario--------------------------------------------------------
+        
+        $esteCampo = 'genero_familiar';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['evento'] = '';
+        $atributos ['seleccion'] = - 1;
+        $atributos ['deshabilitado'] = false;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+//         $atributos ['validar'] = 'required';
         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroGenero" );
         $matrizItems = array (
         		array (
@@ -279,7 +281,7 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['minimo'] = 0;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = 'required';
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
@@ -307,7 +309,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = 'required';
         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroNivelEstudio" );
         $matrizItems = array (
         		array (
@@ -347,7 +349,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = 'required';
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
@@ -359,69 +361,32 @@ class Formulario {
         
         $esteCampo = 'grado';
         $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = "text";
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
         $atributos ["etiquetaObligatorio"] = true;
         $atributos ['tab'] = $tab ++;
         $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
-        $atributos ['seleccion'] = - 1;
         $atributos ['deshabilitado'] = false;
+        $atributos ['readonly'] = true;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
+        $atributos ['placeholder'] = "";
+        $atributos ['valor'] = "";
         $atributos ['ajax_function'] = "";
         $atributos ['ajax_control'] = $esteCampo;
-        $atributos ['estilo'] = "bootstrap";
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
-        
-        $atributos ['matrizItems'] = array(0=>array(0=>"",1=>'Seleccione...'));
-        
+//         $atributos ['validar'] = 'required';
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
         unset ( $atributos );
          
         // ----------------FIN CONTROL: Lista Grado--------------------------------------------------------
-        
-        // ----------------INICIO CONTROL: Lista Parentesco--------------------------------------------------------
-        
-//         $esteCampo = 'parentesco';
-//         $atributos ['nombre'] = $esteCampo;
-//         $atributos ['id'] = $esteCampo;
-//         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-//         $atributos ["etiquetaObligatorio"] = true;
-//         $atributos ['tab'] = $tab ++;
-//         $atributos ['anchoEtiqueta'] = 2;
-//         $atributos ['evento'] = '';
-//         $atributos ['seleccion'] = - 1;
-//         $atributos ['deshabilitado'] = false;
-//         $atributos ['columnas'] = 1;
-//         $atributos ['tamanno'] = 1;
-//         $atributos ['ajax_function'] = "";
-//         $atributos ['ajax_control'] = $esteCampo;
-//         $atributos ['estilo'] = "bootstrap";
-//         $atributos ['limitar'] = false;
-//         $atributos ['anchoCaja'] = 10;
-//         $atributos ['miEvento'] = '';
-//         $atributos ['validar'] = 'required';
-//         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroParentesco" );
-//         $matrizItems = array (
-//         		array (
-//         				0,
-//         				' '
-//         		)
-//         );
-//         $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-//         $atributos ['matrizItems'] = $matrizItems;
-//         // Aplica atributos globales al control
-//         $atributos = array_merge ( $atributos, $atributosGlobales );
-//         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-        unset ( $atributos );
-         
-        // ----------------FIN CONTROL: Lista Parentesco--------------------------------------------------------
         
         // ----------------INICIO CONTROL: Campo Texto Nombre de Institución Educativa--------------------------------------------------------
         
@@ -446,7 +411,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = 'required';
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
@@ -474,7 +439,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = 'required';
         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroPertenenciaEtnica" );
         $matrizItems = array (
         		array (
@@ -511,7 +476,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = 'required';
         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroOcupacion" );
         $matrizItems = array (
         		array (
@@ -542,7 +507,7 @@ class Formulario {
         unset($atributos);
 
         // -----------------CONTROL: Botón ----------------------------------------------------------------
-        $esteCampo = 'botonAceptar';
+        $esteCampo = 'botonContinuar';
         $atributos ["id"] = $esteCampo;
         $atributos ["tabIndex"] = $tab;
         $atributos ["tipo"] = 'boton';
@@ -550,7 +515,7 @@ class Formulario {
         $atributos ['submit'] = true;
         $atributos ["basico"] = true;
         $atributos ["estiloMarco"] = '';
-        $atributos ["estiloBoton"] = 'default';
+        $atributos ["estiloBoton"] = 'primary';
         $atributos ["block"] = false;
         // verificar: true para verificar el formulario antes de pasarlo al servidor.
         $atributos ["verificar"] = '';

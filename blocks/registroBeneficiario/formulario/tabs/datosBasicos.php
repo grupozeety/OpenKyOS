@@ -259,7 +259,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+        //         $atributos ['validar'] = '';
         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroGenero" );
         $matrizItems = array (
         		array (
@@ -300,7 +300,7 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['minimo'] = 18;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+        $atributos ['validar'] = '';
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
@@ -328,7 +328,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+        //         $atributos ['validar'] = '';
         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroNivelEstudio" );
         $matrizItems = array (
         		array (
@@ -400,7 +400,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+        $atributos ['validar'] = '';
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
@@ -460,7 +460,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+        //         $atributos ['validar'] = '';
         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTipoVivienda" );
         $matrizItems = array (
         		array (
@@ -500,7 +500,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+        $atributos ['validar'] = '';
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
@@ -562,7 +562,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+        $atributos ['validar'] = '';
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
@@ -591,7 +591,7 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
-        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTerritorio" );
+        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroDepartamento" );
         $matrizItems = array (
         		array (
         				0,
@@ -628,7 +628,7 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
-        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTerritorio" );
+        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroMunicipio" );
         $matrizItems = array (
         		array (
         				0,
@@ -695,7 +695,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = '';
         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTerritorio" );
         $matrizItems = array (
         		array (
@@ -800,7 +800,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = '';
         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroJefeHogar" );
         $matrizItems = array (
         		array (
@@ -837,7 +837,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = '';
         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroPertenenciaEtnica" );
         $matrizItems = array (
         		array (
@@ -874,7 +874,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = '';
         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroOcupacion" );
         $matrizItems = array (
         		array (
@@ -1090,7 +1090,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 12;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = 'required';
         // Aplica atributos globales al control
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
         unset ( $atributos );

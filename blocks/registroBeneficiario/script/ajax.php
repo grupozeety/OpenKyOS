@@ -68,10 +68,10 @@ function codificacionCampos(id){
 			
 				<!--Se remueven los select2 de los select para realizar una clonación efectiva del campo -->
 				$($( '#div_' + id + ' :input')[2]).select2("destroy");
-				$($( '#div_' + id + ' :input')[4]).select2("destroy");
-				$($( '#div_' + id + ' :input')[6]).select2("destroy");
-				$($( '#div_' + id + ' :input')[8]).select2("destroy");
+				$($( '#div_' + id + ' :input')[3]).select2("destroy");
+				$($( '#div_' + id + ' :input')[5]).select2("destroy");
 				$($( '#div_' + id + ' :input')[9]).select2("destroy");
+				$($( '#div_' + id + ' :input')[10]).select2("destroy");
 				
 				<!--Se clona el div -->
 				$newClone = $('#div_' + id).clone(true);
@@ -82,17 +82,17 @@ function codificacionCampos(id){
 				
 				<!--Se restablecen los select2 -->
 				$($( '#div_' + id + ' :input')[2]).select2({width:'100%'});
-				$($( '#div_' + id + ' :input')[4]).select2({width:'100%'});
-				$($( '#div_' + id + ' :input')[6]).select2({width:'100%'});
-				$($( '#div_' + id + ' :input')[8]).select2({width:'100%'});
+				$($( '#div_' + id + ' :input')[3]).select2({width:'100%'});
+				$($( '#div_' + id + ' :input')[5]).select2({width:'100%'});
 				$($( '#div_' + id + ' :input')[9]).select2({width:'100%'});
+				$($( '#div_' + id + ' :input')[10]).select2({width:'100%'});
 				
 				<!--Se agregan los select2 a los campos clonados-->
 				$($( '#div_' + (id + 1) + ' :input')[2]).select2({width:'100%'});
-				$($( '#div_' + (id + 1) + ' :input')[4]).select2({width:'100%'});
-				$($( '#div_' + (id + 1) + ' :input')[6]).select2({width:'100%'});
-				$($( '#div_' + (id + 1) + ' :input')[8]).select2({width:'100%'});
+				$($( '#div_' + (id + 1) + ' :input')[3]).select2({width:'100%'});
+				$($( '#div_' + (id + 1) + ' :input')[5]).select2({width:'100%'});
 				$($( '#div_' + (id + 1) + ' :input')[9]).select2({width:'100%'});
+				$($( '#div_' + (id + 1) + ' :input')[10]).select2({width:'100%'});
 				
 				$($( '#div_' + (id + 1) + ' :input')[0]).attr('id', data.identificacion).val("");
 				$($( '#div_' + (id + 1) + ' :input')[0]).attr('name', data.identificacion);
@@ -100,29 +100,33 @@ function codificacionCampos(id){
 				$($( '#div_' + (id + 1) + ' :input')[1]).attr('id', data.nombre).val("");;
 				$($( '#div_' + (id + 1) + ' :input')[1]).attr('name', data.nombre);
 				
-				$($( '#div_' + (id + 1) + ' :input')[2]).attr('id', data.genero).val("");;
-				$($( '#div_' + (id + 1) + ' :input')[2]).attr('name', data.genero);
+				$($( '#div_' + (id + 1) + ' :input')[2]).attr('id', data.parentesco).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[3]).attr('name', data.parentesco);
 				
-				$($( '#div_' + (id + 1) + ' :input')[3]).attr('id', data.edad).val("");;
-				$($( '#div_' + (id + 1) + ' :input')[3]).attr('name', data.edad);
+				$($( '#div_' + (id + 1) + ' :input')[3]).attr('id', data.genero).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[3]).attr('name', data.genero);
 				
-				$($( '#div_' + (id + 1) + ' :input')[4]).attr('id', data.nivel_estudio).val("");;
-				$($( '#div_' + (id + 1) + ' :input')[4]).attr('name', data.nivel_estudio);
+				$($( '#div_' + (id + 1) + ' :input')[4]).attr('id', data.edad).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[4]).attr('name', data.edad);
 				
-				$($( '#div_' + (id + 1) + ' :input')[5]).attr('id', data.correo).val("");;
-				$($( '#div_' + (id + 1) + ' :input')[5]).attr('name', data.correo);
+				$($( '#div_' + (id + 1) + ' :input')[5]).attr('id', data.nivel_estudio).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[5]).attr('name', data.nivel_estudio);
 				
-				$($( '#div_' + (id + 1) + ' :input')[6]).attr('id', data.grado);
-				$($( '#div_' + (id + 1) + ' :input')[6]).attr('name', data.grado);
+				$($( '#div_' + (id + 1) + ' :input')[6]).attr('id', data.correo).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[6]).attr('name', data.correo);
 				
-				$($( '#div_' + (id + 1) + ' :input')[7]).attr('id', data.institucion_educativa).val("");;
-				$($( '#div_' + (id + 1) + ' :input')[7]).attr('name', data.institucion_educativa);
+				$($( '#div_' + (id + 1) + ' :input')[7]).attr('id', data.grado);
+				$($( '#div_' + (id + 1) + ' :input')[7]).attr('name', data.grado);
 				
-				$($( '#div_' + (id + 1) + ' :input')[8]).attr('id', data.pertenencia_etnica).val("");;
-				$($( '#div_' + (id + 1) + ' :input')[8]).attr('name', data.pertenencia_etnica);
+				$($( '#div_' + (id + 1) + ' :input')[8]).attr('id', data.institucion_educativa).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[8]).attr('name', data.institucion_educativa);
 				
-				$($( '#div_' + (id + 1) + ' :input')[9]).attr('id', data.ocupacion).val("");;
-				$($( '#div_' + (id + 1) + ' :input')[9]).attr('name', data.ocupacion);
+				$($( '#div_' + (id + 1) + ' :input')[9]).attr('id', data.pertenencia_etnica).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[9]).attr('name', data.pertenencia_etnica);
+				
+				$($( '#div_' + (id + 1) + ' :input')[10]).attr('id', data.ocupacion).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[10]).attr('name', data.ocupacion);
+				
 			
 		}
 		
