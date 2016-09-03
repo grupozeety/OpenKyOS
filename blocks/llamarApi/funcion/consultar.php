@@ -248,7 +248,7 @@ class Consultar {
 
         $fields = array(
             "name",
-            "orden_trabajo",
+            "id_orden_trabajo",
             "project",
             "descripcion_orden",
         );
@@ -318,6 +318,7 @@ class Consultar {
 
         $data = array(
             "project" => str_replace(' ', '%20', $proyecto),
+            "purpose" => "Material%20Issue",
         );
 
         $fields = array(

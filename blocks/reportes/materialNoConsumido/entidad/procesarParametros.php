@@ -127,7 +127,7 @@ class FormProcessor {
                 unset($value['project']);
                 if ($value['name'] == $elemento['parent']) {
 
-                    $elemento['numero_orden'] = $value['orden_trabajo'];
+                    $elemento['numero_orden'] = $value['id_orden_trabajo'];
                     $elemento['descripcion_orden'] = $value['descripcion_orden'];
                     $elementos_projecto[] = $elemento;
 
