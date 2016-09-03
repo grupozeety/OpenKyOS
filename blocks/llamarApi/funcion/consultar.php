@@ -318,6 +318,7 @@ class Consultar {
 
         $data = array(
             "project" => str_replace(' ', '%20', $proyecto),
+            "purpose" => "Material%20Issue",
         );
 
         $fields = array(
