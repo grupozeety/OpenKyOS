@@ -105,6 +105,61 @@ class Sql extends \Sql {
 
             /* Consultas del desarrollo */
 
+            case "registrarBeneficiarioPotencial":
+            	
+                $cadenaSql = "INSERT INTO interoperacion.beneficiario_potencial (";
+                $cadenaSql .= "id,";
+                $cadenaSql .= "tipo,";
+                $cadenaSql .= "identificacion,";
+                $cadenaSql .= "nombre,";
+                $cadenaSql .= "genero,";
+                $cadenaSql .= "edad,";
+                $cadenaSql .= "nivel_estudio,";
+                $cadenaSql .= "correo,";
+                $cadenaSql .= "foto,";
+                $cadenaSql .= "direccion,";
+                $cadenaSql .= "tipo_vivienda,";
+                $cadenaSql .= "telefono,";
+                $cadenaSql .= "celular,";
+                $cadenaSql .= "whatsapp,";
+                $cadenaSql .= "departamento,";
+                $cadenaSql .= "municipio,";
+                $cadenaSql .= "urbanizacion,";
+                $cadenaSql .= "territorio,";
+                $cadenaSql .= "estrato,";
+                $cadenaSql .= "geolocalizacion,";
+                $cadenaSql .= "jefe_hogar,";
+                $cadenaSql .= "pertenencia_etnica,";
+                $cadenaSql .= "ocupacion";
+                $cadenaSql .= ") VALUES ";
+                $cadenaSql .= "(";
+                $cadenaSql .= "'" . $variable['id_beneficiario'] . "',";
+                $cadenaSql .= "'" . $variable['tipo_beneficiario'] . "',";
+                $cadenaSql .= "'" . $variable['identificacion_beneficiario'] . "',";
+                $cadenaSql .= "'" . $variable['nombre_beneficiario'] . "',";
+                $cadenaSql .= "'" . $variable['genero_beneficiario'] . "',";
+                $cadenaSql .= "'" . $variable['edad_beneficiario'] . "',";
+                $cadenaSql .= "'" . $variable['nivel_estudio'] . "',";
+                $cadenaSql .= "'" . $variable['correo'] . "',";
+                $cadenaSql .= "'" . $variable['foto'] . "',";
+                $cadenaSql .= "'" . $variable['direccion'] . "',";
+                $cadenaSql .= "'" . $variable['tipo_vivienda'] . "',";
+                $cadenaSql .= "'" . $variable['telefono'] . "',";
+                $cadenaSql .= "'" . $variable['celular'] . "',";
+                $cadenaSql .= "'" . $variable['whatsapp'] . "',";
+                $cadenaSql .= "'" . $variable['departamento'] . "',";
+                $cadenaSql .= "'" . $variable['municipio'] . "',";
+                $cadenaSql .= "'" . $variable['urbanizacion'] . "',";
+                $cadenaSql .= "'" . $variable['territorio'] . "',";
+                $cadenaSql .= "'" . $variable['estrato'] . "',";
+                $cadenaSql .= "'" . $variable['geolocalizacion'] . "',";
+                $cadenaSql .= "'" . $variable['jefe_hogar'] . "',";
+                $cadenaSql .= "'" . $variable['pertenencia_etnica'] . "',";
+                $cadenaSql .= "'" . $variable['ocupacion'] . "'";
+                $cadenaSql .= ")";
+                
+               	break;
+                
             case "registrarConsumo":
 
                 $cadenaSql = "INSERT INTO interoperacion.consumo_material(";

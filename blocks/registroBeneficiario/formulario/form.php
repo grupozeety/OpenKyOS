@@ -24,6 +24,42 @@ $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 $valorCodificado = $cripto->codificar ( $valorCodificado );
 $directorio = $this->miConfigurador->getVariableConfiguracion ( "rutaUrlBloque" ) . "/imagen/";
 
+$atributosGlobales ['campoSeguro'] = 'true';
+
+if(!isset($_REQUEST['tiempo'])){
+	$_REQUEST['tiempo']=time();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
+$esteCampo = $esteBloque ['nombre'];
+$atributos ['id'] = $esteCampo;
+$atributos ['nombre'] = $esteCampo;
+
+// Si no se coloca, entonces toma el valor predeterminado 'application/x-www-form-urlencoded'
+$atributos ['tipoFormulario'] = '';
+
+// Si no se coloca, entonces toma el valor predeterminado 'POST'
+$atributos ['metodo'] = 'POST';
+
+// Si no se coloca, entonces toma el valor predeterminado 'index.php' (Recomendado)
+$atributos ['action'] = 'index.php';
+$atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo );
+
+// Si no se coloca, entonces toma el valor predeterminado.
+$atributos ['estilo'] = '';
+$atributos ['marco'] = true;
+$tab = 1;
+// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
+
+// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
+$atributos ['tipoEtiqueta'] = 'inicio';
+echo $this->miFormulario->formularioBootstrap ( $atributos );
+unset($atributos);
+
+// ---------------- SECCION: Controles del Formulario -----------------------------------------------
+
 // ------------------Division para las pestañas-------------------------
 $atributos ["id"] = "tabs";
 $atributos ["estilo"] = "";
@@ -51,9 +87,9 @@ unset ( $atributos );
                      			</span>
            						</a></li>
 								<li role="presentation" class="disabled">
-                 				<a href="#otrasSecciones" data-toggle="tab" title="Registro Completo">
+                 				<a href="#otrasSecciones" data-toggle="tab" title="Otras Secciones">
                      				<span class="round-tabs three">
-                          				<i class="glyphicon glyphicon-ok"></i>
+                          				<i class="glyphicon glyphicon-tasks"></i>
                      				</span>
 								</a></li>
                      		</ul>
@@ -89,5 +125,13 @@ unset ( $atributos );
 		            ';
 }
 echo $this->miFormulario->division ( "fin" );
+
+// ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
+// Se debe declarar el mismo atributo de marco con que se inició el formulario.
+
+$atributos ['marco'] = true;
+$atributos ['tipoEtiqueta'] = 'fin';
+echo $this->miFormulario->formulario ( $atributos );
+
 
 ?>

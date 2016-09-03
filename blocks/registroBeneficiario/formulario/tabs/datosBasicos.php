@@ -83,9 +83,9 @@ class Formulario {
         // ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
 
         // ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
-        $atributos ['tipoEtiqueta'] = 'inicio';
-        echo $this->miFormulario->formularioBootstrap ( $atributos );
-        unset($atributos);
+//         $atributos ['tipoEtiqueta'] = 'inicio';
+//         echo $this->miFormulario->formularioBootstrap ( $atributos );
+//         unset($atributos);
 
         // ---------------- SECCION: Controles del Formulario -----------------------------------------------
 
@@ -976,9 +976,9 @@ class Formulario {
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
         // Se debe declarar el mismo atributo de marco con que se inició el formulario.
         
-        $atributos ['marco'] = true;
-        $atributos ['tipoEtiqueta'] = 'fin';
-        echo $this->miFormulario->formulario ( $atributos );
+//         $atributos ['marco'] = true;
+//         $atributos ['tipoEtiqueta'] = 'fin';
+//         echo $this->miFormulario->formulario ( $atributos );
 
         
         // ----------------INICIO CONTROL: Ventana Modal Mapa Geolocalización---------------------------------

@@ -88,9 +88,9 @@ class Formulario {
         // ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
 
         // ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
-        $atributos ['tipoEtiqueta'] = 'inicio';
-        echo $this->miFormulario->formularioBootstrap ( $atributos );
-        unset($atributos);
+//         $atributos ['tipoEtiqueta'] = 'inicio';
+//         echo $this->miFormulario->formularioBootstrap ( $atributos );
+//         unset($atributos);
 
         // ---------------- SECCION: Controles del Formulario -----------------------------------------------
 
@@ -500,6 +500,21 @@ class Formulario {
         echo '<img src="'. $rutaBloque . "/imagenes/add_list_256.png" . '" id="botonAgregar" alt="Agregar" style="width:30px;height:30px;">';
         echo '<p style="clear: right;"></p>';
         
+        // ----------------INICIO CONTROL: Campo Oculto Cantidad d Familiares-------------------------------------------------------
+        
+        $esteCampo = 'familiares';
+        $atributos ["id"] = $esteCampo; // No cambiar este nombre
+        $atributos ["tipo"] = "hidden";
+        $atributos ['estilo'] = '';
+        $atributos ["obligatorio"] = false;
+        $atributos ['marco'] = true;
+        $atributos ["etiqueta"] = "";
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        unset ( $atributos );
+        
+        // ----------------FIN CONTROL: Campo Oculto Cantidad d Familiares--------------------------------------------------------
+        
         // ------------------Division para los botones-------------------------
         $atributos ["id"] = "botones";
         $atributos ["estilo"] = "marcoBotones";
@@ -585,9 +600,9 @@ class Formulario {
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
         // Se debe declarar el mismo atributo de marco con que se inició el formulario.
         
-        $atributos ['marco'] = true;
-        $atributos ['tipoEtiqueta'] = 'fin';
-        echo $this->miFormulario->formulario ( $atributos );
+//         $atributos ['marco'] = true;
+//         $atributos ['tipoEtiqueta'] = 'fin';
+//         echo $this->miFormulario->formulario ( $atributos );
 
         // -------------FIN CONTROL: Imagen Agregar Estudiante----------------------
         

@@ -29,29 +29,55 @@ class Registrar {
 	function procesarFormulario() {
 		
 		
-		var_dump($_REQUEST); die();
-		$consumoMaterial = array();
+		$beneficiarioPotencial = array();
 		
-		$contador=0;
+		$beneficiarioPotencial['id_beneficiario'] = $_REQUEST['id_beneficiario'];
+		$beneficiarioPotencial['tipo_beneficiario'] = $_REQUEST['tipo_beneficiario'];
+		$beneficiarioPotencial['identificacion_beneficiario'] = $_REQUEST['identificacion_beneficiario'];
+		$beneficiarioPotencial['nombre_beneficiario'] = $_REQUEST['nombre_beneficiario'];
+		$beneficiarioPotencial['genero_beneficiario'] = $_REQUEST['genero_beneficiario'];
+		$beneficiarioPotencial['edad_beneficiario'] = $_REQUEST['edad_beneficiario'];
+		$beneficiarioPotencial['nivel_estudio'] = $_REQUEST['nivel_estudio'];
+		$beneficiarioPotencial['correo'] = $_REQUEST['correo'];
+		$beneficiarioPotencial['foto'] = $_REQUEST['foto'];
+		$beneficiarioPotencial['direccion'] = $_REQUEST['direccion'];
+		$beneficiarioPotencial['tipo_vivienda'] = $_REQUEST['tipo_vivienda'];
+		$beneficiarioPotencial['telefono'] = $_REQUEST['telefono'];
+		$beneficiarioPotencial['celular'] = $_REQUEST['celular'];
+		$beneficiarioPotencial['whatsapp'] = $_REQUEST['whatsapp'];
+		$beneficiarioPotencial['departamento'] = $_REQUEST['departamento'];
+		$beneficiarioPotencial['municipio'] = $_REQUEST['municipio'];
+		$beneficiarioPotencial['urbanizacion'] = $_REQUEST['urbanizacion'];
+		$beneficiarioPotencial['territorio'] = $_REQUEST['territorio'];
+		$beneficiarioPotencial['estrato'] = $_REQUEST['estrato'];
+		$beneficiarioPotencial['geolocalizacion'] = $_REQUEST['geolocalizacion'];
+		$beneficiarioPotencial['jefe_hogar'] = $_REQUEST['jefe_hogar'];
+		$beneficiarioPotencial['pertenencia_etnica'] = $_REQUEST['pertenencia_etnica'];
+		$beneficiarioPotencial['ocupacion'] = $_REQUEST['ocupacion'];
 		
-		foreach ($_REQUEST as $key=>$consumo){
+// 		$contador=0;
+		
+// 		foreach ($_REQUEST as $key=>$consumo){
 			
-			$materiales = explode(":", $key);
+// 			$materiales = explode(":", $key);
 			
-			if($materiales[0] == "material"){
-				$consumoMaterial[$contador]['name'] = $materiales[1];
-				$consumoMaterial[$contador]['ordenTrabajo'] = $_REQUEST['ordenTrabajoReal'];
-				$consumoMaterial[$contador]['proyecto'] = $_REQUEST['proyecto'];
-				$consumoMaterial[$contador]['salida'] = $materiales[4];
-				$consumoMaterial[$contador]['descripcion'] = $_REQUEST['actividad'];
-				$consumoMaterial[$contador]['material'] = $materiales[2];
-				$consumoMaterial[$contador]['asignada'] = $materiales[3];
-				$consumoMaterial[$contador]['consume'] = $consumo;
-				$consumoMaterial[$contador]['porcentajecons'] = $_REQUEST['porcentajecons'];
-				$consumoMaterial[$contador]['geolocalizacion'] = $_REQUEST['geolocalizacion'];
-				$contador++;
-			}
-		}
+// 			if($materiales[0] == "material"){
+// 				$consumoMaterial[$contador]['name'] = $materiales[1];
+// 				$consumoMaterial[$contador]['ordenTrabajo'] = $_REQUEST['ordenTrabajoReal'];
+// 				$consumoMaterial[$contador]['proyecto'] = $_REQUEST['proyecto'];
+// 				$consumoMaterial[$contador]['salida'] = $materiales[4];
+// 				$consumoMaterial[$contador]['descripcion'] = $_REQUEST['actividad'];
+// 				$consumoMaterial[$contador]['material'] = $materiales[2];
+// 				$consumoMaterial[$contador]['asignada'] = $materiales[3];
+// 				$consumoMaterial[$contador]['consume'] = $consumo;
+// 				$consumoMaterial[$contador]['porcentajecons'] = $_REQUEST['porcentajecons'];
+// 				$consumoMaterial[$contador]['geolocalizacion'] = $_REQUEST['geolocalizacion'];
+// 				$contador++;
+// 			}
+// 		}
+		
+// 		var_dump($_REQUEST); die();
+		
 		
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
@@ -62,11 +88,14 @@ class Registrar {
 		$rutaBloque .= $esteBloque ['nombre'];
 		$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/" . $esteBloque ['nombre'];
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarConsumo', $consumoMaterial );
+		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $beneficiarioPotencial);
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 		
+		echo $cadenaSql;
+		var_dump($resultado); die();
+		
 		if ($resultado) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConsumo', $consumoMaterial );
+			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $consumoMaterial );
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 		} else {
 			redireccion::redireccionar ( 'noInserto' );
