@@ -12,12 +12,12 @@ class Procesador {
     public $conn = '';
     public $error = array();
     public $datosConexionERPNext = array(
-        'host' => '<url>',
+        'host' => 'http://52.72.23.56:8080',
         'auth_url' => '/api/method/login',
         'api_url' => '/api/resource/',
         'auth' => array(
             'usr' => 'Administrator',
-            'pwd' => '<pass>',
+            'pwd' => 'nJmQnQPEfo2cfuFs',
         ),
         'curl_timeout' => 30,
         'basic_auth' => array(),
