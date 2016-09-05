@@ -1,0 +1,8 @@
+En este bloque se realiza la indexación de las revistas para el docente respectivamente.
+* Se hace uso de las siguientes tablas que corresponden a el esquema docencia.
+**contexto_revista
+**indexacion_revista
+**pais_kyron
+**docente
+**tipo_indexacion
+**dependencia_docente

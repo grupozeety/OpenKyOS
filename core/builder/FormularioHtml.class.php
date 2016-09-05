@@ -20,6 +20,8 @@ require_once ("core/builder/controleshtml/InputBootstrap.class.php");
 require_once ("core/builder/controleshtml/SelectBootstrap.class.php");
 require_once ("core/builder/controleshtml/ModalBootstrap.class.php");
 require_once ("core/builder/controleshtml/RadioButtonBootstrapHtml.class.php");
+require_once ("core/builder/controleshtml/BotonBootstrapHtml.class.php");
+
 
 
 class FormularioHtml extends Agregador{
@@ -69,6 +71,8 @@ class FormularioHtml extends Agregador{
         $this->aggregate('SelectBootstrap');
         $this->aggregate('ModalBootstrap');
         $this->aggregate('RadioButtonBootstrapHtml');
+        $this->aggregate('BotonBootstrapHtml');
+        
         
     }
     

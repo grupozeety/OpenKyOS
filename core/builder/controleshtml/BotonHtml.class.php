@@ -27,7 +27,7 @@ class BotonHtml extends HtmlBase{
         
         if (! isset ( $atributos [self::SINDIVISION] )) {
     
-            $this->cadenaHTML .= "<div class='" . $atributos [self::ESTILOMARCO] . "' data-toggle='modal' data-target='#myModal'>\n";
+            $this->cadenaHTML .= "<div class='" . $atributos [self::ESTILOMARCO] . "'>\n";
             
             $final='</div>';
         }
