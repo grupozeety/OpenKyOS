@@ -108,7 +108,7 @@ class BotonBootstrapHtml extends HtmlBase{
     		$this->atributos ['block'] = '';
     	}
     	
-    	if(isset($this->atributos ['basico']) & $this->atributos ['basico'] == true){
+    	if(isset($this->atributos ['basico']) && $this->atributos ['basico'] == true){
     		$this->atributos [self::ESTILOBOTON] .= " next-step";
     	}
     	

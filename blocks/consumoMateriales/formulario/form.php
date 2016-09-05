@@ -192,6 +192,7 @@ class Formulario {
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['tipo'] = "text";
         $atributos ["etiquetaObligatorio"] = true;
         $atributos ['tab'] = $tab ++;
         $atributos ['anchoEtiqueta'] = 2;
