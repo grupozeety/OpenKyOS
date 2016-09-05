@@ -173,11 +173,15 @@ class InputBootstrap extends HtmlBase {
 		
 		// --------------Atributo class --------------------------------
 		
-		$this->atributos[self::ESTILO] = 'form-control ';
-		
+		if(isset ( $this->atributos [self::TIPO] ) & $this->atributos [self::TIPO] == "file"){
+			$this->atributos[self::ESTILO] = 'file';
+		}else{
+			$this->atributos[self::ESTILO] = 'form-control ';
+		}
+
 		$cadena .= $this->atributos[self::ESTILO];
 		
-		return $cadena .= "' ";
+		return $cadena .= "' " . 'multiple data-show-upload="false" data-show-caption="true"';
 		
 		// ----------- Fin del atributo class ----------------------------
 	}
