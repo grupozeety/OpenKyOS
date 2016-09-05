@@ -4,13 +4,14 @@ $this->idioma["clave"]="Clave:";
 $this->idioma["usuarioTitulo"]="Número de documento";
 $this->idioma["claveTitulo"]="Clave de Acceso";
 $this->idioma["botonAceptar"]="Guardar Información";
-$this->idioma["botonCancelar"]="Cancelar";
-$this->idioma["noDefinido"]="No definido";
+$this->idioma["botonAceptar"]="Guardar Información";
+$this->idioma["botonAgregarLocalizacion"]="Agregar";
+$this->idioma["noDefinido"]="";
 $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonAgregar"]="Agregar";
 $this->idioma["botonContinuar"]="Continuar";
-$this->idioma["confirma"]="Se ha registrado correctamente el consumo de materiales para la orden de trabajo.";
-$this->idioma["error"]="No se ha podido registrar el consumo de materiales para la orden de trabajo.";
+$this->idioma["confirma"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial.";
+$this->idioma["error"]="No se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 
 $this->idioma["id_beneficiario"]="Id Beneficiario";
 $this->idioma["tipo_beneficiario"]="Tipo de Beneficiario/Cliente";
@@ -36,6 +37,10 @@ $this->idioma["jefe_hogar"]="Jefe de Hogar";
 $this->idioma["pertenencia_etnica"]="Pertenencia Étnica";
 $this->idioma["ocupacion"]="Ocupación";
 $this->idioma["foto"]="Foto";
+$this->idioma["manzana"]="Número de Manzana";
+$this->idioma["bloque"]="Número de Torre";
+$this->idioma["torre"]="Número de Bloque";
+$this->idioma["apartamento"]="Número de Apartamento";
 
 
 $this->idioma["identificacion_familiar_0"]="Identificación";
@@ -50,33 +55,10 @@ $this->idioma["pertenencia_etnica_familiar_0"]="Pertenencia Étnica";
 $this->idioma["ocupacion_familiar_0"]="Ocupación";
 $this->idioma["parentesco_0"]="Parentesco";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-$this->idioma["actividad"]="Asunto";
-$this->idioma["proyecto"]="Proyecto";
-$this->idioma["ordenTrabajo"]="Orden de  Trabajo";
 $this->idioma["geolocalizacion"]="Geolocalización";
-$this->idioma["porcentajecons"]="Porcentaje de Consumo";
 
-$this->idioma["mensajeRegistro"]="Se ha registrado correctamente el consumo de materiales.";
+$this->idioma["mensajeRegistro"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 
-
-
-
-$this->idioma["material"]="Material";
-$this->idioma["unidad"]="Unidad";
-$this->idioma["cantidad"]="Cantidad";
 
 
 ?>

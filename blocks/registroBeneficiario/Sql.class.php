@@ -119,6 +119,10 @@ class Sql extends \Sql {
                 $cadenaSql .= "foto,";
                 $cadenaSql .= "direccion,";
                 $cadenaSql .= "tipo_vivienda,";
+                $cadenaSql .= "manzana,";
+                $cadenaSql .= "bloque,";
+                $cadenaSql .= "torre,";
+                $cadenaSql .= "apartamento,";
                 $cadenaSql .= "telefono,";
                 $cadenaSql .= "celular,";
                 $cadenaSql .= "whatsapp,";
@@ -144,6 +148,10 @@ class Sql extends \Sql {
                 $cadenaSql .= "'" . $variable['foto'] . "',";
                 $cadenaSql .= "'" . $variable['direccion'] . "',";
                 $cadenaSql .= "'" . $variable['tipo_vivienda'] . "',";
+                $cadenaSql .= "'" . $variable['manzana'] . "',";
+                $cadenaSql .= "'" . $variable['bloque'] . "',";
+                $cadenaSql .= "'" . $variable['torre'] . "',";
+                $cadenaSql .= "'" . $variable['apartamento'] . "',";
                 $cadenaSql .= "'" . $variable['telefono'] . "',";
                 $cadenaSql .= "'" . $variable['celular'] . "',";
                 $cadenaSql .= "'" . $variable['whatsapp'] . "',";

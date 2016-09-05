@@ -30,7 +30,7 @@ class Registrar {
 		
 		
 		$beneficiarioPotencial = array();
-		var_dump($_REQUEST);
+
 		$beneficiarioPotencial['id_beneficiario'] = $_REQUEST['id_beneficiario'];
 		$beneficiarioPotencial['tipo_beneficiario'] = $_REQUEST['tipo_beneficiario'];
 		$beneficiarioPotencial['identificacion_beneficiario'] = $_REQUEST['identificacion_beneficiario'];
@@ -42,6 +42,10 @@ class Registrar {
 		$beneficiarioPotencial['foto'] = $_REQUEST['foto'];
 		$beneficiarioPotencial['direccion'] = $_REQUEST['direccion'];
 		$beneficiarioPotencial['tipo_vivienda'] = $_REQUEST['tipo_vivienda'];
+		$beneficiarioPotencial['manzana'] = $_REQUEST['manzana'];
+		$beneficiarioPotencial['torre'] = $_REQUEST['torre'];
+		$beneficiarioPotencial['bloque'] = $_REQUEST['bloque'];
+		$beneficiarioPotencial['apartamento'] = $_REQUEST['apartamento'];
 		$beneficiarioPotencial['telefono'] = $_REQUEST['telefono'];
 		$beneficiarioPotencial['celular'] = $_REQUEST['celular'];
 		$beneficiarioPotencial['whatsapp'] = $_REQUEST['whatsapp'];
@@ -97,9 +101,7 @@ class Registrar {
 			$cadenaSql = str_replace("''", 'null', $cadenaSql);
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 			
-			echo $cadenaSql;
-			var_dump($resultado); die();
-		} else {var_dump($resultado); die();
+		} else {
 			redireccion::redireccionar ( 'noInserto' );
 			exit ();
 		}

@@ -479,6 +479,130 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Campo Texto Teléfono Fijo--------------------------------------------------------
         
+        $esteCampo = 'manzana';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = "text";
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['evento'] = '';
+        $atributos ['deshabilitado'] = false;
+        $atributos ['readonly'] = true;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['placeholder'] = "";
+        $atributos ['valor'] = "";
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = '';
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------FIN CONTROL: Campo Texto Teléfono Fijo-------------------------------------------------------
+        
+        // ----------------INICIO CONTROL: Campo Texto Teléfono Fijo--------------------------------------------------------
+        
+        $esteCampo = 'torre';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = "text";
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['evento'] = '';
+        $atributos ['deshabilitado'] = false;
+        $atributos ['readonly'] = true;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['placeholder'] = "";
+        $atributos ['valor'] = "";
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = '';
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------FIN CONTROL: Campo Texto Teléfono Fijo-------------------------------------------------------
+        
+        // ----------------INICIO CONTROL: Campo Texto Teléfono Fijo--------------------------------------------------------
+        
+        $esteCampo = 'bloque';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = "text";
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['evento'] = '';
+        $atributos ['deshabilitado'] = false;
+        $atributos ['readonly'] = true;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['placeholder'] = "";
+        $atributos ['valor'] = "";
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = '';
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------FIN CONTROL: Campo Texto Teléfono Fijo-------------------------------------------------------
+        
+        // ----------------INICIO CONTROL: Campo Texto Teléfono Fijo--------------------------------------------------------
+        
+        $esteCampo = 'apartamento';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = "text";
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['evento'] = '';
+        $atributos ['deshabilitado'] = false;
+        $atributos ['readonly'] = true;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['placeholder'] = "";
+        $atributos ['valor'] = "";
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = '';
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------FIN CONTROL: Campo Texto Teléfono Fijo-------------------------------------------------------
+        
+        // ----------------INICIO CONTROL: Campo Texto Teléfono Fijo--------------------------------------------------------
+        
         $esteCampo = 'telefono';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = "text";
@@ -1098,11 +1222,11 @@ class Formulario {
         // ----------------FIN CONTROL: Campo Texto Geolocalización------------------------------
         
         // -----------------CONTROL: Botón ----------------------------------------------------------------
-        $esteCampo = 'botonAgregar';
+        $esteCampo = 'botonAgregarLocalizacion';
         $atributos ["id"] = $esteCampo;
         $atributos ["tabIndex"] = $tab;
         $atributos ["tipo"] = 'boton';
-        $atributos ["simple"] = true;
+        $atributos ["basico"] = false;
         // submit: no se coloca si se desea un tipo button genérico
         $atributos ['submit'] = true;
         $atributos ["estiloMarco"] = 'text-center';
@@ -1118,7 +1242,7 @@ class Formulario {
         $tab ++;
          
         // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
+//         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
         unset($atributos);
         // -----------------FIN CONTROL: Botón -----------------------------------------------------------

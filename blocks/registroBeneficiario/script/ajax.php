@@ -214,3 +214,7 @@ $("#<?php echo $this->campoSeguro("foto")?>").fileinput({
 		$("#<?php echo $this->campoSeguro("foto")?>").fileinput("upload");
 	
 	});
+	
+if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
+	$("#myModalMensaje").modal('show');
+}

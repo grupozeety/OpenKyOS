@@ -1,4 +1,4 @@
-<?php
+ne<?php
 
 require_once ("core/builder/HtmlBase.class.php");
 
@@ -108,7 +108,7 @@ class BotonBootstrapHtml extends HtmlBase{
     		$this->atributos ['block'] = '';
     	}
     	
-    	if(isset($this->atributos ['basico'])){
+    	if(isset($this->atributos ['basico']) & $this->atributos ['basico'] == true){
     		$this->atributos [self::ESTILOBOTON] .= " next-step";
     	}
     	
@@ -152,6 +152,7 @@ class BotonBootstrapHtml extends HtmlBase{
     	$this->cadenaBoton = "<input ";
     	$this->cadenaBoton .= "class='".$this->atributos [self::ESTILOBOTON]." ".$this->atributos ['block'] . "' ";
     	$this->cadenaBoton .= self::HTMLVALUE . "'" . $this->atributos [self::VALOR] . "' ";
+    	$this->cadenaBoton .= "id='" . $this->atributos [self::ID] ."' ";
     	$this->cadenaBoton .= self::HTMLTABINDEX . "'" . $this->atributos [self::TABINDEX] . "' ";
     	$this->cadenaBoton .= "type='button' ";
     	$this->cadenaBoton .= ">";
