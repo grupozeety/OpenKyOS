@@ -27,6 +27,8 @@ $urlCodificacionCampos = $url . $cadena;
 
 var id = 1;
 	
+$("#<?php echo $this->campoSeguro('familiares')?>").val(id);
+	
 $(function() {
 	$("#botonAgregar").click(function( event ) {	
 	
@@ -37,6 +39,8 @@ $(function() {
 		}
 		$('#botonEliminar').show();
 		id++;	
+		
+		$("#<?php echo $this->campoSeguro('familiares')?>").val(id);
 			
 	});
 }); 
@@ -46,11 +50,13 @@ $(function() {
 		if(id > 1){
 			$('#hogar fieldset').remove('#div_' + id);
 			id--;
+			$("#<?php echo $this->campoSeguro('familiares')?>").val(id);
 		}else if(id == 1){
 			$('#div_' + id).hide();
 			$('#botonEliminar').hide();
 
 			id--;
+			$("#<?php echo $this->campoSeguro('familiares')?>").val(id);
 		}
 			
 	});
@@ -101,7 +107,7 @@ function codificacionCampos(id){
 				$($( '#div_' + (id + 1) + ' :input')[1]).attr('name', data.nombre);
 				
 				$($( '#div_' + (id + 1) + ' :input')[2]).attr('id', data.parentesco).val("");;
-				$($( '#div_' + (id + 1) + ' :input')[3]).attr('name', data.parentesco);
+				$($( '#div_' + (id + 1) + ' :input')[2]).attr('name', data.parentesco);
 				
 				$($( '#div_' + (id + 1) + ' :input')[3]).attr('id', data.genero).val("");;
 				$($( '#div_' + (id + 1) + ' :input')[3]).attr('name', data.genero);
@@ -140,3 +146,71 @@ function delRow() {
 $(this).parent('div').remove();
  
 }
+
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=". $esteBloque ["nombre"]; 
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=eliminarImagen";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+// URL definitiva
+$urlEliminarImagen = $url . $cadena;
+?>
+
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=". $esteBloque ["nombre"]; 
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=cargarImagen";
+$valor .= "&eliminar=urlEliminar";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+// URL definitiva
+$urlCargarImagen = $url . $cadena;
+?>
+
+$("#<?php echo $this->campoSeguro("foto")?>").fileinput({
+	uploadUrl: "<?php echo $urlCargarImagen?>", 
+    uploadAsync: false,
+	showUpload: false, 
+	showRemove: false,
+	initialPreview: [],
+    initialPreviewConfig: []
+	}).on("filebatchselected", function(event, files) {
+	
+		$("#<?php echo $this->campoSeguro("foto")?>").fileinput("upload");
+	
+	});

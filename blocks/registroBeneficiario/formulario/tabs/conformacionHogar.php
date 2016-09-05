@@ -123,7 +123,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Campo Texto Identificación del Beneficiario--------------------------------------------------------
         
-        $esteCampo = 'identificacion_familiar';
+        $esteCampo = 'identificacion_familiar_0';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = "text";
         $atributos ['id'] = $esteCampo;
@@ -154,7 +154,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Campo Texto Identificación del Beneficiario--------------------------------------------------------
         
-        $esteCampo = 'nombre_familiar';
+        $esteCampo = 'nombre_familiar_0';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = "text";
         $atributos ['id'] = $esteCampo;
@@ -185,7 +185,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Lista Genero del Beneficiario--------------------------------------------------------
         
-        $esteCampo = 'parentesco';
+        $esteCampo = 'parentesco_0';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
@@ -222,7 +222,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Lista Genero del Beneficiario--------------------------------------------------------
         
-        $esteCampo = 'genero_familiar';
+        $esteCampo = 'genero_familiar_0';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
@@ -259,7 +259,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Campo Texto Edad del Beneficiario--------------------------------------------------------
         
-        $esteCampo = 'edad_familiar';
+        $esteCampo = 'edad_familiar_0';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = "number";
         $atributos ['id'] = $esteCampo;
@@ -291,7 +291,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Lista Nivel de Estudio--------------------------------------------------------
         
-        $esteCampo = 'nivel_estudio_familiar';
+        $esteCampo = 'nivel_estudio_familiar_0';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
@@ -328,7 +328,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Campo Texto Correo Electrónico--------------------------------------------------------
         
-        $esteCampo = 'correo_familiar';
+        $esteCampo = 'correo_familiar_0';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = "mail";
         $atributos ['id'] = $esteCampo;
@@ -359,7 +359,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Lista Grado--------------------------------------------------------
         
-        $esteCampo = 'grado';
+        $esteCampo = 'grado_familiar_0';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = "text";
         $atributos ['id'] = $esteCampo;
@@ -390,7 +390,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Campo Texto Nombre de Institución Educativa--------------------------------------------------------
         
-        $esteCampo = 'institucion_educativa';
+        $esteCampo = 'institucion_educativa_familiar_0';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = "text";
         $atributos ['id'] = $esteCampo;
@@ -421,7 +421,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Lista Pertenencia Étnica--------------------------------------------------------
         
-        $esteCampo = 'pertenencia_etnica_familiar';
+        $esteCampo = 'pertenencia_etnica_familiar_0';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
@@ -458,7 +458,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Lista Ocupación--------------------------------------------------------
         
-        $esteCampo = 'ocupacion_familiar';
+        $esteCampo = 'ocupacion_familiar_0';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );

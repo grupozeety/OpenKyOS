@@ -38,17 +38,17 @@ $this->idioma["ocupacion"]="Ocupación";
 $this->idioma["foto"]="Foto";
 
 
-$this->idioma["identificacion_familiar"]="Identificación";
-$this->idioma["nombre_familiar"]="Nombre Completo";
-$this->idioma["genero_familiar"]="Genero";
-$this->idioma["edad_familiar"]="Edad";
-$this->idioma["nivel_estudio_familiar"]="Nivel de Estudio";
-$this->idioma["correo_familiar"]="Correo Electrónico";
-$this->idioma["grado"]="Grado";
-$this->idioma["institucion_educativa"]="Institución Educativa";
-$this->idioma["pertenencia_etnica_familiar"]="Pertenencia Étnica";
-$this->idioma["ocupacion_familiar"]="Ocupación";
-$this->idioma["parentesco"]="Parentesco";
+$this->idioma["identificacion_familiar_0"]="Identificación";
+$this->idioma["nombre_familiar_0"]="Nombre Completo";
+$this->idioma["genero_familiar_0"]="Genero";
+$this->idioma["edad_familiar_0"]="Edad";
+$this->idioma["nivel_estudio_familiar_0"]="Nivel de Estudio";
+$this->idioma["correo_familiar_0"]="Correo Electrónico";
+$this->idioma["grado_familiar_0"]="Grado";
+$this->idioma["institucion_educativa_familiar_0"]="Institución Educativa";
+$this->idioma["pertenencia_etnica_familiar_0"]="Pertenencia Étnica";
+$this->idioma["ocupacion_familiar_0"]="Ocupación";
+$this->idioma["parentesco_0"]="Parentesco";
 
 
 

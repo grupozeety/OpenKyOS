@@ -378,7 +378,7 @@ class Formulario {
         
         
         // ----------------INICIO CONTROL: Campo Texto Foto--------------------------------------------------------
-        
+
         $esteCampo = 'foto';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = "file";

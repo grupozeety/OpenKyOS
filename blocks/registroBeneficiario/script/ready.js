@@ -27,13 +27,6 @@ $(function(){
 	$('a[title]').tooltip();
 });
 
-$fileClone = $($('div')[26]).clone(true);
-
-$("#<?php echo $this->campoSeguro("foto")?>").bind('change', function() {
-    if(this.files[0].size > 100){
-    }
-});
-
 
 $(document).ready(function () {
     //Initialize tooltips
@@ -144,3 +137,4 @@ function generar(longitud)
 }
 
 $("#<?php echo $this->campoSeguro("id_beneficiario")?>").val(generar(5));
+

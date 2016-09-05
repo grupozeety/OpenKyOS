@@ -160,36 +160,38 @@ class Sql extends \Sql {
                 
                	break;
                 
-            case "registrarConsumo":
+            case "registrarFamiliares":
 
-                $cadenaSql = "INSERT INTO interoperacion.consumo_material(";
-                $cadenaSql .= "nombre,";
-                $cadenaSql .= "orden_trabajo,";
-                $cadenaSql .= "descripcion,";
-                $cadenaSql .= "proyecto,";
-                $cadenaSql .= "salida,";
-                $cadenaSql .= "nombre_material,";
-                $cadenaSql .= "cantidad_asignada,";
-                $cadenaSql .= "consumo,";
-                $cadenaSql .= "porcentaje_consumo,";
-                $cadenaSql .= "geolocalizacion,";
-                $cadenaSql .= "usuario";
+                $cadenaSql = "INSERT INTO interoperacion.familiar_beneficiario_potencial(";
+                $cadenaSql .= "id_beneficiario,";
+                $cadenaSql .= "identificacion_familiar,";
+                $cadenaSql .= "nombre_familiar,";
+                $cadenaSql .= "parentesco,";
+                $cadenaSql .= "genero_familiar,";
+                $cadenaSql .= "edad_familiar,";
+                $cadenaSql .= "nivel_estudio_familiar,";
+                $cadenaSql .= "correo_familiar,";
+                $cadenaSql .= "grado_estudio_familiar,";
+                $cadenaSql .= "pertenencia_etnica_familiar,";
+                $cadenaSql .= "institucion_educativa_familiar,";
+                $cadenaSql .= "ocupacion_familiar";
                 $cadenaSql .= ") VALUES ";
 
                 foreach ($variable as $clave => $valor) {
 
                     $cadenaSql .= "(";
-                    $cadenaSql .= "'" . $valor['name'] . "',";
-                    $cadenaSql .= "'" . $valor['ordenTrabajo'] . "',";
-                    $cadenaSql .= "'" . $valor['descripcion'] . "',";
-                    $cadenaSql .= "'" . $valor['proyecto'] . "',";
-                    $cadenaSql .= "'" . $valor['salida'] . "',";
-                    $cadenaSql .= "'" . $valor['material'] . "',";
-                    $cadenaSql .= "'" . $valor['asignada'] . "',";
-                    $cadenaSql .= "'" . $valor['consume'] . "',";
-                    $cadenaSql .= "'" . $valor['porcentajecons'] . "',";
-                    $cadenaSql .= "'" . $valor['geolocalizacion'] . "',";
-                    $cadenaSql .= "'" . $info_usuario['uid'][0] . "'";
+                    $cadenaSql .= "'" . $valor['id_beneficiario'] . "',";
+                    $cadenaSql .= "'" . $valor['identificacion'] . "',";
+                    $cadenaSql .= "'" . $valor['nombre'] . "',";
+                    $cadenaSql .= "'" . $valor['parentesco'] . "',";
+                    $cadenaSql .= "'" . $valor['genero'] . "',";
+                    $cadenaSql .= "'" . $valor['edad'] . "',";
+                    $cadenaSql .= "'" . $valor['nivel_estudio'] . "',";
+                    $cadenaSql .= "'" . $valor['correo'] . "',";
+                    $cadenaSql .= "'" . $valor['grado'] . "',";
+                    $cadenaSql .= "'" . $valor['institucion_educativa'] . "',";
+                    $cadenaSql .= "'" . $valor['pertenencia_etnica'] . "',";
+                    $cadenaSql .= "'" . $valor['ocupacion'] . "'";
                     $cadenaSql .= "),";
                 }
 
