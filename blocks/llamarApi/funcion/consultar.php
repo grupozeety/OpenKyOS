@@ -184,7 +184,7 @@ class Consultar {
         );
 
         $fields = array(
-            "orden_trabajo",
+            "id_orden_trabajo",
             "name",
             "purpose",
         );

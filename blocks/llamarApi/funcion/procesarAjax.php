@@ -17,7 +17,7 @@ class Procesador {
         'api_url' => '/api/resource/',
         'auth' => array(
             'usr' => 'Administrator',
-            'pwd' => '<password>',
+            'pwd' => '<pass>',
         ),
         'curl_timeout' => 30,
         'basic_auth' => array(),
