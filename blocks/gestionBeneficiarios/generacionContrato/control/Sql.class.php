@@ -34,6 +34,14 @@ class Sql extends \Sql {
                 $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' LIMIT 10; ";
 
                 break;
+            case 'consultaInformacionBeneficiario':
+                $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo  ";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
+                $cadenaSql .= " JOIN parametros.parametros pr ON pr.id_parametro= bn.tipo";
+                $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
+                $cadenaSql .= " AND pr.estado_registro = TRUE ";
+                $cadenaSql .= " AND id= '" . $_REQUEST['id_beneficiario'] . "';";
+                break;
 
             case 'insertarBloque':
                 $cadenaSql = 'INSERT INTO ';

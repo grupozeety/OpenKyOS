@@ -13,7 +13,8 @@ class Registrador {
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
-    public function __construct($lenguaje, $formulario) {
+    public $miSql;
+    public function __construct($lenguaje, $formulario, $sql) {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -21,8 +22,20 @@ class Registrador {
         $this->lenguaje = $lenguaje;
 
         $this->miFormulario = $formulario;
+
+        $this->miSql = $sql;
     }
     public function seleccionarForm() {
+
+        //Conexion a Base de Datos
+        $conexion = "interoperacion";
+        $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
+        //Consulta información
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
+        $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $infoBeneficiario = $infoBeneficiario[0];
 
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
@@ -60,55 +73,116 @@ class Registrador {
 
                 $esteCampo = 'Agrupacion';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "Generación Contrato Beneficiario";
+                $atributos['leyenda'] = "Requisitos Tipo de Beneficiario: " . $infoBeneficiario['descripcion_tipo'];
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
-
                 {
-                    // ----------------INICIO CONTROL: Lista Proyectos---------------------------
+                    switch ($infoBeneficiario['tipo']) {
+                        case '1':
+                            # code...
+                            break;
 
-                    $esteCampo = 'beneficiario';
-                    $atributos['nombre'] = $esteCampo;
-                    $atributos['tipo'] = "text";
-                    $atributos['id'] = $esteCampo;
-                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-                    $atributos["etiquetaObligatorio"] = true;
-                    $atributos['tab'] = $tab++;
-                    $atributos['anchoEtiqueta'] = 2;
-                    $atributos['estilo'] = "bootstrap";
-                    $atributos['evento'] = '';
-                    $atributos['deshabilitado'] = false;
-                    $atributos['readonly'] = true;
-                    $atributos['columnas'] = 1;
-                    $atributos['tamanno'] = 1;
-                    $atributos['placeholder'] = "Ingrese Mínimo 3 Caracteres de Busqueda";
-                    $atributos['valor'] = "";
-                    $atributos['ajax_function'] = "";
-                    $atributos['ajax_control'] = $esteCampo;
-                    $atributos['limitar'] = false;
-                    $atributos['anchoCaja'] = 10;
-                    $atributos['miEvento'] = '';
-                    $atributos['validar'] = 'required';
-                    // Aplica atributos globales al control
-                    $atributos = array_merge($atributos, $atributosGlobales);
-                    echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-                    unset($atributos);
+                        case '2':
 
-                    $esteCampo = 'id_beneficiario';
-                    $atributos["id"] = $esteCampo; // No cambiar este nombre
-                    $atributos["tipo"] = "hidden";
-                    $atributos['estilo'] = '';
-                    $atributos["obligatorio"] = false;
-                    $atributos['marco'] = true;
-                    $atributos["etiqueta"] = "";
-                    if (isset($_REQUEST[$esteCampo])) {
-                        $atributos['valor'] = $_REQUEST[$esteCampo];
-                    } else {
-                        $atributos['valor'] = '';
+                            $esteCampo = "cedula";
+                            $atributos["id"] = $esteCampo;     // No cambiar este nombre
+                            $atributos["nombre"] = $esteCampo;
+                            $atributos["tipo"] = "file";
+                            $atributos["obligatorio"] = true;
+                            $atributos["etiquetaObligatorio"] = true;
+                            $atributos["tabIndex"] = $tab++;
+                            $atributos["columnas"] = 2;
+                            $atributos["estilo"] = "textoIzquierda";
+                            $atributos["anchoEtiqueta"] = 0;
+                            $atributos["tamanno"] = 500000;
+                            $atributos["validar"] = "required";
+                            $atributos["estilo"] = "file";
+                            $atributos["etiqueta"] = " ";
+                            $atributos["bootstrap"] = true;
+                            // $atributos ["valor"] = $valorCodificado;
+                            $atributos = array_merge($atributos);
+                            $archivo_cedula = $this->miFormulario->campoCuadroTexto($atributos);
+                            unset($atributos);
+
+                            $esteCampo = "certificado_servicio";
+                            $atributos["id"] = $esteCampo;     // No cambiar este nombre
+                            $atributos["nombre"] = $esteCampo;
+                            $atributos["tipo"] = "file";
+                            $atributos["obligatorio"] = true;
+                            $atributos["etiquetaObligatorio"] = false;
+                            $atributos["tabIndex"] = $tab++;
+                            $atributos["columnas"] = 2;
+                            $atributos["estilo"] = "textoIzquierda";
+                            $atributos["anchoEtiqueta"] = 0;
+                            $atributos["tamanno"] = 500000;
+                            $atributos["validar"] = "required";
+                            $atributos["etiqueta"] = " ";
+                            $atributos["bootstrap"] = true;
+                            // $atributos ["valor"] = $valorCodificado;
+                            $atributos = array_merge($atributos);
+                            $archivo_certificado_servicios = $this->miFormulario->campoCuadroTexto($atributos);
+                            unset($atributos);
+
+                            $esteCampo = "documento_direccion";
+                            $atributos["id"] = $esteCampo;     // No cambiar este nombre
+                            $atributos["nombre"] = $esteCampo;
+                            $atributos["tipo"] = "file";
+                            $atributos["obligatorio"] = true;
+                            $atributos["etiquetaObligatorio"] = false;
+                            $atributos["tabIndex"] = $tab++;
+                            $atributos["columnas"] = 2;
+                            $atributos["estilo"] = "textoIzquierda";
+                            $atributos["anchoEtiqueta"] = 0;
+                            $atributos["tamanno"] = 500000;
+                            $atributos["validar"] = "required";
+                            $atributos["estilo"] = "file";
+                            $atributos["etiqueta"] = " ";
+                            $atributos["bootstrap"] = true;
+                            // $atributos ["valor"] = $valorCodificado;
+                            $atributos = array_merge($atributos);
+                            $archivo_documento_direccion = $this->miFormulario->campoCuadroTexto($atributos);
+                            unset($atributos);
+                            $tabla = "
+                                     <table id='contenido' class='table  table-hover'>
+                                      <thead>
+                                        <tr>
+                                          <td> </td>
+                                          <td> </td>
+                                          <td><center><strong>Verificación</strong></center></td>
+                                        </tr>
+                                        </thead>
+
+                                        <tr>
+                                          <td><b>"     . $this->lenguaje->getCadena("cedula") . "</b></td>
+                                          <td><center>"     . $archivo_cedula . "</center></td>
+                                          <td><center>X</center> </td>
+                                        </tr>
+
+                                        <tr>
+                                          <td><b>"     . $this->lenguaje->getCadena("certificado_servicio") . "</b></td>
+                                          <td><center>"     . $archivo_certificado_servicios . "</center></td>
+                                          <td><center>X</center></td>
+                                        </tr>
+
+                                        <tr>
+                                          <td><b>"     . $this->lenguaje->getCadena("documento_direccion") . "</b></td>
+                                          <td><center>"     . $archivo_documento_direccion . "</center></td>
+                                          <td><center>X</center></td>
+                                        </tr>
+
+
+                                        </table>"    ;
+                            echo $tabla;
+
+                            break;
+
+                        case '4':
+                            # code...
+                            break;
+
                     }
-                    $atributos = array_merge($atributos, $atributosGlobales);
-                    echo $this->miFormulario->campoCuadroTexto($atributos);
-                    unset($atributos);
+                }
+                {
 
                     // ------------------Division para los botones-------------------------
                     $atributos["id"] = "botones";
@@ -234,7 +308,7 @@ class Registrador {
     }
 }
 
-$miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario);
+$miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->mensaje();
 
