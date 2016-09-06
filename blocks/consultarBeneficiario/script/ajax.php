@@ -84,7 +84,7 @@ $urlGenerarEnlace = $url . $cadena;
 $directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 $directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-$valorCodificado = "pagina=paginaPrincipal";
+$valorCodificado = "pagina=registroBeneficiario";
 $valorCodificado .= "&id=";
 
 ?>
