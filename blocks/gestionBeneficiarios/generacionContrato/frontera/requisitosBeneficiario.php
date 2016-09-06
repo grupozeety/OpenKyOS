@@ -4,7 +4,6 @@ if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
 }
-
 /**
  * IMPORTANTE: Este formulario está utilizando jquery.
  * Por tanto en el archivo ready.php se declaran algunas funciones js

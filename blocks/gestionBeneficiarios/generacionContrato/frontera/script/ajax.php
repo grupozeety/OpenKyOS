@@ -22,7 +22,7 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($caden
 
 // URL Consultar Proyectos
 $urlConsultarBeneficiarios = $url . $cadena;
-echo $urlConsultarBeneficiarios;
+
 ?>
 <script type='text/javascript'>
 
@@ -36,7 +36,7 @@ echo $urlConsultarBeneficiarios;
 		   	serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
 		   	onSelect: function (suggestion) {
 
-		   	        $("#id_beneficiario").val(suggestion.data);
+			     	$("#<?php echo $this->campoSeguro('id_beneficiario');?>").val(suggestion.data);
 		   	    }
 		   });
 

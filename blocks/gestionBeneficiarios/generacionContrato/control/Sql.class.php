@@ -27,7 +27,7 @@ class Sql extends \Sql {
              * Clausulas específicas
              */
             case 'consultarBeneficiariosPotenciales':
-                $cadenaSql = " SELECT identificacion ||' - ('||nombre||')' AS  value,id  AS data  ";
+                $cadenaSql = " SELECT identificacion ||' - ('||nombre||')' AS  value, id  AS data  ";
                 $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
                 $cadenaSql .= "WHERE estado_registro=TRUE ";
                 $cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";

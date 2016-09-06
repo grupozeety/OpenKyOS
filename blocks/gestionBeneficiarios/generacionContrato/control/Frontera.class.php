@@ -44,8 +44,25 @@ class Frontera {
         $miBloque = $this->miConfigurador->getVariableConfiguracion('esteBloque');
         $resultado = $this->miConfigurador->getVariableConfiguracion('errorFormulario');
 
-        include_once $this->ruta . "frontera/consultaBeneficiario.php";
+        if (isset($_REQUEST['opcion'])) {
+            switch ($_REQUEST['opcion']) {
+                case 'validarRequisitos':
+
+                    include_once $this->ruta . "frontera/requisitosBeneficiario.php";
+
+                    break;
+
+                default:
+                    include_once $this->ruta . "frontera/consultaBeneficiario.php";
+                    break;
+            }
+        } else {
+
+            include_once $this->ruta . "frontera/consultaBeneficiario.php";
+
+        }
     }
+
 }
 ?>
 
