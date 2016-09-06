@@ -83,7 +83,7 @@ class Registrador {
                     $atributos['readonly'] = true;
                     $atributos['columnas'] = 1;
                     $atributos['tamanno'] = 1;
-                    $atributos['placeholder'] = "";
+                    $atributos['placeholder'] = "Ingrese Mínimo 3 Caracteres de Busqueda";
                     $atributos['valor'] = "";
                     $atributos['ajax_function'] = "";
                     $atributos['ajax_control'] = $esteCampo;
