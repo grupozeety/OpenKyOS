@@ -18,6 +18,8 @@ $this->idioma['identificacion_beneficiario'] = '<b>Identificación Beneficiario:
 
 $this->idioma['cedula'] = '<b>001</b> Fotocopia de la cédula del usuario beneficiario del servicio';
 
+$this->idioma['cedula_cliente'] = '<b>777</b> Cedula del cliente';
+
 $this->idioma['certificado_servicio'] = '<b>003</b> Certificado de servicio público (Agua, luz, gas)';
 
 $this->idioma['documento_direccion'] = '<b>007</b> Documento que demuestra dirección de la vivienda del beneficiario';

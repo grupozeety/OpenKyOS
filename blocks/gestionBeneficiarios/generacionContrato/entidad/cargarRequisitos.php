@@ -15,6 +15,7 @@ class FormProcessor {
     public $miSql;
     public $conexion;
     public $archivos_datos;
+    public $esteRecursoDB;
 
     public function __construct($lenguaje, $sql) {
 
@@ -22,6 +23,10 @@ class FormProcessor {
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->lenguaje = $lenguaje;
         $this->miSql = $sql;
+
+        //Conexion a Base de Datos
+        $conexion = "interoperacion";
+        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $_REQUEST['tiempo'] = time();
 
@@ -40,16 +45,75 @@ class FormProcessor {
         $this->asosicarCodigoDocumento();
 
         /**
-         *  3. Validar Elementos Proyecto y Elementos Consumo
+         *  3. Registrar Documentos
          **/
 
-        $this->validarElementos();
+        $this->registrarDocumentos();
 
         /**
-         *  3. Generar Documento PDF
+         *  4. Registrar Contrato Borrador y Servicio
          **/
 
-        $this->generarDocumentoPDF();
+        $this->registrarContratoBorrador();
+
+    }
+
+    public function registrarContratoBorrador() {
+
+        $cadenaSql = $this->miSql->getCadenaSql('registrarContrato');
+
+        $registro_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        $cadenaSql = $this->miSql->getCadenaSql('registrarServicio', $registro_contrato[0][0]);
+        $registro_docmuentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+    }
+    public function registrarDocumentos() {
+
+        foreach ($this->archivos_datos as $key => $value) {
+            $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentos', $value);
+            $registro_docmuentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+        }
+
+    }
+
+    public function asosicarCodigoDocumento() {
+
+        foreach ($this->archivos_datos AS $key => $value) {
+
+            switch ($value['campo']) {
+                case 'cedula':
+                    $this->archivos_datos[$key]['tipo_documento'] = 75;
+                    break;
+
+                case 'certificado_servicio':
+                    $this->archivos_datos[$key]['tipo_documento'] = 77;
+                    break;
+
+                case 'acta_vip':
+                    $this->archivos_datos[$key]['tipo_documento'] = 81;
+                    break;
+
+                case 'documento_acceso_propietario':
+                    $this->archivos_datos[$key]['tipo_documento'] = 78;
+                    break;
+
+                case 'documento_direccion':
+                    $this->archivos_datos[$key]['tipo_documento'] = 79;
+                    break;
+
+                case 'certificado_proyecto_vip':
+                    $this->archivos_datos[$key]['tipo_documento'] = 77;
+                    break;
+
+                case 'cedula_cliente':
+                    $this->archivos_datos[$key]['tipo_documento'] = 80;
+                    break;
+
+            }
+
+        }
 
     }
 
@@ -86,101 +150,8 @@ class FormProcessor {
 
     }
 
-    public function generarDocumentoPDF() {
-        include_once "generarDocumentoPdf.php";
-    }
-
-    public function validarElementos() {
-
-        if ($this->elementos_consumidos) {
-
-            foreach ($this->elementos_projecto as $key => $value) {
-
-                $elemento = $value;
-
-                foreach ($this->elementos_consumidos as $key => $value) {
-
-                    if ($elemento['name'] == $value['nombre']) {
-
-                        $elemento['qty'] = $elemento['qty'] - $value['consumo'];
-
-                    }
-
-                }
-
-                if ($elemento['qty'] > 0) {
-
-                    $elementos_reporte[] = $elemento;
-
-                }
-
-            }
-
-        } else {
-            $elementos_reporte = $this->elementos_projecto;
-        }
-
-        $this->elementos_reporte = $elementos_reporte;
-
-    }
-    public function consultarElementosConsumidos() {
-
-        $conexion = "interoperacion";
-        $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
-        $cadenaSql = $this->miSql->getCadenaSql('elementosConsumidos');
-        $this->elementos_consumidos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-    }
-
-    public function procesarVariables() {
-
-        $_REQUEST['elementos'] = explode("@", $_REQUEST['elementos']);
-        $_REQUEST['ordenes'] = explode("@", $_REQUEST['ordenes']);
-
-        foreach ($_REQUEST['elementos'] as $key => $value) {
-
-            $array = json_decode(base64_decode($value), true);
-
-            foreach ($array as $key => $value) {
-                $elementos[] = $value;
-            }
-
-        }
-        unset($array);
-        foreach ($_REQUEST['ordenes'] as $key => $value) {
-            $array = json_decode(base64_decode($value), true);
-
-            foreach ($array as $key => $value) {
-                $ordenes[] = $value;
-            }
-        }
-        unset($array);
-
-        foreach ($elementos as $key => $value) {
-
-            $elemento = $value;
-            unset($elemento['material']);
-
-            foreach ($ordenes as $key => $value) {
-                unset($value['project']);
-                if ($value['name'] == $elemento['parent']) {
-
-                    $elemento['numero_orden'] = $value['id_orden_trabajo'];
-                    $elemento['descripcion_orden'] = $value['descripcion_orden'];
-                    $elementos_projecto[] = $elemento;
-
-                }
-            }
-
-        }
-        $this->elementos_projecto = $elementos_projecto;
-
-    }
-
 }
 
 $miProcesador = new FormProcessor($this->lenguaje, $this->sql);
-
 ?>
 

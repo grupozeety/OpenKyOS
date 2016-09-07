@@ -41,6 +41,7 @@ class Registrador {
         }
     }
     public function seleccionarForm() {
+
         //Ruta Imagen
         $rutaWarning = $this->rutaURL . "/frontera/css/imagen/warning.png";
         $rutaCheck = $this->rutaURL . "/frontera/css/imagen/check.png";
@@ -146,6 +147,26 @@ class Registrador {
                     // $atributos ["valor"] = $valorCodificado;
                     $atributos = array_merge($atributos);
                     $archivo_cedula = $this->miFormulario->campoCuadroTexto($atributos);
+                    unset($atributos);
+
+                    $esteCampo = "cedula_cliente"; //777
+                    $atributos["id"] = $esteCampo; // No cambiar este nombre
+                    $atributos["nombre"] = $esteCampo;
+                    $atributos["tipo"] = "file";
+                    $atributos["obligatorio"] = true;
+                    $atributos["etiquetaObligatorio"] = false;
+                    $atributos["tabIndex"] = $tab++;
+                    $atributos["columnas"] = 2;
+                    $atributos["estilo"] = "textoIzquierda";
+                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["tamanno"] = 500000;
+                    $atributos["validar"] = "required";
+                    $atributos["estilo"] = "file";
+                    $atributos["etiqueta"] = "";
+                    $atributos["bootstrap"] = true;
+                    // $atributos ["valor"] = $valorCodificado;
+                    $atributos = array_merge($atributos);
+                    $archivo_cedula_cliente = $this->miFormulario->campoCuadroTexto($atributos);
                     unset($atributos);
 
                     $esteCampo = "acta_vip"; //002
@@ -338,8 +359,8 @@ class Registrador {
                                         </thead>
 
                                         <tr>
-                                          <td>"     . $this->lenguaje->getCadena("cedula") . "</td>
-                                          <td><center>"     . $archivo_cedula . "</center></td>
+                                          <td>"     . $this->lenguaje->getCadena("cedula_cliente") . "</td>
+                                          <td><center>"     . $archivo_cedula_cliente . "</center></td>
                                           <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
                                         </tr>
 
@@ -413,6 +434,7 @@ class Registrador {
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
                 $valorCodificado .= "&opcion=cargarRequisitos";
                 $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo'];
+                $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.

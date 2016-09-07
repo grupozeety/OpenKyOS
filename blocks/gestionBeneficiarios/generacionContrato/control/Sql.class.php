@@ -7,12 +7,29 @@ if (!isset($GLOBALS["autorizado"])) {
 
 include_once "core/manager/Configurador.class.php";
 include_once "core/connection/Sql.class.php";
+include_once "core/auth/SesionSso.class.php";
 
 // Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 // en camel case precedida por la palabra sql
 class Sql extends \Sql {
     public $miConfigurador;
+    public $miSesionSso;
+
+    public function __construct() {
+        $this->miConfigurador = \Configurador::singleton();
+
+        $this->miSesionSso = \SesionSso::singleton();
+    }
+
     public function getCadenaSql($tipo, $variable = '') {
+
+        $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
+
+        foreach ($info_usuario['description'] as $key => $rol) {
+
+            $info_usuario['rol'][] = $rol;
+
+        }
 
         /**
          * 1.
@@ -43,21 +60,41 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND id= '" . $_REQUEST['id_beneficiario'] . "';";
                 break;
 
-            case 'insertarBloque':
-                $cadenaSql = 'INSERT INTO ';
-                $cadenaSql .= $prefijo . 'bloque ';
-                $cadenaSql .= '( ';
-                $cadenaSql .= 'nombre,';
-                $cadenaSql .= 'descripcion,';
-                $cadenaSql .= 'grupo';
-                $cadenaSql .= ') ';
-                $cadenaSql .= 'VALUES ';
-                $cadenaSql .= '( ';
-                $cadenaSql .= '\'' . $_REQUEST['nombre'] . '\', ';
-                $cadenaSql .= '\'' . $_REQUEST['descripcion'] . '\', ';
-                $cadenaSql .= '\'' . $_REQUEST['grupo'] . '\' ';
-                $cadenaSql .= '); ';
+            case 'registrarDocumentos':
+                $cadenaSql = " INSERT INTO interoperacion.documentos_contrato(";
+                $cadenaSql .= " id_beneficiario, ";
+                $cadenaSql .= " tipologia_documento,";
+                $cadenaSql .= " nombre_documento,";
+                $cadenaSql .= " ruta_relativa,";
+                $cadenaSql .= " usuario )";
+                $cadenaSql .= " VALUES (";
+                $cadenaSql .= " '" . $_REQUEST['id_beneficiario'] . "',";
+                $cadenaSql .= " '" . $variable['tipo_documento'] . "',";
+                $cadenaSql .= " '" . $variable['nombre_archivo'] . "',";
+                $cadenaSql .= " '" . $variable['ruta_archivo'] . "',";
+                $cadenaSql .= " '" . $info_usuario['uid'][0] . "' ";
+                $cadenaSql .= " );";
                 break;
+
+            case 'registrarContrato':
+                $cadenaSql = " INSERT INTO interoperacion.contrato(";
+                $cadenaSql .= " id_beneficiario,";
+                $cadenaSql .= " estado_contrato, ";
+                $cadenaSql .= " usuario )";
+                $cadenaSql .= " VALUES (";
+                $cadenaSql .= " '" . $_REQUEST['id_beneficiario'] . "',";
+                $cadenaSql .= " (SELECT pr.id_parametro";
+                $cadenaSql .= " FROM parametros.parametros pr";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+                $cadenaSql .= " WHERE pr.descripcion='Borrador'";
+                $cadenaSql .= " AND pr.estado_registro=TRUE ";
+                $cadenaSql .= " AND rl.descripcion='Estado Contrato'";
+                $cadenaSql .= " AND rl.estado_registro=TRUE ";
+                $cadenaSql .= " ),";
+                $cadenaSql .= " '" . $info_usuario['uid'][0] . "') ";
+                $cadenaSql .= "  RETURNING contrato.id, contrato.numero_contrato;  ";
+                break;
+
         }
 
         return $cadenaSql;
