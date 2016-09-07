@@ -98,10 +98,17 @@ class Input extends HtmlBase {
         $cadena = '<input ';
 
         if ($this->atributos[self::TIPO] == self::FILE && $this->atributos[self::BOOTSTRAP] == true) {
+            $cadena .= $this->definirAtributosGenerales();
 
             $cadena .= "type='file' ";
             $cadena .= "id='" . $this->atributos[self::ID] . "' ";
-            $cadena .= "class='filestyle'  data-iconName='glyphiconglyphicon - inbox' data-buttonText='Seleccione Archivo' ";
+            $cadena .= "class='filestyle'  ";
+            $cadena .= "data-buttonText='Seleccione Archivo' ";
+            $cadena .= "data-icon='false'";
+            if (isset($this->atributos[self::TAMANNO])) {
+                $cadena .= "size = '" . $this->atributos[self::TAMANNO] . "'";
+            }
+
             if (isset($this->atributos[self::VALIDAR])) {
                 $cadena .= $this->atributos[self::VALIDAR];
             }
@@ -116,15 +123,15 @@ class Input extends HtmlBase {
             $cadena .= $this->atributosGeneralesCuadroTexto();
         } elseif ($this->atributos[self::TIPO] == self::HIDDEN) {
 
-            $cadena .= "type='hidden' ";
-            $cadena .= self::HTMLNAME . "'" . $this->atributos[self::ID] . "' ";
-            $cadena .= "id='" . $this->atributos[self::ID] . "' ";
+            $cadena .= "type = 'hidden'";
+            $cadena .= self::HTMLNAME . "'" . $this->atributos[self::ID] . "'";
+            $cadena .= "id = '" . $this->atributos[self::ID] . "'";
             if (isset($this->atributos[self::VALOR])) {
-                $cadena .= self::HTMLVALUE . "'" . $this->atributos[self::VALOR] . "' ";
+                $cadena .= self::HTMLVALUE . "'" . $this->atributos[self::VALOR] . "'";
             }
         }
 
-        $cadena .= ">\n";
+        $cadena .= " > \n";
         return $cadena;
     }
     private function atributosGeneralesCuadroTexto() {
@@ -134,18 +141,18 @@ class Input extends HtmlBase {
             $this->atributos[self::TIPO] = "text";
         }
 
-        $cadena .= "type='" . $this->atributos[self::TIPO] . "' ";
+        $cadena .= "type = '" . $this->atributos[self::TIPO] . "'";
 
         if (isset($this->atributos[self::DESHABILITADO]) && $this->atributos[self::DESHABILITADO]) {
-            $cadena .= "readonly='readonly' ";
+            $cadena .= "readonly = 'readonly'";
         }
 
         if (isset($this->atributos[self::VALOR])) {
-            $cadena .= self::HTMLVALUE . "'" . $this->atributos[self::VALOR] . "' ";
+            $cadena .= self::HTMLVALUE . "'" . $this->atributos[self::VALOR] . "'";
         }
 
         if (isset($this->atributos[self::TAMANNO])) {
-            $cadena .= "size='" . $this->atributos[self::TAMANNO] . "' ";
+            $cadena .= "size = '" . $this->atributos[self::TAMANNO] . "'";
         }
 
         if (!isset($this->atributos[self::MAXIMOTAMANNO])) {
@@ -153,19 +160,19 @@ class Input extends HtmlBase {
         }
 
         if (isset($this->atributos[self::TEXTOFONDO])) {
-            $cadena .= "placeholder='" . $this->atributos[self::TEXTOFONDO] . "' ";
+            $cadena .= "placeholder = '" . $this->atributos[self::TEXTOFONDO] . "'";
         }
 
-        $cadena .= "maxlength='" . $this->atributos[self::MAXIMOTAMANNO] . "' ";
+        $cadena .= "maxlength = '" . $this->atributos[self::MAXIMOTAMANNO] . "'";
 
         // Si se utiliza ketchup
-        if (isset($this->atributos["data-validate"])) {
-            $cadena .= "data-validate='validate(" . $this->atributos["data-validate"] . ")' ";
+        if (isset($this->atributos["data - validate"])) {
+            $cadena .= "data - validate = 'validate(" . $this->atributos["data-validate"] . ")'";
         }
 
         // Si utiliza algun evento especial
         if (isset($this->atributos[self::EVENTO])) {
-            $cadena .= " " . $this->atributos[self::EVENTO] . " ";
+            $cadena .= "" . $this->atributos[self::EVENTO] . "";
         }
 
         return $cadena;
@@ -186,7 +193,7 @@ class Input extends HtmlBase {
             }
         }
 
-        return $cadena .= "' ";
+        return $cadena .= "'";
 
         // ----------- Fin del atributo class ----------------------------
     }
@@ -194,16 +201,16 @@ class Input extends HtmlBase {
         $this->setAtributos($atributos);
 
         if (isset($this->atributos[self::ESTILO]) && $this->atributos[self::ESTILO] != "") {
-            $this->cadenaHTML = "<div class='" . $this->atributos[self::ESTILO] . "'>\n";
+            $this->cadenaHTML = " < divclass  = '" . $this->atributos[self::ESTILO] . "' > \n";
         } else {
-            $this->cadenaHTML = "<div class='campoFecha'>\n";
+            $this->cadenaHTML = " < divclass  = 'campoFecha' > \n";
         }
         $this->cadenaHTML .= $this->etiqueta($this->atributos);
-        $this->cadenaHTML .= "<div style='display:table-cell;vertical-align:top;float:left;'><span style='white-space:pre;'> </span>";
+        $this->cadenaHTML .= " < divstyle = 'display:table-cell;vertical-align:top;float:left;' >  < spanstyle = 'white-space:pre;' >  <  / span > ";
         $this->cadenaHTML .= $this->cuadro_texto($this->configuracion, $this->atributos);
-        $this->cadenaHTML .= "</div>";
-        $this->cadenaHTML .= "<div style='display:table-cell;vertical-align:top;float:left;'>";
-        $this->cadenaHTML .= "<span style='white-space:pre;'> </span><img src=\"" . $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["grafico"] . "/calendarito.jpg\" ";
+        $this->cadenaHTML .= " <  / div > ";
+        $this->cadenaHTML .= " < divstyle = 'display:table-cell;vertical-align:top;float:left;' > ";
+        $this->cadenaHTML .= " < spanstyle = 'white-space:pre;' >  <  / span >  < imgsrc = \"" . $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["grafico"] . "/calendarito.jpg\" ";
         $this->cadenaHTML .= "id=\"imagen" . $this->atributos["id"] . "\" style=\"cursor: pointer; border: 0px solid red;\" ";
         $this->cadenaHTML .= "title=\"Selector de Fecha\" alt=\"Selector de Fecha\" onmouseover=\"this.style.background='red';\" onmouseout=\"this.style.background=''\" />";
         $this->cadenaHTML .= "</div>";
