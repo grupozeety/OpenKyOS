@@ -14,6 +14,8 @@ class Registrador {
     public $lenguaje;
     public $miFormulario;
     public $miSql;
+    public $ruta;
+    public $rutaURL;
     public function __construct($lenguaje, $formulario, $sql) {
         $this->miConfigurador = \Configurador::singleton();
 
@@ -24,8 +26,25 @@ class Registrador {
         $this->miFormulario = $formulario;
 
         $this->miSql = $sql;
+
+        $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
+
+        $this->ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+
+        if (!isset($esteBloque["grupo"]) || $esteBloque["grupo"] == "") {
+            $ruta .= "/blocks/" . $esteBloque["nombre"] . "/";
+            $this->rutaURL .= "/blocks/" . $esteBloque["nombre"] . "/";
+        } else {
+            $this->ruta .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
+            $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
+        }
     }
     public function seleccionarForm() {
+        //Ruta Imagen
+        $rutaWarning = $this->rutaURL . "/frontera/css/imagen/warning.png";
+        $rutaCheck = $this->rutaURL . "/frontera/css/imagen/check.png";
+        $imagen = $rutaWarning;
 
         //Conexion a Base de Datos
         $conexion = "interoperacion";
@@ -52,7 +71,7 @@ class Registrador {
         $atributos['id'] = $esteCampo;
         $atributos['nombre'] = $esteCampo;
         // Si no se coloca, entonces toma el valor predeterminado 'application/x-www-form-urlencoded'
-        $atributos['tipoFormulario'] = '';
+        $atributos['tipoFormulario'] = 'multipart/form-data';
         // Si no se coloca, entonces toma el valor predeterminado 'POST'
         $atributos['metodo'] = 'POST';
         // Si no se coloca, entonces toma el valor predeterminado 'index.php' (Recomendado)
@@ -76,72 +95,159 @@ class Registrador {
                 $atributos['leyenda'] = "Requisitos Tipo de Beneficiario: " . $infoBeneficiario['descripcion_tipo'];
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
+
                 {
+
+                    $esteCampo = 'nombre_beneficiario'; // Nombre Beneficiario
+                    $atributos['id'] = $esteCampo;
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['tipo'] = 'text';
+                    $atributos['estilo'] = 'textoElegante';
+                    $atributos['columnas'] = 1;
+                    $atributos['dobleLinea'] = false;
+                    $atributos['tabIndex'] = $tab;
+                    $atributos['texto'] = $this->lenguaje->getCadena($esteCampo) . $infoBeneficiario['nombre'];
+                    $tab++;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoTexto($atributos);
+                    unset($atributos);
+
+                    $esteCampo = 'identificacion_beneficiario'; // Identificacion Beneficiario
+                    $atributos['id'] = $esteCampo;
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['tipo'] = 'text';
+                    $atributos['estilo'] = 'textoElegante';
+                    $atributos['columnas'] = 1;
+                    $atributos['dobleLinea'] = false;
+                    $atributos['tabIndex'] = $tab;
+                    $atributos['texto'] = $this->lenguaje->getCadena($esteCampo) . $infoBeneficiario['identificacion'];
+                    $tab++;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoTexto($atributos);
+                    unset($atributos);
+
+                    $esteCampo = "cedula"; //001
+                    $atributos["id"] = $esteCampo; // No cambiar este nombre
+                    $atributos["nombre"] = $esteCampo;
+                    $atributos["tipo"] = "file";
+                    $atributos["obligatorio"] = true;
+                    $atributos["etiquetaObligatorio"] = false;
+                    $atributos["tabIndex"] = $tab++;
+                    $atributos["columnas"] = 2;
+                    $atributos["estilo"] = "textoIzquierda";
+                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["tamanno"] = 500000;
+                    $atributos["validar"] = "required";
+                    $atributos["estilo"] = "file";
+                    $atributos["etiqueta"] = "";
+                    $atributos["bootstrap"] = true;
+                    // $atributos ["valor"] = $valorCodificado;
+                    $atributos = array_merge($atributos);
+                    $archivo_cedula = $this->miFormulario->campoCuadroTexto($atributos);
+                    unset($atributos);
+
+                    $esteCampo = "acta_vip"; //002
+                    $atributos["id"] = $esteCampo; // No cambiar este nombre
+                    $atributos["nombre"] = $esteCampo;
+                    $atributos["tipo"] = "file";
+                    $atributos["obligatorio"] = true;
+                    $atributos["etiquetaObligatorio"] = false;
+                    $atributos["tabIndex"] = $tab++;
+                    $atributos["columnas"] = 2;
+                    $atributos["estilo"] = "textoIzquierda";
+                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["tamanno"] = 500000;
+                    $atributos["validar"] = "required";
+                    $atributos["estilo"] = "file";
+                    $atributos["etiqueta"] = "";
+                    $atributos["bootstrap"] = true;
+                    // $atributos ["valor"] = $valorCodificado;
+                    $atributos = array_merge($atributos);
+                    $archivo_acta_vip = $this->miFormulario->campoCuadroTexto($atributos);
+                    unset($atributos);
+
+                    $esteCampo = "certificado_servicio"; //003
+                    $atributos["id"] = $esteCampo; // No cambiar este nombre
+                    $atributos["nombre"] = $esteCampo;
+                    $atributos["tipo"] = "file";
+                    $atributos["obligatorio"] = true;
+                    $atributos["etiquetaObligatorio"] = false;
+                    $atributos["tabIndex"] = $tab++;
+                    $atributos["columnas"] = 2;
+                    $atributos["estilo"] = "textoIzquierda";
+                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["tamanno"] = 500000;
+                    $atributos["validar"] = "required";
+                    $atributos["etiqueta"] = "";
+                    $atributos["bootstrap"] = true;
+                    // $atributos ["valor"] = $valorCodificado;
+                    $atributos = array_merge($atributos);
+                    $archivo_certificado_servicios = $this->miFormulario->campoCuadroTexto($atributos);
+                    unset($atributos);
+
+                    $esteCampo = "certificado_proyecto_vip"; //005
+                    $atributos["id"] = $esteCampo; // No cambiar este nombre
+                    $atributos["nombre"] = $esteCampo;
+                    $atributos["tipo"] = "file";
+                    $atributos["obligatorio"] = true;
+                    $atributos["etiquetaObligatorio"] = false;
+                    $atributos["tabIndex"] = $tab++;
+                    $atributos["columnas"] = 2;
+                    $atributos["estilo"] = "textoIzquierda";
+                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["tamanno"] = 500000;
+                    $atributos["validar"] = "required";
+                    $atributos["etiqueta"] = "";
+                    $atributos["bootstrap"] = true;
+                    // $atributos ["valor"] = $valorCodificado;
+                    $atributos = array_merge($atributos);
+                    $archivo_certificado_proyecto_vip = $this->miFormulario->campoCuadroTexto($atributos);
+                    unset($atributos);
+
+                    $esteCampo = "documento_acceso_propietario"; //006
+                    $atributos["id"] = $esteCampo; // No cambiar este nombre
+                    $atributos["nombre"] = $esteCampo;
+                    $atributos["tipo"] = "file";
+                    $atributos["obligatorio"] = true;
+                    $atributos["etiquetaObligatorio"] = false;
+                    $atributos["tabIndex"] = $tab++;
+                    $atributos["columnas"] = 2;
+                    $atributos["estilo"] = "textoIzquierda";
+                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["tamanno"] = 500000;
+                    $atributos["validar"] = "required";
+                    $atributos["etiqueta"] = "";
+                    $atributos["bootstrap"] = true;
+                    // $atributos ["valor"] = $valorCodificado;
+                    $atributos = array_merge($atributos);
+                    $archivo_documento_acceso_propietario = $this->miFormulario->campoCuadroTexto($atributos);
+                    unset($atributos);
+
+                    $esteCampo = "documento_direccion"; //007
+                    $atributos["id"] = $esteCampo; // No cambiar este nombre
+                    $atributos["nombre"] = $esteCampo;
+                    $atributos["tipo"] = "file";
+                    $atributos["obligatorio"] = true;
+                    $atributos["etiquetaObligatorio"] = false;
+                    $atributos["tabIndex"] = $tab++;
+                    $atributos["columnas"] = 2;
+                    $atributos["estilo"] = "textoIzquierda";
+                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["tamanno"] = 500000;
+                    $atributos["validar"] = "required";
+                    $atributos["estilo"] = "file";
+                    $atributos["etiqueta"] = "";
+                    $atributos["bootstrap"] = true;
+                    // $atributos ["valor"] = $valorCodificado;
+                    $atributos = array_merge($atributos);
+                    $archivo_documento_direccion = $this->miFormulario->campoCuadroTexto($atributos);
+                    unset($atributos);
+
                     switch ($infoBeneficiario['tipo']) {
                         case '1':
-                            # code...
-                            break;
 
-                        case '2':
-
-                            $esteCampo = "cedula";
-                            $atributos["id"] = $esteCampo;     // No cambiar este nombre
-                            $atributos["nombre"] = $esteCampo;
-                            $atributos["tipo"] = "file";
-                            $atributos["obligatorio"] = true;
-                            $atributos["etiquetaObligatorio"] = true;
-                            $atributos["tabIndex"] = $tab++;
-                            $atributos["columnas"] = 2;
-                            $atributos["estilo"] = "textoIzquierda";
-                            $atributos["anchoEtiqueta"] = 0;
-                            $atributos["tamanno"] = 500000;
-                            $atributos["validar"] = "required";
-                            $atributos["estilo"] = "file";
-                            $atributos["etiqueta"] = " ";
-                            $atributos["bootstrap"] = true;
-                            // $atributos ["valor"] = $valorCodificado;
-                            $atributos = array_merge($atributos);
-                            $archivo_cedula = $this->miFormulario->campoCuadroTexto($atributos);
-                            unset($atributos);
-
-                            $esteCampo = "certificado_servicio";
-                            $atributos["id"] = $esteCampo;     // No cambiar este nombre
-                            $atributos["nombre"] = $esteCampo;
-                            $atributos["tipo"] = "file";
-                            $atributos["obligatorio"] = true;
-                            $atributos["etiquetaObligatorio"] = false;
-                            $atributos["tabIndex"] = $tab++;
-                            $atributos["columnas"] = 2;
-                            $atributos["estilo"] = "textoIzquierda";
-                            $atributos["anchoEtiqueta"] = 0;
-                            $atributos["tamanno"] = 500000;
-                            $atributos["validar"] = "required";
-                            $atributos["etiqueta"] = " ";
-                            $atributos["bootstrap"] = true;
-                            // $atributos ["valor"] = $valorCodificado;
-                            $atributos = array_merge($atributos);
-                            $archivo_certificado_servicios = $this->miFormulario->campoCuadroTexto($atributos);
-                            unset($atributos);
-
-                            $esteCampo = "documento_direccion";
-                            $atributos["id"] = $esteCampo;     // No cambiar este nombre
-                            $atributos["nombre"] = $esteCampo;
-                            $atributos["tipo"] = "file";
-                            $atributos["obligatorio"] = true;
-                            $atributos["etiquetaObligatorio"] = false;
-                            $atributos["tabIndex"] = $tab++;
-                            $atributos["columnas"] = 2;
-                            $atributos["estilo"] = "textoIzquierda";
-                            $atributos["anchoEtiqueta"] = 0;
-                            $atributos["tamanno"] = 500000;
-                            $atributos["validar"] = "required";
-                            $atributos["estilo"] = "file";
-                            $atributos["etiqueta"] = " ";
-                            $atributos["bootstrap"] = true;
-                            // $atributos ["valor"] = $valorCodificado;
-                            $atributos = array_merge($atributos);
-                            $archivo_documento_direccion = $this->miFormulario->campoCuadroTexto($atributos);
-                            unset($atributos);
                             $tabla = "
                                      <table id='contenido' class='table  table-hover'>
                                       <thead>
@@ -153,34 +259,96 @@ class Registrador {
                                         </thead>
 
                                         <tr>
-                                          <td><b>"     . $this->lenguaje->getCadena("cedula") . "</b></td>
+                                          <td>"     . $this->lenguaje->getCadena("cedula") . "</td>
                                           <td><center>"     . $archivo_cedula . "</center></td>
-                                          <td><center>X</center> </td>
+                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
                                         </tr>
 
                                         <tr>
-                                          <td><b>"     . $this->lenguaje->getCadena("certificado_servicio") . "</b></td>
-                                          <td><center>"     . $archivo_certificado_servicios . "</center></td>
-                                          <td><center>X</center></td>
+                                          <td>"     . $this->lenguaje->getCadena("acta_vip") . "</td>
+                                          <td><center>"     . $archivo_acta_vip . "</center></td>
+                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
                                         </tr>
 
                                         <tr>
-                                          <td><b>"     . $this->lenguaje->getCadena("documento_direccion") . "</b></td>
+                                          <td>"     . $this->lenguaje->getCadena("certificado_proyecto_vip") . "</td>
+                                          <td><center>"     . $archivo_certificado_proyecto_vip . "</center></td>
+                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
+                                        </tr>
+
+                                        <tr>
+                                          <td>"     . $this->lenguaje->getCadena("documento_acceso_propietario") . "</td>
+                                          <td><center>"     . $archivo_documento_acceso_propietario . "</center></td>
+                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
+                                        </tr>
+
+
+                                        <tr>
+                                          <td>"     . $this->lenguaje->getCadena("documento_direccion") . "</td>
                                           <td><center>"     . $archivo_documento_direccion . "</center></td>
-                                          <td><center>X</center></td>
+                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
                                         </tr>
-
 
                                         </table>"    ;
-                            echo $tabla;
+                            break;
+
+                        case '2':
+
+                            $tabla = "
+                                     <table id='contenido' class='table  table-hover'>
+                                      <thead>
+                                        <tr>
+                                          <td> </td>
+                                          <td> </td>
+                                          <td><center><strong>Verificación</strong></center></td>
+                                        </tr>
+                                        </thead>
+
+                                        <tr>
+                                          <td>"     . $this->lenguaje->getCadena("cedula") . "</td>
+                                          <td><center>"     . $archivo_cedula . "</center></td>
+                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
+                                        </tr>
+
+                                        <tr>
+                                          <td>"     . $this->lenguaje->getCadena("certificado_servicio") . "</td>
+                                          <td><center>"     . $archivo_certificado_servicios . "</center></td>
+                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
+                                        </tr>
+
+                                        <tr>
+                                          <td>"     . $this->lenguaje->getCadena("documento_direccion") . "</td>
+                                          <td><center>"     . $archivo_documento_direccion . "</center></td>
+                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
+                                        </tr>
+
+                                        </table>"    ;
 
                             break;
 
                         case '4':
-                            # code...
+                            $tabla = "
+                                     <table id='contenido' class='table  table-hover'>
+                                      <thead>
+                                        <tr>
+                                          <td> </td>
+                                          <td> </td>
+                                          <td><center><strong>Verificación</strong></center></td>
+                                        </tr>
+                                        </thead>
+
+                                        <tr>
+                                          <td>"     . $this->lenguaje->getCadena("cedula") . "</td>
+                                          <td><center>"     . $archivo_cedula . "</center></td>
+                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
+                                        </tr>
+
+                                     </table>"    ;
                             break;
 
                     }
+                    echo $tabla;
+
                 }
                 {
 
@@ -192,7 +360,7 @@ class Registrador {
                     unset($atributos);
                     {
                         // -----------------CONTROL: Botón ----------------------------------------------------------------
-                        $esteCampo = 'botonValidar';
+                        $esteCampo = 'botonCargarRequisitos';
                         $atributos["id"] = $esteCampo;
                         $atributos["tabIndex"] = $tab;
                         $atributos["tipo"] = 'boton';
@@ -239,11 +407,12 @@ class Registrador {
 
                 // Paso 1: crear el listado de variables
 
-                $valorCodificado = "actionBloque=" . $esteBloque["nombre"];
+                $valorCodificado = "action=" . $esteBloque["nombre"];
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                $valorCodificado .= "&opcion=validarRequisitos";
+                $valorCodificado .= "&opcion=cargarRequisitos";
+                $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo'];
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.
