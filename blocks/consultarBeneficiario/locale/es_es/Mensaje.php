@@ -12,6 +12,7 @@ $this->idioma["botonAgregar"]="Agregar";
 $this->idioma["botonContinuar"]="Continuar";
 $this->idioma["botonCerrar"]="Aceptar";
 $this->idioma["botonCerrar2"]="Aceptar";
+$this->idioma["botonAgregarBeneficiario"]="Agregar Beneficiario";
 $this->idioma["confirma"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 $this->idioma["error"]="No se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 

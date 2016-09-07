@@ -89,6 +89,17 @@ $valorCodificado .= "&id=";
 
 ?>
 
+<?php
+
+$directorioReg = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+$directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$valorCodificadoReg = "pagina=registroBeneficiario";
+$variableReg = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificadoReg );
+$enlaceReg = $directorioReg . '=' . $variableReg;
+
+?>
+
 var id = "";
 
 $('#example')
@@ -98,6 +109,8 @@ $('#example')
 		
 $(document).ready(function() {
     var table = $('#example').DataTable( {
+		"sDom": "<'dt-toolbar'<'col-xs-4'l><'col-xs-4'<'toolbar'>><'col-xs-4'f>>"+
+		"t"+"<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>",
         processing: true,
         searching: true,
         ajax: {
@@ -113,10 +126,11 @@ $(document).ready(function() {
       			"data": null,
       			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
     		}
-            
         ]
     } );
     
+	$("div.toolbar").html('<button type="button" id="AgregarBeneficiario" class="btn btn-default">Registrar Beneficiario</button>'); 
+	    
     $('#example tbody').on( 'click', '.optionRemove', function () {
     	var data = table.row( $(this).parents('tr') ).data();
         id = data['id'];
@@ -139,6 +153,12 @@ $(document).ready(function() {
 		$("#botonAceptarElim").click(function( event ) {	
 			eliminarBeneficiario();
 			$("#myModal").modal("hide");
+		});
+	});
+	
+	$(function() {
+		$("#AgregarBeneficiario").click(function( event ) {	
+	    	location.href = "<?php echo $enlaceReg;?>";
 		});
 	});
 	

@@ -135,5 +135,4 @@ function generar(longitud)
   return contraseña;
 }
 
-$("#<?php echo $this->campoSeguro("id_beneficiario")?>").val(generar(5));
 

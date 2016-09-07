@@ -105,6 +105,67 @@ class Sql extends \Sql {
 
             /* Consultas del desarrollo */
 
+            case "cargarBeneficiarioPotencial":
+
+            	$cadenaSql = "SELECT ";
+                $cadenaSql .= "id AS id_beneficiario,";
+                $cadenaSql .= "tipo AS tipo_beneficiario,";
+                $cadenaSql .= "identificacion AS identificacion_beneficiario,";
+                $cadenaSql .= "nombre AS nombre_beneficiario,";
+                $cadenaSql .= "genero AS genero_beneficiario,";
+                $cadenaSql .= "edad AS edad_beneficiario,";
+                $cadenaSql .= "nivel_estudio AS nivel_estudio,";
+                $cadenaSql .= "correo AS correo,";
+                $cadenaSql .= "foto AS foto,";
+                $cadenaSql .= "direccion AS direccion,";
+                $cadenaSql .= "tipo_vivienda AS tipo_vivienda,";
+                $cadenaSql .= "manzana AS manzana,";
+                $cadenaSql .= "bloque AS bloque,";
+                $cadenaSql .= "torre AS torre,";
+                $cadenaSql .= "apartamento AS apartamento,";
+                $cadenaSql .= "telefono AS telefono,";
+                $cadenaSql .= "celular AS celular,";
+                $cadenaSql .= "whatsapp AS whatsapp,";
+                $cadenaSql .= "departamento AS departamento,";
+                $cadenaSql .= "municipio AS municipio,";
+                $cadenaSql .= "urbanizacion AS urbanizacion,";
+                $cadenaSql .= "territorio AS territorio,";
+                $cadenaSql .= "estrato AS estrato,";
+                $cadenaSql .= "geolocalizacion AS geolocalizacion,";
+                $cadenaSql .= "jefe_hogar AS jefe_hogar,";
+                $cadenaSql .= "pertenencia_etnica AS pertenencia_etnica,";
+                $cadenaSql .= "ocupacion AS ocupacion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "interoperacion.beneficiario_potencial ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "estado_registro=true ";
+                $cadenaSql .= "AND ";
+                $cadenaSql .= "id=" . "'" . $variable . "'";
+                break;
+                
+            case "cargarFamiliares":
+                
+               	$cadenaSql = "SELECT ";
+                $cadenaSql .= "id_beneficiario,";
+                $cadenaSql .= "identificacion_familiar,";
+                $cadenaSql .= "nombre_familiar,";
+                $cadenaSql .= "parentesco,";
+                $cadenaSql .= "genero_familiar,";
+                $cadenaSql .= "edad_familiar,";
+                $cadenaSql .= "nivel_estudio_familiar,";
+                $cadenaSql .= "correo_familiar,";
+                $cadenaSql .= "grado_estudio_familiar,";
+                $cadenaSql .= "pertenencia_etnica_familiar,";
+                $cadenaSql .= "institucion_educativa_familiar,";
+                $cadenaSql .= "ocupacion_familiar ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "interoperacion.familiar_beneficiario_potencial ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "estado_registro=true ";
+                $cadenaSql .= "AND ";
+                $cadenaSql .= "id_beneficiario=" . "'" . $variable . "'";
+                
+                break;
             case "registrarBeneficiarioPotencial":
             	
                 $cadenaSql = "INSERT INTO interoperacion.beneficiario_potencial (";

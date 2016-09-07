@@ -103,6 +103,15 @@ class Formulario {
         	unset ( $atributos );
         }
         
+        // ------------------Division para los botones-------------------------
+        $atributos ["id"] = "botones";
+        $atributos ["estilo"] = "marcoBotones";
+        echo $this->miFormulario->division ( "inicio", $atributos );
+        unset($atributos);
+        
+        // ------------------Fin Division para los botones-------------------------
+        echo $this->miFormulario->division ( "fin" );
+        
         echo '
         		<table id="example" class="display" cellspacing="0" width="100%">
 			        <thead>
@@ -126,41 +135,6 @@ class Formulario {
 			    </table>
         	';
         
-      		
-        
-        // ------------------Division para los botones-------------------------
-        $atributos ["id"] = "botones";
-        $atributos ["estilo"] = "marcoBotones";
-        echo $this->miFormulario->division ( "inicio", $atributos );
-        unset($atributos);
-
-        // -----------------CONTROL: Botón ----------------------------------------------------------------
-        $esteCampo = 'botonContinuar';
-        $atributos ["id"] = $esteCampo;
-        $atributos ["tabIndex"] = $tab;
-        $atributos ["tipo"] = 'boton';
-        // submit: no se coloca si se desea un tipo button genérico
-        $atributos ['submit'] = false;
-        $atributos ["basico"] = true;
-        $atributos ["estiloMarco"] = '';
-        $atributos ["estiloBoton"] = 'primary';
-        $atributos ["block"] = false;
-        // verificar: true para verificar el formulario antes de pasarlo al servidor.
-        $atributos ["verificar"] = '';
-        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-        $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-        $tab ++;
-
-        // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
-        unset($atributos);
-        // -----------------FIN CONTROL: Botón -----------------------------------------------------------
-
-        // ------------------Fin Division para los botones-------------------------
-        echo $this->miFormulario->division ( "fin" );
-
         // ------------------- SECCION: Paso de variables ------------------------------------------------
 
         
@@ -277,7 +251,7 @@ class Formulario {
         $atributos ['submit'] = true;
         $atributos ["estiloMarco"] = 'text-center';
         $atributos ["sinDivision"] = true;
-        $atributos ["estiloBoton"] = 'success';
+        $atributos ["estiloBoton"] = 'danger';
         $atributos ["block"] = false;
         $atributos ['deshabilitado'] = true;
         
