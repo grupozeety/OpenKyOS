@@ -14,9 +14,7 @@ class FormProcessor {
     public $miFormulario;
     public $miSql;
     public $conexion;
-    public $elementos_projecto;
-    public $elementos_consumidos;
-    public $elementos_reporte;
+    public $archivos_datos;
 
     public function __construct($lenguaje, $sql) {
 
@@ -27,22 +25,19 @@ class FormProcessor {
 
         $_REQUEST['tiempo'] = time();
 
-        var_dump($_FILES);
         var_dump($_REQUEST);
 
-        exit;
-
         /**
-         *  1. Crear arreglo de elementos del Proyectos
+         *  1. CargarArchivos en el Directorio
          **/
 
-        $this->procesarVariables();
+        $this->cargarArchivos();
 
         /**
-         *  2. Consultar Elementos Consumidos
+         *  2. Asociar Codigo Documento
          **/
 
-        $this->consultarElementosConsumidos();
+        $this->asosicarCodigoDocumento();
 
         /**
          *  3. Validar Elementos Proyecto y Elementos Consumo
@@ -55,6 +50,39 @@ class FormProcessor {
          **/
 
         $this->generarDocumentoPDF();
+
+    }
+
+    public function cargarArchivos() {
+
+        foreach ($_FILES as $key => $archivo) {
+
+            $this->prefijo = substr(md5(uniqid(time())), 0, 6);
+            /*
+             * obtenemos los datos del Fichero
+             */
+            $tamano = $archivo['size'];
+            $tipo = $archivo['type'];
+            $nombre_archivo = str_replace(" ", "", $archivo['name']);
+            /*
+             * guardamos el fichero en el Directorio
+             */
+            $ruta_absoluta = $this->miConfigurador->configuracion['raizDocumento'] . "/archivos/" . $this->prefijo . "_" . $nombre_archivo;
+            $ruta_relativa = $this->miConfigurador->configuracion['host'] . $this->miConfigurador->configuracion['site'] . "/archivos/" . $this->prefijo . "_" . $nombre_archivo;
+            $archivo['rutaDirectorio'] = $ruta_absoluta;
+            if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
+                exit;
+                Redireccionador::redireccionar("ErrorCargarFicheroDirectorio");
+            }
+
+            $archivo_datos[] = array(
+                'ruta_archivo' => $ruta_relativa,
+                'nombre_archivo' => $archivo['name'],
+                'campo' => $key,
+            );
+        }
+
+        $this->archivos_datos = $archivo_datos;
 
     }
 
