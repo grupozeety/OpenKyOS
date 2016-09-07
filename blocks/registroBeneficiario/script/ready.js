@@ -91,6 +91,7 @@ $(document).ready(function () {
 	
 
 	  allNextBtn.click(function(){
+		  
 		  var curStep = $(this).closest(".tab-pane"),
 			  curStepBtn = curStep.attr("id"),
 			  nextStepWizard = $('div.wizard div a[href="#' + curStepBtn + '"]').parent().next().children("a"),

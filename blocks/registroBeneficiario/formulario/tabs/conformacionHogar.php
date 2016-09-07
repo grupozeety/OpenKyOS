@@ -125,13 +125,39 @@ class Formulario {
 			$datos [0] ['ocupacion_familiar'] = '-1';
 		}
 		
-		for($i = 0; $i < 2; $i ++) {
+		if(count($datos) > 0){
+			$fam = count($datos);
+		}else{
+			$fam = 1;
+		}
+		
+		
+		// ----------------INICIO CONTROL: Campo Oculto Cantidad d Familiares-------------------------------------------------------
+		
+		$esteCampo = 'familiares';
+		$atributos ["id"] = $esteCampo; // No cambiar este nombre
+		$atributos ["tipo"] = "hidden";
+		$atributos ['valor'] = $fam;
+		$atributos ['estilo'] = '';
+		$atributos ["obligatorio"] = false;
+		$atributos ['marco'] = true;
+		$atributos ["etiqueta"] = "";
+		
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroTexto ( $atributos );
+		unset ( $atributos );
+		
+		// ----------------FIN CONTROL: Campo Oculto Cantidad d Familiares--------------------------------------------------------
+		
+		for($i = 0; $i < count($datos); $i ++) {
 			
-			$esteCampo = 'div_' . $i;
+			$esteCampo = 'div_' . ($i+1);
 			$atributos ['id'] = $esteCampo;
 			$atributos ['leyenda'] = "Familiar";
 			echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 			unset ( $atributos );
+			
+				$cargueDatos = array();
 			
 				$cargueDatos ['identificacion_familiar' . '_' . $i] = $datos [$i] ['identificacion_familiar'];
 				$cargueDatos ['nombre_familiar' . '_' . $i] = $datos [$i] ['nombre_familiar'];
@@ -146,12 +172,13 @@ class Formulario {
 				$cargueDatos ['ocupacion_familiar' . '_' . $i] = $datos [$i] ['ocupacion_familiar'];
 				
 				// ----------------INICIO CONTROL: Campo Texto Identificación del Beneficiario--------------------------------------------------------
-				var_dump($cargueDatos);
+
 				$esteCampo = 'identificacion_familiar_' . $i;
+				$esteCampoEtiqueta = 'identificacion_familiar';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['tipo'] = "text";
 				$atributos ['id'] = $esteCampo;
-				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampoEtiqueta );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
 				$atributos ['anchoEtiqueta'] = 2;
@@ -186,10 +213,11 @@ class Formulario {
 				// ----------------INICIO CONTROL: Campo Texto Identificación del Beneficiario--------------------------------------------------------
 				
 				$esteCampo = 'nombre_familiar_' . $i;
+				$esteCampoEtiqueta = 'nombre_familiar';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['tipo'] = "text";
 				$atributos ['id'] = $esteCampo;
-				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampoEtiqueta );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
 				$atributos ['anchoEtiqueta'] = 2;
@@ -224,14 +252,14 @@ class Formulario {
 				// ----------------INICIO CONTROL: Lista Genero del Beneficiario--------------------------------------------------------
 				
 				$esteCampo = 'parentesco_' . $i;
+				$esteCampoEtiqueta = 'parentesco';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['id'] = $esteCampo;
-				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampoEtiqueta );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
 				$atributos ['anchoEtiqueta'] = 2;
 				$atributos ['evento'] = '';
-				$atributos ['seleccion'] = - 1;
 				$atributos ['deshabilitado'] = false;
 				$atributos ['columnas'] = 1;
 				$atributos ['tamanno'] = 1;
@@ -242,6 +270,13 @@ class Formulario {
 				$atributos ['anchoCaja'] = 10;
 				$atributos ['miEvento'] = '';
 				$atributos ['validar'] = 'required';
+				
+				if (isset ( $cargueDatos [$esteCampo] )) {
+					$atributos ['seleccion'] = $cargueDatos [$esteCampo];
+				} else {
+					$atributos ['seleccion'] = - 1;
+				}
+				
 				$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroParentesco" );
 				$matrizItems = array (
 						array (
@@ -251,12 +286,6 @@ class Formulario {
 				);
 				$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 				$atributos ['matrizItems'] = $matrizItems;
-				
-				if (isset ( $cargueDatos [$esteCampo] )) {
-					$atributos ['seleccion'] = $cargueDatos [$esteCampo];
-				} else {
-					$atributos ['seleccion'] = - 1;
-				}
 				
 				// Aplica atributos globales al control
 				$atributos = array_merge ( $atributos, $atributosGlobales );
@@ -268,9 +297,10 @@ class Formulario {
 				// ----------------INICIO CONTROL: Lista Genero del Beneficiario--------------------------------------------------------
 				
 				$esteCampo = 'genero_familiar_' . $i;
+				$esteCampoEtiqueta = 'genero_familiar';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['id'] = $esteCampo;
-				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampoEtiqueta );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
 				$atributos ['anchoEtiqueta'] = 2;
@@ -312,10 +342,11 @@ class Formulario {
 				// ----------------INICIO CONTROL: Campo Texto Edad del Beneficiario--------------------------------------------------------
 				
 				$esteCampo = 'edad_familiar_' . $i;
+				$esteCampoEtiqueta = 'edad_familiar';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['tipo'] = "number";
 				$atributos ['id'] = $esteCampo;
-				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampoEtiqueta );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
 				$atributos ['anchoEtiqueta'] = 2;
@@ -351,9 +382,10 @@ class Formulario {
 				// ----------------INICIO CONTROL: Lista Nivel de Estudio--------------------------------------------------------
 				
 				$esteCampo = 'nivel_estudio_familiar_' . $i;
+				$esteCampoEtiqueta = 'nivel_estudio_familiar';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['id'] = $esteCampo;
-				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampoEtiqueta );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
 				$atributos ['anchoEtiqueta'] = 2;
@@ -395,10 +427,11 @@ class Formulario {
 				// ----------------INICIO CONTROL: Campo Texto Correo Electrónico--------------------------------------------------------
 				
 				$esteCampo = 'correo_familiar_' . $i;
+				$esteCampoEtiqueta = 'correo_familiar';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['tipo'] = "mail";
 				$atributos ['id'] = $esteCampo;
-				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampoEtiqueta );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
 				$atributos ['anchoEtiqueta'] = 2;
@@ -433,10 +466,11 @@ class Formulario {
 				// ----------------INICIO CONTROL: Lista Grado--------------------------------------------------------
 				
 				$esteCampo = 'grado_familiar_' . $i;
+				$esteCampoEtiqueta = 'grado_familiar';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['tipo'] = "text";
 				$atributos ['id'] = $esteCampo;
-				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampoEtiqueta );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
 				$atributos ['anchoEtiqueta'] = 2;
@@ -471,10 +505,11 @@ class Formulario {
 				// ----------------INICIO CONTROL: Campo Texto Nombre de Institución Educativa--------------------------------------------------------
 				
 				$esteCampo = 'institucion_educativa_familiar_' . $i;
+				$esteCampoEtiqueta = 'institucion_educativa_familiar';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['tipo'] = "text";
 				$atributos ['id'] = $esteCampo;
-				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampoEtiqueta );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
 				$atributos ['anchoEtiqueta'] = 2;
@@ -509,9 +544,10 @@ class Formulario {
 				// ----------------INICIO CONTROL: Lista Pertenencia Étnica--------------------------------------------------------
 				
 				$esteCampo = 'pertenencia_etnica_familiar_' . $i;
+				$esteCampoEtiqueta = 'pertenencia_etnica_familiar';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['id'] = $esteCampo;
-				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampoEtiqueta );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
 				$atributos ['anchoEtiqueta'] = 2;
@@ -553,9 +589,10 @@ class Formulario {
 				// ----------------INICIO CONTROL: Lista Ocupación--------------------------------------------------------
 				
 				$esteCampo = 'ocupacion_familiar_' . $i;
+				$esteCampoEtiqueta = 'ocupacion_familiar';
 				$atributos ['nombre'] = $esteCampo;
 				$atributos ['id'] = $esteCampo;
-				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampoEtiqueta );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
 				$atributos ['anchoEtiqueta'] = 2;
@@ -604,20 +641,6 @@ class Formulario {
 		echo '<img src="' . $rutaBloque . "/imagenes/add_list_256.png" . '" id="botonAgregar" alt="Agregar" style="width:30px;height:30px;">';
 		echo '<p style="clear: right;"></p>';
 		
-		// ----------------INICIO CONTROL: Campo Oculto Cantidad d Familiares-------------------------------------------------------
-		
-		$esteCampo = 'familiares';
-		$atributos ["id"] = $esteCampo; // No cambiar este nombre
-		$atributos ["tipo"] = "hidden";
-		$atributos ['estilo'] = '';
-		$atributos ["obligatorio"] = false;
-		$atributos ['marco'] = true;
-		$atributos ["etiqueta"] = "";
-		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroTexto ( $atributos );
-		unset ( $atributos );
-		
-		// ----------------FIN CONTROL: Campo Oculto Cantidad d Familiares--------------------------------------------------------
 		
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";

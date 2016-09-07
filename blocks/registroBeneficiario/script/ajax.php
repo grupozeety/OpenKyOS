@@ -25,10 +25,57 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $val
 $urlCodificacionCampos = $url . $cadena;
 ?>
 
-var id = 1;
-	
-$("#<?php echo $this->campoSeguro('familiares')?>").val(id);
-	
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=". $esteBloque ["nombre"]; 
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=codificarSelect";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+// URL definitiva
+$urlCodificacionCamposSelect = $url . $cadena;
+?>
+
+var id = parseInt($("#<?php echo $this->campoSeguro('familiares')?>").val());
+
+function codificacionCamposSelect(id){
+
+	$.ajax({
+		url: "<?php echo $urlCodificacionCampos?>",
+		dataType: "json",
+		data: { valor: id},
+		success: function(data){
+			$("#" + data['genero']).select2({width:'100%'});
+			$("#" + data['nivel_estudio']).select2({width:'100%'});
+			$("#" + data['genero']).select2({width:'100%'});
+			$("#" + data['pertenencia_etnica']).select2({width:'100%'});
+			$("#" + data['ocupacion']).select2({width:'100%'});
+			$("#" + data['parentesco']).select2({width:'100%'});
+		}
+		
+	});
+};
+
+for(i=0; i<id; i++){
+	codificacionCamposSelect(i);
+}
+
 $(function() {
 	$("#botonAgregar").click(function( event ) {	
 	
@@ -54,7 +101,6 @@ $(function() {
 		}else if(id == 1){
 			$('#div_' + id).hide();
 			$('#botonEliminar').hide();
-
 			id--;
 			$("#<?php echo $this->campoSeguro('familiares')?>").val(id);
 		}
@@ -71,7 +117,6 @@ function codificacionCampos(id){
 		data: { valor: id},
 		success: function(data){
 			
-			
 				<!--Se remueven los select2 de los select para realizar una clonación efectiva del campo -->
 				$($( '#div_' + id + ' :input')[2]).select2("destroy");
 				$($( '#div_' + id + ' :input')[3]).select2("destroy");
@@ -80,8 +125,10 @@ function codificacionCampos(id){
 				$($( '#div_' + id + ' :input')[10]).select2("destroy");
 				
 				<!--Se clona el div -->
+				
+				
 				$newClone = $('#div_' + id).clone(true);
-				$newClone.attr("id",'div_' + (id+1));
+				$newClone.attr("id",'div_' + (id + 1));
 				$newClone.insertAfter($('#div_'+id));
 				
 				$('#div_'+id + ' img').remove( "#botonAgregar" );
@@ -106,16 +153,16 @@ function codificacionCampos(id){
 				$($( '#div_' + (id + 1) + ' :input')[1]).attr('id', data.nombre).val("");;
 				$($( '#div_' + (id + 1) + ' :input')[1]).attr('name', data.nombre);
 				
-				$($( '#div_' + (id + 1) + ' :input')[2]).attr('id', data.parentesco).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[2]).attr('id', data.parentesco).val("").change();
 				$($( '#div_' + (id + 1) + ' :input')[2]).attr('name', data.parentesco);
 				
-				$($( '#div_' + (id + 1) + ' :input')[3]).attr('id', data.genero).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[3]).attr('id', data.genero).val("").change();
 				$($( '#div_' + (id + 1) + ' :input')[3]).attr('name', data.genero);
 				
 				$($( '#div_' + (id + 1) + ' :input')[4]).attr('id', data.edad).val("");;
 				$($( '#div_' + (id + 1) + ' :input')[4]).attr('name', data.edad);
 				
-				$($( '#div_' + (id + 1) + ' :input')[5]).attr('id', data.nivel_estudio).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[5]).attr('id', data.nivel_estudio).val("").change();
 				$($( '#div_' + (id + 1) + ' :input')[5]).attr('name', data.nivel_estudio);
 				
 				$($( '#div_' + (id + 1) + ' :input')[6]).attr('id', data.correo).val("");;
@@ -127,10 +174,10 @@ function codificacionCampos(id){
 				$($( '#div_' + (id + 1) + ' :input')[8]).attr('id', data.institucion_educativa).val("");;
 				$($( '#div_' + (id + 1) + ' :input')[8]).attr('name', data.institucion_educativa);
 				
-				$($( '#div_' + (id + 1) + ' :input')[9]).attr('id', data.pertenencia_etnica).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[9]).attr('id', data.pertenencia_etnica).val("").change();
 				$($( '#div_' + (id + 1) + ' :input')[9]).attr('name', data.pertenencia_etnica);
 				
-				$($( '#div_' + (id + 1) + ' :input')[10]).attr('id', data.ocupacion).val("");;
+				$($( '#div_' + (id + 1) + ' :input')[10]).attr('id', data.ocupacion).val("").change();
 				$($( '#div_' + (id + 1) + ' :input')[10]).attr('name', data.ocupacion);
 				
 			
@@ -218,3 +265,5 @@ $("#<?php echo $this->campoSeguro("foto")?>").fileinput({
 if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
 	$("#myModalMensaje").modal('show');
 }
+
+
