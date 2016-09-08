@@ -6,6 +6,8 @@ if (!isset($GLOBALS["autorizado"])) {
     exit();
 }
 
+use gestionBeneficiarios\generacionContrato\entidad\Redireccionador;
+
 include_once 'Redireccionador.php';
 class FormProcessor {
 
@@ -16,6 +18,7 @@ class FormProcessor {
     public $conexion;
     public $archivos_datos;
     public $esteRecursoDB;
+    public $datos_contrato;
 
     public function __construct($lenguaje, $sql) {
 
@@ -29,8 +32,6 @@ class FormProcessor {
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $_REQUEST['tiempo'] = time();
-
-        var_dump($_REQUEST);
 
         /**
          *  1. CargarArchivos en el Directorio
@@ -56,16 +57,23 @@ class FormProcessor {
 
         $this->registrarContratoBorrador();
 
+        if ($this->datos_contrato) {
+            Redireccionador::redireccionar("Inserto", $this->datos_contrato);
+        } else {
+            Redireccionador::redireccionar("NoInserto");
+        }
+
     }
 
     public function registrarContratoBorrador() {
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarContrato');
-
         $registro_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
+        $this->datos_contrato = $registro_contrato;
+
         $cadenaSql = $this->miSql->getCadenaSql('registrarServicio', $registro_contrato[0][0]);
-        $registro_docmuentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        $registro_servicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
     public function registrarDocumentos() {

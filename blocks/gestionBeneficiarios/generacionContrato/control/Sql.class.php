@@ -95,6 +95,26 @@ class Sql extends \Sql {
                 $cadenaSql .= "  RETURNING contrato.id, contrato.numero_contrato;  ";
                 break;
 
+            case 'registrarServicio':
+                $cadenaSql = " INSERT INTO interoperacion.servicio(";
+                $cadenaSql .= " id_contrato, ";
+                $cadenaSql .= " descripcion_servicio,";
+                $cadenaSql .= " estado_servicio,";
+                $cadenaSql .= " usuario)";
+                $cadenaSql .= " VALUES ('" . $variable . "',";
+                $cadenaSql .= " 'ServicioporDefinir',";
+                $cadenaSql .= " (SELECT pr.id_parametro";
+                $cadenaSql .= " FROM parametros.parametros pr";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+                $cadenaSql .= " WHERE pr.descripcion='Borrador'";
+                $cadenaSql .= " AND pr.estado_registro=TRUE ";
+                $cadenaSql .= " AND rl.descripcion='Estado Servicio'";
+                $cadenaSql .= " AND rl.estado_registro=TRUE ";
+                $cadenaSql .= " ),";
+                $cadenaSql .= " '" . $info_usuario['uid'][0] . "'); ";
+
+                break;
+
         }
 
         return $cadenaSql;

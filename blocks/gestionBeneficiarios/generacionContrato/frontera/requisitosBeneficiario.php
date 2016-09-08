@@ -41,11 +41,11 @@ class Registrador {
         }
     }
     public function seleccionarForm() {
-
+        var_dump($_REQUEST);
         //Ruta Imagen
         $rutaWarning = $this->rutaURL . "/frontera/css/imagen/warning.png";
         $rutaCheck = $this->rutaURL . "/frontera/css/imagen/check.png";
-        $imagen = $rutaWarning;
+        $imagen = (isset($_REQUEST['id_contrato'])) ? $rutaCheck : $rutaWarning;
 
         //Conexion a Base de Datos
         $conexion = "interoperacion";
@@ -98,6 +98,10 @@ class Registrador {
                 unset($atributos);
 
                 {
+                    if (isset($_REQUEST['mensaje'])) {
+                        $this->mensaje();
+
+                    }
 
                     $esteCampo = 'nombre_beneficiario'; // Nombre Beneficiario
                     $atributos['id'] = $esteCampo;
@@ -466,42 +470,38 @@ class Registrador {
     }
     public function mensaje() {
 
-        // Si existe algun tipo de error en el login aparece el siguiente mensaje
-        $mensaje = $this->miConfigurador->getVariableConfiguracion('mostrarMensaje');
-        $this->miConfigurador->setVariableConfiguracion('mostrarMensaje', null);
+        switch ($_REQUEST['mensaje']) {
+            case 'inserto':
+                $estilo_mensaje = 'success';     //information,warning,error,validation
+                $atributos["mensaje"] = 'Requisitos Correctamente Validados<br>Se ha Habilitado la Opcion de Descargar Borrador del Contrato';
+                break;
 
-        if ($mensaje) {
-            $tipoMensaje = $this->miConfigurador->getVariableConfiguracion('tipoMensaje');
-            if ($tipoMensaje == 'json') {
-
-                $atributos['mensaje'] = $mensaje;
-                $atributos['json'] = true;
-            } else {
-                $atributos['mensaje'] = $this->lenguaje->getCadena($mensaje);
-            }
-            // ------------------Division para los botones-------------------------
-            $atributos['id'] = 'divMensaje';
-            $atributos['estilo'] = 'marcoBotones';
-            echo $this->miFormulario->division("inicio", $atributos);
-
-            // -------------Control texto-----------------------
-            $esteCampo = 'mostrarMensaje';
-            $atributos["tamanno"] = '';
-            $atributos["estilo"] = 'information';
-            $atributos["etiqueta"] = '';
-            $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-            echo $this->miFormulario->campoMensaje($atributos);
-            unset($atributos);
-
-            // ------------------Fin Division para los botones-------------------------
-            echo $this->miFormulario->division("fin");
+            default:
+                # code...
+                break;
         }
+        // ------------------Division para los botones-------------------------
+        $atributos['id'] = 'divMensaje';
+        $atributos['estilo'] = 'marcoBotones';
+        echo $this->miFormulario->division("inicio", $atributos);
+
+        // -------------Control texto-----------------------
+        $esteCampo = 'mostrarMensaje';
+        $atributos["tamanno"] = '';
+        $atributos["etiqueta"] = '';
+        $atributos["estilo"] = $estilo_mensaje;
+        $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+        echo $this->miFormulario->campoMensaje($atributos);
+        unset($atributos);
+
+        // ------------------Fin Division para los botones-------------------------
+        echo $this->miFormulario->division("fin");
+        unset($atributos);
     }
+
 }
 
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
-
-$miSeleccionador->mensaje();
 
 $miSeleccionador->seleccionarForm();
 
