@@ -52,12 +52,13 @@ class Sql extends \Sql {
 
                 break;
             case 'consultaInformacionBeneficiario':
-                $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo  ";
+                $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
                 $cadenaSql .= " JOIN parametros.parametros pr ON pr.id_parametro= bn.tipo";
+                $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id AND cn.estado_registro=TRUE ";
                 $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
                 $cadenaSql .= " AND pr.estado_registro = TRUE ";
-                $cadenaSql .= " AND id= '" . $_REQUEST['id_beneficiario'] . "';";
+                $cadenaSql .= " AND bn.id= '" . $_REQUEST['id_beneficiario'] . "';";
                 break;
 
             case 'registrarDocumentos':
@@ -113,6 +114,22 @@ class Sql extends \Sql {
                 $cadenaSql .= " ),";
                 $cadenaSql .= " '" . $info_usuario['uid'][0] . "'); ";
 
+                break;
+
+            case 'consultaRequisitosVerificados':
+                $cadenaSql = " SELECT cd.id,";
+                $cadenaSql .= " cd.id_beneficiario,";
+                $cadenaSql .= " cd.tipologia_documento,";
+                $cadenaSql .= " cd.nombre_documento,";
+                $cadenaSql .= " cd.ruta_relativa, ";
+                $cadenaSql .= " pr.descripcion tipo_requisito,";
+                $cadenaSql .= " pr.codigo codigo_requisito";
+                $cadenaSql .= " FROM interoperacion.documentos_contrato cd";
+                $cadenaSql .= " JOIN parametros.parametros pr ON pr.id_parametro=cd.tipologia_documento";
+                $cadenaSql .= " WHERE cd.estado_registro=TRUE";
+                $cadenaSql .= " AND pr.estado_registro=TRUE";
+                $cadenaSql .= " AND pr.estado_registro=TRUE";
+                $cadenaSql .= " AND cd.id_beneficiario = '" . $_REQUEST['id_beneficiario'] . "'";
                 break;
 
         }

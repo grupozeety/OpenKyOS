@@ -16,8 +16,6 @@ class Redireccionador {
                 $variable = 'pagina=generacionContrato';
                 $variable .= '&opcion=validarRequisitos';
                 $variable .= '&mensaje=inserto';
-                $variable .= '&id_contrato=' . $valor[0]['id'];
-                $variable .= '&numero_contrato_borrador=' . $valor[0]['numero_contrato'];
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
                 $variable .= '&tipo=' . $_REQUEST['tipo'];
                 break;

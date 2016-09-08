@@ -58,7 +58,7 @@ class FormProcessor {
         $this->registrarContratoBorrador();
 
         if ($this->datos_contrato) {
-            Redireccionador::redireccionar("Inserto", $this->datos_contrato);
+            Redireccionador::redireccionar("Inserto");
         } else {
             Redireccionador::redireccionar("NoInserto");
         }

@@ -32,6 +32,8 @@ $this->idioma['documento_acceso_propietario'] = '<b>006</b> Documento que demues
 
 $this->idioma['botonCargarRequisitos'] = 'Cargar Requisitos';
 
+$this->idioma['botonBorradorContrato'] = 'Descargar Borrador Contrato';
+
 $this->idioma['noDefinido'] = 'Etiqueta No definida';
 
 ?>
