@@ -111,6 +111,10 @@ class Registrador {
                         $_REQUEST['mensaje'] = 'inserto';
                         $this->mensaje();
                         unset($atributos);
+                    } elseif (isset($_REQUEST['mensaje']) && $_REQUEST['mensaje'] == 'noinserto') {
+
+                        $this->mensaje();
+                        unset($atributos);
                     }
 
                     $esteCampo = 'nombre_beneficiario'; // Nombre Beneficiario
@@ -627,6 +631,11 @@ class Registrador {
             case 'inserto':
                 $estilo_mensaje = 'success';     //information,warning,error,validation
                 $atributos["mensaje"] = 'Requisitos Correctamente Validados<br>Se ha Habilitado la Opcion de Descargar Borrador del Contrato';
+                break;
+
+            case 'noinserto':
+                $estilo_mensaje = 'error';     //information,warning,error,validation
+                $atributos["mensaje"] = 'Error al validar los Requisitos.<br>Verifique los Documentos de Requisitos';
                 break;
 
             default:

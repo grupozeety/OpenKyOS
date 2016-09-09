@@ -98,7 +98,7 @@ class GenerarDocumento {
         ));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
-        $html2pdf->Output('FormatoMaterialNoConsumido' . date('Y-m-d') . '.pdf', 'D');
+        $html2pdf->Output('BorradorContrato_N_' . $this->beneficiario['numero_contrato'] . '_' . date('Y-m-d') . '.pdf', 'D');
 
     }
     public function estruturaDocumento() {
