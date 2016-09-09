@@ -132,6 +132,24 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND cd.id_beneficiario = '" . $_REQUEST['id_beneficiario'] . "'";
                 break;
 
+            case 'consultarNumeralesContrato':
+                $cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
+                $cadenaSql .= " FROM parametros.parametros pr";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+                $cadenaSql .= " WHERE ";
+                $cadenaSql .= " pr.estado_registro=TRUE ";
+                $cadenaSql .= " AND rl.descripcion='Numerales Contrato'";
+                $cadenaSql .= " AND rl.estado_registro=TRUE ";
+
+                break;
+            case 'consultarClausulas':
+                $cadenaSql = " SELECT numeral,orden_general, contenido";
+                $cadenaSql .= " FROM interoperacion.clausulas_contrato";
+                $cadenaSql .= " WHERE estado_registro=TRUE ";
+                $cadenaSql .= " AND numeral= '" . $variable . "'";
+                $cadenaSql .= " ORDER BY orden ASC ;";
+                break;
+
         }
 
         return $cadenaSql;

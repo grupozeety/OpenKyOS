@@ -587,9 +587,13 @@ class Registrador {
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                $valorCodificado .= "&opcion=cargarRequisitos";
+                $valorCodificado .= (is_null($infoBeneficiario['id_contrato']) != true) ? "&opcion=generarContratoPDF" : "&opcion=cargarRequisitos";
                 $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo'];
                 $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+                if (is_null($infoBeneficiario['id_contrato']) != true) {
+                    $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
+
+                }
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.

@@ -43,6 +43,9 @@ class Entidad {
     public function cargarRequisitos() {
         include_once $this->ruta . "entidad/cargarRequisitos.php";
     }
+    public function generarContratoPdf() {
+        include_once $this->ruta . "entidad/generarContratoPdf.php";
+    }
     public function action() {
         $resultado = true;
 
@@ -59,12 +62,16 @@ class Entidad {
 
         switch ($_REQUEST['opcion']) {
             case 'cargarRequisitos':
+
                 $this->cargarRequisitos();
+
+                break;
+            case 'generarContratoPDF':
+
+                $this->generarContratoPdf();
+
                 break;
 
-            default:
-                # code...
-                break;
         }
 
         return $resultado;
