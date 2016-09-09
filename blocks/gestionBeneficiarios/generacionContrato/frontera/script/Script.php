@@ -12,6 +12,8 @@ $indice = 0;
 
 //$funcion [$indice ++] = " ";
 
+$funcion [$indice ++] = "bootstrap-filestyle.min.js";
+$funcion [$indice ++] = "bootstrap-filestyle.js";
 $funcion [$indice ++] = "jquery.autocomplete.min.js";
 $funcion [$indice ++] = "jquery.autocomplete.js";
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
@@ -39,4 +41,6 @@ if (isset($funcion[0])) {
 include "ajax.php";
 
 ?>
+
+
 

@@ -41,8 +41,6 @@ class Registrador {
         }
     }
     public function seleccionarForm() {
-        var_dump($_REQUEST);
-
         //Conexion a Base de Datos
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
@@ -123,7 +121,7 @@ class Registrador {
                     $atributos['columnas'] = 1;
                     $atributos['dobleLinea'] = false;
                     $atributos['tabIndex'] = $tab;
-                    $atributos['texto'] = $this->lenguaje->getCadena($esteCampo) . $infoBeneficiario['nombre'];
+                    $atributos['texto'] = $this->lenguaje->getCadena($esteCampo) . $infoBeneficiario['nombre'] . " " . $infoBeneficiario['primer_apellido'] . " " . $infoBeneficiario['segundo_apellido'];
                     $tab++;
                     // Aplica atributos globales al control
                     $atributos = array_merge($atributos, $atributosGlobales);

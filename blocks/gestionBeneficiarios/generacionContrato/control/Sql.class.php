@@ -44,11 +44,14 @@ class Sql extends \Sql {
              * Clausulas específicas
              */
             case 'consultarBeneficiariosPotenciales':
-                $cadenaSql = " SELECT identificacion ||' - ('||nombre||')' AS  value, id  AS data  ";
+                $cadenaSql = " SELECT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id  AS data  ";
                 $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
                 $cadenaSql .= "WHERE estado_registro=TRUE ";
                 $cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' LIMIT 10; ";
+                $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "LIMIT 10; ";
 
                 break;
             case 'consultaInformacionBeneficiario':
@@ -148,6 +151,18 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE estado_registro=TRUE ";
                 $cadenaSql .= " AND numeral= '" . $variable . "'";
                 $cadenaSql .= " ORDER BY orden ASC ;";
+                break;
+
+            case 'obtenerDatosBasicosBeneficiarios':
+                $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato,dp.departamento nombre_departamento,mn.municipio nombre_municipio  ";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
+                $cadenaSql .= " JOIN parametros.parametros pr ON pr.id_parametro= bn.tipo";
+                $cadenaSql .= " LEFT JOIN parametros.departamento dp ON dp.codigo_dep= bn.departamento";
+                $cadenaSql .= " LEFT JOIN parametros.municipio mn ON mn.codigo_mun= bn.municipio";
+                $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id AND cn.estado_registro=TRUE ";
+                $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
+                $cadenaSql .= " AND pr.estado_registro = TRUE ";
+                $cadenaSql .= " AND bn.id= '" . $_REQUEST['id_beneficiario'] . "';";
                 break;
 
         }

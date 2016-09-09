@@ -20,6 +20,7 @@ class GenerarDocumento {
     public $rutaURL;
     public $esteRecursoDB;
     public $clausulas;
+    public $beneficiario;
 
     public function __construct($sql) {
         $this->miConfigurador = \Configurador::singleton();
@@ -48,7 +49,7 @@ class GenerarDocumento {
          *  2. Información de Beneficiario
          **/
 
-        $this->estruturaDocumento();
+        $this->obtenerInformacionBeneficiario();
 
         /**
          *  3. Estruturar Documento
@@ -63,7 +64,13 @@ class GenerarDocumento {
         $this->crearPDF();
 
     }
+    public function obtenerInformacionBeneficiario() {
 
+        $cadenaSql = $this->miSql->getCadenaSql('obtenerDatosBasicosBeneficiarios');
+        $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $this->beneficiario = $beneficiario[0];
+
+    }
     public function obtenerClausulas() {
         $cadenaSql = $this->miSql->getCadenaSql('consultarNumeralesContrato');
         $numerales = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -95,6 +102,9 @@ class GenerarDocumento {
 
     }
     public function estruturaDocumento() {
+
+        $cedula = ($this->beneficiario['tipo_identificacion'] == '92') ? '<b>(X)</b>' : '';
+        $targeta = ($this->beneficiario['tipo_identificacion'] == '93') ? '<b>(X)</b>' : '';
 
         $contenidoPagina = "
 							<style type=\"text/css\">
@@ -178,7 +188,7 @@ class GenerarDocumento {
         						<table style='width:100%;'>
 										<tr>
 	        								<td style='width:50%;text-align=center;'>N° Contrato</td>
-	        								<td style='width:50%;text-align=center;'> </td>
+	        								<td style='width:50%;text-align=center;'>" . $this->beneficiario['numero_contrato'] . "</td>
 										</tr>
 		        					</table>
 		        			 </td>
@@ -192,24 +202,24 @@ class GenerarDocumento {
 				        <tr>
 				        	<td rowspan='8' style='width:15%;text-align=center;'><b>DATOS ABONADO SUSCRIPTOR</b></td>
 					        <td style='width:15%;text-align=center;'><b>Nombres</b></td>
-					        <td style='width:10%;text-align=center;'> </td>
+					        <td style='width:10%;text-align=center;'>" . $this->beneficiario['nombre'] . "</td>
 					        <td style='width:10%;text-align=center;'><b>Primer Apellido</b></td>
-					        <td style='width:10%;text-align=center;'> </td>
+					        <td style='width:10%;text-align=center;'>" . $this->beneficiario['primer_apellido'] . "</td>
 					        <td style='width:5%;text-align=center;'><b>Segundo Apellido</b></td>
-					        <td colspan='2' style='width:10%;text-align=center;'> </td>
+					        <td colspan='2' style='width:10%;text-align=center;'>" . $this->beneficiario['segundo_apellido'] . "</td>
 				        </tr>
 				        <tr>
 					        <td style='width:15%;text-align=center;'><b>Tipo Documento</b></td>
-					        <td style='width:5%;text-align=center;'>CC</td>
-					        <td style='width:5%;text-align=center;'>TI</td>
+					        <td style='width:5%;text-align=center;'>CC " . $cedula . "</td>
+					        <td style='width:5%;text-align=center;'>TI " . $targeta . "</td>
 					        <td style='width:10%;text-align=center;'><b>Número</b></td>
-					  		<td style='width:15%;text-align=center;'> </td>
+					  		<td style='width:15%;text-align=center;'>" . $this->beneficiario['identificacion'] . "</td>
 					        <td style='width:15%;text-align=center;'><b>Lugar/Fecha Expedición</b></td>
 					        <td style='width:10%;text-align=center;'> </td>
 				        </tr>
 				         <tr>
 					        <td style='width:15%;text-align=center;'><b>Dirección Domicilio</b></td>
-					        <td colspan='6' style='width:70%;text-align=center;'> </td>
+					        <td colspan='6' style='width:70%;text-align=center;'>" . $this->beneficiario['direccion'] . "</td>
 				        </tr>
 				        <tr>
 					        <td style='width:15%;text-align=center;'><b>Dirección Instalación</b></td>
@@ -217,11 +227,11 @@ class GenerarDocumento {
 				        </tr>
 				          <tr>
 					        <td style='width:15%;text-align=center;'><b>Departamento</b></td>
-					        <td colspan='1'style='width:10%;text-align=center;'> </td>
+					        <td colspan='1'style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_departamento'] . "</td>
 					        <td style='width:10%;text-align=center;'><b>Municipio</b></td>
-					        <td colspan='1' style='width:10%;text-align=center;'> </td>
+					        <td colspan='1' style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_municipio'] . "</td>
 					       <td colspan='1'style='width:5%;text-align=center;'><b>Urbanización</b></td>
-					        <td colspan='2'style='width:20%;text-align=center;'> </td>
+					        <td colspan='2'style='width:20%;text-align=center;'>" . $this->beneficiario['urbanizacion'] . "</td>
 				        </tr>
 				        <tr>
 					        <td style='width:15%;text-align=center;'><b>Estrato</b></td>
@@ -233,11 +243,11 @@ class GenerarDocumento {
 					    </tr>
 				         <tr>
 					        <td style='width:15%;text-align=center;'><b>Telefono</b></td>
-					         <td colspan='1' style='width:10%;text-align=center;'> </td>
+					         <td colspan='1' style='width:10%;text-align=center;'>" . $this->beneficiario['telefono'] . "</td>
 					        <td style='width:10%;text-align=center;'><b>Celular</b></td>
-					        <td style='width:10%;text-align=center;'> </td>
+					        <td style='width:10%;text-align=center;'>" . $this->beneficiario['celular'] . "</td>
 					         <td colspan='1' style='width:5%;text-align=center;'><b>Correo Electrónico</b></td>
-					        <td colspan='2'style='width:10%;text-align=center;'></td>
+					        <td colspan='2'style='width:10%;text-align=center;'>" . $this->beneficiario['correo'] . "</td>
 				        </tr>
      					<tr>
 					        <td style='width:15%;text-align=center;'><b>Cuenta Suscriptor</b></td>
@@ -282,34 +292,41 @@ class GenerarDocumento {
 					    </tr>
 					   </table>
 				     <br>";
-/*
-$contenidoPagina .= "<P style='text-align:justify'>Entre las partes antes descritas, se ha celebrado el presente <b>CONTRATO DE PRESTACIÓN DE SERVICIOS DE COMUNICACIONES</b>, el cual se regirá por lo dispuesto en la ley 1341 de 2009, en la Resolución 3066 de 2011 expedida por la Comisión de Regulación de Comunicaciones, y en las normas que la adicionen, modifiquen o deroguen; y en especial, por las siguientes cláusulas:</P>";
 
-foreach ($this->clausulas as $key => $value) {
+        $contenidoPagina .= "<P style='text-align:justify'>Entre las partes antes descritas, se ha celebrado el presente <b>CONTRATO DE PRESTACIÓN DE SERVICIOS DE COMUNICACIONES</b>, el cual se regirá por lo dispuesto en la ley 1341 de 2009, en la Resolución 3066 de 2011 expedida por la Comisión de Regulación de Comunicaciones, y en las normas que la adicionen, modifiquen o deroguen; y en especial, por las siguientes cláusulas:</P>";
 
-$contenidoPagina .= "<br><b>" . $value['descripcion'] . "</b><br>";
+        foreach ($this->clausulas as $key => $value) {
 
-foreach ($value['clausulas'] as $key => $contenido) {
-$contenidoPagina .= "<P style='text-align:justify'><b>CLÁUSULA " . trim($contenido['orden_general']) . ".</b>" . $contenido['contenido'] . "</P><br>";
-}
+            $contenidoPagina .= "<br><b>" . $value['descripcion'] . "</b><br>";
 
-}
- */
-        $contenidoPagina .= "<page_footer>
-	        				<P>
+            foreach ($value['clausulas'] as $key => $contenido) {
+                $contenidoPagina .= "<P style='text-align:justify'><b>CLÁUSULA " . trim($contenido['orden_general']) . ".</b>" . $contenido['contenido'] . "</P><br>";
+            }
+
+        }
+        $contenidoPagina .= "<P>
 	        						<b>COMO CONSTANCIA DE ACEPTACIÓN SUSCRIBE EL PRESENTE CONTRATO EL USUARIO:
-		        						<br>
-		        						<br>
-		        						FIRMA :  _________________________________
-		        						<br>
-		        						<br>
-		        						NOMBRE : _________________________________
-		        						<br>
-		        						<br>
-		        						C.C :    _________________________________
+
+	        						<table style='width:100%;border:none'>
+	        							<tr>
+	        								<td style='width:25%;text-align:left;border:none'>FIRMA :</td>
+	        								<td style='width:25%;text-align:center;border:none'>_________________________________</td>
+	        								<td style='width:50%;text-align:center;border:none'> </td>
+	        							</tr>
+	        							<tr>
+	        								<td style='width:25%;text-align:left;border:none'>NOMBRE :</td>
+	        								<td style='width:25%;text-align:center;border:none'>_________________________________</td>
+	        								<td style='width:50%;text-align:center;border:none'> </td>
+	        							</tr>
+	        							<tr>
+	        								<td style='width:25%;text-align:left;border:none'>C.C :</td>
+	        								<td style='width:25%;text-align:center;border:none'>_________________________________</td>
+	        								<td style='width:50%;text-align:center;border:none'> </td>
+	        							</tr>
+	        						</table>
 	        						</b>
 	        					 </P>
-	        			     </page_footer>";
+	        			     ";
 
         $contenidoPagina .= "</page>";
 
