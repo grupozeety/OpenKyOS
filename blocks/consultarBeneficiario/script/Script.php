@@ -5,15 +5,9 @@
  */
 $indice = 0;
 
-// $funcion[$indice++]="bootstrap.min.js";
-// $funcion[$indice++]="select2.min.js";
-// $funcion[$indice++]="bootstrap-table.min.js";
-// $funcion[$indice++]="bootstrap-table-toolbar.min.js";
-// $funcion[$indice++]="bootstrap-treeview.js";
-// $funcion[$indice++]="fileinput.min.js";
-// $funcion[$indice++]="fileinput_locale_es.js";
-// $funcion[$indice++]="familiar.js";
 $funcion[$indice++]="dataTables.bootstrap.min.js";
+$funcion[$indice++]="bootstrap.min.js";
+
 
 
 

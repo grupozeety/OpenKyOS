@@ -41,27 +41,64 @@ if ($_REQUEST ['funcion'] == "codificarSelect") {
 
 }
 
+
+
 if ($_REQUEST ['funcion'] == "cargarImagen") {
-	$carpetaAdjunta= $this->ruta . "imagenes/";
-	$rutaUrlBloque = $this->miConfigurador->configuracion['rutaUrlBloque']. "imagenes/";
-	// Contar envían por el plugin
 	
+	$carpetaAdjunta= $this->miConfigurador->configuracion['raizDocumento'] . "/archivos/imagenes/";
+	$rutaUrlBloque = $this->miConfigurador->configuracion['host'] . $this->miConfigurador->configuracion['site'] . "/archivos/imagenes/";
+	// Contar envían por el plugin
+
 	// El nombre y nombre temporal del archivo que vamos para adjuntar
 	$nombreArchivo=isset($_FILES[$miFormulario->campoSeguro("foto")]['name'])?$_FILES[$miFormulario->campoSeguro("foto")]['name']:null;
 	$nombreTemporal=isset($_FILES[$miFormulario->campoSeguro("foto")]['tmp_name'])?$_FILES[$miFormulario->campoSeguro("foto")]['tmp_name']:null;
+
+	$prefijo = substr(md5(uniqid(time())), 0, 6);
+	
+	$nombreFinal = $prefijo . $nombreArchivo;
+	$rutaFinal = $rutaUrlBloque . "/" . $nombreFinal;
 	
 	$rutaArchivo=$carpetaAdjunta.$nombreArchivo;
 	$rutaUrlArchivo = $rutaUrlBloque.$nombreArchivo;
-	move_uploaded_file($nombreTemporal,$rutaArchivo);
+
+	$dir = $carpetaAdjunta;
+	$handle = opendir($dir);
+	$ficherosEliminados = 0;
+	while ($file = readdir($handle)) {
+		if (is_file($dir.$file)) {
+			if (unlink($dir.$file) ){
+				$ficherosEliminados++;
+			}
+		}
+	}
 	
-	$infoImagenesSubidas=array("caption"=>"$nombreArchivo","height"=>"120px","url"=>$_REQUEST ['eliminar'],"key"=>$nombreArchivo);
+	move_uploaded_file($nombreTemporal,$rutaArchivo);
+
+	$infoImagenesSubidas=array("caption"=>"$nombreArchivo","height"=>"120px","url"=> $_REQUEST['eliminar'],"key"=>$nombreArchivo);
 	$ImagenesSubidas="<img  height='120px'  src='$rutaUrlArchivo' class='file-preview-image'>";
 	
-	$arr = array("file_id"=>0,"overwriteInitial"=>true,"initialPreviewConfig"=>$infoImagenesSubidas,
+	$arr = array("nombre"=>$nombreArchivo, "ruta"=>$rutaFinal, "file_id"=>0,"overwriteInitial"=>true,"initialPreviewConfig"=>$infoImagenesSubidas,
 			"initialPreview"=>$ImagenesSubidas);
-	
+
 	echo json_encode($arr);
-		
+
 }
+
+if ($_REQUEST ['funcion'] == "eliminarImagen") {
+// 	echo aqui;
+// 	if($_SERVER['REQUEST_METHOD']=="DELETE"){
+
+		$carpetaAdjunta= $this->miConfigurador->configuracion['raizDocumento'] . "/archivos/imagenes/";
+		
+		parse_str(file_get_contents("php://input"),$datosDELETE);
+
+		$key= $datosDELETE['key'];
+
+		unlink($carpetaAdjunta.$key);
+			
+		echo 0;
+	}
+
+// }
 
 ?>

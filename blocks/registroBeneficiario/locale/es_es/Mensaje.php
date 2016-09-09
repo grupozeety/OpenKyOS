@@ -12,6 +12,8 @@ $this->idioma["botonAgregar"]="Agregar";
 $this->idioma["botonContinuar"]="Continuar";
 $this->idioma["confirma"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 $this->idioma["error"]="No se ha registrado correctamente el Beneficiario/Cliente Potencial.";
+$this->idioma["regresarConsultar"]="Aceptar";
+
 
 $this->idioma["id_beneficiario"]="Id Beneficiario";
 $this->idioma["tipo_beneficiario"]="Tipo de Beneficiario/Cliente";

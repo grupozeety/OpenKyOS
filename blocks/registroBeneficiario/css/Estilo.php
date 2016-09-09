@@ -6,12 +6,11 @@ if(!isset($GLOBALS["autorizado"])) {
 
 
 $indice=0;
-$estilo[$indice++]="fileinput.min.css";
-$estilo[$indice++]="bootstrap.min.css";
+// $estilo[$indice++]="bootstrap.min.css";
 $estilo[$indice++]="select2.min.css";
 $estilo[$indice++]="miestilo.css";
 $estilo[$indice++]="select2-bootstrap-theme.min.css";
-
+$estilo[$indice++]="fileinput.min.css";
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");

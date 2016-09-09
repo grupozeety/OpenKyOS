@@ -164,8 +164,28 @@ class Sql extends \Sql {
                 $cadenaSql .= "estado_registro=true ";
                 $cadenaSql .= "AND ";
                 $cadenaSql .= "id_beneficiario=" . "'" . $variable . "'";
-                
                 break;
+                
+           case "actualizarBeneficiario":
+                
+               	$cadenaSql = "UPDATE interoperacion.beneficiario_potencial ";
+                $cadenaSql .= "SET ";
+                $cadenaSql .= "estado_registro=FALSE ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "id=";
+                $cadenaSql .= "'" . $variable . "'";
+                break;
+                
+           case "actualizarFamiliarBeneficiario":
+                
+                $cadenaSql = "UPDATE interoperacion.familiar_beneficiario_potencial ";
+                $cadenaSql .= "SET ";
+                $cadenaSql .= "estado_registro=FALSE ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "id_beneficiario=";
+                $cadenaSql .= "'" . $variable . "'";
+                break;
+                
             case "registrarBeneficiarioPotencial":
             	
                 $cadenaSql = "INSERT INTO interoperacion.beneficiario_potencial (";

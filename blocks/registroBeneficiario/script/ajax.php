@@ -238,7 +238,7 @@ $valor .= "&action=index.php";
 $valor .= "&bloqueNombre=". $esteBloque ["nombre"]; 
 $valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 $valor .= "&funcion=cargarImagen";
-$valor .= "&eliminar=urlEliminar";
+$valor .= "&eliminar=" . $urlEliminarImagen;
 $valor .= "&tiempo=" . $_REQUEST ['tiempo'];
 
 // Codificar las variables
@@ -249,21 +249,51 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $val
 $urlCargarImagen = $url . $cadena;
 ?>
 
+cloneInputFile = $("#<?php echo $this->campoSeguro("foto")?>").clone(true);
+
 $("#<?php echo $this->campoSeguro("foto")?>").fileinput({
-	uploadUrl: "<?php echo $urlCargarImagen?>", 
-    uploadAsync: false,
-	showUpload: false, 
-	showRemove: false,
-	initialPreview: [],
-    initialPreviewConfig: []
-	}).on("filebatchselected", function(event, files) {
-	
-		$("#<?php echo $this->campoSeguro("foto")?>").fileinput("upload");
-	
-	});
+		uploadUrl: "<?php echo $urlCargarImagen; ?>", 
+    	uploadAsync: false,
+    	showUpload: false, 
+    	showRemove: false, 
+        maxFileSize: 100000,
+        previewFileType: "image",
+        allowedFileExtensions: ["jpg", "JPG", "png", "PNG"]
+});
+
+    $("#<?php echo $this->campoSeguro("foto")?>").on('fileuploaded', function(event, data, previewId, index) {
+     if ($(this).closest('.file-input').find('.file-preview-frame').size() > 1){
+     	$(this).closest('.file-input').find('.file-preview-frame:eq(0) .kv-file-remove').click();
+     }else{
+     	var form = data.form, files = data.files, extra = data.extra,
+        response = data.response, reader = data.reader;
+
+        $("#<?php echo $this->campoSeguro("nombreFoto")?>").val(response['nombre']);
+        $("#<?php echo $this->campoSeguro("rutaFoto")?>").val(response['ruta']);
+     }
+        
+    });
 	
 if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
 	$("#myModalMensaje").modal('show');
 }
 
+<?php
 
+$directorioReg = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+$directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$valorCodificadoReg = "pagina=consultarBeneficiario";
+$variableReg = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificadoReg );
+$enlaceReg = $directorioReg . '=' . $variableReg;
+
+?>
+
+$(function() {
+		$("#regresarConsultar").click(function( event ) {	
+	    	location.href = "<?php echo $enlaceReg;?>";
+		});
+});
+	
+	
+	

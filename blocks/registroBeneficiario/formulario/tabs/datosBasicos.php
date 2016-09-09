@@ -439,8 +439,7 @@ class Formulario {
         unset ( $atributos );
          
         // ----------------FIN CONTROL: Campo Texto Correo Electrónico-------------------------------------------------------
-        
-        
+
         // ----------------INICIO CONTROL: Campo Texto Foto--------------------------------------------------------
 
         $esteCampo = 'foto';
@@ -454,7 +453,6 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -477,6 +475,40 @@ class Formulario {
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
         unset ( $atributos );
          
+        // ----------------INICIO CONTROL: Campo Oculto Cantidad Nombre de la Foto-------------------------------------------------------
+        
+        $esteCampo = 'nombreFoto';
+        $atributos ["id"] = $esteCampo; // No cambiar este nombre
+        $atributos ["tipo"] = "hidden";
+        $atributos ['valor'] = '';
+        $atributos ['estilo'] = '';
+        $atributos ["obligatorio"] = false;
+        $atributos ['marco'] = true;
+        $atributos ["etiqueta"] = "";
+        
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        unset ( $atributos );
+        
+        // ----------------FIN CONTROL: Campo Oculto Nombre de la Foto--------------------------------------------------------
+        
+        // ----------------INICIO CONTROL: Campo Oculto Ruta de la Foto-------------------------------------------------------
+        
+        $esteCampo = 'rutaFoto';
+        $atributos ["id"] = $esteCampo; // No cambiar este nombre
+        $atributos ["tipo"] = "hidden";
+        $atributos ['valor'] = '';
+        $atributos ['estilo'] = '';
+        $atributos ["obligatorio"] = false;
+        $atributos ['marco'] = true;
+        $atributos ["etiqueta"] = "";
+        
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        unset ( $atributos );
+        
+        // ----------------FIN CONTROL: Campo Oculto Ruta de la Foto--------------------------------------------------------
+        
         // ----------------FIN CONTROL: Campo Texto Foto-------------------------------------------------------
         
         // ----------------INICIO CONTROL: Campo Texto Dirección--------------------------------------------------------
@@ -1459,6 +1491,32 @@ class Formulario {
         unset($atributos);
         
         echo "<h5><p>". $this->lenguaje->getCadena ( $_REQUEST['mensaje'] ) . "</p></h5>";
+        
+        // -----------------CONTROL: Botón ----------------------------------------------------------------
+        $esteCampo = 'regresarConsultar';
+        $atributos ["id"] = $esteCampo;
+        $atributos ["tabIndex"] = $tab;
+        $atributos ["tipo"] = 'boton';
+        $atributos ["basico"] = false;
+        // submit: no se coloca si se desea un tipo button genérico
+        $atributos ['submit'] = true;
+        $atributos ["estiloMarco"] = 'text-center';
+        $atributos ["estiloBoton"] = 'default';
+        $atributos ["block"] = false;
+        $atributos ['deshabilitado'] = true;
+        
+        // verificar: true para verificar el formulario antes de pasarlo al servidor.
+        $atributos ["verificar"] = '';
+        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+        $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+        $tab ++;
+         
+        // Aplica atributos globales al control
+        //         $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
+        unset($atributos);
+        // -----------------FIN CONTROL: Botón -----------------------------------------------------------
         
         $atributos ['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->modal ( $atributos );

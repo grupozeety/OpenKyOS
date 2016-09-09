@@ -28,7 +28,6 @@ class Registrar {
 	}
 	function procesarFormulario() {
 		
-		
 		$beneficiarioPotencial = array();
 
 		$beneficiarioPotencial['id_beneficiario'] = $_REQUEST['id_beneficiario'];
@@ -89,14 +88,21 @@ class Registrar {
 		$rutaBloque .= $esteBloque ['nombre'];
 		$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/" . $esteBloque ['nombre'];
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $beneficiarioPotencial);
-		$cadenaSql = str_replace("''", 'null', $cadenaSql);
-		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
-		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
+		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
 		
 		if ($resultado) {
-			
-			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $beneficiarioPotencial);
+			$cadenaSql = str_replace("''", 'null', $cadenaSql);
+			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
+		}
+		
+		if ($resultado) {
+			$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFamiliarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
+			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
+		}
+		
+		if ($resultado) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFamiliares', $beneficiarioPotencial['familiar'] );
 			$cadenaSql = str_replace("''", 'null', $cadenaSql);
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
