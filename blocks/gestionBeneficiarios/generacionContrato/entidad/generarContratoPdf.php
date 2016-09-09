@@ -137,6 +137,51 @@ class GenerarDocumento {
 						</page_header>";
 
         $contenidoPagina .= "
+
+
+        			<table style='width:100%;'>
+        				<tr>
+        					<td style='width:35%;text-align=center;border:none'> </td>
+        					<td style='width:35%;text-align=center;border:none'>
+		        					<table style='width:100%;'>
+										<tr>
+	        								<td style='width:100%;border:none;text-align:center'><b>Compraventa de Servicios</b></td>
+	        							</tr>
+		        					</table>
+        					</td>
+        					<td style='width:5%;text-align=center;border:none'> </td>
+        					<td style='width:30%;text-align=center;border:none'></td>
+						</tr>
+					</table>
+					<br>
+        			<table style='width:100%;'>
+        				<tr>
+        					<td style='width:35%;text-align=center;border:none'> </td>
+        					<td style='width:35%;text-align=center;border:none'>
+		        					<table style='width:100%;'>
+										<tr>
+	        								<td style='width:25%;text-align=center;'>Fecha</td>
+	        								<td style='width:25%;text-align=center;'>DD</td>
+	        								<td style='width:25%;text-align=center;'>MM</td>
+	        								<td style='width:25%;text-align=center;'>AAAA</td>
+										</tr>
+		        					</table>
+        					</td>
+        					<td style='width:5%;text-align=center;border:none'> </td>
+        					<td style='width:30%;text-align=center;border:none'>
+        						<table style='width:93%;'>
+										<tr>
+	        								<td style='width:50%;text-align=center;'>N° Contrato</td>
+	        								<td style='width:50%;text-align=center;'> </td>
+										</tr>
+		        					</table>
+		        			 </td>
+						</tr>
+					</table>
+					<br>
+					<br>
+					<br>
+
 			        <table style='width:100%;'>
 				        <tr>
 				        	<td rowspan='8' style='width:15%;text-align=center;'><b>DATOS ABONADO SUSCRIPTOR</b></td>
@@ -195,57 +240,50 @@ class GenerarDocumento {
 
 			        </table>
 			        <br>
+			        <table style='width:100%;'>
+				        <tr>
+				        	<td rowspan='3' style='width:15%;text-align=center;'><b>DATOS SERVICIO</b></td>
+					        <td style='width:15%;text-align=center;'><b>Velocidad Internet</b></td>
+					        <td style='width:38%;text-align=right;'>MB</td>
+					        <td style='width:15%;text-align=center;'><b>Vigencia Servicio</b></td>
+					        <td style='width:20%;text-align=center;'>  </td>
+					    </tr>
+					    <tr>
+				            <td style='width:15%;text-align=center;'><b>Valor Mensual Servicio</b></td>
+					        <td colspan='3' style='width:10%;text-align=right;'></td>
+					    </tr>
+					    <tr>
+				            <td style='width:15%;text-align=center;'><b>Valor Mensual Servicio</b></td>
+					        <td colspan='3' style='text-align=left;'><b>$</b></td>
+					    </tr>
+				     </table>
+				     <br>";
 
+        $contenidoPagina .= "<P style='text-align:justify'>Entre las partes antes descritas, se ha celebrado el presente <b>CONTRATO DE PRESTACIÓN DE SERVICIOS DE COMUNICACIONES</b>, el cual se regirá por lo dispuesto en la ley 1341 de 2009, en la Resolución 3066 de 2011 expedida por la Comisión de Regulación de Comunicaciones, y en las normas que la adicionen, modifiquen o deroguen; y en especial, por las siguientes cláusulas:</P>";
 
+        foreach ($this->clausulas as $key => $value) {
 
+            $contenidoPagina .= "<br><b>" . $value['descripcion'] . "</b><br>";
 
+            foreach ($value['clausulas'] as $key => $contenido) {
+                $contenidoPagina .= "<P style='text-align:justify'><b>CLÁUSULA " . trim($contenido['orden_general']) . ".</b>" . $contenido['contenido'] . "</P><br>";
+            }
 
+        }
 
-			        ";
-        //echo $contenidoPagina;exit;
-        $i = 1;
-/*
-foreach ($this->elementos as $valor) {
-
-$contenidoPagina .= "
-<tr>
-<td style='width:5%;text-align=center;'>" . $i . "</td>
-<td style='width:10%;text-align=center;'>" . $valor['name'] . "</td>
-<td style='width:35%;text-align=center;'>" . $valor['description'] . "</td>
-<td style='width:10%;text-align=center;'>" . $valor['qty'] . "</td>
-<td style='width:10%;text-align=center;'></td>
-<td style='width:5%;text-align=center;'>" . $valor['numero_orden'] . "</td>
-<td style='width:25%;text-align=center;'>" . $valor['descripcion_orden'] . "</td>
-</tr>";
-
-$i++;
-
-}
-
-$contenidoPagina .= "</table>";
- */
-        $contenidoPagina .= "
-
-			<page_footer  backbottom='10mm'>
-						<br>
-						<br>
-						<br>
-						<br>
-
-						<table style='width:100%; background:#FFFFFF ; border: 0px  #FFFFFF;'>
-						<tr>
-						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>_____________________</td>
-						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>_____________________</td>
-						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>_____________________</td>
-						</tr>
-						<tr>
-						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>Firma Solicitante</td>
-						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>Firma Líder Técnico</td>
-						<td style='width:33.3%;text-align:center;background:#FFFFFF ; border: 0px  #FFFFFF;'>Firma Almacenista</td>
-						</tr>
-						</table>
-			</page_footer>
-					";
+        $contenidoPagina .= "<P>
+        						<b>COMO CONSTANCIA DE ACEPTACIÓN SUSCRIBE EL PRESENTE CONTRATO EL USUARIO:
+	        						<br>
+	        						<br>
+	        						FIRMA :  _________________________________
+	        						<br>
+	        						<br>
+	        						NOMBRE : _________________________________
+	        						<br>
+	        						<br>
+	        						C.C :    _________________________________
+        						</b>
+        					 </P>";
 
         $contenidoPagina .= "</page>";
 
