@@ -8,15 +8,14 @@ if ($_REQUEST ['funcion'] == "consultarBeneficiarios") {
 	$cadenaSql = $this->sql->getCadenaSql ( 'consultarBeneficiario' );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 	
-	
 	for($i = 0; $i < count ( $resultado ); $i ++) {
 	
 		$resultadoFinal [] = array (
 				'urbanizacion' =>  $resultado [$i] ['urbanizacion'],
 				'nombre' => $resultado [$i] ['nombre'],
 				'identificacion' => $resultado [$i] ['identificacion'],
-				'tipo' => $resultado [$i] ['tipo'],
-				'id' => $resultado [$i] ['id']
+				'tipo_beneficiario' => $resultado [$i] ['tipo_beneficiario'],
+				'id_beneficiario' => $resultado [$i] ['id_beneficiario']
 		);
 	}
 	

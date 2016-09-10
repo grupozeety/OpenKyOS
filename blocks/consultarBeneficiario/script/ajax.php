@@ -121,7 +121,7 @@ $(document).ready(function() {
             { "data": "urbanizacion" },
             { "data": "nombre" },
             { "data": "identificacion" },
-            { "data": "tipo" },
+            { "data": "tipo_beneficiario" },
             {
       			"data": null,
       			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
@@ -133,13 +133,13 @@ $(document).ready(function() {
 	    
     $('#example tbody').on( 'click', '.optionRemove', function () {
     	var data = table.row( $(this).parents('tr') ).data();
-        id = data['id'];
+        id = data['id_beneficiario'];
         $("#myModal").modal("show");
     } );
     
     $('#example tbody').on( 'click', '.optionEdit', function () {
     	var data = table.row( $(this).parents('tr') ).data();
-        id = data['id'];
+        id = data['id_beneficiario'];
         generarEnlace();
     } );
     

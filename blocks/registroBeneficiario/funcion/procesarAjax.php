@@ -55,11 +55,14 @@ if ($_REQUEST ['funcion'] == "cargarImagen") {
 
 	$prefijo = substr(md5(uniqid(time())), 0, 6);
 	
-	$nombreFinal = $prefijo . $nombreArchivo;
-	$rutaFinal = $rutaUrlBloque . "/" . $nombreFinal;
+	$nombreArchivo = str_replace(" ", "", $nombreArchivo);
 	
-	$rutaArchivo=$carpetaAdjunta.$nombreArchivo;
-	$rutaUrlArchivo = $rutaUrlBloque.$nombreArchivo;
+	$nombreFinal = $prefijo . "-" . $nombreArchivo;
+	$rutaFinal = $carpetaAdjunta . $nombreFinal;
+	$urlFinal = $rutaUrlBloque . $nombreFinal;
+	
+	$rutaArchivo=$carpetaAdjunta.$nombreFinal;
+	$rutaUrlArchivo = $rutaUrlBloque.$nombreFinal;
 
 	$dir = $carpetaAdjunta;
 	$handle = opendir($dir);
@@ -77,7 +80,7 @@ if ($_REQUEST ['funcion'] == "cargarImagen") {
 	$infoImagenesSubidas=array("caption"=>"$nombreArchivo","height"=>"120px","url"=> $_REQUEST['eliminar'],"key"=>$nombreArchivo);
 	$ImagenesSubidas="<img  height='120px'  src='$rutaUrlArchivo' class='file-preview-image'>";
 	
-	$arr = array("nombre"=>$nombreArchivo, "ruta"=>$rutaFinal, "file_id"=>0,"overwriteInitial"=>true,"initialPreviewConfig"=>$infoImagenesSubidas,
+	$arr = array("url"=>$urlFinal, "ruta"=>$rutaFinal, "nombre"=>$nombreFinal, "file_id"=>0,"overwriteInitial"=>true,"initialPreviewConfig"=>$infoImagenesSubidas,
 			"initialPreview"=>$ImagenesSubidas);
 
 	echo json_encode($arr);

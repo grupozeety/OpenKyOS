@@ -120,7 +120,7 @@ $(document).ready(function () {
 	      	  $active.next().removeClass('disabled');
 	          nextTab($active);
 	  	  }else{
-	  		alert("Por favor verifique la información ingresada en los campos marcados en rojo");
+	  		alert("Por favor verifique la información ingresada en los campos marcados en rojo.");
 	  	  }
 	          
 	  });

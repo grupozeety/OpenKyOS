@@ -251,26 +251,44 @@ $urlCargarImagen = $url . $cadena;
 
 cloneInputFile = $("#<?php echo $this->campoSeguro("foto")?>").clone(true);
 
-$("#<?php echo $this->campoSeguro("foto")?>").fileinput({
+if($("#<?php echo $this->campoSeguro('urlFoto')?>").val() != ''){
+	
+	$("#<?php echo $this->campoSeguro("foto")?>").fileinput({
 		uploadUrl: "<?php echo $urlCargarImagen; ?>", 
     	uploadAsync: false,
     	showUpload: false, 
     	showRemove: false, 
-        maxFileSize: 100000,
+        maxFileSize: 2048,
+        previewFileType: "image",
+        allowedFileExtensions: ["jpg", "JPG", "png", "PNG"],
+        initialPreview: [
+		"<img src='" + $("#<?php echo $this->campoSeguro('urlFoto')?>").val() + "' height='120px' class='file-preview-image'>",
+		]
+	});
+}else{
+	
+	$("#<?php echo $this->campoSeguro("foto")?>").fileinput({
+		uploadUrl: "<?php echo $urlCargarImagen; ?>", 
+    	uploadAsync: false,
+    	showUpload: false, 
+    	showRemove: false, 
+        maxFileSize: 2048,
         previewFileType: "image",
         allowedFileExtensions: ["jpg", "JPG", "png", "PNG"]
 });
 
+}
+
     $("#<?php echo $this->campoSeguro("foto")?>").on('fileuploaded', function(event, data, previewId, index) {
-     if ($(this).closest('.file-input').find('.file-preview-frame').size() > 1){
-     	$(this).closest('.file-input').find('.file-preview-frame:eq(0) .kv-file-remove').click();
-     }else{
+     
      	var form = data.form, files = data.files, extra = data.extra,
         response = data.response, reader = data.reader;
 
-        $("#<?php echo $this->campoSeguro("nombreFoto")?>").val(response['nombre']);
         $("#<?php echo $this->campoSeguro("rutaFoto")?>").val(response['ruta']);
-     }
+        $("#<?php echo $this->campoSeguro("urlFoto")?>").val(response['url']);
+        $("#<?php echo $this->campoSeguro("nombre_foto")?>").val(response['nombre']);
+        
+        $("#<?php echo $this->campoSeguro("foto")?>").disable(true);
         
     });
 	
@@ -294,6 +312,7 @@ $(function() {
 	    	location.href = "<?php echo $enlaceReg;?>";
 		});
 });
-	
+
+$( ".fileinput-remove" ).hide();
 	
 	

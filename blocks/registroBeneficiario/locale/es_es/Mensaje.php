@@ -17,8 +17,11 @@ $this->idioma["regresarConsultar"]="Aceptar";
 
 $this->idioma["id_beneficiario"]="Id Beneficiario";
 $this->idioma["tipo_beneficiario"]="Tipo de Beneficiario/Cliente";
-$this->idioma["identificacion_beneficiario"]="Identificación Beneficiario";
-$this->idioma["nombre_beneficiario"]="Nombre Completo";
+$this->idioma["identificacion_beneficiario"]="Número de Documento Beneficiario";
+$this->idioma["tipo_documento"]="Tipo de Documento";
+$this->idioma["primer_apellido"]="Primer Apellido";
+$this->idioma["segundo_apellido"]="Segundo Apellido";
+$this->idioma["nombre_beneficiario"]="Nombres";
 $this->idioma["genero_beneficiario"]="Genero";
 $this->idioma["edad_beneficiario"]="Edad";
 $this->idioma["nivel_estudio"]="Nivel de Estudio";

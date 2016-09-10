@@ -110,7 +110,7 @@ class Formulario {
 		
 		if (isset ( $_REQUEST ['id'] ) && $_REQUEST ['id'] != '') {
 			$cadena_sql = $this->miSql->getCadenaSql ( "cargarFamiliares", $_REQUEST ['id'] );
-			$datos = $esteRecursoDB->ejecutarAcceso ( $cadena_sql, "busqueda" );
+			$datos = $esteRecursoDB->ejecutarAcceso ( $cadena_sql, "busqueda" );echo $cadena_sql;
 		} else {
 			$datos [0] ['identificacion_familiar'] = '';
 			$datos [0] ['nombre_familiar'] = '';
