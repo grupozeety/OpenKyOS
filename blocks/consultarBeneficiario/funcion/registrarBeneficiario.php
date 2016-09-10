@@ -28,22 +28,18 @@ class Registrar {
 	}
 	function procesarFormulario() {
 		
+		
 		$beneficiarioPotencial = array();
 
 		$beneficiarioPotencial['id_beneficiario'] = $_REQUEST['id_beneficiario'];
 		$beneficiarioPotencial['tipo_beneficiario'] = $_REQUEST['tipo_beneficiario'];
 		$beneficiarioPotencial['identificacion_beneficiario'] = $_REQUEST['identificacion_beneficiario'];
-		$beneficiarioPotencial['tipo_documento'] = $_REQUEST['tipo_documento'];
 		$beneficiarioPotencial['nombre_beneficiario'] = $_REQUEST['nombre_beneficiario'];
-		$beneficiarioPotencial['primer_apellido'] = $_REQUEST['primer_apellido'];
-		$beneficiarioPotencial['segundo_apellido'] = $_REQUEST['segundo_apellido'];
 		$beneficiarioPotencial['genero_beneficiario'] = $_REQUEST['genero_beneficiario'];
 		$beneficiarioPotencial['edad_beneficiario'] = $_REQUEST['edad_beneficiario'];
 		$beneficiarioPotencial['nivel_estudio'] = $_REQUEST['nivel_estudio'];
 		$beneficiarioPotencial['correo'] = $_REQUEST['correo'];
-		$beneficiarioPotencial['foto'] = $_REQUEST['nombre_foto'];
-		$beneficiarioPotencial['url_foto'] = $_REQUEST['urlFoto'];
-		$beneficiarioPotencial['ruta_foto'] = $_REQUEST['rutaFoto'];
+		$beneficiarioPotencial['foto'] = $_REQUEST['foto'];
 		$beneficiarioPotencial['direccion'] = $_REQUEST['direccion'];
 		$beneficiarioPotencial['tipo_vivienda'] = $_REQUEST['tipo_vivienda'];
 		$beneficiarioPotencial['manzana'] = $_REQUEST['manzana'];
@@ -62,7 +58,6 @@ class Registrar {
 		$beneficiarioPotencial['jefe_hogar'] = $_REQUEST['jefe_hogar'];
 		$beneficiarioPotencial['pertenencia_etnica'] = $_REQUEST['pertenencia_etnica'];
 		$beneficiarioPotencial['ocupacion'] = $_REQUEST['ocupacion'];
-		
 		
 		$familiar = array();
 		
@@ -94,27 +89,22 @@ class Registrar {
 		$rutaBloque .= $esteBloque ['nombre'];
 		$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/" . $esteBloque ['nombre'];
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
-		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
+		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $beneficiarioPotencial);
+		$cadenaSql = str_replace("''", 'null', $cadenaSql);
+		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
+		
 		
 		if ($resultado) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $beneficiarioPotencial);
-			$cadenaSql = str_replace("''", 'null', $cadenaSql);
-			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 			
-		}
-		
-		if ($resultado) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFamiliarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
-			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
 			
-		}
-		
-		if ($resultado && $_REQUEST['familiares'] > 0) {var_dump($resultado);die;
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFamiliares', $beneficiarioPotencial['familiar'] );
 			$cadenaSql = str_replace("''", 'null', $cadenaSql);
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
-		} 
+			
+		} else {
+			redireccion::redireccionar ( 'noInserto' );
+			exit ();
+		}
 		
 		if ($resultado) {
 			redireccion::redireccionar ( 'inserto');

@@ -181,7 +181,7 @@ class InputBootstrap extends HtmlBase {
 
 		$cadena .= $this->atributos[self::ESTILO];
 		
-		return $cadena .= "' " . 'multiple data-show-upload="false" data-show-caption="true"';
+		return $cadena .= "' ";
 		
 		// ----------- Fin del atributo class ----------------------------
 	}
