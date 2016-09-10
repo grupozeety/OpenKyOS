@@ -41,28 +41,36 @@ if ($_REQUEST ['funcion'] == "codificarSelect") {
 
 }
 
-
-
 if ($_REQUEST ['funcion'] == "cargarImagen") {
 	
-	$carpetaAdjunta= $this->miConfigurador->configuracion['raizDocumento'] . "/archivos/imagenes/";
-	$rutaUrlBloque = $this->miConfigurador->configuracion['host'] . $this->miConfigurador->configuracion['site'] . "/archivos/imagenes/";
+	$prefijo = substr(md5(uniqid(time())), 0, 6);
+	
+	$carpetaAdjunta= $this->miConfigurador->configuracion['raizDocumento'] . "/archivos/" . $prefijo ."/";
+	$rutaUrlBloque = $this->miConfigurador->configuracion['host'] . $this->miConfigurador->configuracion['site'] . "/archivos/"  . $prefijo . "/";
 	// Contar envían por el plugin
 
+// 	if(isset($_REQUEST['ruta']) && $_REQUEST['ruta'] != ''){
+// 		$carpetaAdjunta = $_REQUEST['ruta'];
+// 	}else{
+// 		mkdir($carpetaAdjunta, 0777);
+// 	}
+		
+	mkdir($carpetaAdjunta, 0777);
+	
 	// El nombre y nombre temporal del archivo que vamos para adjuntar
 	$nombreArchivo=isset($_FILES[$miFormulario->campoSeguro("foto")]['name'])?$_FILES[$miFormulario->campoSeguro("foto")]['name']:null;
 	$nombreTemporal=isset($_FILES[$miFormulario->campoSeguro("foto")]['tmp_name'])?$_FILES[$miFormulario->campoSeguro("foto")]['tmp_name']:null;
 
-	$prefijo = substr(md5(uniqid(time())), 0, 6);
+	
 	
 	$nombreArchivo = str_replace(" ", "", $nombreArchivo);
 	
 	$nombreFinal = $prefijo . "-" . $nombreArchivo;
-	$rutaFinal = $carpetaAdjunta . $nombreFinal;
-	$urlFinal = $rutaUrlBloque . $nombreFinal;
+	$rutaFinal = $carpetaAdjunta;
+	$urlFinal = $rutaUrlBloque;
 	
-	$rutaArchivo=$carpetaAdjunta.$nombreFinal;
-	$rutaUrlArchivo = $rutaUrlBloque.$nombreFinal;
+	$rutaArchivo=$carpetaAdjunta . $nombreFinal;
+	$rutaUrlArchivo = $rutaUrlBloque . $nombreFinal;
 
 	$dir = $carpetaAdjunta;
 	$handle = opendir($dir);

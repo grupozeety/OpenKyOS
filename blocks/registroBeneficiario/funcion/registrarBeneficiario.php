@@ -97,8 +97,6 @@ class Registrar {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
 		
-		
-		
 		if ($resultado) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $beneficiarioPotencial);
 			$cadenaSql = str_replace("''", 'null', $cadenaSql);
@@ -112,15 +110,11 @@ class Registrar {
 			
 		}
 		
-		if ($resultado) {
+		if ($resultado && $_REQUEST['familiares'] > 0) {var_dump($resultado);die;
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFamiliares', $beneficiarioPotencial['familiar'] );
 			$cadenaSql = str_replace("''", 'null', $cadenaSql);
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
-			
-		} else {
-			redireccion::redireccionar ( 'noInserto' );
-			exit ();
-		}
+		} 
 		
 		if ($resultado) {
 			redireccion::redireccionar ( 'inserto');

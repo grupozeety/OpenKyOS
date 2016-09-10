@@ -108,9 +108,14 @@ class Formulario {
 		echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 		unset ( $atributos );
 		
-		if (isset ( $_REQUEST ['id'] ) && $_REQUEST ['id'] != '') {
+		if (isset ( $_REQUEST ['id'] )) {
 			$cadena_sql = $this->miSql->getCadenaSql ( "cargarFamiliares", $_REQUEST ['id'] );
 			$datos = $esteRecursoDB->ejecutarAcceso ( $cadena_sql, "busqueda" );echo $cadena_sql;
+			if($datos){
+				$fam = count($datos);
+			}else{
+				$fam = 0;
+			}
 		} else {
 			$datos [0] ['identificacion_familiar'] = '';
 			$datos [0] ['nombre_familiar'] = '';
@@ -123,15 +128,9 @@ class Formulario {
 			$datos [0] ['pertenencia_etnica_familiar'] = '-1';
 			$datos [0] ['institucion_educativa_familiar'] = '';
 			$datos [0] ['ocupacion_familiar'] = '-1';
-		}
-		
-		if(count($datos) > 0){
-			$fam = count($datos);
-		}else{
 			$fam = 1;
 		}
-		
-		
+		var_dump($fam);
 		// ----------------INICIO CONTROL: Campo Oculto Cantidad d Familiares-------------------------------------------------------
 		
 		$esteCampo = 'familiares';

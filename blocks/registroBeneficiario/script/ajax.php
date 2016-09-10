@@ -83,6 +83,10 @@ $(function() {
 			codificacionCampos(id);
 		}else if(id==0){
 			$('#div_1').show();
+			
+			$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").attr("required", "true");
+			$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").attr("required", "true");
+			$("#<?php echo $this->campoSeguro('parentesco_0')?>").attr("required", "true");
 		}
 		$('#botonEliminar').show();
 		id++;	
@@ -93,6 +97,7 @@ $(function() {
 }); 
 
 $(function() {
+	
 	$("#botonEliminar").click(function( event ) {
 		if(id > 1){
 			$('#hogar fieldset').remove('#div_' + id);
@@ -102,6 +107,23 @@ $(function() {
 			$('#div_' + id).hide();
 			$('#botonEliminar').hide();
 			id--;
+			
+			$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").val("").change();
+			$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").val("").change();
+			$("#<?php echo $this->campoSeguro('parentesco_0')?>").val("").change();
+			$("#<?php echo $this->campoSeguro('genero_familiar_0')?>").val("").change();
+			$("#<?php echo $this->campoSeguro('edad_familiar_0')?>").val("").change();
+			$("#<?php echo $this->campoSeguro('nivel_estudio_familiar_0')?>").val("").change();
+			$("#<?php echo $this->campoSeguro('grado_estudio_familiar_0')?>").val("").change();
+			$("#<?php echo $this->campoSeguro('pertenencia_etnica_familiar_0')?>").val("").change();
+			$("#<?php echo $this->campoSeguro('institucion_educativa_familiar_0')?>").val("").change();
+			$("#<?php echo $this->campoSeguro('correo_familiar_0')?>").val("").change();
+			$("#<?php echo $this->campoSeguro('ocupacion_familiar_0')?>").val("").change();
+			
+			$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").removeAttr('required');
+			$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").removeAttr('required');
+			$("#<?php echo $this->campoSeguro('parentesco_0')?>").removeAttr('required');
+			
 			$("#<?php echo $this->campoSeguro('familiares')?>").val(id);
 		}
 			
@@ -249,7 +271,6 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $val
 $urlCargarImagen = $url . $cadena;
 ?>
 
-cloneInputFile = $("#<?php echo $this->campoSeguro("foto")?>").clone(true);
 
 if($("#<?php echo $this->campoSeguro('urlFoto')?>").val() != ''){
 	
@@ -261,8 +282,11 @@ if($("#<?php echo $this->campoSeguro('urlFoto')?>").val() != ''){
         maxFileSize: 2048,
         previewFileType: "image",
         allowedFileExtensions: ["jpg", "JPG", "png", "PNG"],
+		uploadExtraData: {
+			ruta: $("#<?php echo $this->campoSeguro('rutaFoto')?>").val()
+     	},
         initialPreview: [
-		"<img src='" + $("#<?php echo $this->campoSeguro('urlFoto')?>").val() + "' height='120px' class='file-preview-image'>",
+		"<img src='" + $("#<?php echo $this->campoSeguro('urlFoto')?>").val() + $("#<?php echo $this->campoSeguro('nombre_foto')?>").val() + "' height='120px' class='file-preview-image'>",
 		]
 	});
 }else{
@@ -314,5 +338,17 @@ $(function() {
 });
 
 $( ".fileinput-remove" ).hide();
-	
+
+$(function() {
+
+	if($("#<?php echo $this->campoSeguro('familiares')?>").val() == 0){
+			codificacionCamposSelect(id);
+			$('#div_1').hide();
+			$('#botonEliminar').hide();
+			
+			$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").removeAttr('required');
+			$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").removeAttr('required');
+			$("#<?php echo $this->campoSeguro('parentesco_0')?>").removeAttr('required');
+		}
+});
 	
