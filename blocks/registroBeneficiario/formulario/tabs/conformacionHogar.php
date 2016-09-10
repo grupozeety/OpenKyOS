@@ -110,7 +110,7 @@ class Formulario {
 		
 		if (isset ( $_REQUEST ['id'] )) {
 			$cadena_sql = $this->miSql->getCadenaSql ( "cargarFamiliares", $_REQUEST ['id'] );
-			$datos = $esteRecursoDB->ejecutarAcceso ( $cadena_sql, "busqueda" );echo $cadena_sql;
+			$datos = $esteRecursoDB->ejecutarAcceso ( $cadena_sql, "busqueda" );
 			if($datos){
 				$fam = count($datos);
 			}else{
@@ -130,7 +130,7 @@ class Formulario {
 			$datos [0] ['ocupacion_familiar'] = '-1';
 			$fam = 1;
 		}
-		var_dump($fam);
+
 		// ----------------INICIO CONTROL: Campo Oculto Cantidad d Familiares-------------------------------------------------------
 		
 		$esteCampo = 'familiares';
