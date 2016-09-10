@@ -402,7 +402,7 @@ class Sql extends \Sql {
                	
             case "parametroJefeHogar":
             	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= " codigo, ";
                	$cadenaSql .= "param.descripcion ";
                	$cadenaSql .= "FROM ";
                	$cadenaSql .= "parametros.parametros as param ";
@@ -430,7 +430,7 @@ class Sql extends \Sql {
                	
              case "parametroOcupacion":
                	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " id_parametro, ";
+               	$cadenaSql .= " codigo, ";
                	$cadenaSql .= "param.descripcion ";
                	$cadenaSql .= "FROM ";
                	$cadenaSql .= "parametros.parametros as param ";
