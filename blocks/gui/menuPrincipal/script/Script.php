@@ -1,7 +1,7 @@
 <?php
 $indice = 0;
 
-$funcion [$indice ++] = "bootstrap.min.js";
+// $funcion [$indice ++] = "bootstrap.min.js";
 // $funcion [$indice ++] = "jquery-1.10.2.min.js";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );

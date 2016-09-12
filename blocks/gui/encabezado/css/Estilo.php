@@ -1,8 +1,8 @@
 <?php
 $indice=0;
 // $estilo[$indice++]="bootstrap.min.css";
-$estilo[$indice++]="styles.css";
-$estilo[$indice++]="bootstrap.css";
+// $estilo[$indice++]="styles.css";
+// $estilo[$indice++]="bootstrap.css";
 $estilo[$indice++]="elegant-icons.css";
 $estilo[$indice++]="estiloBloque.css";
 $estilo[$indice++]="contenido/font-awesome.min.css";

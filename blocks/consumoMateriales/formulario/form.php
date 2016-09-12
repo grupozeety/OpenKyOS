@@ -192,6 +192,7 @@ class Formulario {
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['tipo'] = "text";
         $atributos ["etiquetaObligatorio"] = true;
         $atributos ['tab'] = $tab ++;
         $atributos ['anchoEtiqueta'] = 2;
@@ -246,6 +247,7 @@ class Formulario {
 		$esteCampo = 'porcentajecons';
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['id'] = $esteCampo;
+		$atributos ['tipo'] = "text";
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ["etiquetaObligatorio"] = true;
 		$atributos ['tab'] = $tab ++;
@@ -274,6 +276,7 @@ class Formulario {
 		$esteCampo = 'geolocalizacion';
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['id'] = $esteCampo;
+		$atributos ['tipo'] = "text";
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ["etiquetaObligatorio"] = true;
 		$atributos ['tab'] = $tab ++;

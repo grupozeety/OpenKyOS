@@ -41,6 +41,8 @@ class BotonBootstrapHtml extends HtmlBase{
         	$this->cadenaHTML .= $this->botonModal ();
         }else if(isset ( $atributos ['simple'] ) && $atributos ['simple']){
         	$this->cadenaHTML .= $this->botonSimple();
+        }else if(isset ( $this->atributos ['basico'] )){
+        	$this->cadenaHTML .= $this->botonBasico();
         }else{
         	$this->cadenaHTML .= $this->boton ( $this->configuracion);
         }
@@ -88,6 +90,7 @@ class BotonBootstrapHtml extends HtmlBase{
     				$this->atributos [self::ESTILOBOTON] = "btn btn-default";
     				break;
     		}
+    		
     	}
     	
     	if(isset($this->atributos ['block'])){
@@ -103,6 +106,10 @@ class BotonBootstrapHtml extends HtmlBase{
     		}
     	}else{
     		$this->atributos ['block'] = '';
+    	}
+    	
+    	if(isset($this->atributos ['basico']) && $this->atributos ['basico'] == true){
+    		$this->atributos [self::ESTILOBOTON] .= " next-step";
     	}
     	
     	
@@ -135,6 +142,21 @@ class BotonBootstrapHtml extends HtmlBase{
     	$this->cadenaBoton .= "type='submit' ";
     	$this->cadenaBoton .= ">";
     	
+    	return $this->cadenaBoton;
+    }
+    
+    private function botonBasico(){
+    
+    	$this->estiloBoton();
+    
+    	$this->cadenaBoton = "<input ";
+    	$this->cadenaBoton .= "class='".$this->atributos [self::ESTILOBOTON]." ".$this->atributos ['block'] . "' ";
+    	$this->cadenaBoton .= self::HTMLVALUE . "'" . $this->atributos [self::VALOR] . "' ";
+    	$this->cadenaBoton .= "id='" . $this->atributos [self::ID] ."' ";
+    	$this->cadenaBoton .= self::HTMLTABINDEX . "'" . $this->atributos [self::TABINDEX] . "' ";
+    	$this->cadenaBoton .= "type='button' ";
+    	$this->cadenaBoton .= ">";
+    	 
     	return $this->cadenaBoton;
     }
     
