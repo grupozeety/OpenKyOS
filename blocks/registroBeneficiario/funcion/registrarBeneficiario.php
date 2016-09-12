@@ -110,7 +110,7 @@ class Registrar {
 			
 		}
 		
-		if ($resultado && $_REQUEST['familiares'] > 0) {var_dump($resultado);die;
+		if ($resultado && $_REQUEST['familiares'] > 0) {var_dump($resultado);
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFamiliares', $beneficiarioPotencial['familiar'] );
 			$cadenaSql = str_replace("''", 'null', $cadenaSql);
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
