@@ -51,29 +51,31 @@ class Registrador {
 
             $esteCampo = 'Agrupacion';
             $atributos['id'] = $esteCampo;
-            $atributos['leyenda'] = "<b>Aprobación Contratos Abonados</b><br>Contratos en Estado Borrador";
+            $atributos['leyenda'] = "<b>Aprobación Contratos Abonados</b>";
             echo $this->miFormulario->agrupacion('inicio', $atributos);
             unset($atributos);
 
             {
                 echo '<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
-			        <thead>
-			            <tr>
-			                <th><center>Número de Contrato</center></th>
-			                <th><center>Identificación Beneficiario</center></th>
-			                <th><center>Nombre Beneficiario</center></th>
-			                <th><center>Aprobar Contrato</center></th>
-			            </tr>
-			        </thead>
-			        <tfoot>
-			            <tr>
-			                <th><center>Número de Contrato</center></th>
-			                <th><center>Identificación Beneficiario</center></th>
-			                <th><center>Nombre Beneficiario</center></th>
-			                <th><center>Aprobar Contrato</center></th>
-			            </tr>
-			        </tfoot>
-      			  </table>';
+                    <thead>
+                        <tr>
+                            <th><center>Número de Contrato</center></th>
+                            <th><center>Urbanización o Proyecto</center></th>
+                            <th><center>Identificación Beneficiario</center></th>
+                            <th><center>Nombre Beneficiario</center></th>
+                            <th><center>Estado Contrato</center></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th><center>Número de Contrato</center></th>
+                            <th><center>Urbanización o Proyecto</center></th>
+                            <th><center>Identificación Beneficiario</center></th>
+                            <th><center>Nombre Beneficiario</center></th>
+                            <th><center>Estado Contrato</center></th>
+                        </tr>
+                    </tfoot>
+                  </table>';
             }
 
             echo $this->miFormulario->agrupacion('fin');

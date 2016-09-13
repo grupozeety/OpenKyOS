@@ -31,8 +31,8 @@ $urlConsultarContratos = $url . $cadena;
  */
 
  $(document).ready(function() {
-	    $('#example').DataTable( {
-		         processing: true,
+      $('#example').DataTable( {
+             processing: true,
                  searching: true,
                  info:true,
                  paging: true,
@@ -42,11 +42,12 @@ $urlConsultarContratos = $url . $cadena;
                   },
                   columns: [
                   { data :"numeroContrato" },
+                  { data :"urbanizacion" },
                   { data :"identificacionBeneficiario" },
                   { data :"nombreBeneficiario" },
                   { data :"opcion" }
                             ]
-		} );
+    } );
 } );
 
 </script>
