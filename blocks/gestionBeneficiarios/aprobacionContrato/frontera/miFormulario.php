@@ -48,7 +48,15 @@ class Registrador {
         $atributos['tipoEtiqueta'] = 'inicio';
         echo $this->miFormulario->formulario($atributos);
         {
-            echo '<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+
+            $esteCampo = 'Agrupacion';
+            $atributos['id'] = $esteCampo;
+            $atributos['leyenda'] = "<b>Aprobación Contratos Abonados</b><br>Contratos en Estado Borrador";
+            echo $this->miFormulario->agrupacion('inicio', $atributos);
+            unset($atributos);
+
+            {
+                echo '<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
 			        <thead>
 			            <tr>
 			                <th><center>Número de Contrato</center></th>
@@ -66,6 +74,10 @@ class Registrador {
 			            </tr>
 			        </tfoot>
       			  </table>';
+            }
+
+            echo $this->miFormulario->agrupacion('fin');
+            unset($atributos);
         }
 
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
