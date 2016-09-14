@@ -380,7 +380,7 @@ class Formulario {
         
         // -----------------FIN CONTROL: Ventana Modal Cabecera Eliminado -----------------------------------------------------------
         
-        // -----------------INICIO CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
+         // -----------------INICIO CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
         
         $atributos ['tipoEtiqueta'] = 'inicio';
         $atributos ['titulo'] = 'Mensaje';
@@ -390,11 +390,38 @@ class Formulario {
         
         echo "<h5><p>". $this->lenguaje->getCadena ( $_REQUEST['mensaje'] ) . "</p></h5>";
         
+        // -----------------CONTROL: Botón ----------------------------------------------------------------
+        $esteCampo = 'regresarConsultar';
+        $atributos ["id"] = $esteCampo;
+        $atributos ["tabIndex"] = $tab;
+        $atributos ["tipo"] = 'boton';
+        $atributos ["basico"] = false;
+        // submit: no se coloca si se desea un tipo button genérico
+        $atributos ['submit'] = true;
+        $atributos ["estiloMarco"] = 'text-center';
+        $atributos ["estiloBoton"] = 'default';
+        $atributos ["block"] = false;
+        $atributos ['deshabilitado'] = true;
+        
+        // verificar: true para verificar el formulario antes de pasarlo al servidor.
+        $atributos ["verificar"] = '';
+        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+        $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+        $tab ++;
+         
+        // Aplica atributos globales al control
+        //         $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
+        unset($atributos);
+        // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+        
         $atributos ['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->modal ( $atributos );
         unset($atributos);
         
         // -----------------FIN CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
+        
         
         }
         

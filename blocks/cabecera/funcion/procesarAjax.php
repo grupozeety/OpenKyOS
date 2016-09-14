@@ -7,7 +7,7 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 	
 	$cadenaSql = $this->sql->getCadenaSql ( 'consultarCabecera' );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-	
+
 	for($i = 0; $i < count ( $resultado ); $i ++) {
 	
 		$resultadoFinal [] = array (

@@ -13,8 +13,11 @@ $this->idioma["botonContinuar"]="Continuar";
 $this->idioma["botonCerrar"]="Aceptar";
 $this->idioma["botonCerrar2"]="Aceptar";
 $this->idioma["botonAgregarCabecera"]="Agregar Cabecera";
-$this->idioma["confirma"]="Se ha registrado correctamente la Cabecera.";
+$this->idioma["confirma"]="Se ha guardado correctamente la información de la Cabecera.";
 $this->idioma["error"]="No se ha podido registrar la Cabecera.";
+$this->idioma["regresarConsultar"]="Aceptar";
+
+
 
 $this->idioma["botonAceptarElim"]="Eliminar";
 $this->idioma["botonCancelarElim"]="Cancelar";

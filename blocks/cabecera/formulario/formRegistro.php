@@ -87,10 +87,13 @@ class Formulario {
         echo $this->miFormulario->formularioBootstrap ( $atributos );
         unset($atributos);
         
+        $deshabilitado = false;
+        
         if(isset($_REQUEST['id']) && $_REQUEST['id'] != ''){
         	$cadena_sql = $this->miSql->getCadenaSql ( "cargarCabecera", $_REQUEST['id'] );
         	$cargueDatos = $esteRecursoDB->ejecutarAcceso ( $cadena_sql, "busqueda" )[0];
         	$cargueDatos['select_urbanizacion'] = $cargueDatos['urbanizacion'];
+        	$deshabilitado = true;
         }
         // ---------------- SECCION: Controles del Formulario -----------------------------------------------
 
@@ -129,7 +132,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = $deshabilitado;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -167,7 +170,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -383,7 +386,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -421,7 +424,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -459,7 +462,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -497,7 +500,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -535,7 +538,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -658,7 +661,15 @@ class Formulario {
         echo $this->miFormulario->modal ( $atributos );
         unset($atributos);
         
-        echo "<h5><p>". $this->lenguaje->getCadena ( $_REQUEST['mensaje'] ) . "</p></h5>";
+        echo '<div style="text-align:center;">';
+        
+        echo '<p><h5>' . $this->lenguaje->getCadena ( $_REQUEST['mensaje'] ) . '</h5></p>';
+        
+        echo '</div>';
+         
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+        
+        echo '<div style="text-align:center;">';
         
         // -----------------CONTROL: Botón ----------------------------------------------------------------
         $esteCampo = 'regresarConsultar';

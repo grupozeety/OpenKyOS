@@ -14,13 +14,13 @@ class redireccion {
 		switch ($opcion) {
 			case "inserto" :
 				$variable = "pagina=" . $miPaginaActual;
-// 				$variable .= "&opcion=mensaje";
+				$variable .= "&opcion=agregar";
 				$variable .= "&mensaje=confirma";
 				break;
 			
 			case "noInserto" :
 				$variable = "pagina=" . $miPaginaActual;
-// 				$variable .= "&opcion=mensaje";
+				$variable .= "&opcion=agregar";
 				$variable .= "&mensaje=error";
 				break;
 			

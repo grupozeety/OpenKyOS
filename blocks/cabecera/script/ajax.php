@@ -264,4 +264,26 @@ $("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
 	$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val($("#<?php echo $this->campoSeguro('urbanizacion');?> option:selected").text());
 
 });
+
  ordenTrabajo();
+ 
+ if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
+	$("#myModalMensaje").modal('show');
+}
+
+<?php
+
+$directorioReg = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
+$directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$valorCodificadoReg = "pagina=cabecera";
+$variableReg = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificadoReg );
+$enlaceReg = $directorioReg . '=' . $variableReg;
+
+?>
+
+$(function() {
+		$("#regresarConsultar").click(function( event ) {	
+	    	location.href = "<?php echo $enlaceReg;?>";
+		});
+});

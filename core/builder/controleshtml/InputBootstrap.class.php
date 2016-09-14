@@ -135,6 +135,10 @@ class InputBootstrap extends HtmlBase {
 			$cadena .= "disabled ";
 		}
 		
+		if (isset ( $this->atributos ['readonly'] ) && $this->atributos ['readonly'] == true) {
+			$cadena .= "readonly ";
+		}
+		
 		if (isset ( $this->atributos [self::MINIMO] )) {
 			$cadena .= "min=" . "'" . $this->atributos [self::MINIMO] . "' ";
 		}
