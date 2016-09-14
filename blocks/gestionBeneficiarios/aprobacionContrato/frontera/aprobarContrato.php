@@ -41,30 +41,17 @@ class Registrador {
         }
     }
     public function seleccionarForm() {
-        var_dump($_REQUEST);
+
         //Conexion a Base de Datos
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         //Consulta información
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
+        $cadenaSql = $this->miSql->getCadenaSql('consultarContratoEspecifico');
 
-        $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        $infoBeneficiario = $infoBeneficiario[0];
-
-        //Ruta Imagen
-        $rutaWarning = $this->rutaURL . "/frontera/css/imagen/warning.png";
-        $rutaCheck = $this->rutaURL . "/frontera/css/imagen/check.png";
-        $imagen = ((is_null($infoBeneficiario['id_contrato']) != true)) ? $rutaCheck : $rutaWarning;
-        // Cuando Exite Registrado un borrador del contrato
-
-        if (is_null($infoBeneficiario['id_contrato']) != true) {
-
-            $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosVerificados');
-            $infoArchivo = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-        }
+        $infoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $infoContrato = $infoContrato[0];
 
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
@@ -102,21 +89,11 @@ class Registrador {
 
                 $esteCampo = 'Agrupacion';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "Requisitos Tipo de Beneficiario: " . $infoBeneficiario['descripcion_tipo'];
+                $atributos['leyenda'] = "<b>Aprobación Contrato</b>";
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
 
                 {
-
-                    if (is_null($infoBeneficiario['id_contrato']) != true) {
-                        $_REQUEST['mensaje'] = 'inserto';
-                        $this->mensaje();
-                        unset($atributos);
-                    } elseif (isset($_REQUEST['mensaje']) && $_REQUEST['mensaje'] == 'noinserto') {
-
-                        $this->mensaje();
-                        unset($atributos);
-                    }
 
                     $esteCampo = 'nombre_beneficiario'; // Nombre Beneficiario
                     $atributos['id'] = $esteCampo;
@@ -126,7 +103,7 @@ class Registrador {
                     $atributos['columnas'] = 1;
                     $atributos['dobleLinea'] = false;
                     $atributos['tabIndex'] = $tab;
-                    $atributos['texto'] = $this->lenguaje->getCadena($esteCampo) . $infoBeneficiario['nombre'] . " " . $infoBeneficiario['primer_apellido'] . " " . $infoBeneficiario['segundo_apellido'];
+                    $atributos['texto'] = $this->lenguaje->getCadena($esteCampo) . $_REQUEST['nombre_beneficiario'];
                     $tab++;
                     // Aplica atributos globales al control
                     $atributos = array_merge($atributos, $atributosGlobales);
@@ -141,14 +118,29 @@ class Registrador {
                     $atributos['columnas'] = 1;
                     $atributos['dobleLinea'] = false;
                     $atributos['tabIndex'] = $tab;
-                    $atributos['texto'] = $this->lenguaje->getCadena($esteCampo) . $infoBeneficiario['identificacion'];
+                    $atributos['texto'] = $this->lenguaje->getCadena($esteCampo) . $_REQUEST['identificacion_beneficiario'];
                     $tab++;
                     // Aplica atributos globales al control
                     $atributos = array_merge($atributos, $atributosGlobales);
                     echo $this->miFormulario->campoTexto($atributos);
                     unset($atributos);
 
-                    $esteCampo = "cedula"; //001
+                    $esteCampo = 'numero_contrato'; // Identificacion Beneficiario
+                    $atributos['id'] = $esteCampo;
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['tipo'] = 'text';
+                    $atributos['estilo'] = 'textoElegante';
+                    $atributos['columnas'] = 1;
+                    $atributos['dobleLinea'] = false;
+                    $atributos['tabIndex'] = $tab;
+                    $atributos['texto'] = $this->lenguaje->getCadena($esteCampo) . $_REQUEST['numero_contrato'];
+                    $tab++;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoTexto($atributos);
+                    unset($atributos);
+
+                    $esteCampo = "archivo_contrato"; //001
                     $atributos["id"] = $esteCampo; // No cambiar este nombre
                     $atributos["nombre"] = $esteCampo;
                     $atributos["tipo"] = "file";
@@ -161,343 +153,69 @@ class Registrador {
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["estilo"] = "file";
-                    $atributos["etiqueta"] = "";
+                    $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
                     $atributos["bootstrap"] = true;
+                    $tab++;
                     // $atributos ["valor"] = $valorCodificado;
                     $atributos = array_merge($atributos);
-
-                    if (isset($infoArchivo)) {
-                        $indice = array_search("001", array_column($infoArchivo, 'codigo_requisito'), true);
-
-                        if (!is_null($indice)) {
-
-                            $cadena = "<center><b>Documento :</b> <a href='" . $infoArchivo[$indice]['ruta_relativa'] . "' target='_blank' >" . $infoArchivo[$indice]['nombre_documento'] . "</a></center>";
-
-                        } else {
-
-                            $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                        }
-
-                    } else {
-                        $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                    }
-
-                    $archivo_cedula = $cadena;
+                    echo $this->miFormulario->campoCuadroTexto($atributos);
                     unset($atributos);
 
-                    $esteCampo = "cedula_cliente"; //777
-                    $atributos["id"] = $esteCampo; // No cambiar este nombre
-                    $atributos["nombre"] = $esteCampo;
-                    $atributos["tipo"] = "file";
-                    $atributos["obligatorio"] = true;
-                    $atributos["etiquetaObligatorio"] = false;
-                    $atributos["tabIndex"] = $tab++;
-                    $atributos["columnas"] = 2;
-                    $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
-                    $atributos["tamanno"] = 500000;
-                    $atributos["validar"] = "required";
-                    $atributos["estilo"] = "file";
-                    $atributos["etiqueta"] = "";
-                    $atributos["bootstrap"] = true;
-                    // $atributos ["valor"] = $valorCodificado;
-                    $atributos = array_merge($atributos);
+                    $esteCampo = 'tipo_tecnologia';
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    $atributos['anchoEtiqueta'] = 2;
+                    $atributos['evento'] = '';
+                    $atributos['seleccion'] = -1;
+                    $atributos['deshabilitado'] = false;
+                    $atributos['columnas'] = 1;
+                    $atributos['tamanno'] = 1;
+                    $atributos['ajax_function'] = "";
+                    $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
+                    $atributos['limitar'] = false;
+                    $atributos['anchoCaja'] = 10;
+                    $atributos['miEvento'] = '';
+                    $atributos['validar'] = 'required';
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarTipoTecnologia');
+                    $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $atributos['matrizItems'] = $resultado;
 
-                    if (isset($infoArchivo)) {
-                        $indice = array_search("777", array_column($infoArchivo, 'codigo_requisito'), true);
-
-                        if (!is_null($indice)) {
-
-                            $cadena = "<center><b>Documento :</b> <a href='" . $infoArchivo[$indice]['ruta_relativa'] . "' target='_blank' >" . $infoArchivo[$indice]['nombre_documento'] . "</a></center>";
-
-                        } else {
-
-                            $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                        }
-
-                    } else {
-                        $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                    }
-
-                    $archivo_cedula_cliente = $cadena;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
 
-                    $esteCampo = "acta_vip"; //002
-                    $atributos["id"] = $esteCampo; // No cambiar este nombre
-                    $atributos["nombre"] = $esteCampo;
-                    $atributos["tipo"] = "file";
-                    $atributos["obligatorio"] = true;
-                    $atributos["etiquetaObligatorio"] = false;
-                    $atributos["tabIndex"] = $tab++;
-                    $atributos["columnas"] = 2;
-                    $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
-                    $atributos["tamanno"] = 500000;
-                    $atributos["validar"] = "required";
-                    $atributos["estilo"] = "file";
-                    $atributos["etiqueta"] = "";
-                    $atributos["bootstrap"] = true;
-                    // $atributos ["valor"] = $valorCodificado;
-                    $atributos = array_merge($atributos);
+                    $esteCampo = 'medio_pago';
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    $atributos['anchoEtiqueta'] = 2;
+                    $atributos['evento'] = '';
+                    $atributos['seleccion'] = -1;
+                    $atributos['deshabilitado'] = false;
+                    $atributos['columnas'] = 1;
+                    $atributos['tamanno'] = 1;
+                    $atributos['ajax_function'] = "";
+                    $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
+                    $atributos['limitar'] = false;
+                    $atributos['anchoCaja'] = 10;
+                    $atributos['miEvento'] = '';
+                    $atributos['validar'] = 'required';
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
+                    $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $atributos['matrizItems'] = $resultado;
 
-                    if (isset($infoArchivo)) {
-                        $indice = array_search("002", array_column($infoArchivo, 'codigo_requisito'), true);
-
-                        if (!is_null($indice)) {
-
-                            $cadena = "<center><b>Documento :</b> <a href='" . $infoArchivo[$indice]['ruta_relativa'] . "' target='_blank' >" . $infoArchivo[$indice]['nombre_documento'] . "</a></center>";
-
-                        } else {
-
-                            $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                        }
-
-                    } else {
-                        $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                    }
-                    $archivo_acta_vip = $cadena;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
-
-                    $esteCampo = "certificado_servicio"; //003
-                    $atributos["id"] = $esteCampo; // No cambiar este nombre
-                    $atributos["nombre"] = $esteCampo;
-                    $atributos["tipo"] = "file";
-                    $atributos["obligatorio"] = true;
-                    $atributos["etiquetaObligatorio"] = false;
-                    $atributos["tabIndex"] = $tab++;
-                    $atributos["columnas"] = 2;
-                    $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
-                    $atributos["tamanno"] = 500000;
-                    $atributos["validar"] = "required";
-                    $atributos["etiqueta"] = "";
-                    $atributos["bootstrap"] = true;
-                    // $atributos ["valor"] = $valorCodificado;
-                    $atributos = array_merge($atributos);
-                    if (isset($infoArchivo)) {
-                        $indice = array_search("003", array_column($infoArchivo, 'codigo_requisito'), true);
-
-                        if (!is_null($indice)) {
-
-                            $cadena = "<center><b>Documento :</b> <a href='" . $infoArchivo[$indice]['ruta_relativa'] . "' target='_blank' >" . $infoArchivo[$indice]['nombre_documento'] . "</a></center>";
-
-                        } else {
-
-                            $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                        }
-
-                    } else {
-                        $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                    }
-                    $archivo_certificado_servicios = $cadena;
-                    unset($atributos);
-
-                    $esteCampo = "certificado_proyecto_vip"; //005
-                    $atributos["id"] = $esteCampo; // No cambiar este nombre
-                    $atributos["nombre"] = $esteCampo;
-                    $atributos["tipo"] = "file";
-                    $atributos["obligatorio"] = true;
-                    $atributos["etiquetaObligatorio"] = false;
-                    $atributos["tabIndex"] = $tab++;
-                    $atributos["columnas"] = 2;
-                    $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
-                    $atributos["tamanno"] = 500000;
-                    $atributos["validar"] = "required";
-                    $atributos["etiqueta"] = "";
-                    $atributos["bootstrap"] = true;
-                    // $atributos ["valor"] = $valorCodificado;
-                    $atributos = array_merge($atributos);
-                    if (isset($infoArchivo)) {
-                        $indice = array_search("005", array_column($infoArchivo, 'codigo_requisito'), true);
-
-                        if (!is_null($indice)) {
-
-                            $cadena = "<center><b>Documento :</b> <a href='" . $infoArchivo[$indice]['ruta_relativa'] . "' target='_blank' >" . $infoArchivo[$indice]['nombre_documento'] . "</a></center>";
-
-                        } else {
-
-                            $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                        }
-
-                    } else {
-                        $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                    }
-                    $archivo_certificado_proyecto_vip = $cadena;
-                    unset($atributos);
-
-                    $esteCampo = "documento_acceso_propietario"; //006
-                    $atributos["id"] = $esteCampo; // No cambiar este nombre
-                    $atributos["nombre"] = $esteCampo;
-                    $atributos["tipo"] = "file";
-                    $atributos["obligatorio"] = true;
-                    $atributos["etiquetaObligatorio"] = false;
-                    $atributos["tabIndex"] = $tab++;
-                    $atributos["columnas"] = 2;
-                    $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
-                    $atributos["tamanno"] = 500000;
-                    $atributos["validar"] = "required";
-                    $atributos["etiqueta"] = "";
-                    $atributos["bootstrap"] = true;
-                    // $atributos ["valor"] = $valorCodificado;
-                    $atributos = array_merge($atributos);
-                    if (isset($infoArchivo)) {
-                        $indice = array_search("006", array_column($infoArchivo, 'codigo_requisito'), true);
-
-                        if (!is_null($indice)) {
-
-                            $cadena = "<center><b>Documento :</b> <a href='" . $infoArchivo[$indice]['ruta_relativa'] . "' target='_blank' >" . $infoArchivo[$indice]['nombre_documento'] . "</a></center>";
-
-                        } else {
-
-                            $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                        }
-
-                    } else {
-                        $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                    }
-                    $archivo_documento_acceso_propietario = $cadena;
-                    unset($atributos);
-
-                    $esteCampo = "documento_direccion"; //007
-                    $atributos["id"] = $esteCampo; // No cambiar este nombre
-                    $atributos["nombre"] = $esteCampo;
-                    $atributos["tipo"] = "file";
-                    $atributos["obligatorio"] = true;
-                    $atributos["etiquetaObligatorio"] = false;
-                    $atributos["tabIndex"] = $tab++;
-                    $atributos["columnas"] = 2;
-                    $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
-                    $atributos["tamanno"] = 500000;
-                    $atributos["validar"] = "required";
-                    $atributos["estilo"] = "file";
-                    $atributos["etiqueta"] = "";
-                    $atributos["bootstrap"] = true;
-                    // $atributos ["valor"] = $valorCodificado;
-                    $atributos = array_merge($atributos);
-                    if (isset($infoArchivo)) {
-                        $indice = array_search("007", array_column($infoArchivo, 'codigo_requisito'), true);
-
-                        if (!is_null($indice)) {
-
-                            $cadena = "<center><b>Documento :</b> <a href='" . $infoArchivo[$indice]['ruta_relativa'] . "' target='_blank' >" . $infoArchivo[$indice]['nombre_documento'] . "</a></center>";
-
-                        } else {
-
-                            $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                        }
-
-                    } else {
-                        $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
-                    }
-                    $archivo_documento_direccion = $cadena;
-                    unset($atributos);
-
-                    switch ($infoBeneficiario['tipo']) {
-                        case '1':
-
-                            $tabla = "
-                                     <table id='contenido' class='table  table-hover'>
-                                      <thead>
-                                        <tr>
-                                          <td> </td>
-                                          <td> </td>
-                                          <td><center><strong>Verificación</strong></center></td>
-                                        </tr>
-                                        </thead>
-
-                                        <tr>
-                                          <td>"     . $this->lenguaje->getCadena("cedula") . "</td>
-                                          <td>"     . $archivo_cedula . "</td>
-                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
-                                        </tr>
-
-                                        <tr>
-                                          <td>"     . $this->lenguaje->getCadena("acta_vip") . "</td>
-                                          <td>"     . $archivo_acta_vip . "</td>
-                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
-                                        </tr>
-
-                                        <tr>
-                                          <td>"     . $this->lenguaje->getCadena("certificado_proyecto_vip") . "</td>
-                                          <td>"     . $archivo_certificado_proyecto_vip . "</td>
-                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
-                                        </tr>
-
-                                        <tr>
-                                          <td>"     . $this->lenguaje->getCadena("documento_acceso_propietario") . "</td>
-                                          <td>"     . $archivo_documento_acceso_propietario . "</td>
-                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
-                                        </tr>
-
-
-                                        <tr>
-                                          <td>"     . $this->lenguaje->getCadena("documento_direccion") . "</td>
-                                          <td>"     . $archivo_documento_direccion . "</td>
-                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
-                                        </tr>
-
-                                        </table>"    ;
-                            break;
-
-                        case '2':
-
-                            $tabla = "
-                                     <table id='contenido' class='table  table-hover'>
-                                      <thead>
-                                        <tr>
-                                          <td> </td>
-                                          <td> </td>
-                                          <td><center><strong>Verificación</strong></center></td>
-                                        </tr>
-                                        </thead>
-
-                                        <tr>
-                                          <td>"     . $this->lenguaje->getCadena("cedula") . "</td>
-                                          <td>"     . $archivo_cedula . "</td>
-                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
-                                        </tr>
-
-                                        <tr>
-                                          <td>"     . $this->lenguaje->getCadena("certificado_servicio") . "</td>
-                                          <td>"     . $archivo_certificado_servicios . "</td>
-                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
-                                        </tr>
-
-                                        <tr>
-                                          <td>"     . $this->lenguaje->getCadena("documento_direccion") . "</td>
-                                          <td>"     . $archivo_documento_direccion . "</td>
-                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
-                                        </tr>
-
-                                        </table>"    ;
-
-                            break;
-
-                        case '4':
-                            $tabla = "
-                                     <table id='contenido' class='table  table-hover'>
-                                      <thead>
-                                        <tr>
-                                          <td> </td>
-                                          <td> </td>
-                                          <td><center><strong>Verificación</strong></center></td>
-                                        </tr>
-                                        </thead>
-
-                                        <tr>
-                                          <td>"     . $this->lenguaje->getCadena("cedula_cliente") . "</td>
-                                          <td>"     . $archivo_cedula_cliente . "</td>
-                                          <td><center><IMG SRC='"     . $imagen . "'width='19px'></center> </td>
-                                        </tr>
-
-                                     </table>"    ;
-                            break;
-
-                    }
-                    echo $tabla;
 
                 }
                 {
@@ -509,57 +227,30 @@ class Registrador {
                     echo $this->miFormulario->division("inicio", $atributos);
                     unset($atributos);
                     {
-                        if (is_null($infoBeneficiario['id_contrato']) != true) {
 
-                            // -----------------CONTROL: Botón ----------------------------------------------------------------
-                            $esteCampo = 'botonBorradorContrato';
-                            $atributos["id"] = $esteCampo;
-                            $atributos["tabIndex"] = $tab;
-                            $atributos["tipo"] = 'boton';
-                            // submit: no se coloca si se desea un tipo button genérico
-                            $atributos['submit'] = true;
-                            $atributos["simple"] = true;
-                            $atributos["estiloMarco"] = '';
-                            $atributos["estiloBoton"] = 'default';
-                            $atributos["block"] = false;
-                            // verificar: true para verificar el formulario antes de pasarlo al servidor.
-                            $atributos["verificar"] = '';
-                            $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-                            $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
-                            $atributos['nombreFormulario'] = $esteBloque['nombre'];
-                            $tab++;
+                        // -----------------CONTROL: Botón ----------------------------------------------------------------
+                        $esteCampo = 'botonAprobarContrato';
+                        $atributos["id"] = $esteCampo;
+                        $atributos["tabIndex"] = $tab;
+                        $atributos["tipo"] = 'boton';
+                        // submit: no se coloca si se desea un tipo button genérico
+                        $atributos['submit'] = true;
+                        $atributos["simple"] = true;
+                        $atributos["estiloMarco"] = '';
+                        $atributos["estiloBoton"] = 'default';
+                        $atributos["block"] = false;
+                        // verificar: true para verificar el formulario antes de pasarlo al servidor.
+                        $atributos["verificar"] = '';
+                        $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+                        $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+                        $atributos['nombreFormulario'] = $esteBloque['nombre'];
+                        $tab++;
 
-                            // Aplica atributos globales al control
-                            $atributos = array_merge($atributos, $atributosGlobales);
-                            echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
-                            unset($atributos);
-                            // -----------------FIN CONTROL: Botón -----------------------------------------------------------
-
-                        } else {
-                            // -----------------CONTROL: Botón ----------------------------------------------------------------
-                            $esteCampo = 'botonCargarRequisitos';
-                            $atributos["id"] = $esteCampo;
-                            $atributos["tabIndex"] = $tab;
-                            $atributos["tipo"] = 'boton';
-                            // submit: no se coloca si se desea un tipo button genérico
-                            $atributos['submit'] = true;
-                            $atributos["simple"] = true;
-                            $atributos["estiloMarco"] = '';
-                            $atributos["estiloBoton"] = 'default';
-                            $atributos["block"] = false;
-                            // verificar: true para verificar el formulario antes de pasarlo al servidor.
-                            $atributos["verificar"] = '';
-                            $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-                            $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
-                            $atributos['nombreFormulario'] = $esteBloque['nombre'];
-                            $tab++;
-
-                            // Aplica atributos globales al control
-                            $atributos = array_merge($atributos, $atributosGlobales);
-                            echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
-                            unset($atributos);
-                            // -----------------FIN CONTROL: Botón -----------------------------------------------------------
-                        }
+                        // Aplica atributos globales al control
+                        $atributos = array_merge($atributos, $atributosGlobales);
+                        echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
+                        unset($atributos);
+                        // -----------------FIN CONTROL: Botón -----------------------------------------------------------
 
                     }
                     // ------------------Fin Division para los botones-------------------------
@@ -590,13 +281,11 @@ class Registrador {
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                $valorCodificado .= (is_null($infoBeneficiario['id_contrato']) != true) ? "&opcion=generarContratoPDF" : "&opcion=cargarRequisitos";
-                $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo'];
-                $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
-                if (is_null($infoBeneficiario['id_contrato']) != true) {
-                    $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
-
-                }
+                $valorCodificado .= "&opcion=aprobacionContrato";
+                $valorCodificado .= "&id_contrato=" . $_REQUEST['id_contrato'];
+                $valorCodificado .= "&numero_contrato=" . $_REQUEST['numero_contrato'];
+                $valorCodificado .= "&nombre_beneficiario=" . $_REQUEST['nombre_beneficiario'];
+                $valorCodificado .= "&identificacion_beneficiario=" . $_REQUEST['identificacion_beneficiario'];
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.
@@ -618,6 +307,10 @@ class Registrador {
                 unset($atributos);
 
             }
+
+            if (isset($_REQUEST['mensaje'])) {
+                $this->mensaje($tab, $esteBloque['nombre']);
+            }
         }
 
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
@@ -626,40 +319,41 @@ class Registrador {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensaje() {
+    public function mensaje($tab = '', $nombreBloque = '') {
 
         switch ($_REQUEST['mensaje']) {
-            case 'inserto':
-                $estilo_mensaje = 'success';     //information,warning,error,validation
-                $atributos["mensaje"] = 'Requisitos Correctamente Validados<br>Se ha Habilitado la Opcion de Descargar Borrador del Contrato';
-                break;
-
             case 'noinserto':
-                $estilo_mensaje = 'error';     //information,warning,error,validation
-                $atributos["mensaje"] = 'Error al validar los Requisitos.<br>Verifique los Documentos de Requisitos';
+                $mensaje = "Error en la Aprobación de Contrato.<br>Verifique la Información";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
                 break;
 
-            default:
-                # code...
-                break;
         }
-        // ------------------Division para los botones-------------------------
-        $atributos['id'] = 'divMensaje';
-        $atributos['estilo'] = 'marcoBotones';
-        echo $this->miFormulario->division("inicio", $atributos);
 
-        // -------------Control texto-----------------------
-        $esteCampo = 'mostrarMensaje';
-        $atributos["tamanno"] = '';
-        $atributos["etiqueta"] = '';
-        $atributos["estilo"] = $estilo_mensaje;
-        $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-        echo $this->miFormulario->campoMensaje($atributos);
+        // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+
+        $atributos['tipoEtiqueta'] = 'inicio';
+        $atributos['titulo'] = 'Mensaje';
+        $atributos['id'] = 'mensaje';
+        echo $this->miFormulario->modal($atributos);
         unset($atributos);
 
-        // ------------------Fin Division para los botones-------------------------
-        echo $this->miFormulario->division("fin");
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
+
+        echo '<p><h5>' . $mensaje . '</h5></p>';
+
+        echo '</div>';
+
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+
+        echo '<div style="text-align:center;">';
+
+        echo '</div>';
+
+        $atributos['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal($atributos);
         unset($atributos);
+
     }
 
 }

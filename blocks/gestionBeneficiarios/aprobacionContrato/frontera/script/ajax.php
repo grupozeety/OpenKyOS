@@ -31,6 +31,12 @@ $urlConsultarContratos = $url . $cadena;
  */
 
  $(document).ready(function() {
+
+
+      $("#mensaje").modal("show");
+
+
+
       $('#example').DataTable( {
              processing: true,
                  searching: true,
@@ -50,5 +56,7 @@ $urlConsultarContratos = $url . $cadena;
     } );
 } );
 
+$("#<?php echo $this->campoSeguro('medio_pago');?>").select2();
+$("#<?php echo $this->campoSeguro('tipo_tecnologia');?>").select2();
 </script>
 

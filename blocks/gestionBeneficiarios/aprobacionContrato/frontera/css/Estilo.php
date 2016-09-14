@@ -7,6 +7,7 @@ $indice = 0;
 
 $estilo[$indice++] = "estiloBloque.css";
 
+$estilo [$indice ++] = "select2.min.css";
 $estilo [$indice ++] = "dataTables.bootstrap.min.css";
 $estilo [$indice ++] = "dataTables.bootstrap.css";
 $indice++;
@@ -24,6 +25,7 @@ foreach ($estilo as $nombre) {
     echo "<link rel='stylesheet' type='text/css' href='" . $rutaBloque . "/frontera/css/" . $nombre . "'>\n";
 }
 ?>
+
 
 
 
