@@ -111,6 +111,44 @@ class Consultar {
 
     }
 
+    public function obtenerUrbanizaciones($datosConexion) {
+    
+    	 $this->configurarOpenProject($datosConexion);
+
+        $this->name = 'name';
+
+        $data = '';
+
+        $fields = 'projects';
+
+        $result = $this->clientOpenProject->search("", $data, $fields);
+
+        $arreglo = array();
+
+        if (!empty($result)) {
+
+            $tree = $this->buildTree($result->body['projects']);
+            
+            $tree = $tree[0]['nodes'][5]['nodes'];
+            
+         	foreach ($tree as $key=>$value){
+         		
+         		$isCabecera = strpos($value['text'], "Cabecera");
+         		$isWman = strpos($value['text'], "wMAN");
+         		
+            	if( ($isCabecera !== false) | ($isWman !== false) ) {
+            		unset($tree[$key]);
+            	}
+            }
+            
+            
+            echo json_encode($tree);
+
+        }
+
+        return false;
+    
+    }
     public function obtenerProjectos($datosConexion) {
 
         $this->configurarOpenProject($datosConexion);
@@ -128,7 +166,8 @@ class Consultar {
         if (!empty($result)) {
 
             $tree = $this->buildTree($result->body['projects']);
-
+            print_r($tree[0]['nodes'][5]['nodes']);
+            
             echo json_encode($tree);
 
         }
