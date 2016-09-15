@@ -103,9 +103,12 @@ class Formulario {
         	unset ( $atributos );
         }
         
+        $deshabilitado = false;
+        
         if(isset($_REQUEST['id']) && $_REQUEST['id'] != ''){
         	$cadena_sql = $this->miSql->getCadenaSql ( "cargarBeneficiarioPotencial", $_REQUEST['id'] );
         	$cargueDatos = $esteRecursoDB->ejecutarAcceso ( $cadena_sql, "busqueda" )[0];
+        	$deshabilitado = true;
         }
         
         $esteCampo = 'ficheros';
@@ -130,7 +133,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = $deshabilitado;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -256,7 +259,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -294,7 +297,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -332,7 +335,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -370,7 +373,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -451,7 +454,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -534,7 +537,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -678,7 +681,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -760,7 +763,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -798,7 +801,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -836,7 +839,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -874,7 +877,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -912,7 +915,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -950,7 +953,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -988,7 +991,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -1114,7 +1117,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -1240,7 +1243,7 @@ class Formulario {
         $atributos ['estilo'] = "bootstrap";
         $atributos ['evento'] = '';
         $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
+        $atributos ['readonly'] = false;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['placeholder'] = "";
@@ -1248,7 +1251,7 @@ class Formulario {
         $atributos ['ajax_function'] = "";
         $atributos ['ajax_control'] = $esteCampo;
         $atributos ['limitar'] = false;
-        $atributos ['anchoCaja'] = 10;
+        $atributos ['anchoCaja'] = 10; 
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = '';
         // Aplica atributos globales al control
