@@ -79,7 +79,7 @@ class Registrador {
                     $atributos['estilo'] = "bootstrap";
                     $atributos['evento'] = '';
                     $atributos['deshabilitado'] = false;
-                    $atributos['readonly'] = true;
+                    $atributos['readonly'] = false;
                     $atributos['columnas'] = 1;
                     $atributos['tamanno'] = 1;
                     $atributos['placeholder'] = "Ingrese Mínimo 3 Caracteres de Busqueda";
