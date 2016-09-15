@@ -117,7 +117,7 @@ class Formulario {
 			        <thead>
 			            <tr>
 			                <th>Código de Cabecera</th>
-			                <th>descripción</th>
+			                <th>Descripción</th>
 			                <th>Departamento</th>
 			                <th>Municipio</th>
         					<th>Urbanización</th>
