@@ -56,7 +56,7 @@ $urlConsultarContratos = $url . $cadena;
     } );
 } );
 
-$("#<?php echo $this->campoSeguro('medio_pago');?>").select2();
-$("#<?php echo $this->campoSeguro('tipo_tecnologia');?>").select2();
+$("#<?php echo $this->campoSeguro('medio_pago');?>").select2({width:'100%'});
+$("#<?php echo $this->campoSeguro('tipo_tecnologia');?>").select2({width:'100%'});
 </script>
 

@@ -94,7 +94,8 @@ class Sql extends \Sql {
                 $cadenaSql = " UPDATE interoperacion.servicio";
                 $cadenaSql .= " SET estado_servicio='" . $variable['id_est_servicio'] . "',";
                 $cadenaSql .= " tipo_tecnologia='" . $_REQUEST['tipo_tecnologia'] . "', ";
-                $cadenaSql .= " medio_pago='" . $_REQUEST['medio_pago'] . "'";
+                $cadenaSql .= " medio_pago='" . $_REQUEST['medio_pago'] . "',";
+                $cadenaSql .= " valor_tarificacion='" . $_REQUEST['valor_tarificacion'] . "' ";
                 $cadenaSql .= " WHERE id_contrato= '" . $_REQUEST['id_contrato'] . "'";
                 $cadenaSql .= " AND estado_registro=TRUE ;";
                 break;

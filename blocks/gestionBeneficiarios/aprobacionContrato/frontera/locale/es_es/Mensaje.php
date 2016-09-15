@@ -3,6 +3,8 @@
  * Etiquetas correspondientes a los Formularios
  */
 
+$this->idioma['valor_tarificacion'] = 'Valor Tarificación';
+
 $this->idioma['botonAceptar'] = 'Aceptar';
 
 $this->idioma['botonAprobarContrato'] = 'Aprobar Contrato';

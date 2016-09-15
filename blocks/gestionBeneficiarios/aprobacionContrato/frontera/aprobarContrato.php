@@ -189,6 +189,35 @@ class Registrador {
                     echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
 
+                    $esteCampo = 'valor_tarificacion';
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos['tipo'] = "number";
+                    {
+                        $atributos['decimal'] = true;
+                    }
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    $atributos['anchoEtiqueta'] = 2;
+                    $atributos['evento'] = '';
+                    $atributos['deshabilitado'] = false;
+                    $atributos['columnas'] = 1;
+                    $atributos['readonly'] = false;
+                    $atributos['tamanno'] = 1;
+                    $atributos['ajax_function'] = "";
+                    $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
+                    $atributos['limitar'] = false;
+                    $atributos['anchoCaja'] = 10;
+                    $atributos['minimo'] = 0;
+                    $atributos['miEvento'] = '';
+                    $atributos['validar'] = 'required';
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                    unset($atributos);
+
                     $esteCampo = 'medio_pago';
                     $atributos['nombre'] = $esteCampo;
                     $atributos['id'] = $esteCampo;
