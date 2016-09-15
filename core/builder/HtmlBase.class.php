@@ -136,6 +136,8 @@ class HtmlBase {
 
     const FILE = 'file';
 
+    const DECIMAL = 'decimal';
+
     /**
      * Atributos HTML
      * Se definen como constantes para evitar errores al duplicar
