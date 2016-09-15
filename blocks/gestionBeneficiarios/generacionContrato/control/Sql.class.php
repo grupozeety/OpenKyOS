@@ -44,17 +44,16 @@ class Sql extends \Sql {
              * Clausulas específicas
              */
             case 'consultarBeneficiariosPotenciales':
-                $cadenaSql = " SELECT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
+                $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
                 $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
                 $cadenaSql .= "WHERE estado_registro=TRUE ";
                 $cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "AND estado_registro=TRUE ";
                 $cadenaSql .= "LIMIT 10; ";
-
                 break;
+
             case 'consultaInformacionBeneficiario':
                 $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
