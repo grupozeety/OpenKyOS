@@ -58,7 +58,8 @@ class Sql extends \Sql {
             case 'consultaInformacionBeneficiario':
                 $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
-                $cadenaSql .= " JOIN parametros.parametros pr ON pr.id_parametro= bn.tipo";
+                $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
+                $cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
                 $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id_beneficiario AND cn.estado_registro=TRUE ";
                 $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
                 $cadenaSql .= " AND pr.estado_registro = TRUE ";
