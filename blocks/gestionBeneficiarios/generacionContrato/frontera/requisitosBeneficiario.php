@@ -394,7 +394,7 @@ class Registrador {
                     $archivo_documento_direccion = $cadena;
                     unset($atributos);
 
-                    switch ($infoBeneficiario['tipo']) {
+                    switch ($infoBeneficiario['tipo_beneficiario']) {
                         case '1':
 
                             $tabla = "
@@ -475,7 +475,7 @@ class Registrador {
 
                             break;
 
-                        case '4':
+                        case '3':
                             $tabla = "
                                      <table id='contenido' class='table  table-hover'>
                                       <thead>
@@ -590,7 +590,7 @@ class Registrador {
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
                 $valorCodificado .= (is_null($infoBeneficiario['id_contrato']) != true) ? "&opcion=generarContratoPDF" : "&opcion=cargarRequisitos";
-                $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo'];
+                $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo_beneficiario'];
                 $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
                 if (is_null($infoBeneficiario['id_contrato']) != true) {
                     $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
