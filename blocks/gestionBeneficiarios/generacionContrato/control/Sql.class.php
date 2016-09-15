@@ -51,6 +51,7 @@ class Sql extends \Sql {
                 $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "AND estado_registro=TRUE ";
                 $cadenaSql .= "LIMIT 10; ";
 
                 break;
@@ -58,10 +59,10 @@ class Sql extends \Sql {
                 $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
                 $cadenaSql .= " JOIN parametros.parametros pr ON pr.id_parametro= bn.tipo";
-                $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id AND cn.estado_registro=TRUE ";
+                $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id_beneficiario AND cn.estado_registro=TRUE ";
                 $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
                 $cadenaSql .= " AND pr.estado_registro = TRUE ";
-                $cadenaSql .= " AND bn.id= '" . $_REQUEST['id_beneficiario'] . "';";
+                $cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST['id_beneficiario'] . "';";
                 break;
 
             case 'registrarDocumentos':
@@ -159,10 +160,10 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN parametros.parametros pr ON pr.id_parametro= bn.tipo";
                 $cadenaSql .= " LEFT JOIN parametros.departamento dp ON dp.codigo_dep= bn.departamento";
                 $cadenaSql .= " LEFT JOIN parametros.municipio mn ON mn.codigo_mun= bn.municipio";
-                $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id AND cn.estado_registro=TRUE ";
+                $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id_beneficiario AND cn.estado_registro=TRUE ";
                 $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
                 $cadenaSql .= " AND pr.estado_registro = TRUE ";
-                $cadenaSql .= " AND bn.id= '" . $_REQUEST['id_beneficiario'] . "';";
+                $cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST['id_beneficiario'] . "';";
                 break;
 
         }
