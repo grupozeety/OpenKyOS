@@ -17,7 +17,7 @@ class Procesador {
         'api_url' => '/api/resource/',
         'auth' => array(
             'usr' => 'Administrator',
-            'pwd' => '<pass>',
+            'pwd' => '<pws>',
         ),
         'curl_timeout' => 30,
         'basic_auth' => array(),
@@ -67,6 +67,9 @@ class Procesador {
                 case 'proyectos':
                     $resultado = $this->consultar->obtenerProjectos($this->datosConexionOpenProject);
                     break;
+                case 'urbanizaciones':
+                    $resultado = $this->consultar->obtenerUrbanizaciones($this->datosConexionOpenProject);
+                    break;
                 case 'actividades':
                     $resultado = $this->consultar->obtenerActividades($this->datosConexionOpenProject, $_REQUEST['proyecto']);
                     break;
@@ -88,7 +91,7 @@ class Procesador {
                 case 'obtenerIdentificadoresSalida':
                     $resultado = $this->consultar->obtenerIdentificadoresSalida($this->datosConexionERPNext, $_REQUEST['proyecto']);
                     break;
-
+                    
             }
         }
 
