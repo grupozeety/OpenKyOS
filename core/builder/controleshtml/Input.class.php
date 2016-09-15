@@ -98,12 +98,20 @@ class Input extends HtmlBase {
         $cadena = '<input ';
 
         if ($this->atributos[self::TIPO] == self::FILE && $this->atributos[self::BOOTSTRAP] == true) {
+            $cadena = '<br><input ';
             $cadena .= $this->definirAtributosGenerales();
 
             $cadena .= "type='file' ";
             $cadena .= "id='" . $this->atributos[self::ID] . "' ";
             $cadena .= "class='filestyle'  ";
-            $cadena .= "data-buttonText='Seleccione Archivo' ";
+
+            if (isset($this->atributos[self::ETIQUETA]) && $this->atributos[self::ETIQUETA] != "") {
+                $cadena .= "data-buttonText='" . $this->atributos[self::ETIQUETA] . "' ";
+            } else {
+                $cadena .= "data-buttonText='Seleccione Archivo' ";
+
+            }
+
             $cadena .= "data-icon='false'";
             if (isset($this->atributos[self::TAMANNO])) {
                 $cadena .= "size = '" . $this->atributos[self::TAMANNO] . "'";
@@ -113,6 +121,8 @@ class Input extends HtmlBase {
                 $cadena .= $this->atributos[self::VALIDAR];
             }
 
+            $cadena .= "><br>\n";
+
         } elseif (!isset($this->atributos[self::TIPO]) || $this->atributos[self::TIPO] != self::HIDDEN) {
 
             // Desde HtmlBase
@@ -121,6 +131,8 @@ class Input extends HtmlBase {
             $cadena .= $this->atributoClassCuadroTexto();
 
             $cadena .= $this->atributosGeneralesCuadroTexto();
+
+            $cadena .= ">\n";
         } elseif ($this->atributos[self::TIPO] == self::HIDDEN) {
 
             $cadena .= "type = 'hidden'";
@@ -129,9 +141,10 @@ class Input extends HtmlBase {
             if (isset($this->atributos[self::VALOR])) {
                 $cadena .= self::HTMLVALUE . "'" . $this->atributos[self::VALOR] . "'";
             }
+
+            $cadena .= ">\n";
         }
 
-        $cadena .= " > \n";
         return $cadena;
     }
     private function atributosGeneralesCuadroTexto() {
