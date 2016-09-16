@@ -44,17 +44,16 @@ class Sql extends \Sql {
              * Clausulas específicas
              */
             case 'consultarBeneficiariosPotenciales':
-                $cadenaSql = " SELECT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
+                $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
                 $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
                 $cadenaSql .= "WHERE estado_registro=TRUE ";
                 $cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "AND estado_registro=TRUE ";
                 $cadenaSql .= "LIMIT 10; ";
-
                 break;
+
             case 'consultaInformacionBeneficiario':
                 $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
@@ -145,7 +144,6 @@ class Sql extends \Sql {
                 $cadenaSql .= " pr.estado_registro=TRUE ";
                 $cadenaSql .= " AND rl.descripcion='Numerales Contrato'";
                 $cadenaSql .= " AND rl.estado_registro=TRUE ";
-
                 break;
             case 'consultarClausulas':
                 $cadenaSql = " SELECT numeral,orden_general, contenido";
@@ -158,13 +156,37 @@ class Sql extends \Sql {
             case 'obtenerDatosBasicosBeneficiarios':
                 $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato,dp.departamento nombre_departamento,mn.municipio nombre_municipio  ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
-                $cadenaSql .= " JOIN parametros.parametros pr ON pr.id_parametro= bn.tipo";
+                $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
                 $cadenaSql .= " LEFT JOIN parametros.departamento dp ON dp.codigo_dep= bn.departamento";
                 $cadenaSql .= " LEFT JOIN parametros.municipio mn ON mn.codigo_mun= bn.municipio";
                 $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id_beneficiario AND cn.estado_registro=TRUE ";
                 $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
                 $cadenaSql .= " AND pr.estado_registro = TRUE ";
                 $cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST['id_beneficiario'] . "';";
+                break;
+
+            case 'consultarParametro':
+                $cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
+                $cadenaSql .= " FROM parametros.parametros pr";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+                $cadenaSql .= " WHERE ";
+                $cadenaSql .= " pr.estado_registro=TRUE ";
+                $cadenaSql .= " AND rl.descripcion='Tipologia Archivo'";
+                $cadenaSql .= " AND pr.codigo='" . $variable . "' ";
+                $cadenaSql .= " AND rl.estado_registro=TRUE ";
+
+                break;
+
+            case 'consultarTipoDocumento':
+                $cadenaSql = " SELECT pr.id_parametro,pr.codigo, pr.descripcion ";
+                $cadenaSql .= " FROM parametros.parametros pr";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+                $cadenaSql .= " WHERE ";
+                $cadenaSql .= " pr.estado_registro=TRUE ";
+                $cadenaSql .= " AND rl.descripcion='Tipo de Documento'";
+                $cadenaSql .= " AND pr.descripcion='" . $variable . "' ";
+                $cadenaSql .= " AND rl.estado_registro=TRUE ";
+
                 break;
 
         }

@@ -92,31 +92,47 @@ class FormProcessor {
 
             switch ($value['campo']) {
                 case 'cedula':
-                    $this->archivos_datos[$key]['tipo_documento'] = 75;
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', "001");
+                    $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $this->archivos_datos[$key]['tipo_documento'] = $id_parametro[0]['id_parametro'];
                     break;
 
                 case 'certificado_servicio':
-                    $this->archivos_datos[$key]['tipo_documento'] = 77;
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', "003");
+                    $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $this->archivos_datos[$key]['tipo_documento'] = $id_parametro[0]['id_parametro'];
                     break;
 
                 case 'acta_vip':
-                    $this->archivos_datos[$key]['tipo_documento'] = 81;
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', "002");
+                    $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $this->archivos_datos[$key]['tipo_documento'] = $id_parametro[0]['id_parametro'];
                     break;
 
                 case 'documento_acceso_propietario':
-                    $this->archivos_datos[$key]['tipo_documento'] = 78;
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', "006");
+                    $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $this->archivos_datos[$key]['tipo_documento'] = $id_parametro[0]['id_parametro'];
                     break;
 
                 case 'documento_direccion':
-                    $this->archivos_datos[$key]['tipo_documento'] = 79;
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', "007");
+                    $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $this->archivos_datos[$key]['tipo_documento'] = $id_parametro[0]['id_parametro'];
                     break;
 
                 case 'certificado_proyecto_vip':
-                    $this->archivos_datos[$key]['tipo_documento'] = 77;
+
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', "005");
+                    $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $this->archivos_datos[$key]['tipo_documento'] = $id_parametro[0]['id_parametro'];
                     break;
 
                 case 'cedula_cliente':
-                    $this->archivos_datos[$key]['tipo_documento'] = 80;
+
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', "777");
+                    $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $this->archivos_datos[$key]['tipo_documento'] = $id_parametro[0]['id_parametro'];
                     break;
 
             }
