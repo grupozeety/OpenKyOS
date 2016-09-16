@@ -356,6 +356,11 @@ class Registrador {
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
                 break;
 
+            case 'errorArchivo':
+                $mensaje = "Archivo Contrato no Valido.<br>Verifique la Archivo de Contrato";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
+
         }
 
         // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
