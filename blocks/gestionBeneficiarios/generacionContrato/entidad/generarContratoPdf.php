@@ -67,6 +67,7 @@ class GenerarDocumento {
     public function obtenerInformacionBeneficiario() {
 
         $cadenaSql = $this->miSql->getCadenaSql('obtenerDatosBasicosBeneficiarios');
+
         $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $this->beneficiario = $beneficiario[0];
 
@@ -103,8 +104,16 @@ class GenerarDocumento {
     }
     public function estruturaDocumento() {
 
-        $cedula = ($this->beneficiario['tipo_identificacion'] == '92') ? '<b>(X)</b>' : '';
-        $targeta = ($this->beneficiario['tipo_identificacion'] == '93') ? '<b>(X)</b>' : '';
+        $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Cédula de Ciudadanía");
+        $CodigoCedula = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $CodigoCedula = $CodigoCedula[0];
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Tarjeta de Identidad");
+        $CodigoTargeta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $CodigoTargeta = $CodigoTargeta[0];
+
+        $cedula = ($this->beneficiario['tipo_documento'] == $CodigoCedula['codigo']) ? '<b>(X)</b>' : '';
+        $targeta = ($this->beneficiario['tipo_documento'] == $CodigoTargeta['codigo']) ? '<b>(X)</b>' : '';
 
         $contenidoPagina = "
 							<style type=\"text/css\">
