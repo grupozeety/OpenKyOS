@@ -51,6 +51,7 @@ $urlConsultarContratos = $url . $cadena;
                   { data :"urbanizacion" },
                   { data :"identificacionBeneficiario" },
                   { data :"nombreBeneficiario" },
+                  { data :"archivoContrato" },
                   { data :"opcion" }
                             ]
     } );

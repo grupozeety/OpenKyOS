@@ -62,6 +62,7 @@ class Registrador {
                             <th><center>Urbanización o Proyecto</center></th>
                             <th><center>Identificación Beneficiario</center></th>
                             <th><center>Nombre Beneficiario</center></th>
+                            <th><center>Archivo Contrato</center></th>
                             <th><center>Estado Contrato</center></th>
                         </tr>
                     </thead>
@@ -71,6 +72,7 @@ class Registrador {
                             <th><center>Urbanización o Proyecto</center></th>
                             <th><center>Identificación Beneficiario</center></th>
                             <th><center>Nombre Beneficiario</center></th>
+                            <th><center>Archivo Contrato</center></th>
                             <th><center>Estado Contrato</center></th>
                         </tr>
                     </tfoot>
