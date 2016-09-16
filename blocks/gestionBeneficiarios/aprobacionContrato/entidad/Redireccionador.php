@@ -31,6 +31,18 @@ class Redireccionador {
 
                 break;
 
+            case "errorArchivo":
+
+                $variable = 'pagina=aprobacionContrato';
+                $variable .= '&opcion=aprobarContrato';
+                $variable .= '&mensaje=errorArchivo';
+                $variable .= "&id_contrato=" . $_REQUEST['id_contrato'];
+                $variable .= "&numero_contrato=" . $_REQUEST['numero_contrato'];
+                $variable .= "&nombre_beneficiario=" . $_REQUEST['nombre_beneficiario'];
+                $variable .= "&identificacion_beneficiario=" . $_REQUEST['identificacion_beneficiario'];
+
+                break;
+
             default:
                 $variable = '';
 

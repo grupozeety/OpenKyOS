@@ -97,7 +97,7 @@ class FormProcessor {
 
         if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
 
-            Redireccionador::redireccionar("ErrorCargarFicheroDirectorio");
+            Redireccionador::redireccionar("errorArchivo");
 
         }
 

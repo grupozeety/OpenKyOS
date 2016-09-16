@@ -29,6 +29,7 @@ class procesarAjax {
                 if ($resultadoContratos) {
 
                     foreach ($resultadoContratos as $key => $valor) {
+
                         // Variables
                         $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
                         $cadenaACodificar .= "&opcion=aprobarContrato";
@@ -43,6 +44,7 @@ class procesarAjax {
 
                         // URL Aprobar Contratp
                         $urlAprobarContrato = $url . $cadena;
+                        $archivoContrato = (is_null($valor['nombre_documento_contrato'])) ? " " : "<center><a href='" . $valor['ruta_documento_contrato'] . "' target='_blank' >" . $valor['nombre_documento_contrato'] . "</a></center>";
 
                         $estado_contrato = ($valor['estado_contrato'] == 'Borrador') ? "<center><b><a href='" . $urlAprobarContrato . "'  >Por Aprobar Contrato</a></b></center>" : "<center><b>" . $valor['estado_contrato'] . "</b></center>";
 
@@ -51,6 +53,7 @@ class procesarAjax {
                             'urbanizacion' => "<center>" . $valor['urbanizacion'] . "</center>",
                             'identificacionBeneficiario' => "<center>" . $valor['identificacion'] . "</center>",
                             'nombreBeneficiario' => "<center>" . $valor['nombre_beneficiario'] . "</center>",
+                            'archivoContrato' => $archivoContrato,
                             'opcion' => $estado_contrato,
                         );
 
