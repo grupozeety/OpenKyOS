@@ -11,6 +11,7 @@ $estilo[$indice++]="bootstrap-table.min.css";
 $estilo[$indice++]="select2.min.css";
 $estilo[$indice++]="miestilo.css";
 $estilo[$indice++]="bootstrap-treeview.min.css";
+$estilo[$indice++]="modalLoad.css";
 
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
