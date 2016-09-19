@@ -4,9 +4,9 @@ $(document).on({
      ajaxStop: function() { $body.removeClass("loading"); }    
 });
 // Initiates an AJAX request on click
-//$(document).on("click", function(){
-//	 $.get("/mockjax");        
-//});
+$(document).on("submit", function(){
+	 $.get("/mockjax");        
+});
 
 /*!
  * MockJax - jQuery Plugin to Mock Ajax requests

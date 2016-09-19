@@ -334,6 +334,9 @@ $("#<?php echo $this->campoSeguro('proyecto');?>").change(function() {
 
 	limpiar();
 	
+	orden = [];
+	data_orden = [];
+
 	if($("#<?php echo $this->campoSeguro('proyecto');?>").val() != ""){
 
 		ordenTrabajo($("#<?php echo $this->campoSeguro('proyecto');?>").val());
