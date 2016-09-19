@@ -142,32 +142,41 @@ class Sql extends \Sql {
 
                 break;
 
-            case "actualizarConsumo":
+//             case "actualizarConsumo":
 
-                $cadenaSql = "UPDATE interoperacion.consumo_material ";
-                $cadenaSql .= "SET ";
-                $cadenaSql .= "estado_registro=FALSE ";
-                $cadenaSql .= "WHERE ";
-                $cadenaSql .= "nombre ";
-                $cadenaSql .= "IN ";
-                $cadenaSql .= "(";
+//                 $cadenaSql = "UPDATE interoperacion.consumo_material ";
+//                 $cadenaSql .= "SET ";
+//                 $cadenaSql .= "estado_registro=FALSE ";
+//                 $cadenaSql .= "WHERE ";
+//                 $cadenaSql .= "nombre ";
+//                 $cadenaSql .= "IN ";
+//                 $cadenaSql .= "(";
 
-                foreach ($variable as $clave => $valor) {
+//                 foreach ($variable as $clave => $valor) {
 
-                    $cadenaSql .= "'" . $valor['name'] . "',";
+//                     $cadenaSql .= "'" . $valor['name'] . "',";
 
-                }
+//                 }
 
-                $cadenaSql = substr($cadenaSql, 0, (strlen($cadenaSql) - 1));
-                $cadenaSql .= ")";
+//                 $cadenaSql = substr($cadenaSql, 0, (strlen($cadenaSql) - 1));
+//                 $cadenaSql .= ")";
 
-                break;
-
-            case "obtenerConsumo":
-
-                $cadenaSql = "SELECT consumo,geolocalizacion, porcentaje_consumo from interoperacion.consumo_material where nombre='" . $variable . "' AND estado_registro=TRUE;";
-
-                break;
+//                 break;
+                
+	           case "actualizarConsumo":
+	                
+	                $cadenaSql = "UPDATE interoperacion.consumo_material ";
+	                $cadenaSql .= "SET ";
+	                $cadenaSql .= "estado_registro=FALSE ";
+	                $cadenaSql .= "WHERE ";
+	                $cadenaSql .= "orden_trabajo='".$variable."'";
+	               	break;
+	
+	            case "obtenerConsumo":
+	
+	                $cadenaSql = "SELECT consumo,geolocalizacion, porcentaje_consumo from interoperacion.consumo_material where nombre='" . $variable . "' AND estado_registro=TRUE;";
+	
+	                break;
 
         }
 

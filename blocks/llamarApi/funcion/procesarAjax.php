@@ -74,7 +74,7 @@ class Procesador {
                     $resultado = $this->consultar->obtenerActividades($this->datosConexionOpenProject, $_REQUEST['proyecto']);
                     break;
                 case 'ordenTrabajo':
-                    $resultado = $this->consultar->obtenerOrdenTrabajo($this->datosConexionERPNext);
+                    $resultado = $this->consultar->obtenerOrdenTrabajo($this->datosConexionERPNext, $_REQUEST['nombre']);
                     break;
 
                 case 'obtenerMateriales':
@@ -90,6 +90,10 @@ class Procesador {
 
                 case 'obtenerIdentificadoresSalida':
                     $resultado = $this->consultar->obtenerIdentificadoresSalida($this->datosConexionERPNext, $_REQUEST['proyecto']);
+                    break;
+                    
+                case 'obtenerProyecto':
+                    $resultado = $this->consultar->obtenerProyectoErp($this->datosConexionERPNext);
                     break;
                     
             }

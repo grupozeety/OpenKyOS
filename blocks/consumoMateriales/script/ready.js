@@ -37,3 +37,10 @@ $("#formmyModalBootstrap").submit(function(e){
 	$("#<?php echo $this->campoSeguro("geolocalizacion")?>").change();
 	$('#myModal').modal('hide');
   });
+
+$("#botonAgregarLocalizacion").click(function( e ) {
+    $("#<?php echo $this->campoSeguro("geolocalizacion")?>").val( $("#geomodal").val());
+	$("#<?php echo $this->campoSeguro("geolocalizacion")?>").change();
+	$('#myModal').modal('hide');
+  });
+
