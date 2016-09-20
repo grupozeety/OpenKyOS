@@ -29,7 +29,6 @@ class Procesador {
     public $datosConexionOpenProject = array(
         'host' => '<url>',
         'token' => '<token>',
-        'api_url' => 'api/v2/',
         'type' => 'json',
         'curl_timeout' => 30,
         'puerto' => '',
@@ -96,6 +95,13 @@ class Procesador {
                     $resultado = $this->consultar->obtenerProyectoErp($this->datosConexionERPNext);
                     break;
                     
+                case 'ordenTrabajoModificada':
+                   	$resultado = $this->consultar->obtenerOrdenTrabajoModificada($this->datosConexionERPNext, $_REQUEST['nombre']);
+                   	break;
+                   	
+                case 'obtenerMaterialesModificado':
+                    $resultado = $this->consultar->obtenerMaterialesOrdenModificado($this->datosConexionERPNext, $_REQUEST['nombre']);
+                    break;
             }
         }
 

@@ -215,31 +215,31 @@ class Consultar {
         return $branch;
     }
 
-//     public function obtenerOrdenTrabajo($datosConexion) {
+    public function obtenerOrdenTrabajo($datosConexion) {
 
-//         $this->configurarERPNext($datosConexion);
+        $this->configurarERPNext($datosConexion);
 
-//         $data = array(
-//         );
+        $data = array(
+        );
 
-//         $fields = array(
-//             "id_orden_trabajo",
-//             "name",
-//             "purpose",
-//         );
+        $fields = array(
+            "id_orden_trabajo",
+            "name",
+            "purpose",
+        );
 
-//         $result = $this->clientFrappe->search("Stock Entry", $data, $fields);
+        $result = $this->clientFrappe->search("Stock Entry", $data, $fields);
 
-//         if (!empty($result->body->data)) {
-//             echo json_encode($result->body->data);
+        if (!empty($result->body->data)) {
+            echo json_encode($result->body->data);
 
-//         }
+        }
 
-//         return false;
+        return false;
 
-//     }
+    }
 
-    public function obtenerOrdenTrabajo($datosConexion, $nombre) {
+    public function obtenerOrdenTrabajoModificada($datosConexion, $nombre) {
     
     	$this->configurarERPNext($datosConexion);
     
@@ -290,7 +290,7 @@ class Consultar {
     
     }
 
-    public function obtenerMaterialesOrden($datosConexion, $parent) {
+    public function obtenerMaterialesOrdenModificado($datosConexion, $parent) {
 
         $this->configurarERPNext($datosConexion);
 
@@ -343,6 +343,32 @@ class Consultar {
 
     }
 
+    public function obtenerMaterialesOrden($datosConexion, $nombre) {
+    	$this->configurarERPNext($datosConexion);
+    	$data = array(
+    			"parent" => str_replace(' ', '%20', $nombre),
+    	);
+    	$fields = array(
+    			"name",
+    			"item_name",
+    			"uom",
+    			"description",
+    			"item_code",
+    			"qty",
+    			"parent",
+    	);
+    	$result = $this->clientFrappe->search("Stock Entry Detail", $data, $fields);
+    	$contador = 0;
+    	foreach ($result->body->data as $data) {
+    		$data->{"material"} = $this->codificarNombre("material:" . $data->name . ":" . $data->item_name . ":" . $data->qty . ":" . $data->parent);
+    		$contador++;
+    	}
+    	if (!empty($result->body->data)) {
+    		echo json_encode($result->body->data);
+    	}
+    	return false;
+    }
+    
     public function obtenerDetalleOrden($datosConexion, $nombre) {
 
         $this->configurarERPNext($datosConexion);
