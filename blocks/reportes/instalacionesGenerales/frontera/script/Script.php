@@ -12,6 +12,10 @@ $indice = 0;
 
 //$funcion [$indice ++] = " ";
 
+$funcion[$indice++] = "jquery.dataTables.js";
+$funcion[$indice++] = "dataTables.bootstrap.js";
+$funcion[$indice++] = "bootstrap-datepicker.js";
+
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");
 if ($esteBloque["grupo"] == "") {
@@ -31,9 +35,17 @@ if (isset($funcion[0])) {
         }
     }
 }
+
+/** echo "\n<script type='text/javascript' src='" . $rutaBloque . "/frontera/script/bootstrap-datepicker.es.js' charset='UTF-8'>\n</script>\n";**/
+
 /**
  * Procesar las funciones requeridas en ajax
  */
 include "ajax.php";
 
 ?>
+
+
+
+
+
