@@ -94,7 +94,7 @@ function ordenTrabajo(proyecto){
 	$.ajax({
 		url: "<?php echo $urlFuncionCodificarNombre;?>",
 		dataType: "json",
-		data: { metodo:'ordenTrabajo', nombre: proyecto},
+		data: { metodo:'ordenTrabajoModificada', nombre: proyecto},
 		success: function(data){
 			
 			$.each(data , function(indice,valor){
@@ -143,7 +143,7 @@ function cargarMateriales(nombre_ord){
 	$.ajax({
 		url: "<?php echo $urlFuncionCodificarNombre;?>",
 		dataType: "json",
-		data: { metodo:'obtenerMateriales', nombre: nombre_ord},
+		data: { metodo:'obtenerMaterialesModificado', nombre: nombre_ord},
 		success: function(data){
 
 			if(data[0]!=" "){

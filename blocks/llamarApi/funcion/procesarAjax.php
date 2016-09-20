@@ -96,6 +96,13 @@ class Procesador {
                     $resultado = $this->consultar->obtenerProyectoErp($this->datosConexionERPNext);
                     break;
                     
+                case 'ordenTrabajoModificada':
+                   	$resultado = $this->consultar->obtenerOrdenTrabajoModificada($this->datosConexionERPNext, $_REQUEST['nombre']);
+                   	break;
+                   	
+                case 'obtenerMaterialesModificado':
+                    $resultado = $this->consultar->obtenerMaterialesOrdenModificado($this->datosConexionERPNext, $_REQUEST['nombre']);
+                    break;
             }
         }
 
