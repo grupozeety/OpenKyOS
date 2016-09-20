@@ -31,9 +31,44 @@ $urlConsultarContratos = $url . $cadena;
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
  */
 
-
-
   $(document).ready(function() {
+            $('#<?php echo $this->campoSeguro("fecha_inicio");?>').datetimepicker({
+               format: 'yyyy-mm-dd',
+               language: "es",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0
+            }).on('changeDate', function(ev){
+                 $('#<?php echo $this->campoSeguro("fecha_final");?>').val('');
+               $('#<?php echo $this->campoSeguro("fecha_final");?>').datetimepicker('setStartDate', $('#<?php echo $this->campoSeguro("fecha_inicio");?>').val());
+               $('#<?php echo $this->campoSeguro('fecha_final');?>')[0].focus();
+
+                });
+
+
+
+
+
+
+            $('#<?php echo $this->campoSeguro("fecha_final");?>').datetimepicker({
+                format: 'yyyy-mm-dd',
+                language: "es",
+                weekStart: 1,
+                todayBtn:  0,
+                autoclose: 1,
+                todayHighlight: 0,
+                startView: 2,
+                minView: 2,
+                forceParse: 0
+            }).on('changeDate', function(ev){
+
+                });
+
+
 
 
       $("#mensaje").modal("show");
