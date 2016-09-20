@@ -29,6 +29,7 @@ class Procesador {
     public $datosConexionOpenProject = array(
         'host' => '<url>',
         'token' => '<token>',
+        'api_url' => 'api/v2/',
         'type' => 'json',
         'curl_timeout' => 30,
         'puerto' => '',
