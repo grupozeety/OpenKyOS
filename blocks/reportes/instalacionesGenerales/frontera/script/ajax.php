@@ -79,7 +79,7 @@ $urlConsultarProyectos = $url . $cadena;
                       dataSrc:"data"
                   },
                   columns: [
-                  { data :"numeroContrato" },
+                  { data :"numero" },
                   { data :"urbanizacion" },
                   { data :"opcion" }
                             ]
