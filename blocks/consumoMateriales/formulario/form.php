@@ -98,12 +98,51 @@ class Formulario {
         	unset ( $atributos );
         }
         
+        echo "<div class='modalLoad'></div>";
+        
         $esteCampo = 'ficheros';
         $atributos ['id'] = $esteCampo;
         $atributos ['leyenda'] = "Consumo de Materiales";
         echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
         unset ( $atributos );
 
+        // ----------------INICIO CONTROL: Lista Orden de Trabajo--------------------------------------------------------
+        
+        $esteCampo = 'proyecto';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['evento'] = '';
+        $atributos ['seleccion'] = - 1;
+        $atributos ['deshabilitado'] = false;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = 'required';
+        
+        $matrizItems = array (
+        		array (
+        				0,
+        				' '
+        		)
+        );
+        $atributos ['matrizItems'] = $matrizItems;
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------FIN CONTROL: Lista Orden de Trabajo--------------------------------------------------------
+        
         // ----------------INICIO CONTROL: Lista Orden de Trabajo--------------------------------------------------------
         
         $esteCampo = 'ordenTrabajo';
@@ -126,7 +165,13 @@ class Formulario {
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
         
-        $atributos ['matrizItems'] = array(0=>array(0=>"",1=>'Seleccione...'));
+        $matrizItems = array (
+        		array (
+        				0,
+        				' '
+        		)
+        );
+        $atributos ['matrizItems'] = $matrizItems;
         
         // Aplica atributos globales al control
         $atributos = array_merge ( $atributos, $atributosGlobales );
@@ -137,7 +182,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Campo Texto Orden Trabajo Real--------------------------------------------------------
         
-        $esteCampo = 'ordenTrabajoReal';
+        $esteCampo = 'ordenTrabajoDesc';
         $atributos ["id"] = $esteCampo; // No cambiar este nombre
         $atributos ["tipo"] = "hidden";
         $atributos ['estilo'] = '';
@@ -155,65 +200,6 @@ class Formulario {
         
         // ----------------FIN CONTROL: Lista Orden de Trabajo Real--------------------------------------------------------
         
-        // ----------------INICIO CONTROL: Campo Texto Proyecto--------------------------------------------------------
-        
-        $esteCampo = 'proyecto';
-        $atributos ['nombre'] = $esteCampo;
-        $atributos ['tipo'] = "text";
-        $atributos ['id'] = $esteCampo;
-        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ["etiquetaObligatorio"] = true;
-        $atributos ['tab'] = $tab ++;
-        $atributos ['anchoEtiqueta'] = 2;
-        $atributos ['estilo'] = "bootstrap";
-        $atributos ['evento'] = '';
-        $atributos ['deshabilitado'] = false;
-        $atributos ['readonly'] = true;
-        $atributos ['columnas'] = 1;
-        $atributos ['tamanno'] = 1;
-        $atributos ['placeholder'] = "";
-        $atributos ['valor'] = "";
-        $atributos ['ajax_function'] = "";
-        $atributos ['ajax_control'] = $esteCampo;
-        $atributos ['limitar'] = false;
-        $atributos ['anchoCaja'] = 10;
-        $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
-        // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
-        unset ( $atributos );
-         
-        // ----------------FIN CONTROL: Campo Texto Proyecto--------------------------------------------------------
-        
-        // ----------------INICIO CONTROL: Campo Texto Descripcion Orden Trabajo--------------------------------------------------------
-        
-        $esteCampo = 'actividad';
-        $atributos ['nombre'] = $esteCampo;
-        $atributos ['id'] = $esteCampo;
-        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ["etiquetaObligatorio"] = true;
-        $atributos ['tab'] = $tab ++;
-        $atributos ['anchoEtiqueta'] = 2;
-        $atributos ['evento'] = '';
-        $atributos ['deshabilitado'] = false;
-        $atributos ['columnas'] = 1;
-        $atributos ['readonly'] = true;
-        $atributos ['tamanno'] = 1;
-        $atributos ['ajax_function'] = "";
-        $atributos ['ajax_control'] = $esteCampo;
-        $atributos ['estilo'] = "bootstrap";
-        $atributos ['limitar'] = false;
-        $atributos ['anchoCaja'] = 10;
-        $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
-        // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
-        unset ( $atributos );
-         
-        // ----------------FIN CONTROL: Campo Texto Descripcion Orden Trabajo--------------------------------------------------------
-        
         // ----------------INICIO CONTROL: Tabla Materiales--------------------------------------------------------
         
 		echo '
@@ -221,6 +207,7 @@ class Formulario {
     		<thead>
     			<tr>
         			<th data-field="numero">ítem</th>
+					<th data-field="salida">Salida</th>
         			<th data-field="material">Material</th>
         			<th data-field="unidad">Unidad</th>
         			<th data-field="catidadA">Cant Asignada</th>
@@ -228,6 +215,7 @@ class Formulario {
     			</tr>
 				<tbody>
 					<tr id="addr0">
+						<td> </td>
 						<td> </td>
 						<td> </td>
 						<td> </td>
@@ -246,6 +234,7 @@ class Formulario {
 		$esteCampo = 'porcentajecons';
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['id'] = $esteCampo;
+		$atributos ['tipo'] = "text";
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ["etiquetaObligatorio"] = true;
 		$atributos ['tab'] = $tab ++;
@@ -253,7 +242,7 @@ class Formulario {
 		$atributos ['evento'] = '';
 		$atributos ['deshabilitado'] = false;
 		$atributos ['columnas'] = 1;
-		$atributos ['readonly'] = true;
+		$atributos ['readonly'] = false;
 		$atributos ['tamanno'] = 1;
 		$atributos ['ajax_function'] = "";
 		$atributos ['ajax_control'] = $esteCampo;
@@ -274,6 +263,7 @@ class Formulario {
 		$esteCampo = 'geolocalizacion';
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['id'] = $esteCampo;
+		$atributos ['tipo'] = "text";
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ["etiquetaObligatorio"] = true;
 		$atributos ['tab'] = $tab ++;
@@ -281,7 +271,7 @@ class Formulario {
 		$atributos ['evento'] = '';
 		$atributos ['deshabilitado'] = false;
 		$atributos ['columnas'] = 1;
-		$atributos ['readonly'] = true;
+		$atributos ['readonly'] = false;
 		$atributos ['tamanno'] = 1;
 		$atributos ['ajax_function'] = "";
 		$atributos ['ajax_control'] = $esteCampo;
@@ -387,7 +377,7 @@ class Formulario {
         echo $this->miFormulario->formulario ( $atributos );
 
         
-        // ----------------INICIO CONTROL: Ventana Modal Mapa Geolocalización---------------------------------
+         // ----------------INICIO CONTROL: Ventana Modal Mapa Geolocalización---------------------------------
         
         $atributos ['tipoEtiqueta'] = 'inicio';
         $atributos ['titulo'] = 'Geolocalización';
@@ -399,6 +389,7 @@ class Formulario {
         
         echo '<div id="map-canvas" class="text-center"></div>
     			<script>
+        		    var markers = [];
       				function initMap() {
         				var map = new google.maps.Map(document.getElementById("map-canvas"), {
           					center: {lat: 4.6482837, lng: -74.2478939},
@@ -406,23 +397,23 @@ class Formulario {
         				});
         				var infoWindow = new google.maps.InfoWindow({map: map});
 		
-       	 				if (navigator.geolocation) {
-          					navigator.geolocation.getCurrentPosition(function(position) {
-            					var pos = {
-              						lat: position.coords.latitude,
-              						lng: position.coords.longitude
-            					};
+//        	 				if (navigator.geolocation) {
+//           					navigator.geolocation.getCurrentPosition(function(position) {
+//             					var pos = {
+//               						lat: position.coords.latitude,
+//               						lng: position.coords.longitude
+//             					};
 		
-            					infoWindow.setPosition(pos);
-            					infoWindow.setContent("Localización Encontrada.");
-            					map.setCenter(pos);
-         			 		}, function() {
-            					handleLocationError(true, infoWindow, map.getCenter());
-          					});
-        				} else {
-          					// Browser doesnt support Geolocation
-          					handleLocationError(false, infoWindow, map.getCenter());
-        				}
+//             					infoWindow.setPosition(pos);
+//             					infoWindow.setContent("Localización Encontrada.");
+//             					map.setCenter(pos);
+//          			 		}, function() {
+//             					handleLocationError(true, infoWindow, map.getCenter());
+//           					});
+//         				} else {
+//           					// Browser doesnt support Geolocation
+//           					handleLocationError(false, infoWindow, map.getCenter());
+//         				}
         		
         				if(typeof document.getElementById("myModal")!=="undefined"){
         					$("#myModal").on("shown.bs.modal", function () {
@@ -432,10 +423,28 @@ class Formulario {
 						
         				google.maps.event.addListener(map, "click", function (e) {
 		
+        					DeleteMarkers();
+        		
    							//lat and lng is available in e object
     						var latLng = e.latLng;
         					$("#geomodal").val(e.latLng.lat() + ", " + e.latLng.lng());
+        		
+        					var marker=new google.maps.Marker({
+  								position:e.latLng,
+  							});
+        		
+							marker.setMap(map); 
+        		
+        					markers.push(marker);
 						});
+        		
+        				function DeleteMarkers() {
+        					//Loop through all the markers and remove
+        					for (var i = 0; i < markers.length; i++) {
+            					markers[i].setMap(null);
+        					}
+        					markers = [];
+    					};
       				}
 		
       				function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -445,19 +454,7 @@ class Formulario {
                               "Error: Your browser doesn\'t support geolocation.");
       				}
         		
-        			function resizeMap() {
-   						if(typeof map =="undefined") return;
-   							setTimeout( function(){resizingMap();} , 400);
-        			}
-
-					function resizingMap() {
-        		
-   						if(typeof map =="undefined") return;
-   							var center = map.getCenter();
-   							google.maps.event.trigger(map, "resize");
-   							map.setCenter(center); 
-					}
-        		
+					       		
     			</script>
     			<script async defer
     				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgAHnG5AICmnNuBCpu75evMTBr4ZU3i60&callback=initMap">
@@ -489,7 +486,7 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 12;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
+//         $atributos ['validar'] = 'required';
         // Aplica atributos globales al control
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
         unset ( $atributos );
@@ -497,16 +494,18 @@ class Formulario {
         // ----------------FIN CONTROL: Campo Texto Geolocalización------------------------------
         
         // -----------------CONTROL: Botón ----------------------------------------------------------------
-        $esteCampo = 'botonAgregar';
+        $esteCampo = 'botonAgregarLocalizacion';
         $atributos ["id"] = $esteCampo;
         $atributos ["tabIndex"] = $tab;
         $atributos ["tipo"] = 'boton';
-        $atributos ["simple"] = true;
+        $atributos ["basico"] = false;
         // submit: no se coloca si se desea un tipo button genérico
         $atributos ['submit'] = true;
         $atributos ["estiloMarco"] = 'text-center';
         $atributos ["estiloBoton"] = 'default';
         $atributos ["block"] = false;
+        $atributos ['deshabilitado'] = true;
+        
         // verificar: true para verificar el formulario antes de pasarlo al servidor.
         $atributos ["verificar"] = '';
         $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
@@ -515,7 +514,7 @@ class Formulario {
         $tab ++;
          
         // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
+//         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
         unset($atributos);
         // -----------------FIN CONTROL: Botón -----------------------------------------------------------
@@ -525,7 +524,6 @@ class Formulario {
         unset($atributos);
         
         // -----------------FIN CONTROL: Ventana Modal Geolocalización -----------------------------------------------------------
-        
         
         // -----------------INICIO CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
         

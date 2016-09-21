@@ -103,6 +103,7 @@ function ordenTrabajo(proyecto){
 					
 			});
 			
+
 			$.each(data , function(indice,valor){
 			
 				delete data[ indice ].name;
@@ -112,6 +113,7 @@ function ordenTrabajo(proyecto){
 			data = unique(data);
 			
 			$.each(data , function(indice,valor){
+
 				
 				if(data[ indice ].purpose == "Material Issue"){
 					$("<option value='"+data[ indice ].id_orden_trabajo +"'>"+data[ indice ].descripcion_orden + "</option>").appendTo("#<?php echo $this->campoSeguro('ordenTrabajo');?>");
@@ -342,5 +344,6 @@ $("#<?php echo $this->campoSeguro('proyecto');?>").change(function() {
 		ordenTrabajo($("#<?php echo $this->campoSeguro('proyecto');?>").val());
 		
 	}
+
 
 });

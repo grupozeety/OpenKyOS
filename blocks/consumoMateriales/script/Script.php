@@ -6,10 +6,12 @@
 $indice = 0;
 
 // $funcion[$indice++]="bootstrap.min.js";
+$funcion[$indice++]="modalLoad.js";
 $funcion[$indice++]="select2.min.js";
 $funcion[$indice++]="bootstrap-table.min.js";
 $funcion[$indice++]="bootstrap-table-toolbar.min.js";
 $funcion[$indice++]="bootstrap-treeview.js";
+
 
 
 $embebido [$indice] = true;

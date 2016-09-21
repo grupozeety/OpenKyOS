@@ -17,7 +17,7 @@ class Procesador {
         'api_url' => '/api/resource/',
         'auth' => array(
             'usr' => 'Administrator',
-            'pwd' => '<password>',
+            'pwd' => '<pws>',
         ),
         'curl_timeout' => 30,
         'basic_auth' => array(),
@@ -67,11 +67,14 @@ class Procesador {
                 case 'proyectos':
                     $resultado = $this->consultar->obtenerProjectos($this->datosConexionOpenProject);
                     break;
+                case 'urbanizaciones':
+                    $resultado = $this->consultar->obtenerUrbanizaciones($this->datosConexionOpenProject);
+                    break;
                 case 'actividades':
                     $resultado = $this->consultar->obtenerActividades($this->datosConexionOpenProject, $_REQUEST['proyecto']);
                     break;
                 case 'ordenTrabajo':
-                    $resultado = $this->consultar->obtenerOrdenTrabajo($this->datosConexionERPNext);
+                    $resultado = $this->consultar->obtenerOrdenTrabajo($this->datosConexionERPNext, $_REQUEST['nombre']);
                     break;
 
                 case 'obtenerMateriales':
@@ -88,7 +91,18 @@ class Procesador {
                 case 'obtenerIdentificadoresSalida':
                     $resultado = $this->consultar->obtenerIdentificadoresSalida($this->datosConexionERPNext, $_REQUEST['proyecto']);
                     break;
-
+                    
+                case 'obtenerProyecto':
+                    $resultado = $this->consultar->obtenerProyectoErp($this->datosConexionERPNext);
+                    break;
+                    
+                case 'ordenTrabajoModificada':
+                   	$resultado = $this->consultar->obtenerOrdenTrabajoModificada($this->datosConexionERPNext, $_REQUEST['nombre']);
+                   	break;
+                   	
+                case 'obtenerMaterialesModificado':
+                    $resultado = $this->consultar->obtenerMaterialesOrdenModificado($this->datosConexionERPNext, $_REQUEST['nombre']);
+                    break;
             }
         }
 

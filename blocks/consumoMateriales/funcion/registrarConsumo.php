@@ -38,10 +38,10 @@ class Registrar {
 			
 			if($materiales[0] == "material"){
 				$consumoMaterial[$contador]['name'] = $materiales[1];
-				$consumoMaterial[$contador]['ordenTrabajo'] = $_REQUEST['ordenTrabajoReal'];
+				$consumoMaterial[$contador]['ordenTrabajo'] = $_REQUEST['ordenTrabajo'];
 				$consumoMaterial[$contador]['proyecto'] = $_REQUEST['proyecto'];
 				$consumoMaterial[$contador]['salida'] = $materiales[4];
-				$consumoMaterial[$contador]['descripcion'] = $_REQUEST['actividad'];
+				$consumoMaterial[$contador]['descripcion'] = $_REQUEST['ordenTrabajoDesc'];
 				$consumoMaterial[$contador]['material'] = $materiales[2];
 				$consumoMaterial[$contador]['asignada'] = $materiales[3];
 				$consumoMaterial[$contador]['consume'] = $consumo;
@@ -60,12 +60,13 @@ class Registrar {
 		$rutaBloque .= $esteBloque ['nombre'];
 		$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/" . $esteBloque ['nombre'];
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarConsumo', $consumoMaterial );
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarConsumo', $_REQUEST['ordenTrabajo'] );
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 		
 		if ($resultado) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConsumo', $consumoMaterial );
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
+			
 		} else {
 			redireccion::redireccionar ( 'noInserto' );
 			exit ();
