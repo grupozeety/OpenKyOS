@@ -59,7 +59,7 @@ class FormProcessor {
 
     }
     public function estruturarTabla() {
-        $atributosGlobales['campoSeguro'] = 'true';
+        $atributosGlobales['campoSeguro'] = true;
         $tab = 1;
         $i = 1;
         foreach ($this->proyectos as $key => $value) {
@@ -90,9 +90,10 @@ class FormProcessor {
             $clave = array_search("Proyecto/Urbanización:", array_column($value['custom_fields'], 'name'), true);
             $resultadoFinal[] = array(
 
-                'numero' => "<center>" . $i . "</center>",
-                'urbanizacion' => "<center>" . $value['name'] . "</center>",
-                'opcion' => "<center>" . $item . "</center>",
+                'numero' => $i,
+                'urbanizacion' => $value['name'] . " - " . $value['custom_fields'][$clave]['value'],
+                'opcion' => $item,
+
             );
             $i++;
         }
@@ -100,11 +101,13 @@ class FormProcessor {
         $total = count($resultadoFinal);
 
         $resultado = json_encode($resultadoFinal);
+        $proyectos = json_encode($this->proyectos);
 
         $resultado = '{
                 "recordsTotal":' . $total . ',
                 "recordsFiltered":' . $total . ',
-                "data":' . $resultado . '}';
+                "data":' . $resultado . ',
+                "proyectos":' . $proyectos . '}';
 
         $this->contenidoTabla = $resultado;
 

@@ -1,3 +1,10 @@
 /*
 Código css correspondiente al Bloque.
 */
+th.dt-center, td.dt-center { 
+	text-align: center; 
+}
+
+div.dataTables_filter label {
+    float: right;
+}

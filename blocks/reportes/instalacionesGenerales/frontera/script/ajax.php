@@ -69,14 +69,26 @@ $urlConsultarProyectos = $url . $cadena;
       $("#mensaje").modal("show");
 
 
-      $('#example').DataTable( {
+
+
+$('#example').on('xhr.dt', function ( e, settings, json, xhr) {
+            $('#<?php echo $this->campoSeguro("info_proyectos");?>').val( JSON.stringify(json.proyectos));
+    } )
+    .dataTable( {
              processing: true,
                  searching: true,
                  info:true,
-                 paging: true,
+                 paging: false,
+                 "columnDefs": [
+                                {"className": "dt-center", "targets": "_all"}
+                  ],
+                  "scrollY":"300px",
+                  "scrollCollapse": true,
+                  responsive: true,
                   ajax:{
                       url:"<?php echo $urlConsultarProyectos;?>",
-                      dataSrc:"data"
+                      dataSrc:"data",
+
                   },
                   columns: [
                   { data :"numero" },
@@ -84,6 +96,8 @@ $urlConsultarProyectos = $url . $cadena;
                   { data :"opcion" }
                             ]
     } );
+
+
 } );
 
 </script>

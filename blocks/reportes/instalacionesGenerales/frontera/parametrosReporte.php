@@ -112,6 +112,22 @@ class Registrador {
             $fecha_final = $this->miFormulario->campoCuadroTextoBootstrap($atributos);
             unset($atributos);
 
+            $esteCampo = 'info_proyectos';
+            $atributos["id"] = $esteCampo; // No cambiar este nombre
+            $atributos["tipo"] = "hidden";
+            $atributos['estilo'] = '';
+            $atributos["obligatorio"] = false;
+            $atributos['marco'] = true;
+            $atributos["etiqueta"] = "";
+            if (isset($_REQUEST[$esteCampo])) {
+                $atributos['valor'] = $_REQUEST[$esteCampo];
+            } else {
+                $atributos['valor'] = '';
+            }
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroTexto($atributos);
+            unset($atributos);
+
             {
 
                 echo "<table id='contenido' class='table  table-hover'>
@@ -125,16 +141,16 @@ class Registrador {
                 echo '<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th><center>N#</center></th>
-                            <th><center>Nombre Proyecto</center></th>
-                            <th><center>opcion</center></th>
+                            <th>N#</th>
+                            <th>Nombre Proyecto / Urbanización</th>
+                            <th>Opcion</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th><center>N#</center></th>
-                            <th><center>Nombre Proyecto</center></th>
-                            <th><center>opcion</center></th>
+                            <th>N#</th>
+                            <th>Nombre Proyecto  / Urbanización</th>
+                            <th>Opcion</th>
                         </tr>
                     </tfoot>
                   </table>';
@@ -182,6 +198,48 @@ class Registrador {
 
         if (isset($_REQUEST['mensaje'])) {
             $this->mensaje($tab, $esteBloque['nombre']);
+        }
+
+        {
+            /**
+             * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
+             * SARA permite realizar esto a través de tres
+             * mecanismos:
+             * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
+             * la base de datos.
+             * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
+             * formsara, cuyo valor será una cadena codificada que contiene las variables.
+             * (c) a través de campos ocultos en los formularios. (deprecated)
+             */
+
+            // En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
+
+            // Paso 1: crear el listado de variables
+
+            $valorCodificado = "action=" . $esteBloque["nombre"];
+            $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+            $valorCodificado .= "&opcion=generarReporte";
+
+            /**
+             * SARA permite que los nombres de los campos sean dinámicos.
+             * Para ello utiliza la hora en que es creado el formulario para
+             * codificar el nombre de cada campo.
+             */
+            $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
+            // Paso 2: codificar la cadena resultante
+            $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);
+
+            $atributos["id"] = "formSaraData"; // No cambiar este nombre
+            $atributos["tipo"] = "hidden";
+            $atributos['estilo'] = '';
+            $atributos["obligatorio"] = false;
+            $atributos['marco'] = true;
+            $atributos["etiqueta"] = "";
+            $atributos["valor"] = $valorCodificado;
+            echo $this->miFormulario->campoCuadroTexto($atributos);
+            unset($atributos);
         }
 
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
