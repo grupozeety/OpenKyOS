@@ -9,20 +9,20 @@ $url = $this->miConfigurador->getVariableConfiguracion("host");
 $url .= $this->miConfigurador->getVariableConfiguracion("site");
 $url .= "/index.php?";
 
-// Variables para Con
+// Variables para Consultar Proyectos
 $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
 $cadenaACodificar .= "&procesarAjax=true";
 $cadenaACodificar .= "&action=index.php";
 $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
 $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-$cadenaACodificar .= "&funcion=consultarContratos";
+$cadenaACodificar .= "&funcion=consultarProyectos";
 
 // Codificar las variables
 $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
 $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
 
 // URL Consultar Proyectos
-$urlConsultarContratos = $url . $cadena;
+$urlConsultarProyectos = $url . $cadena;
 
 ?>
 <script type='text/javascript'>
@@ -48,11 +48,6 @@ $urlConsultarContratos = $url . $cadena;
                $('#<?php echo $this->campoSeguro('fecha_final');?>')[0].focus();
 
                 });
-
-
-
-
-
 
             $('#<?php echo $this->campoSeguro("fecha_final");?>').datetimepicker({
                 format: 'yyyy-mm-dd',
@@ -80,7 +75,7 @@ $urlConsultarContratos = $url . $cadena;
                  info:true,
                  paging: true,
                   ajax:{
-                      url:"<?php $urlConsultarContratos;?>",
+                      url:"<?php echo $urlConsultarProyectos;?>",
                       dataSrc:"data"
                   },
                   columns: [
