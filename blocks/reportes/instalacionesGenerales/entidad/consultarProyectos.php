@@ -197,15 +197,6 @@ class FormProcessor {
 
     }
 
-    public function resetForm() {
-        foreach ($_REQUEST as $clave => $valor) {
-
-            if ($clave != 'pagina' && $clave != 'development' && $clave != 'jquery' && $clave != 'tiempo') {
-                unset($_REQUEST[$clave]);
-            }
-        }
-    }
-
 }
 
 $miProcesador = new FormProcessor($this->sql);
