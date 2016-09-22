@@ -72,7 +72,7 @@ $urlConsultarProyectos = $url . $cadena;
 
 
 $('#example').on('xhr.dt', function ( e, settings, json, xhr) {
-            $('#<?php echo $this->campoSeguro("info_proyectos");?>').val( JSON.stringify(json.proyectos));
+            $('#<?php echo $this->campoSeguro("info_proyectos");?>').val(btoa(JSON.stringify(json.proyectos)));
     } )
     .dataTable( {
              processing: true,

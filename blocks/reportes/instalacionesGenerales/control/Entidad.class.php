@@ -39,6 +39,10 @@ class Entidad {
     public function procesarAjax() {
         include_once $this->ruta . "entidad/procesarAjax.php";
     }
+
+    public function generarReporte() {
+        include_once $this->ruta . "entidad/generarReporte.php";
+    }
     public function action() {
         $resultado = true;
 
@@ -52,8 +56,17 @@ class Entidad {
         if (isset($_REQUEST['procesarAjax'])) {
             $this->procesarAjax();
         }
+        if (isset($_REQUEST['opcion'])) {
+            switch ($_REQUEST['opcion']) {
 
-        var_dump($_REQUEST);exit;
+                case 'generarReporte':
+
+                    $this->generarReporte();
+
+                    break;
+
+            }
+        }
         return $resultado;
     }
     public function __construct() {
