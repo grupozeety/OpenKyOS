@@ -38,10 +38,18 @@ class GenerarReporteInstalaciones {
          * 4. Filtrar Actividades Paquetes de Trabajo
          **/
         $this->filtrarActividades();
-        exit;
+
+        /**
+         * 5. Crear Documento Hoja de Calculo(Reporte)
+         **/
+        $this->crearHojaCalculo();
 
     }
 
+    public function crearHojaCalculo() {
+        include_once "crearDocumentoHojaCalculo.php";
+
+    }
     public function filtrarActividades() {
 
         foreach ($this->proyectos as $key => $value) {
@@ -50,12 +58,28 @@ class GenerarReporteInstalaciones {
 
                 if ($valor['type_id'] == 2) {
 
-                    foreach ($valor as $key => $value) {
+                    foreach ($valor['actividades'] as $llave2 => $actividad) {
+
+                        if ($actividad['_type'] != 'Activity::Comment') {
+                            unset($this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][$llave2]);
+
+                        }
+                        $fecha_actividad = substr($actividad['createdAt'], 0, 10);
+                        $fecha_actividad = strtotime($fecha_actividad);
+                        $fecha_inicio = strtotime($_REQUEST['fecha_inicio']);
+                        $fecha_final = strtotime($_REQUEST['fecha_final']);
+
+                        if ($fecha_actividad < $fecha_inicio) {
+                            unset($this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][$llave2]);
+                        }
+
+                        if ($fecha_actividad > $fecha_final) {
+                            unset($this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][$llave2]);
+                        }
 
                     }
-                    var_dump($valor);
-                    exit;
 
+                    //var_dump($this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades']);exit();
                 }
 
             }
@@ -186,24 +210,6 @@ class GenerarReporteInstalaciones {
 
         }
 
-    }
-    public function procesarFormulario() {
-
-        //Aquí va la lógica de procesamiento
-
-        //Al final se ejecuta la redirección la cual pasará el control a otra página
-        $variable = 'cualquierDato';
-        Redireccionador::redireccionar('opcion1', $variable);
-
-    }
-
-    public function resetForm() {
-        foreach ($_REQUEST as $clave => $valor) {
-
-            if ($clave != 'pagina' && $clave != 'development' && $clave != 'jquery' && $clave != 'tiempo') {
-                unset($_REQUEST[$clave]);
-            }
-        }
     }
 
 }

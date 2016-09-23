@@ -11,6 +11,7 @@ class FormProcessor {
     public $urlApiProyectos;
     public $proyectos;
     public $contenidoTabla;
+    public $proyectosConsultados;
 
     public function __construct($sql) {
 
@@ -101,7 +102,7 @@ class FormProcessor {
         $total = count($resultadoFinal);
 
         $resultado = json_encode($resultadoFinal);
-        $proyectos = json_encode($this->proyectos);
+        $proyectos = json_encode($this->proyectosConsultados);
 
         $resultado = '{
                 "recordsTotal":' . $total . ',
@@ -118,13 +119,32 @@ class FormProcessor {
 
             $clave = array_search("Proyecto/Urbanización:", array_column($value['custom_fields'], 'name'), true);
 
-            if ($clave == false) {
+            if ($clave == false && (strpos($value['name'], "CABECERA")) === false) {
                 unset($this->proyectos[$key]);
             } else if (is_null($value['custom_fields'][$clave]['value']) == true || empty($value['custom_fields'][$clave]['value']) || $value['custom_fields'][$clave]['value'] = '') {
-                unset($this->proyectos[$key]);
+                if ((strpos($value['name'], "CABECERA")) === false) {
+                    unset($this->proyectos[$key]);
+                }
             }
 
         }
+
+        $this->proyectosConsultados = $this->proyectos;
+
+        foreach ($this->proyectos as $key => $value) {
+
+            $clave = array_search("Proyecto/Urbanización:", array_column($value['custom_fields'], 'name'), true);
+
+            if ($clave == false) {
+                unset($this->proyectos[$key]);
+            } else if (is_null($value['custom_fields'][$clave]['value']) == true || empty($value['custom_fields'][$clave]['value']) || $value['custom_fields'][$clave]['value'] = '') {
+
+                unset($this->proyectos[$key]);
+
+            }
+
+        }
+
     }
     public function obtenerDetalleProyectos() {
 
