@@ -4,15 +4,6 @@ namespace reportes\instalacionesGenerales\entidad;
 $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
-//include $ruta . "/plugin/html2pdf/html2pdf.class.php";
-
-error_reporting(E_ALL);
-ini_set('display_errors', TRUE);
-ini_set('display_startup_errors', TRUE);
-date_default_timezone_set('Europe/London');
-
-define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-
 require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel.php";
 
 class GenerarReporteExcelInstalaciones {
@@ -32,37 +23,163 @@ class GenerarReporteExcelInstalaciones {
         $this->miSql = $sql;
         $this->proyectos = $proyectos;
 
-        $objPHPExcel = new \PHPExcel();
+        /**
+         * 1. Configuración Propiedades Documento
+         **/
+        $this->configurarDocumento();
+
+        /**
+         * 2. Estruturamiento Esquema Reporte
+         **/
+        $this->generarEsquemaDocumento();
+
+        /**
+         * XX. Retornar Documento Reporte
+         **/
+        $this->retornarDocumento();
+
+    }
+    public function generarEsquemaDocumento() {
+
+        // Estilos Celdas
+        {
+            $styleCentrado = array(
+                'alignment' => array(
+                    'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                    'vertical' => \PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                ),
+            );
+        }
+        // Add some data
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('B1:R1');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('B1', 'Avance y  Estado Instalación NOC')
+             ->getStyle("B1")->applyFromArray($styleCentrado);
+
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('A3', 'Operador')
+             ->getStyle("A3")->applyFromArray($styleCentrado);
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('B2:F2');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('B2', 'Centro de Gestión')
+             ->getStyle("B2")->applyFromArray($styleCentrado);
+
+        {
+
+            {
+                // Estilos Columnas
+                $this->objCal->getActiveSheet()->getColumnDimension('B')->setWidth(50);
+                $this->objCal->getActiveSheet()->getColumnDimension('C')->setWidth(15);
+                $this->objCal->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+                $this->objCal->getActiveSheet()->getColumnDimension('E')->setWidth(15);
+                $this->objCal->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+
+                $this->objCal->getActiveSheet()->getStyle('B')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getStyle('C')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getStyle('D')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getStyle('E')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getStyle('F')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getRowDimension('3')->setRowHeight(100);
+
+            }
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('B3', 'Descripcion actividades de instalación, parametrización, integración con la red, pruebas, recibo')
+                 ->getStyle("B3")->applyFromArray($styleCentrado);
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('C3', 'Feha Inicio instalación y adecuaciones')
+                 ->getStyle("C3")->applyFromArray($styleCentrado);
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('D3', 'Fecha terminación instalación, integracion con red y pruebas de recibo')
+                 ->getStyle("D3")->applyFromArray($styleCentrado);
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('E3', 'Feha prevista en PI&PS Inicio instalación y adecuaciones')
+                 ->getStyle("E3")->applyFromArray($styleCentrado);
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('F3', 'Fecha prevista PI&PS terminación instalación y puesta en servicio')
+                 ->getStyle("F3")->applyFromArray($styleCentrado);
+
+        }
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('G2:K2');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('G2', 'Mesa de Ayuda')
+             ->getStyle("G2")->applyFromArray($styleCentrado);
+
+        {
+
+            {
+                // Estilos Columnas
+                $this->objCal->getActiveSheet()->getColumnDimension('G')->setWidth(50);
+                $this->objCal->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+                $this->objCal->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+                $this->objCal->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+                $this->objCal->getActiveSheet()->getColumnDimension('K')->setWidth(15);
+
+                $this->objCal->getActiveSheet()->getStyle('G')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getStyle('H')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getStyle('I')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getStyle('J')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getStyle('K')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getRowDimension('3')->setRowHeight(100);
+
+            }
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('G3', 'Descripcion actividades de instalación, parametrización, integración con la red, pruebas, recibo')
+                 ->getStyle("G3")->applyFromArray($styleCentrado);
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('H3', 'Feha Inicio instalación y adecuaciones')
+                 ->getStyle("H3")->applyFromArray($styleCentrado);
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('I3', 'Fecha terminación instalación, integracion con red y pruebas de recibo')
+                 ->getStyle("I3")->applyFromArray($styleCentrado);
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('J3', 'Feha prevista en PI&PS Inicio instalación y adecuaciones')
+                 ->getStyle("J3")->applyFromArray($styleCentrado);
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('K3', 'Fecha prevista PI&PS terminación instalación y puesta en servicio')
+                 ->getStyle("K3")->applyFromArray($styleCentrado);
+
+        }
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('L2:P2');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('L2', 'Otros Equipos o Sistemas en el NOC')
+             ->getStyle("L2")->applyFromArray($styleCentrado);
+
+        {
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('Q2:Q3');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('Q2', '% Avance Instalación NOC')
+                 ->getStyle("Q2")->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('R2:R3');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('R2', 'Fecha prevista para verificación Interventoría')
+                 ->getStyle("R2")->applyFromArray($styleCentrado);
+        }
+
+    }
+    public function configurarDocumento() {
+
+        $this->objCal = new \PHPExcel();
 
         // Set document properties
-        $objPHPExcel->getProperties()->setCreator("Maarten Balliauw")
-                    ->setLastModifiedBy("Maarten Balliauw")
-                    ->setTitle("Office 2007 XLSX Test Document")
-                    ->setSubject("Office 2007 XLSX Test Document")
-                    ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
-                    ->setCategory("Test result file");
+        $this->objCal->getProperties()->setCreator("OpenKyOS")
+             ->setLastModifiedBy("OpenKyOS")
+             ->setTitle("Reporte de Instalaciones (" . $_REQUEST['fecha_inicio'] . ")-(" . $_REQUEST['fecha_final'] . ")")
+             ->setSubject("Reporte Instalaciones")
+             ->setDescription("Reporte de Instalaciones en un determinado periodo de tiempo")
+             ->setCategory("Reporte");
 
-        // Add some data
-        $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'Hello')
-                    ->setCellValue('B2', 'world!')
-                    ->setCellValue('C1', 'Hello')
-                    ->setCellValue('D2', 'world!');
+    }
 
-        // Miscellaneous glyphs, UTF-8
-        $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A4', 'Miscellaneous glyphs')
-                    ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
-
-        // Rename worksheet
-        $objPHPExcel->getActiveSheet()->setTitle('Simple');
-
-        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        $objPHPExcel->setActiveSheetIndex(0);
+    public function retornarDocumento() {
 
         // Redirect output to a client’s web browser (Excel2007)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="01simple.xlsx"');
+        header('Content-Disposition: attachment;filename="ReporteInstalaciones' . time() . '.xlsx"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
@@ -73,16 +190,10 @@ class GenerarReporteExcelInstalaciones {
         header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
         header('Pragma: public'); // HTTP/1.0
         ob_clean();
-        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter = \PHPExcel_IOFactory::createWriter($this->objCal, 'Excel2007');
         $objWriter->save('php://output');
 
-        exit;
-
-        var_dump($this->proyectos);
-        var_dump($this->proyectos[0]['paquetesTrabajo']);
-
-        var_dump($this->proyectos[0]['paquetesTrabajo'][1]['actividades']);
-        exit;
+        exit();
 
     }
 
