@@ -409,6 +409,131 @@ class GenerarReporteExcelInstalaciones {
             }
         }
 
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('AK1:AQ1');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('AK1', 'Avance y Estado Instalación Red de Distribución')
+             ->getStyle("AK1")->applyFromArray($styleCentrado);
+
+        {
+
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('AK2:AM2');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AK2', 'Estado Construcción Red de Distribución')
+                 ->getStyle("AK2")->applyFromArray($styleCentrado);
+
+            {
+                {
+                    // Estilos Columnas
+                    $this->objCal->getActiveSheet()->getColumnDimension('AK')->setWidth(50);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AL')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AM')->setWidth(15);
+
+                    $this->objCal->getActiveSheet()->getStyle('AK')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('AL')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('AM')->getAlignment()->setWrapText(true);
+
+                }
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AK3', 'Descripción Construcción (Postería, Canalizaciones, Cámaras, Acometidas, Etc,  Cuando Aplique)')
+                     ->getStyle("AK3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AL3', 'Estado Avance (En Construcción, Terminado)')
+                     ->getStyle("AL3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AM3', 'Fecha Prevista Terminación')
+                     ->getStyle("AM3")->applyFromArray($styleCentrado);
+
+            }
+
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('AN2:AP2');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AN2', 'Tendido y Puesta en Funcionamiento Fibra Óptica')
+                 ->getStyle("AN2")->applyFromArray($styleCentrado);
+
+            {
+
+                {
+                    // Estilos Columnas
+                    $this->objCal->getActiveSheet()->getColumnDimension('AN')->setWidth(50);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AO')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AP')->setWidth(15);
+
+                    $this->objCal->getActiveSheet()->getStyle('AN')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('AO')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('AP')->getAlignment()->setWrapText(true);
+
+                }
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AN3', 'Descripción Actividades')
+                     ->getStyle("AN3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AO3', 'Estado Avance (En Construcción, Terminado, Probado, En Funcionamiento)')
+                     ->getStyle("AO3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AP3', 'Fecha Prevista Puesta en Funcionamiento')
+                     ->getStyle("AP3")->applyFromArray($styleCentrado);
+
+            }
+
+            {
+                {
+                    // Estilos
+
+                    $this->objCal->getActiveSheet()->getStyle('AQ')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AQ')->setWidth(15);
+
+                }
+
+                $this->objCal->setActiveSheetIndex(0)->mergeCells('AQ2:AQ3');
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AQ2', '% Avance Instalación Red Distribución')
+                     ->getStyle("AQ2")->applyFromArray($styleCentrado);
+
+            }
+        }
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('AR1:AZ1');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('AR1', 'Avance y Estado Instalación Nodo EOC')
+             ->getStyle("AR1")->applyFromArray($styleCentrado);
+
+        {
+
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('AR2:AT2');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AR2', 'Infraestructura Nodo')
+                 ->getStyle("AR2")->applyFromArray($styleCentrado);
+
+            {
+
+            }
+
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('AU2:AY2');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AU2', 'Instalación y Puesta en Funcionamiento Equipos ')
+                 ->getStyle("AY2")->applyFromArray($styleCentrado);
+
+            {
+
+            }
+
+            {
+                {
+                    // Estilos
+
+                    $this->objCal->getActiveSheet()->getStyle('AZ')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AZ')->setWidth(15);
+
+                }
+
+                $this->objCal->setActiveSheetIndex(0)->mergeCells('AZ2:AZ3');
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AZ2', '% Avance instalación Nodo EOC')
+                     ->getStyle("AZ2")->applyFromArray($styleCentrado);
+
+            }
+        }
+
     }
     public function configurarDocumento() {
 
