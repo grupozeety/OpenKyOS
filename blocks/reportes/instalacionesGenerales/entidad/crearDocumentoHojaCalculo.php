@@ -82,6 +82,7 @@ class GenerarReporteExcelInstalaciones {
                     $this->objCal->getActiveSheet()->getStyle('E')->getAlignment()->setWrapText(true);
                     $this->objCal->getActiveSheet()->getStyle('F')->getAlignment()->setWrapText(true);
                     $this->objCal->getActiveSheet()->getRowDimension('3')->setRowHeight(100);
+                    $this->objCal->getActiveSheet()->getRowDimension('2')->setRowHeight(75);
 
                 }
                 $this->objCal->setActiveSheetIndex(0)
@@ -506,14 +507,66 @@ class GenerarReporteExcelInstalaciones {
 
             {
 
+                {
+                    // Estilos Columnas
+                    $this->objCal->getActiveSheet()->getColumnDimension('AR')->setWidth(50);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AS')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AT')->setWidth(15);
+
+                    $this->objCal->getActiveSheet()->getStyle('AR')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('AS')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('AT')->getAlignment()->setWrapText(true);
+
+                }
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AR3', 'Descripción Obra o Actividad')
+                     ->getStyle("AR3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AS3', 'Estado Avance (En Construcción, Terminado)')
+                     ->getStyle("AS3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AT3', 'Fecha Prevista Terminación')
+                     ->getStyle("AT3")->applyFromArray($styleCentrado);
+
             }
 
             $this->objCal->setActiveSheetIndex(0)->mergeCells('AU2:AY2');
             $this->objCal->setActiveSheetIndex(0)
                  ->setCellValue('AU2', 'Instalación y Puesta en Funcionamiento Equipos ')
-                 ->getStyle("AY2")->applyFromArray($styleCentrado);
+                 ->getStyle("AU2")->applyFromArray($styleCentrado);
 
             {
+
+                {
+                    // Estilos Columnas
+                    $this->objCal->getActiveSheet()->getColumnDimension('AU')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AV')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AW')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AX')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('AY')->setWidth(15);
+
+                    $this->objCal->getActiveSheet()->getStyle('AU')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('AV')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('AW')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('AX')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('AY')->getAlignment()->setWrapText(true);
+
+                }
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AU3', 'Cantidad de EOCs a Instalar Requeridos')
+                     ->getStyle("AU3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AV3', 'Cantidad de EOCs Instalados, Probados y En Funcionamiento')
+                     ->getStyle("AV3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AW3', 'Equipos Networking (Instalados, Probados,En Funcionamiento)')
+                     ->getStyle("AW3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AX3', 'Fecha Prevista Nodo EOC en Funcionameinto')
+                     ->getStyle("AX3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AY3', 'Fecha Prevista en el PI&PS Nodo EOC en Funcionamiento')
+                     ->getStyle("AY3")->applyFromArray($styleCentrado);
 
             }
 
@@ -532,6 +585,304 @@ class GenerarReporteExcelInstalaciones {
                      ->getStyle("AZ2")->applyFromArray($styleCentrado);
 
             }
+        }
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('BA1:BH1');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('BA1', 'Avance y Estado Instalación Nodo Inalámbrico')
+             ->getStyle("BA1")->applyFromArray($styleCentrado);
+
+        {
+
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BA2:BC2');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BA2', 'Infraestructura Nodo')
+                 ->getStyle("BA2")->applyFromArray($styleCentrado);
+
+            {
+
+                {
+                    // Estilos Columnas
+                    $this->objCal->getActiveSheet()->getColumnDimension('BA')->setWidth(50);
+                    $this->objCal->getActiveSheet()->getColumnDimension('BB')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('BC')->setWidth(15);
+
+                    $this->objCal->getActiveSheet()->getStyle('BA')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('BB')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('BC')->getAlignment()->setWrapText(true);
+
+                }
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BA3', 'Descripción Obra o Actividad')
+                     ->getStyle("BA3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BB3', 'Estado Avance (En Construcción, Terminado)')
+                     ->getStyle("BB3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BC3', 'Fecha Prevista Terminación')
+                     ->getStyle("BC3")->applyFromArray($styleCentrado);
+            }
+
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BD2:BG2');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BD2', 'Instalación y Puesta en Funcionamiento Equipos')
+                 ->getStyle("BD2")->applyFromArray($styleCentrado);
+
+            {
+
+                {
+                    // Estilos Columnas
+                    $this->objCal->getActiveSheet()->getColumnDimension('BD')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('BE')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('BF')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('BG')->setWidth(15);
+
+                    $this->objCal->getActiveSheet()->getStyle('BD')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('BE')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('BF')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('BG')->getAlignment()->setWrapText(true);
+
+                }
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BD3', 'Cantidad de Celdas a Instalar Requeridos')
+                     ->getStyle("BD3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BE3', 'Cantidad de Celdas Instaladas, Probadas y En Funcionamiento')
+                     ->getStyle("BE3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BF3', 'Fecha Prevista Nodo Inalámbrico en Funcionameinto')
+                     ->getStyle("BF3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BG3', 'Fecha Prevista en el PI&PS Nodo Inalámbrico en Funcionamiento')
+                     ->getStyle("BG3")->applyFromArray($styleCentrado);
+
+            }
+
+            {
+                {
+                    // Estilos
+
+                    $this->objCal->getActiveSheet()->getStyle('BH')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getColumnDimension('BH')->setWidth(15);
+
+                }
+
+                $this->objCal->setActiveSheetIndex(0)->mergeCells('BH2:BH3');
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BH2', '% Avance Instalación Nodo Inalámbrico')
+                     ->getStyle("BH2")->applyFromArray($styleCentrado);
+
+            }
+
+        }
+
+        $this->objCal->getActiveSheet()->getStyle('BI')->getAlignment()->setWrapText(true);
+        $this->objCal->getActiveSheet()->getColumnDimension('BI')->setWidth(30);
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('BI1:BI3');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('BI1', 'Fecha Prevista para Verificación por la Interventoría del Nodo de Cabecera, Nodo EOC, Nodo Inalámbrico y Red de Distribución')
+             ->getStyle("BI1")->applyFromArray($styleCentrado);
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('BJ1:BR1');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('BJ1', 'Avance y Estado Instalación Accesos HFC')
+             ->getStyle("BJ1")->applyFromArray($styleCentrado);
+
+        {
+
+            $this->objCal->getActiveSheet()->getStyle('BJ')->getAlignment()->setWrapText(true);
+            $this->objCal->getActiveSheet()->getColumnDimension('BJ')->setWidth(15);
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BJ2:BJ3');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BJ2', 'Cantidad de Accesos HFC a Instalar Requeridos HFC')
+                 ->getStyle("BJ2")->applyFromArray($styleCentrado);
+
+            $this->objCal->getActiveSheet()->getStyle('BK')->getAlignment()->setWrapText(true);
+            $this->objCal->getActiveSheet()->getColumnDimension('BK')->setWidth(15);
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BK2:BK3');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BK2', 'Fecha Prevista en el PI&PS para el Inicio Instalación Accesos HFC')
+                 ->getStyle("BK2")->applyFromArray($styleCentrado);
+
+            $this->objCal->getActiveSheet()->getStyle('BL')->getAlignment()->setWrapText(true);
+            $this->objCal->getActiveSheet()->getColumnDimension('BL')->setWidth(15);
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BL2:BL3');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BL2', 'Fecha Prevista en el PI&PS para la Terminación Instalación Accesos HFC')
+                 ->getStyle("BL2")->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BM2:BO2');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BM2', 'Tendido y Puesta en Funcionameinto Red Coaxial')
+                 ->getStyle("BM2")->applyFromArray($styleCentrado);
+
+            {
+                {
+                    // Estilos Columnas
+                    $this->objCal->getActiveSheet()->getColumnDimension('BM')->setWidth(50);
+                    $this->objCal->getActiveSheet()->getColumnDimension('BN')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getColumnDimension('BO')->setWidth(15);
+
+                    $this->objCal->getActiveSheet()->getStyle('BM')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('BN')->getAlignment()->setWrapText(true);
+                    $this->objCal->getActiveSheet()->getStyle('BO')->getAlignment()->setWrapText(true);
+
+                }
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BM3', 'Descripción Actividades')
+                     ->getStyle("BM3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BN3', 'Estado avance (En Construcción, Terminado, Probado, En Funcionamiento)')
+                     ->getStyle("BN3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BO3', 'Fecha Prevista Puesta en Funcionameinto')
+                     ->getStyle("BO3")->applyFromArray($styleCentrado);
+
+            }
+
+            {
+                // Estilos Columnas
+
+                $this->objCal->getActiveSheet()->getColumnDimension('BP')->setWidth(15);
+                $this->objCal->getActiveSheet()->getColumnDimension('BQ')->setWidth(15);
+
+                $this->objCal->getActiveSheet()->getStyle('BP')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getStyle('BQ')->getAlignment()->setWrapText(true);
+
+            }
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BP2:BQ2');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BP2', 'Cantidad de Accesos HFC Instalados en la Semana Reportada')
+                 ->getStyle("BP2")->applyFromArray($styleCentrado);
+
+            {
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BP3', 'EOC Cliente (Cantidad Instalados)')
+                     ->getStyle("BP3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BQ3', 'Accesos VIP')
+                     ->getStyle("BQ3")->applyFromArray($styleCentrado);
+
+            }
+
+            {
+                // Estilos Columnas
+
+                $this->objCal->getActiveSheet()->getColumnDimension('BR')->setWidth(15);
+
+                $this->objCal->getActiveSheet()->getStyle('BR')->getAlignment()->setWrapText(true);
+
+            }
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BR2', 'Cantidad de Accesos HFC Instalados Acumulados')
+                 ->getStyle("BR2")->applyFromArray($styleCentrado);
+
+            {
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BR3', 'Accesos VIP')
+                     ->getStyle("BR3")->applyFromArray($styleCentrado);
+
+            }
+
+        }
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('BS1:BX1');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('BS1', 'Avance y Estado Instalación Accesos Inalámbricos')
+             ->getStyle("BS1")->applyFromArray($styleCentrado);
+
+        {
+
+            $this->objCal->getActiveSheet()->getStyle('BS')->getAlignment()->setWrapText(true);
+            $this->objCal->getActiveSheet()->getColumnDimension('BS')->setWidth(15);
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BS2:BS3');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BS2', 'Cantidad de Accesos Inalámbricos a Instalar Requeridos')
+                 ->getStyle("BS2")->applyFromArray($styleCentrado);
+
+            $this->objCal->getActiveSheet()->getStyle('BT')->getAlignment()->setWrapText(true);
+            $this->objCal->getActiveSheet()->getColumnDimension('BT')->setWidth(15);
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BT2:BT3');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BT2', 'Fecha Prevista en el PI&PS para el Inicio Instalación Accesos Inalámbricos')
+                 ->getStyle("BT2")->applyFromArray($styleCentrado);
+
+            $this->objCal->getActiveSheet()->getStyle('BU')->getAlignment()->setWrapText(true);
+            $this->objCal->getActiveSheet()->getColumnDimension('BU')->setWidth(15);
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BU2:BU3');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BU2', 'Fecha Prevista en el PI&PS para la Terminación Instalación Accesos Inalámbricos')
+                 ->getStyle("BU2")->applyFromArray($styleCentrado);
+
+            {
+                // Estilos Columnas
+
+                $this->objCal->getActiveSheet()->getColumnDimension('BV')->setWidth(15);
+                $this->objCal->getActiveSheet()->getColumnDimension('BW')->setWidth(15);
+
+                $this->objCal->getActiveSheet()->getStyle('BV')->getAlignment()->setWrapText(true);
+                $this->objCal->getActiveSheet()->getStyle('BW')->getAlignment()->setWrapText(true);
+
+            }
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BV2:BW2');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BV2', 'Cantidad de Accesos Inalámbricos Instalados en la Semana Reportada')
+                 ->getStyle("BV2")->applyFromArray($styleCentrado);
+
+            {
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BV3', 'SM /CPE (Cantidad Instalados)')
+                     ->getStyle("BV3")->applyFromArray($styleCentrado);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BW3', 'Accesos E1 y E2')
+                     ->getStyle("BW3")->applyFromArray($styleCentrado);
+
+            }
+
+            {
+                // Estilos Columnas
+
+                $this->objCal->getActiveSheet()->getColumnDimension('BX')->setWidth(15);
+
+                $this->objCal->getActiveSheet()->getStyle('BX')->getAlignment()->setWrapText(true);
+
+            }
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BX2', 'Cantidad de Accesos Inalámbricos Instalados Acumulados')
+                 ->getStyle("BX2")->applyFromArray($styleCentrado);
+
+            {
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BX3', 'Accesos E1 y E2')
+                     ->getStyle("BX3")->applyFromArray($styleCentrado);
+
+            }
+        }
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('BY1:BZ1');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('BY1', 'Reporte Accesos')
+             ->getStyle("BY1")->applyFromArray($styleCentrado);
+
+        {
+
+            $this->objCal->getActiveSheet()->getStyle('BY')->getAlignment()->setWrapText(true);
+            $this->objCal->getActiveSheet()->getColumnDimension('BY')->setWidth(15);
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BY2:BY3');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BY2', 'Cantidad de Accesos a Reportar a la Interventoría')
+                 ->getStyle("BY2")->applyFromArray($styleCentrado);
+
+            $this->objCal->getActiveSheet()->getStyle('BZ')->getAlignment()->setWrapText(true);
+            $this->objCal->getActiveSheet()->getColumnDimension('BZ')->setWidth(15);
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('BZ2:BZ3');
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BZ2', 'Fecha Prevista Reporte Accesos Instalados a Interventoría')
+                 ->getStyle("BZ2")->applyFromArray($styleCentrado);
+
         }
 
     }
