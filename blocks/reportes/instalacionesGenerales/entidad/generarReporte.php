@@ -34,7 +34,12 @@ class GenerarReporteInstalaciones {
         $this->filtrarProyectos();
 
         /**
-         * 2. Obtener Paquetes de Trabajo
+         * 2. Filtrar Actividades Paquetes de Trabajo
+         **/
+        $this->detallarCamposPersonalizadosProyecto();
+
+        /**
+         * 3. Obtener Paquetes de Trabajo
          **/
         $this->obtenerPaquetesTrabajo();
 
@@ -59,6 +64,47 @@ class GenerarReporteInstalaciones {
     public function crearHojaCalculo() {
         include_once "crearDocumentoHojaCalculo.php";
 
+    }
+
+    public function detallarCamposPersonalizadosProyecto() {
+
+        foreach ($this->proyectos as $key => $value) {
+
+            $urlPaquetes = $this->crearUrlDetalleProyecto($value['id']);
+
+            $detalleProyecto = file_get_contents($urlPaquetes);
+
+            $detalleProyecto = json_decode($detalleProyecto, true);
+
+            $this->proyectos[$key]['campos_personalizados'] = $detalleProyecto['custom_fields'];
+
+        }
+    }
+
+    public function crearUrlDetalleProyecto($var = '') {
+
+        // URL base
+        $url = $this->miConfigurador->getVariableConfiguracion("host");
+        $url .= $this->miConfigurador->getVariableConfiguracion("site");
+        $url .= "/index.php?";
+        // Variables
+        $variable = "pagina=openKyosApi";
+        $variable .= "&procesarAjax=true";
+        $variable .= "&action=index.php";
+        $variable .= "&bloqueNombre=" . "llamarApi";
+        $variable .= "&bloqueGrupo=" . "";
+        $variable .= "&tiempo=" . $_REQUEST['tiempo'];
+        $variable .= "&metodo=proyectosDetalle";
+        $variable .= "&id_proyecto=" . $var;
+
+        // Codificar las variables
+        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($variable, $enlace);
+
+        // URL definitiva
+        $urlApi = $url . $cadena;
+
+        return $urlApi;
     }
     public function filtrarActividades() {
 
