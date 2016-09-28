@@ -100,7 +100,7 @@ class GenerarReporteInstalaciones {
 
     }
     public function obtenerActividades() {
-
+        //var_dump($this->proyectos[1]['paquetesTrabajo']);exit;
         foreach ($this->proyectos as $key => $value) {
 
             foreach ($value['paquetesTrabajo'] as $llave => $valor) {
@@ -241,7 +241,6 @@ class GenerarReporteInstalaciones {
 
                 if ($valor['subject'] === 'Instalación red troncal o interconexión ISP') {
 
-                    var_dump($valor);
                     $urlActividades = $this->crearUrlActividades($valor['id']);
 
                     $actividades = file_get_contents($urlActividades);
@@ -267,11 +266,47 @@ class GenerarReporteInstalaciones {
 
                         $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
 
-                        if ($clave) {
+                        foreach ($this->proyectos[$key]['paquetesTrabajo'] as $val) {
+
+                            $array_ordenado_paquete_trabajo[] = $val;
+
+                        }
+                        $variable = $array_ordenado_paquete_trabajo[$clave];
+                        if (!empty($variable['child_ids'])) {
+                            $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
 
                         }
 
-                        var_dump($clave);
+                    }
+
+                }
+
+                if ($valor['description'] === 'Instalación y puesta en funcionamiento equipos Cabecera') {
+
+                    $urlActividades = $this->crearUrlActividades($valor['id']);
+
+                    $actividades = file_get_contents($urlActividades);
+
+                    $actividad = json_decode($actividades, true);
+
+                    foreach ($actividad as $avance) {
+
+                        $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+                    }
+                    foreach ($valor['child_ids'] as $llave_a => $contenido) {
+
+                        $urlActividades = $this->crearUrlActividades($contenido);
+
+                        $actividades = file_get_contents($urlActividades);
+
+                        $actividad = json_decode($actividades, true);
+
+                        foreach ($actividad as $avance) {
+
+                            $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+                        }
+
+                        $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
 
                         foreach ($this->proyectos[$key]['paquetesTrabajo'] as $val) {
 
@@ -279,15 +314,158 @@ class GenerarReporteInstalaciones {
 
                         }
                         $variable = $array_ordenado_paquete_trabajo[$clave];
+                        if (!empty($variable['child_ids'])) {
+                            $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
 
-                        var_dump($variable);
-
-                        exit();
+                        }
 
                     }
 
                 }
 
+                if ($valor['subject'] === 'Estado construcción Red de Distribución') {
+
+                    $urlActividades = $this->crearUrlActividades($valor['id']);
+
+                    $actividades = file_get_contents($urlActividades);
+
+                    $actividad = json_decode($actividades, true);
+
+                    foreach ($actividad as $avance) {
+
+                        $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+                    }
+
+                    if (!empty($valor['child_ids'])) {
+
+                        foreach ($valor['child_ids'] as $llave_a => $contenido) {
+
+                            $urlActividades = $this->crearUrlActividades($contenido);
+
+                            $actividades = file_get_contents($urlActividades);
+
+                            $actividad = json_decode($actividades, true);
+
+                            foreach ($actividad as $avance) {
+
+                                $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+                            }
+
+                            $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
+
+                            foreach ($this->proyectos[$key]['paquetesTrabajo'] as $val) {
+
+                                $array_ordenado_paquete_trabajo[] = $val;
+
+                            }
+                            $variable = $array_ordenado_paquete_trabajo[$clave];
+                            if (!empty($variable['child_ids'])) {
+                                $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                if ($valor['subject'] === 'Tendido y puesta en funcionamiento Fibra óptica') {
+
+                    $urlActividades = $this->crearUrlActividades($valor['id']);
+
+                    $actividades = file_get_contents($urlActividades);
+
+                    $actividad = json_decode($actividades, true);
+
+                    foreach ($actividad as $avance) {
+
+                        $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+                    }
+
+                    if (!empty($valor['child_ids'])) {
+
+                        foreach ($valor['child_ids'] as $llave_a => $contenido) {
+
+                            $urlActividades = $this->crearUrlActividades($contenido);
+
+                            $actividades = file_get_contents($urlActividades);
+
+                            $actividad = json_decode($actividades, true);
+
+                            foreach ($actividad as $avance) {
+
+                                $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+                            }
+
+                            $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
+
+                            foreach ($this->proyectos[$key]['paquetesTrabajo'] as $val) {
+
+                                $array_ordenado_paquete_trabajo[] = $val;
+
+                            }
+                            $variable = $array_ordenado_paquete_trabajo[$clave];
+                            if (!empty($variable['child_ids'])) {
+                                $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                if ($valor['description'] === 'Infraestructura Nodo (Avance y Estado Instalación Nodo EOC)') {
+
+                    //var_dump($valor);exit;
+
+                    $urlActividades = $this->crearUrlActividades($valor['id']);
+
+                    $actividades = file_get_contents($urlActividades);
+
+                    $actividad = json_decode($actividades, true);
+
+                    foreach ($actividad as $avance) {
+
+                        $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+                    }
+
+                    if (!empty($valor['child_ids'])) {
+
+                        foreach ($valor['child_ids'] as $llave_a => $contenido) {
+
+                            $urlActividades = $this->crearUrlActividades($contenido);
+
+                            $actividades = file_get_contents($urlActividades);
+
+                            $actividad = json_decode($actividades, true);
+
+                            foreach ($actividad as $avance) {
+
+                                $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+                            }
+
+                            $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
+
+                            foreach ($this->proyectos[$key]['paquetesTrabajo'] as $val) {
+
+                                $array_ordenado_paquete_trabajo[] = $val;
+
+                            }
+                            $variable = $array_ordenado_paquete_trabajo[$clave];
+
+                            if (!empty($variable['child_ids'])) {
+                                $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
+
+                            }
+
+                        }
+
+                    }
+
+                }
                 /*
             $urlActividades = $this->crearUrlActividades($valor['id']);
 
@@ -302,28 +480,45 @@ class GenerarReporteInstalaciones {
 
         }
 
-        var_dump($this->proyectos[1]['paquetesTrabajo']);exit;
+        //var_dump($this->proyectos[0]['paquetesTrabajo']);exit;
+        //var_dump($this->proyectos[2]['paquetesTrabajo']);exit;
+        var_dump($this->proyectos[0]['paquetesTrabajo'][19]['actividades']);exit;
 
-        //var_dump($this->proyectos[0]['paquetesTrabajo'][2]['actividades']);exit;
+//        var_dump($this->proyectos[0]['paquetesTrabajo'][2]['actividades']);exit;
 
     }
 
-    public function obtenerHijosPaquetesTrabajo($var = '') {
+    public function obtenerHijosPaquetesTrabajo($contenido = '', $key = '', $llave = '', $variable = '') {
 
-        $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
+        foreach ($variable['child_ids'] as $llave_a => $contenido) {
 
-        if ($clave) {
+            $urlActividades = $this->crearUrlActividades($contenido);
+
+            $actividades = file_get_contents($urlActividades);
+
+            $actividad = json_decode($actividades, true);
+
+            foreach ($actividad as $avance) {
+
+                $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+            }
+
+            $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
+
+            foreach ($this->proyectos[$key]['paquetesTrabajo'] as $val) {
+
+                $array_ordenado_paquete_trabajo[] = $val;
+
+            }
+
+            $variable = $array_ordenado_paquete_trabajo[$clave];
+
+            if (!empty($variable['child_ids'])) {
+                $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
+
+            }
 
         }
-
-        var_dump($clave);
-
-        foreach ($this->proyectos[$key]['paquetesTrabajo'] as $val) {
-
-            $array_ordenado_paquete_trabajo[] = $val;
-
-        }
-        $variable = $array_ordenado_paquete_trabajo[$clave];
 
     }
 
