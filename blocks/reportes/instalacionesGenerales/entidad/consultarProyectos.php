@@ -120,11 +120,20 @@ class FormProcessor {
             $clave = array_search("Proyecto/Urbanización:", array_column($value['custom_fields'], 'name'), true);
 
             if ($clave == false && (strpos($value['name'], "CABECERA")) === false) {
-                unset($this->proyectos[$key]);
+
+                if ($value['identifier'] != 'ins') {
+                    unset($this->proyectos[$key]);
+
+                }
             } else if (is_null($value['custom_fields'][$clave]['value']) == true || empty($value['custom_fields'][$clave]['value']) || $value['custom_fields'][$clave]['value'] = '') {
                 if ((strpos($value['name'], "CABECERA")) === false) {
-                    unset($this->proyectos[$key]);
+
+                    if ($value['identifier'] != 'ins') {
+                        unset($this->proyectos[$key]);
+
+                    }
                 }
+
             }
 
         }
@@ -144,7 +153,6 @@ class FormProcessor {
             }
 
         }
-
     }
     public function obtenerDetalleProyectos() {
 
