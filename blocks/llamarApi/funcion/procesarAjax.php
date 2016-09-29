@@ -27,9 +27,10 @@ class Procesador {
     );
 
     public $datosConexionOpenProject = array(
-        'host' => '<url>',
-        'token' => '<token>',
-        'api_url' => 'api/v2/',
+        'host' => 'http://172.16.146.157:3000/',
+        'token' => '8225f991ac98b96d27270d083c8a65e83ca4d7e4',
+        'api_url_v2' => 'api/v2/',
+        'api_url_v3' => 'api/v3/',
         'type' => 'json',
         'curl_timeout' => 30,
         'puerto' => '',
@@ -91,7 +92,22 @@ class Procesador {
                 case 'obtenerIdentificadoresSalida':
                     $resultado = $this->consultar->obtenerIdentificadoresSalida($this->datosConexionERPNext, $_REQUEST['proyecto']);
                     break;
-                    
+
+                case 'proyectosGeneral':
+                    $resultado = $this->consultar->obtenerProjectosGeneral($this->datosConexionOpenProject);
+                    break;
+
+                case 'proyectosDetalle':
+                    $resultado = $this->consultar->obtenerDetalleProjecto($this->datosConexionOpenProject, $_REQUEST['id_proyecto']);
+                    break;
+
+                case 'paquetesTrabajo':
+                    $resultado = $this->consultar->obtenerPaquetesTrabajo($this->datosConexionOpenProject, $_REQUEST['id_proyecto']);
+                    break;
+                case 'detalleActividadesPaquetesTrabajo':
+                    $resultado = $this->consultar->obtenerActividadesPaquetesTrabajo($this->datosConexionOpenProject, $_REQUEST['id_paquete_trabajo']);
+                    break;
+
             }
         }
 
