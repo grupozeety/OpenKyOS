@@ -112,8 +112,8 @@ class Consultar {
     }
 
     public function obtenerUrbanizaciones($datosConexion) {
-    
-    	 $this->configurarOpenProject($datosConexion);
+
+        $this->configurarOpenProject($datosConexion);
 
         $this->name = 'name';
 
@@ -128,26 +128,25 @@ class Consultar {
         if (!empty($result)) {
 
             $tree = $this->buildTree($result->body['projects']);
-            
+
             $tree = $tree[0]['nodes'][5]['nodes'];
-            
-         	foreach ($tree as $key=>$value){
-         		
-         		$isCabecera = strpos($value['text'], "Cabecera");
-         		$isWman = strpos($value['text'], "wMAN");
-         		
-            	if( ($isCabecera !== false) | ($isWman !== false) ) {
-            		unset($tree[$key]);
-            	}
+
+            foreach ($tree as $key => $value) {
+
+                $isCabecera = strpos($value['text'], "Cabecera");
+                $isWman = strpos($value['text'], "wMAN");
+
+                if (($isCabecera !== false) | ($isWman !== false)) {
+                    unset($tree[$key]);
+                }
             }
-            
-            
+
             echo json_encode($tree);
 
         }
 
         return false;
-    
+
     }
     public function obtenerProjectos($datosConexion) {
 
@@ -167,7 +166,7 @@ class Consultar {
 
             $tree = $this->buildTree($result->body['projects']);
             print_r($tree[0]['nodes'][5]['nodes']);
-            
+
             echo json_encode($tree);
 
         }
@@ -388,6 +387,130 @@ class Consultar {
 
     }
 
+    /**
+     * Funcion Consultar Projectos de OpenProyect
+     * Consultar los proyectos en General
+     * Autor: Verdugo,S
+     * Version : 1.0.0.0
+     * Fecha : 2016/09/20
+     **/
+    public function obtenerProjectosGeneral($datosConexion) {
+
+        $this->configurarOpenProject($datosConexion);
+
+        $this->name = 'name';
+
+        $data = '';
+
+        $fields = 'projects';
+
+        $result = $this->clientOpenProject->search("", $data, $fields);
+
+        if (!empty($result)) {
+
+            $proyectos = ($result->body['projects']);
+
+            echo json_encode($proyectos);
+
+        }
+        return false;
+
+    }
+
+    /**
+     * Funcion Consultar el detalle del Proyecto
+     * Consultar los detalles del Proyecto
+     * Autor: Verdugo,S
+     * Version : 1.0.0.0
+     * Fecha : 2016/09/20
+     **/
+    public function obtenerDetalleProjecto($datosConexion, $variable = '') {
+
+        $this->configurarOpenProject($datosConexion);
+
+        $this->name = 'name';
+
+        $data = '';
+
+        $tema = 'projects';
+
+        $id_proyecto = $variable;
+
+        $result = $this->clientOpenProject->search($tema, $data, $id_proyecto);
+
+        if (!empty($result)) {
+
+            $proyectos = ($result->body['project']);
+
+            echo json_encode($proyectos);
+
+        }
+        return false;
+
+    }
+
+    /**
+     * Funcion Consultar el Paquetes  Trabajo del Proyecto
+     * Consultar los detalles del Proyecto
+     * Autor: Verdugo,S
+     * Version : 1.0.0.0
+     * Fecha : 2016/09/20
+     **/
+    public function obtenerPaquetesTrabajo($datosConexion, $variable = '') {
+
+        $this->configurarOpenProject($datosConexion);
+
+        $this->name = 'name';
+
+        $data = $variable;
+
+        $tema = 'projects';
+
+        $paquetesTrabajo = 'planning_elements';
+
+        $result = $this->clientOpenProject->search($tema, $data, $paquetesTrabajo);
+
+        if (!empty($result)) {
+
+            $paquetesTrabajo = ($result->body['planning_elements']);
+
+            echo json_encode($paquetesTrabajo);
+
+        }
+        return false;
+
+    }
+
+    /**
+     * Funcion Consultar Actividades Con Respectos a un Paquete de Trabajo Particular
+     * Autor: Verdugo,S
+     * Version : 1.0.0.0
+     * Fecha : 2016/09/22
+     **/
+    public function obtenerActividadesPaquetesTrabajo($datosConexion, $variable = '') {
+
+        $this->configurarOpenProject($datosConexion);
+
+        $this->name = 'name';
+
+        $data = $variable;
+
+        $tema = 'work_packages';
+
+        $paquetesTrabajo = 'activities';
+
+        $result = $this->clientOpenProject->search($tema, $data, $paquetesTrabajo, 'v3');
+
+        if (!empty($result)) {
+
+            $paquetesTrabajo = ($result->body['_embedded']['elements']);
+
+            echo (json_encode($paquetesTrabajo));
+
+        }
+        return false;
+
+    }
 }
 
 ?>
