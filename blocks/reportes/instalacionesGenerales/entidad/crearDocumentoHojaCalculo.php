@@ -34,11 +34,191 @@ class GenerarReporteExcelInstalaciones {
         $this->generarEsquemaDocumento();
 
         /**
+         * 3. Estruturamiento Información OpenProject
+         **/
+        $this->estruturarInformacion();
+
+        /**
          * XX. Retornar Documento Reporte
          **/
         $this->retornarDocumento();
 
     }
+
+    public function estruturarInformacion() {
+
+        // Estilos Celdas
+        {
+            $styleCentrado = array(
+                'alignment' => array(
+                    'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                    'vertical' => \PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                ),
+            );
+            $styleCentradoVertical = array(
+                'alignment' => array(
+                    'vertical' => \PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                ),
+            );
+        }
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('A4', 'Politécnica')
+             ->getStyle("A4")->applyFromArray($styleCentrado);
+
+        {
+            //Avance y  Estado Instalación NOC
+
+            {
+                // Centro de Gestión
+                $contenido_CentroGestion = $this->compactarAvances($this->proyectos[2], "Centro de gestión");
+                $paquete_CentroGestion = $this->consultarPaqueteTrabajo($this->proyectos[2], "Centro de gestión");
+                //var_dump($paquete_CentroGestion);exit;
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('B4', (($contenido_CentroGestion != false) ? $contenido_CentroGestion : ""))
+                     ->getStyle("B4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('C4', ((!is_null($paquete_CentroGestion['cf_12'])) ? $paquete_CentroGestion['cf_12'] : ""))
+                     ->getStyle("C4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('D4', ((!is_null($paquete_CentroGestion['cf_13'])) ? $paquete_CentroGestion['cf_13'] : ""))
+                     ->getStyle("D4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('E4', ((isset($paquete_CentroGestion['start_date']) && $paquete_CentroGestion['start_date'] != '') ? $paquete_CentroGestion['start_date'] : ""))
+                     ->getStyle("E4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('F4', ((isset($paquete_CentroGestion['due_date']) && $paquete_CentroGestion['due_date'] != '') ? $paquete_CentroGestion['due_date'] : ""))
+                     ->getStyle("F4")->applyFromArray($styleCentradoVertical);
+
+            }
+
+            {
+                // Mesa Ayuda
+                $contenido_MesaAyuda = $this->compactarAvances($this->proyectos[2], "Mesa de ayuda");
+                $paquete_MesaAyuda = $this->consultarPaqueteTrabajo($this->proyectos[2], "Mesa de ayuda");
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('G4', (($contenido_MesaAyuda != false) ? $contenido_MesaAyuda : ""))
+                     ->getStyle("G4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('H4', ((!is_null($paquete_MesaAyuda['cf_12'])) ? $paquete_MesaAyuda['cf_12'] : ""))
+                     ->getStyle("H4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('I4', ((!is_null($paquete_MesaAyuda['cf_13'])) ? $paquete_MesaAyuda['cf_13'] : ""))
+                     ->getStyle("I4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('J4', ((isset($paquete_MesaAyuda['start_date']) && $paquete_MesaAyuda['start_date'] != '') ? $paquete_MesaAyuda['start_date'] : ""))
+                     ->getStyle("J4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('K4', ((isset($paquete_MesaAyuda['due_date']) && $paquete_MesaAyuda['due_date'] != '') ? $paquete_MesaAyuda['due_date'] : ""))
+                     ->getStyle("K4")->applyFromArray($styleCentradoVertical);
+
+            }
+
+            {
+
+                // Otros Sistemas
+                $contenido_OtrosSistemas = $this->compactarAvances($this->proyectos[2], "Otros equipos o sistemas en el NOC");
+
+                $paquete_OtrosSistemas = $this->consultarPaqueteTrabajo($this->proyectos[2], "Otros equipos o sistemas en el NOC");
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('L4', (($contenido_OtrosSistemas != false) ? $contenido_OtrosSistemas : ""))
+                     ->getStyle("L4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('M4', ((!is_null($paquete_OtrosSistemas['cf_12'])) ? $paquete_OtrosSistemas['cf_12'] : ""))
+                     ->getStyle("M4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('N4', ((!is_null($paquete_OtrosSistemas['cf_13'])) ? $paquete_OtrosSistemas['cf_13'] : ""))
+                     ->getStyle("N4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('O4', ((isset($paquete_OtrosSistemas['start_date']) && $paquete_OtrosSistemas['start_date'] != '') ? $paquete_OtrosSistemas['start_date'] : ""))
+                     ->getStyle("O4")->applyFromArray($styleCentradoVertical);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('P4', ((isset($paquete_OtrosSistemas['due_date']) && $paquete_OtrosSistemas['due_date'] != '') ? $paquete_OtrosSistemas['due_date'] : ""))
+                     ->getStyle("P4")->applyFromArray($styleCentradoVertical);
+
+            }
+
+            $paquete_avance_instalacion_noc = $this->consultarPaqueteTrabajo($this->proyectos[2], "Avance y  estado instalación NOC");
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('Q4', "% " . $paquete_avance_instalacion_noc['done_ratio'])
+                 ->getStyle("Q4")->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('R4', ((!is_null($paquete_avance_instalacion_noc['cf_15'])) ? $paquete_avance_instalacion_noc['cf_15'] : ""))
+                 ->getStyle("R4")->applyFromArray($styleCentradoVertical);
+
+        }
+
+        $i = 4;
+        foreach ($this->proyectos as $key => $value) {
+
+            $var = strpos($value['identifier'], 'becera');
+            if ($var == false && $value['identifier'] != 'ins') {
+
+                var_dump($value['name']);
+
+            }
+
+        }
+        exit;
+
+    }
+
+    public function consultarPaqueteTrabajo($proyecto = '', $nombre_paquete = '') {
+
+        foreach ($proyecto['paquetesTrabajo'] as $key => $value) {
+
+            if ($value['subject'] == $nombre_paquete) {
+                $contenido = $value;
+            }
+
+        }
+
+        return $contenido;
+    }
+
+    public function compactarAvances($proyecto = '', $tema = '') {
+
+        $contenido = '';
+        foreach ($proyecto['paquetesTrabajo'] as $key => $value) {
+
+            if ($value['subject'] == $tema) {
+
+                foreach ($value['actividades'] as $llave => $valor) {
+
+                    $fecha_actividad = substr($valor['createdAt'], 0, 10);
+
+                    $contenido .= "(" . $fecha_actividad . ") " . $valor['comment']['raw'] . "\n";
+                }
+
+            }
+
+        }
+
+        if ($contenido == '') {
+
+            $contenido = false;
+
+        }
+
+        return $contenido;
+    }
+
     public function generarEsquemaDocumento() {
 
         // Estilos Celdas
@@ -51,6 +231,9 @@ class GenerarReporteExcelInstalaciones {
             );
         }
         // Add some data
+
+        $this->objCal->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+        $this->objCal->getActiveSheet()->getStyle('A')->getAlignment()->setWrapText(true);
 
         $this->objCal->setActiveSheetIndex(0)
              ->setCellValue('A3', 'Operador')
@@ -83,6 +266,7 @@ class GenerarReporteExcelInstalaciones {
                     $this->objCal->getActiveSheet()->getStyle('F')->getAlignment()->setWrapText(true);
                     $this->objCal->getActiveSheet()->getRowDimension('3')->setRowHeight(100);
                     $this->objCal->getActiveSheet()->getRowDimension('2')->setRowHeight(75);
+                    $this->objCal->getActiveSheet()->getRowDimension('4')->setRowHeight(100);
 
                 }
                 $this->objCal->setActiveSheetIndex(0)

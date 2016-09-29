@@ -156,7 +156,7 @@ class GenerarReporteInstalaciones {
 
     }
     public function obtenerActividades() {
-        //var_dump($this->proyectos[1]['paquetesTrabajo']);exit;
+        //var_dump($this->proyectos[2]['paquetesTrabajo']);exit;
         foreach ($this->proyectos as $key => $value) {
 
             foreach ($value['paquetesTrabajo'] as $llave => $valor) {
@@ -191,7 +191,7 @@ class GenerarReporteInstalaciones {
 
                         $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
 
-                        unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
+                        //unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
                     }
 
                 }
@@ -224,7 +224,7 @@ class GenerarReporteInstalaciones {
 
                         $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
 
-                        unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
+                        //unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
                     }
 
                 }
@@ -256,7 +256,7 @@ class GenerarReporteInstalaciones {
 
                         $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
 
-                        unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
+                        //unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
 
                     }
 
@@ -289,7 +289,7 @@ class GenerarReporteInstalaciones {
 
                         $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
 
-                        unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
+                        // unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
 
                     }
 
