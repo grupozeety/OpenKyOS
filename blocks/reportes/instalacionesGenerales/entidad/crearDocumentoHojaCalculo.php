@@ -170,12 +170,91 @@ class GenerarReporteExcelInstalaciones {
             $var = strpos($value['identifier'], 'becera');
             if ($var == false && $value['identifier'] != 'ins') {
 
-                var_dump($value['name']);
+                $clave_departamento = array_search(1, array_column($value['campos_personalizados'], 'id'), true);
+                $longitud = strlen($value['campos_personalizados'][$clave_departamento]['value']);
+                $departamento = substr($value['campos_personalizados'][$clave_departamento]['value'], 5, $longitud);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('S' . $i, $departamento)
+                     ->getStyle("S" . $i)->applyFromArray($styleCentradoVertical);
+
+                $clave_municipio = array_search(2, array_column($value['campos_personalizados'], 'id'), true);
+                $longitud = strlen($value['campos_personalizados'][$clave_municipio]['value']);
+                $municipio = substr($value['campos_personalizados'][$clave_municipio]['value'], 8, $longitud);
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('T' . $i, $municipio)
+                     ->getStyle("T" . $i)->applyFromArray($styleCentradoVertical);
+
+                $codigo_dane = substr($value['campos_personalizados'][$clave_municipio]['value'], 0, 4);
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('U' . $i, $codigo_dane)
+                     ->getStyle("U" . $i)->applyFromArray($styleCentradoVertical);
+
+                $clave_urbanizacion = array_search(33, array_column($value['campos_personalizados'], 'id'), true);
+                $urbanizacion = $value['campos_personalizados'][$clave_urbanizacion]['value'];
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('V' . $i, $urbanizacion)
+                     ->getStyle("V" . $i)->applyFromArray($styleCentradoVertical);
+
+                {
+                    //Avance y Estado Instalación Nodo Cabecera
+
+                    $clave_cabecera_campo = array_search(43, array_column($value['campos_personalizados'], 'id'), true);
+                    $cabecera_campo = $value['campos_personalizados'][$clave_cabecera_campo]['value'];
+                    $clave_cabecera_proyecto = array_search($cabecera_campo, array_column($this->proyectos, 'name'), true);
+                    $cabecera = $this->proyectos[$clave_cabecera_proyecto];
+
+                    {
+                        //Infraestructura Nodos
+
+                        $contenido_InfraestructuraNodos = $this->compactarAvances($cabecera, "Infraestructura Nodos");
+                        $paquete_InfraestructuraNodos = $this->consultarPaqueteTrabajo($cabecera, "Infraestructura Nodos");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('W' . $i, (($contenido_InfraestructuraNodos != false) ? $contenido_InfraestructuraNodos : ""))
+                             ->getStyle("W" . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('X' . $i, ((!is_null($paquete_InfraestructuraNodos['cf_14'])) ? $paquete_InfraestructuraNodos['cf_14'] : ""))
+                             ->getStyle('X' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('Y' . $i, ((isset($paquete_InfraestructuraNodos['due_date']) && $paquete_InfraestructuraNodos['due_date'] != '') ? $paquete_InfraestructuraNodos['due_date'] : ""))
+                             ->getStyle('Y' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+                    {
+                        //Instalación Red troncal o interconexión ISP
+
+                        $contenido_RedTroncalISP = $this->compactarAvances($cabecera, "Instalación red troncal o interconexión ISP");
+                        $paquete_RedTroncalISP = $this->consultarPaqueteTrabajo($cabecera, "Instalación red troncal o interconexión ISP");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('Z' . $i, (($contenido_RedTroncalISP != false) ? $contenido_RedTroncalISP : ""))
+                             ->getStyle("Z" . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AA' . $i, ((!is_null($paquete_RedTroncalISP['cf_14'])) ? $paquete_RedTroncalISP['cf_14'] : ""))
+                             ->getStyle('AA' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AB' . $i, ((!is_null($paquete_RedTroncalISP['cf_16'])) ? $paquete_RedTroncalISP['cf_16'] : ""))
+                             ->getStyle('AB' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AC' . $i, ((!is_null($paquete_RedTroncalISP['cf_17'])) ? $paquete_RedTroncalISP['cf_17'] : ""))
+                             ->getStyle('AC' . $i)->applyFromArray($styleCentradoVertical);
+                    }
+
+                }
+
+                $i++;
 
             }
 
         }
-        exit;
 
     }
 
