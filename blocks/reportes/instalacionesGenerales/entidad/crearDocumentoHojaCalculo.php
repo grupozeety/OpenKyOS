@@ -248,6 +248,57 @@ class GenerarReporteExcelInstalaciones {
                              ->getStyle('AC' . $i)->applyFromArray($styleCentradoVertical);
                     }
 
+                    {
+                        //Instalación Red troncal o interconexión ISP
+
+                        $contenido_RedTroncalISP = $this->compactarAvances($cabecera, "Instalación red troncal o interconexión ISP");
+                        $paquete_RedTroncalISP = $this->consultarPaqueteTrabajo($cabecera, "Instalación red troncal o interconexión ISP");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('Z' . $i, (($contenido_RedTroncalISP != false) ? $contenido_RedTroncalISP : ""))
+                             ->getStyle("Z" . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AA' . $i, ((!is_null($paquete_RedTroncalISP['cf_14'])) ? $paquete_RedTroncalISP['cf_14'] : ""))
+                             ->getStyle('AA' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AB' . $i, ((!is_null($paquete_RedTroncalISP['cf_16'])) ? $paquete_RedTroncalISP['cf_16'] : ""))
+                             ->getStyle('AB' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AC' . $i, ((!is_null($paquete_RedTroncalISP['cf_17'])) ? $paquete_RedTroncalISP['cf_17'] : ""))
+                             ->getStyle('AC' . $i)->applyFromArray($styleCentradoVertical);
+                    }
+
+                    {
+                        //Instalación Red troncal o interconexión ISP
+
+                        $paquete_InstFuncEquiNodoCab = $this->consultarPaqueteTrabajo($cabecera, "Instalación y puesta en funcionamiento equipos");
+
+                        //var_dump($paquete_InstFuncEquiNodoCab);exit;
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AD' . $i, ((!is_null($paquete_InstFuncEquiNodoCab['cf_44'])) ? $paquete_InstFuncEquiNodoCab['cf_44'] : ""))
+                             ->getStyle('AD' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AE' . $i, ((!is_null($paquete_InstFuncEquiNodoCab['cf_45'])) ? $paquete_InstFuncEquiNodoCab['cf_45'] : ""))
+                             ->getStyle('AE' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AF' . $i, ((!is_null($paquete_InstFuncEquiNodoCab['cf_46'])) ? $paquete_InstFuncEquiNodoCab['cf_46'] : ""))
+                             ->getStyle('AF' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AG' . $i, ((!is_null($paquete_InstFuncEquiNodoCab['cf_16'])) ? $paquete_InstFuncEquiNodoCab['cf_16'] : ""))
+                             ->getStyle('AG' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AH' . $i, ((!is_null($paquete_InstFuncEquiNodoCab['cf_17'])) ? $paquete_InstFuncEquiNodoCab['cf_17'] : ""))
+                             ->getStyle('AH' . $i)->applyFromArray($styleCentradoVertical);
+                    }
+
                 }
 
                 $i++;
@@ -651,7 +702,7 @@ class GenerarReporteExcelInstalaciones {
                      ->setCellValue('AH3', 'Fecha prevista en el PI&PS para el inicio instalación nodo Cabecera')
                      ->getStyle("AH3")->applyFromArray($styleCentrado);
                 $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('AI3', 'Fecha Prevista Funcionamiento Nodo Cabecera')
+                     ->setCellValue('AI3', 'Fecha prevista en el PI&PS para la Puesta en Funcionamiento Nodo Cabecera')
                      ->getStyle("AI3")->applyFromArray($styleCentrado);
 
             }

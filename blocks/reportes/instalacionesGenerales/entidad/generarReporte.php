@@ -308,6 +308,7 @@ class GenerarReporteInstalaciones {
                         $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
                     }
                     foreach ($valor['child_ids'] as $llave_a => $contenido) {
+                        //var_dump($contenido);
 
                         $urlActividades = $this->crearUrlActividades($contenido);
 
@@ -321,19 +322,33 @@ class GenerarReporteInstalaciones {
                         }
 
                         $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
+                        //  var_dump($clave);
+                        //var_dump($this->proyectos[$key]['paquetesTrabajo']);exit;
 
                         foreach ($this->proyectos[$key]['paquetesTrabajo'] as $val) {
 
                             $array_ordenado_paquete_trabajo[] = $val;
 
                         }
-                        $variable = $array_ordenado_paquete_trabajo[$clave];
+                        //var_dump($array_ordenado_paquete_trabajo);exit;
+                        $variable = $this->proyectos[$key]['paquetesTrabajo'][$clave];
+                        //$array_ordenado_paquete_trabajo[$clave];
+                        //var_dump($variable);exit;
+
                         if (!empty($variable['child_ids'])) {
                             $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
 
                         }
 
+/*
+
+foreach ($this->proyectos[1]['paquetesTrabajo'][40]['actividades'] as $key => $value) {
+var_dump($value);
+}
+exit;*/
+
                     }
+                    //exit;
 
                 }
 
