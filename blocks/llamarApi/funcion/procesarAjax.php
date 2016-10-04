@@ -28,7 +28,7 @@ class Procesador {
 
     public $datosConexionOpenProject = array(
         'host' => 'http://172.16.146.157:3000/',
-        'token' => '8225f991ac98b96d27270d083c8a65e83ca4d7e4',
+        'token' => '81030b00830e4fceba15a155c58f2dd565c0b2a1',
         'api_url_v2' => 'api/v2/',
         'api_url_v3' => 'api/v3/',
         'type' => 'json',
