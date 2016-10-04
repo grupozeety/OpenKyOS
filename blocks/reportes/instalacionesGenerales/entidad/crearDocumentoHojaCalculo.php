@@ -61,114 +61,117 @@ class GenerarReporteExcelInstalaciones {
                 ),
             );
         }
-        $this->objCal->setActiveSheetIndex(0)
-             ->setCellValue('A4', 'Politécnica')
-             ->getStyle("A4")->applyFromArray($styleCentrado);
 
-        {
-            //Avance y  Estado Instalación NOC
-
-            {
-                // Centro de Gestión
-                $contenido_CentroGestion = $this->compactarAvances($this->proyectos[2], "Centro de gestión");
-                $paquete_CentroGestion = $this->consultarPaqueteTrabajo($this->proyectos[2], "Centro de gestión");
-                //var_dump($paquete_CentroGestion);exit;
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('B4', (($contenido_CentroGestion != false) ? $contenido_CentroGestion : ""))
-                     ->getStyle("B4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('C4', ((!is_null($paquete_CentroGestion['cf_12'])) ? $paquete_CentroGestion['cf_12'] : ""))
-                     ->getStyle("C4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('D4', ((!is_null($paquete_CentroGestion['cf_13'])) ? $paquete_CentroGestion['cf_13'] : ""))
-                     ->getStyle("D4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('E4', ((isset($paquete_CentroGestion['start_date']) && $paquete_CentroGestion['start_date'] != '') ? $paquete_CentroGestion['start_date'] : ""))
-                     ->getStyle("E4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('F4', ((isset($paquete_CentroGestion['due_date']) && $paquete_CentroGestion['due_date'] != '') ? $paquete_CentroGestion['due_date'] : ""))
-                     ->getStyle("F4")->applyFromArray($styleCentradoVertical);
-
-            }
-
-            {
-                // Mesa Ayuda
-                $contenido_MesaAyuda = $this->compactarAvances($this->proyectos[2], "Mesa de ayuda");
-                $paquete_MesaAyuda = $this->consultarPaqueteTrabajo($this->proyectos[2], "Mesa de ayuda");
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('G4', (($contenido_MesaAyuda != false) ? $contenido_MesaAyuda : ""))
-                     ->getStyle("G4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('H4', ((!is_null($paquete_MesaAyuda['cf_12'])) ? $paquete_MesaAyuda['cf_12'] : ""))
-                     ->getStyle("H4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('I4', ((!is_null($paquete_MesaAyuda['cf_13'])) ? $paquete_MesaAyuda['cf_13'] : ""))
-                     ->getStyle("I4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('J4', ((isset($paquete_MesaAyuda['start_date']) && $paquete_MesaAyuda['start_date'] != '') ? $paquete_MesaAyuda['start_date'] : ""))
-                     ->getStyle("J4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('K4', ((isset($paquete_MesaAyuda['due_date']) && $paquete_MesaAyuda['due_date'] != '') ? $paquete_MesaAyuda['due_date'] : ""))
-                     ->getStyle("K4")->applyFromArray($styleCentradoVertical);
-
-            }
-
-            {
-
-                // Otros Sistemas
-                $contenido_OtrosSistemas = $this->compactarAvances($this->proyectos[2], "Otros equipos o sistemas en el NOC");
-
-                $paquete_OtrosSistemas = $this->consultarPaqueteTrabajo($this->proyectos[2], "Otros equipos o sistemas en el NOC");
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('L4', (($contenido_OtrosSistemas != false) ? $contenido_OtrosSistemas : ""))
-                     ->getStyle("L4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('M4', ((!is_null($paquete_OtrosSistemas['cf_12'])) ? $paquete_OtrosSistemas['cf_12'] : ""))
-                     ->getStyle("M4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('N4', ((!is_null($paquete_OtrosSistemas['cf_13'])) ? $paquete_OtrosSistemas['cf_13'] : ""))
-                     ->getStyle("N4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('O4', ((isset($paquete_OtrosSistemas['start_date']) && $paquete_OtrosSistemas['start_date'] != '') ? $paquete_OtrosSistemas['start_date'] : ""))
-                     ->getStyle("O4")->applyFromArray($styleCentradoVertical);
-
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('P4', ((isset($paquete_OtrosSistemas['due_date']) && $paquete_OtrosSistemas['due_date'] != '') ? $paquete_OtrosSistemas['due_date'] : ""))
-                     ->getStyle("P4")->applyFromArray($styleCentradoVertical);
-
-            }
-
-            $paquete_avance_instalacion_noc = $this->consultarPaqueteTrabajo($this->proyectos[2], "Avance y  estado instalación NOC");
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('Q4', "% " . $paquete_avance_instalacion_noc['done_ratio'])
-                 ->getStyle("Q4")->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('R4', ((!is_null($paquete_avance_instalacion_noc['cf_15'])) ? $paquete_avance_instalacion_noc['cf_15'] : ""))
-                 ->getStyle("R4")->applyFromArray($styleCentradoVertical);
-
-        }
+        $llave_Ins = array_search('ins', array_column($this->proyectos, 'identifier'), true);
 
         $i = 4;
         foreach ($this->proyectos as $key => $value) {
 
             $var = strpos($value['identifier'], 'becera');
             if ($var == false && $value['identifier'] != 'ins') {
+
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('A' . $i, 'Politécnica')
+                     ->getStyle("A" . $i)->applyFromArray($styleCentrado);
+
+                {
+                    //Avance y  Estado Instalación NOC
+
+                    {
+                        //var_dump($this->proyectos);exit;
+                        // Centro de Gestión
+                        $contenido_CentroGestion = $this->compactarAvances($this->proyectos[$llave_Ins], "Centro de gestión");
+                        $paquete_CentroGestion = $this->consultarPaqueteTrabajo($this->proyectos[$llave_Ins], "Centro de gestión");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('B' . $i, (($contenido_CentroGestion != false) ? $contenido_CentroGestion : ""))
+                             ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('C' . $i, ((isset($paquete_CentroGestion['cf_12']) && !is_null($paquete_CentroGestion['cf_12'])) ? $paquete_CentroGestion['cf_12'] : ""))
+                             ->getStyle('C' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('D' . $i, ((isset($paquete_CentroGestion['cf_13']) && !is_null($paquete_CentroGestion['cf_13'])) ? $paquete_CentroGestion['cf_13'] : ""))
+                             ->getStyle('D' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('E' . $i, ((isset($paquete_CentroGestion['start_date']) && $paquete_CentroGestion['start_date'] != '') ? $paquete_CentroGestion['start_date'] : ""))
+                             ->getStyle('E' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('F' . $i, ((isset($paquete_CentroGestion['due_date']) && $paquete_CentroGestion['due_date'] != '') ? $paquete_CentroGestion['due_date'] : ""))
+                             ->getStyle('F' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                    {
+                        // Mesa Ayuda
+                        $contenido_MesaAyuda = $this->compactarAvances($this->proyectos[$llave_Ins], "Mesa de ayuda");
+                        $paquete_MesaAyuda = $this->consultarPaqueteTrabajo($this->proyectos[$llave_Ins], "Mesa de ayuda");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('G' . $i, (($contenido_MesaAyuda != false) ? $contenido_MesaAyuda : ""))
+                             ->getStyle('G' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('H' . $i, ((isset($paquete_MesaAyuda['cf_12']) && !is_null($paquete_MesaAyuda['cf_12'])) ? $paquete_MesaAyuda['cf_12'] : ""))
+                             ->getStyle('H' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('I' . $i, ((isset($paquete_MesaAyuda['cf_13']) && !is_null($paquete_MesaAyuda['cf_13'])) ? $paquete_MesaAyuda['cf_13'] : ""))
+                             ->getStyle('I' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('J' . $i, ((isset($paquete_MesaAyuda['start_date']) && $paquete_MesaAyuda['start_date'] != '') ? $paquete_MesaAyuda['start_date'] : ""))
+                             ->getStyle('J' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('K' . $i, ((isset($paquete_MesaAyuda['due_date']) && $paquete_MesaAyuda['due_date'] != '') ? $paquete_MesaAyuda['due_date'] : ""))
+                             ->getStyle('K' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                    {
+
+                        // Otros Sistemas
+                        $contenido_OtrosSistemas = $this->compactarAvances($this->proyectos[$llave_Ins], "Otros equipos o sistemas en el NOC");
+
+                        $paquete_OtrosSistemas = $this->consultarPaqueteTrabajo($this->proyectos[$llave_Ins], "Otros equipos o sistemas en el NOC");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('L' . $i, (($contenido_OtrosSistemas != false) ? $contenido_OtrosSistemas : ""))
+                             ->getStyle('L' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('M' . $i, ((!is_null($paquete_OtrosSistemas['cf_12'])) ? $paquete_OtrosSistemas['cf_12'] : ""))
+                             ->getStyle('M' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('N' . $i, ((!is_null($paquete_OtrosSistemas['cf_13'])) ? $paquete_OtrosSistemas['cf_13'] : ""))
+                             ->getStyle('N' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('O' . $i, ((isset($paquete_OtrosSistemas['start_date']) && $paquete_OtrosSistemas['start_date'] != '') ? $paquete_OtrosSistemas['start_date'] : ""))
+                             ->getStyle('O' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('P' . $i, ((isset($paquete_OtrosSistemas['due_date']) && $paquete_OtrosSistemas['due_date'] != '') ? $paquete_OtrosSistemas['due_date'] : ""))
+                             ->getStyle('P' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                    $paquete_avance_instalacion_noc = $this->consultarPaqueteTrabajo($this->proyectos[$llave_Ins], "Avance y  estado instalación NOC");
+
+                    $this->objCal->setActiveSheetIndex(0)
+                         ->setCellValue('Q' . $i, "% " . $paquete_avance_instalacion_noc['done_ratio'])
+                         ->getStyle('Q' . $i)->applyFromArray($styleCentrado);
+
+                    $this->objCal->setActiveSheetIndex(0)
+                         ->setCellValue('R' . $i, ((!is_null($paquete_avance_instalacion_noc['cf_15'])) ? $paquete_avance_instalacion_noc['cf_15'] : ""))
+                         ->getStyle('R' . $i)->applyFromArray($styleCentradoVertical);
+
+                }
 
                 $clave_departamento = array_search(1, array_column($value['campos_personalizados'], 'id'), true);
                 $longitud = strlen($value['campos_personalizados'][$clave_departamento]['value']);
@@ -236,15 +239,15 @@ class GenerarReporteExcelInstalaciones {
                              ->getStyle("Z" . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AA' . $i, ((!is_null($paquete_RedTroncalISP['cf_14'])) ? $paquete_RedTroncalISP['cf_14'] : ""))
+                             ->setCellValue('AA' . $i, ((isset($paquete_RedTroncalISP['cf_14']) && !is_null($paquete_RedTroncalISP['cf_14'])) ? $paquete_RedTroncalISP['cf_14'] : ""))
                              ->getStyle('AA' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AB' . $i, ((!is_null($paquete_RedTroncalISP['cf_16'])) ? $paquete_RedTroncalISP['cf_16'] : ""))
+                             ->setCellValue('AB' . $i, ((isset($paquete_RedTroncalISP['cf_16']) && !is_null($paquete_RedTroncalISP['cf_16'])) ? $paquete_RedTroncalISP['cf_16'] : ""))
                              ->getStyle('AB' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AC' . $i, ((!is_null($paquete_RedTroncalISP['cf_17'])) ? $paquete_RedTroncalISP['cf_17'] : ""))
+                             ->setCellValue('AC' . $i, ((isset($paquete_RedTroncalISP['cf_17']) && !is_null($paquete_RedTroncalISP['cf_17'])) ? $paquete_RedTroncalISP['cf_17'] : ""))
                              ->getStyle('AC' . $i)->applyFromArray($styleCentradoVertical);
                     }
 
@@ -259,15 +262,15 @@ class GenerarReporteExcelInstalaciones {
                              ->getStyle("Z" . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AA' . $i, ((!is_null($paquete_RedTroncalISP['cf_14'])) ? $paquete_RedTroncalISP['cf_14'] : ""))
+                             ->setCellValue('AA' . $i, ((isset($paquete_RedTroncalISP['cf_14']) && !is_null($paquete_RedTroncalISP['cf_14'])) ? $paquete_RedTroncalISP['cf_14'] : ""))
                              ->getStyle('AA' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AB' . $i, ((!is_null($paquete_RedTroncalISP['cf_16'])) ? $paquete_RedTroncalISP['cf_16'] : ""))
+                             ->setCellValue('AB' . $i, ((isset($paquete_RedTroncalISP['cf_16']) && !is_null($paquete_RedTroncalISP['cf_16'])) ? $paquete_RedTroncalISP['cf_16'] : ""))
                              ->getStyle('AB' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AC' . $i, ((!is_null($paquete_RedTroncalISP['cf_17'])) ? $paquete_RedTroncalISP['cf_17'] : ""))
+                             ->setCellValue('AC' . $i, ((isset($paquete_RedTroncalISP['cf_17']) && !is_null($paquete_RedTroncalISP['cf_17'])) ? $paquete_RedTroncalISP['cf_17'] : ""))
                              ->getStyle('AC' . $i)->applyFromArray($styleCentradoVertical);
                     }
 
@@ -276,28 +279,376 @@ class GenerarReporteExcelInstalaciones {
 
                         $paquete_InstFuncEquiNodoCab = $this->consultarPaqueteTrabajo($cabecera, "Instalación y puesta en funcionamiento equipos");
 
-                        //var_dump($paquete_InstFuncEquiNodoCab);exit;
-
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AD' . $i, ((!is_null($paquete_InstFuncEquiNodoCab['cf_44'])) ? $paquete_InstFuncEquiNodoCab['cf_44'] : ""))
+                             ->setCellValue('AD' . $i, ((isset($paquete_InstFuncEquiNodoCab['cf_44']) && !is_null($paquete_InstFuncEquiNodoCab['cf_44'])) ? $paquete_InstFuncEquiNodoCab['cf_44'] : ""))
                              ->getStyle('AD' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AE' . $i, ((!is_null($paquete_InstFuncEquiNodoCab['cf_45'])) ? $paquete_InstFuncEquiNodoCab['cf_45'] : ""))
+                             ->setCellValue('AE' . $i, ((isset($paquete_InstFuncEquiNodoCab['cf_45']) && !is_null($paquete_InstFuncEquiNodoCab['cf_45'])) ? $paquete_InstFuncEquiNodoCab['cf_45'] : ""))
                              ->getStyle('AE' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AF' . $i, ((!is_null($paquete_InstFuncEquiNodoCab['cf_46'])) ? $paquete_InstFuncEquiNodoCab['cf_46'] : ""))
+                             ->setCellValue('AF' . $i, ((isset($paquete_InstFuncEquiNodoCab['cf_46']) && !is_null($paquete_InstFuncEquiNodoCab['cf_46'])) ? $paquete_InstFuncEquiNodoCab['cf_46'] : ""))
                              ->getStyle('AF' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AG' . $i, ((!is_null($paquete_InstFuncEquiNodoCab['cf_16'])) ? $paquete_InstFuncEquiNodoCab['cf_16'] : ""))
+                             ->setCellValue('AG' . $i, ((isset($paquete_InstFuncEquiNodoCab['cf_16']) && !is_null($paquete_InstFuncEquiNodoCab['cf_16'])) ? $paquete_InstFuncEquiNodoCab['cf_16'] : ""))
                              ->getStyle('AG' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AH' . $i, ((!is_null($paquete_InstFuncEquiNodoCab['cf_17'])) ? $paquete_InstFuncEquiNodoCab['cf_17'] : ""))
+                             ->setCellValue('AH' . $i, ((isset($paquete_InstFuncEquiNodoCab['cf_17']) && !is_null($paquete_InstFuncEquiNodoCab['cf_17'])) ? $paquete_InstFuncEquiNodoCab['cf_17'] : ""))
                              ->getStyle('AH' . $i)->applyFromArray($styleCentradoVertical);
                     }
+
+                    {
+
+                        $cabecera_key_fecha_funcionamiento = array_search(47, array_column($cabecera['campos_personalizados'], 'id'), true);
+                        $fecha_funcionamiento_cabecera = $cabecera['campos_personalizados'][$cabecera_key_fecha_funcionamiento]['value'];
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AI' . $i, ((!is_null($fecha_funcionamiento_cabecera)) ? $fecha_funcionamiento_cabecera : ""))
+                             ->getStyle('AI' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $paquete_AvancInstNodoCab = $this->consultarPaqueteTrabajo($cabecera, "Avance y estado instalación Nodo Cabecera");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AJ' . $i, $paquete_AvancInstNodoCab['done_ratio'] . "%")
+                             ->getStyle('AJ' . $i)->applyFromArray($styleCentrado);
+
+                    }
+
+                }
+
+                {
+                    //Avance y Estado Instalación Red de Distribución
+
+                    {
+                        //Estado Construcción Red de Distribución
+
+                        $contenido_ConsRedDistrb = $this->compactarAvances($value, "Estado construcción Red de Distribución");
+
+                        $paquete_ConsRedDistrb = $this->consultarPaqueteTrabajo($value, "Estado construcción Red de Distribución");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AK' . $i, (($contenido_ConsRedDistrb != false) ? $contenido_ConsRedDistrb : ""))
+                             ->getStyle("AK" . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AL' . $i, ((!is_null($paquete_ConsRedDistrb['cf_14'])) ? $paquete_ConsRedDistrb['cf_14'] : ""))
+                             ->getStyle('AL' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AM' . $i, ((isset($paquete_ConsRedDistrb['due_date']) && $paquete_ConsRedDistrb['due_date'] != '') ? $paquete_ConsRedDistrb['due_date'] : ""))
+                             ->getStyle('AM' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                    {
+                        //Tendido y puesta en funcionamiento Fibra óptica
+
+                        $contenido_FunFibrOp = $this->compactarAvances($value, "Tendido y puesta en funcionamiento Fibra óptica");
+
+                        $paquete_FunFibrOp = $this->consultarPaqueteTrabajo($value, "Tendido y puesta en funcionamiento Fibra óptica");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AN' . $i, (($contenido_FunFibrOp != false) ? $contenido_FunFibrOp : ""))
+                             ->getStyle("AN" . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AO' . $i, ((!is_null($paquete_FunFibrOp['cf_14'])) ? $paquete_FunFibrOp['cf_14'] : ""))
+                             ->getStyle('AO' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AP' . $i, ((isset($paquete_FunFibrOp['cf_16']) && $paquete_FunFibrOp['cf_16'] != '') ? $paquete_FunFibrOp['cf_16'] : ""))
+                             ->getStyle('AP' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                    {
+
+                        $paquete_AvanRedDist = $this->consultarPaqueteTrabajo($value, "Avance y Estado Instalación Red de distribución");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AQ' . $i, $paquete_AvanRedDist['done_ratio'] . "%")
+                             ->getStyle('AQ' . $i)->applyFromArray($styleCentrado);
+
+                    }
+
+                }
+
+                {
+
+                    //Avance y Estado Instalación Nodo EOC
+
+                    {
+                        //Estado Construcción Red de Distribución
+
+                        $contenido_ConsRedDistrb = $this->compactarAvances($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo EOC)", "description");
+                        //var_dump($contenido_ConsRedDistrb);
+                        $paquete_ConsRedDistrb = $this->consultarPaqueteTrabajo($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo EOC)", "description");
+                        //var_dump($paquete_ConsRedDistrb);exit;
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AR' . $i, (($contenido_ConsRedDistrb != false) ? $contenido_ConsRedDistrb : ""))
+                             ->getStyle("AR" . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AS' . $i, ((!is_null($paquete_ConsRedDistrb['cf_14'])) ? $paquete_ConsRedDistrb['cf_14'] : ""))
+                             ->getStyle('AS' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AT' . $i, ((isset($paquete_ConsRedDistrb['due_date']) && $paquete_ConsRedDistrb['due_date'] != '') ? $paquete_ConsRedDistrb['due_date'] : ""))
+                             ->getStyle('AT' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                    //Avance y Estado Instalación Nodo EOC
+
+                    {
+                        //Infraestructura Nodo
+
+                        $contenido_ConsRedDistrb = $this->compactarAvances($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo EOC)", "description");
+                        //var_dump($contenido_ConsRedDistrb);
+                        $paquete_ConsRedDistrb = $this->consultarPaqueteTrabajo($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo EOC)", "description");
+                        //var_dump($paquete_ConsRedDistrb);exit;
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AR' . $i, (($contenido_ConsRedDistrb != false) ? $contenido_ConsRedDistrb : ""))
+                             ->getStyle("AR" . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AS' . $i, ((!is_null($paquete_ConsRedDistrb['cf_14'])) ? $paquete_ConsRedDistrb['cf_14'] : ""))
+                             ->getStyle('AS' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AT' . $i, ((isset($paquete_ConsRedDistrb['due_date']) && $paquete_ConsRedDistrb['due_date'] != '') ? $paquete_ConsRedDistrb['due_date'] : ""))
+                             ->getStyle('AT' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                    {
+                        //Instalación y Puesta en Funcionamiento Equipos
+
+                        $contenido_PFuncEqEOC = $this->compactarAvances($value, "Instalación y puesta en funcionamiento equipos (Avance y Estado Instalación Nodo EOC)", "description");
+
+                        $paquete_PFuncEqEOC = $this->consultarPaqueteTrabajo($value, "Instalación y puesta en funcionamiento equipos (Avance y Estado Instalación Nodo EOC)", "description");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AW' . $i, ((!is_null($paquete_ConsRedDistrb['cf_45'])) ? $paquete_ConsRedDistrb['cf_45'] : ""))
+                             ->getStyle('AW' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AX' . $i, ((!is_null($paquete_ConsRedDistrb['cf_16'])) ? $paquete_ConsRedDistrb['cf_16'] : ""))
+                             ->getStyle('AX' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                    {
+                        unset($llaveFechaFuncionamiento);
+
+                        $paquete_AvancInstNodoEoc = $this->consultarPaqueteTrabajo($value, "Avance y Estado Instalación Nodo EOC");
+
+                        $llaveEocInstalar = array_search(29, array_column($value['campos_personalizados'], 'id'), true);
+                        $llaveEocInstaladas = array_search(35, array_column($value['campos_personalizados'], 'id'), true);
+                        $llaveFechaFuncionamiento = array_search(47, array_column($value['campos_personalizados'], 'id'), true);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AU' . $i, (($llaveEocInstalar != false && $value['campos_personalizados'][$llaveEocInstalar]['value'] != '')) ? $value['campos_personalizados'][$llaveEocInstalar]['value'] : "")
+                             ->getStyle('AU' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AV' . $i, (($llaveEocInstaladas != false && $value['campos_personalizados'][$llaveEocInstaladas]['value'] != '')) ? $value['campos_personalizados'][$llaveEocInstaladas]['value'] : "")
+                             ->getStyle('AV' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AY' . $i, (($llaveFechaFuncionamiento != false && $value['campos_personalizados'][$llaveEocInstaladas]['value'] != '' && $value['campos_personalizados'][$llaveFechaFuncionamiento]['value'] != '')) ? $value['campos_personalizados'][$llaveFechaFuncionamiento]['value'] : "")
+                             ->getStyle('AY' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('AZ' . $i, $paquete_AvancInstNodoEoc['done_ratio'] . "%")
+                             ->getStyle('AZ' . $i)->applyFromArray($styleCentrado);
+                    }
+
+                }
+
+                {
+                    //Avance y Estado Instalación Nodo Inalámbrico
+
+                    {
+                        //Infraestructura Nodo
+
+                        $contenido_InsNoInala = $this->compactarAvances($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo inalámbrico)", "description");
+                        //var_dump($contenido_InsNoInala);
+                        $paquete_InsNoInala = $this->consultarPaqueteTrabajo($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo inalámbrico)", "description");
+                        //var_dump($paquete_InsNoInala);exit;
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BA' . $i, (($contenido_InsNoInala != false) ? $contenido_InsNoInala : ""))
+                             ->getStyle("BA" . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BB' . $i, ((!is_null($paquete_InsNoInala['cf_14'])) ? $paquete_InsNoInala['cf_14'] : ""))
+                             ->getStyle('BB' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BC' . $i, ((isset($paquete_InsNoInala['due_date']) && $paquete_InsNoInala['due_date'] != '') ? $paquete_InsNoInala['due_date'] : ""))
+                             ->getStyle('BC' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                    {
+                        //Instalación y Puesta en Funcionamiento Equipos
+
+                        $contenido_InsPusFunEquInala = $this->compactarAvances($value, "Instalación y puesta en funcionamiento equipos (Avance y Estado Instalación Nodo inalámbrico)", "description");
+                        //var_dump($contenido_InsNoInala);
+                        $paquete_InsPusFunEquInala = $this->consultarPaqueteTrabajo($value, "Instalación y puesta en funcionamiento equipos (Avance y Estado Instalación Nodo inalámbrico)", "description");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BF' . $i, ((!is_null($paquete_InsNoInala['cf_14'])) ? $paquete_InsNoInala['cf_14'] : ""))
+                             ->getStyle('BF' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                    {
+
+                        unset($llaveFechaFuncionamiento);
+                        $paquete_AvancInstNodoInal = $this->consultarPaqueteTrabajo($value, "Avance y Estado Instalación Nodo inalámbrico");
+                        //var_dump($paquete_AvancInstNodoInal);exit;
+                        $llaveCeldasInstalar = array_search(30, array_column($value['campos_personalizados'], 'id'), true);
+                        $llaveCeldasInstaladas = array_search(34, array_column($value['campos_personalizados'], 'id'), true);
+                        $llaveFechaFuncionamiento = array_search(47, array_column($value['campos_personalizados'], 'id'), true);
+                        /*var_dump($llaveCeldasInstalar);
+                        var_dump($llaveCeldasInstaladas);
+                        var_dump($llaveFechaFuncionamiento);
+                        var_dump($value);exit;*/
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BD' . $i, (($llaveCeldasInstalar != false && $value['campos_personalizados'][$llaveCeldasInstalar]['value'] != '')) ? $value['campos_personalizados'][$llaveCeldasInstalar]['value'] : "")
+                             ->getStyle('BD' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BE' . $i, (($llaveCeldasInstaladas != false && $value['campos_personalizados'][$llaveCeldasInstaladas]['value'] != '')) ? $value['campos_personalizados'][$llaveCeldasInstaladas]['value'] : "")
+                             ->getStyle('BE' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BG' . $i, (($llaveFechaFuncionamiento != false && $value['campos_personalizados'][$llaveFechaFuncionamiento]['value'] != '')) ? $value['campos_personalizados'][$llaveFechaFuncionamiento]['value'] : "")
+                             ->getStyle('BG' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BH' . $i, $paquete_AvancInstNodoInal['done_ratio'] . "%")
+                             ->getStyle('BH' . $i)->applyFromArray($styleCentrado);
+                    }
+
+                }
+
+                {
+
+                    $llaveFechaPrevistaInterventoria = array_search(49, array_column($value['campos_personalizados'], 'id'), true);
+
+                    $this->objCal->setActiveSheetIndex(0)
+                         ->setCellValue('BI' . $i, (($llaveFechaPrevistaInterventoria != false && $value['campos_personalizados'][$llaveFechaPrevistaInterventoria]['value'] != '')) ? $value['campos_personalizados'][$llaveFechaPrevistaInterventoria]['value'] : "")
+                         ->getStyle('BI' . $i)->applyFromArray($styleCentradoVertical);
+
+                    $llaveHFCInstalar = array_search(31, array_column($value['campos_personalizados'], 'id'), true);
+
+                    $this->objCal->setActiveSheetIndex(0)
+                         ->setCellValue('BJ' . $i, (($llaveHFCInstalar != false && $value['campos_personalizados'][$llaveHFCInstalar]['value'] != '')) ? $value['campos_personalizados'][$llaveHFCInstalar]['value'] : "")
+                         ->getStyle('BJ' . $i)->applyFromArray($styleCentradoVertical);
+                }
+
+                {
+
+                    //Avance y Estado Instalación Accesos HFC
+
+                    {
+                        $paquete_EstaInsHFC = $this->consultarPaqueteTrabajo($value, "Avance y Estado Instalación Accesos HFC");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BK' . $i, ((isset($paquete_EstaInsHFC['start_date']) && $paquete_EstaInsHFC['start_date'] != '') ? $paquete_EstaInsHFC['start_date'] : ""))
+                             ->getStyle('BK' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BL' . $i, ((isset($paquete_EstaInsHFC['due_date']) && $paquete_EstaInsHFC['due_date'] != '') ? $paquete_EstaInsHFC['due_date'] : ""))
+                             ->getStyle('BL' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $llaveHFCInstalados = array_search(36, array_column($value['campos_personalizados'], 'id'), true);
+                        $llaveAccVIP = array_search(37, array_column($value['campos_personalizados'], 'id'), true);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BP' . $i, (($llaveHFCInstalados != false && $value['campos_personalizados'][$llaveHFCInstalados]['value'] != '')) ? $value['campos_personalizados'][$llaveHFCInstalados]['value'] : "")
+                             ->getStyle('BP' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BQ' . $i, (($llaveAccVIP != false && $value['campos_personalizados'][$llaveAccVIP]['value'] != '')) ? $value['campos_personalizados'][$llaveAccVIP]['value'] : "")
+                             ->getStyle('BQ' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BR' . $i, (($llaveAccVIP != false && $value['campos_personalizados'][$llaveAccVIP]['value'] != '')) ? $value['campos_personalizados'][$llaveAccVIP]['value'] : "")
+                             ->getStyle('BR' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+                    {
+                        //Tendido y Puesta en Funcionameinto Red Coaxial
+
+                        $contenido_TenPusRedCox = $this->compactarAvances($value, "Tendido y puesta en funcionamiento Red Coaxial");
+
+                        $paquete_TenPusRedCox = $this->consultarPaqueteTrabajo($value, "Tendido y puesta en funcionamiento Red Coaxial");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BM' . $i, (($contenido_TenPusRedCox != false) ? $contenido_TenPusRedCox : ""))
+                             ->getStyle("BM" . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BN' . $i, ((!is_null($paquete_TenPusRedCox['cf_14'])) ? $paquete_TenPusRedCox['cf_14'] : ""))
+                             ->getStyle('BN' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BO' . $i, ((!is_null($paquete_TenPusRedCox['cf_16'])) ? $paquete_TenPusRedCox['cf_16'] : ""))
+                             ->getStyle('BO' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                }
+
+                {
+
+                    {
+
+                        $paquete_EstaAvanAccInhabala = $this->consultarPaqueteTrabajo($value, "Avance y Estado Instalación Accesos inalámbricos");
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BT' . $i, ((isset($paquete_EstaAvanAccInhabala['start_date']) && $paquete_EstaAvanAccInhabala['start_date'] != '') ? $paquete_EstaAvanAccInhabala['start_date'] : ""))
+                             ->getStyle('BT' . $i)->applyFromArray($styleCentradoVertical);
+
+                        $this->objCal->setActiveSheetIndex(0)
+                             ->setCellValue('BU' . $i, ((isset($paquete_EstaAvanAccInhabala['due_date']) && $paquete_EstaAvanAccInhabala['due_date'] != '') ? $paquete_EstaAvanAccInhabala['due_date'] : ""))
+                             ->getStyle('BU' . $i)->applyFromArray($styleCentradoVertical);
+
+                    }
+
+                    $llaveAccInalam = array_search(32, array_column($value['campos_personalizados'], 'id'), true);
+
+                    $this->objCal->setActiveSheetIndex(0)
+                         ->setCellValue('BS' . $i, (($llaveAccInalam != false && $value['campos_personalizados'][$llaveAccInalam]['value'] != '')) ? $value['campos_personalizados'][$llaveAccInalam]['value'] : "")
+                         ->getStyle('BS' . $i)->applyFromArray($styleCentradoVertical);
+
+                    $llaveSMCPE = array_search(40, array_column($value['campos_personalizados'], 'id'), true);
+
+                    $this->objCal->setActiveSheetIndex(0)
+                         ->setCellValue('BV' . $i, (($llaveSMCPE != false && $value['campos_personalizados'][$llaveSMCPE]['value'] != '')) ? $value['campos_personalizados'][$llaveSMCPE]['value'] : "")
+                         ->getStyle('BV' . $i)->applyFromArray($styleCentradoVertical);
+
+                    $llaveE1E2 = array_search(41, array_column($value['campos_personalizados'], 'id'), true);
+
+                    $this->objCal->setActiveSheetIndex(0)
+                         ->setCellValue('BW' . $i, (($llaveE1E2 != false && $value['campos_personalizados'][$llaveE1E2]['value'] != '')) ? $value['campos_personalizados'][$llaveE1E2]['value'] : "")
+                         ->getStyle('BW' . $i)->applyFromArray($styleCentradoVertical);
+
+                    $this->objCal->setActiveSheetIndex(0)
+                         ->setCellValue('BX' . $i, (($llaveE1E2 != false && $value['campos_personalizados'][$llaveE1E2]['value'] != '')) ? $value['campos_personalizados'][$llaveE1E2]['value'] : "")
+                         ->getStyle('BX' . $i)->applyFromArray($styleCentradoVertical);
+
+                    $llaveRInternve = array_search(42, array_column($value['campos_personalizados'], 'id'), true);
+
+                    $this->objCal->setActiveSheetIndex(0)
+                         ->setCellValue('BY' . $i, (($llaveRInternve != false && $value['campos_personalizados'][$llaveRInternve]['value'] != '')) ? $value['campos_personalizados'][$llaveRInternve]['value'] : "")
+                         ->getStyle('BY' . $i)->applyFromArray($styleCentradoVertical);
 
                 }
 
@@ -309,25 +660,43 @@ class GenerarReporteExcelInstalaciones {
 
     }
 
-    public function consultarPaqueteTrabajo($proyecto = '', $nombre_paquete = '') {
-
+    public function consultarPaqueteTrabajo($proyecto = '', $nombre_paquete = '', $tipo = '') {
+        $contenido = '';
         foreach ($proyecto['paquetesTrabajo'] as $key => $value) {
 
-            if ($value['subject'] == $nombre_paquete) {
+            if ($tipo != '' && $value[$tipo] == $nombre_paquete) {
+                $contenido = $value;
+
+            } else if ($value['subject'] == $nombre_paquete) {
+
                 $contenido = $value;
             }
+
+        }
+        if ($contenido == '') {
+
+            $contenido = false;
 
         }
 
         return $contenido;
     }
 
-    public function compactarAvances($proyecto = '', $tema = '') {
+    public function compactarAvances($proyecto = '', $tema = '', $tipo = '') {
 
         $contenido = '';
         foreach ($proyecto['paquetesTrabajo'] as $key => $value) {
 
-            if ($value['subject'] == $tema) {
+            if ($tipo != '' && $value[$tipo] == $tema) {
+
+                foreach ($value['actividades'] as $llave => $valor) {
+
+                    $fecha_actividad = substr($valor['createdAt'], 0, 10);
+
+                    $contenido .= "(" . $fecha_actividad . ") " . $valor['comment']['raw'] . "\n";
+                }
+
+            } elseif ($value['subject'] == $tema) {
 
                 foreach ($value['actividades'] as $llave => $valor) {
 
@@ -664,7 +1033,7 @@ class GenerarReporteExcelInstalaciones {
 
             }
 
-            $this->objCal->setActiveSheetIndex(0)->mergeCells('AD2:AI2');
+            $this->objCal->setActiveSheetIndex(0)->mergeCells('AD2:AH2');
             $this->objCal->setActiveSheetIndex(0)
                  ->setCellValue('AD2', 'Instalación y Puesta en Funcionamiento Equipos')
                  ->getStyle("AD2")->applyFromArray($styleCentrado);
@@ -677,14 +1046,13 @@ class GenerarReporteExcelInstalaciones {
                     $this->objCal->getActiveSheet()->getColumnDimension('AF')->setWidth(15);
                     $this->objCal->getActiveSheet()->getColumnDimension('AG')->setWidth(15);
                     $this->objCal->getActiveSheet()->getColumnDimension('AH')->setWidth(15);
-                    $this->objCal->getActiveSheet()->getColumnDimension('AI')->setWidth(15);
 
                     $this->objCal->getActiveSheet()->getStyle('AD')->getAlignment()->setWrapText(true);
                     $this->objCal->getActiveSheet()->getStyle('AE')->getAlignment()->setWrapText(true);
                     $this->objCal->getActiveSheet()->getStyle('AF')->getAlignment()->setWrapText(true);
                     $this->objCal->getActiveSheet()->getStyle('AG')->getAlignment()->setWrapText(true);
                     $this->objCal->getActiveSheet()->getStyle('AH')->getAlignment()->setWrapText(true);
-                    $this->objCal->getActiveSheet()->getStyle('AI')->getAlignment()->setWrapText(true);
+
                 }
                 $this->objCal->setActiveSheetIndex(0)
                      ->setCellValue('AD3', 'OLTs(Instalado, Probado, En Funcionamiento)')
@@ -701,9 +1069,6 @@ class GenerarReporteExcelInstalaciones {
                 $this->objCal->setActiveSheetIndex(0)
                      ->setCellValue('AH3', 'Fecha prevista en el PI&PS para el inicio instalación nodo Cabecera')
                      ->getStyle("AH3")->applyFromArray($styleCentrado);
-                $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('AI3', 'Fecha prevista en el PI&PS para la Puesta en Funcionamiento Nodo Cabecera')
-                     ->getStyle("AI3")->applyFromArray($styleCentrado);
 
             }
 
@@ -714,7 +1079,15 @@ class GenerarReporteExcelInstalaciones {
                     $this->objCal->getActiveSheet()->getStyle('AJ')->getAlignment()->setWrapText(true);
                     $this->objCal->getActiveSheet()->getColumnDimension('AJ')->setWidth(15);
 
+                    $this->objCal->getActiveSheet()->getColumnDimension('AI')->setWidth(15);
+                    $this->objCal->getActiveSheet()->getStyle('AI')->getAlignment()->setWrapText(true);
+
                 }
+
+                $this->objCal->setActiveSheetIndex(0)->mergeCells('AI2:AI3');
+                $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('AI2', 'Fecha prevista en el PI&PS para la Puesta en Funcionamiento Nodo Cabecera')
+                     ->getStyle("AI2")->applyFromArray($styleCentrado);
 
                 $this->objCal->setActiveSheetIndex(0)->mergeCells('AJ2:AJ3');
                 $this->objCal->setActiveSheetIndex(0)
