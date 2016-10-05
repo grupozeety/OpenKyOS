@@ -73,7 +73,7 @@ class Formulario {
         	 */
         
         	$ventana_erpnext = '<center>
-                                    <iframe style="border: none;" height="1550" width="100%" src="' . $enlace[0]['enlace'] . '">
+                                    <iframe style="border: none;" height="1000" width="100%" src="' . $enlace[0]['enlace'] . '">
                                     </iframe>
                                     </center>';
         	echo $ventana_erpnext;
