@@ -34,10 +34,13 @@ class Sql extends \Sql {
 
             case "consultarDatosMenu":
                 $cadenaSql = " SELECT DISTINCT";
+                $cadenaSql .= " enl.id_enlace AS id_enlace,";
                 $cadenaSql .= " enl.id_menu AS menu,";
+                $cadenaSql .= " enl.icon AS icon,";
                 $cadenaSql .= " men.descripcion AS nombre_menu,";
                 $cadenaSql .= " enl.titulo AS titulo_enlace,";
                 $cadenaSql .= " enl.columna AS columna,";
+                $cadenaSql .= " enl.submenu AS submenu,";
                 $cadenaSql .= " enl.orden AS orden,";
                 $cadenaSql .= " ten.nombre AS tipo_enlace,";
                 $cadenaSql .= " cen.nombre AS clase_enlace,";
