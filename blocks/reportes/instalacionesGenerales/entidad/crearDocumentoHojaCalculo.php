@@ -70,6 +70,7 @@ class GenerarReporteExcelInstalaciones {
             $var = strpos($value['identifier'], 'becera');
             if ($var == false && $value['identifier'] != 'ins') {
 
+                $this->objCal->getActiveSheet()->getRowDimension($i)->setRowHeight(100);
                 $this->objCal->setActiveSheetIndex(0)
                      ->setCellValue('A' . $i, 'Politécnica')
                      ->getStyle("A" . $i)->applyFromArray($styleCentrado);
@@ -765,7 +766,6 @@ class GenerarReporteExcelInstalaciones {
                     $this->objCal->getActiveSheet()->getStyle('F')->getAlignment()->setWrapText(true);
                     $this->objCal->getActiveSheet()->getRowDimension('3')->setRowHeight(100);
                     $this->objCal->getActiveSheet()->getRowDimension('2')->setRowHeight(75);
-                    $this->objCal->getActiveSheet()->getRowDimension('4')->setRowHeight(100);
 
                 }
                 $this->objCal->setActiveSheetIndex(0)
