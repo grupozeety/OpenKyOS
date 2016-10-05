@@ -5,7 +5,7 @@ $(document).on({
 });
 // Initiates an AJAX request on click
 $(document).on("submit", function(){
-	 $.get("/mockjax");        
+	 $.post("/mockjax");        
 });
 
 /*!
