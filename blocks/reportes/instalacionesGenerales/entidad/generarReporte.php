@@ -16,17 +16,13 @@ class GenerarReporteInstalaciones {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
-        $this->proyectos = json_decode(base64_decode($_REQUEST['info_proyectos']), true);
-
-        foreach ($this->proyectos as $key => $value) {
-            $proyectos[] = $value;
-        }
-
-        $this->proyectos = $proyectos;
-
-        $this->proyectos_general = $this->proyectos;
 
         $_REQUEST['tiempo'] = time();
+
+        /**
+         * 0. Estrucurar Desatelles Proyecto
+         **/
+        $this->estruturarProyectos();
 
         /**
          * 1. Filtrar Proyectos a Reportear
@@ -59,6 +55,62 @@ class GenerarReporteInstalaciones {
 
         $this->crearHojaCalculo();
 
+    }
+
+    public function estruturarProyectos() {
+
+        $this->proyectos = json_decode(base64_decode($_REQUEST['info_proyectos']), true);
+
+        foreach ($this->proyectos as $key => $value) {
+            $proyectos[] = $value;
+        }
+
+        $this->proyectos = $proyectos;
+
+        $this->proyectos_general = $this->proyectos;
+
+    }
+
+    public function obtenerDetalleProyectos() {
+
+        foreach ($this->proyectos as $key => $value) {
+
+            $urlDetalle = $this->crearUrlDetalleProyectos($value['id']);
+
+            $detalle = file_get_contents($urlDetalle);
+
+            $detalle = json_decode($detalle, true);
+
+            $this->proyectos[$key]['custom_fields'] = $detalle['custom_fields'];
+
+        }
+
+    }
+
+    public function crearUrlDetalleProyectos($var = '') {
+
+        // URL base
+        $url = $this->miConfigurador->getVariableConfiguracion("host");
+        $url .= $this->miConfigurador->getVariableConfiguracion("site");
+        $url .= "/index.php?";
+        // Variables
+        $variable = "pagina=openKyosApi";
+        $variable .= "&procesarAjax=true";
+        $variable .= "&action=index.php";
+        $variable .= "&bloqueNombre=" . "llamarApi";
+        $variable .= "&bloqueGrupo=" . "";
+        $variable .= "&tiempo=" . $_REQUEST['tiempo'];
+        $variable .= "&metodo=proyectosDetalle";
+        $variable .= "&id_proyecto=" . $var;
+
+        // Codificar las variables
+        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($variable, $enlace);
+
+        // URL definitiva
+        $urlApi = $url . $cadena;
+
+        return $urlApi;
     }
 
     public function crearHojaCalculo() {
@@ -841,6 +893,8 @@ class GenerarReporteInstalaciones {
             }
 
         }
+
+        $this->obtenerDetalleProyectos();
 
         if (isset($ident_proyectos)) {
 

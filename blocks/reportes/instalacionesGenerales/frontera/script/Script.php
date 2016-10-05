@@ -12,6 +12,7 @@ $indice = 0;
 
 //$funcion [$indice ++] = " ";
 
+$funcion [$indice ++] = "modalLoad.js";
 $funcion[$indice++] = "bootstrap-datetimepicker.js";
 $funcion[$indice++] = "bootstrap-datetimepicker.min.js";
 $funcion[$indice++] = "jquery.dataTables.js";
@@ -45,6 +46,7 @@ echo "\n<script type='text/javascript' src='" . $rutaBloque . "/frontera/script/
 include "ajax.php";
 
 ?>
+
 
 
 

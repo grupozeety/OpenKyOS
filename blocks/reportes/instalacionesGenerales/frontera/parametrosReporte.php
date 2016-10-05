@@ -52,6 +52,8 @@ class Registrador {
         echo $this->miFormulario->formulario($atributos);
         {
 
+            echo "<div class='modalLoad'></div>";
+
             $esteCampo = 'Agrupacion';
             $atributos['id'] = $esteCampo;
             $atributos['leyenda'] = "<b>Reporte Instalaciones Generales</b>";
@@ -142,14 +144,14 @@ class Registrador {
                     <thead>
                         <tr>
                             <th>N#</th>
-                            <th>Nombre Proyecto / Urbanización</th>
+                            <th>Nombre Proyecto</th>
                             <th>Opcion</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>N#</th>
-                            <th>Nombre Proyecto  / Urbanización</th>
+                            <th>Nombre Proyecto</th>
                             <th>Opcion</th>
                         </tr>
                     </tfoot>

@@ -34,16 +34,16 @@ class FormProcessor {
         $this->obtenerProyectos();
 
         /**
+         * 2. Obtener Proyectos de Api
+         **/
+
+        $this->filtrarProyectosPrincipales();
+
+        /**
          * 3. Obtener detalle Proyectos
          **/
 
-        $this->obtenerDetalleProyectos();
-
-        /**
-         * 4. Filtrar Proyectos
-         **/
-
-        $this->filtrarProyectos();
+        // $this->obtenerDetalleProyectos();
 
         /**
          * 5. Estructurar Tabla Proyectos a Retornar
@@ -57,6 +57,36 @@ class FormProcessor {
         echo $this->contenidoTabla;
 
         exit;
+
+    }
+
+    public function filtrarProyectosPrincipales() {
+
+        foreach ($this->proyectos as $key => $value) {
+
+            $valor = strpos($value['name'], "CABECERA");
+
+            $val = strpos($value['description'], 'Proyecto/Urbanizacion');
+
+            if ($valor === false && $value['identifier'] != 'ins' && !is_numeric($val)) {
+
+                unset($this->proyectos[$key]);
+
+            }
+
+        }
+        $this->proyectosConsultados = $this->proyectos;
+
+        foreach ($this->proyectos as $key => $value) {
+
+            $val = strpos($value['description'], 'Proyecto/Urbanizacion');
+
+            if (!is_numeric($val)) {
+
+                unset($this->proyectos[$key]);
+            }
+
+        }
 
     }
     public function estruturarTabla() {
@@ -88,11 +118,11 @@ class FormProcessor {
 
             $item = $this->miFormulario->campoCuadroSeleccion($atributos);
 
-            $clave = array_search("Proyecto/Urbanización:", array_column($value['custom_fields'], 'name'), true);
+            //$clave = array_search("Proyecto/Urbanización:", array_column($value['custom_fields'], 'name'), true);
             $resultadoFinal[] = array(
 
                 'numero' => $i,
-                'urbanizacion' => $value['name'] . " - " . $value['custom_fields'][$clave]['value'],
+                'urbanizacion' => $value['name'],
                 'opcion' => $item,
 
             );
@@ -113,47 +143,7 @@ class FormProcessor {
         $this->contenidoTabla = $resultado;
 
     }
-    public function filtrarProyectos() {
 
-        foreach ($this->proyectos as $key => $value) {
-
-            $clave = array_search("Proyecto/Urbanización:", array_column($value['custom_fields'], 'name'), true);
-
-            if ($clave == false && (strpos($value['name'], "CABECERA")) === false) {
-
-                if ($value['identifier'] != 'ins') {
-                    unset($this->proyectos[$key]);
-
-                }
-            } else if (is_null($value['custom_fields'][$clave]['value']) == true || empty($value['custom_fields'][$clave]['value']) || $value['custom_fields'][$clave]['value'] = '') {
-                if ((strpos($value['name'], "CABECERA")) === false) {
-
-                    if ($value['identifier'] != 'ins') {
-                        unset($this->proyectos[$key]);
-
-                    }
-                }
-
-            }
-
-        }
-
-        $this->proyectosConsultados = $this->proyectos;
-
-        foreach ($this->proyectos as $key => $value) {
-
-            $clave = array_search("Proyecto/Urbanización:", array_column($value['custom_fields'], 'name'), true);
-
-            if ($clave == false) {
-                unset($this->proyectos[$key]);
-            } else if (is_null($value['custom_fields'][$clave]['value']) == true || empty($value['custom_fields'][$clave]['value']) || $value['custom_fields'][$clave]['value'] = '') {
-
-                unset($this->proyectos[$key]);
-
-            }
-
-        }
-    }
     public function obtenerDetalleProyectos() {
 
         foreach ($this->proyectos as $key => $value) {
