@@ -213,6 +213,7 @@ class FormularioMenu {
                         <div class="container">
                              <div class="collapse navbar-collapse">
                                       <ul class="nav navbar-nav">
+        		                      <li><a href="/OpenKyOS/index.php">Inicio</a></li>
 
                 ';
         $cadenaHTML .= $menu;

@@ -109,7 +109,7 @@ class FormularioMenuUsuario {
 		echo '<div class="main-header logo"><center>
          <img height="50px" src="'.$url.'/blocks/gui/pie/css/imagenes/pie.jpg">
          	
-      </div><div class="main-header logo"  style="background-color: #1c88af;"><center>
+      </div><div class="main-header logo"  style="background-color: #0074a0;"><center>
                  		<p style="color:#fff;">Sistema de Gestión Administrativa OpenKyOS
          		<br>Conexiones Digitales II - Sucre y Córdoba</p></center>
       </div>';
