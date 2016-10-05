@@ -71,11 +71,10 @@ class Formulario {
         	 * Código Formulario
         
         	 */
-        
-        	$ventana_erpnext = '<center>
-                                    <iframe style="border: none;" height="1000" width="100%" src="' . $enlace[0]['enlace'] . '">
+        	$ventana_erpnext = '<div class="alfrescocontenedor">
+                                    <iframe style="border: none;" height="1550" width="100%" src="' . $enlace[0]['enlace'] . '">
                                     </iframe>
-                                    </center>';
+                                    </div>';
         	echo $ventana_erpnext;
         
         }
