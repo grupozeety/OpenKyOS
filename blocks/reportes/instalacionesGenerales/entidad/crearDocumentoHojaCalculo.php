@@ -169,7 +169,7 @@ class GenerarReporteExcelInstalaciones {
                          ->getStyle('Q' . $i)->applyFromArray($styleCentrado);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('R' . $i, ((!is_null($paquete_avance_instalacion_noc['cf_15'])) ? $paquete_avance_instalacion_noc['cf_15'] : ""))
+                         ->setCellValue('R' . $i, ((isset($paquete_OtrosSistemas['cf_15']) && !is_null($paquete_avance_instalacion_noc['cf_15'])) ? $paquete_avance_instalacion_noc['cf_15'] : ""))
                          ->getStyle('R' . $i)->applyFromArray($styleCentradoVertical);
 
                 }
@@ -221,7 +221,7 @@ class GenerarReporteExcelInstalaciones {
                              ->getStyle("W" . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('X' . $i, ((!is_null($paquete_InfraestructuraNodos['cf_14'])) ? $paquete_InfraestructuraNodos['cf_14'] : ""))
+                             ->setCellValue('X' . $i, ((isset($paquete_InfraestructuraNodos['cf_14']) && !is_null($paquete_InfraestructuraNodos['cf_14'])) ? $paquete_InfraestructuraNodos['cf_14'] : ""))
                              ->getStyle('X' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
@@ -281,15 +281,15 @@ class GenerarReporteExcelInstalaciones {
                         $paquete_InstFuncEquiNodoCab = $this->consultarPaqueteTrabajo($cabecera, "Instalación y puesta en funcionamiento equipos");
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AD' . $i, ((isset($paquete_InstFuncEquiNodoCab['cf_44']) && !is_null($paquete_InstFuncEquiNodoCab['cf_44'])) ? $paquete_InstFuncEquiNodoCab['cf_44'] : ""))
+                             ->setCellValue('AD' . $i, ((isset($paquete_InstFuncEquiNodoCab['cf_45']) && !is_null($paquete_InstFuncEquiNodoCab['cf_45'])) ? $paquete_InstFuncEquiNodoCab['cf_45'] : ""))
                              ->getStyle('AD' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AE' . $i, ((isset($paquete_InstFuncEquiNodoCab['cf_45']) && !is_null($paquete_InstFuncEquiNodoCab['cf_45'])) ? $paquete_InstFuncEquiNodoCab['cf_45'] : ""))
+                             ->setCellValue('AE' . $i, ((isset($paquete_InstFuncEquiNodoCab['cf_46']) && !is_null($paquete_InstFuncEquiNodoCab['cf_46'])) ? $paquete_InstFuncEquiNodoCab['cf_46'] : ""))
                              ->getStyle('AE' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AF' . $i, ((isset($paquete_InstFuncEquiNodoCab['cf_46']) && !is_null($paquete_InstFuncEquiNodoCab['cf_46'])) ? $paquete_InstFuncEquiNodoCab['cf_46'] : ""))
+                             ->setCellValue('AF' . $i, ((isset($paquete_InstFuncEquiNodoCab['cf_47']) && !is_null($paquete_InstFuncEquiNodoCab['cf_47'])) ? $paquete_InstFuncEquiNodoCab['cf_47'] : ""))
                              ->getStyle('AF' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
@@ -303,7 +303,7 @@ class GenerarReporteExcelInstalaciones {
 
                     {
 
-                        $cabecera_key_fecha_funcionamiento = array_search(47, array_column($cabecera['campos_personalizados'], 'id'), true);
+                        $cabecera_key_fecha_funcionamiento = array_search(48, array_column($cabecera['campos_personalizados'], 'id'), true);
                         $fecha_funcionamiento_cabecera = $cabecera['campos_personalizados'][$cabecera_key_fecha_funcionamiento]['value'];
 
                         $this->objCal->setActiveSheetIndex(0)
@@ -433,11 +433,11 @@ class GenerarReporteExcelInstalaciones {
                         $paquete_PFuncEqEOC = $this->consultarPaqueteTrabajo($value, "Instalación y puesta en funcionamiento equipos (Avance y Estado Instalación Nodo EOC)", "description");
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AW' . $i, ((!is_null($paquete_ConsRedDistrb['cf_45'])) ? $paquete_ConsRedDistrb['cf_45'] : ""))
+                             ->setCellValue('AW' . $i, ((isset($paquete_ConsRedDistrb['cf_46']) && !is_null($paquete_ConsRedDistrb['cf_46'])) ? $paquete_ConsRedDistrb['cf_46'] : ""))
                              ->getStyle('AW' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AX' . $i, ((!is_null($paquete_ConsRedDistrb['cf_16'])) ? $paquete_ConsRedDistrb['cf_16'] : ""))
+                             ->setCellValue('AX' . $i, ((isset($paquete_ConsRedDistrb['cf_16']) && !is_null($paquete_ConsRedDistrb['cf_16'])) ? $paquete_ConsRedDistrb['cf_16'] : ""))
                              ->getStyle('AX' . $i)->applyFromArray($styleCentradoVertical);
 
                     }
@@ -449,7 +449,7 @@ class GenerarReporteExcelInstalaciones {
 
                         $llaveEocInstalar = array_search(29, array_column($value['campos_personalizados'], 'id'), true);
                         $llaveEocInstaladas = array_search(35, array_column($value['campos_personalizados'], 'id'), true);
-                        $llaveFechaFuncionamiento = array_search(47, array_column($value['campos_personalizados'], 'id'), true);
+                        $llaveFechaFuncionamiento = array_search(48, array_column($value['campos_personalizados'], 'id'), true);
 
                         $this->objCal->setActiveSheetIndex(0)
                              ->setCellValue('AU' . $i, (($llaveEocInstalar != false && $value['campos_personalizados'][$llaveEocInstalar]['value'] != '')) ? $value['campos_personalizados'][$llaveEocInstalar]['value'] : "")
@@ -514,7 +514,7 @@ class GenerarReporteExcelInstalaciones {
                         //var_dump($paquete_AvancInstNodoInal);exit;
                         $llaveCeldasInstalar = array_search(30, array_column($value['campos_personalizados'], 'id'), true);
                         $llaveCeldasInstaladas = array_search(34, array_column($value['campos_personalizados'], 'id'), true);
-                        $llaveFechaFuncionamiento = array_search(47, array_column($value['campos_personalizados'], 'id'), true);
+                        $llaveFechaFuncionamiento = array_search(48, array_column($value['campos_personalizados'], 'id'), true);
                         /*var_dump($llaveCeldasInstalar);
                         var_dump($llaveCeldasInstaladas);
                         var_dump($llaveFechaFuncionamiento);
@@ -596,11 +596,11 @@ class GenerarReporteExcelInstalaciones {
                              ->getStyle("BM" . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('BN' . $i, ((!is_null($paquete_TenPusRedCox['cf_14'])) ? $paquete_TenPusRedCox['cf_14'] : ""))
+                             ->setCellValue('BN' . $i, ((isset($paquete_TenPusRedCox['cf_14']) && !is_null($paquete_TenPusRedCox['cf_14'])) ? $paquete_TenPusRedCox['cf_14'] : ""))
                              ->getStyle('BN' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('BO' . $i, ((!is_null($paquete_TenPusRedCox['cf_16'])) ? $paquete_TenPusRedCox['cf_16'] : ""))
+                             ->setCellValue('BO' . $i, ((isset($paquete_TenPusRedCox['cf_16']) && !is_null($paquete_TenPusRedCox['cf_16'])) ? $paquete_TenPusRedCox['cf_16'] : ""))
                              ->getStyle('BO' . $i)->applyFromArray($styleCentradoVertical);
 
                     }
