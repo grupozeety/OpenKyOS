@@ -210,6 +210,8 @@ class GenerarReporteExcelInstalaciones {
                     $clave_cabecera_proyecto = array_search($cabecera_campo, array_column($this->proyectos, 'name'), true);
                     $cabecera = $this->proyectos[$clave_cabecera_proyecto];
 
+//                    var_dump($cabecera);exit;
+
                     {
                         //Infraestructura Nodos
 
@@ -384,32 +386,9 @@ class GenerarReporteExcelInstalaciones {
                     {
                         //Estado Construcción Red de Distribución
 
-                        $contenido_ConsRedDistrb = $this->compactarAvances($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo EOC)", "description");
+                        $contenido_ConsRedDistrb = $this->compactarAvances($value, "Infraestructura nodo (Avance y estado instalación nodo EOC)", "description");
                         //var_dump($contenido_ConsRedDistrb);
-                        $paquete_ConsRedDistrb = $this->consultarPaqueteTrabajo($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo EOC)", "description");
-                        //var_dump($paquete_ConsRedDistrb);exit;
-                        $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AR' . $i, (($contenido_ConsRedDistrb != false) ? $contenido_ConsRedDistrb : ""))
-                             ->getStyle("AR" . $i)->applyFromArray($styleCentradoVertical);
-
-                        $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AS' . $i, ((!is_null($paquete_ConsRedDistrb['cf_14'])) ? $paquete_ConsRedDistrb['cf_14'] : ""))
-                             ->getStyle('AS' . $i)->applyFromArray($styleCentradoVertical);
-
-                        $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AT' . $i, ((isset($paquete_ConsRedDistrb['due_date']) && $paquete_ConsRedDistrb['due_date'] != '') ? $paquete_ConsRedDistrb['due_date'] : ""))
-                             ->getStyle('AT' . $i)->applyFromArray($styleCentradoVertical);
-
-                    }
-
-                    //Avance y Estado Instalación Nodo EOC
-
-                    {
-                        //Infraestructura Nodo
-
-                        $contenido_ConsRedDistrb = $this->compactarAvances($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo EOC)", "description");
-                        //var_dump($contenido_ConsRedDistrb);
-                        $paquete_ConsRedDistrb = $this->consultarPaqueteTrabajo($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo EOC)", "description");
+                        $paquete_ConsRedDistrb = $this->consultarPaqueteTrabajo($value, "Infraestructura nodo (Avance y estado instalación nodo EOC)", "description");
                         //var_dump($paquete_ConsRedDistrb);exit;
                         $this->objCal->setActiveSheetIndex(0)
                              ->setCellValue('AR' . $i, (($contenido_ConsRedDistrb != false) ? $contenido_ConsRedDistrb : ""))
@@ -428,16 +407,16 @@ class GenerarReporteExcelInstalaciones {
                     {
                         //Instalación y Puesta en Funcionamiento Equipos
 
-                        $contenido_PFuncEqEOC = $this->compactarAvances($value, "Instalación y puesta en funcionamiento equipos (Avance y Estado Instalación Nodo EOC)", "description");
+                        $contenido_PFuncEqEOC = $this->compactarAvances($value, "Instalación y puesta en funcionamiento equipos (Avance y estado instalación nodo EOC)", "description");
 
-                        $paquete_PFuncEqEOC = $this->consultarPaqueteTrabajo($value, "Instalación y puesta en funcionamiento equipos (Avance y Estado Instalación Nodo EOC)", "description");
+                        $paquete_PFuncEqEOC = $this->consultarPaqueteTrabajo($value, "Instalación y puesta en funcionamiento equipos (Avance y estado instalación nodo EOC)", "description");
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AW' . $i, ((isset($paquete_ConsRedDistrb['cf_46']) && !is_null($paquete_ConsRedDistrb['cf_46'])) ? $paquete_ConsRedDistrb['cf_46'] : ""))
+                             ->setCellValue('AW' . $i, ((isset($paquete_PFuncEqEOC['cf_46']) && !is_null($paquete_PFuncEqEOC['cf_46'])) ? $paquete_PFuncEqEOC['cf_46'] : ""))
                              ->getStyle('AW' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('AX' . $i, ((isset($paquete_ConsRedDistrb['cf_16']) && !is_null($paquete_ConsRedDistrb['cf_16'])) ? $paquete_ConsRedDistrb['cf_16'] : ""))
+                             ->setCellValue('AX' . $i, ((isset($paquete_PFuncEqEOC['cf_16']) && !is_null($paquete_PFuncEqEOC['cf_16'])) ? $paquete_PFuncEqEOC['cf_16'] : ""))
                              ->getStyle('AX' . $i)->applyFromArray($styleCentradoVertical);
 
                     }
@@ -476,10 +455,10 @@ class GenerarReporteExcelInstalaciones {
                     {
                         //Infraestructura Nodo
 
-                        $contenido_InsNoInala = $this->compactarAvances($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo inalámbrico)", "description");
-                        //var_dump($contenido_InsNoInala);
-                        $paquete_InsNoInala = $this->consultarPaqueteTrabajo($value, "Infraestructura Nodo (Avance y Estado Instalación Nodo inalámbrico)", "description");
-                        //var_dump($paquete_InsNoInala);exit;
+                        $contenido_InsNoInala = $this->compactarAvances($value, "Infraestructura nodo (Avance y estado instalación nodo inalámbrico)", "description");
+
+                        $paquete_InsNoInala = $this->consultarPaqueteTrabajo($value, "Infraestructura nodo (Avance y estado instalación nodo inalámbrico)", "description");
+
                         $this->objCal->setActiveSheetIndex(0)
                              ->setCellValue('BA' . $i, (($contenido_InsNoInala != false) ? $contenido_InsNoInala : ""))
                              ->getStyle("BA" . $i)->applyFromArray($styleCentradoVertical);
@@ -497,9 +476,9 @@ class GenerarReporteExcelInstalaciones {
                     {
                         //Instalación y Puesta en Funcionamiento Equipos
 
-                        $contenido_InsPusFunEquInala = $this->compactarAvances($value, "Instalación y puesta en funcionamiento equipos (Avance y Estado Instalación Nodo inalámbrico)", "description");
+                        //$contenido_InsPusFunEquInala = $this->compactarAvances($value, "Instalación y puesta en funcionamiento equipos (Avance y estado instalación nodo inalámbrico)", "description");
                         //var_dump($contenido_InsNoInala);
-                        $paquete_InsPusFunEquInala = $this->consultarPaqueteTrabajo($value, "Instalación y puesta en funcionamiento equipos (Avance y Estado Instalación Nodo inalámbrico)", "description");
+                        $paquete_InsPusFunEquInala = $this->consultarPaqueteTrabajo($value, "Instalación y puesta en funcionamiento equipos (Avance y estado instalación nodo inalámbrico)", "description");
 
                         $this->objCal->setActiveSheetIndex(0)
                              ->setCellValue('BF' . $i, ((!is_null($paquete_InsNoInala['cf_14'])) ? $paquete_InsNoInala['cf_14'] : ""))
@@ -528,7 +507,7 @@ class GenerarReporteExcelInstalaciones {
                              ->getStyle('BE' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
-                             ->setCellValue('BG' . $i, (($llaveFechaFuncionamiento != false && $value['campos_personalizados'][$llaveFechaFuncionamiento]['value'] != '')) ? $value['campos_personalizados'][$llaveFechaFuncionamiento]['value'] : "")
+                             ->setCellValue('BG' . $i, (($value['campos_personalizados'][$llaveCeldasInstaladas]['value'] != '' && $llaveFechaFuncionamiento != false && $value['campos_personalizados'][$llaveFechaFuncionamiento]['value'] != '')) ? $value['campos_personalizados'][$llaveFechaFuncionamiento]['value'] : "")
                              ->getStyle('BG' . $i)->applyFromArray($styleCentradoVertical);
 
                         $this->objCal->setActiveSheetIndex(0)
@@ -714,6 +693,12 @@ class GenerarReporteExcelInstalaciones {
 
             $contenido = false;
 
+        } else {
+            $piezas = explode("\n", $contenido);
+
+            $piezas = array_unique($piezas);
+
+            $contenido = implode("\n", $piezas);
         }
 
         return $contenido;

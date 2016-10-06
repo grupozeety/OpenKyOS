@@ -527,7 +527,7 @@ class GenerarReporteInstalaciones {
 
                 }
 
-                if ($valor['description'] === 'Infraestructura Nodo (Avance y Estado Instalación Nodo EOC)') {
+                if ($valor['description'] === 'Infraestructura nodo (Avance y estado instalación nodo EOC)') {
 
                     $urlActividades = $this->crearUrlActividades($valor['id']);
 
@@ -575,7 +575,7 @@ class GenerarReporteInstalaciones {
 
                 }
 
-                if ($valor['description'] === 'Instalación y puesta en funcionamiento equipos (Avance y Estado Instalación Nodo EOC)') {
+                if ($valor['description'] === 'Instalación y puesta en funcionamiento equipos (Avance y estado instalación nodo EOC)') {
 
                     $urlActividades = $this->crearUrlActividades($valor['id']);
 
@@ -623,7 +623,7 @@ class GenerarReporteInstalaciones {
 
                 }
 
-                if ($valor['description'] === 'Instalación y puesta en funcionamiento equipos (Avance y Estado Instalación Nodo inalámbrico)') {
+                if ($valor['description'] === 'Infraestructura nodo (Avance y estado instalación nodo inalámbrico)') {
 
                     $urlActividades = $this->crearUrlActividades($valor['id']);
 
@@ -658,9 +658,12 @@ class GenerarReporteInstalaciones {
                                 $array_ordenado_paquete_trabajo[] = $val;
 
                             }
-                            $variable = $array_ordenado_paquete_trabajo[$clave];
+                            //$variable = $array_ordenado_paquete_trabajo[$clave];
+
+                            $variable = $this->proyectos[$key]['paquetesTrabajo'][$clave];
 
                             if (!empty($variable['child_ids'])) {
+
                                 $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
 
                             }
@@ -670,54 +673,54 @@ class GenerarReporteInstalaciones {
                     }
 
                 }
+/*
+if ($valor['description'] === 'Instalación y puesta en funcionamiento equipos (Avance y estado instalación nodo inalámbrico)') {
 
-                if ($valor['description'] === 'Infraestructura Nodo (Avance y Estado Instalación Nodo inalámbrico)') {
+$urlActividades = $this->crearUrlActividades($valor['id']);
 
-                    $urlActividades = $this->crearUrlActividades($valor['id']);
+$actividades = file_get_contents($urlActividades);
 
-                    $actividades = file_get_contents($urlActividades);
+$actividad = json_decode($actividades, true);
 
-                    $actividad = json_decode($actividades, true);
+foreach ($actividad as $avance) {
 
-                    foreach ($actividad as $avance) {
+$this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+}
 
-                        $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
-                    }
+if (!empty($valor['child_ids'])) {
 
-                    if (!empty($valor['child_ids'])) {
+foreach ($valor['child_ids'] as $llave_a => $contenido) {
 
-                        foreach ($valor['child_ids'] as $llave_a => $contenido) {
+$urlActividades = $this->crearUrlActividades($contenido);
 
-                            $urlActividades = $this->crearUrlActividades($contenido);
+$actividades = file_get_contents($urlActividades);
 
-                            $actividades = file_get_contents($urlActividades);
+$actividad = json_decode($actividades, true);
 
-                            $actividad = json_decode($actividades, true);
+foreach ($actividad as $avance) {
 
-                            foreach ($actividad as $avance) {
+$this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+}
 
-                                $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
-                            }
+$clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
 
-                            $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
+foreach ($this->proyectos[$key]['paquetesTrabajo'] as $val) {
 
-                            foreach ($this->proyectos[$key]['paquetesTrabajo'] as $val) {
+$array_ordenado_paquete_trabajo[] = $val;
 
-                                $array_ordenado_paquete_trabajo[] = $val;
+}
+$variable = $array_ordenado_paquete_trabajo[$clave];
 
-                            }
-                            $variable = $array_ordenado_paquete_trabajo[$clave];
+if (!empty($variable['child_ids'])) {
+$this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
 
-                            if (!empty($variable['child_ids'])) {
-                                $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
+}
 
-                            }
+}
 
-                        }
+}
 
-                    }
-
-                }
+}*/
 
                 if ($valor['subject'] === 'Tendido y puesta en funcionamiento Red Coaxial') {
 
