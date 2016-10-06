@@ -59,7 +59,7 @@ class GenerarReporteInstalaciones {
 
     public function estruturarProyectos() {
 
-        $this->proyectos = json_decode(base64_decode($_REQUEST['info_proyectos']), true);
+        $this->proyectos = json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', base64_decode($_REQUEST['info_proyectos'])), true);
 
         foreach ($this->proyectos as $key => $value) {
             $proyectos[] = $value;
