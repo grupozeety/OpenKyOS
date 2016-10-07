@@ -88,7 +88,7 @@ class OpenProject {
                 if ($conditions == '') {
                     $url = $this->_api_url_v3 . "/" . $rb . "/" . $fields;
                 } else {
-                    $url = $this->_api_url_v3 . "/" . $rb . "/" . $conditions . "/" . $fields;
+                    $url = $this->_api_url_v3 . $rb . "/" . $conditions . "/" . $fields;
                 }
 
                 /**
@@ -119,10 +119,13 @@ class OpenProject {
             case 'POST':
                 $variables = $this->generarEstructuraRegistro();
 
-                var_dump($variables);exit;
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
                 curl_setopt($ch, CURLOPT_POST, TRUE);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $variables);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'Content-Length: ' . strlen($variables))
+                );
 
                 break;
 
@@ -138,6 +141,7 @@ class OpenProject {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
         curl_setopt($ch, CURLOPT_TIMEOUT, $this->_curl_timeout);
+
         $response = curl_exec($ch);
 
         $this->header = curl_getinfo($ch);
@@ -150,6 +154,7 @@ class OpenProject {
         if ($error) {
             $this->error = $error;
         }
+
         $this->body = @json_decode($response, true);
 
         if (JSON_ERROR_NONE != json_last_error()) {
@@ -171,30 +176,33 @@ class OpenProject {
                     '_links' => array('type' => array('href' => '/api/v3/types/' . $this->arreglo_registro['tipo']),
                         'status' => array('href' => '/api/v3/statuses/' . $this->arreglo_registro['estado']),
                         'priority' => array('href' => '/api/v3/priorities/' . $this->arreglo_registro['prioridad']),
+                        'parent' => array('href' => '/api/v3/work_packages/' . $this->arreglo_registro['paquete_trabajo_padre']),
+
                     ),
 
                 );
 
-                /*
-            $campos_personalizados = array(
-            "customField14" => array(
-            'value' => '',
-            'tipo' => 'string_objects',
-            ),
-
-            "customField15" => array(
-            'value' => '',
-            'tipo' => 'string_objects',
-            ),
-
-            );*/
+            /**
+             * Estrutura Campos Personalizados
+             *$campos_personalizados = array(
+             *"customField14" => array(
+             *'value' => '',
+             *'tipo' => 'string_objects',
+             * ),
+             *"customField15" => array(
+             *'value' => '',
+             *'tipo' => 'string_objects',
+             *),
+             *);
+             **/
                 foreach ($this->arreglo_registro['camposPersonalizados'] as $key => $value) {
+
+                    $value['value'] = str_replace(" ", "%20", $value['value']);
                     $campos[$key] = array('href' => '/api/v3/' . $value['tipo'] . "?value=" . $value['value']);
                 }
 
                 $arreglo['_links'] = array_merge($arreglo['_links'], $campos);
 
-                var_dump($arreglo);exit;
                 return json_encode($arreglo);
 
                 break;

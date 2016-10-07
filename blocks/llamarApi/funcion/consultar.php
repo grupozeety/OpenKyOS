@@ -623,7 +623,7 @@ class Consultar {
 
         if (!empty($result)) {
 
-            $paquetesTrabajo = ($result->body['_embedded']['elements']);
+            $paquetesTrabajo = ($result->body['_links']);
 
             echo (json_encode($paquetesTrabajo));
 
