@@ -239,38 +239,37 @@ class Consultar {
     }
 
     public function obtenerOrdenTrabajoModificada($datosConexion, $nombre) {
-    
-    	$this->configurarERPNext($datosConexion);
-    
-    	 $data = array(
+
+        $this->configurarERPNext($datosConexion);
+
+        $data = array(
             "project" => str_replace(' ', '%20', $nombre),
         );
-    
-    	$fields = array(
-    			"id_orden_trabajo",
-    			"descripcion_orden",
-    			"purpose",
-    			"name",
-    	);
-    
-    	$result = $this->clientFrappe->search("Stock Entry", $data, $fields);
-    
-    	if (!empty($result->body->data)) {
-    		echo json_encode($result->body->data);
-    
-    	}
-    
-    	return false;
-    
+
+        $fields = array(
+            "id_orden_trabajo",
+            "descripcion_orden",
+            "purpose",
+            "name",
+        );
+
+        $result = $this->clientFrappe->search("Stock Entry", $data, $fields);
+
+        if (!empty($result->body->data)) {
+            echo json_encode($result->body->data);
+
+        }
+
+        return false;
+
     }
-    
+
     public function obtenerProyectoErp($datosConexion) {
-    
-    	$this->configurarERPNext($datosConexion);
+
+        $this->configurarERPNext($datosConexion);
 
         $data = array(
 
-        		
         );
 
         $fields = array(
@@ -286,88 +285,86 @@ class Consultar {
         }
 
         return false;
-    
+
     }
 
     public function obtenerMaterialesOrdenModificado($datosConexion, $parent) {
 
         $this->configurarERPNext($datosConexion);
 
-        
         $materiales = array();
-        
+
         $parent = json_decode($parent, true);
-        
-        foreach($parent as $nombre){
-        	$data = array(
-        			"parent" => str_replace(' ', '%20', $nombre),
-        	);
-        	
-        	$fields = array(
-        			"name",
-        			"item_name",
-        			"uom",
-        			"description",
-        			"item_code",
-        			"qty",
-        			"parent",
-        	
-        	);
-        	
-        	$result = $this->clientFrappe->search("Stock Entry Detail", $data, $fields);
-        	
-        	$contador = 0;
-        	
-        	foreach ($result->body->data as $data) {
-        		$data->{"material"} = $this->codificarNombre("material:" . $data->name . ":" . $data->item_name . ":" . $data->qty . ":" . $data->parent);
-        		$contador++;
-        	}
-        	
-        	if (!empty($result->body->data)) {
-        	
-        		$materiales = array_merge($materiales, $result->body->data);
-        	
-        	}
-        	 
+
+        foreach ($parent as $nombre) {
+            $data = array(
+                "parent" => str_replace(' ', '%20', $nombre),
+            );
+
+            $fields = array(
+                "name",
+                "item_name",
+                "uom",
+                "description",
+                "item_code",
+                "qty",
+                "parent",
+
+            );
+
+            $result = $this->clientFrappe->search("Stock Entry Detail", $data, $fields);
+
+            $contador = 0;
+
+            foreach ($result->body->data as $data) {
+                $data->{"material"} = $this->codificarNombre("material:" . $data->name . ":" . $data->item_name . ":" . $data->qty . ":" . $data->parent);
+                $contador++;
+            }
+
+            if (!empty($result->body->data)) {
+
+                $materiales = array_merge($materiales, $result->body->data);
+
+            }
+
         }
-        
+
         if (!empty($result->body->data)) {
-        	 
-        	echo json_encode($materiales);
-        	
+
+            echo json_encode($materiales);
+
         }
-        
-         
+
         return false;
 
     }
 
     public function obtenerMaterialesOrden($datosConexion, $nombre) {
-    	$this->configurarERPNext($datosConexion);
-    	$data = array(
-    			"parent" => str_replace(' ', '%20', $nombre),
-    	);
-    	$fields = array(
-    			"name",
-    			"item_name",
-    			"uom",
-    			"description",
-    			"item_code",
-    			"qty",
-    			"parent",
-    	);
-    	$result = $this->clientFrappe->search("Stock Entry Detail", $data, $fields);
-    	$contador = 0;
-    	foreach ($result->body->data as $data) {
-    		$data->{"material"} = $this->codificarNombre("material:" . $data->name . ":" . $data->item_name . ":" . $data->qty . ":" . $data->parent);
-    		$contador++;
-    	}
-    	if (!empty($result->body->data)) {
-    		echo json_encode($result->body->data);
-    	}
-    	return false;
+        $this->configurarERPNext($datosConexion);
+        $data = array(
+            "parent" => str_replace(' ', '%20', $nombre),
+        );
+        $fields = array(
+            "name",
+            "item_name",
+            "uom",
+            "description",
+            "item_code",
+            "qty",
+            "parent",
+        );
+        $result = $this->clientFrappe->search("Stock Entry Detail", $data, $fields);
+        $contador = 0;
+        foreach ($result->body->data as $data) {
+            $data->{"material"} = $this->codificarNombre("material:" . $data->name . ":" . $data->item_name . ":" . $data->qty . ":" . $data->parent);
+            $contador++;
+        }
+        if (!empty($result->body->data)) {
+            echo json_encode($result->body->data);
+        }
+        return false;
     }
-    
+
     public function obtenerDetalleOrden($datosConexion, $nombre) {
 
         $this->configurarERPNext($datosConexion);
@@ -596,6 +593,37 @@ class Consultar {
         if (!empty($result)) {
 
             $paquetesTrabajo = ($result->body['_embedded']['elements']);
+
+            echo (json_encode($paquetesTrabajo));
+
+        }
+        return false;
+
+    }
+
+    /**
+     * Funcion Crear Paquete de Trabajo en Proyecto Particular
+     * Autor: Verdugo,S
+     * Version : 1.0.0.0
+     * Fecha : 2016/10/06
+     **/
+    public function crearPaqueteTrabajo($datosConexion, $variable = '') {
+
+        $this->configurarOpenProject($datosConexion);
+
+        $this->name = 'name';
+
+        $paquetesTrabajo = 'work_packages';
+
+        $proyecto = $variable['proyecto'];
+
+        $tema = 'projects';
+
+        $result = $this->clientOpenProject->search($tema, $proyecto, $paquetesTrabajo, 'v3', 'POST', $variable);
+
+        if (!empty($result)) {
+
+            $paquetesTrabajo = ($result->body['_links']);
 
             echo (json_encode($paquetesTrabajo));
 
