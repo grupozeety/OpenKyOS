@@ -59,6 +59,10 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 	
 	echo json_encode($enlace);
 		
+}else if($_REQUEST['funcion'] == 'consultarProyectos') {
+
+	include_once "consultarProyectos.php";
+
 }
 
 	
