@@ -26,6 +26,48 @@ class comisionamientoOP {
 
         $_REQUEST['tiempo'] = time();
 
+        $url = $this->miConfigurador->getVariableConfiguracion("host");
+        $url .= $this->miConfigurador->getVariableConfiguracion("site");
+        $url .= "/index.php?";
+        // Variables
+        $variable = "pagina=openKyosApi";
+        $variable .= "&procesarAjax=true";
+        $variable .= "&action=index.php";
+        $variable .= "&bloqueNombre=" . "llamarApi";
+        $variable .= "&bloqueGrupo=" . "";
+        $variable .= "&tiempo=" . $_REQUEST['tiempo'];
+        $variable .= "&metodo=crearPaqueteTrabajo";
+
+        $arreglo['proyecto'] = "1";
+        $arreglo['nombre'] = "A Tarea programadas";
+        $arreglo['porcentaje_avance'] = "90";
+        $arreglo['descripcion'] = "Descripción Tarea";
+        $arreglo['tipo'] = "2";
+        $arreglo['estado'] = "1";
+        $arreglo['prioridad'] = "8";
+        $arreglo['paquete_trabajo_padre'] = "467";
+        $arreglo['camposPersonalizados'] = array(
+            "customField14" => array(
+                'value' => 'No Iniciado',
+                'tipo' => 'string_objects',
+            ),
+
+        );
+
+        $variable .= "&variables=" . base64_encode(json_encode($arreglo));
+
+        // Codificar las variables
+        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($variable, $enlace);
+
+        // URL definitiva
+        $urlApi = $url . $cadena;
+
+        $resultado_registro = file_get_contents($urlApi);
+
+        $variable = json_decode($resultado_registro, true);
+        var_dump($variable);exit;
+
         echo "estruturar Comisionamiento";
         var_dump($_REQUEST);exit;
 
