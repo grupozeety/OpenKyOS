@@ -28,7 +28,7 @@ class Procesador {
 
     public $datosConexionOpenProject = array(
         'host' => 'http://172.16.146.157:3000/',
-        'token' => '81030b00830e4fceba15a155c58f2dd565c0b2a1',
+        'token' => '8225f991ac98b96d27270d083c8a65e83ca4d7e4',
         'api_url_v2' => 'api/v2/',
         'api_url_v3' => 'api/v3/',
         'type' => 'json',
@@ -92,19 +92,18 @@ class Procesador {
                 case 'obtenerIdentificadoresSalida':
                     $resultado = $this->consultar->obtenerIdentificadoresSalida($this->datosConexionERPNext, $_REQUEST['proyecto']);
                     break;
-     
+
                 case 'obtenerProyecto':
                     $resultado = $this->consultar->obtenerProyectoErp($this->datosConexionERPNext);
                     break;
-                    
+
                 case 'ordenTrabajoModificada':
-                   	$resultado = $this->consultar->obtenerOrdenTrabajoModificada($this->datosConexionERPNext, $_REQUEST['nombre']);
-                   	break;
-                   	
+                    $resultado = $this->consultar->obtenerOrdenTrabajoModificada($this->datosConexionERPNext, $_REQUEST['nombre']);
+                    break;
+
                 case 'obtenerMaterialesModificado':
                     $resultado = $this->consultar->obtenerMaterialesOrdenModificado($this->datosConexionERPNext, $_REQUEST['nombre']);
                     break;
-
 
                 case 'proyectosGeneral':
                     $resultado = $this->consultar->obtenerProjectosGeneral($this->datosConexionOpenProject);
@@ -117,10 +116,15 @@ class Procesador {
                 case 'paquetesTrabajo':
                     $resultado = $this->consultar->obtenerPaquetesTrabajo($this->datosConexionOpenProject, $_REQUEST['id_proyecto']);
                     break;
+
                 case 'detalleActividadesPaquetesTrabajo':
                     $resultado = $this->consultar->obtenerActividadesPaquetesTrabajo($this->datosConexionOpenProject, $_REQUEST['id_paquete_trabajo']);
                     break;
 
+                case 'crearPaqueteTrabajo':
+                    $variables = json_decode(base64_decode($_REQUEST['variables']), true);
+                    $resultado = $this->consultar->crearPaqueteTrabajo($this->datosConexionOpenProject, $variables);
+                    break;
 
             }
         }
