@@ -314,7 +314,7 @@ class GenerarReporteInstalaciones {
 
                 }
 
-                if ($valor['subject'] === 'Infraestructura Nodos') {
+                if ($valor['subject'] === 'Infraestructura nodos') {
 
                     $urlActividades = $this->crearUrlActividades($valor['id']);
 
@@ -391,7 +391,7 @@ class GenerarReporteInstalaciones {
 
                 }
 
-                if ($valor['description'] === 'Instalación y puesta en funcionamiento equipos Cabecera') {
+                if ($valor['description'] === 'Instalación y puesta en funcionamiento equipos cabecera') {
 
                     $urlActividades = $this->crearUrlActividades($valor['id']);
 
@@ -433,7 +433,7 @@ class GenerarReporteInstalaciones {
 
                 }
 
-                if ($valor['subject'] === 'Estado construcción Red de Distribución') {
+                if ($valor['subject'] === 'Estado construcción red de distribución') {
 
                     $urlActividades = $this->crearUrlActividades($valor['id']);
 
@@ -480,7 +480,7 @@ class GenerarReporteInstalaciones {
 
                 }
 
-                if ($valor['subject'] === 'Tendido y puesta en funcionamiento Fibra óptica') {
+                if ($valor['subject'] === 'Tendido y puesta en funcionamiento fibra óptica') {
 
                     $urlActividades = $this->crearUrlActividades($valor['id']);
 
@@ -722,7 +722,7 @@ $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
 
 }*/
 
-                if ($valor['subject'] === 'Tendido y puesta en funcionamiento Red Coaxial') {
+                if ($valor['subject'] === 'Tendido y puesta en funcionamiento red coaxial') {
 
                     $urlActividades = $this->crearUrlActividades($valor['id']);
 
