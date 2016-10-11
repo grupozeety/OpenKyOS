@@ -1,6 +1,6 @@
 <?php
 
-namespace cabecera;
+namespace nodo;
 
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
@@ -250,6 +250,16 @@ class Sql extends \Sql {
                	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
                	$cadenaSql .= "WHERE ";
                	$cadenaSql .= "rparam.descripcion = 'Tipo de Tecnología' ";
+               	break;
+               	
+             case "consultarProyectoCabecera":
+             	$cadenaSql = "SELECT ";
+               	$cadenaSql .= "id_urbanizacion AS proyecto ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "interoperacion.cabecera ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "estado_registro=true ";
+               	$cadenaSql .= "AND codigo_cabecera=" . "'" . $variable . "'";
                	break;
                 	
         }

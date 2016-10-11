@@ -1,8 +1,8 @@
 <?php
 
-namespace cabecera;
+namespace nodo;
 
-use cabecera\funcion\redireccion;
+use nodo\funcion\redireccion;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");

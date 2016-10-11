@@ -1,17 +1,12 @@
 <?php
 if(!isset($GLOBALS["autorizado"])) {
-	include("../index.php");
+	include("../../spagobi/index.php");
 	exit;
 }
 
-
 $indice=0;
-$estilo[$indice++]="dataTables.bootstrap.min.css";
-$estilo[$indice++]="select2.min.css";
-$estilo[$indice++]="miestilo.css";
-$estilo[$indice++]="modalLoad.css";
-
-
+$estilo[$indice++]="estiloBloque.css";
+$estilo[$indice++]="validationEngine.jquery.css";
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");
