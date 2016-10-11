@@ -36,7 +36,6 @@ class comisionamientoOP {
          * 2. Clasificar Proyecto
          **/
         $this->clasificarProyecto();
-        exit;
 
     }
 
@@ -67,19 +66,11 @@ class comisionamientoOP {
 
         $validacion = strpos($this->proyecto['identifier'], 'wman');
 
-        if (is_numeric($validacion)) {
-
-            $this->estruturarWMAN();
-
-        } else {
-
-            $this->estruturarHFC();
-
-        }
+        $this->estruturarComisionamiento();
 
     }
 
-    public function estruturarWMAN() {
+    public function estruturarComisionamiento() {
 
         /**
          * Identificar Paquete Trabajo Padre
@@ -87,83 +78,11 @@ class comisionamientoOP {
 
         foreach ($this->proyecto['paquetesTrabajo'] as $key => $value) {
 
-            //Infraestructura red de acceso
-
-            if ($value['subject'] === 'Instalación de hogares') {
-
-                $paqueteInstalacionHogares = $value;
-
-            }
-
             //Comisionamiento
 
             if ($value['subject'] === 'Comisionamiento') {
 
                 $paqueteComisionamiento = $value;
-
-            }
-
-        }
-
-        /**
-         * Paquetes Infraestructura Red de acceso
-         **/
-
-        {
-
-            //Crear Hogar
-            $variableHogar = $this->crearPaqueteTrabajo($this->nombreHogar, $paqueteInstalacionHogares['id']);
-
-            //Acometida a hogares
-            $variableAcHg = $this->crearPaqueteTrabajo("Acometida a hogares", $this->obtenerIdentificadorPaqueteTrabajo($variableHogar));
-
-            //Instalación, configuración, entrega CPE y portátil
-            $variableInsCPE = $this->crearPaqueteTrabajo("Instalación, configuración, entrega CPE y portátil", $this->obtenerIdentificadorPaqueteTrabajo($variableHogar));
-
-            //Documentación de aceptación y acta de entrega
-            $variableDocAcep = $this->crearPaqueteTrabajo("Documentación de aceptación y acta de entrega", $this->obtenerIdentificadorPaqueteTrabajo($variableHogar));
-
-            {
-
-                //Acta de recibo a satisfacción del servicio
-                $variableActRecSer = $this->crearPaqueteTrabajo("Acta de recibo a satisfacción del servicio", $this->obtenerIdentificadorPaqueteTrabajo($variableDocAcep));
-
-                //Acta de recibo a satisfacción por los beneficiarios de los computadores
-                $variableActRecSat = $this->crearPaqueteTrabajo("Acta de recibo a satisfacción por los beneficiarios de los computadores", $this->obtenerIdentificadorPaqueteTrabajo($variableDocAcep));
-
-                //Formato de inventario de equipos instalados
-                $variableForInvEqui = $this->crearPaqueteTrabajo("Formato de inventario de equipos instalados", $this->obtenerIdentificadorPaqueteTrabajo($variableDocAcep));
-            }
-
-            //Documentación interventoría
-            $variableDocInter = $this->crearPaqueteTrabajo("Documentación interventoría", $this->obtenerIdentificadorPaqueteTrabajo($variableHogar));
-
-            {
-
-                //Revisión pruebas interventoría
-                $variableRevPrInter = $this->crearPaqueteTrabajo("Documentación interventoría", $this->obtenerIdentificadorPaqueteTrabajo($variableDocInter));
-
-                {
-
-                    //Protocolos de prueba de aceptación equipos activos
-                    $variablePrtPrEquAct = $this->crearPaqueteTrabajo("Protocolos de prueba de aceptación equipos activos", $this->obtenerIdentificadorPaqueteTrabajo($variableRevPrInter));
-
-                }
-
-                //Entrega de documentación
-                $variableEntrDocm = $this->crearPaqueteTrabajo("Entrega de documentación", $this->obtenerIdentificadorPaqueteTrabajo($variableDocInter));
-
-                {
-
-                    //Formato de protocolos de prueba de aceptación equipos activos
-                    $variableFormProcEquiAct = $this->crearPaqueteTrabajo("Formato de protocolos de prueba de aceptación equipos activos", $this->obtenerIdentificadorPaqueteTrabajo($variableEntrDocm));
-
-                    //Formato de inventario de equipos instalados
-                    $variableFormInvEquIns = $this->crearPaqueteTrabajo("Formato de inventario de equipos instalados", $this->obtenerIdentificadorPaqueteTrabajo($variableEntrDocm));
-
-                    //Acta de entrega final
-                    $variableActFinal = $this->crearPaqueteTrabajo("Acta de entrega final", $this->obtenerIdentificadorPaqueteTrabajo($variableEntrDocm));
-                }
 
             }
 
@@ -197,28 +116,64 @@ class comisionamientoOP {
                 $variableAcptConContr = $this->crearPaqueteTrabajo('Aceptación de las condiciones del servicio y firma de documentos pre-contractuales y contrato', $this->obtenerIdentificadorPaqueteTrabajo($variableVerViaSocComr));
             }
 
-        }
+            //Instalación de hogares
+            $variableInsHg = $this->crearPaqueteTrabajo("Instalación de hogares", $this->obtenerIdentificadorPaqueteTrabajo($variableHogar));
 
-        var_dump($paqueteInstalacionHogares);
-        var_dump($paqueteComisionamiento);exit;
+            //Acometida a hogares
+            $variableAcHg = $this->crearPaqueteTrabajo("Acometida a hogares", $this->obtenerIdentificadorPaqueteTrabajo($variableInsHg));
 
-    }
+            //Instalación, configuración, entrega CPE y portátil
+            $variableInsCPE = $this->crearPaqueteTrabajo("Instalación, configuración, entrega CPE y portátil", $this->obtenerIdentificadorPaqueteTrabajo($variableInsHg));
 
-    public function estruturarHFC() {
+            //Documentación de aceptación y acta de entrega
+            $variableDocAcep = $this->crearPaqueteTrabajo("Documentación de aceptación y acta de entrega", $this->obtenerIdentificadorPaqueteTrabajo($variableInsHg));
 
-        /**
-         * Identificar Paquete Trabajo Padre
-         **/
+            {
 
-        foreach ($this->proyecto['paquetesTrabajo'] as $key => $value) {
+                //Acta de recibo a satisfacción del servicio
+                $variableActRecSer = $this->crearPaqueteTrabajo("Acta de recibo a satisfacción del servicio", $this->obtenerIdentificadorPaqueteTrabajo($variableDocAcep));
 
-            if ($value['subject'] === 'Comisionamiento') {
+                //Acta de recibo a satisfacción por los beneficiarios de los computadores
+                $variableActRecSat = $this->crearPaqueteTrabajo("Acta de recibo a satisfacción por los beneficiarios de los computadores", $this->obtenerIdentificadorPaqueteTrabajo($variableDocAcep));
 
-                $paqueteComisionamiento = $value;
+                //Formato de inventario de equipos instalados
+                $variableForInvEqui = $this->crearPaqueteTrabajo("Formato de inventario de equipos instalados", $this->obtenerIdentificadorPaqueteTrabajo($variableDocAcep));
+            }
+
+            //Documentación interventoría
+            $variableDocInter = $this->crearPaqueteTrabajo("Documentación interventoría", $this->obtenerIdentificadorPaqueteTrabajo($variableInsHg));
+
+            {
+
+                //Revisión pruebas interventoría
+                $variableRevPrInter = $this->crearPaqueteTrabajo("Documentación interventoría", $this->obtenerIdentificadorPaqueteTrabajo($variableDocInter));
+
+                {
+
+                    //Protocolos de prueba de aceptación equipos activos
+                    $variablePrtPrEquAct = $this->crearPaqueteTrabajo("Protocolos de prueba de aceptación equipos activos", $this->obtenerIdentificadorPaqueteTrabajo($variableRevPrInter), 3);
+
+                }
+
+                //Entrega de documentación
+                $variableEntrDocm = $this->crearPaqueteTrabajo("Entrega de documentación", $this->obtenerIdentificadorPaqueteTrabajo($variableDocInter));
+
+                {
+
+                    //Formato de protocolos de prueba de aceptación equipos activos
+                    $variableFormProcEquiAct = $this->crearPaqueteTrabajo("Formato de protocolos de prueba de aceptación equipos activos", $this->obtenerIdentificadorPaqueteTrabajo($variableEntrDocm));
+
+                    //Formato de inventario de equipos instalados
+                    $variableFormInvEquIns = $this->crearPaqueteTrabajo("Formato de inventario de equipos instalados", $this->obtenerIdentificadorPaqueteTrabajo($variableEntrDocm));
+
+                    //Acta de entrega final
+                    $variableActFinal = $this->crearPaqueteTrabajo("Acta de entrega final", $this->obtenerIdentificadorPaqueteTrabajo($variableEntrDocm));
+                }
 
             }
 
         }
+
     }
 
     public function obtenerIdentificadorPaqueteTrabajo($paquete_Trabajo = '') {
@@ -297,7 +252,7 @@ class comisionamientoOP {
 
         return $urlApi;
     }
-    public function crearPaqueteTrabajo($nombre_paquete = '', $id_paquete_padre = '') {
+    public function crearPaqueteTrabajo($nombre_paquete = '', $id_paquete_padre = '', $tipo = 2) {
 
         $url = $this->miConfigurador->getVariableConfiguracion("host");
         $url .= $this->miConfigurador->getVariableConfiguracion("site");
@@ -315,7 +270,7 @@ class comisionamientoOP {
         $arreglo['nombre'] = $nombre_paquete;
         $arreglo['porcentaje_avance'] = "0";
         $arreglo['descripcion'] = $nombre_paquete;
-        $arreglo['tipo'] = "2";
+        $arreglo['tipo'] = $tipo;
         $arreglo['estado'] = "1";
         $arreglo['prioridad'] = "8";
         $arreglo['paquete_trabajo_padre'] = $id_paquete_padre;

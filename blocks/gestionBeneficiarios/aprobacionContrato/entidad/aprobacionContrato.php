@@ -31,13 +31,13 @@ class FormProcessor {
          * 1. Actualizar Contrato
          **/
 
-        //      $this->actualizarContrato();
+        $this->actualizarContrato();
 
         /**
          * 2. Actualizar Servicio
          **/
 
-//        $this->actualizarServicio();
+        $this->actualizarServicio();
 
         /**
          * 3. Actualizar Servicio
@@ -60,7 +60,6 @@ class FormProcessor {
 
         include_once "estructuracionComisionamiento.php";
 
-        exit;
     }
     public function actualizarServicio() {
 
