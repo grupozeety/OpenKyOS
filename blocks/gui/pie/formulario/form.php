@@ -107,13 +107,12 @@ class FormularioMenuUsuario {
 		
 		$url = $this->miConfigurador->configuracion ['host'] . $this->miConfigurador->configuracion ['site'];
 		echo '
-				<div class="main-header logo"  style="background-color: #1c88af;"><left>
-                      <img height="50px" src="'.$url.'/blocks/gui/pie/css/imagenes/pie.png">
-                      		</left>
-                </div>
-				<div class="main-header logo"><center>
-                      <img height="50px" src="'.$url.'/blocks/gui/pie/css/imagenes/pie.jpg"></center>
-         	    </div>';
+				<div align="left" class="main-header logo"  style="background-color: #1c88af;">
+				    <img height="50px" src="'.$url.'/blocks/gui/pie/css/imagenes/pie.png">
+        
+                    <img align="right" height="50px" src="'.$url.'/blocks/gui/pie/css/imagenes/pie2.png">
+                </div>';
+	
 		
 		// ------------------- SECCION: Paso de variables ------------------------------------------------
 		
