@@ -9,6 +9,7 @@ $indice=0;
 $estilo[$indice++]="dataTables.bootstrap.min.css";
 $estilo[$indice++]="select2.min.css";
 $estilo[$indice++]="miestilo.css";
+$estilo[$indice++]="modalLoad.css";
 
 
 

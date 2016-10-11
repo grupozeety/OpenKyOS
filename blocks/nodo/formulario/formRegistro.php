@@ -110,6 +110,7 @@ class Formulario {
         	unset ( $atributos );
         }
         
+        echo "<div class='modalLoad'></div>";
         
         $esteCampo = 'ficheros';
         $atributos ['id'] = $esteCampo;
