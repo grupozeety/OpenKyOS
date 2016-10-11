@@ -1,5 +1,5 @@
 <?php 
-namespace cabecera\formulario\formRegistro;
+namespace nodo\formulario\formRegistro;
 
 if(!isset($GLOBALS["autorizado"])) {
 	include("../index.php");

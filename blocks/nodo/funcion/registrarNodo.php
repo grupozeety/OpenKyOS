@@ -1,8 +1,8 @@
 <?php
 
-namespace cabecera\funcion;
+namespace nodo\funcion;
 
-use cabecera\funcion\redireccionar;
+use nodo\funcion\redireccionar;
 
 include_once ('redireccionar.php');
 if (! isset ( $GLOBALS ["autorizado"] )) {

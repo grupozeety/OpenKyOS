@@ -1,6 +1,6 @@
 <?php
 
-namespace cabecera;
+namespace nodo;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
@@ -27,14 +27,14 @@ include_once ("Lenguaje.class.php");
 
 include_once ('funcion/redireccionar.php');
 
-use cabecera\funcion\redireccion;
+use nodo\funcion\redireccion;
 
 // Esta clase actua como control del bloque en un patron FCE
 // Para evitar redefiniciones de clases el nombre de la clase del archivo bloque debe corresponder al nombre del bloque
 // precedida por la palabra Bloque
 
 
-if (! class_exists ( '\\cabecera\\Bloque' )) {
+if (! class_exists ( '\\nodo\\Bloque' )) {
 	class Bloque implements \Bloque {
 		var $nombreBloque;
 		var $miFuncion;

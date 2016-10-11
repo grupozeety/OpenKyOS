@@ -1,6 +1,6 @@
 <?php
 
-namespace cabecera\funcion;
+namespace nodo\funcion;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("index.php");
