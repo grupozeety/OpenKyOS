@@ -115,7 +115,7 @@ function ordenTrabajo(proyecto){
 			$.each(data , function(indice,valor){
 
 				
-				if(data[ indice ].purpose == "Material Issue"){
+				if(data[ indice ].purpose == "Material Transfer"){ 
 					$("<option value='"+data[ indice ].id_orden_trabajo +"'>"+data[ indice ].descripcion_orden + "</option>").appendTo("#<?php echo $this->campoSeguro('ordenTrabajo');?>");
 				}
 				
