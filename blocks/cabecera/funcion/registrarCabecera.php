@@ -44,10 +44,6 @@ class Registrar {
 		$cabecera['nombre_olt'] = $_REQUEST['nombre_olt'];
 		$cabecera['puerto_olt'] = $_REQUEST['puerto_olt'];
 		
-// 		var_dump($_REQUEST);
-// 		var_dump($cabecera);
-// 		die();
-		
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
@@ -68,7 +64,7 @@ class Registrar {
 			
 		} 
 		
-		if ($resultado) {var_dump($resultado);
+		if ($resultado) { 
 			redireccion::redireccionar ( 'inserto');
 			exit ();
 		} else {
