@@ -1,0 +1,66 @@
+.toolbar {
+    text-align: center;
+ 	position: relative;
+  	top: 100%;
+  transform: translateY(-25%);
+ 	}
+
+.optionRemove { 
+	margin: 10px;
+}
+
+.optionEdit { 
+	margin: 10px;
+}
+
+.btn { 
+	margin: 10px;
+}
+
+.col-form-label {
+      text-align: left;
+}
+
+.btn-group{
+	  text-align: center;
+}​
+
+#map-canvas  {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#map-canvas {
+  width:100%;
+  height:400px;
+}
+
+#map-canvas {
+  margin: auto;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.modal-header {
+    color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #5cb85c;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+
+
+ div.dataTables_wrapper {
+        width: 100%;
+    }
+
+#example_filter{
+	 visibility: hidden;
+}
+
+tr.row_selected td{background-color:red !important;}
