@@ -1,5 +1,5 @@
 <?php 
-namespace cabecera\formulario\form;
+namespace nodo\formulario\form;
 
 if(!isset($GLOBALS["autorizado"])) {
 	include("../index.php");
@@ -102,6 +102,8 @@ class Formulario {
         	echo $this->miFormulario->campoCuadroTexto ( $atributos );
         	unset ( $atributos );
         }
+        
+        echo "<div class='modalLoad'></div>";
         
         // ------------------Division para los botones-------------------------
         $atributos ["id"] = "botones";

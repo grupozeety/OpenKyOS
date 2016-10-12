@@ -32,8 +32,10 @@ class Registrar {
 
 		$cabecera['codigo_cabecera'] = $_REQUEST['codigo_cabecera'];
 		$cabecera['descripcion'] = $_REQUEST['descripcion'];
-		$cabecera['departamento'] = $_REQUEST['departamento'];
-		$cabecera['municipio'] = $_REQUEST['municipio'];
+		$departamento = explode(" ", $_REQUEST['departamento']);
+		$cabecera['departamento'] = $departamento[0]; 
+		$municipio = explode(" ", $_REQUEST['municipio']);
+		$cabecera['municipio'] = $municipio[0];
 		$cabecera['urbanizacion'] = $_REQUEST['id_urbanizacion'];
 		$cabecera['id_urbanizacion'] = $_REQUEST['urbanizacion'];
 		$cabecera['ip_olt'] = $_REQUEST['ip_olt'];
@@ -41,10 +43,6 @@ class Registrar {
 		$cabecera['port_olt'] = $_REQUEST['port_olt'];
 		$cabecera['nombre_olt'] = $_REQUEST['nombre_olt'];
 		$cabecera['puerto_olt'] = $_REQUEST['puerto_olt'];
-		
-// 		var_dump($_REQUEST);
-// 		var_dump($cabecera);
-// 		die();
 		
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
@@ -66,7 +64,7 @@ class Registrar {
 			
 		} 
 		
-		if ($resultado) {
+		if ($resultado) { 
 			redireccion::redireccionar ( 'inserto');
 			exit ();
 		} else {

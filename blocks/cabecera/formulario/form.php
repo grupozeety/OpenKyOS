@@ -103,6 +103,8 @@ class Formulario {
         	unset ( $atributos );
         }
         
+        echo "<div class='modalLoad'></div>";
+        
         // ------------------Division para los botones-------------------------
         $atributos ["id"] = "botones";
         $atributos ["estilo"] = "marcoBotones";

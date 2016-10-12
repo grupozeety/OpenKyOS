@@ -1,6 +1,6 @@
 <?php
 
-namespace cabecera;
+namespace nodo;
 
 if (!isset($GLOBALS ["autorizado"])) {
     include ("../index.php");

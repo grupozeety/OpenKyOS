@@ -1,5 +1,5 @@
 <?php 
-namespace cabecera\formulario\formRegistro;
+namespace nodo\formulario\formRegistro;
 
 if(!isset($GLOBALS["autorizado"])) {
 	include("../index.php");
@@ -110,6 +110,7 @@ class Formulario {
         	unset ( $atributos );
         }
         
+        echo "<div class='modalLoad'></div>";
         
         $esteCampo = 'ficheros';
         $atributos ['id'] = $esteCampo;
