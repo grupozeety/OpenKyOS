@@ -56,9 +56,8 @@ class Registrar {
 		$urlDetalle = $this->crearUrlDetalleProyectos($this->proyecto);
 	
 		$detalle = file_get_contents($urlDetalle);
-	
 		$detalle = json_decode($detalle, true);
-	
+
 		foreach ($detalle as $key => $value) {
 			if ($value['subject'] === 'Infraestructura Nodo') {
 				$paqueteInfraestructura = $value;
@@ -145,7 +144,7 @@ class Registrar {
 		return $urlApi;
 	}
 	
-	function crearOrdenTrabajoNodo($project, $parent, $nombre) {
+	function crearOrdenTrabajoNodo($project, $parent, $nombre, $descripcion) {
 	
 		$url = $this->miConfigurador->getVariableConfiguracion("host");
 		$url .= $this->miConfigurador->getVariableConfiguracion("site");
@@ -162,7 +161,7 @@ class Registrar {
 		$arreglo['proyecto'] = $project;
 		$arreglo['nombre'] = $nombre;
 		$arreglo['porcentaje_avance'] = "0";
-		$arreglo['descripcion'] = "Descripción Tarea";
+		$arreglo['descripcion'] = $descripcion;
 		$arreglo['tipo'] = "2";
 		$arreglo['estado'] = "1";
 		$arreglo['prioridad'] = "8";
@@ -207,14 +206,15 @@ class Registrar {
 		$id_project = $this->proyecto;
 		$id_work_packge = $this->parent;
 		
-		$id = $this->crearOrdenTrabajoNodo($id_project,  $id_work_packge, $this->nodo['codigo_nodo']);
+		$id = $this->crearOrdenTrabajoNodo($id_project,  $id_work_packge, $this->nodo['codigo_nodo'], $this->nodo['codigo_nodo']);
+		$id = $this->obtenerIdentificadorPaqueteTrabajo($id);
 		
-		$this->crearOrdenTrabajoNodo($id_project, $id, "Instalación y conectorización equipo activo nodo EOC");
-		$this->crearOrdenTrabajoNodo($id_project, $id, "Instalación herraje de seguridad");
-		$this->crearOrdenTrabajoNodo($id_project, $id, "Instalación red eléctrica");
-		$this->crearOrdenTrabajoNodo($id_project, $id, "Calibración y configuración");
-		$this->crearOrdenTrabajoNodo($id_project, $id, "Entrega, lista de chequeo y documentación");
-		$this->crearOrdenTrabajoNodo($id_project, $id, "Acometida a hogares");
+		$this->crearOrdenTrabajoNodo($id_project, $id, "Instalación y conectorización equipo activo nodo EOC", "");
+		$this->crearOrdenTrabajoNodo($id_project, $id, "Instalación herraje de seguridad", "");
+		$this->crearOrdenTrabajoNodo($id_project, $id, "Instalación red eléctrica", "");
+		$this->crearOrdenTrabajoNodo($id_project, $id, "Calibración y configuración", "");
+		$this->crearOrdenTrabajoNodo($id_project, $id, "Entrega, lista de chequeo y documentación", "");
+		$this->crearOrdenTrabajoNodo($id_project, $id, "Acometida a hogares", "");
 		
 		if($id != null && $id != ""){
 			return true;
@@ -229,12 +229,13 @@ class Registrar {
 		$id_project = $this->proyecto;
 		$id_work_packge = $this->parent;
 	
-		$id = $this->crearOrdenTrabajoNodo($id_project,  $id_work_packge, $this->nodo['codigo_nodo']);
-	
-		$this->crearOrdenTrabajoNodo($id_project, $id, "Incio instalación");
-		$this->crearOrdenTrabajoNodo($id_project, $id, "Pruebas y configuración");
-		$this->crearOrdenTrabajoNodo($id_project, $id, "Puesta en funcionamiento");
-		$this->crearOrdenTrabajoNodo($id_project, $id, "Calibración y Configuración");
+		$id = $this->crearOrdenTrabajoNodo($id_project,  $id_work_packge, $this->nodo['codigo_nodo'], $this->nodo['codigo_nodo']);
+		$id = $this->obtenerIdentificadorPaqueteTrabajo($id);
+
+		$this->crearOrdenTrabajoNodo($id_project, $id, "Incio instalación", "");
+		$this->crearOrdenTrabajoNodo($id_project, $id, "Pruebas y configuración", "");
+		$this->crearOrdenTrabajoNodo($id_project, $id, "Puesta en funcionamiento", "");
+		$this->crearOrdenTrabajoNodo($id_project, $id, "Calibración y Configuración", "");
 	
 		if($id != null && $id != ""){
 			return true;
