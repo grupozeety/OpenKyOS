@@ -11,7 +11,11 @@ $indice = 0;
  */
 
 //$funcion [$indice ++] = " ";
-
+$funcion[$indice++] = "modalLoad.js";
+$funcion[$indice++] = "jquery.dataTables.js";
+$funcion[$indice++] = "dataTables.bootstrap.js";
+$funcion[$indice++] = "dataTables.responsive.js";
+$funcion[$indice++] = "datatables.colsearch.plugin.js";
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");
 if ($esteBloque["grupo"] == "") {
@@ -37,3 +41,17 @@ if (isset($funcion[0])) {
 include "ajax.php";
 
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

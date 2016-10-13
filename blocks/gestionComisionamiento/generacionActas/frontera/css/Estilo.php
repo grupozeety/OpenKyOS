@@ -7,6 +7,10 @@ $indice = 0;
 
 $estilo[$indice++] = "estiloBloque.css";
 
+$estilo [$indice ++] = "responsive.dataTables.css";
+$estilo [$indice ++] = "modalLoad.css";
+$estilo [$indice ++] = "dataTables.bootstrap.min.css";
+$estilo [$indice ++] = "dataTables.bootstrap.css";
 $indice++;
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
@@ -22,3 +26,14 @@ foreach ($estilo as $nombre) {
     echo "<link rel='stylesheet' type='text/css' href='" . $rutaBloque . "/frontera/css/" . $nombre . "'>\n";
 }
 ?>
+
+
+
+
+
+
+
+
+
+
+

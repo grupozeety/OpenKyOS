@@ -55,26 +55,33 @@ class Registrador {
             echo $this->miFormulario->agrupacion('inicio', $atributos);
             unset($atributos);
             {
-                echo '<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+
+                echo '<table id="example" class="table table-striped table-hover table-condensed" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>N#</th>
-                            <th>Nombre Proyecto</th>
-                            <th>Opcion</th>
+                            <th>Número Agendamiento</th>
+                            <th>Nodo</th>
+                            <th>Cantidad Beneficiarios</th>
+                            <th>Fecha Agendamiento</th>
+                            <th>Responsable</th>
+                            <th>Opción</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>N#</th>
-                            <th>Nombre Proyecto</th>
-                            <th>Opcion</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </tfoot>
                   </table>';
             }
             echo $this->miFormulario->agrupacion('fin');
             unset($atributos);
-            var_dump($_REQUEST);
+
         }
 
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
