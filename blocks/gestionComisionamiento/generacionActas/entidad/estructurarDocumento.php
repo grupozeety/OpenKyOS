@@ -428,41 +428,233 @@ class GenerarDocumento {
 											           			<br>
 											           			<table width:100%;>
 												           			<tr>
-													            		<td align='center'style='width:20%;'>REFERENCIA</td>
-													            		<td align='center'style='width:20%;'>MAC</td>
-													            		<td align='center'style='width:20%;'>SERIAL</td>
-													            		<td align='center'style='width:20%;'>MARCA</td>
-													            		<td align='center'style='width:20%;'>MODELO</td>
+													            		<td align='center'style='width:25%;'>REFERENCIA</td>
+													            		<td align='center'style='width:30%;'>DESTINO</td>
+													            		<td align='center'style='width:10%;'>Puede Navegar</td>
+													            		<td align='center'style='width:10%;'>CUMPLE</td>
+													            		<td align='center'style='width:25%;'>OBSERVACIONES</td>
 													            	</tr>
 													            	<tr>
-													            		<td align='center'style='width:5%;'>1</td>
-													            		<td align='center'style='width:15%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
-													            	</tr>
-													            	<tr>
-													            		<td align='center'style='width:5%;'>2</td>
-													            		<td align='center'style='width:15%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
-													            	</tr>
-													            	<tr>
-													            		<td align='center'style='width:5%;'>3</td>
-													            		<td align='center'style='width:15%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
-													            		<td align='center'style='width:20%;'> </td>
+													            		<td align='center'style='width:25%;'>www.gobiernoenlinea.gov.co</td>
+													            		<td align='center'style='width:30%;'>La página de referencia pasa por el NAP Colombia antes de pasar por cualquier destino Internacional.<br>(La página de referencia debe estar conectada al NAP)</td>
+													            		<td align='center'style='width:10%;'>SI __<br><br>NO__</td>
+													            		<td align='center'style='width:10%;'>SI __<br><br>NO__</td>
+													            		<td align='center'style='width:25%;'>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br></td>
 													            	</tr>
 																</table>
 											    				<br>
-								           	</td>
+											    				<table width:100%;>
+												           			<tr>
+													            		<td style='width:100%;border:none;'>7.3. Pruebas Windows : ping (ping -n 10 -l 512)  --- Linux : buscar herramientas de Red</td>
+												           			</tr>
+												           		</table>
+												           		<br>
+												           	    <table width:100%;>
+												           	    	<tr>
+													            		<td align='center'style='width:33.33%;'>TIPO DE CONECTIVIDAD : </td>
+													            		<td align='center'style='width:33.33%;'>VIP</td>
+													            		<td align='center'style='width:33.33%;'>Hogares estrato 1 y 2</td>
+													            	</tr>
+												           			<tr>
+													            		<td align='center'style='width:33.33%;'>Página a realizar la prueba</td>
+													            		<td align='center'style='width:33.33%;'>TIEMPO(ms)</td>
+													            		<td align='center'style='width:33.33%;'>TIEMPO(ms)</td>
+													            	</tr>
+													            	<tr>
+													            		<td align='center'style='width:33.33%;'>www.mintic.gov.co</td>
+													            		<td align='center'style='width:33.33%;'> </td>
+													            		<td align='center'style='width:33.33%;'> </td>
+													            	</tr>
+													            	<tr>
+													            		<td align='center'style='width:33.33%;'>www.nasa.gov</td>
+													            		<td align='center'style='width:33.33%;'> </td>
+													            		<td align='center'style='width:33.33%;'> </td>
+													            	</tr>
+													            	<tr>
+													            		<td align='center'style='width:33.33%;'>www.eltiempo.com</td>
+													            		<td align='center'style='width:33.33%;'> </td>
+													            		<td align='center'style='width:33.33%;'> </td>
+													            	</tr>
+													            	<tr>
+													            		<td align='center'style='width:33.33%;'>www.gmail.com</td>
+													            		<td align='center'style='width:33.33%;'> </td>
+													            		<td align='center'style='width:33.33%;'> </td>
+													            	</tr>
+													            </table>
+											    				<br>
+											    				<br>
+										    </td>
 								        </tr>
-							      </table>";
+							      </table>
+							      <table>
+							      		<tr>
+							      			<td>
+							      							<br>
+							      			   					<table width:100%;>
+												           			<tr>
+													            		<td style='width:100%;border:none;'>7.4. Pruebas de desempeño Velocidad (speed test)(Aplica para VIP y Hogares estrato 1 y 2).<br> 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recordar que 4048 Kbps es igual a 2Mbps.</td>
+												           			</tr>
+												           		</table>
+												           		<br>
+												           	    <table width:100%;>
+												           			<tr>
+													            		<td align='center'style='width:25%;'>Página a realizar la prueba(speed test)</td>
+													            		<td align='center'style='width:15%;'>Vel mínima (Kbps)</td>
+													            		<td align='center'style='width:20%;'>Velocidad medición</td>
+													            		<td align='center'style='width:20%;'>TIEMPO (Seg)</td>
+													            		<td align='center'style='width:20%;'>Velocidad (Mbps)</td>
+													            	</tr>
+													            	<tr>
+													            		<td rowspan='2' align='center'style='width:25%;'>http://www.speedtest.net/</td>
+													            		<td align='center'style='width:15%;'>4048</td>
+													            		<td align='center'style='width:20%;'>DOWNLOAD</td>
+													            		<td rowspan='2' align='center'style='width:20%;'> </td>
+													            		<td align='center'style='width:20%;'> </td>
+													            	</tr>
+													            	<tr>
+													            		<td align='center'style='width:15%;'>1024</td>
+													            		<td align='center'style='width:20%;'>UPLOAD</td>
+													            		<td align='center'style='width:20%;'> </td>
+													            	</tr>
+																	<tr>
+													            		<td rowspan='2' align='center'style='width:25%;'>http://performance.toast.net/</td>
+													            		<td align='center'style='width:15%;'>4048</td>
+													            		<td align='center'style='width:20%;'>DOWNLOAD</td>
+													            		<td rowspan='2' align='center'style='width:20%;'> </td>
+													            		<td align='center'style='width:20%;'> </td>
+													            	</tr>
+													            	<tr>
+													            		<td align='center'style='width:15%;'>1024</td>
+													            		<td align='center'style='width:20%;'>UPLOAD</td>
+													            		<td align='center'style='width:20%;'> </td>
+													            	</tr>
+													            </table>
+													            <table width:100%;>
+												           			<tr>
+													            		<td style='width:100%;'>* Nota: Señor Técnico favor realizar los speed test con dos paginas diferentes, tomar registro fotografico, adicionar fotografia del equipo navegando en www.mintic.gov.co</td>
+												           			</tr>
+												           		</table>
+												           		<br>
+							      			</td>
+							      		</tr>
+							      		<tr>
+							           		<td align='center' style='width:100%;'>8. DECLARACIÓN DE NO INTERNET</td>
+							           	</tr>
+							           	<tr>
+							           		<td align='justify' style='width:100%;'>
+							           			<br>
+												Fecha:<br>
+												Ciudad,<br>
+												<br>
+												<br>
+												Yo______________________________ identificado(a) con cedula de ciudadanía N°.___________ de_______________ en mi calidad de beneficiario(a) del Proyecto Conexiones Digitales II Redes de Acceso última milla para la masificación de accesos de banda ancha en viviendas de interés prioritario y hogares en estratos 1 y 2 - Ministerio de las Tecnologías de la Información y las Comunicaciones, por medio de la presente declaro inequívocamente que no he contratado los servicios de internet en los últimos seis (6) meses.
+												Como constancia se firma a los _________ días del mes de ______________ del año ______ en la ciudad de ________________.<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												____________________________<br>
+												Firma Beneficiario<br>
+												Nombre:<br>
+												CC:<br>
+												No. Celular:<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+												<br>
+							           		</td>
+							           	</tr>
+							       </table>
+							       <br>
+							       <table>
+							       		<tr>
+							           		<td align='center' style='width:100%;'>9. SERVICIO AL CLIENTE</td>
+							           	</tr>
+							           	<tr>
+							           		<td align='justify' style='width:100%;'>
+							           			<br>
+												Recuerde que cualquier inquietud sobre las funcionalidades del servicio, soporte,  los términos y condiciones, así como las peticiones, quejas o reclamos, serán atendidos en los siguientes canales:<br>
+												Telefónicamente: línea gratuita nacional 018000961016<br>
+												Portal Web: http://conexionesdigitales.politecnica.edu.co/.<br>
+												Correo: soportecd2@soygenial.co.<br>
+												<br>
+							           		</td>
+							           	</tr>
+							           	<tr>
+							           		<td>
+		           			           			<table width:100%;>
+								           			<tr>
+									            		<td align='center' style='width:100%;border:none;'><b>EL CLIENTE MANIFIESTA QUE ESTÁ CONFORME CON LA INSTALACIÓN REALIZADA Y QUE SE DEJA EL LUGAR EN ADECUADO ESTADO DE ORDEN Y ASEO.</b></td>
+									            	</tr>
+									       		</table>
+									       		<br>
+				       		           			<table width:100%;>
+				       			           			<tr>
+				       				            		<td colspan='2' align='center'style='width:45%;'>RECIBI A SATISFACCIÓN</td>
+				       				            		<td align='center'style='width:10%;border:none;border-right:#CCC;'> </td>
+				       				            		<td colspan='2' align='center'style='width:45%;'>INFORMACIÓN TECNICO</td>
+				       				            	</tr>
+				       				            	<tr>
+				       				            		<td rowspan='4' align='center'style='width:23%;color:#c5c5c5;'>FIRMA DEL CLIENTE</td>
+				       				            		<td align='center'style='width:22%;color:#c5c5c5;'>Nombre</td>
+				       				            		<td align='center'style='width:10%;border:none;border-right:#CCC;'> </td>
+				       				            		<td rowspan='4' align='center'style='width:23%;color:#c5c5c5;'>FIRMA DEL TECNICO</td>
+				       				            		<td align='center'style='width:22%;color:#c5c5c5;'>Nombre</td>
+				       				            	</tr>
+				       				            	<tr>
+				       				            		<td align='center'style='width:22%;color:#c5c5c5;'>Numero de Identificación</td>
+				       				            		<td align='center'style='width:10%;border:none;border-right:#CCC;'> </td>
+				       				            		<td align='center'style='width:22%;color:#c5c5c5;'>Numero de Identificación</td>
+				       				            	</tr>
+				       				            	<tr>
+				       				            		<td align='center'style='width:22%;color:#c5c5c5;'>Cargo</td>
+				       				            		<td align='center'style='width:10%;border:none;border-right:#CCC;'> </td>
+				       				            		<td align='center'style='width:22%;color:#c5c5c5;'>Cargo</td>
+				       				            	</tr>
+				       				            	<tr>
+				       				            		<td align='center'style='width:22%;color:#c5c5c5;'>Número celular</td>
+				       				            		<td align='center'style='width:10%;border:none;border-right:#CCC;'> </td>
+				       				            		<td align='center'style='width:22%;color:#c5c5c5;'>Número celular</td>
+				       				            	</tr>
+				       				         	</table>
+				       				         	<table>
+				       				         	   	<tr>
+				       				            		<td align='justify'style='width:100%;'>
+				       				            		<br>
+														Con la firma del presente documento EL CLIENTE reconoce y acepta que todo lo manifestado en el es cierto y que en tal sentido está satisfecho con la información brindada por la Corporación Politécnica Nacional de Colombia.<br><br>
+														EL CLIENTE se compromete a informar oportunamente a la Corporación Politécnica Nacional de Colombia. sobre cualquier daño, pérdida o afectación de los equipos antes mencionados.<br><br>
+														El CLIENTE acepta y reconoce que a la fecha a consultado o ha sido informado por la Corporación Politécnica Nacional de Colombia sobre las condiciones mínimas requeridas para los equipos necesarios para hacer uso de los servicios contratados.<br><br>
+														En caso de que el CLIENTE desee efectuar la devolución de equipos instalados por la Corporación Politécnica Nacional de Colombia para la prestación del servicio, podrá comunicarse a la línea gratuita de atención nacional.<br><br>
+														El CLIENTE debe tener en cuenta que existen riesgos sobre la seguridad de la red y de los servicios contratados los cuales son los siguientes:
+														<br><br>a. Riesgos relacionados con fraudes electrónicos, Riesgos relacionados con la información, Riesgos relacionados con las actividades económicas, Riesgos relacionados con el funcionamiento del Internet y Riesgos relacionados con hábitos adictivos.<br>
+				       				            		</td>
+				       				            	</tr>
+				       				            	<tr>
+				       				            		<td align='center'style='width:100%;'>DOCUMENTO CONTROLADO</td>
+				       				            	</tr>
+				       				            </table>
+						           		    </td>
+										</tr>
+							       </table>
+
+
+							      ";
 
         $contenidoPagina .= " </page> ";
 
