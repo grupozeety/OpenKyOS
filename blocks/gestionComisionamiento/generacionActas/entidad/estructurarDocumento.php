@@ -17,38 +17,116 @@ class GenerarDocumento {
     public $agendamientos;
     public $miSql;
     public $conexion;
-    public $contenidoPagina;
+    public $contenidoPagina = '';
     public $rutaURL;
+    public $rutaAbsoluta;
+    public $ruta_dir;
+    public $ruta_dir_actas;
+    public $nombre_dir_actas;
     public function __construct($sql, $agendamientos) {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
         $this->agendamientos = $agendamientos;
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
-
+        $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
         if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
-
             $this->rutaURL .= "/blocks/" . $_REQUEST["bloque"] . "/";
+            $this->rutaAbsoluta .= "/blocks/" . $_REQUEST["bloque"] . "/";
         } else {
             $this->rutaURL .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
+            $this->rutaAbsoluta .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
         }
 
         /**
-         *  1. Estruturar Documento
+         *  1. EstructurarDocumento de acuerdo a # Agendamienntos
          **/
 
-        $this->estruturaDocumento();
+        $this->estructurarActas();
+
+    }
+
+    public function estructurarActas() {
 
         /**
-         *  2. Crear PDF
+         * 1. Crear Directorio Actas
          **/
 
-        $this->crearPDF();
+        $this->ruta_dir = $this->rutaAbsoluta . "/entidad/directorio_actas";
+
+        $this->nombre_dir_actas = "actas" . time();
+        $this->ruta_dir_actas = $this->ruta_dir . "/" . $this->nombre_dir_actas;
+
+        mkdir($this->ruta_dir_actas, 0777, true);
+        chmod($this->ruta_dir_actas, 0777);
+
+        /**
+         * 2. Generar Actas
+         **/
+        $this->generarActas();
+
+        /**
+         * 3. Comprimir Directorio
+         **/
+        $ruta = $this->comprimir($this->ruta_dir, $this->nombre_dir_actas, $this->nombre_dir_actas);
+
+        /**
+         * 4. Eliminar Archivos No Necesarios
+         **/
+        $this->eliminarDirectorioContenido($this->ruta_dir_actas);
+
+    }
+
+    public function eliminarDirectorioContenido($rutaAnalizar) {
+        foreach (glob($rutaAnalizar . "/*") as $archivos_carpeta) {
+            if (is_dir($archivos_carpeta)) {
+
+                $valorContenido = @scandir($archivos_carpeta);
+
+                if (count($valorContenido) == 2) {
+
+                    rmdir($archivos_carpeta);
+                } else {
+
+                    $this->eliminarDirectorioContenido($archivos_carpeta);
+                }
+            } else {
+                unlink($archivos_carpeta);
+            }
+        }
+        rmdir($rutaAnalizar);
+    }
+
+    public function comprimir($rutaObjetivoContenido, $nombreComprimido, $nombreDirectorioComprimir, $rutaSalidaComprimido = '') {
+
+        $ruta_actual = getcwd();
+
+        chdir($rutaObjetivoContenido);
+
+        $nombre_archivo = $nombreComprimido . ".zip";
+
+        $cadena = "zip " . $rutaSalidaComprimido . $nombre_archivo . " " . $nombreDirectorioComprimir . "/*";
+
+        $queries = exec($cadena);
+
+        chdir($ruta_actual);
+
+        return $nombre_archivo;
+
+    }
+
+    public function generarActas() {
+
+        foreach ($this->agendamientos as $key => $value) {
+
+            $this->contenidoPagina = $this->estruturaDocumento();
+
+            $this->crearPDF();
+        }
 
     }
 
     public function crearPDF() {
-
         ob_start();
         $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
             2,
@@ -58,7 +136,7 @@ class GenerarDocumento {
         ));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
-        $html2pdf->Output('ActaEntregaComisionamiento' . date('Y-m-d') . '.pdf', 'D');
+        $html2pdf->Output($this->ruta_dir_actas . '/ActaEntregaComisionamiento' . time() . '.pdf', 'F');
 
     }
     public function estruturaDocumento() {
@@ -658,7 +736,7 @@ class GenerarDocumento {
 
         $contenidoPagina .= " </page> ";
 
-        $this->contenidoPagina = $contenidoPagina;
+        return $contenidoPagina;
     }
 }
 $miDocumento = new GenerarDocumento($this->miSql, $this->agendamientos);
