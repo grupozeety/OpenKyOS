@@ -32,7 +32,21 @@ class Sql extends \Sql {
                 $cadenaSql .= " FROM interoperacion.agendamiento_comisionamiento";
                 $cadenaSql .= " WHERE estado_registro = TRUE";
                 $cadenaSql .= " GROUP BY id_agendamiento,codigo_nodo,fecha_agendamiento,responsable;";
+                break;
 
+            case 'consultarAgendamientosGeneral':
+                $cadenaSql = " SELECT * ";
+                $cadenaSql .= "FROM interoperacion.agendamiento_comisionamiento ";
+                $cadenaSql .= " WHERE estado_registro = TRUE ";
+                break;
+
+            case 'consultarAgendamientosParticulares':
+                $cadenaSql = " SELECT * ";
+                $cadenaSql .= "FROM interoperacion.agendamiento_comisionamiento ";
+                $cadenaSql .= " WHERE estado_registro = TRUE ";
+                $cadenaSql .= " AND  id_agendamiento ='" . $variable['id_agendamiento'] . "' ";
+                $cadenaSql .= " AND  codigo_nodo ='" . $variable['codigo_nodo'] . "' ";
+                $cadenaSql .= " AND  responsable ='" . $variable['responsable'] . "'; ";
                 break;
 
             case 'insertarBloque':

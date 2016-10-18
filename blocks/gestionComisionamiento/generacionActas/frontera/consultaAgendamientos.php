@@ -25,6 +25,9 @@ class Registrador {
 
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 
+        $atributosGlobales['campoSeguro'] = 'true';
+
+        $_REQUEST['tiempo'] = time();
         // -------------------------------------------------------------------------------------------------
 
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -49,9 +52,10 @@ class Registrador {
         echo $this->miFormulario->formulario($atributos);
         {
 
+            echo "<div class='modalLoad'></div>";
             $esteCampo = 'Agrupacion';
             $atributos['id'] = $esteCampo;
-            $atributos['leyenda'] = "<b>Reporte Instalaciones Generales</b>";
+            $atributos['leyenda'] = "<b>Actas de Entrega Comisionamiento</b>";
             echo $this->miFormulario->agrupacion('inicio', $atributos);
             unset($atributos);
             {
@@ -78,10 +82,88 @@ class Registrador {
                         </tr>
                     </tfoot>
                   </table>';
+
+                // ------------------Division para los botones-------------------------
+                $atributos["id"] = "botones";
+                $atributos["estilo"] = "marcoBotones";
+                $atributos["estiloEnLinea"] = "display:block;";
+                echo $this->miFormulario->division("inicio", $atributos);
+                unset($atributos);
+                {
+                    // -----------------CONTROL: Botón ----------------------------------------------------------------
+                    $esteCampo = 'generarActas';
+                    $atributos["id"] = $esteCampo;
+                    $atributos["tabIndex"] = $tab;
+                    $atributos["tipo"] = 'boton';
+                    // submit: no se coloca si se desea un tipo button genérico
+                    $atributos['submit'] = true;
+                    $atributos["simple"] = true;
+                    $atributos["estiloMarco"] = '';
+                    $atributos["estiloBoton"] = 'default';
+                    $atributos["block"] = false;
+                    // verificar: true para verificar el formulario antes de pasarlo al servidor.
+                    $atributos["verificar"] = '';
+                    $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+                    $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos['nombreFormulario'] = $esteBloque['nombre'];
+                    $tab++;
+
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
+                    unset($atributos);
+                    // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+                }
+                // ------------------Fin Division para los botones-------------------------
+                echo $this->miFormulario->division("fin");
+                unset($atributos);
+
             }
             echo $this->miFormulario->agrupacion('fin');
             unset($atributos);
 
+        }
+
+        {
+            /**
+             * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
+             * SARA permite realizar esto a través de tres
+             * mecanismos:
+             * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
+             * la base de datos.
+             * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
+             * formsara, cuyo valor será una cadena codificada que contiene las variables.
+             * (c) a través de campos ocultos en los formularios. (deprecated)
+             */
+
+            // En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
+
+            // Paso 1: crear el listado de variables
+
+            $valorCodificado = "action=" . $esteBloque["nombre"];
+            $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+            $valorCodificado .= "&opcion=generarActas";
+
+            /**
+             * SARA permite que los nombres de los campos sean dinámicos.
+             * Para ello utiliza la hora en que es creado el formulario para
+             * codificar el nombre de cada campo.
+             */
+            $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
+            // Paso 2: codificar la cadena resultante
+            $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);
+
+            $atributos["id"] = "formSaraData"; // No cambiar este nombre
+            $atributos["tipo"] = "hidden";
+            $atributos['estilo'] = '';
+            $atributos["obligatorio"] = false;
+            $atributos['marco'] = true;
+            $atributos["etiqueta"] = "";
+            $atributos["valor"] = $valorCodificado;
+            echo $this->miFormulario->campoCuadroTexto($atributos);
+            unset($atributos);
         }
 
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
