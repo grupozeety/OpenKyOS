@@ -2,6 +2,8 @@
 
 namespace gestionComisionamiento\generacionActas\entidad;
 
+include_once 'Redireccionador.php';
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -23,6 +25,8 @@ class GenerarDocumento {
     public $ruta_dir;
     public $ruta_dir_actas;
     public $nombre_dir_actas;
+    public $nombre_archivo_zip;
+    public $rutaURLArchivo;
     public function __construct($sql, $agendamientos) {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -51,7 +55,7 @@ class GenerarDocumento {
         /**
          * 1. Crear Directorio Actas
          **/
-
+        $this->rutaURLArchivo = $this->rutaURL . "/entidad/directorio_actas";
         $this->ruta_dir = $this->rutaAbsoluta . "/entidad/directorio_actas";
 
         $this->nombre_dir_actas = "actas" . time();
@@ -68,12 +72,30 @@ class GenerarDocumento {
         /**
          * 3. Comprimir Directorio
          **/
-        $ruta = $this->comprimir($this->ruta_dir, $this->nombre_dir_actas, $this->nombre_dir_actas);
+        $this->nombre_archivo_zip = $this->comprimir($this->ruta_dir, $this->nombre_dir_actas, $this->nombre_dir_actas);
 
         /**
          * 4. Eliminar Archivos No Necesarios
          **/
         $this->eliminarDirectorioContenido($this->ruta_dir_actas);
+
+        /**
+         * 4. Redireccionar
+         **/
+
+        $arreglo = array(
+            "nombre_archivo" => $this->nombre_archivo_zip,
+            "rutaUrl" => $this->rutaURLArchivo . "/" . $this->nombre_archivo_zip,
+        );
+        var_dump($arreglo);
+        if (file_exists($this->ruta_dir . "/" . $this->nombre_archivo_zip)) {
+
+            Redireccionador::redireccionar('archivoGenerado', $arreglo);
+        } else {
+
+            echo "no existe";exit;
+            // Redireccionador::redireccionar('archivoNoGenerado');
+        }
 
     }
 

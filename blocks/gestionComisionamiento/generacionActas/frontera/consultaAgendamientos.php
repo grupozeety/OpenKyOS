@@ -9,6 +9,8 @@ class Registrador {
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
+    public $rutaURL;
+    public $rutaAbsoluta;
     public function __construct($lenguaje, $formulario) {
         $this->miConfigurador = \Configurador::singleton();
 
@@ -17,6 +19,7 @@ class Registrador {
         $this->lenguaje = $lenguaje;
 
         $this->miFormulario = $formulario;
+
     }
     public function seleccionarForm() {
 
@@ -46,6 +49,11 @@ class Registrador {
         $atributos['marco'] = true;
         $tab = 1;
         // ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
+
+        if (isset($_REQUEST['mensaje'])) {
+            $this->mensaje($tab, $esteBloque['nombre']);
+        }
+        unset($_REQUEST['mensaje']);
 
         // ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
         $atributos['tipoEtiqueta'] = 'inicio';
@@ -152,6 +160,7 @@ class Registrador {
              * codificar el nombre de cada campo.
              */
             $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
+
             // Paso 2: codificar la cadena resultante
             $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);
 
@@ -172,44 +181,58 @@ class Registrador {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensaje() {
 
-        // Si existe algun tipo de error en el login aparece el siguiente mensaje
-        $mensaje = $this->miConfigurador->getVariableConfiguracion('mostrarMensaje');
-        $this->miConfigurador->setVariableConfiguracion('mostrarMensaje', null);
+    public function mensaje($tab = '', $nombreBloque = '') {
 
-        if ($mensaje) {
-            $tipoMensaje = $this->miConfigurador->getVariableConfiguracion('tipoMensaje');
-            if ($tipoMensaje == 'json') {
+        $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 
-                $atributos['mensaje'] = $mensaje;
-                $atributos['json'] = true;
-            } else {
-                $atributos['mensaje'] = $this->lenguaje->getCadena($mensaje);
-            }
-            // ------------------Division para los botones-------------------------
-            $atributos['id'] = 'divMensaje';
-            $atributos['estilo'] = 'marcoBotones';
-            echo $this->miFormulario->division("inicio", $atributos);
-
-            // -------------Control texto-----------------------
-            $esteCampo = 'mostrarMensaje';
-            $atributos["tamanno"] = '';
-            $atributos["estilo"] = 'information';
-            $atributos["etiqueta"] = '';
-            $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-            echo $this->miFormulario->campoMensaje($atributos);
-            unset($atributos);
-
-            // ------------------Fin Division para los botones-------------------------
-            echo $this->miFormulario->division("fin");
+        $rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        if (!isset($esteBloque["grupo"]) || $esteBloque["grupo"] == "") {
+            $rutaURL .= "/blocks/" . $esteBloque["bloque"] . "/";
+        } else {
+            $rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
         }
+
+        $rutaURL .= "entidad/directorio_actas/";
+
+        switch ($_REQUEST['mensaje']) {
+            case 'archivoGenerado':
+
+                $mensaje = "Exito en la Generación de la(s) Acta(s)<br> Link de Archivo : <a target='_blank' href='" . $rutaURL . $_REQUEST['nombre_archivo'] . "'  >Descargar Actas</a>";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
+        }
+
+        // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+
+        $atributos['tipoEtiqueta'] = 'inicio';
+        $atributos['titulo'] = 'Mensaje';
+        $atributos['id'] = 'mensaje';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
+
+        echo '<p><h5>' . $mensaje . '</h5></p>';
+
+        echo '</div>';
+
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+
+        echo '<div style="text-align:center;">';
+
+        echo '</div>';
+
+        $atributos['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
     }
 }
 
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario);
-
-$miSeleccionador->mensaje();
 
 $miSeleccionador->seleccionarForm();
 
