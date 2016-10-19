@@ -1,5 +1,5 @@
 <?php 
-namespace cabecera\formulario\formRegistro;
+namespace reporteAgendamientos\formulario\formRegistro;
 
 if(!isset($GLOBALS["autorizado"])) {
 	include("../index.php");
@@ -118,196 +118,31 @@ class Formulario {
         
         $esteCampo = 'ficheros';
         $atributos ['id'] = $esteCampo;
-        $atributos ['leyenda'] = "Agendar Comisionamiento";
+        $atributos ['leyenda'] = "Generar Reporte de Comisionamiento";
         echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
         unset ( $atributos );
         
         
-	        // ----------------INICIO CONTROL: Lista Tipo de Agendamiento--------------------------------------------------------
-	        
-	        $esteCampo = 'tipo_agendamiento';
-	        $atributos ['nombre'] = $esteCampo;
-	        $atributos ['id'] = $esteCampo;
-	        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-	        $atributos ["etiquetaObligatorio"] = true;
-	        $atributos ['tab'] = $tab ++;
-	        $atributos ['anchoEtiqueta'] = 2;
-	        $atributos ['evento'] = '';
-	        $atributos ['seleccion'] = - 1;
-	        $atributos ['deshabilitado'] = false;
-	        $atributos ['columnas'] = 1;
-	        $atributos ['tamanno'] = 1;
-	        $atributos ['ajax_function'] = "";
-	        $atributos ['ajax_control'] = $esteCampo;
-	        $atributos ['estilo'] = "bootstrap";
-	        $atributos ['limitar'] = false;
-	        $atributos ['anchoCaja'] = 10;
-	        $atributos ['miEvento'] = '';
-	        //         $atributos ['validar'] = '';
-	        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTipoAgendamiento" );
-	        $matrizItems = array (
-	        		array (
-	        				0,
-	        				' '
-	        		)
-	        );
-	        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-	        $atributos ['matrizItems'] = $matrizItems;
-	        // Aplica atributos globales al control
-	        
-	        if (isset ( $cargueDatos [$esteCampo] )) {
-	        	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
-	        } else {
-	        	$atributos ['seleccion'] = - 1;
-	        }
-	        
-	        $atributos = array_merge ( $atributos, $atributosGlobales );
-	        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-	        unset ( $atributos );
-	         
-	        // ----------------FIN CONTROL: Lista Tipo de Agendamiento--------------------------------------------------------
-	        
-	        // ----------------INICIO CONTROL: Lista Tipo de Tecnología--------------------------------------------------------
-	         
-	        $esteCampo = 'tipo_tecnologia';
-	        $atributos ['nombre'] = $esteCampo;
-	        $atributos ['id'] = $esteCampo;
-	        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-	        $atributos ["etiquetaObligatorio"] = true;
-	        $atributos ['tab'] = $tab ++;
-	        $atributos ['anchoEtiqueta'] = 2;
-	        $atributos ['evento'] = '';
-	        $atributos ['seleccion'] = - 1;
-	        $atributos ['deshabilitado'] = false;
-	        $atributos ['columnas'] = 1;
-	        $atributos ['tamanno'] = 1;
-	        $atributos ['ajax_function'] = "";
-	        $atributos ['ajax_control'] = $esteCampo;
-	        $atributos ['estilo'] = "bootstrap";
-	        $atributos ['limitar'] = false;
-	        $atributos ['anchoCaja'] = 10;
-	        $atributos ['miEvento'] = '';
-	        //         $atributos ['validar'] = '';
-	        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTipoTecnologia" );
-	        $matrizItems = array (
-	        		array (
-	        				0,
-	        				' '
-	        		)
-	        );
-	        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-	        $atributos ['matrizItems'] = $matrizItems;
-	        // Aplica atributos globales al control
-	         
-	        if (isset ( $cargueDatos [$esteCampo] )) {
-	        	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
-	        } else {
-	        	$atributos ['seleccion'] = - 1;
-	        }
-	         
-	        $atributos = array_merge ( $atributos, $atributosGlobales );
-	        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-	        unset ( $atributos );
-	        
-	        // ----------------FIN CONTROL: Lista Tipo de Tecnología--------------------------------------------------------
-	        
-	        // ----------------INICIO CONTROL: Lista Tipo de Tecnología--------------------------------------------------------
-	        
-	        $esteCampo = 'comisionador';
-	        $atributos ['nombre'] = $esteCampo;
-	        $atributos ['id'] = $esteCampo;
-	        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-	        $atributos ["etiquetaObligatorio"] = true;
-	        $atributos ['tab'] = $tab ++;
-	        $atributos ['anchoEtiqueta'] = 2;
-	        $atributos ['evento'] = '';
-	        $atributos ['seleccion'] = - 1;
-	        $atributos ['deshabilitado'] = false;
-	        $atributos ['columnas'] = 1;
-	        $atributos ['tamanno'] = 1;
-	        $atributos ['ajax_function'] = "";
-	        $atributos ['ajax_control'] = $esteCampo;
-	        $atributos ['estilo'] = "bootstrap";
-	        $atributos ['limitar'] = false;
-	        $atributos ['anchoCaja'] = 10;
-	        $atributos ['miEvento'] = '';
-	        //         $atributos ['validar'] = '';
-	        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "comisionador" );
-	        $matrizItems = array (
-	        		array (
-	        				0,
-	        				' '
-	        		)
-	        );
-	        $matrizItems = $esteRecursoDBOP->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-	        $atributos ['matrizItems'] = $matrizItems;
-	        // Aplica atributos globales al control
-	        
-	        if (isset ( $cargueDatos [$esteCampo] )) {
-	        	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
-	        } else {
-	        	$atributos ['seleccion'] = - 1;
-	        }
-	        
-	        $atributos = array_merge ( $atributos, $atributosGlobales );
-	        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-	        unset ( $atributos );
-	         
-	        // ----------------FIN CONTROL: Lista Tipo de Tecnología--------------------------------------------------------
-	        	    
-	        // ----------------INICIO CONTROL: Fecha de Agendamiento--------------------------------------------------------
-	        	    
-	        $esteCampo = 'fecha_agendamiento';
-	        $atributos['nombre'] = $esteCampo;
-	        $atributos['tipo'] = "text";
-	        $atributos['id'] = $esteCampo;
-	        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-	        $atributos["etiquetaObligatorio"] = true;
-	        $atributos['tab'] = $tab++;
-	        $atributos['anchoEtiqueta'] = 2;
-	        $atributos['estilo'] = "bootstrap";
-	        $atributos['evento'] = '';
-	        $atributos['deshabilitado'] = false;
-	        $atributos['readonly'] = false;
-	        $atributos['columnas'] = 1;
-	        $atributos['tamanno'] = 1;
-	        $atributos['placeholder'] = "Seleccione la Fecha del Agendamiento";
-	        $atributos['valor'] = "";
-	        $atributos['ajax_function'] = "";
-	        $atributos['ajax_control'] = $esteCampo;
-	        $atributos['limitar'] = false;
-	        $atributos['anchoCaja'] = 10;
-	        $atributos['miEvento'] = '';
-	        $atributos['validar'] = 'required';
-	        // Aplica atributos globales al control
-	        $atributos = array_merge($atributos, $atributosGlobales);
-	        echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-	        unset($atributos);
-        
-	        // ----------------FIN CONTROL: Fecha de Agendamiento--------------------------------------------------------
-	        	    
 	        
  			echo '
                 		<table id="example" class="display table-container" cellspacing="0" width="100%">
         			        <thead>
         			        	<tr id="filterrow">
-        			                <th>Urbanización</th>
+        			                <th>Agendamiento</th>
         			                <th>Celda o Nodo EOC</th>
-        			                <th>Manzana</th>
-        			                <th>Bloque</th>
-                					<th>Torre</th>
-                					<th>Intetificación Beneficiario</th>
-                					<th>Nombre del Beneficiario</th>
+        			                <th>Urbanización</th>
+        			                <th>Tipo de Agendamiento</th>
+                					<th>Comisionador</th>
+                					<th>Orden de Trabajo</th>
         			            </tr>
         			            <tr>
-        			                <th>Urbanización</th>
+        			                <th>Agendamiento</th>
         			                <th>Celda o Nodo EOC</th>
-        			                <th>Manzana</th>
-        			                <th>Bloque</th>
-                					<th>Torre</th>
-                					<th>Intetificación Beneficiario</th>
-                					<th>Nombre del Beneficiario</th>
-                					<th>Seleccionar Todo<input type="checkbox" id="seleccionar_todo"/></th>
+        			                <th>Urbanización</th>
+        			                <th>Tipo de Agendamiento</th>
+                					<th>Comisionador</th>
+                					<th>Orden de Trabajo</th>
+                					<th>Todo<input type="checkbox" id="seleccionar_todo"/></th>
         			            </tr>
         			        </thead>
                 	</table>
@@ -320,27 +155,28 @@ class Formulario {
         unset($atributos);
 
         // -----------------CONTROL: Botón ----------------------------------------------------------------
-        $esteCampo = 'botonContinuar';
-        $atributos ["id"] = $esteCampo;
-        $atributos ["tabIndex"] = $tab;
-        $atributos ["tipo"] = 'boton';
-        // submit: no se coloca si se desea un tipo button genérico
-        $atributos ['submit'] = true;
-        $atributos ["simple"] = true;
-        $atributos ["estiloMarco"] = '';
-        $atributos ["estiloBoton"] = 'primary';
-        $atributos ["block"] = false;
-        // verificar: true para verificar el formulario antes de pasarlo al servidor.
-        $atributos ["verificar"] = '';
-        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-        $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-        $tab ++;
+                    $esteCampo = 'botonAceptar';
+                    $atributos["id"] = $esteCampo;
+                    $atributos["tabIndex"] = $tab;
+                    $atributos["tipo"] = 'boton';
+                    // submit: no se coloca si se desea un tipo button genérico
+                    $atributos['submit'] = false;
+                    $atributos["basic"] = true;
+                    $atributos["estiloMarco"] = '';
+                    $atributos["estiloBoton"] = 'default';
+                    $atributos["block"] = false;
+                    // verificar: true para verificar el formulario antes de pasarlo al servidor.
+                    $atributos["verificar"] = '';
+                    $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+                    $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos['nombreFormulario'] = $esteBloque['nombre'];
+                    $tab++;
 
-        // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
-        unset($atributos);
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
+                    unset($atributos);
+                    // -----------------FIN CONTROL: Botón ---
         // -----------------FIN CONTROL: Botón -----------------------------------------------------------
 
         // ------------------Fin Division para los botones-------------------------
@@ -371,7 +207,7 @@ class Formulario {
         $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
         $valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
         $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-        $valorCodificado .= "&opcion=registrarCabecera";
+        $valorCodificado .= "&opcion=generarReporte";
         /**
          * SARA permite que los nombres de los campos sean dinámicos.
          * Para ello utiliza la hora en que es creado el formulario para

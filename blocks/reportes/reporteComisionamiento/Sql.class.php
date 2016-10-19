@@ -1,6 +1,6 @@
 <?php
 
-namespace cabecera;
+namespace reporteAgendamientos;
 
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
@@ -104,29 +104,67 @@ class Sql extends \Sql {
                 break;
 
             /* Consultas del desarrollo */
-            case "consultarBeneficiarios":
+            case "consultarAgendamiento":
                 
                	$cadenaSql = "SELECT ";
-                $cadenaSql .= "codigo_cabecera AS codigo_cabecera,";
-                $cadenaSql .= "descripcion AS descripcion,";
-                $cadenaSql .= "departamento AS departamento,";
-                $cadenaSql .= "municipio AS municipio,";
-                $cadenaSql .= "urbanizacion AS id_urbanizacion,";
-                $cadenaSql .= "id_urbanizacion AS urbanizacion,";
-                $cadenaSql .= "ip_olt AS ip_olt,";
-                $cadenaSql .= "mac_olt AS mac_olt,";
-                $cadenaSql .= "port_olt AS port_olt,";
-                $cadenaSql .= "nombre_olt AS nombre_olt,";
-                $cadenaSql .= "puerto_olt AS puerto_olt ";
+                $cadenaSql .= "id_agendamiento AS id_agendamiento,";
+                $cadenaSql .= "id_orden_trabajo AS orden_trabajo,";
+                $cadenaSql .= "descripcion_urbanizacion AS urbanizacion,";
+                $cadenaSql .= "identificacion_beneficiario AS identificacion_beneficiario,";
+                $cadenaSql .= "nombre_beneficiario AS nombre_beneficiario,";
+                $cadenaSql .= "ta.descripcion AS tipo_agendamiento,";
+                $cadenaSql .= "id_comisionador AS comisionador,";
+                $cadenaSql .= "codigo_nodo AS codigo_nodo ";
                 $cadenaSql .= "FROM ";
-                $cadenaSql .= "interoperacion.cabecera ";
+                $cadenaSql .= "interoperacion.agendamiento_comisionamiento AS ac, ";
+	                $cadenaSql .= "(SELECT        ";
+	                $cadenaSql .= "codigo, ";
+	                $cadenaSql .= "param.descripcion ";
+	                $cadenaSql .= "FROM ";
+	                $cadenaSql .= "parametros.parametros as param ";
+	                $cadenaSql .= "INNER JOIN ";
+	                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+	                $cadenaSql .= "ON ";
+	                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+	                $cadenaSql .= "WHERE ";
+	                $cadenaSql .= "rparam.descripcion = 'Tipo de Agendamiento') AS ta ";
                 $cadenaSql .= "WHERE ";
-                $cadenaSql .= "estado_registro=true ";
-                $cadenaSql .= "AND ";
-                $cadenaSql .= "codigo_cabecera=" . "'" . $variable . "'";
+               	$cadenaSql .= "estado_registro=true ";
+                $cadenaSql .= "AND cast ( ta.codigo as int8) = ac.tipo_agendamiento ";
+				//$cadenaSql .= "1=" . "'" . $variable . "'";
                 break;
 				//select urbanizacion as urbanizacion, urbanizacion as id_urbanizacion, manzana, torre, bloque, apartamento, identificacion as identificacion_beneficiario, nombre || ' ' || primer_apellido || ' ' || segundo_apellido  as nombre from interoperacion.beneficiario_potencial natural join  WHERE estado_registro=TRUE
 
+                
+            case "agendamientosReporte":
+                
+               	$cadenaSql = "SELECT ";
+               	$cadenaSql .= "id_agendamiento AS id_agendamiento,";
+               	$cadenaSql .= "descripcion_urbanizacion AS urbanizacion,";
+               	$cadenaSql .= "codigo_nodo AS codigo_nodo,";
+               	$cadenaSql .= "ta.descripcion AS tipo_agendamiento,";
+               	$cadenaSql .= "id_comisionador AS comisionador,";
+               	$cadenaSql .= "id_orden_trabajo AS orden_trabajo,";
+				//$cadenaSql .= "identificacion_beneficiario AS identificacion_beneficiario,";
+               	$cadenaSql .= "nombre_beneficiario AS nombre_beneficiario,";
+               	$cadenaSql .= "fecha_agendamiento::timestamp::date AS fecha ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "interoperacion.agendamiento_comisionamiento as ac, ";
+               		$cadenaSql .= "(SELECT        ";
+	               	$cadenaSql .= "codigo, ";
+	               	$cadenaSql .= "param.descripcion ";
+	               	$cadenaSql .= "FROM ";
+	               	$cadenaSql .= "parametros.parametros as param ";
+	               	$cadenaSql .= "INNER JOIN ";
+	               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
+	               	$cadenaSql .= "ON ";
+	               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+	               	$cadenaSql .= "WHERE ";
+	               	$cadenaSql .= "rparam.descripcion = 'Tipo de Agendamiento') AS ta ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "estado_registro=true AND cast ( ta.codigo as int8) = ac.tipo_agendamiento";
+               	break;
+                
             case "comisionador":
             	$cadenaSql=" SELECT usr.id as identificador, usr.firstname||' '||lastname as nombre_usuario";
             	$cadenaSql.=" FROM public.group_users as gu";

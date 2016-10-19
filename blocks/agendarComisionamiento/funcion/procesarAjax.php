@@ -22,12 +22,13 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 	$conexion = "interoperacion";
 	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 	
-	$cadenaSql = $this->sql->getCadenaSql ( 'consultarCabecera' );
-	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+// 	$cadenaSql = $this->sql->getCadenaSql ( 'consultarCabecera' );
+// 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
 	$resultado [0] ['urbanizacion'] = "El Recuerdo";
 	$resultado [0] ['id_urbanizacion'] = "3";
 	$resultado [0] ['celda'] = "ND-01";
+	$resultado [0] ['orden_trabajo'] = "1980";
 	$resultado [0] ['manzana'] = 1;
 	$resultado [0] ['bloque'] = 1;
 	$resultado [0] ['torre'] = 5;
@@ -38,6 +39,7 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 	$resultado [1] ['urbanizacion'] = "El Recuerdo";
 	$resultado [1] ['id_urbanizacion'] = "3";
 	$resultado [1] ['celda'] = "ND-01";
+	$resultado [1] ['orden_trabajo'] = "1902";
 	$resultado [1] ['manzana'] = 1;
 	$resultado [1] ['bloque'] = 1;
 	$resultado [1] ['torre'] = 6;
@@ -48,6 +50,7 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 	$resultado [2] ['urbanizacion'] = "La Gloria";
 	$resultado [2] ['id_urbanizacion'] = "2";
 	$resultado [2] ['celda'] = "CE-120";
+	$resultado [2] ['orden_trabajo'] = "1921";
 	$resultado [2] ['manzana'] = 5;
 	$resultado [2] ['bloque'] = 2;
 	$resultado [2] ['torre'] = 3;
@@ -71,6 +74,7 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 						$resultado [$i] ['urbanizacion'] . ":"
 						. $resultado [$i] ['id_urbanizacion'] . ":"
 						. $resultado [$i] ['celda'] . ":"
+						. $resultado [$i] ['orden_trabajo'] . ":"
 						. $resultado [$i] ['manzana'] . ":"
 						. $resultado [$i] ['bloque'] . ":"
 						. $resultado [$i] ['torre'] . ":"

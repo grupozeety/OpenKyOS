@@ -110,7 +110,7 @@ $(document).ready(function() {
 
 	$('#example thead tr#filterrow th').each( function () {
         var title = $('#example thead th').eq( $(this).index() ).text();
-        $(this).html( '<input type="text" onclick="stopPropagation(event);" placeholder="Filtrar '+title+'" />' );
+        $(this).html( '<input type="text" onclick="stopPropagation(event);" placeholder=" '+title+'" />' );
     } );
     
     function stopPropagation(evt) {
@@ -137,14 +137,14 @@ $(document).ready(function() {
     var table = $('#example').DataTable( {
     	"processing": true,
         "searching": true,
-        "info":false,
+        "info":true,
         "paging": false,
         "scrollY":"300px",
         "scrollX": true,
         "scrollCollapse": true,
         "responsive": true,
     	"aoColumnDefs": [
-          { 'bSortable': false, 'aTargets': [ 7 ] }
+          { 'bSortable': false, 'aTargets': [ 6 ] }
        	],
        	"columnDefs": [
         	{"className": "dt-center", "targets": "_all"}
@@ -179,14 +179,12 @@ $(document).ready(function() {
             dataSrc:"data"   
         },
         "columns": [
+            { "data": "id_agendamiento" },
+            { "data": "codigo_nodo" },
             { "data": "urbanizacion" },
-            { "data": "celda" },
-            { "data": "manzana" },
-            { "data": "bloque" },
-            { "data": "torre" },
-            { "data": "identificacion_beneficiario" },
-            { "data": "nombre_beneficiario" },
-            
+            { "data": "tipo_agendamiento" },
+            { "data": "comisionador" },
+            { "data": "orden_trabajo" },
     		{
               "data":   "id_checkbox",
                render: function ( data, type, row ) {
@@ -202,22 +200,52 @@ $(document).ready(function() {
     } );
    
 	$('#seleccionar_todo').change(function(){
+    	
     	var cells = table.cells( ).nodes();
-   		$( cells ).find(':checkbox').prop('checked', $(this).is(':checked'));
+		<!-- $( cells ).find(':checkbox').prop('checked', $(this).is(':checked')); -->
+   		$(this).parents('form').find('tr:visible').find('input:checkbox').prop('checked', $(this).is(':checked'));
+   		
+   		cont = 0;
+  		
+		var cells = table.cells( ).nodes();	
+		var checkbox = $( cells ).find(':checkbox');
+
+		$.each(checkbox , function(indice,valor){
+			if(valor['checked'] == true){
+				cont++;
+			}
+		});
+		
+		if(cont > 0){
+			$('button').prop('disabled', false);
+		}else{
+			$('#seleccionar_todo').attr('checked', false);
+			$('button').prop('disabled', true);
+		}
 	});
 	
-	
-	
-	 $('#<?php echo $this->campoSeguro("fecha_agendamiento");?>').datetimepicker({
-               format: 'yyyy-mm-dd',
-               language: "es",
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0
-            });
+  $('#example').change(function() {
+
+  		cont = 0;
+  		
+		var cells = table.cells( ).nodes();	
+		var checkbox = $( cells ).find(':checkbox');
+
+		$.each(checkbox , function(indice,valor){
+			if(valor['checked'] == true){
+				cont++;
+			}
+		});
+		
+		if(cont > 0){
+			$('button').prop('disabled', false);
+		}else{
+			$('#seleccionar_todo').attr('checked', false);
+			$('button').prop('disabled', true);
+		}
+  });
+  
+  $('button').prop('disabled', true);
+  
 });
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace cabecera\funcion;
+namespace reporteAgendamientos\funcion;
 
-use cabecera\funcion\redireccionar;
+use reporteAgendamientos\funcion\redireccionar;
 
 include_once ('redireccionar.php');
 if (! isset ( $GLOBALS ["autorizado"] )) {
@@ -27,6 +27,8 @@ class Registrar {
 		$this->miFuncion = $funcion;
 	}
 	function procesarFormulario() {
+		
+		var_dump($_REQUEST); die;
 		
 		$informacion = array();
 		$agen = array();
