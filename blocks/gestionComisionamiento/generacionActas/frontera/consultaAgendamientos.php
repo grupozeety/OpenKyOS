@@ -196,10 +196,15 @@ class Registrador {
         $rutaURL .= "entidad/directorio_actas/";
 
         switch ($_REQUEST['mensaje']) {
-            case 'archivoGenerado':
 
+            case 'archivoGenerado':
                 $mensaje = "Exito en la Generación de la(s) Acta(s)<br> Link de Archivo : <a target='_blank' href='" . $rutaURL . $_REQUEST['nombre_archivo'] . "'  >Descargar Actas</a>";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+            case 'errorGenerarArchivo':
+                $mensaje = "Error en la Generación de la(s) Acta(s)";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
                 break;
 
         }
