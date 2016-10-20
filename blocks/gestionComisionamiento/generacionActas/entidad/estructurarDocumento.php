@@ -47,13 +47,45 @@ class GenerarDocumento {
         }
 
         /**
-         *  1. EstructurarDocumento de acuerdo a # Agendamienntos
+         *  1. Eliminar archivos .zip no funcionales de la fecha actual
+         **/
+
+        $this->eliminarArchivosNoFuncionales();
+        /**
+         *  2. EstructurarDocumento de acuerdo a # Agendamienntos
          **/
 
         $this->estructurarActas();
 
     }
 
+    public function eliminarArchivosNoFuncionales() {
+
+        $anio = date("Y");
+        $mes = date("m");
+        $dia = date("d");
+
+        $tiempo = mktime(0, 0, 0, $mes, $dia, $anio);
+
+        $ruta_directorio = $this->rutaAbsoluta . "/entidad/directorio_actas";
+
+        $this->eliminarContenido($ruta_directorio, $tiempo);
+
+    }
+
+    public function eliminarContenido($rutaAnalizar, $tiempo_actual) {
+        foreach (glob($rutaAnalizar . "/*") as $archivos_carpeta) {
+
+            $archivo = end(explode("/", $archivos_carpeta));
+
+            $tiempo_archivo = reset(explode(".", $archivo));
+
+            if (!is_dir($archivos_carpeta) && $tiempo_archivo < $tiempo_actual) {
+                unlink($archivos_carpeta);
+            }
+        }
+
+    }
     public function estructurarActas() {
 
         /**
@@ -128,7 +160,7 @@ class GenerarDocumento {
 
         chdir($rutaObjetivoContenido);
 
-        $nombre_archivo = $nombreComprimido . ".zip";
+        $nombre_archivo = time() . ".zip";
 
         $cadena = "zip " . $rutaSalidaComprimido . $nombre_archivo . " " . $nombreDirectorioComprimir . "/*";
 
@@ -278,9 +310,9 @@ class GenerarDocumento {
 
         }
 
-        var_dump($informacion_beneficiario);
+        //var_dump($informacion_beneficiario);
 
-        var_dump($this->agendamiento_particular);
+        //var_dump($this->agendamiento_particular);
 
         $urlPaquetesTrabajo = $this->crearUrlPaquetesTrabajo($informacion_beneficiario['id_proyecto']);
 
@@ -406,8 +438,8 @@ class GenerarDocumento {
             }
         }
 
-        var_dump($info_conexion);
-        exit;
+//        var_dump($info_conexion);
+        //      exit;
         $contenidoPagina = "    <style type=\"text/css\">
                                 table {
 
@@ -815,7 +847,7 @@ class GenerarDocumento {
                                                                     </tr>
                                                                     <tr>
                                                                         <td align='center'style='width:33.33%;'>www.nasa.gov</td>
-                                                                        <td align='center'style='width:33.33%;'>" . $ping['ping_nasa'] . "</td>
+                                                                        <td align='center'style='width:33.33%;'>" . $info_conexion['ping_nasa'] . "</td>
                                                                         <td align='center'style='width:33.33%;'> </td>
                                                                     </tr>
                                                                     <tr>
@@ -882,27 +914,27 @@ class GenerarDocumento {
                                                                         <td rowspan='2' align='center'style='width:25%;'>http://www.speedtest.net/</td>
                                                                         <td align='center'style='width:15%;'>4048</td>
                                                                         <td align='center'style='width:20%;'>DOWNLOAD</td>
-                                                                        <td align='center'style='width:20%;'>" . $info_conexion[' '] . "</td>
-                                                                        <td align='center'style='width:20%;'> </td>
+                                                                        <td align='center'style='width:20%;'>" . $info_conexion['tm_bj_speed'] . "</td>
+                                                                        <td align='center'style='width:20%;'>" . $info_conexion['vl_bj_speed'] . "</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td align='center'style='width:15%;'>1024</td>
                                                                         <td align='center'style='width:20%;'>UPLOAD</td>
-                                                                        <td align='center'style='width:20%;'> </td>
-                                                                        <td align='center'style='width:20%;'> </td>
+                                                                        <td align='center'style='width:20%;'>" . $info_conexion['tm_sb_speed'] . "</td>
+                                                                        <td align='center'style='width:20%;'>" . $info_conexion['vl_sb_speed'] . "</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td rowspan='2' align='center'style='width:25%;'>http://performance.toast.net/</td>
                                                                         <td align='center'style='width:15%;'>4048</td>
                                                                         <td align='center'style='width:20%;'>DOWNLOAD</td>
-                                                                        <td align='center'style='width:20%;'> </td>
-                                                                        <td align='center'style='width:20%;'> </td>
+                                                                        <td align='center'style='width:20%;'>" . $info_conexion['tm_bj_performance'] . "</td>
+                                                                        <td align='center'style='width:20%;'>" . $info_conexion['vl_bj_performance'] . "</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td align='center'style='width:15%;'>1024</td>
                                                                         <td align='center'style='width:20%;'>UPLOAD</td>
-                                                                        <td align='center'style='width:20%;'> </td>
-                                                                        <td align='center'style='width:20%;'> </td>
+                                                                        <td align='center'style='width:20%;'>" . $info_conexion['tm_sb_performance'] . "</td>
+                                                                        <td align='center'style='width:20%;'>" . $info_conexion['vl_sb_performance'] . "</td>
                                                                     </tr>
                                                                 </table>
                                                                 <table width:100%;>
@@ -932,8 +964,8 @@ class GenerarDocumento {
                                                 <br>
                                                 ____________________________<br>
                                                 Firma Beneficiario<br>
-                                                Nombre:<br>
-                                                CC:<br>
+                                                Nombre:&nbsp;&nbsp;" . $informacion_beneficiario['nombre'] . " " . $informacion_beneficiario['primer_apellido'] . " " . $informacion_beneficiario['segundo_apellido'] . "<br>
+                                                CC:&nbsp;&nbsp;" . $informacion_beneficiario['identificacion'] . "<br>
                                                 No. Celular:<br>
                                                 <br>
                                                 <br>
