@@ -16,7 +16,7 @@ include $ruta . "/plugin/html2pdf/html2pdf.class.php";
 
 class GenerarDocumento {
     public $miConfigurador;
-    public $agendamientos;
+    public $agendamientos = NULL;
     public $miSql;
     public $conexion;
     public $contenidoPagina = '';
@@ -174,12 +174,18 @@ class GenerarDocumento {
 
     public function generarActas() {
 
-        foreach ($this->agendamientos as $key => $value) {
+        if (isset($this->agendamientos) && $this->agendamientos != false) {
 
-            $this->agendamiento_particular = $value;
-            $this->contenidoPagina = $this->estruturaDocumento();
+            foreach ($this->agendamientos as $key => $value) {
 
-            $this->crearPDF();
+                $this->agendamiento_particular = $value;
+                $this->contenidoPagina = $this->estruturaDocumento();
+
+                $this->crearPDF();
+            }
+
+        } else {
+            Redireccionador::redireccionar('archivoNoGenerado');
         }
 
     }
