@@ -18,10 +18,8 @@ class Redireccionador {
                 break;
 
             case "archivoNoGenerado":
-                echo "No existe";
-                var_dump($_REQUEST);exit;
-                $variable = 'pagina=segundaPagina';
-                $variable .= '&variable' . $valor;
+                $variable = 'pagina=generacionActas';
+                $variable .= '&mensaje=errorGenerarArchivo';
                 break;
             default:
                 echo "salida";exit;
