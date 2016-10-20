@@ -13,6 +13,7 @@ class comisionamientoOP {
     public $prefijo;
     public $proyecto;
     public $nombreHogar;
+    public $Info_Beneficiario_Contrato;
     public function __construct($lenguaje, $sql) {
 
         $this->miConfigurador = \Configurador::singleton();
@@ -64,7 +65,7 @@ class comisionamientoOP {
          * Clasificación Proyecto
          **/
 
-        $validacion = strpos($this->proyecto['identifier'], 'wman');
+        //$validacion = strpos($this->proyecto['identifier'], 'wman');
 
         $this->estruturarComisionamiento();
 
@@ -96,6 +97,14 @@ class comisionamientoOP {
 
             //Crear Hogar
             $variableHogar = $this->crearPaqueteTrabajo($this->nombreHogar, $paqueteComisionamiento['id']);
+
+            /**
+             *  Registro de Orden de  Trabajo en beneficiario
+             **/
+
+            $cadenaSql = $this->miSql->getCadenaSql("registrarOrdenTrabajo", array('identificador_beneficiario' => $this->Info_Beneficiario_Contrato[0]['identificador_beneficiario'], "id_orden" => $this->obtenerIdentificadorPaqueteTrabajo($variableHogar)));
+
+            $registro_orden_trabajo = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
             //Verificación de la viabilidad social y comercial
 
@@ -218,6 +227,8 @@ class comisionamientoOP {
         $cadenaSql = $this->miSql->getCadenaSql('consultarContratoEspecifico');
 
         $Info_Beneficiario_Contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        $this->Info_Beneficiario_Contrato = $Info_Beneficiario_Contrato;
 
         $UrlProyecto = $this->crearUrlDetalleProyectos($Info_Beneficiario_Contrato[0]['id_proyecto']);
 

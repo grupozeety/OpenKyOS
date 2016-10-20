@@ -40,13 +40,14 @@ class Sql extends \Sql {
                 break;
 
             case 'consultarContratoEspecifico':
-                $cadenaSql = " SELECT cn.*, pm.descripcion est_contrato,pm.id_parametro id_est_contrato, bn.id_proyecto ";
+                $cadenaSql = " SELECT cn.*, pm.descripcion est_contrato,pm.id_parametro id_est_contrato, bn.id_proyecto, bn.id_beneficiario as identificador_beneficiario ";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN parametros.parametros pm ON pm.id_parametro=cn.estado_contrato AND pm.estado_registro=TRUE";
                 $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND rl.descripcion='Estado Contrato' AND rl.estado_registro=TRUE";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.id_beneficiario=cn.id_beneficiario AND bn.estado_registro=TRUE ";
                 $cadenaSql .= " WHERE cn.estado_registro=TRUE";
                 $cadenaSql .= " AND cn.id='" . $_REQUEST['id_contrato'] . "';";
+
                 break;
 
             case 'consultarEstadoAprobado':
@@ -98,6 +99,14 @@ class Sql extends \Sql {
                 $cadenaSql .= " valor_tarificacion='" . $_REQUEST['valor_tarificacion'] . "' ";
                 $cadenaSql .= " WHERE id_contrato= '" . $_REQUEST['id_contrato'] . "'";
                 $cadenaSql .= " AND estado_registro=TRUE ;";
+                break;
+
+            case 'registrarOrdenTrabajo':
+                $cadenaSql = " UPDATE interoperacion.beneficiario_potencial ";
+                $cadenaSql .= " SET orden_trabajo='" . $variable['id_orden'] . "'";
+                $cadenaSql .= " WHERE id_beneficiario='" . $variable['identificador_beneficiario'] . "'  ";
+                $cadenaSql .= " AND estado_registro=TRUE ;";
+
                 break;
 
         }
