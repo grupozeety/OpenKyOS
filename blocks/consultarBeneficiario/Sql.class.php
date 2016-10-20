@@ -108,7 +108,7 @@ class Sql extends \Sql {
             case "consultarBeneficiario":
                 
                	$cadenaSql = "SELECT ";
-               	$cadenaSql .= "urbanizacion,";
+               	$cadenaSql .= "proyecto  AS urbanizacion,";
                	$cadenaSql .= "nombre,";
                	$cadenaSql .= "identificacion,";
                	$cadenaSql .= "tipoben.descripcion as tipo_beneficiario, ";

@@ -54,7 +54,7 @@ class Registrar {
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
         
         $cadenaSql = $this->miSql->getCadenaSql('agendamientosReporte' /*, json_decode($_REQUEST['elementos'])*/); 
-        $this->elementos_reporte = @$esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $this->elementos_reporte = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         
     }
 }

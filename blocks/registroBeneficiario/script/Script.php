@@ -13,6 +13,7 @@ $funcion[$indice++]="bootstrap-treeview.js";
 $funcion[$indice++]="fileinput.min.js";
 $funcion[$indice++]="fileinput_locale_es.js";
 $funcion[$indice++]="familiar.js";
+$funcion[$indice++]="modalLoad.js";
 
 
 $embebido [$indice] = true;

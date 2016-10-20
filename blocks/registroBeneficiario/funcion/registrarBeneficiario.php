@@ -53,16 +53,18 @@ class Registrar {
 		$beneficiarioPotencial['telefono'] = $_REQUEST['telefono'];
 		$beneficiarioPotencial['celular'] = $_REQUEST['celular'];
 		$beneficiarioPotencial['whatsapp'] = $_REQUEST['whatsapp'];
-		$beneficiarioPotencial['departamento'] = $_REQUEST['departamento'];
-		$beneficiarioPotencial['municipio'] = $_REQUEST['municipio'];
-		$beneficiarioPotencial['urbanizacion'] = $_REQUEST['urbanizacion'];
+		$departamento = explode(" ", $_REQUEST['departamento']);
+		$beneficiarioPotencial['departamento'] = $departamento[0];
+		$municipio = explode(" ", $_REQUEST['municipio']);
+		$beneficiarioPotencial['municipio'] = $municipio[0];
+		$beneficiarioPotencial['id_proyecto'] = $_REQUEST['urbanizacion'];
+		$beneficiarioPotencial['proyecto'] = $_REQUEST['id_urbanizacion'];
 		$beneficiarioPotencial['territorio'] = $_REQUEST['territorio'];
 		$beneficiarioPotencial['estrato'] = $_REQUEST['estrato'];
 		$beneficiarioPotencial['geolocalizacion'] = $_REQUEST['geolocalizacion'];
 		$beneficiarioPotencial['jefe_hogar'] = $_REQUEST['jefe_hogar'];
 		$beneficiarioPotencial['pertenencia_etnica'] = $_REQUEST['pertenencia_etnica'];
 		$beneficiarioPotencial['ocupacion'] = $_REQUEST['ocupacion'];
-		
 		
 		$familiar = array();
 		
@@ -107,7 +109,6 @@ class Registrar {
 		if ($resultado) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFamiliarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
-			
 		}
 		
 		if ($resultado && $_REQUEST['familiares'] > 0) {
