@@ -26,6 +26,16 @@ class Sql extends \Sql {
             /**
              * Clausulas específicas
              */
+
+            case 'consultarInformacionBeneficiario':
+
+                $cadenaSql = " SELECT bn.*, dp.codigo_dep as codigo_dane_dp , dp.departamento as nombre_dp, mn.codigo_mun as codigo_dane_mn, mn.municipio as nombre_mn";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial AS bn";
+                $cadenaSql .= " JOIN parametros.departamento as dp ON dp.codigo_dep=bn.departamento";
+                $cadenaSql .= " JOIN parametros.municipio as mn ON mn.codigo_mun=bn.municipio";
+                $cadenaSql .= " WHERE bn.estado_registro=TRUE";
+                $cadenaSql .= " AND bn.identificacion='" . $variable['identificacion_beneficiario'] . "';";
+                break;
             case 'consultarAgendamientos':
 
                 $cadenaSql = " SELECT id_agendamiento, codigo_nodo, fecha_agendamiento , responsable, count(id_orden_trabajo) cantidad_beneficiarios";
