@@ -9,7 +9,7 @@ $this->idioma["botonAgregarLocalizacion"]="Agregar";
 $this->idioma["noDefinido"]="";
 $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonAgregar"]="Agregar";
-$this->idioma["botonContinuar"]="Continuar";
+$this->idioma["botonContinuar"]="Guardar Información";
 $this->idioma["botonCerrar"]="Aceptar";
 $this->idioma["botonCerrar2"]="Aceptar";
 $this->idioma["botonAgregarNodo"]="Agregar Celda o Nodo EOC";
@@ -28,9 +28,11 @@ $this->idioma["nodoNoEliminado"]="No Ha sido posible eliminar la Celda o Nodo EO
 
 $this->idioma["codigo_nodo"]="Código de la Celda o Nodo EOC";
 $this->idioma["tipo_tecnologia"]="Tipo de Tecnología";
-$this->idioma["codigo_cabecera"]="Código de la Cabecera";
+$this->idioma["urbanizacion"]="Urbanización";
 
 $this->idioma["asociacion_ben_nod"]="Beneficario(s) por Asociar a Nodo";
+
+$this->idioma["asociacion_ben_nod2"]="Beneficario(s) por Asociar a Nodo";
 
 
 $this->idioma["mac_master_eoc"]="MAC del Master EOC";

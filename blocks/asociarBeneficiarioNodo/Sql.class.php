@@ -238,20 +238,42 @@ class Sql extends \Sql {
                	$cadenaSql .= "estado_registro=true ";
                	break;
                	
-             case "parametroTipoTecnologia":
-               	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= "codigo, ";
-               	$cadenaSql .= "param.descripcion ";
+            case "codigoNodo":
+               	$cadenaSql = "SELECT ";
+               	$cadenaSql .= "codigo_nodo, codigo_nodo ";
                	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.parametros as param ";
-               	$cadenaSql .= "INNER JOIN ";
-               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-               	$cadenaSql .= "ON ";
-               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+               	$cadenaSql .= "interoperacion.nodo ";
                	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "rparam.descripcion = 'Tipo de Tecnología' ";
+               	$cadenaSql .= "estado_registro=true ";
                	break;
-                	
+               	
+             case "obtenerBeneficiarios":
+               	$cadenaSql = "SELECT ";
+               	$cadenaSql .= "id_beneficiario as value, ";
+               	$cadenaSql .= "(id_beneficiario || ' - ' || identificacion || ' - ' || nombre || ' ' || primer_apellido || ' ' || segundo_apellido) as text ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "interoperacion.beneficiario_potencial ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "estado_registro='TRUE' ";
+               	$cadenaSql .= "AND ";
+               	$cadenaSql .= "(LOWER(nombre) like LOWER('%" . $variable . "%') ";
+               	$cadenaSql .= "OR LOWER(primer_apellido) like LOWER('%" . $variable . "%') ";
+               	$cadenaSql .= "OR LOWER(segundo_apellido) like LOWER('%" . $variable . "%') ";
+               	$cadenaSql .= "OR LOWER(id_beneficiario) like LOWER('%" . $variable . "%') ";
+               	$cadenaSql .= "OR LOWER(identificacion) like LOWER('%" . $variable . "%')) ";
+               	break;
+               	
+             case "obtenerBeneficiarioEspecifico":
+               	$cadenaSql = "SELECT ";
+               	$cadenaSql .= "id_beneficiario as value, ";
+               	$cadenaSql .= "(id_beneficiario || ' - ' || identificacion || ' - ' || nombre || ' ' || primer_apellido || ' ' || segundo_apellido) as text ";
+               	$cadenaSql .= "FROM ";
+               	$cadenaSql .= "interoperacion.beneficiario_potencial ";
+               	$cadenaSql .= "WHERE ";
+               	$cadenaSql .= "estado_registro='TRUE' ";
+               	$cadenaSql .= "AND ";
+               	$cadenaSql .= "identificacion='" . $variable . "'" ;
+               	break;
         }
 
         return $cadenaSql;

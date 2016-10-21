@@ -119,7 +119,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Lista Código de la Cabecera--------------------------------------------------------
         
-        $esteCampo = 'codigo_cabecera';
+        $esteCampo = 'urbanizacion';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
@@ -137,15 +137,15 @@ class Formulario {
         $atributos ['limitar'] = false;
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
-        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "codigoCabecera" );
+//         $atributos ['validar'] = 'required';
+//         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "codigoCabecera" );
         $matrizItems = array (
         		array (
         				0,
         				' '
         		)
         );
-        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+//         $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
         $atributos ['matrizItems'] = $matrizItems;
         
         if (isset ( $cargueDatos [$esteCampo] )) {
@@ -163,7 +163,7 @@ class Formulario {
         
         // ----------------INICIO CONTROL: Lista Código de la Cabecera--------------------------------------------------------
         
-        $esteCampo = 'codigo_cabecera';
+        $esteCampo = 'codigo_nodo';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
@@ -182,7 +182,7 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
-        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "codigoCabecera" );
+        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "codigoNodo" );
         $matrizItems = array (
         		array (
         				0,

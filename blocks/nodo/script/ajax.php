@@ -100,116 +100,119 @@ $enlaceReg = $directorioReg . '=' . $variableReg;
 
 ?>
 
-var id = "";
-
-$('#example')
-		.removeClass( 'display' )
-		.addClass('table table-striped table-bordered');
-
-		
 $(document).ready(function() {
-    var table = $('#example').DataTable( {
-		"sDom": "<'dt-toolbar'<'col-xs-4'l><'col-xs-4'<'toolbar'>><'col-xs-4'f>>"+
-		"t"+"<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>",
-        processing: true,
-        searching: true,
-        ajax: {
-            url: "<?php echo $urlCargarInformacion?>",
-            dataSrc:"data"   
-        },
-        "columns": [
-            { "data": "codigo_nodo" },
-            { "data": "tipo_tecnologia" },
-            { "data": "codigo_cabecera" },
-            { "data": "urbanizacion" },
-            {
-      			"data": null,
-      			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
-    		}
-        ]
-    } );
-    
-	$("div.toolbar").html('<button type="button" id="agregarNodo" class="btn btn-primary">Agregar Celda o Nodo EOC</button>'); 
+
+	var id = "";
+	
+	$('#example')
+			.removeClass( 'display' )
+			.addClass('table table-striped table-bordered');
+	
+			
+	$(document).ready(function() {
+	    var table = $('#example').DataTable( {
+			"sDom": "<'dt-toolbar'<'col-xs-4'l><'col-xs-4'<'toolbar'>><'col-xs-4'f>>"+
+			"t"+"<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>",
+	        processing: true,
+	        searching: true,
+	        ajax: {
+	            url: "<?php echo $urlCargarInformacion?>",
+	            dataSrc:"data"   
+	        },
+	        "columns": [
+	            { "data": "codigo_nodo" },
+	            { "data": "tipo_tecnologia" },
+	            { "data": "codigo_cabecera" },
+	            { "data": "urbanizacion" },
+	            {
+	      			"data": null,
+	      			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
+	    		}
+	        ]
+	    } );
 	    
-    $('#example tbody').on( 'click', '.optionRemove', function () {
-    	var data = table.row( $(this).parents('tr') ).data();
-        id = data['codigo_nodo'];
-        $("#myModal").modal("show");
-    } );
-    
-    $('#example tbody').on( 'click', '.optionEdit', function () {
-    	var data = table.row( $(this).parents('tr') ).data();
-        id = data['codigo_nodo'];
-        generarEnlace();
-    } );
-    
-    $(function() {
-		$("#botonCancelarElim").click(function( event ) {	
-			$("#myModal").modal("hide");
+		$("div.toolbar").html('<button type="button" id="agregarNodo" class="btn btn-primary">Agregar Celda o Nodo EOC</button>'); 
+		    
+	    $('#example tbody').on( 'click', '.optionRemove', function () {
+	    	var data = table.row( $(this).parents('tr') ).data();
+	        id = data['codigo_nodo'];
+	        $("#myModal").modal("show");
+	    } );
+	    
+	    $('#example tbody').on( 'click', '.optionEdit', function () {
+	    	var data = table.row( $(this).parents('tr') ).data();
+	        id = data['codigo_nodo'];
+	        generarEnlace();
+	    } );
+	    
+	    $(function() {
+			$("#botonCancelarElim").click(function( event ) {	
+				$("#myModal").modal("hide");
+			});
+		}); 
+		
+		$(function() {
+			$("#botonAceptarElim").click(function( event ) {	
+				eliminarNodo();
+				$("#myModal").modal("hide");
+			});
 		});
-	}); 
-	
-	$(function() {
-		$("#botonAceptarElim").click(function( event ) {	
-			eliminarNodo();
-			$("#myModal").modal("hide");
+		
+		$(function() {
+			$("#agregarNodo").click(function( event ) {	
+		    	location.href = "<?php echo $enlaceReg;?>";
+			});
 		});
-	});
+		
+		function eliminarNodo(){
 	
-	$(function() {
-		$("#agregarNodo").click(function( event ) {	
-	    	location.href = "<?php echo $enlaceReg;?>";
-		});
-	});
-	
-	function eliminarNodo(){
-
-		$.ajax({
-			url: "<?php echo $urlEliminarNodo;?>",
-			dataType: "json",
-			data: { valor: id},
-			success: function(data){
-				if(data == true){
-					table.ajax.reload();
-					$("#confirmacionElim").modal("show");
-				}else{
-					table.ajax.reload();
-					$("#confirmacionNoElim").modal("show");
+			$.ajax({
+				url: "<?php echo $urlEliminarNodo;?>",
+				dataType: "json",
+				data: { valor: id},
+				success: function(data){
+					if(data == true){
+						table.ajax.reload();
+						$("#confirmacionElim").modal("show");
+					}else{
+						table.ajax.reload();
+						$("#confirmacionNoElim").modal("show");
+					}
 				}
-			}
-			
-		});
-	};
+				
+			});
+		};
+		
+		function generarEnlace(){
 	
-	function generarEnlace(){
-
-		$.ajax({
-			url: "<?php echo $urlGenerarEnlace;?>",
-			dataType: "json",
-			data: { valor: "<?php echo $valorCodificado;?>",
-					directorio: "<?php echo $directorio;?>",
-					id: id},
-			success: function(data){
-				location.href = data;
-			}
-			
+			$.ajax({
+				url: "<?php echo $urlGenerarEnlace;?>",
+				dataType: "json",
+				data: { valor: "<?php echo $valorCodificado;?>",
+						directorio: "<?php echo $directorio;?>",
+						id: id},
+				success: function(data){
+					location.href = data;
+				}
+				
+			});
+		};
+		
+		$(function() {
+			$("#botonCerrar").click(function( event ) {	
+				$("#confirmacionElim").modal("hide");
+			});
 		});
-	};
+		
+		$(function() {
+			$("#botonCerrar2").click(function( event ) {	
+				$("#confirmacionNoElim").modal("hide");
+			});
+		});
 	
-	$(function() {
-		$("#botonCerrar").click(function( event ) {	
-			$("#confirmacionElim").modal("hide");
-		});
 	});
 	
-	$(function() {
-		$("#botonCerrar2").click(function( event ) {	
-			$("#confirmacionNoElim").modal("hide");
-		});
-	});
-
 });
-
 
 <?php
 /**
@@ -237,38 +240,42 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $val
 $urlFuncionCodificarNombre = $url . $cadena;
 ?>
 
-function ordenTrabajo(){
+$(document).ready(function() {
 
-	$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
-	$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
-			
-	$.ajax({
-		url: "<?php echo $urlFuncionCodificarNombre?>",
-		dataType: "json",
-		data: { metodo:'urbanizaciones'},
-		success: function(data){
+	function ordenTrabajo(){
 	
-			$.each(data , function(indice,valor){
-				$("<option value='"+data[ indice ].custom+"'>" + data[ indice ].text + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
-			});
-			
-			$("#<?php echo $this->campoSeguro('urbanizacion')?>").val($("#<?php echo $this->campoSeguro('select_urbanizacion')?>").val()).change();
-		}
+		$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
+		$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
+				
+		$.ajax({
+			url: "<?php echo $urlFuncionCodificarNombre?>",
+			dataType: "json",
+			data: { metodo:'urbanizaciones'},
+			success: function(data){
 		
+				$.each(data , function(indice,valor){
+					$("<option value='"+data[ indice ].custom+"'>" + data[ indice ].text + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
+				});
+				
+				$("#<?php echo $this->campoSeguro('urbanizacion')?>").val($("#<?php echo $this->campoSeguro('select_urbanizacion')?>").val()).change();
+			}
+			
+		});
+	};
+	
+	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
+	
+		$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val($("#<?php echo $this->campoSeguro('urbanizacion');?> option:selected").text());
+	
 	});
-};
-
-$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
-
-	$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val($("#<?php echo $this->campoSeguro('urbanizacion');?> option:selected").text());
+	
+	 ordenTrabajo();
+	 
+	 if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
+		$("#myModalMensaje").modal('show');
+	}
 
 });
-
- ordenTrabajo();
- 
- if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
-	$("#myModalMensaje").modal('show');
-}
 
 <?php
 
@@ -281,8 +288,12 @@ $enlaceReg = $directorioReg . '=' . $variableReg;
 
 ?>
 
-$(function() {
-		$("#regresarConsultar").click(function( event ) {	
-	    	location.href = "<?php echo $enlaceReg;?>";
-		});
+$(document).ready(function() {
+
+	$(function() {
+			$("#regresarConsultar").click(function( event ) {	
+		    	location.href = "<?php echo $enlaceReg;?>";
+			});
+	});
+	
 });

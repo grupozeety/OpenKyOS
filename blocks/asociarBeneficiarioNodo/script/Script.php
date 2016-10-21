@@ -5,18 +5,27 @@
  */
 $indice = 0;
 
-$funcion[$indice++]="dataTables.bootstrap.min.js";
-$funcion[$indice++]="jquery-ui.min.js";
-$funcion[$indice++]="bootstrap.min.js";
-$funcion[$indice++]="select2.min.js";
-$funcion[$indice++]="bootstrap-tokenfield.min.js";
-$funcion[$indice++]="bootstrap-typeahead.min.js";
+
+$funcion [$indice ++] = "jquery-ui.js";
+
+$funcion [$indice ++] = "dataTables.bootstrap.min.js";
+$funcion [$indice ++] = "typeahead.bundle.js";
+
+$funcion [$indice ++] = "bootstrap-tokenfield.js";
+$funcion [$indice ++] = "bootstrap.min.js";
+$funcion [$indice ++] = "select2.min.js";
+
+$funcion [$indice ++] = "scrollspy.js";
+$funcion [$indice ++] = "affix.js";
+$funcion [$indice ++] = "docs.js";
 
 
+
+
+$funcion [$indice ++] = "bootstrap-typeahead.js";
 
 $embebido [$indice] = true;
 $funcion [$indice ++] = "ajax.php";
-
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion ( "site" );

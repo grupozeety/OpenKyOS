@@ -77,6 +77,45 @@ if ($_REQUEST ['funcion'] == "consultarNodo") {
 	
 	echo  $resultado;
 	
+}else if ($_REQUEST ['funcion'] == "consultarBeneficiario") {
+	
+	$cadenaSql = $this->sql->getCadenaSql ( 'obtenerBeneficiarios', $_REQUEST['query'] );
+	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+	for($i = 0; $i < count ( $resultado ); $i ++) {
+	
+		if($resultado [$i] ['value'] != null){
+			$resultadoFinal [] = array("id" => $resultado [$i] ['value'], "value" => $resultado [$i] ['value'], "label"=>$resultado [$i] ['text']);
+		}
+	}
+	
+	$total = count ( $resultadoFinal );
+	
+	$resultado = json_encode ( $resultadoFinal );
+	
+	$resultado = $resultado;
+	
+	echo  $resultado;
+	
+}else if ($_REQUEST ['funcion'] == "consultarBeneficiarioEspecifico") {
+	
+	$cadenaSql = $this->sql->getCadenaSql ( 'obtenerBeneficiarioEspecifico', $_REQUEST['valor'] );
+	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+	for($i = 0; $i < count ( $resultado ); $i ++) {
+	
+		$resultadoFinal [] = array("id" => $resultado [$i] ['value'], "value" => $resultado [$i] ['value'], "label"=>$resultado [$i] ['text']);
+			
+	}
+	
+	$total = count ( $resultadoFinal );
+	
+	$resultado = json_encode ( $resultadoFinal );
+	
+	$resultado = $resultado;
+	
+	echo  $resultado;
+	
 }
 
 	

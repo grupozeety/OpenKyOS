@@ -44,6 +44,7 @@ class Registrar {
 				$agen[$cont]['tipo_agendamiento'] = $_REQUEST['tipo_agendamiento'];
 				$agen[$cont]['tipo_tecnologia'] = $_REQUEST['tipo_tecnologia'];
 				$agen[$cont]['id_comisionador'] = $_REQUEST['comisionador'];
+				$agen[$cont]['nombre_comisionador'] = $_REQUEST['nombre_comisionador'];
 				$agen[$cont]['fecha_agendamiento'] = $_REQUEST['fecha_agendamiento'];
 				$agen[$cont]['codigo_nodo'] = $informacion[2];
 				$agen[$cont]['id_orden_trabajo'] = $informacion[3];
@@ -74,7 +75,7 @@ class Registrar {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConsecutivoAgendamiento');
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 		}
-		
+
 		if ($resultado) {
 			redireccion::redireccionar ( 'inserto');
 			exit ();

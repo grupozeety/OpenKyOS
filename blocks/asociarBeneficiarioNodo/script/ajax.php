@@ -100,116 +100,119 @@ $enlaceReg = $directorioReg . '=' . $variableReg;
 
 ?>
 
-var id = "";
-
-$('#example')
-		.removeClass( 'display' )
-		.addClass('table table-striped table-bordered');
-
-		
 $(document).ready(function() {
-    var table = $('#example').DataTable( {
-		"sDom": "<'dt-toolbar'<'col-xs-4'l><'col-xs-4'<'toolbar'>><'col-xs-4'f>>"+
-		"t"+"<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>",
-        processing: true,
-        searching: true,
-        ajax: {
-            url: "<?php echo $urlCargarInformacion?>",
-            dataSrc:"data"   
-        },
-        "columns": [
-            { "data": "codigo_nodo" },
-            { "data": "tipo_tecnologia" },
-            { "data": "codigo_cabecera" },
-            { "data": "urbanizacion" },
-            {
-      			"data": null,
-      			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
-    		}
-        ]
-    } );
-    
-	$("div.toolbar").html('<button type="button" id="agregarNodo" class="btn btn-primary">Asociar Beneficiario a Celda o Nodo EOC</button>'); 
+
+	var id = "";
+	
+	$('#example')
+			.removeClass( 'display' )
+			.addClass('table table-striped table-bordered');
+	
+			
+	$(document).ready(function() {
+	    var table = $('#example').DataTable( {
+			"sDom": "<'dt-toolbar'<'col-xs-4'l><'col-xs-4'<'toolbar'>><'col-xs-4'f>>"+
+			"t"+"<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>",
+	        processing: true,
+	        searching: true,
+	        ajax: {
+	            url: "<?php echo $urlCargarInformacion?>",
+	            dataSrc:"data"   
+	        },
+	        "columns": [
+	            { "data": "codigo_nodo" },
+	            { "data": "tipo_tecnologia" },
+	            { "data": "codigo_cabecera" },
+	            { "data": "urbanizacion" },
+	            {
+	      			"data": null,
+	      			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
+	    		}
+	        ]
+	    } );
 	    
-    $('#example tbody').on( 'click', '.optionRemove', function () {
-    	var data = table.row( $(this).parents('tr') ).data();
-        id = data['codigo_nodo'];
-        $("#myModal").modal("show");
-    } );
-    
-    $('#example tbody').on( 'click', '.optionEdit', function () {
-    	var data = table.row( $(this).parents('tr') ).data();
-        id = data['codigo_nodo'];
-        generarEnlace();
-    } );
-    
-    $(function() {
-		$("#botonCancelarElim").click(function( event ) {	
-			$("#myModal").modal("hide");
+		$("div.toolbar").html('<button type="button" id="agregarNodo" class="btn btn-primary">Asociar Beneficiario a Celda o Nodo EOC</button>'); 
+		    
+	    $('#example tbody').on( 'click', '.optionRemove', function () {
+	    	var data = table.row( $(this).parents('tr') ).data();
+	        id = data['codigo_nodo'];
+	        $("#myModal").modal("show");
+	    } );
+	    
+	    $('#example tbody').on( 'click', '.optionEdit', function () {
+	    	var data = table.row( $(this).parents('tr') ).data();
+	        id = data['codigo_nodo'];
+	        generarEnlace();
+	    } );
+	    
+	    $(function() {
+			$("#botonCancelarElim").click(function( event ) {	
+				$("#myModal").modal("hide");
+			});
+		}); 
+		
+		$(function() {
+			$("#botonAceptarElim").click(function( event ) {	
+				eliminarNodo();
+				$("#myModal").modal("hide");
+			});
 		});
-	}); 
-	
-	$(function() {
-		$("#botonAceptarElim").click(function( event ) {	
-			eliminarNodo();
-			$("#myModal").modal("hide");
+		
+		$(function() {
+			$("#agregarNodo").click(function( event ) {	
+		    	location.href = "<?php echo $enlaceReg;?>";
+			});
 		});
-	});
+		
+		function eliminarNodo(){
 	
-	$(function() {
-		$("#agregarNodo").click(function( event ) {	
-	    	location.href = "<?php echo $enlaceReg;?>";
-		});
-	});
-	
-	function eliminarNodo(){
-
-		$.ajax({
-			url: "<?php echo $urlEliminarNodo;?>",
-			dataType: "json",
-			data: { valor: id},
-			success: function(data){
-				if(data == true){
-					table.ajax.reload();
-					$("#confirmacionElim").modal("show");
-				}else{
-					table.ajax.reload();
-					$("#confirmacionNoElim").modal("show");
+			$.ajax({
+				url: "<?php echo $urlEliminarNodo;?>",
+				dataType: "json",
+				data: { valor: id},
+				success: function(data){
+					if(data == true){
+						table.ajax.reload();
+						$("#confirmacionElim").modal("show");
+					}else{
+						table.ajax.reload();
+						$("#confirmacionNoElim").modal("show");
+					}
 				}
-			}
-			
-		});
-	};
+				
+			});
+		};
+		
+		function generarEnlace(){
 	
-	function generarEnlace(){
-
-		$.ajax({
-			url: "<?php echo $urlGenerarEnlace;?>",
-			dataType: "json",
-			data: { valor: "<?php echo $valorCodificado;?>",
-					directorio: "<?php echo $directorio;?>",
-					id: id},
-			success: function(data){
-				location.href = data;
-			}
-			
+			$.ajax({
+				url: "<?php echo $urlGenerarEnlace;?>",
+				dataType: "json",
+				data: { valor: "<?php echo $valorCodificado;?>",
+						directorio: "<?php echo $directorio;?>",
+						id: id},
+				success: function(data){
+					location.href = data;
+				}
+				
+			});
+		};
+		
+		$(function() {
+			$("#botonCerrar").click(function( event ) {	
+				$("#confirmacionElim").modal("hide");
+			});
 		});
-	};
+		
+		$(function() {
+			$("#botonCerrar2").click(function( event ) {	
+				$("#confirmacionNoElim").modal("hide");
+			});
+		});
 	
-	$(function() {
-		$("#botonCerrar").click(function( event ) {	
-			$("#confirmacionElim").modal("hide");
-		});
 	});
-	
-	$(function() {
-		$("#botonCerrar2").click(function( event ) {	
-			$("#confirmacionNoElim").modal("hide");
-		});
-	});
 
-});
-
+}); 
 
 <?php
 /**
@@ -237,38 +240,42 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $val
 $urlFuncionCodificarNombre = $url . $cadena;
 ?>
 
-function ordenTrabajo(){
+$(document).ready(function() {
 
-	$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
-	$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
-			
-	$.ajax({
-		url: "<?php echo $urlFuncionCodificarNombre?>",
-		dataType: "json",
-		data: { metodo:'urbanizaciones'},
-		success: function(data){
+	function ordenTrabajo(){
 	
-			$.each(data , function(indice,valor){
-				$("<option value='"+data[ indice ].custom+"'>" + data[ indice ].text + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
-			});
-			
-			$("#<?php echo $this->campoSeguro('urbanizacion')?>").val($("#<?php echo $this->campoSeguro('select_urbanizacion')?>").val()).change();
-		}
+		$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
+		$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
+				
+		$.ajax({
+			url: "<?php echo $urlFuncionCodificarNombre?>",
+			dataType: "json",
+			data: { metodo:'urbanizaciones'},
+			success: function(data){
 		
+				$.each(data , function(indice,valor){
+					$("<option value='"+data[ indice ].custom+"'>" + data[ indice ].text + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
+				});
+				
+				$("#<?php echo $this->campoSeguro('urbanizacion')?>").val($("#<?php echo $this->campoSeguro('select_urbanizacion')?>").val()).change();
+			}
+			
+		});
+	};
+	
+	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
+	
+		$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val($("#<?php echo $this->campoSeguro('urbanizacion');?> option:selected").text());
+	
 	});
-};
-
-$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
-
-	$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val($("#<?php echo $this->campoSeguro('urbanizacion');?> option:selected").text());
-
+	
+	 ordenTrabajo();
+	 
+	 if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
+		$("#myModalMensaje").modal('show');
+	}
+	
 });
-
- ordenTrabajo();
- 
- if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
-	$("#myModalMensaje").modal('show');
-}
 
 <?php
 
@@ -281,10 +288,14 @@ $enlaceReg = $directorioReg . '=' . $variableReg;
 
 ?>
 
-$(function() {
-		$("#regresarConsultar").click(function( event ) {	
-	    	location.href = "<?php echo $enlaceReg;?>";
-		});
+$(document).ready(function() {
+
+	$(function() {
+			$("#regresarConsultar").click(function( event ) {	
+		    	location.href = "<?php echo $enlaceReg;?>";
+			});
+	});
+	
 });
 
 <?php
@@ -314,27 +325,129 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $val
 $urlCargarCab = $url . $cadena;
 ?>
 
-$("#<?php echo $this->campoSeguro('asociacion_ben_nod')?>").tokenfield({
-	  autocomplete: {
-	    source: function (request, response) {
-		    $.ajax({
-				url: "<?php echo $urlCargarCab?>",
-				dataType: "json",
-				success: 
-					function (data) {
-						return response(data);
-               		}
-			});
-		},
-	    delay: 100
-	  },
-	  showAutocompleteOnFocus: true
+
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=". $esteBloque ["nombre"]; 
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarBeneficiario";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+// URL definitiva
+$urlCargarCab = $url . $cadena;
+?>
+
+$(document).ready(function() {
+
+	var users = new Bloodhound({
+	         datumTokenizer: function(d) { return [d.label]; },
+	         queryTokenizer: Bloodhound.tokenizers.whitespace,
+	         remote: {
+		        url: "<?php echo $urlCargarCab; ?>" + "&query=%QUERY",
+	            wildcard: '%QUERY'
+	         },
+	    });
+	    
+	    users.initialize(true);
+	        
+	$("#<?php echo $this->campoSeguro('asociacion_ben_nod')?>").tokenfield({
+	  typeahead: {
+	    source: users.ttAdapter(),
+	    displayKey: 'label'
+	  }
+	});
+	
 });
 
-$("#<?php echo $this->campoSeguro('asociacion_ben_nod')?>").on('tokenfield:createtoken', function (event) {
-    var existingTokens = $(this).tokenfield('getTokens');
-    $.each(existingTokens, function(index, token) {
-        if (token.value === event.attrs.value)
-            event.preventDefault();
-    });
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=". $esteBloque ["nombre"]; 
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarBeneficiarioEspecifico";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+// URL definitiva
+$urlBeneficiarioEspecifico = $url . $cadena;
+?>
+
+$(document).ready(function() {
+
+	$("#<?php echo $this->campoSeguro('asociacion_ben_nod')?>").on('tokenfield:createtoken', function (event) {
+		
+		var existingTokens = $(this).tokenfield('getTokens');
+	   		$.each(existingTokens, function(index, token) {
+		        if (token.value === event.attrs.value){
+		        	event.preventDefault();
+		            $(".token-input").val("");
+		        }
+	
+	   	});
+	   		
+	    if(event['attrs']['id'] == undefined){
+	    
+	    	$.ajax({
+				url: "<?php echo $urlBeneficiarioEspecifico;?>",
+				dataType: "json",
+				data: { valor: event.attrs.value},
+				async: false,
+				success: function(data){
+					if(data[0].id === null){
+						event.preventDefault();
+	        			$(".token-input").val("");
+					}else{
+						event.attrs.id = data[0].id;
+						event.attrs.value = data[0].value;
+						event.attrs.label = data[0].label;
+						
+					}
+				}
+			});
+			
+			var existingTokens = $(this).tokenfield('getTokens');
+			$.each(existingTokens, function(index, token) {
+				if (token.value === event.attrs.value){
+					event.preventDefault();
+			    	$(".token-input").val("");
+			    }
+			});
+			
+	    }
+	});
+	
+	$("#<?php echo $this->campoSeguro('asociacion_ben_nod')?>").blur(function() {
+	  $(".token-input").val("");
+	});
+
 });

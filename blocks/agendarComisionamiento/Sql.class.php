@@ -196,6 +196,7 @@ class Sql extends \Sql {
                	$cadenaSql .= "tipo_agendamiento,";
                	$cadenaSql .= "tipo_tecnologia,";
                	$cadenaSql .= "id_comisionador,";
+               	$cadenaSql .= "nombre_comisionador,";
                	$cadenaSql .= "fecha_agendamiento,";
                	$cadenaSql .= "codigo_nodo,";
                	$cadenaSql .= "manzana,";
@@ -217,6 +218,7 @@ class Sql extends \Sql {
                		$cadenaSql .= "'" . $valor['tipo_agendamiento'] . "',";
                		$cadenaSql .= "'" . $valor['tipo_tecnologia'] . "',";
                		$cadenaSql .= "'" . $valor['id_comisionador'] . "',";
+               		$cadenaSql .= "'" . $valor['nombre_comisionador'] . "',";
                		$cadenaSql .= "'" . $valor['fecha_agendamiento'] . "',";
                		$cadenaSql .= "'" . $valor['codigo_nodo'] . "',";
                		$cadenaSql .= "'" . $valor['manzana'] . "',";

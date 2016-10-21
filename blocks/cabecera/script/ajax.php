@@ -100,117 +100,120 @@ $enlaceReg = $directorioReg . '=' . $variableReg;
 
 ?>
 
-var id = "";
-
-$('#example')
-		.removeClass( 'display' )
-		.addClass('table table-striped table-bordered');
-
-		
 $(document).ready(function() {
-    var table = $('#example').DataTable( {
-		"sDom": "<'dt-toolbar'<'col-xs-4'l><'col-xs-4'<'toolbar'>><'col-xs-4'f>>"+
-		"t"+"<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>",
-        processing: true,
-        searching: true,
-        ajax: {
-            url: "<?php echo $urlCargarInformacion?>",
-            dataSrc:"data"   
-        },
-        "columns": [
-            { "data": "codigo_cabecera" },
-            { "data": "descripcion" },
-            { "data": "departamento" },
-            { "data": "municipio" },
-            { "data": "urbanizacion" },
-            {
-      			"data": null,
-      			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
-    		}
-        ]
-    } );
-    
-	$("div.toolbar").html('<button type="button" id="agregarCabecera" class="btn btn-primary">Agregar Cabecera</button>'); 
+
+	var id = "";
+	
+	$('#example')
+			.removeClass( 'display' )
+			.addClass('table table-striped table-bordered');
+	
+			
+	$(document).ready(function() {
+	    var table = $('#example').DataTable( {
+			"sDom": "<'dt-toolbar'<'col-xs-4'l><'col-xs-4'<'toolbar'>><'col-xs-4'f>>"+
+			"t"+"<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>",
+	        processing: true,
+	        searching: true,
+	        ajax: {
+	            url: "<?php echo $urlCargarInformacion?>",
+	            dataSrc:"data"   
+	        },
+	        "columns": [
+	            { "data": "codigo_cabecera" },
+	            { "data": "descripcion" },
+	            { "data": "departamento" },
+	            { "data": "municipio" },
+	            { "data": "urbanizacion" },
+	            {
+	      			"data": null,
+	      			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
+	    		}
+	        ]
+	    } );
 	    
-    $('#example tbody').on( 'click', '.optionRemove', function () {
-    	var data = table.row( $(this).parents('tr') ).data();
-        id = data['codigo_cabecera'];
-        $("#myModal").modal("show");
-    } );
-    
-    $('#example tbody').on( 'click', '.optionEdit', function () {
-    	var data = table.row( $(this).parents('tr') ).data();
-        id = data['codigo_cabecera'];
-        generarEnlace();
-    } );
-    
-    $(function() {
-		$("#botonCancelarElim").click(function( event ) {	
-			$("#myModal").modal("hide");
+		$("div.toolbar").html('<button type="button" id="agregarCabecera" class="btn btn-primary">Agregar Cabecera</button>'); 
+		    
+	    $('#example tbody').on( 'click', '.optionRemove', function () {
+	    	var data = table.row( $(this).parents('tr') ).data();
+	        id = data['codigo_cabecera'];
+	        $("#myModal").modal("show");
+	    } );
+	    
+	    $('#example tbody').on( 'click', '.optionEdit', function () {
+	    	var data = table.row( $(this).parents('tr') ).data();
+	        id = data['codigo_cabecera'];
+	        generarEnlace();
+	    } );
+	    
+	    $(function() {
+			$("#botonCancelarElim").click(function( event ) {	
+				$("#myModal").modal("hide");
+			});
+		}); 
+		
+		$(function() {
+			$("#botonAceptarElim").click(function( event ) {	
+				eliminarCabecera();
+				$("#myModal").modal("hide");
+			});
 		});
-	}); 
-	
-	$(function() {
-		$("#botonAceptarElim").click(function( event ) {	
-			eliminarCabecera();
-			$("#myModal").modal("hide");
+		
+		$(function() {
+			$("#agregarCabecera").click(function( event ) {	
+		    	location.href = "<?php echo $enlaceReg;?>";
+			});
 		});
-	});
+		
+		function eliminarCabecera(){
 	
-	$(function() {
-		$("#agregarCabecera").click(function( event ) {	
-	    	location.href = "<?php echo $enlaceReg;?>";
-		});
-	});
-	
-	function eliminarCabecera(){
-
-		$.ajax({
-			url: "<?php echo $urlEliminarCabecera;?>",
-			dataType: "json",
-			data: { valor: id},
-			success: function(data){
-				if(data == true){
-					table.ajax.reload();
-					$("#confirmacionElim").modal("show");
-				}else{
-					table.ajax.reload();
-					$("#confirmacionNoElim").modal("show");
+			$.ajax({
+				url: "<?php echo $urlEliminarCabecera;?>",
+				dataType: "json",
+				data: { valor: id},
+				success: function(data){
+					if(data == true){
+						table.ajax.reload();
+						$("#confirmacionElim").modal("show");
+					}else{
+						table.ajax.reload();
+						$("#confirmacionNoElim").modal("show");
+					}
 				}
-			}
-			
-		});
-	};
+				
+			});
+		};
+		
+		function generarEnlace(){
 	
-	function generarEnlace(){
-
-		$.ajax({
-			url: "<?php echo $urlGenerarEnlace;?>",
-			dataType: "json",
-			data: { valor: "<?php echo $valorCodificado;?>",
-					directorio: "<?php echo $directorio;?>",
-					id: id},
-			success: function(data){
-				location.href = data;
-			}
-			
+			$.ajax({
+				url: "<?php echo $urlGenerarEnlace;?>",
+				dataType: "json",
+				data: { valor: "<?php echo $valorCodificado;?>",
+						directorio: "<?php echo $directorio;?>",
+						id: id},
+				success: function(data){
+					location.href = data;
+				}
+				
+			});
+		};
+		
+		$(function() {
+			$("#botonCerrar").click(function( event ) {	
+				$("#confirmacionElim").modal("hide");
+			});
 		});
-	};
+		
+		$(function() {
+			$("#botonCerrar2").click(function( event ) {	
+				$("#confirmacionNoElim").modal("hide");
+			});
+		});
 	
-	$(function() {
-		$("#botonCerrar").click(function( event ) {	
-			$("#confirmacionElim").modal("hide");
-		});
-	});
-	
-	$(function() {
-		$("#botonCerrar2").click(function( event ) {	
-			$("#confirmacionNoElim").modal("hide");
-		});
 	});
 
 });
-
 
 <?php
 
@@ -240,59 +243,63 @@ $urlConsultarProyectos = $url . $cadena;
 
 ?>
 
-var urbanizacion;
+$(document).ready(function() {
 
-function urbanizacion(){
-
-	$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
-	$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
-			
-	$.ajax({
-		url: "<?php echo $urlConsultarProyectos; ?>",
-		dataType: "json",
-		data: { metodo:''},
-		success: function(data){
-			
-			urbanizacion = data;
-			
-			$.each(data , function(indice,valor){
-				$("<option value='"+data[ indice ].id+"'>" + data[ indice ].urbanizacion + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
-			});
-			
-			$("#<?php echo $this->campoSeguro('urbanizacion')?>").val($("#<?php echo $this->campoSeguro('select_urbanizacion')?>").val()).change();
-		}
-		
-	});
-};
-
-$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
-
-	$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val($("#<?php echo $this->campoSeguro('urbanizacion');?> option:selected").text());
-
-});
-
-$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
-
-	if($("#<?php echo $this->campoSeguro('urbanizacion');?>").val() != ""){
+	var urbanizacion;
 	
-		$.each(urbanizacion , function(indice,valor){
-			
-			if(urbanizacion[indice].id == $("#<?php echo $this->campoSeguro('urbanizacion');?>").val()){
-				$("#<?php echo $this->campoSeguro('departamento');?>").val(urbanizacion[indice].departamento);
-				$("#<?php echo $this->campoSeguro('municipio');?>").val(urbanizacion[indice].municipio);
+	function urbanizacion(){
+	
+		$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
+		$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
+				
+		$.ajax({
+			url: "<?php echo $urlConsultarProyectos; ?>",
+			dataType: "json",
+			data: { metodo:''},
+			success: function(data){
+				
+				urbanizacion = data;
+				
+				$.each(data , function(indice,valor){
+					$("<option value='"+data[ indice ].id+"'>" + data[ indice ].urbanizacion + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
+				});
+				
+				$("#<?php echo $this->campoSeguro('urbanizacion')?>").val($("#<?php echo $this->campoSeguro('select_urbanizacion')?>").val()).change();
 			}
 			
 		});
+	};
+	
+	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
+	
+		$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val($("#<?php echo $this->campoSeguro('urbanizacion');?> option:selected").text());
+	
+	});
+	
+	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
+	
+		if($("#<?php echo $this->campoSeguro('urbanizacion');?>").val() != ""){
 		
+			$.each(urbanizacion , function(indice,valor){
+				
+				if(urbanizacion[indice].id == $("#<?php echo $this->campoSeguro('urbanizacion');?>").val()){
+					$("#<?php echo $this->campoSeguro('departamento');?>").val(urbanizacion[indice].departamento);
+					$("#<?php echo $this->campoSeguro('municipio');?>").val(urbanizacion[indice].municipio);
+				}
+				
+			});
+			
+		}
+	
+	});
+	 
+	urbanizacion();
+	 
+	if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
+		$("#myModalMensaje").modal('show');
 	}
 
 });
- 
-urbanizacion();
- 
-if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
-	$("#myModalMensaje").modal('show');
-}
 
 <?php
 
@@ -305,8 +312,12 @@ $enlaceReg = $directorioReg . '=' . $variableReg;
 
 ?>
 
-$(function() {
-		$("#regresarConsultar").click(function( event ) {	
-	    	location.href = "<?php echo $enlaceReg;?>";
-		});
+$(document).ready(function() {
+
+	$(function() {
+			$("#regresarConsultar").click(function( event ) {	
+		    	location.href = "<?php echo $enlaceReg;?>";
+			});
+	});
+	
 });

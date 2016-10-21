@@ -252,6 +252,30 @@ class Formulario {
 	        $atributos = array_merge ( $atributos, $atributosGlobales );
 	        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
 	        unset ( $atributos );
+	        
+	        // ----------------INICIO CONTROL: Campo Oculto Nombre de Comisionador-------------------------------------------------------
+	         
+	        $esteCampo = 'nombre_comisionador';
+	        $atributos ["id"] = $esteCampo; // No cambiar este nombre
+	        $atributos ["tipo"] = "hidden";
+	        $atributos ['valor'] = '';
+	        $atributos ['estilo'] = '';
+	        $atributos ["obligatorio"] = false;
+	        $atributos ['marco'] = true;
+	        $atributos ["etiqueta"] = "";
+	         
+	        if (isset ( $cargueDatos [$esteCampo] )) {
+	        	$atributos ['valor'] = $cargueDatos [$esteCampo];
+	        } else {
+	        	$atributos ['valor'] = '';
+	        }
+	         
+	        $atributos = array_merge ( $atributos, $atributosGlobales );
+	        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+	        unset ( $atributos );
+	         
+	        // ----------------FIN CONTROL: Campo Oculto Nombre Comisionador--------------------------------------------------------
+	        	    
 	         
 	        // ----------------FIN CONTROL: Lista Tipo de Tecnología--------------------------------------------------------
 	        	    

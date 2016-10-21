@@ -30,6 +30,8 @@ class Registrar {
 		
 		$nodo = array();
 
+		var_dump($_REQUEST); die;
+		
 		$nodo['codigo_nodo'] = $_REQUEST['codigo_nodo'];
 		$nodo['codigo_cabecera'] = $_REQUEST['codigo_cabecera'];
 		$nodo['tipo_tecnologia'] = $_REQUEST['tipo_tecnologia'];
