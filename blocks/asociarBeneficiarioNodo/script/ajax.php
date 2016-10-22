@@ -121,9 +121,10 @@ $(document).ready(function() {
 	        },
 	        "columns": [
 	            { "data": "codigo_nodo" },
-	            { "data": "tipo_tecnologia" },
-	            { "data": "codigo_cabecera" },
 	            { "data": "urbanizacion" },
+	            { "data": "id_beneficiario" },
+	            { "data": "identificacion" },
+	            { "data": "nombre" },
 	            {
 	      			"data": null,
 	      			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
@@ -215,69 +216,6 @@ $(document).ready(function() {
 }); 
 
 <?php
-/**
- *
- * Los datos del bloque se encuentran en el arreglo $esteBloque.
- */
-
-// URL base
-$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
-$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
-$url .= "/index.php?";
-// Variables
-$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
-$valor .= "&procesarAjax=true";
-$valor .= "&action=index.php";
-$valor .= "&bloqueNombre=". "llamarApi";
-$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
-
-// Codificar las variables
-$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
-
-// URL definitiva
-$urlFuncionCodificarNombre = $url . $cadena;
-?>
-
-$(document).ready(function() {
-
-	function ordenTrabajo(){
-	
-		$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
-		$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
-				
-		$.ajax({
-			url: "<?php echo $urlFuncionCodificarNombre?>",
-			dataType: "json",
-			data: { metodo:'urbanizaciones'},
-			success: function(data){
-		
-				$.each(data , function(indice,valor){
-					$("<option value='"+data[ indice ].custom+"'>" + data[ indice ].text + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
-				});
-				
-				$("#<?php echo $this->campoSeguro('urbanizacion')?>").val($("#<?php echo $this->campoSeguro('select_urbanizacion')?>").val()).change();
-			}
-			
-		});
-	};
-	
-	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
-	
-		$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val($("#<?php echo $this->campoSeguro('urbanizacion');?> option:selected").text());
-	
-	});
-	
-	 ordenTrabajo();
-	 
-	 if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
-		$("#myModalMensaje").modal('show');
-	}
-	
-});
-
-<?php
 
 $directorioReg = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
@@ -366,7 +304,7 @@ $(document).ready(function() {
 	    
 	    users.initialize(true);
 	        
-	$("#<?php echo $this->campoSeguro('asociacion_ben_nod')?>").tokenfield({
+	$("#<?php echo $this->campoSeguro('beneficiario')?>").tokenfield({
 	  typeahead: {
 	    source: users.ttAdapter(),
 	    displayKey: 'label'
@@ -404,7 +342,7 @@ $urlBeneficiarioEspecifico = $url . $cadena;
 
 $(document).ready(function() {
 
-	$("#<?php echo $this->campoSeguro('asociacion_ben_nod')?>").on('tokenfield:createtoken', function (event) {
+	$("#<?php echo $this->campoSeguro('beneficiario')?>").on('tokenfield:createtoken', function (event) {
 		
 		var existingTokens = $(this).tokenfield('getTokens');
 	   		$.each(existingTokens, function(index, token) {
@@ -422,7 +360,7 @@ $(document).ready(function() {
 				dataType: "json",
 				data: { valor: event.attrs.value},
 				async: false,
-				success: function(data){
+				success: function(data){console.log(data);
 					if(data[0].id === null){
 						event.preventDefault();
 	        			$(".token-input").val("");
@@ -446,7 +384,7 @@ $(document).ready(function() {
 	    }
 	});
 	
-	$("#<?php echo $this->campoSeguro('asociacion_ben_nod')?>").blur(function() {
+	$("#<?php echo $this->campoSeguro('beneficiario')?>").blur(function() {
 	  $(".token-input").val("");
 	});
 

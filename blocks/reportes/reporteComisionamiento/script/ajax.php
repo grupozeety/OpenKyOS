@@ -247,5 +247,11 @@ $(document).ready(function() {
   
   $('button').prop('disabled', true);
   
+
+  $('#reporteComisionamiento').on('submit', function(){
+  		table.search( '' ).columns().search( '' ).draw();
+  });
+
+  
 });
 

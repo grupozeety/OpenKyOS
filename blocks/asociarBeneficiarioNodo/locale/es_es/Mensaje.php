@@ -30,28 +30,7 @@ $this->idioma["codigo_nodo"]="Código de la Celda o Nodo EOC";
 $this->idioma["tipo_tecnologia"]="Tipo de Tecnología";
 $this->idioma["urbanizacion"]="Urbanización";
 
-$this->idioma["asociacion_ben_nod"]="Beneficario(s) por Asociar a Nodo";
-
-$this->idioma["asociacion_ben_nod2"]="Beneficario(s) por Asociar a Nodo";
-
-
-$this->idioma["mac_master_eoc"]="MAC del Master EOC";
-$this->idioma["ip_master_eoc"]="IP del Master EOC";
-$this->idioma["mac_onu_eoc"]="MAC ONU";
-$this->idioma["ip_onu_eoc"]="IP ONU";
-$this->idioma["mac_hub_eoc"]="MAC HUB";
-$this->idioma["ip_hub_eoc"]="IP HUB";
-$this->idioma["mac_cpe_eoc"]="MAC-CPE";
-
-$this->idioma["ip_celda"]="IP CELDA";
-$this->idioma["mac_celda"]="MAC CELDA";
-$this->idioma["nombre_nodo"]="Nombre del Nodo";
-$this->idioma["nombre_sectorial"]="Nombre del Sectorial";
-$this->idioma["ip_switch_celda"]="IP Switch";
-$this->idioma["mac_sm_celda"]="MAC SM";
-$this->idioma["ip_sm_celda"]="IP SM";
-$this->idioma["mac_cpe_celda"]="MAC-CPE";
-
+$this->idioma["beneficiario"]="Beneficario(s) por Asociar a Nodo";
 
 $this->idioma["mensajeRegistro"]="Se ha registrado correctamente la Celda o Nodo EOC";
 

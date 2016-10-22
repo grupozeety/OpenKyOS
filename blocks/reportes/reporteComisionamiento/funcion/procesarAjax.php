@@ -37,16 +37,8 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 				'identificacion_beneficiario' => $resultado [$i] ['identificacion_beneficiario'],
 				'nombre_beneficiario' => $resultado [$i] ['nombre_beneficiario'],
 				'codigo_nodo' => $resultado [$i] ['codigo_nodo'],
-				'id_checkbox' => array( 'value' =>  (  
-						$resultado [$i] ['id_agendamiento'] . ":"
-						. $resultado [$i] ['orden_trabajo'] . ":"
-						. $resultado [$i] ['urbanizacion'] . ":"
-						. $resultado [$i] ['comisionador'] . ":"
-						. $resultado [$i] ['tipo_agendamiento'] . ":"
-						. $resultado [$i] ['codigo_nodo'] . ":"
-						. $resultado [$i] ['identificacion_beneficiario'] . ":"
-						. $resultado [$i] ['nombre_beneficiario']
-						), 'id' => codificarNombre( "checkbox_" . $i ) ),
+				'id_checkbox' => array( 'value' =>  $resultado [$i] ['consecutivo'],
+				'id' => codificarNombre( "checkbox_" . $i ) ),
 				
 				
 		);

@@ -107,13 +107,14 @@ class Sql extends \Sql {
             case "consultarAgendamiento":
                 
                	$cadenaSql = "SELECT ";
+               	$cadenaSql .= "consecutivo AS consecutivo,";
                 $cadenaSql .= "id_agendamiento AS id_agendamiento,";
                 $cadenaSql .= "id_orden_trabajo AS orden_trabajo,";
                 $cadenaSql .= "descripcion_urbanizacion AS urbanizacion,";
                 $cadenaSql .= "identificacion_beneficiario AS identificacion_beneficiario,";
                 $cadenaSql .= "nombre_beneficiario AS nombre_beneficiario,";
                 $cadenaSql .= "ta.descripcion AS tipo_agendamiento,";
-                $cadenaSql .= "id_comisionador AS comisionador,";
+                $cadenaSql .= "nombre_comisionador AS comisionador,";
                 $cadenaSql .= "codigo_nodo AS codigo_nodo ";
                 $cadenaSql .= "FROM ";
                 $cadenaSql .= "interoperacion.agendamiento_comisionamiento AS ac, ";
@@ -143,7 +144,7 @@ class Sql extends \Sql {
                	$cadenaSql .= "descripcion_urbanizacion AS urbanizacion,";
                	$cadenaSql .= "codigo_nodo AS codigo_nodo,";
                	$cadenaSql .= "ta.descripcion AS tipo_agendamiento,";
-               	$cadenaSql .= "id_comisionador AS comisionador,";
+               	$cadenaSql .= "nombre_comisionador AS comisionador,";
                	$cadenaSql .= "id_orden_trabajo AS orden_trabajo,";
 				//$cadenaSql .= "identificacion_beneficiario AS identificacion_beneficiario,";
                	$cadenaSql .= "nombre_beneficiario AS nombre_beneficiario,";
@@ -162,7 +163,8 @@ class Sql extends \Sql {
 	               	$cadenaSql .= "WHERE ";
 	               	$cadenaSql .= "rparam.descripcion = 'Tipo de Agendamiento') AS ta ";
                	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "estado_registro=true AND cast ( ta.codigo as int8) = ac.tipo_agendamiento";
+               	$cadenaSql .= "estado_registro=true AND cast ( ta.codigo as int8) = ac.tipo_agendamiento ";
+				$cadenaSql .= "AND consecutivo IN " . "" . $variable . "";
                	break;
                 
             case "comisionador":

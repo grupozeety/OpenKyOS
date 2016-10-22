@@ -117,9 +117,10 @@ class Formulario {
 			        <thead>
 			            <tr>
 			                <th>Código de Celda o Nodo EOC</th>
-			                <th>Tipo de Tecnología</th>
-			                <th>Código Cabecera</th>
-        					<th>Urbanización</th>
+			                <th>Urbanización</th>
+			                <th>Id Beneficiario</th>
+        					<th>Identificación Beneficiario</th>
+        					<th>Nombre Beneficiario</th>
         					<th>Opciones</th>
 			            </tr>
 			        </thead>

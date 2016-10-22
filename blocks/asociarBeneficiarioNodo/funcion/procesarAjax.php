@@ -5,16 +5,17 @@ $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conex
 
 if ($_REQUEST ['funcion'] == "consultarNodo") {
 	
-	$cadenaSql = $this->sql->getCadenaSql ( 'consultarNodo' );
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarBeneficiarioNodo' );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
 	for($i = 0; $i < count ( $resultado ); $i ++) {
 	
 		$resultadoFinal [] = array (
 				'codigo_nodo' =>  $resultado [$i] ['codigo_nodo'],
-				'codigo_cabecera' => $resultado [$i] ['codigo_cabecera'],
-				'tipo_tecnologia' => $resultado [$i] ['tipo_tecnologia'],
-				'urbanizacion' => $resultado [$i] ['urbanizacion']
+				'urbanizacion' => $resultado [$i] ['urbanizacion'],
+				'id_beneficiario' => $resultado [$i] ['id_beneficiario'],
+				'identificacion' => $resultado [$i] ['identificacion'],
+				'nombre' => $resultado [$i] ['nombre']
 		);
 	}
 	

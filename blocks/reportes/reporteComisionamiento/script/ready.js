@@ -1,6 +1,7 @@
 //Deshabilitar el comportamiento predeterminado de los botones 
 $(function() {
-	$("button").button().click(function(event) {
+	$("btn").button().click(function(event) {
+		console.log("Hola boton");
 		event.preventDefault();
 	});
 });

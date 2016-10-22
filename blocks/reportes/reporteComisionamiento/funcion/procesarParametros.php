@@ -29,12 +29,34 @@ class Registrar {
 	}
 	
 	function procesarFormulario() {
+
+		$agendamientos = "(";
+		$cont = 0;
 		
-        /**
+		foreach ($_REQUEST as $key => $value){
+			
+			$name = explode("_", $key);
+			
+			if($name[0] == "checkbox"){
+				
+				if($cont > 0){
+					$agendamientos .= ",";
+				}
+				
+				$agendamientos .= $value;
+				
+				$cont++;
+			}
+			
+		}
+		
+		$agendamientos .= ")";
+		
+		/**
          *  1. Consultar Los porcentajes por Proyecto Consumidos
          **/
 
-        $this->consultarAgendamientos();
+        $this->consultarAgendamientos($agendamientos);
 
         /**
          *  2. Generar Documento PDF
@@ -48,12 +70,12 @@ class Registrar {
         include_once "generarDocumentoPdf.php";
     }
 
-    public function consultarAgendamientos() {
+    public function consultarAgendamientos($agendamientos) {
 
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
         
-        $cadenaSql = $this->miSql->getCadenaSql('agendamientosReporte' /*, json_decode($_REQUEST['elementos'])*/); 
+        $cadenaSql = $this->miSql->getCadenaSql('agendamientosReporte', $agendamientos); 
         $this->elementos_reporte = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         
     }

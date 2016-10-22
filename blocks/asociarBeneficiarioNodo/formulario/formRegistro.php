@@ -117,47 +117,47 @@ class Formulario {
         echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
         unset ( $atributos );
         
-        // ----------------INICIO CONTROL: Lista Código de la Cabecera--------------------------------------------------------
+//         // ----------------INICIO CONTROL: Lista Código de la Cabecera--------------------------------------------------------
         
-        $esteCampo = 'urbanizacion';
-        $atributos ['nombre'] = $esteCampo;
-        $atributos ['id'] = $esteCampo;
-        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ["etiquetaObligatorio"] = true;
-        $atributos ['tab'] = $tab ++;
-        $atributos ['anchoEtiqueta'] = 2;
-        $atributos ['evento'] = '';
-        $atributos ['seleccion'] = - 1;
-        $atributos ['deshabilitado'] = false;
-        $atributos ['columnas'] = 1;
-        $atributos ['tamanno'] = 1;
-        $atributos ['ajax_function'] = "";
-        $atributos ['ajax_control'] = $esteCampo;
-        $atributos ['estilo'] = "bootstrap";
-        $atributos ['limitar'] = false;
-        $atributos ['anchoCaja'] = 10;
-        $atributos ['miEvento'] = '';
-//         $atributos ['validar'] = 'required';
-//         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "codigoCabecera" );
-        $matrizItems = array (
-        		array (
-        				0,
-        				' '
-        		)
-        );
-//         $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-        $atributos ['matrizItems'] = $matrizItems;
+//         $esteCampo = 'urbanizacion';
+//         $atributos ['nombre'] = $esteCampo;
+//         $atributos ['id'] = $esteCampo;
+//         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+//         $atributos ["etiquetaObligatorio"] = true;
+//         $atributos ['tab'] = $tab ++;
+//         $atributos ['anchoEtiqueta'] = 2;
+//         $atributos ['evento'] = '';
+//         $atributos ['seleccion'] = - 1;
+//         $atributos ['deshabilitado'] = false;
+//         $atributos ['columnas'] = 1;
+//         $atributos ['tamanno'] = 1;
+//         $atributos ['ajax_function'] = "";
+//         $atributos ['ajax_control'] = $esteCampo;
+//         $atributos ['estilo'] = "bootstrap";
+//         $atributos ['limitar'] = false;
+//         $atributos ['anchoCaja'] = 10;
+//         $atributos ['miEvento'] = '';
+// //         $atributos ['validar'] = 'required';
+// //         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "codigoCabecera" );
+//         $matrizItems = array (
+//         		array (
+//         				0,
+//         				' '
+//         		)
+//         );
+// //         $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+//         $atributos ['matrizItems'] = $matrizItems;
         
-        if (isset ( $cargueDatos [$esteCampo] )) {
-        	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
-        } else {
-        	$atributos ['seleccion'] = - 1;
-        }
+//         if (isset ( $cargueDatos [$esteCampo] )) {
+//         	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
+//         } else {
+//         	$atributos ['seleccion'] = - 1;
+//         }
         
-        // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-        unset ( $atributos );
+//         // Aplica atributos globales al control
+//         $atributos = array_merge ( $atributos, $atributosGlobales );
+//         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+//         unset ( $atributos );
          
         // ----------------FIN CONTROL: Lista Código de la Cabecera--------------------------------------------------------
         
@@ -207,7 +207,7 @@ class Formulario {
         
  		// ----------------INICIO CONTROL: Campo Texto Asociación Beneficiario Nodo--------------------------------------------------------
 		        
-		        $esteCampo = 'asociacion_ben_nod';
+		        $esteCampo = 'beneficiario';
 		        $atributos ['nombre'] = $esteCampo;
 		        $atributos ['tipo'] = "text";
 		        $atributos ['id'] = $esteCampo;
