@@ -41,7 +41,7 @@ $valor .= "&procesarAjax=true";
 $valor .= "&action=index.php";
 $valor .= "&bloqueNombre=". $esteBloque ["nombre"]; 
 $valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-$valor .= "&funcion=inhabilitarNodo";
+$valor .= "&funcion=inhabilitarAsociacion";
 $valor .= "&tiempo=" . $_REQUEST ['tiempo'];
 
 // Codificar las variables
@@ -84,7 +84,7 @@ $urlGenerarEnlace = $url . $cadena;
 $directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 $directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-$valorCodificado = "pagina=nodo&opcion=agregar";
+$valorCodificado = "pagina=asociarBeneficiarioNodo&opcion=agregar";
 $valorCodificado .= "&id=";
 
 ?>
@@ -136,13 +136,13 @@ $(document).ready(function() {
 		    
 	    $('#example tbody').on( 'click', '.optionRemove', function () {
 	    	var data = table.row( $(this).parents('tr') ).data();
-	        id = data['codigo_nodo'];
+	        id = data['id_beneficiario'];
 	        $("#myModal").modal("show");
 	    } );
 	    
 	    $('#example tbody').on( 'click', '.optionEdit', function () {
 	    	var data = table.row( $(this).parents('tr') ).data();
-	        id = data['codigo_nodo'];
+	        id = data['id_beneficiario'];
 	        generarEnlace();
 	    } );
 	    
@@ -220,7 +220,7 @@ $(document).ready(function() {
 $directorioReg = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 $directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-$valorCodificadoReg = "pagina=nodo";
+$valorCodificadoReg = "pagina=asociarBeneficiarioNodo";
 $variableReg = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificadoReg );
 $enlaceReg = $directorioReg . '=' . $variableReg;
 
@@ -387,5 +387,10 @@ $(document).ready(function() {
 	$("#<?php echo $this->campoSeguro('beneficiario')?>").blur(function() {
 	  $(".token-input").val("");
 	});
+	
+	 
+	if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
+		$("#myModalMensaje").modal('show');
+	}
 
 });

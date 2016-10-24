@@ -103,15 +103,6 @@ class Formulario {
         	unset ( $atributos );
         }
         
-        // ------------------Division para los botones-------------------------
-        $atributos ["id"] = "botones";
-        $atributos ["estilo"] = "marcoBotones";
-        echo $this->miFormulario->division ( "inicio", $atributos );
-        unset($atributos);
-        
-        // ------------------Fin Division para los botones-------------------------
-        echo $this->miFormulario->division ( "fin" );
-        
         echo '
         		<table id="example" class="display" cellspacing="0" width="100%">
 			        <thead>

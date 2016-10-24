@@ -30,12 +30,12 @@ if ($_REQUEST ['funcion'] == "consultarNodo") {
 	
 	echo $resultado;
 	
-}else if ($_REQUEST ['funcion'] == "inhabilitarNodo"){
+}else if ($_REQUEST ['funcion'] == "inhabilitarAsociacion"){
 	
 	$conexion = "interoperacion";
 	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 	
-	$cadenaSql = $this->sql->getCadenaSql ( 'inhabilitarNodo', $_REQUEST ['valor'] );
+	$cadenaSql = $this->sql->getCadenaSql ( 'inhabilitarAsociacion', $_REQUEST ['valor'] );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
 				
 	echo $resultado;

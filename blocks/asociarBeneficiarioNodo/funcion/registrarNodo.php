@@ -28,23 +28,28 @@ class Registrar {
 	}
 	function procesarFormulario() {
 		
-		$benef_nodo = array();
-
-		$benef_nodo['codigo_nodo'] = $_REQUEST['codigo_nodo'];
-		$id_beneficiario = explode(",", $_REQUEST['beneficiario']);
-		$benef_nodo['id_beneficiario'] = $id_beneficiario;
-		
-		$conexion = "interoperacion";
-		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-		
-		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
-		
-		$rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "raizDocumento" ) . "/blocks/";
-		$rutaBloque .= $esteBloque ['nombre'];
-		$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/" . $esteBloque ['nombre'];
-		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioNodo', $benef_nodo);
-		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
+		if(isset($_REQUEST['codigo_nodo']) && isset( $_REQUEST['beneficiario'])){
+			
+			$benef_nodo = array();
+			$benef_nodo['codigo_nodo'] = $_REQUEST['codigo_nodo'];
+			$id_beneficiario = explode(",", $_REQUEST['beneficiario']);
+			$benef_nodo['id_beneficiario'] = $id_beneficiario;
+			
+			$conexion = "interoperacion";
+			$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+			
+			$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
+			
+			$rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "raizDocumento" ) . "/blocks/";
+			$rutaBloque .= $esteBloque ['nombre'];
+			$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/" . $esteBloque ['nombre'];
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioNodo', $benef_nodo);
+			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
+			
+		}else{
+			$resultado = false;
+		}
 		
 		if ($resultado) {
 			redireccion::redireccionar ( 'inserto');

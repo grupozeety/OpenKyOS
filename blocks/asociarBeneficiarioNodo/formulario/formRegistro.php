@@ -172,7 +172,7 @@ class Formulario {
         $atributos ['anchoEtiqueta'] = 2;
         $atributos ['evento'] = '';
         $atributos ['seleccion'] = - 1;
-        $atributos ['deshabilitado'] = false;
+        $atributos ['deshabilitado'] = $deshabilitado;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['ajax_function'] = "";
@@ -217,7 +217,7 @@ class Formulario {
 		        $atributos ['anchoEtiqueta'] = 2;
 		        $atributos ['estilo'] = "bootstrap";
 		        $atributos ['evento'] = '';
-		        $atributos ['deshabilitado'] = false;
+		        $atributos ['deshabilitado'] = $deshabilitado;
 		        $atributos ['readonly'] = false;
 		        $atributos ['columnas'] = 1;
 		        $atributos ['tamanno'] = 1;
@@ -261,6 +261,7 @@ class Formulario {
 	        $atributos ["estiloMarco"] = '';
 	        $atributos ["estiloBoton"] = 'primary';
 	        $atributos ["block"] = false;
+	        $atributos ['deshabilitado'] = $deshabilitado;
 	        // verificar: true para verificar el formulario antes de pasarlo al servidor.
 	        $atributos ["verificar"] = '';
 	        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js

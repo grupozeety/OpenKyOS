@@ -105,32 +105,17 @@ class Sql extends \Sql {
 
             /* Consultas del desarrollo */
                 case "cargarNodo":
-                
                 	$cadenaSql = "SELECT ";
-                	$cadenaSql .= "codigo_nodo,";
-                	$cadenaSql .= "codigo_cabecera,";
-                	$cadenaSql .= "tipo_tecnologia,";
-                	$cadenaSql .= "mac_master_eoc,";
-                	$cadenaSql .= "ip_master_eoc,";
-                	$cadenaSql .= "mac_onu_eoc,";
-                	$cadenaSql .= "ip_onu_eoc,";
-                	$cadenaSql .= "mac_hub_eoc,";
-                	$cadenaSql .= "ip_hub_eoc,";
-                	$cadenaSql .= "mac_cpe_eoc,";
-                	$cadenaSql .= "mac_celda,";
-                	$cadenaSql .= "ip_celda,";
-                	$cadenaSql .= "nombre_nodo,";
-                	$cadenaSql .= "nombre_sectorial,";
-                	$cadenaSql .= "ip_switch_celda,";
-                	$cadenaSql .= "mac_sm_celda,";
-                	$cadenaSql .= "ip_sm_celda,";
-                	$cadenaSql .= "mac_cpe_celda ";
+                	$cadenaSql .= "(bp.id_beneficiario || ' - ' || bp.identificacion || ' - ' || bp.nombre || ' ' || bp.primer_apellido || ' ' || bp.segundo_apellido) as beneficiario,";
+                	$cadenaSql .= "abn.codigo_nodo as codigo_nodo ";
                 	$cadenaSql .= "FROM ";
-                	$cadenaSql .= "interoperacion.nodo ";
+                	$cadenaSql .= "interoperacion.beneficiario_potencial AS bp ";
+                	$cadenaSql .= "join interoperacion.asociacion_benf_nodo AS abn ";
+                	$cadenaSql .= "ON abn.id_beneficiario=bp.id_beneficiario ";
                 	$cadenaSql .= "WHERE ";
-                	$cadenaSql .= "estado_registro=true ";
-                	$cadenaSql .= "AND ";
-                	$cadenaSql .= "codigo_nodo=" . "'" . $variable . "'";
+                	$cadenaSql .= "bp.estado_registro=true ";
+                	$cadenaSql .= "AND abn.estado_registro=true ";
+                	$cadenaSql .= "AND bp.id_beneficiario=" . "'" . $variable . "'";
                 	break;
                 
             case "actualizarNodo":
@@ -168,22 +153,22 @@ class Sql extends \Sql {
             	$cadenaSql .= "nd.urbanizacion,";
             	$cadenaSql .= "bp.id_beneficiario,";
             	$cadenaSql .= "bp.identificacion,";
-            	$cadenaSql .= "bp.nombre || ' ' || bp.primer_apellido || ' ' || segundo_apellido AS nombre ";
+            	$cadenaSql .= "bp.nombre || ' ' || bp.primer_apellido || ' ' || bp.segundo_apellido AS nombre ";
             	$cadenaSql .= "FROM ";
             	$cadenaSql .= "interoperacion.asociacion_benf_nodo AS abn ";
             	$cadenaSql .= "join interoperacion.nodo AS nd ON abn.codigo_nodo= nd.codigo_nodo AND nd.estado_registro=true ";
-            	$cadenaSql .= "join interoperacion.beneficiario_potencial AS bp ON abn.id_beneficiario=bp.id_beneficiario AND bp.estado_registro=true";
+            	$cadenaSql .= "join interoperacion.beneficiario_potencial AS bp ON abn.id_beneficiario=bp.id_beneficiario AND bp.estado_registro=true ";
             	$cadenaSql .= "WHERE ";
-            	$cadenaSql .= "estado_registro=TRUE";
+            	$cadenaSql .= "abn.estado_registro=TRUE";
                	break;
                	
-            case "inhabilitarNodo":
+            case "inhabilitarAsociacion":
                	
-               	$cadenaSql = "UPDATE interoperacion.nodo ";
+               	$cadenaSql = "UPDATE interoperacion.asociacion_benf_nodo ";
                	$cadenaSql .= "SET ";
                	$cadenaSql .= "estado_registro=FALSE ";
                	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "codigo_nodo=" . "'" . $variable . "'";
+               	$cadenaSql .= "id_beneficiario=" . "'" . $variable . "'";
                	break;
                	
             case "codigoCabecera":
