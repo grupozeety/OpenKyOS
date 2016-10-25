@@ -26,6 +26,11 @@ $this->idioma["eliminarNodo"]="¿Realmente desea eliminar la Celda o Nodo EOC?";
 $this->idioma["nodoEliminado"]="Ha sido Eliminada la Celda o Nodo EOC";
 $this->idioma["nodoNoEliminado"]="No Ha sido posible eliminar la Celda o Nodo EOC";
 
+$this->idioma["urbanizacion"]="Urbanización";
+$this->idioma["departamento"]="Departamento";
+$this->idioma["municipio"]="Municipio";
+
+
 $this->idioma["codigo_nodo"]="Código de la Celda o Nodo EOC";
 $this->idioma["tipo_tecnologia"]="Tipo de Tecnología";
 $this->idioma["codigo_cabecera"]="Código de la Cabecera";
