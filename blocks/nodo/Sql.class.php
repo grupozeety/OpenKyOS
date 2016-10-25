@@ -148,6 +148,10 @@ class Sql extends \Sql {
                 $cadenaSql = "INSERT INTO interoperacion.nodo (";
                 $cadenaSql .= "codigo_nodo,";
                 $cadenaSql .= "codigo_cabecera,";
+                $cadenaSql .= "departamento,";
+                $cadenaSql .= "municipio,";
+                $cadenaSql .= "urbanizacion,";
+                $cadenaSql .= "id_urbanizacion,";
                 $cadenaSql .= "tipo_tecnologia,";
                 $cadenaSql .= "mac_master_eoc,";
                 $cadenaSql .= "ip_master_eoc,";
@@ -168,6 +172,10 @@ class Sql extends \Sql {
                 $cadenaSql .= "(";
                 $cadenaSql .= "'" . $variable['codigo_nodo'] . "',";
                 $cadenaSql .= "'" . $variable['codigo_cabecera'] . "',";
+                $cadenaSql .= "'" . $variable['departamento'] . "',";
+                $cadenaSql .= "'" . $variable['municipio'] . "',";
+                $cadenaSql .= "'" . $variable['urbanizacion'] . "',";
+                $cadenaSql .= "'" . $variable['id_urbanizacion'] . "',";
                 $cadenaSql .= "'" . $variable['tipo_tecnologia'] . "',";
                 $cadenaSql .= "'" . $variable['mac_master_eoc'] . "',";
                 $cadenaSql .= "'" . $variable['ip_master_eoc'] . "',";

@@ -33,38 +33,23 @@ class Registrar {
 		$_REQUEST['tiempo'] = time();
 	}
 	
-	function consultarProyectoCabecera(){
-	
-		$conexion = "interoperacion";
-		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-	
-		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
-	
-		$rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "raizDocumento" ) . "/blocks/";
-		$rutaBloque .= $esteBloque ['nombre'];
-		$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/" . $esteBloque ['nombre'];
-	
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarProyectoCabecera', $_REQUEST['codigo_cabecera']);
-		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'busqueda' );
-	
-		$this->proyecto = $resultado[0]['proyecto'];
-		
-	}
-
 	function obtenerPaquetePadre() {
 	
 		$urlDetalle = $this->crearUrlDetalleProyectos($this->proyecto);
-	
 		$detalle = file_get_contents($urlDetalle);
 		$detalle = json_decode($detalle, true);
 
+		$paqueteInfraestructura = array();
+
 		foreach ($detalle as $key => $value) {
-			if ($value['subject'] === 'Infraestructura Nodo') {
+			if ($value['subject'] === 'Infraestructura nodo') {
 				$paqueteInfraestructura = $value;
 			}
 		}
 	
 		$this->parent = $paqueteInfraestructura['id'];
+		
+		var_dump($this->parent );
 		
 	}
 	
@@ -72,9 +57,17 @@ class Registrar {
 	
 		$nodo = array();
 
+		$this->proyecto =  $_REQUEST['urbanizacion'];
+		
 		$nodo['codigo_nodo'] = $_REQUEST['codigo_nodo'];
 		$nodo['codigo_cabecera'] = $_REQUEST['codigo_cabecera'];
 		$nodo['tipo_tecnologia'] = $_REQUEST['tipo_tecnologia'];
+		$departamento = explode(" ", $_REQUEST['departamento']);
+		$nodo['departamento'] = $departamento[0];
+		$municipio = explode(" ", $_REQUEST['municipio']);
+		$nodo['municipio'] = $municipio[0];
+		$nodo['urbanizacion'] = $_REQUEST['id_urbanizacion'];
+		$nodo['id_urbanizacion'] = $_REQUEST['urbanizacion'];
 	
 		if($nodo['tipo_tecnologia'] == 1){
 	
@@ -171,6 +164,10 @@ class Registrar {
 						'value' => 'No Iniciado',
 						'tipo' => 'string_objects',
 				),
+				"customField71" => array(
+						'value' => '10',
+						'tipo' => 'int_objects',
+				),
 	
 		);
 	
@@ -182,7 +179,7 @@ class Registrar {
 	
 		// URL definitiva
 		$urlApi = $url . $cadena;
-	
+
 		$resultado_registro= json_decode(file_get_contents ($urlApi), true);
 		
 		return $resultado_registro;
@@ -290,11 +287,9 @@ class Registrar {
 	
 	function procesarFormulario() {
 		
-		$this->consultarProyectoCabecera();
+		$this->organizarVariables();
 		
 		$this->obtenerPaquetePadre();
-		
-		$this->organizarVariables();
 		
 		$this->registrarNodo();
 		

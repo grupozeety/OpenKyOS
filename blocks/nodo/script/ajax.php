@@ -215,46 +215,52 @@ $(document).ready(function() {
 });
 
 <?php
+
 /**
- *
- * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ * Código Correspondiente a las Url de la peticiones Ajax.
  */
 
 // URL base
-$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
-$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url = $this->miConfigurador->getVariableConfiguracion("host");
+$url .= $this->miConfigurador->getVariableConfiguracion("site");
 $url .= "/index.php?";
-// Variables
-$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
-$valor .= "&procesarAjax=true";
-$valor .= "&action=index.php";
-$valor .= "&bloqueNombre=". "llamarApi";
-$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Variables para Consultar Proyectos
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultarProyectos";
 
 // Codificar las variables
-$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
 
-// URL definitiva
-$urlFuncionCodificarNombre = $url . $cadena;
+// URL Consultar Proyectos
+$urlConsultarProyectos = $url . $cadena;
+
 ?>
 
 $(document).ready(function() {
 
-	function ordenTrabajo(){
+	var urbanizacion;
+	
+	function urbanizacion(){
 	
 		$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
 		$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
 				
 		$.ajax({
-			url: "<?php echo $urlFuncionCodificarNombre?>",
+			url: "<?php echo $urlConsultarProyectos; ?>",
 			dataType: "json",
-			data: { metodo:'urbanizaciones'},
+			data: { metodo:''},
 			success: function(data){
-		
+				
+				urbanizacion = data;
+				
 				$.each(data , function(indice,valor){
-					$("<option value='"+data[ indice ].custom+"'>" + data[ indice ].text + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
+					$("<option value='"+data[ indice ].id+"'>" + data[ indice ].urbanizacion + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
 				});
 				
 				$("#<?php echo $this->campoSeguro('urbanizacion')?>").val($("#<?php echo $this->campoSeguro('select_urbanizacion')?>").val()).change();
@@ -269,8 +275,33 @@ $(document).ready(function() {
 	
 	});
 	
-	 ordenTrabajo();
+	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
+	
+		if($("#<?php echo $this->campoSeguro('urbanizacion');?>").val() != ""){
+		
+			$.each(urbanizacion , function(indice,valor){
+				
+				if(urbanizacion[indice].id == $("#<?php echo $this->campoSeguro('urbanizacion');?>").val()){
+					$("#<?php echo $this->campoSeguro('departamento');?>").val(urbanizacion[indice].departamento);
+					$("#<?php echo $this->campoSeguro('municipio');?>").val(urbanizacion[indice].municipio);
+				}
+				
+			});
+			
+		}
+	
+	});
 	 
+	urbanizacion();
+	 
+	if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
+		$("#myModalMensaje").modal('show');
+	}
+
+});
+
+$(document).ready(function() {
+	
 	 if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
 		$("#myModalMensaje").modal('show');
 	}
