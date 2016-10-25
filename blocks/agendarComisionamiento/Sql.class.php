@@ -104,107 +104,51 @@ class Sql extends \Sql {
                 break;
 
             /* Consultas del desarrollo */
-                case "cargarCabecera":
+            case "consultarBeneficiarios":
                 
-                	$cadenaSql = "SELECT ";
-                	$cadenaSql .= "codigo_cabecera AS codigo_cabecera,";
-                	$cadenaSql .= "descripcion AS descripcion,";
-                	$cadenaSql .= "departamento AS departamento,";
-                	$cadenaSql .= "municipio AS municipio,";
-                	$cadenaSql .= "urbanizacion AS id_urbanizacion,";
-                	$cadenaSql .= "id_urbanizacion AS urbanizacion,";
-                	$cadenaSql .= "ip_olt AS ip_olt,";
-                	$cadenaSql .= "mac_olt AS mac_olt,";
-                	$cadenaSql .= "port_olt AS port_olt,";
-                	$cadenaSql .= "nombre_olt AS nombre_olt,";
-                	$cadenaSql .= "puerto_olt AS puerto_olt ";
-                	$cadenaSql .= "FROM ";
-                	$cadenaSql .= "interoperacion.cabecera ";
-                	$cadenaSql .= "WHERE ";
-                	$cadenaSql .= "estado_registro=true ";
-                	$cadenaSql .= "AND ";
-                	$cadenaSql .= "codigo_cabecera=" . "'" . $variable . "'";
-                	break;
-                
-            case "actualizarCabecera":
-                
-                $cadenaSql = "UPDATE interoperacion.cabecera ";
-                $cadenaSql .= "SET ";
-                $cadenaSql .= "estado_registro=FALSE ";
+               	$cadenaSql = "SELECT DISTINCT ";
+                $cadenaSql .= "bp.proyecto as urbanizacion,";
+                $cadenaSql .= "bp.id_proyecto as id_urbanizacion,";
+                $cadenaSql .= "abn.codigo_nodo,";
+                $cadenaSql .= "bp.manzana,";
+                $cadenaSql .= "bp.torre,";
+                $cadenaSql .= "bp.bloque,";
+                $cadenaSql .= "bp.apartamento,";
+                $cadenaSql .= "(bp.nombre || ' ' || bp.primer_apellido || ' ' || bp.segundo_apellido) AS nombre_beneficiario, ";
+                $cadenaSql .= "bp.identificacion AS identificacion_beneficiario, ";
+                $cadenaSql .= "bp.orden_trabajo ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "interoperacion.beneficiario_potencial AS bp ";
+                $cadenaSql .= "join interoperacion.asociacion_benf_nodo AS abn ";
+                $cadenaSql .= "ON bp.id_beneficiario=abn.id_beneficiario ";
+                $cadenaSql .= "AND bp.estado_registro=true ";
+                $cadenaSql .= "AND abn.estado_registro=true ";
+                $cadenaSql .= "join interoperacion.contrato ct ";
+                $cadenaSql .= "ON bp.id_beneficiario=ct.id_beneficiario ";
+                $cadenaSql .= "AND ct.estado_contrato=(SELECT pm.id_parametro id_est_contrato
+                				FROM parametros.parametros pm
+                				JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND rl.descripcion='Estado Contrato' AND rl.estado_registro=TRUE
+                				WHERE pm.estado_registro=TRUE AND pm.descripcion='Aprobado') ";
                 $cadenaSql .= "WHERE ";
-                $cadenaSql .= "codigo_cabecera=";
-                $cadenaSql .= "'" . $variable . "'";
+                $cadenaSql .= "not exists (select 1 from interoperacion.agendamiento_comisionamiento AS ac where ac.identificacion_beneficiario=bp.identificacion AND ac.estado_registro=true)";
+                $cadenaSql .= "";
+                $cadenaSql .= "";
+                $cadenaSql .= "";
+                $cadenaSql .= "";
                 break;
+				//select urbanizacion as urbanizacion, urbanizacion as id_urbanizacion, manzana, torre, bloque, apartamento, identificacion as identificacion_beneficiario, nombre || ' ' || primer_apellido || ' ' || segundo_apellido  as nombre from interoperacion.beneficiario_potencial natural join  WHERE estado_registro=TRUE
 
-            case "registrarCabecera":
-                		 
-                $cadenaSql = "INSERT INTO interoperacion.cabecera (";
-                $cadenaSql .= "codigo_cabecera,";
-                $cadenaSql .= "descripcion,";
-                $cadenaSql .= "departamento,";
-                $cadenaSql .= "municipio,";
-                $cadenaSql .= "urbanizacion,";
-                $cadenaSql .= "id_urbanizacion,";
-                $cadenaSql .= "ip_olt,";
-                $cadenaSql .= "mac_olt,";
-                $cadenaSql .= "port_olt,";
-                $cadenaSql .= "nombre_olt,";
-                $cadenaSql .= "puerto_olt";
-                $cadenaSql .= ") VALUES ";
-                $cadenaSql .= "(";
-                $cadenaSql .= "'" . $variable['codigo_cabecera'] . "',";
-                $cadenaSql .= "'" . $variable['descripcion'] . "',";
-                $cadenaSql .= "'" . $variable['departamento'] . "',";
-                $cadenaSql .= "'" . $variable['municipio'] . "',";
-                $cadenaSql .= "'" . $variable['urbanizacion'] . "',";
-                $cadenaSql .= "'" . $variable['id_urbanizacion'] . "',";
-                $cadenaSql .= "'" . $variable['ip_olt'] . "',";
-                $cadenaSql .= "'" . $variable['mac_olt'] . "',";
-                $cadenaSql .= "'" . $variable['port_olt'] . "',";
-                $cadenaSql .= "'" . $variable['nombre_olt'] . "',";
-                $cadenaSql .= "'" . $variable['puerto_olt'] . "'";
-                $cadenaSql .= ")";
-                break;
-                	
-            case "consultarCabecera":
-                
-               	$cadenaSql = "SELECT ";
-               	$cadenaSql .= "codigo_cabecera,";
-               	$cadenaSql .= "descripcion,";
-               	$cadenaSql .= "dep.departamento,";
-               	$cadenaSql .= "mun.municipio,";
-               	$cadenaSql .= "urbanizacion ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "interoperacion.cabecera AS cab, ";
-	               	$cadenaSql .= "(SELECT ";
-	               	$cadenaSql .= "codigo_dep, ";
-	               	$cadenaSql .= "departamento ";
-	               	$cadenaSql .= "FROM ";
-	               	$cadenaSql .= "parametros.departamento";
-	               	$cadenaSql .= ") AS dep, ";
-	               	$cadenaSql .= "(SELECT ";
-	               	$cadenaSql .= "codigo_mun, ";
-	               	$cadenaSql .= "municipio ";
-	               	$cadenaSql .= "FROM ";
-	               	$cadenaSql .= "parametros.municipio";
-	               	$cadenaSql .= ") AS mun ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "dep.codigo_dep=cast ( cab.departamento as int8) ";
-               	$cadenaSql .= "AND ";
-               	$cadenaSql .= "mun.codigo_mun=cast ( cab.municipio as int8) ";
-               	$cadenaSql .= "AND ";
-               	$cadenaSql .= "estado_registro=true ";
-               	break;
-               	
-            case "inhabilitarCabecera":
-               	
-               	$cadenaSql = "UPDATE interoperacion.cabecera ";
-               	$cadenaSql .= "SET ";
-               	$cadenaSql .= "estado_registro=FALSE ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "codigo_cabecera=" . "'" . $variable . "'";
-               	break;
-               	
+            case "comisionador":
+            	$cadenaSql=" SELECT usr.id as identificador, usr.firstname||' '||lastname as nombre_usuario";
+            	$cadenaSql.=" FROM public.group_users as gu";
+            	$cadenaSql.=" JOIN public.users as usr ON usr.id=gu.user_id AND usr.status=1";
+            	$cadenaSql.=" WHERE group_id=(SELECT DISTINCT id";
+            	$cadenaSql.=" FROM public.users";
+            	$cadenaSql.=" WHERE lastname= 'Comisionadores'";
+            	$cadenaSql.=" AND TYPE= 'Group'";
+            	$cadenaSql.=" LIMIT 1);";
+            	break;
+            	
             case "parametroDepartamento":
             	$cadenaSql = "SELECT ";
                	$cadenaSql .= "codigo_dep, ";
@@ -250,49 +194,65 @@ class Sql extends \Sql {
                	break;
                	
                	
-               	case "registrarAgendamiento":
+            case "registrarAgendamiento":
                	
-               		$cadenaSql = "INSERT INTO interoperacion.agendamiento_comisionamiento(";
-               		$cadenaSql .= "id_agendamiento,";
-               		$cadenaSql .= "id_orden_trabajo,";
-               		$cadenaSql .= "descripcion_orden_trabajo,";
-               		$cadenaSql .= "id_urbanizacion,";
-               		$cadenaSql .= "descripcion_urbanizacion,";
-               		$cadenaSql .= "identificacion_beneficiario,";
-               		$cadenaSql .= "nombre_beneficiario,";
-               		$cadenaSql .= "tipo_agendamiento,";
-               		$cadenaSql .= "tipo_tecnologia,";
-               		$cadenaSql .= "codigo_nodo,";
-               		$cadenaSql .= "manzana,";
-               		$cadenaSql .= "torre,";
-               		$cadenaSql .= "bloque,";
-               		$cadenaSql .= "apartamento";
-               		$cadenaSql .= ") VALUES ";
+               	$cadenaSql = "INSERT INTO interoperacion.agendamiento_comisionamiento(";
+               	$cadenaSql .= "id_agendamiento,";
+               	$cadenaSql .= "id_orden_trabajo,";
+               	$cadenaSql .= "descripcion_orden_trabajo,";
+               	$cadenaSql .= "id_urbanizacion,";
+               	$cadenaSql .= "descripcion_urbanizacion,";
+               	$cadenaSql .= "identificacion_beneficiario,";
+               	$cadenaSql .= "nombre_beneficiario,";
+               	$cadenaSql .= "tipo_agendamiento,";
+               	$cadenaSql .= "tipo_tecnologia,";
+               	$cadenaSql .= "id_comisionador,";
+               	$cadenaSql .= "nombre_comisionador,";
+               	$cadenaSql .= "fecha_agendamiento,";
+               	$cadenaSql .= "codigo_nodo,";
+               	$cadenaSql .= "manzana,";
+               	$cadenaSql .= "torre,";
+               	$cadenaSql .= "bloque,";
+               	$cadenaSql .= "apartamento";
+               	$cadenaSql .= ") VALUES ";
                	
-               		foreach ($variable as $clave => $valor) {
+               	foreach ($variable as $clave => $valor) {
                	
-               			$cadenaSql .= "(";
-               			$cadenaSql .= "'" . $valor['id_agendamiento'] . "',";
-               			$cadenaSql .= "'" . $valor['id_orden_trabajo'] . "',";
-               			$cadenaSql .= "'" . $valor['descripcion_orden_trabajo'] . "',";
-               			$cadenaSql .= "'" . $valor['id_urbanizacion'] . "',";
-               			$cadenaSql .= "'" . $valor['descripcion_urbanizacion'] . "',";
-               			$cadenaSql .= "'" . $valor['identificacion_beneficiario'] . "',";
-               			$cadenaSql .= "'" . $valor['nombre_beneficiario'] . "',";
-               			$cadenaSql .= "'" . $valor['tipo_agendamiento'] . "',";
-               			$cadenaSql .= "'" . $valor['tipo_tecnologia'] . "',";
-               			$cadenaSql .= "'" . $valor['codigo_nodo'] . "',";
-               			$cadenaSql .= "'" . $valor['manzana'] . "',";
-               			$cadenaSql .= "'" . $valor['torre'] . "',";
-               			$cadenaSql .= "'" . $valor['bloque'] . "',";
-               			$cadenaSql .= "'" . $valor['apartamento'] . "'";
-               			$cadenaSql .= "),";
-               		}
+               		$cadenaSql .= "(";
+               		$cadenaSql .= "" . "(SELECT 'AG-' || MAX(consecutivo) + 1 from  interoperacion.consecutivo_agendamiento)" . ",";
+               		$cadenaSql .= "'" . $valor['id_orden_trabajo'] . "',";
+               		$cadenaSql .= "'" . $valor['descripcion_orden_trabajo'] . "',";
+               		$cadenaSql .= "'" . $valor['id_urbanizacion'] . "',";
+               		$cadenaSql .= "'" . $valor['descripcion_urbanizacion'] . "',";
+               		$cadenaSql .= "'" . $valor['identificacion_beneficiario'] . "',";
+               		$cadenaSql .= "'" . $valor['nombre_beneficiario'] . "',";
+               		$cadenaSql .= "'" . $valor['tipo_agendamiento'] . "',";
+               		$cadenaSql .= "'" . $valor['tipo_tecnologia'] . "',";
+               		$cadenaSql .= "'" . $valor['id_comisionador'] . "',";
+               		$cadenaSql .= "'" . $valor['nombre_comisionador'] . "',";
+               		$cadenaSql .= "'" . $valor['fecha_agendamiento'] . "',";
+               		$cadenaSql .= "'" . $valor['codigo_nodo'] . "',";
+               		$cadenaSql .= "'" . $valor['manzana'] . "',";
+               		$cadenaSql .= "'" . $valor['torre'] . "',";
+               		$cadenaSql .= "'" . $valor['bloque'] . "',";
+               		$cadenaSql .= "'" . $valor['apartamento'] . "'";
+               		$cadenaSql .= "),";
+               	}
                	
-               		$cadenaSql = substr($cadenaSql, 0, (strlen($cadenaSql) - 1));
+               	$cadenaSql = substr($cadenaSql, 0, (strlen($cadenaSql) - 1));
                			
-               		break;
+               	break;
                 	
+			case "registrarConsecutivoAgendamiento":
+               		
+               	$cadenaSql = "INSERT INTO interoperacion.consecutivo_agendamiento(";
+              	$cadenaSql .= "nombre_consecutivo";
+               	$cadenaSql .= ") VALUES ";
+               	$cadenaSql .= "(";
+               	$cadenaSql .= "(SELECT 'AG-' || MAX(consecutivo) + 1 from  interoperacion.consecutivo_agendamiento)";
+               	$cadenaSql .= ")";
+           		break;
+               			 
         }
 
         return $cadenaSql;

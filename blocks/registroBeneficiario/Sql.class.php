@@ -133,7 +133,7 @@ class Sql extends \Sql {
                 $cadenaSql .= "whatsapp AS whatsapp,";
                 $cadenaSql .= "departamento AS departamento,";
                 $cadenaSql .= "municipio AS municipio,";
-                $cadenaSql .= "urbanizacion AS urbanizacion,";
+                $cadenaSql .= "id_proyecto AS id_urbanizacion,";
                 $cadenaSql .= "territorio AS territorio,";
                 $cadenaSql .= "estrato AS estrato,";
                 $cadenaSql .= "geolocalizacion AS geolocalizacion,";
@@ -219,7 +219,8 @@ class Sql extends \Sql {
                 $cadenaSql .= "whatsapp,";
                 $cadenaSql .= "departamento,";
                 $cadenaSql .= "municipio,";
-                $cadenaSql .= "urbanizacion,";
+                $cadenaSql .= "proyecto,";
+                $cadenaSql .= "id_proyecto,";
                 $cadenaSql .= "territorio,";
                 $cadenaSql .= "estrato,";
                 $cadenaSql .= "geolocalizacion,";
@@ -253,7 +254,8 @@ class Sql extends \Sql {
                 $cadenaSql .= "'" . $variable['whatsapp'] . "',";
                 $cadenaSql .= "'" . $variable['departamento'] . "',";
                 $cadenaSql .= "'" . $variable['municipio'] . "',";
-                $cadenaSql .= "'" . $variable['urbanizacion'] . "',";
+                $cadenaSql .= "'" . $variable['proyecto'] . "',";
+                $cadenaSql .= "'" . $variable['id_proyecto'] . "',";
                 $cadenaSql .= "'" . $variable['territorio'] . "',";
                 $cadenaSql .= "'" . $variable['estrato'] . "',";
                 $cadenaSql .= "'" . $variable['geolocalizacion'] . "',";

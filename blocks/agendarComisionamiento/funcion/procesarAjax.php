@@ -22,46 +22,14 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 	$conexion = "interoperacion";
 	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 	
-	$cadenaSql = $this->sql->getCadenaSql ( 'consultarCabecera' );
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarBeneficiarios' );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
-	$resultado [0] ['urbanizacion'] = "El Recuerdo";
-	$resultado [0] ['id_urbanizacion'] = "3";
-	$resultado [0] ['celda'] = "ND-01";
-	$resultado [0] ['manzana'] = 1;
-	$resultado [0] ['bloque'] = 1;
-	$resultado [0] ['torre'] = 5;
-	$resultado [0] ['apartamento'] = 302;
-	$resultado [0] ['identificacion_beneficiario'] = "1032418216";
-	$resultado [0] ['nombre_beneficiario'] = "Emmanuel Taborda";
-	
-	$resultado [1] ['urbanizacion'] = "El Recuerdo";
-	$resultado [1] ['id_urbanizacion'] = "3";
-	$resultado [1] ['celda'] = "ND-01";
-	$resultado [1] ['manzana'] = 1;
-	$resultado [1] ['bloque'] = 1;
-	$resultado [1] ['torre'] = 6;
-	$resultado [1] ['apartamento'] = 101;
-	$resultado [1] ['identificacion_beneficiario'] = "1023452211";
-	$resultado [1] ['nombre_beneficiario'] = "Stiv Verdugo";
-	
-	$resultado [2] ['urbanizacion'] = "La Gloria";
-	$resultado [2] ['id_urbanizacion'] = "2";
-	$resultado [2] ['celda'] = "CE-120";
-	$resultado [2] ['manzana'] = 5;
-	$resultado [2] ['bloque'] = 2;
-	$resultado [2] ['torre'] = 3;
-	$resultado [2] ['apartamento'] = 505;
-	$resultado [2] ['identificacion_beneficiario'] = "1025565656";
-	$resultado [2] ['nombre_beneficiario'] = "Violeta Sosa";
-	
-	
 	for($i = 0; $i < count ( $resultado ); $i ++) {
 	
-		
 		$resultadoFinal [] = array (
 				'urbanizacion' =>  $resultado [$i] ['urbanizacion'],
-				'celda' => $resultado [$i] ['celda'],
+				'celda' => $resultado [$i] ['codigo_nodo'],
 				'manzana' => $resultado [$i] ['manzana'],
 				'bloque' => $resultado [$i] ['bloque'],
 				'torre' => $resultado [$i] ['torre'],
@@ -70,7 +38,8 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 				'id_checkbox' => array( 'value' =>  (  
 						$resultado [$i] ['urbanizacion'] . ":"
 						. $resultado [$i] ['id_urbanizacion'] . ":"
-						. $resultado [$i] ['celda'] . ":"
+						. $resultado [$i] ['codigo_nodo'] . ":"
+						. $resultado [$i] ['orden_trabajo'] . ":"
 						. $resultado [$i] ['manzana'] . ":"
 						. $resultado [$i] ['bloque'] . ":"
 						. $resultado [$i] ['torre'] . ":"

@@ -5,16 +5,17 @@ $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conex
 
 if ($_REQUEST ['funcion'] == "consultarNodo") {
 	
-	$cadenaSql = $this->sql->getCadenaSql ( 'consultarNodo' );
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarBeneficiarioNodo' );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
 	for($i = 0; $i < count ( $resultado ); $i ++) {
 	
 		$resultadoFinal [] = array (
 				'codigo_nodo' =>  $resultado [$i] ['codigo_nodo'],
-				'codigo_cabecera' => $resultado [$i] ['codigo_cabecera'],
-				'tipo_tecnologia' => $resultado [$i] ['tipo_tecnologia'],
-				'urbanizacion' => $resultado [$i] ['urbanizacion']
+				'urbanizacion' => $resultado [$i] ['urbanizacion'],
+				'id_beneficiario' => $resultado [$i] ['id_beneficiario'],
+				'identificacion' => $resultado [$i] ['identificacion'],
+				'nombre' => $resultado [$i] ['nombre']
 		);
 	}
 	
@@ -29,12 +30,12 @@ if ($_REQUEST ['funcion'] == "consultarNodo") {
 	
 	echo $resultado;
 	
-}else if ($_REQUEST ['funcion'] == "inhabilitarNodo"){
+}else if ($_REQUEST ['funcion'] == "inhabilitarAsociacion"){
 	
 	$conexion = "interoperacion";
 	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 	
-	$cadenaSql = $this->sql->getCadenaSql ( 'inhabilitarNodo', $_REQUEST ['valor'] );
+	$cadenaSql = $this->sql->getCadenaSql ( 'inhabilitarAsociacion', $_REQUEST ['valor'] );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
 				
 	echo $resultado;
@@ -67,6 +68,45 @@ if ($_REQUEST ['funcion'] == "consultarNodo") {
 	
 		$resultadoFinal [] = array("id" => $resultado [$i] ['descripcion'], "value"=>$resultado [$i] ['descripcion']);
 		
+	}
+	
+	$total = count ( $resultadoFinal );
+	
+	$resultado = json_encode ( $resultadoFinal );
+	
+	$resultado = $resultado;
+	
+	echo  $resultado;
+	
+}else if ($_REQUEST ['funcion'] == "consultarBeneficiario") {
+	
+	$cadenaSql = $this->sql->getCadenaSql ( 'obtenerBeneficiarios', $_REQUEST['query'] );
+	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+	for($i = 0; $i < count ( $resultado ); $i ++) {
+	
+		if($resultado [$i] ['value'] != null){
+			$resultadoFinal [] = array("id" => $resultado [$i] ['value'], "value" => $resultado [$i] ['value'], "label"=>$resultado [$i] ['text']);
+		}
+	}
+	
+	$total = count ( $resultadoFinal );
+	
+	$resultado = json_encode ( $resultadoFinal );
+	
+	$resultado = $resultado;
+	
+	echo  $resultado;
+	
+}else if ($_REQUEST ['funcion'] == "consultarBeneficiarioEspecifico") {
+	
+	$cadenaSql = $this->sql->getCadenaSql ( 'obtenerBeneficiarioEspecifico', $_REQUEST['valor'] );
+	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+	for($i = 0; $i < count ( $resultado ); $i ++) {
+	
+		$resultadoFinal [] = array("id" => $resultado [$i] ['value'], "value" => $resultado [$i] ['value'], "label"=>$resultado [$i] ['text']);
+			
 	}
 	
 	$total = count ( $resultadoFinal );

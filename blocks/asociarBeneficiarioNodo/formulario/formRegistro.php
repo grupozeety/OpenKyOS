@@ -117,53 +117,53 @@ class Formulario {
         echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
         unset ( $atributos );
         
-        // ----------------INICIO CONTROL: Lista Código de la Cabecera--------------------------------------------------------
+//         // ----------------INICIO CONTROL: Lista Código de la Cabecera--------------------------------------------------------
         
-        $esteCampo = 'codigo_cabecera';
-        $atributos ['nombre'] = $esteCampo;
-        $atributos ['id'] = $esteCampo;
-        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ["etiquetaObligatorio"] = true;
-        $atributos ['tab'] = $tab ++;
-        $atributos ['anchoEtiqueta'] = 2;
-        $atributos ['evento'] = '';
-        $atributos ['seleccion'] = - 1;
-        $atributos ['deshabilitado'] = false;
-        $atributos ['columnas'] = 1;
-        $atributos ['tamanno'] = 1;
-        $atributos ['ajax_function'] = "";
-        $atributos ['ajax_control'] = $esteCampo;
-        $atributos ['estilo'] = "bootstrap";
-        $atributos ['limitar'] = false;
-        $atributos ['anchoCaja'] = 10;
-        $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
-        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "codigoCabecera" );
-        $matrizItems = array (
-        		array (
-        				0,
-        				' '
-        		)
-        );
-        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-        $atributos ['matrizItems'] = $matrizItems;
+//         $esteCampo = 'urbanizacion';
+//         $atributos ['nombre'] = $esteCampo;
+//         $atributos ['id'] = $esteCampo;
+//         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+//         $atributos ["etiquetaObligatorio"] = true;
+//         $atributos ['tab'] = $tab ++;
+//         $atributos ['anchoEtiqueta'] = 2;
+//         $atributos ['evento'] = '';
+//         $atributos ['seleccion'] = - 1;
+//         $atributos ['deshabilitado'] = false;
+//         $atributos ['columnas'] = 1;
+//         $atributos ['tamanno'] = 1;
+//         $atributos ['ajax_function'] = "";
+//         $atributos ['ajax_control'] = $esteCampo;
+//         $atributos ['estilo'] = "bootstrap";
+//         $atributos ['limitar'] = false;
+//         $atributos ['anchoCaja'] = 10;
+//         $atributos ['miEvento'] = '';
+// //         $atributos ['validar'] = 'required';
+// //         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "codigoCabecera" );
+//         $matrizItems = array (
+//         		array (
+//         				0,
+//         				' '
+//         		)
+//         );
+// //         $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+//         $atributos ['matrizItems'] = $matrizItems;
         
-        if (isset ( $cargueDatos [$esteCampo] )) {
-        	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
-        } else {
-        	$atributos ['seleccion'] = - 1;
-        }
+//         if (isset ( $cargueDatos [$esteCampo] )) {
+//         	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
+//         } else {
+//         	$atributos ['seleccion'] = - 1;
+//         }
         
-        // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-        unset ( $atributos );
+//         // Aplica atributos globales al control
+//         $atributos = array_merge ( $atributos, $atributosGlobales );
+//         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+//         unset ( $atributos );
          
         // ----------------FIN CONTROL: Lista Código de la Cabecera--------------------------------------------------------
         
         // ----------------INICIO CONTROL: Lista Código de la Cabecera--------------------------------------------------------
         
-        $esteCampo = 'codigo_cabecera';
+        $esteCampo = 'codigo_nodo';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['id'] = $esteCampo;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
@@ -172,7 +172,7 @@ class Formulario {
         $atributos ['anchoEtiqueta'] = 2;
         $atributos ['evento'] = '';
         $atributos ['seleccion'] = - 1;
-        $atributos ['deshabilitado'] = false;
+        $atributos ['deshabilitado'] = $deshabilitado;
         $atributos ['columnas'] = 1;
         $atributos ['tamanno'] = 1;
         $atributos ['ajax_function'] = "";
@@ -182,7 +182,7 @@ class Formulario {
         $atributos ['anchoCaja'] = 10;
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
-        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "codigoCabecera" );
+        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "codigoNodo" );
         $matrizItems = array (
         		array (
         				0,
@@ -207,7 +207,7 @@ class Formulario {
         
  		// ----------------INICIO CONTROL: Campo Texto Asociación Beneficiario Nodo--------------------------------------------------------
 		        
-		        $esteCampo = 'asociacion_ben_nod';
+		        $esteCampo = 'beneficiario';
 		        $atributos ['nombre'] = $esteCampo;
 		        $atributos ['tipo'] = "text";
 		        $atributos ['id'] = $esteCampo;
@@ -217,7 +217,7 @@ class Formulario {
 		        $atributos ['anchoEtiqueta'] = 2;
 		        $atributos ['estilo'] = "bootstrap";
 		        $atributos ['evento'] = '';
-		        $atributos ['deshabilitado'] = false;
+		        $atributos ['deshabilitado'] = $deshabilitado;
 		        $atributos ['readonly'] = false;
 		        $atributos ['columnas'] = 1;
 		        $atributos ['tamanno'] = 1;
@@ -261,6 +261,7 @@ class Formulario {
 	        $atributos ["estiloMarco"] = '';
 	        $atributos ["estiloBoton"] = 'primary';
 	        $atributos ["block"] = false;
+	        $atributos ['deshabilitado'] = $deshabilitado;
 	        // verificar: true para verificar el formulario antes de pasarlo al servidor.
 	        $atributos ["verificar"] = '';
 	        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js

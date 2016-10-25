@@ -7,12 +7,14 @@ if(!isset($GLOBALS["autorizado"])) {
 
 $indice=0;
 
-$estilo[$indice++]="jquery-ui.min.css";
 $estilo[$indice++]="dataTables.bootstrap.min.css";
 $estilo[$indice++]="select2.min.css";
+$estilo[$indice++]="jquery-ui.css";
 $estilo[$indice++]="miestilo.css";
-$estilo[$indice++]="tokenfield-typeahead.min.css";
-$estilo[$indice++]="bootstrap-tokenfield.min.css";
+$estilo[$indice++]="tokenfield-typeahead.css";
+$estilo[$indice++]="bootstrap-tokenfield.css";
+$estilo[$indice++]="docs.css";
+
 
 
 

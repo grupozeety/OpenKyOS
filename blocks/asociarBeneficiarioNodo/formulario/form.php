@@ -103,23 +103,15 @@ class Formulario {
         	unset ( $atributos );
         }
         
-        // ------------------Division para los botones-------------------------
-        $atributos ["id"] = "botones";
-        $atributos ["estilo"] = "marcoBotones";
-        echo $this->miFormulario->division ( "inicio", $atributos );
-        unset($atributos);
-        
-        // ------------------Fin Division para los botones-------------------------
-        echo $this->miFormulario->division ( "fin" );
-        
         echo '
         		<table id="example" class="display" cellspacing="0" width="100%">
 			        <thead>
 			            <tr>
 			                <th>Código de Celda o Nodo EOC</th>
-			                <th>Tipo de Tecnología</th>
-			                <th>Código Cabecera</th>
-        					<th>Urbanización</th>
+			                <th>Urbanización</th>
+			                <th>Id Beneficiario</th>
+        					<th>Identificación Beneficiario</th>
+        					<th>Nombre Beneficiario</th>
         					<th>Opciones</th>
 			            </tr>
 			        </thead>

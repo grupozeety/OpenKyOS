@@ -96,8 +96,6 @@ if ($_REQUEST ['funcion'] == "cargarImagen") {
 }
 
 if ($_REQUEST ['funcion'] == "eliminarImagen") {
-// 	echo aqui;
-// 	if($_SERVER['REQUEST_METHOD']=="DELETE"){
 
 		$carpetaAdjunta= $this->miConfigurador->configuracion['raizDocumento'] . "/archivos/imagenes/";
 		
@@ -108,8 +106,10 @@ if ($_REQUEST ['funcion'] == "eliminarImagen") {
 		unlink($carpetaAdjunta.$key);
 			
 		echo 0;
-	}
+	}else if($_REQUEST['funcion'] == 'consultarProyectos') {
 
-// }
+		include_once "consultarProyectos.php";
+
+	}
 
 ?>

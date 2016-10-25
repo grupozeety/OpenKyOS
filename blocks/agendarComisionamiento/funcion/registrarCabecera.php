@@ -36,20 +36,23 @@ class Registrar {
 			if(explode("_", $key)[0] == "checkbox"){
 				
 				$informacion = explode(":", $agendamiento);
-				$agen[$cont]['id_agendamiento'] = $_REQUEST['ordenTrabajo'] . "-" . $informacion[7];
-				$agen[$cont]['id_orden_trabajo'] = $_REQUEST['ordenTrabajo'];
-				$agen[$cont]['descripcion_orden_trabajo'] = $_REQUEST['ordenTrabajoDesc'];
+				$agen[$cont]['id_agendamiento'] =  "AG-01";
 				$agen[$cont]['id_urbanizacion'] = $informacion[1];
 				$agen[$cont]['descripcion_urbanizacion'] = $informacion[0];
-				$agen[$cont]['identificacion_beneficiario'] = $informacion[7];
-				$agen[$cont]['nombre_beneficiario'] = $informacion[8];
+				$agen[$cont]['identificacion_beneficiario'] = $informacion[8];
+				$agen[$cont]['nombre_beneficiario'] = $informacion[9];
 				$agen[$cont]['tipo_agendamiento'] = $_REQUEST['tipo_agendamiento'];
 				$agen[$cont]['tipo_tecnologia'] = $_REQUEST['tipo_tecnologia'];
+				$agen[$cont]['id_comisionador'] = $_REQUEST['comisionador'];
+				$agen[$cont]['nombre_comisionador'] = $_REQUEST['nombre_comisionador'];
+				$agen[$cont]['fecha_agendamiento'] = $_REQUEST['fecha_agendamiento'];
 				$agen[$cont]['codigo_nodo'] = $informacion[2];
-				$agen[$cont]['manzana'] = $informacion[3];
-				$agen[$cont]['torre'] = $informacion[4];
-				$agen[$cont]['bloque'] = $informacion[5];
-				$agen[$cont]['apartamento'] = $informacion[6];
+				$agen[$cont]['id_orden_trabajo'] = $informacion[3];
+				$agen[$cont]['descripcion_orden_trabajo'] = $informacion[3];
+				$agen[$cont]['manzana'] = $informacion[4];
+				$agen[$cont]['torre'] = $informacion[5];
+				$agen[$cont]['bloque'] = $informacion[6];
+				$agen[$cont]['apartamento'] = $informacion[7];
 				
 				$cont++;
 			}
@@ -67,6 +70,11 @@ class Registrar {
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarAgendamiento', $agen);
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
+		
+		if ($resultado) {
+			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConsecutivoAgendamiento');
+			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
+		}
 
 		if ($resultado) {
 			redireccion::redireccionar ( 'inserto');

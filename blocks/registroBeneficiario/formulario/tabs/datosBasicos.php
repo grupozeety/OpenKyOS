@@ -103,6 +103,8 @@ class Formulario {
         	unset ( $atributos );
         }
         
+        echo "<div class='modalLoad'></div>";
+        
         $deshabilitado = false;
         
         if(isset($_REQUEST['id']) && $_REQUEST['id'] != ''){
@@ -1016,97 +1018,226 @@ class Formulario {
          
         // ----------------FIN CONTROL: Campo Texto Whatsapp-------------------------------------------------------
         
-        // ----------------INICIO CONTROL: Lista Departamento--------------------------------------------------------
+//         // ----------------INICIO CONTROL: Lista Departamento--------------------------------------------------------
         
-        $esteCampo = 'departamento';
-        $atributos ['nombre'] = $esteCampo;
-        $atributos ['id'] = $esteCampo;
-        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ["etiquetaObligatorio"] = true;
-        $atributos ['tab'] = $tab ++;
-        $atributos ['anchoEtiqueta'] = 2;
-        $atributos ['evento'] = '';
-        $atributos ['seleccion'] = - 1;
-        $atributos ['deshabilitado'] = false;
-        $atributos ['columnas'] = 1;
-        $atributos ['tamanno'] = 1;
-        $atributos ['ajax_function'] = "";
-        $atributos ['ajax_control'] = $esteCampo;
-        $atributos ['estilo'] = "bootstrap";
-        $atributos ['limitar'] = false;
-        $atributos ['anchoCaja'] = 10;
-        $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
-        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroDepartamento" );
-        $matrizItems = array (
-        		array (
-        				0,
-        				' '
-        		)
-        );
-        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-        $atributos ['matrizItems'] = $matrizItems;
-        // Aplica atributos globales al control
+//         $esteCampo = 'departamento';
+//         $atributos ['nombre'] = $esteCampo;
+//         $atributos ['id'] = $esteCampo;
+//         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+//         $atributos ["etiquetaObligatorio"] = true;
+//         $atributos ['tab'] = $tab ++;
+//         $atributos ['anchoEtiqueta'] = 2;
+//         $atributos ['evento'] = '';
+//         $atributos ['seleccion'] = - 1;
+//         $atributos ['deshabilitado'] = false;
+//         $atributos ['columnas'] = 1;
+//         $atributos ['tamanno'] = 1;
+//         $atributos ['ajax_function'] = "";
+//         $atributos ['ajax_control'] = $esteCampo;
+//         $atributos ['estilo'] = "bootstrap";
+//         $atributos ['limitar'] = false;
+//         $atributos ['anchoCaja'] = 10;
+//         $atributos ['miEvento'] = '';
+//         $atributos ['validar'] = 'required';
+//         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroDepartamento" );
+//         $matrizItems = array (
+//         		array (
+//         				0,
+//         				' '
+//         		)
+//         );
+//         $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+//         $atributos ['matrizItems'] = $matrizItems;
+//         // Aplica atributos globales al control
         
-        if (isset ( $cargueDatos [$esteCampo] )) {
-        	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
-        } else {
-        	$atributos ['seleccion'] = - 1;
-        }
+//         if (isset ( $cargueDatos [$esteCampo] )) {
+//         	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
+//         } else {
+//         	$atributos ['seleccion'] = - 1;
+//         }
         
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-        unset ( $atributos );
+//         $atributos = array_merge ( $atributos, $atributosGlobales );
+//         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+//         unset ( $atributos );
          
-        // ----------------FIN CONTROL: Lista Departamento--------------------------------------------------------
+//         // ----------------FIN CONTROL: Lista Departamento--------------------------------------------------------
         
-        // ----------------INICIO CONTROL: Lista Municipio--------------------------------------------------------
+//         // ----------------INICIO CONTROL: Lista Municipio--------------------------------------------------------
         
-        $esteCampo = 'municipio';
-        $atributos ['nombre'] = $esteCampo;
-        $atributos ['id'] = $esteCampo;
-        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ["etiquetaObligatorio"] = true;
-        $atributos ['tab'] = $tab ++;
-        $atributos ['anchoEtiqueta'] = 2;
-        $atributos ['evento'] = '';
-        $atributos ['seleccion'] = - 1;
-        $atributos ['deshabilitado'] = false;
-        $atributos ['columnas'] = 1;
-        $atributos ['tamanno'] = 1;
-        $atributos ['ajax_function'] = "";
-        $atributos ['ajax_control'] = $esteCampo;
-        $atributos ['estilo'] = "bootstrap";
-        $atributos ['limitar'] = false;
-        $atributos ['anchoCaja'] = 10;
-        $atributos ['miEvento'] = '';
-        $atributos ['validar'] = 'required';
-        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroMunicipio" );
-        $matrizItems = array (
-        		array (
-        				0,
-        				' '
-        		)
-        );
-        $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-        $atributos ['matrizItems'] = $matrizItems;
-        // Aplica atributos globales al control
+//         $esteCampo = 'municipio';
+//         $atributos ['nombre'] = $esteCampo;
+//         $atributos ['id'] = $esteCampo;
+//         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+//         $atributos ["etiquetaObligatorio"] = true;
+//         $atributos ['tab'] = $tab ++;
+//         $atributos ['anchoEtiqueta'] = 2;
+//         $atributos ['evento'] = '';
+//         $atributos ['seleccion'] = - 1;
+//         $atributos ['deshabilitado'] = false;
+//         $atributos ['columnas'] = 1;
+//         $atributos ['tamanno'] = 1;
+//         $atributos ['ajax_function'] = "";
+//         $atributos ['ajax_control'] = $esteCampo;
+//         $atributos ['estilo'] = "bootstrap";
+//         $atributos ['limitar'] = false;
+//         $atributos ['anchoCaja'] = 10;
+//         $atributos ['miEvento'] = '';
+//         $atributos ['validar'] = 'required';
+//         $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroMunicipio" );
+//         $matrizItems = array (
+//         		array (
+//         				0,
+//         				' '
+//         		)
+//         );
+//         $matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+//         $atributos ['matrizItems'] = $matrizItems;
+//         // Aplica atributos globales al control
         
-        if (isset ( $cargueDatos [$esteCampo] )) {
-        	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
-        } else {
-        	$atributos ['seleccion'] = - 1;
-        }
+//         if (isset ( $cargueDatos [$esteCampo] )) {
+//         	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
+//         } else {
+//         	$atributos ['seleccion'] = - 1;
+//         }
         
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-        unset ( $atributos );
+//         $atributos = array_merge ( $atributos, $atributosGlobales );
+//         echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+//         unset ( $atributos );
          
-        // ----------------FIN CONTROL: Lista Municipio--------------------------------------------------------
+//         // ----------------FIN CONTROL: Lista Municipio--------------------------------------------------------
         
-        // ----------------INICIO CONTROL: Campo Texto Urbanización--------------------------------------------------------
+//         // ----------------INICIO CONTROL: Campo Texto Urbanización--------------------------------------------------------
+        
+//         $esteCampo = 'urbanizacion';
+//         $atributos ['nombre'] = $esteCampo;
+//         $atributos ['tipo'] = "text";
+//         $atributos ['id'] = $esteCampo;
+//         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+//         $atributos ["etiquetaObligatorio"] = true;
+//         $atributos ['tab'] = $tab ++;
+//         $atributos ['anchoEtiqueta'] = 2;
+//         $atributos ['estilo'] = "bootstrap";
+//         $atributos ['evento'] = '';
+//         $atributos ['deshabilitado'] = false;
+//         $atributos ['readonly'] = false;
+//         $atributos ['columnas'] = 1;
+//         $atributos ['tamanno'] = 1;
+//         $atributos ['placeholder'] = "";
+//         $atributos ['valor'] = "";
+//         $atributos ['ajax_function'] = "";
+//         $atributos ['ajax_control'] = $esteCampo;
+//         $atributos ['limitar'] = false;
+//         $atributos ['anchoCaja'] = 10;
+//         $atributos ['miEvento'] = '';
+//         $atributos ['validar'] = 'required';
+//         // Aplica atributos globales al control
+        
+//         if (isset ( $cargueDatos [$esteCampo] )) {
+//         	$atributos ['valor'] = $cargueDatos [$esteCampo];
+//         } else {
+//         	$atributos ['valor'] = '';
+//         }
+        
+//         $atributos = array_merge ( $atributos, $atributosGlobales );
+//         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+//         unset ( $atributos );
+         
+//         // ----------------FIN CONTROL: Campo Texto Urbanización-------------------------------------------------------
+        
+        
+        // ----------------INICIO CONTROL: Lista Proyecto--------------------------------------------------------
         
         $esteCampo = 'urbanizacion';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['evento'] = '';
+        $atributos ['seleccion'] = - 1;
+        $atributos ['deshabilitado'] = false;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = 'required';
+
+        $matrizItems = array (
+        		array (
+        				0,
+        				' '
+        		)
+        );
+
+        $atributos ['matrizItems'] = $matrizItems;
+        
+        if (isset ( $cargueDatos [$esteCampo] )) {
+        	$atributos ['seleccion'] = $cargueDatos [$esteCampo];
+        } else {
+        	$atributos ['seleccion'] = - 1;
+        }
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------INICIO CONTROL: Campo Oculto ID de Urbanización-------------------------------------------------------
+         
+        $esteCampo = 'id_urbanizacion';
+        $atributos ["id"] = $esteCampo; // No cambiar este nombre
+        $atributos ["tipo"] = "hidden";
+        $atributos ['valor'] = '';
+        $atributos ['estilo'] = '';
+        $atributos ["obligatorio"] = false;
+        $atributos ['marco'] = true;
+        $atributos ["etiqueta"] = "";
+         
+        if (isset ( $cargueDatos [$esteCampo] )) {
+        	$atributos ['valor'] = $cargueDatos [$esteCampo];
+        } else {
+        	$atributos ['valor'] = '';
+        }
+         
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        unset ( $atributos );
+         
+        // ----------------FIN CONTROL: Campo Oculto Cantidad ID de Urbanización--------------------------------------------------------
+         
+        // ----------------INICIO CONTROL: Campo Oculto ID de Urbanización-------------------------------------------------------
+        
+        $esteCampo = 'select_urbanizacion';
+        $atributos ["id"] = $esteCampo; // No cambiar este nombre
+        $atributos ["tipo"] = "hidden";
+        $atributos ['valor'] = '';
+        $atributos ['estilo'] = '';
+        $atributos ["obligatorio"] = false;
+        $atributos ['marco'] = true;
+        $atributos ["etiqueta"] = "";
+        
+        if (isset ( $cargueDatos [$esteCampo] )) {
+        	$atributos ['valor'] = $cargueDatos [$esteCampo];
+        } else {
+        	$atributos ['valor'] = '';
+        }
+        
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        unset ( $atributos );
+        
+        // ----------------FIN CONTROL: Campo Oculto Cantidad ID de Urbanización--------------------------------------------------------
+        
+        // ----------------FIN CONTROL: Lista Proyecto--------------------------------------------------------
+        
+        // ----------------INICIO CONTROL: Campo Texto Total Nodo Hasta Punto de Ingreso--------------------------------------------------------
+         
+        $esteCampo = 'departamento';
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = "text";
         $atributos ['id'] = $esteCampo;
@@ -1129,19 +1260,57 @@ class Formulario {
         $atributos ['miEvento'] = '';
         $atributos ['validar'] = 'required';
         // Aplica atributos globales al control
-        
+         
         if (isset ( $cargueDatos [$esteCampo] )) {
         	$atributos ['valor'] = $cargueDatos [$esteCampo];
         } else {
         	$atributos ['valor'] = '';
         }
-        
+         
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
         unset ( $atributos );
-         
-        // ----------------FIN CONTROL: Campo Texto Urbanización-------------------------------------------------------
         
+        // ----------------FIN CONTROL: Campo Texto Total Nodo Hasta Punto de Ingreso--------------------------------------------------------
+         
+        // ----------------INICIO CONTROL: Campo Texto Total Nodo Hasta Punto de Ingreso--------------------------------------------------------
+         
+        $esteCampo = 'municipio';
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = "text";
+        $atributos ['id'] = $esteCampo;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ["etiquetaObligatorio"] = true;
+        $atributos ['tab'] = $tab ++;
+        $atributos ['anchoEtiqueta'] = 2;
+        $atributos ['estilo'] = "bootstrap";
+        $atributos ['evento'] = '';
+        $atributos ['deshabilitado'] = false;
+        $atributos ['readonly'] = false;
+        $atributos ['columnas'] = 1;
+        $atributos ['tamanno'] = 1;
+        $atributos ['placeholder'] = "";
+        $atributos ['valor'] = "";
+        $atributos ['ajax_function'] = "";
+        $atributos ['ajax_control'] = $esteCampo;
+        $atributos ['limitar'] = false;
+        $atributos ['anchoCaja'] = 10;
+        $atributos ['miEvento'] = '';
+        $atributos ['validar'] = 'required';
+        // Aplica atributos globales al control
+         
+        if (isset ( $cargueDatos [$esteCampo] )) {
+        	$atributos ['valor'] = $cargueDatos [$esteCampo];
+        } else {
+        	$atributos ['valor'] = '';
+        }
+         
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+        unset ( $atributos );
+        
+        // ----------------FIN CONTROL: Campo Texto Total Nodo Hasta Punto de Ingreso--------------------------------------------------------
+        	    
         // ----------------INICIO CONTROL: Lista Territorio--------------------------------------------------------
         
         $esteCampo = 'territorio';
@@ -1510,23 +1679,23 @@ class Formulario {
         				});
         				var infoWindow = new google.maps.InfoWindow({map: map});
 		
-       	 				if (navigator.geolocation) {
-          					navigator.geolocation.getCurrentPosition(function(position) {
-            					var pos = {
-              						lat: position.coords.latitude,
-              						lng: position.coords.longitude
-            					};
+//        	 				if (navigator.geolocation) {
+//           					navigator.geolocation.getCurrentPosition(function(position) {
+//             					var pos = {
+//               						lat: position.coords.latitude,
+//               						lng: position.coords.longitude
+//             					};
 		
-            					infoWindow.setPosition(pos);
-            					infoWindow.setContent("Localización Encontrada.");
-            					map.setCenter(pos);
-         			 		}, function() {
-            					handleLocationError(true, infoWindow, map.getCenter());
-          					});
-        				} else {
-          					// Browser doesnt support Geolocation
-          					handleLocationError(false, infoWindow, map.getCenter());
-        				}
+//             					infoWindow.setPosition(pos);
+//             					infoWindow.setContent("Localización Encontrada.");
+//             					map.setCenter(pos);
+//          			 		}, function() {
+//             					handleLocationError(true, infoWindow, map.getCenter());
+//           					});
+//         				} else {
+//           					// Browser doesnt support Geolocation
+//           					handleLocationError(false, infoWindow, map.getCenter());
+//         				}
         		
         				if(typeof document.getElementById("myModal")!=="undefined"){
         					$("#myModal").on("shown.bs.modal", function () {
