@@ -387,7 +387,6 @@ $(document).ready(function() {
 	$("#<?php echo $this->campoSeguro('beneficiario')?>").blur(function() {
 	  $(".token-input").val("");
 	});
-	
 	 
 	if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
 		$("#myModalMensaje").modal('show');
