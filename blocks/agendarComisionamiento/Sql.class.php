@@ -106,24 +106,35 @@ class Sql extends \Sql {
             /* Consultas del desarrollo */
             case "consultarBeneficiarios":
                 
-               	$cadenaSql = "SELECT ";
-                $cadenaSql .= "codigo_cabecera AS codigo_cabecera,";
-                $cadenaSql .= "descripcion AS descripcion,";
-                $cadenaSql .= "departamento AS departamento,";
-                $cadenaSql .= "municipio AS municipio,";
-                $cadenaSql .= "urbanizacion AS id_urbanizacion,";
-                $cadenaSql .= "id_urbanizacion AS urbanizacion,";
-                $cadenaSql .= "ip_olt AS ip_olt,";
-                $cadenaSql .= "mac_olt AS mac_olt,";
-                $cadenaSql .= "port_olt AS port_olt,";
-                $cadenaSql .= "nombre_olt AS nombre_olt,";
-                $cadenaSql .= "puerto_olt AS puerto_olt ";
+               	$cadenaSql = "SELECT DISTINCT ";
+                $cadenaSql .= "bp.proyecto as urbanizacion,";
+                $cadenaSql .= "bp.id_proyecto as id_urbanizacion,";
+                $cadenaSql .= "abn.codigo_nodo,";
+                $cadenaSql .= "bp.manzana,";
+                $cadenaSql .= "bp.torre,";
+                $cadenaSql .= "bp.bloque,";
+                $cadenaSql .= "bp.apartamento,";
+                $cadenaSql .= "(bp.nombre || ' ' || bp.primer_apellido || ' ' || bp.segundo_apellido) AS nombre_beneficiario, ";
+                $cadenaSql .= "bp.identificacion AS identificacion_beneficiario, ";
+                $cadenaSql .= "bp.orden_trabajo ";
                 $cadenaSql .= "FROM ";
-                $cadenaSql .= "interoperacion.cabecera ";
+                $cadenaSql .= "interoperacion.beneficiario_potencial AS bp ";
+                $cadenaSql .= "join interoperacion.asociacion_benf_nodo AS abn ";
+                $cadenaSql .= "ON bp.id_beneficiario=abn.id_beneficiario ";
+                $cadenaSql .= "AND bp.estado_registro=true ";
+                $cadenaSql .= "AND abn.estado_registro=true ";
+                $cadenaSql .= "join interoperacion.contrato ct ";
+                $cadenaSql .= "ON bp.id_beneficiario=ct.id_beneficiario ";
+                $cadenaSql .= "AND ct.estado_contrato=(SELECT pm.id_parametro id_est_contrato
+                				FROM parametros.parametros pm
+                				JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND rl.descripcion='Estado Contrato' AND rl.estado_registro=TRUE
+                				WHERE pm.estado_registro=TRUE AND pm.descripcion='Aprobado') ";
                 $cadenaSql .= "WHERE ";
-                $cadenaSql .= "estado_registro=true ";
-                $cadenaSql .= "AND ";
-                $cadenaSql .= "codigo_cabecera=" . "'" . $variable . "'";
+                $cadenaSql .= "not exists (select 1 from interoperacion.agendamiento_comisionamiento AS ac where ac.identificacion_beneficiario=bp.identificacion AND ac.estado_registro=true)";
+                $cadenaSql .= "";
+                $cadenaSql .= "";
+                $cadenaSql .= "";
+                $cadenaSql .= "";
                 break;
 				//select urbanizacion as urbanizacion, urbanizacion as id_urbanizacion, manzana, torre, bloque, apartamento, identificacion as identificacion_beneficiario, nombre || ' ' || primer_apellido || ' ' || segundo_apellido  as nombre from interoperacion.beneficiario_potencial natural join  WHERE estado_registro=TRUE
 

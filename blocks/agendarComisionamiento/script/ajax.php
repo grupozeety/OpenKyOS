@@ -93,7 +93,7 @@ $valorCodificado .= "&id=";
 $directorioReg = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 $directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-$valorCodificadoReg = "pagina=cabecera&opcion=agregar";
+$valorCodificadoReg = "pagina=agendarComisionamiento";
 $variableReg = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificadoReg );
 $enlaceReg = $directorioReg . '=' . $variableReg;
 
@@ -227,6 +227,16 @@ $(document).ready(function() {
 	
 		$("#<?php echo $this->campoSeguro('nombre_comisionador');?>").val($("#<?php echo $this->campoSeguro('comisionador');?> option:selected").text());
 	
+	});
+	
+	if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
+		$("#myModalMensaje").modal('show');
+	}
+	
+	$(function() {
+			$("#regresarConsultar").click(function( event ) {	
+		    	$("#myModalMensaje").modal('hide');
+			});
 	});
 	
 });
