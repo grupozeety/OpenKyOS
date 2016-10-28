@@ -1,6 +1,5 @@
 <?php
-namespace cabecera;
-
+namespace agendarComisionamiento;
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
     exit ();

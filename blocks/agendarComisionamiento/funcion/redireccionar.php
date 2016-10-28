@@ -1,6 +1,6 @@
 <?php
 
-namespace cabecera\funcion;
+namespace agendarComisionamiento\funcion;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("index.php");
@@ -10,17 +10,25 @@ class redireccion {
 	public static function redireccionar($opcion, $valor = "") {
 		$miConfigurador = \Configurador::singleton ();
 		$miPaginaActual = $miConfigurador->getVariableConfiguracion ( "pagina" );
-		
+
+	
 		switch ($opcion) {
 			case "inserto" :
 				$variable = "pagina=" . $miPaginaActual;
-// 				$variable .= "&opcion=agregar";
 				$variable .= "&mensaje=confirma";
+				$variable.= "&estilo=success";
+				break;
+			
+			case "insertoError" :
+				$variable = "pagina=" . $miPaginaActual;
+				$variable .= "&mensaje=confirmaError";
+				$variable.= "&estilo=warning";
+				$variable .= "&sincronizacion=" . $valor;
 				break;
 			
 			case "noInserto" :
 				$variable = "pagina=" . $miPaginaActual;
-// 				$variable .= "&opcion=agregar";
+				$variable.= "&estilo=error";
 				$variable .= "&mensaje=error";
 				break;
 			
@@ -41,7 +49,7 @@ class redireccion {
 			case "regresar" :
 				$variable = "pagina=" . $miPaginaActual;
 				break;
-				
+			
 			case "actualizo" :
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
@@ -68,7 +76,7 @@ class redireccion {
 			case "paginaConsulta" :
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=consultar";
-				$variable .= "&id_variable=".$valor[0];
+				$variable .= "&id_variable=" . $valor [0];
 				break;
 		}
 		
@@ -81,18 +89,8 @@ class redireccion {
 		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
 		$_REQUEST [$enlace] = $enlace . '=' . $variable;
 		$redireccion = $url . $_REQUEST [$enlace];
-		
+	
 		echo "<script>location.replace('" . $redireccion . "')</script>";
 		
-		// $enlace =$miConfigurador->getVariableConfiguracion("enlace");
-		// $variable = $miConfigurador->fabricaConexiones->crypto->codificar($variable);
-		// // echo $enlace;
-		// // // echo $variable;
-		// // exit;
-		// $_REQUEST[$enlace] = $variable;
-		// $_REQUEST["recargar"] = true;
-		// return true;
 	}
 }
-
-?>

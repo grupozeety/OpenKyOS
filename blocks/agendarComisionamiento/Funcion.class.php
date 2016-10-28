@@ -1,8 +1,8 @@
 <?php
 
-namespace cabecera;
+namespace agendarComisionamiento;
 
-use cabecera\funcion\redireccion;
+use agendarComisionamiento\funcion\redireccion;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");

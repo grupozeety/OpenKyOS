@@ -57,9 +57,10 @@ if (!isset($GLOBALS["autorizado"])) {
     echo $this->miFormulario->division("inicio", $atributos);
 
     if ($_REQUEST['mensaje'] == 'confirma') {
-
+    	
         $tipo = 'success';
-        $mensaje =  $this->lenguaje->getCadena('mensajeRegistro');
+        $mensaje = "aqui estoy";
+        
         $boton = "continuar";
 		
         $valorCodificado = "pagina=".$esteBloque['nombre'];

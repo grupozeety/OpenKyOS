@@ -1,6 +1,6 @@
 <?php
 
-namespace cabecera;
+namespace agendarComisionamiento;
 
 if (!isset($GLOBALS ["autorizado"])) {
     include ("../index.php");
@@ -53,7 +53,6 @@ class Frontera {
 
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("rutaBloque");
         $this->miFormulario = new \FormularioHtml();
-	
 
         if (isset($_REQUEST['opcion'])) {
 
