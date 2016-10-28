@@ -14,6 +14,7 @@ $this->idioma["botonCerrar"]="Aceptar";
 $this->idioma["botonCerrar2"]="Aceptar";
 $this->idioma["botonAgregarCabecera"]="Agregar Cabecera";
 $this->idioma["confirma"]="Se ha guardado correctamente la información del agendamiento de comisionamiento.";
+$this->idioma["confirmaError"]="Se ha guardado correctamente la información del agendamiento de comisionamiento. Error en la sincronización";
 $this->idioma["error"]="No se ha podido registrar la información del agendamiento de comisionamiento.";
 $this->idioma["regresarConsultar"]="Aceptar";
 $this->idioma["mensajeRegistro"]="Se ha registrado correctamente la información del agendamiento de comisionamiento";
