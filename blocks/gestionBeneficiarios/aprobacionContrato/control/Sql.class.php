@@ -28,7 +28,7 @@ class Sql extends \Sql {
              */
             case 'consultarContratos':
                 $cadenaSql = " SELECT cn.id identificador_contrato, cn.numero_contrato, bn.nombre||' '||bn.primer_apellido||' '||bn.segundo_apellido nombre_beneficiario,";
-                $cadenaSql .= " bn.id_beneficiario identificador_beneficiario, bn.identificacion, bn.urbanizacion,pm.descripcion estado_contrato, ";
+                $cadenaSql .= " bn.id_beneficiario identificador_beneficiario, bn.identificacion, bn.proyecto,pm.descripcion estado_contrato, ";
                 $cadenaSql .= " cn.nombre_documento_contrato , cn.ruta_documento_contrato ";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN parametros.parametros pm ON pm.id_parametro=cn.estado_contrato AND pm.estado_registro=TRUE";
