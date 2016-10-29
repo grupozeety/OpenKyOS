@@ -137,14 +137,14 @@ class Sql extends \Sql {
 				$cadenaSql = "SELECT DISTINCT ";
 				$cadenaSql .= "bp.proyecto as urbanizacion, ";
 				$cadenaSql .= "bp.id_proyecto as id_urbanizacion, ";
-				$cadenaSql .= "'' as codigo_nodo, ";
+				$cadenaSql .= "0 as codigo_nodo, ";
 				$cadenaSql .= "bp.manzana, ";
 				$cadenaSql .= "bp.torre, ";
 				$cadenaSql .= "bp.bloque, ";
 				$cadenaSql .= "bp.apartamento, ";
 				$cadenaSql .= "(bp.nombre || ' ' || bp.primer_apellido || ' ' || bp.segundo_apellido) AS nombre_beneficiario, ";
 				$cadenaSql .= "bp.identificacion AS identificacion_beneficiario, ";
-				$cadenaSql .= "'' as orden_trabajo ";
+				$cadenaSql .= "0 as orden_trabajo ";
 				$cadenaSql .= "FROM  ";
 				$cadenaSql .= "interoperacion.beneficiario_potencial AS bp ";
 				$cadenaSql .= "WHERE bp.estado_registro=TRUE ";
