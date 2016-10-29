@@ -49,8 +49,6 @@ class Registrar {
 	
 		$this->parent = $paqueteInfraestructura['id'];
 		
-		var_dump($this->parent );
-		
 	}
 	
 	function organizarVariables(){
