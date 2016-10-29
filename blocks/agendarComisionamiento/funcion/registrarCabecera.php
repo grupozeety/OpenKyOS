@@ -69,11 +69,9 @@ class Registrar {
 		$rutaBloque .= $esteBloque ['nombre'];
 		$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/" . $esteBloque ['nombre'];
 		
-		echo $cadenaSql = $this->miSql->getCadenaSql ( 'registrarAgendamiento', $agen );
+		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarAgendamiento', $agen );
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
-		
-		var_dump($resultado);
-		exit;
+
 		if ($resultado) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConsecutivoAgendamiento' );
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
