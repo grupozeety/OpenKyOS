@@ -109,7 +109,7 @@ class Sql extends \Sql {
                 
                	$cadenaSql = "SELECT ";
                	$cadenaSql .= "proyecto  AS urbanizacion,";
-               	$cadenaSql .= "nombre,";
+               	$cadenaSql .= "(nombre ||' '|| primer_apellido ||' '|| segundo_apellido) as nombre,";
                	$cadenaSql .= "identificacion,";
                	$cadenaSql .= "tipoben.descripcion as tipo_beneficiario, ";
                	$cadenaSql .= "id_beneficiario ";
