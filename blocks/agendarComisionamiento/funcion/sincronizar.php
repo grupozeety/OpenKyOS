@@ -134,9 +134,7 @@ class sincronizar {
 		);
 		
 		$operar = file_get_contents ( $url );
-		
-		var_dump($operar);
-	
+
 		$validacion = strpos ( $operar, 'modified_by' );
 		
 		if (is_numeric ( $validacion )) {
@@ -157,7 +155,6 @@ class sincronizar {
 		);
 		$operar = file_get_contents ( $url );
 
-		var_dump($operar);
 		$validacion = strpos ( $operar, 'MREQ' );
 		if (is_numeric ( $validacion )) {
 			$variable = array (
@@ -182,7 +179,6 @@ class sincronizar {
 		$variable = 0;
 		$operar = file_get_contents ( $url );
 
-		var_dump($operar);
 		$validacion = strlen( $operar);
 
 		if ($validacion!=0) {
