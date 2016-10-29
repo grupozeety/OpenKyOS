@@ -29,6 +29,10 @@ class Registrar {
 	function procesarFormulario() {
 		date_default_timezone_set ( 'America/Bogota' );
 		
+		ini_set ( 'xdebug.var_display_max_depth', - 1 );
+		ini_set ( 'xdebug.var_display_max_children', - 1 );
+		ini_set ( 'xdebug.var_display_max_data', - 1 );
+		
 		$_REQUEST ['tiempo'] = time ();
 		$informacion = array ();
 		$agen = array ();
@@ -71,7 +75,7 @@ class Registrar {
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarAgendamiento', $agen );
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
-
+		
 		if ($resultado) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConsecutivoAgendamiento' );
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
