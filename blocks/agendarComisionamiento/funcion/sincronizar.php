@@ -31,18 +31,25 @@ class sincronizar {
 		// // Crear el cliente
 		$clienteURL = $this->crearUrlCliente ( $beneficiario );
 		$clienteCrear = $this->crearCliente ( $clienteURL );
+		
+		var_dump($clienteCrear);
+		
 		// Crear el material request
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'recuperarOrden', $id_orden );
 		$orden = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
+		var_dump($orden);
 		
 		if ($orden != false && $kit != 0) {
 	
 			$material = $this->datosmaterial ( $orden, $kit, $beneficiario );
 			
+			var_dump($material);
 		    $materialURL = $this->crearUrlMaterial ( $material );
 			$materialCrear = $this->crearMaterial ( $materialURL );
+			
+			var_dump($materialCrear);
 		} else {
 			$materialCrear ['estado'] = 1;
 			$materialCrear ['mensaje'] = 'Error obteniendo datos base Solicitud de Material. ';
@@ -133,6 +140,8 @@ class sincronizar {
 		
 		$operar = file_get_contents ( $url );
 		
+		var_dump($operar);
+	
 		$validacion = strpos ( $operar, 'modified_by' );
 		
 		if (is_numeric ( $validacion )) {
@@ -153,6 +162,7 @@ class sincronizar {
 		);
 		$operar = file_get_contents ( $url );
 
+		var_dump($operar);
 		$validacion = strpos ( $operar, 'MREQ' );
 		if (is_numeric ( $validacion )) {
 			$variable = array (
@@ -177,6 +187,7 @@ class sincronizar {
 		$variable = 0;
 		$operar = file_get_contents ( $url );
 
+		var_dump($operar);
 		$validacion = strlen( $operar);
 
 		if ($validacion!=0) {
