@@ -22,9 +22,18 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 	$conexion = "interoperacion";
 	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 	
-	$cadenaSql = $this->sql->getCadenaSql ( 'consultarBeneficiarios' );
+	if($_REQUEST['valor']==1){
+	$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios' );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-
+	}
+	
+	if($_REQUEST['valor']==2){
+		$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios_comercial' );
+		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	}
+	
+	if($resultado!=false){
+	
 	for($i = 0; $i < count ( $resultado ); $i ++) {
 	
 		$resultadoFinal [] = array (
@@ -60,7 +69,13 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
                 "recordsTotal":' . $total . ',
                 "recordsFiltered":' . $total . ',
 				"data":' . $resultado . '}';
-	
+	}else{
+		$resultado = '{
+                "recordsTotal":0,
+                "recordsFiltered":0,
+				"data":0}';
+	}
+
 	echo $resultado;
 	
 }else if ($_REQUEST ['funcion'] == "inhabilitarCabecera"){

@@ -134,35 +134,47 @@ $(document).ready(function() {
 	    	}
 	         
 	    } );
-	 
-	    
-	    var table = $('#example').DataTable( {
-	    language: {
-        
-    "sProcessing":     "Procesando...",
-    "sLengthMenu":     "Mostrar _MENU_ registros",
-    "sZeroRecords":    "No se encontraron resultados",
-    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-    "sInfoPostFix":    "",
-    "sSearch":         "Buscar:",
-    "sUrl":            "",
-    "sInfoThousands":  ",",
-    "sLoadingRecords": "Cargando...",
-    "oPaginate": {
-        "sFirst":    "Primero",
-        "sLast":     "Último",
-        "sNext":     "Siguiente",
-        "sPrevious": "Anterior"
-    },
-    "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-    }
+	   
+		$('#seleccionar_todo').change(function(){
+	    	var cells = table.cells( ).nodes();
+	   		$( cells ).find(':checkbox').prop('checked', $(this).is(':checked'));
+		});
+		
+		
+		
+		 $('#<?php echo $this->campoSeguro("fecha_agendamiento");?>').datetimepicker({
+	               format: 'yyyy-mm-dd',
+	               language: "es",
+	                weekStart: 1,
+	                todayBtn:  1,
+	                autoclose: 1,
+	                todayHighlight: 1,
+	                startView: 2,
+	                minView: 2,
+	                forceParse: 0
+	            });
+	});
+	
+	$("#<?php echo $this->campoSeguro('comisionador');?>").change(function() {
+	
+		$("#<?php echo $this->campoSeguro('nombre_comisionador');?>").val($("#<?php echo $this->campoSeguro('comisionador');?> option:selected").text());
+	
+	});
+	
+	if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
+		$("#myModalMensaje").modal('show');
+	}
+	
+	$(function() {
+			$("#regresarConsultar").click(function( event ) {	
+		    	$("#myModalMensaje").modal('hide');
+			});
+	});
+		
+	$("#<?php echo $this->campoSeguro('tipo_agendamiento');?>").change(function() {
 
-    	},
+$('#example').DataTable().destroy();
+	    var table = $('#example').DataTable( {
 	    	"processing": true,
 	        "searching": true,
 	        "info":false,
@@ -204,6 +216,7 @@ $(document).ready(function() {
 	        },
 	        ajax: {
 	            url: "<?php echo $urlCargarInformacion?>",
+	             data: { valor:$("#<?php echo $this->campoSeguro('tipo_agendamiento')?>").val()},
 	            dataSrc:"data"   
 	        },
 	        "columns": [
@@ -228,41 +241,8 @@ $(document).ready(function() {
 	            }
 	        ]
 	    } );
-	   
-		$('#seleccionar_todo').change(function(){
-	    	var cells = table.cells( ).nodes();
-	   		$( cells ).find(':checkbox').prop('checked', $(this).is(':checked'));
-		});
-		
-		
-		
-		 $('#<?php echo $this->campoSeguro("fecha_agendamiento");?>').datetimepicker({
-	               format: 'yyyy-mm-dd',
-	               language: "es",
-	                weekStart: 1,
-	                todayBtn:  1,
-	                autoclose: 1,
-	                todayHighlight: 1,
-	                startView: 2,
-	                minView: 2,
-	                forceParse: 0
-	            });
+	    
 	});
 	
-	$("#<?php echo $this->campoSeguro('comisionador');?>").change(function() {
-	
-		$("#<?php echo $this->campoSeguro('nombre_comisionador');?>").val($("#<?php echo $this->campoSeguro('comisionador');?> option:selected").text());
-	
-	});
-	
-	if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
-		$("#myModalMensaje").modal('show');
-	}
-	
-	$(function() {
-			$("#regresarConsultar").click(function( event ) {	
-		    	$("#myModalMensaje").modal('hide');
-			});
-	});
 	
 });
