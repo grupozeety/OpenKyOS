@@ -151,7 +151,6 @@ class sincronizar {
 				'mensaje' => "Error creando Solicitud de Material en ERPNext" 
 		);
 		$operar = file_get_contents ( $url );
-var_dump($operar);
 		$validacion = strpos ( $operar, 'MREQ' );
 		if (is_numeric ( $validacion )) {
 			$variable = array (

@@ -71,13 +71,13 @@ class Registrar {
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarAgendamiento', $agen );
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
-		
 		if ($resultado) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConsecutivoAgendamiento' );
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 		}
 		
 		if ($resultado) {
+			if ($_REQUEST['tipo_agendamiento'] == 1) {
 			$urlKit = $this->sincronizar->kitURL ();
 			$kit = $this->sincronizar->kit ( $urlKit );
 
@@ -98,7 +98,6 @@ class Registrar {
 			}
 			
 			foreach ( $agen as $b => $values ) {
-				if ($agen [$b] ['tipo_agendamiento'] == 1) {
 					$sincronizacion = $this->sincronizar->iniciarSincronizacion ( $agen [$b] ['id_orden_trabajo'], $agen [$b] ['identificacion_beneficiario'], $items );
 					if ($sincronizacion != 0) {
 						$mensajes [$b] = $sincronizacion;
