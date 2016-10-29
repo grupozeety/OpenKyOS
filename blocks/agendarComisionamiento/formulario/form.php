@@ -309,7 +309,7 @@ class Formulario {
         			                <th>Manzana</th>
         			                <th>Bloque</th>
                 					<th>Torre</th>
-                					<th>Intetificación Beneficiario</th>
+                					<th>Identificación Beneficiario</th>
                 					<th>Nombre del Beneficiario</th>
         			            </tr>
         			            <tr>
@@ -318,7 +318,7 @@ class Formulario {
         			                <th>Manzana</th>
         			                <th>Bloque</th>
                 					<th>Torre</th>
-                					<th>Intetificación Beneficiario</th>
+                					<th>Identificación Beneficiario</th>
                 					<th>Nombre del Beneficiario</th>
                 					<th>Seleccionar Todo<input type="checkbox" id="seleccionar_todo"/></th>
         			            </tr>
