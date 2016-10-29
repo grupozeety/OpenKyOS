@@ -1,0 +1,31 @@
+<div align="left">
+    <table height="100" width="724">
+        <tbody>
+            <tr>
+                <td align="center">
+                     <h2>Factura de Venta<br>{{doc.name}}</h2>
+
+                </td>
+                <td align="right">
+                    <img src="iVBOR...ggg==" height="52" width="135">
+                    <br>
+                    <br>Grupo de Investigación y Desarrollo
+                    <br>en Tecnologías de la Información
+                    <br>NIT: 900814137-9
+                    <br>Regimen Común
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br>Calle 46 B Sur N° 84- 81 Barrio Britalia
+                    <br>Teléfono: 4522447-3123012875
+                    <br>Bogotá
+                    <br>
+                    <br>&nbsp;
+                    <br>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

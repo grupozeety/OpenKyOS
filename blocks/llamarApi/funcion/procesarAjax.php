@@ -20,10 +20,10 @@ class Procesador {
 			'basic_auth' => array (),
 			'puerto' => '',
 			'database' => '',
-			'cookie_file' => '/var/www/html/workspace/cookie.txt' 
+			'cookie_file' => '/usr/share/nginx/html/workspace/cookie.txt' 
 	);
 	public $datosConexionOpenProject = array (
-			'host' => 'http://172.16.146.157:3000/',
+			'host' => 'http://54.205.22.143:3000/',
 			'token' => '8225f991ac98b96d27270d083c8a65e83ca4d7e4',
 			'api_url_v2' => 'api/v2/',
 			'api_url_v3' => 'api/v3/',
