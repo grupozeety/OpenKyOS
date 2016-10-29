@@ -580,7 +580,6 @@ class Consultar {
 	public function crearCliente($datosConexion = '', $parametros) {
 		$this->configurarERPNext ( $datosConexion );
 		$result = $this->clientFrappe->insert ( "Customer", json_decode ( $parametros ) );
-		
 		if (! empty ( $result->body->data )) {
 			echo json_encode ( $result->body->data );
 		}
@@ -595,9 +594,9 @@ class Consultar {
 	 * Fecha : 2016/10/22
 	 */
 	public function crearMaterialRequest($datosConexion = '', $parametros) {
+
 		$this->configurarERPNext ( $datosConexion );
 		$result = $this->clientFrappe->insert ( "Material Request", json_decode ( $parametros ) );
-		
 		if (! empty ( $result->body->data )) {
 			echo json_encode ( $result->body->data->name );
 		}
@@ -652,7 +651,6 @@ class Consultar {
 		$result = $this->clientFrappe->search ( "BOM", $data, $fields );
 		
 		$valor = json_decode ( json_encode ( $result->body->data ), true );
-		
 		if (! empty ( $result->body->data )) {
 			$data = array (
 					"parent" => str_replace ( '//', '', $valor [0] ['name'] ) 
@@ -668,7 +666,6 @@ class Consultar {
 					"amount" 
 			);
 			$result = $this->clientFrappe->search ( "BOM Explosion Item", $data, $fields );
-			
 			if (! empty ( $result->body->data )) {
 				echo json_encode ( $result->body->data );
 			}

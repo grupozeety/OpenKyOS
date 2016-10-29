@@ -28,7 +28,7 @@ class Registrar {
 	}
 	function procesarFormulario() {
 		date_default_timezone_set ( 'America/Bogota' );
-		
+				
 		$_REQUEST ['tiempo'] = time ();
 		$informacion = array ();
 		$agen = array ();
@@ -80,6 +80,7 @@ class Registrar {
 		if ($resultado) {
 			$urlKit = $this->sincronizar->kitURL ();
 			$kit = $this->sincronizar->kit ( $urlKit );
+
 			$items = array ();
 			
 			if ($kit != 0) {
@@ -104,7 +105,6 @@ class Registrar {
 					}
 				}
 			}
-			
 			if (isset ( $mensajes )) {
 				redireccion::redireccionar ( 'insertoError',json_encode($mensajes));
 			} else {

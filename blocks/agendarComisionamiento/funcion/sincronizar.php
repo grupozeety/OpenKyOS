@@ -23,6 +23,7 @@ class sincronizar {
 		$this->miFuncion = $funcion;
 	}
 	public function iniciarSincronizacion($id_orden, $beneficiario, $kit) {
+		
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
@@ -33,18 +34,14 @@ class sincronizar {
 		$clienteCrear = $this->crearCliente ( $clienteURL );
 
 		// Crear el material request
-		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'recuperarOrden', $id_orden );
 		$orden = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-
 		
 		if ($orden != false && $kit != 0) {
 	
 			$material = $this->datosmaterial ( $orden, $kit, $beneficiario );
-
-		    $materialURL = $this->crearUrlMaterial ( $material );
+			$materialURL = $this->crearUrlMaterial ( $material );
 			$materialCrear = $this->crearMaterial ( $materialURL );
-			
 		} else {
 			$materialCrear ['estado'] = 1;
 			$materialCrear ['mensaje'] = 'Error obteniendo datos base Solicitud de Material. ';
@@ -87,20 +84,21 @@ class sincronizar {
 				'type' => 'cm:folder' 
 		) );
 		
-		$result = RestClient::post ( $url, $carpeta, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] ); // removed $input as suggested by Dan J
+		$result = RestClient::post ( $url, $carpeta, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] ); 
+
 		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
 		
 		$validacion = strpos ( $json_decode, 'error' );
 		if (! is_numeric ( $validacion )) {
 			
 			foreach ( $carpetas as $llave => $valores ) {
-				$url2 = $url . "/" . $variable [0] ['id_beneficiario']; // pendiente la pagina para modificar parametro
+				$url2 = $url . "/" . $variable [0] ['id_beneficiario']; 
 				$carpeta2 = array (
 						'name' => $carpetas [$llave] ['descripcion'],
 						'type' => 'cm:folder' 
 				);
 				
-				$result2 = RestClient::post ( $url2, json_encode ( $carpeta2 ), 'admin', 'qelvui2016=' ); // removed $input as suggested by Dan J
+				$result2 = RestClient::post ( $url2, json_encode ( $carpeta2 ), 'admin', 'qelvui2016=' ); 
 				$json_decode2 = json_decode ( json_encode ( $result2->getResponse () ), true );
 				
 				$validacion = strpos ( $json_decode, 'error' );
@@ -134,7 +132,6 @@ class sincronizar {
 		);
 		
 		$operar = file_get_contents ( $url );
-
 		$validacion = strpos ( $operar, 'modified_by' );
 		
 		if (is_numeric ( $validacion )) {
@@ -154,7 +151,7 @@ class sincronizar {
 				'mensaje' => "Error creando Solicitud de Material en ERPNext" 
 		);
 		$operar = file_get_contents ( $url );
-
+var_dump($operar);
 		$validacion = strpos ( $operar, 'MREQ' );
 		if (is_numeric ( $validacion )) {
 			$variable = array (
@@ -178,7 +175,6 @@ class sincronizar {
 	public function kit($url) {
 		$variable = 0;
 		$operar = file_get_contents ( $url );
-
 		$validacion = strlen( $operar);
 
 		if ($validacion!=0) {

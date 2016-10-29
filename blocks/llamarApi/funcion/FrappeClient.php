@@ -111,8 +111,9 @@ class FrappeClient {
 	}
 	public function insert($doctype, $params) {
 		$this->_auth_check ();
+		$params = json_decode ( (str_replace ( "\\", "", json_encode ( $params ) )) );
 		
-		var_dump($params);
+		//var_dump($params);
 		return $this->_curl ( 'INSERT', array (
 				'doctype' => $doctype,
 				'data' => $params 
