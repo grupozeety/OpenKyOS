@@ -50,7 +50,7 @@ class procesarAjax {
 
                         $resultadoFinal[] = array(
                             'numeroContrato' => "<center>" . $valor['numero_contrato'] . "</center>",
-                            'urbanizacion' => "<center>" . $valor['urbanizacion'] . "</center>",
+                            'urbanizacion' => "<center>" . $valor['proyecto'] . "</center>",
                             'identificacionBeneficiario' => "<center>" . $valor['identificacion'] . "</center>",
                             'nombreBeneficiario' => "<center>" . $valor['nombre_beneficiario'] . "</center>",
                             'archivoContrato' => $archivoContrato,
