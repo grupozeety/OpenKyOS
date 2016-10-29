@@ -31,25 +31,20 @@ class sincronizar {
 		// // Crear el cliente
 		$clienteURL = $this->crearUrlCliente ( $beneficiario );
 		$clienteCrear = $this->crearCliente ( $clienteURL );
-		
-		var_dump($clienteCrear);
-		
+
 		// Crear el material request
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'recuperarOrden', $id_orden );
 		$orden = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
-		var_dump($orden);
 		
 		if ($orden != false && $kit != 0) {
 	
 			$material = $this->datosmaterial ( $orden, $kit, $beneficiario );
-			
-			var_dump($material);
+
 		    $materialURL = $this->crearUrlMaterial ( $material );
 			$materialCrear = $this->crearMaterial ( $materialURL );
 			
-			var_dump($materialCrear);
 		} else {
 			$materialCrear ['estado'] = 1;
 			$materialCrear ['mensaje'] = 'Error obteniendo datos base Solicitud de Material. ';
@@ -58,7 +53,7 @@ class sincronizar {
 		// Carpetas
 	    $alfresco = $this->alfresco ($beneficiario);
 	    $resultado = $alfresco ['estado'] + $clienteCrear ['estado'] + $materialCrear ['estado'];
-		exit;
+
 		if ($resultado > 0) {
 			$mensajes = $beneficiario . ': ' . $alfresco ['mensaje'] . ". " . $clienteCrear ['mensaje'] . ". " . $materialCrear ['mensaje'];
 		} else {
