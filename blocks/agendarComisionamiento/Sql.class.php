@@ -131,10 +131,25 @@ class Sql extends \Sql {
                 				WHERE pm.estado_registro=TRUE AND pm.descripcion='Aprobado') ";
 				$cadenaSql .= "WHERE ";
 				$cadenaSql .= "not exists (select 1 from interoperacion.agendamiento_comisionamiento AS ac where ac.identificacion_beneficiario=bp.identificacion AND ac.estado_registro=true)";
-				$cadenaSql .= "";
-				$cadenaSql .= "";
-				$cadenaSql .= "";
-				$cadenaSql .= "";
+				break;
+				
+			case "consultarBeneficiarios_comercial":
+				$cadenaSql = "SELECT DISTINCT ";
+				$cadenaSql .= "bp.proyecto as urbanizacion, ";
+				$cadenaSql .= "bp.id_proyecto as id_urbanizacion, ";
+				$cadenaSql .= "'' as codigo_nodo, ";
+				$cadenaSql .= "bp.manzana, ";
+				$cadenaSql .= "bp.torre, ";
+				$cadenaSql .= "bp.bloque, ";
+				$cadenaSql .= "bp.apartamento, ";
+				$cadenaSql .= "(bp.nombre || ' ' || bp.primer_apellido || ' ' || bp.segundo_apellido) AS nombre_beneficiario, ";
+				$cadenaSql .= "bp.identificacion AS identificacion_beneficiario, ";
+				$cadenaSql .= "'' as orden_trabajo ";
+				$cadenaSql .= "FROM  ";
+				$cadenaSql .= "interoperacion.beneficiario_potencial AS bp ";
+				$cadenaSql .= "WHERE bp.estado_registro=TRUE ";
+				$cadenaSql .= "AND ";
+				$cadenaSql .= "not exists (select 1 from interoperacion.contrato AS con where con.id_beneficiario=bp.id_beneficiario AND con.estado_registro=true) ";
 				break;
 			// select urbanizacion as urbanizacion, urbanizacion as id_urbanizacion, manzana, torre, bloque, apartamento, identificacion as identificacion_beneficiario, nombre || ' ' || primer_apellido || ' ' || segundo_apellido as nombre from interoperacion.beneficiario_potencial natural join WHERE estado_registro=TRUE
 			
