@@ -58,7 +58,7 @@ class sincronizar {
 		// Carpetas
 	    $alfresco = $this->alfresco ($beneficiario);
 	    $resultado = $alfresco ['estado'] + $clienteCrear ['estado'] + $materialCrear ['estado'];
-		
+		exit;
 		if ($resultado > 0) {
 			$mensajes = $beneficiario . ': ' . $alfresco ['mensaje'] . ". " . $clienteCrear ['mensaje'] . ". " . $materialCrear ['mensaje'];
 		} else {
