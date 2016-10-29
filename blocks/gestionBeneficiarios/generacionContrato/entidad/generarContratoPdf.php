@@ -240,7 +240,7 @@ class GenerarDocumento {
 					        <td style='width:10%;text-align=center;'><b>Municipio</b></td>
 					        <td colspan='1' style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_municipio'] . "</td>
 					       <td colspan='1'style='width:5%;text-align=center;'><b>Urbanización</b></td>
-					        <td colspan='2'style='width:20%;text-align=center;'>" . $this->beneficiario['urbanizacion'] . "</td>
+					        <td colspan='2'style='width:20%;text-align=center;'>" . $this->beneficiario['proyecto'] . "</td>
 				        </tr>
 				        <tr>
 					        <td style='width:15%;text-align=center;'><b>Estrato</b></td>
