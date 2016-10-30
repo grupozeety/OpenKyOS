@@ -15,14 +15,15 @@ class procesarAjax {
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-		switch ($_REQUEST ['funcion']) {
+		switch ($_REQUEST ['opcion']) {
 			
 			case 'consultaBeneficiarios' :
 				
-				$cadenaSql = $this->sql->getCadenaSql ( 'consultarBeneficiariosPotenciales' );
+			$cadenaSql = $this->sql->getCadenaSql ( 'consultarBeneficiariosPotenciales' );
 				
 				$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-				
+			
+		
 				foreach ( $resultadoItems as $key => $values ) {
 					$keys = array (
 							'value',

@@ -2,7 +2,10 @@
 
 namespace gestionComisionamiento\archivosAlfresco\entidad;
 
+use  gestionComisionamiento\archivosAlfresco\entidad\Redireccionador;
+
 include_once ('RestClient.class.php');
+include_once 'Redireccionador.php';
 class FormProcessor {
 	public $miConfigurador;
 	public $lenguaje;
@@ -49,7 +52,7 @@ class FormProcessor {
 		}
 		
 		
-		$args = new \CURLFile ( $archivo_datos ['ruta_absoluta'], $archivo_datos ['type'], $archivo_datos ['nombre_archivo'] );
+		//$args = new \CURLFile ( $archivo_datos ['ruta_absoluta'], $archivo_datos ['type'], $archivo_datos ['nombre_archivo'] );
 		// curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
 		// $fp=fopen($archivo,'r');
 		// var_dump ( $args );
@@ -69,34 +72,33 @@ class FormProcessor {
 		
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/site/folder/" . $variable [0] ['site'] . "/documentLibrary/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo']; // pendiente la pagina para modificar parametro
 		
-		$archivo = json_encode ( array (
+		$archivo = str_replace("\\","",json_encode ( array (
 				'filedata' => '@'.$archivo_datos ['ruta_absoluta'],
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
 				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'],
 				'contenttype' => 'cm:content' 
-		) );
+		) ));
 		
-		var_dump($archivo);
 		$result = RestClient::post ( $url, $archivo, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] );
-		var_dump ( $result );
 		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
 		
-		var_dump ( $json_decode );
-		exit ();
-		$validacion = strpos ( $json_decode, 'error' );
-		if (! is_numeric ( $validacion )) {
+
+
+// 		if (! is_numeric ( $validacion )) {
 			
-			$estado = array (
-					'estado' => 0,
-					'mensaje' => "Documento subido exitosamente en el Gestor de Documentos" 
-			);
-		} else {
-			$estado = array (
-					'estado' => 1,
-					'mensaje' => "Error en la subida de documento." 
-			);
-		}
+// 			$estado = array (
+// 					'estado' => 0,
+// 					'mensaje' => "Documento subido exitosamente en el Gestor de Documentos" 
+// 			);
+// 		} else {
+// 			$estado = array (
+// 					'estado' => 1,
+// 					'mensaje' => "Error en la subida de documento." 
+// 			);
+// 		}
+
+		Redireccionador::redireccionar("Inserto");
 	}
 }
 

@@ -58,6 +58,7 @@ class Entidad {
             $this->procesarAjax();
         }
 
+        
         switch ($_REQUEST['opcion']) {
 
             case 'generarReporte':

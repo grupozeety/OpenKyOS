@@ -14,7 +14,7 @@ $cadenaACodificar .= "&procesarAjax=true";
 $cadenaACodificar .= "&action=index.php";
 $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
 $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-$cadenaACodificar .= "&funcion=consultaBeneficiarios";
+$cadenaACodificar .= "&opcion=consultaBeneficiarios";
 
 // Codificar las variables
 $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
@@ -30,20 +30,20 @@ $urlConsultarBeneficiarios = $url . $cadena;
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
  */
  		   $("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
-// 		   	minChars: 3,
+		   	minChars: 3,
 		   	serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
-// 		   	onSelect: function (suggestion) {
+		   	onSelect: function (suggestion) {
 			     	$("#<?php echo $this->campoSeguro('id_beneficiario');?>").val(suggestion.data);
-// 		   	    }
-// 		   });
+		   	    }
+		   });
 
 		     $("#<?php echo $this->campoSeguro('beneficiario');?>").change(function() {
 		     	if($("#<?php echo $this->campoSeguro('id_beneficiario');?>").val()==''){
 
 		     	$("#<?php echo $this->campoSeguro('beneficiario');?>").val('');
 
-// 		     	}
-// 		   });
+		     	}
+		   });
 
 </script>
 
