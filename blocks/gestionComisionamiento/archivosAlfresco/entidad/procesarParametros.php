@@ -25,7 +25,7 @@ class FormProcessor {
         	$archivo=$_FILES[$key];
         }
               
-        $args = new CURLFile('/tmp/texto.txt',$archivo['type'],'archivo.txt');
+        $args = new \CURLFile('/tmp/texto.txt',$archivo['type'],'archivo.txt');
         curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
        // $fp=fopen($archivo,'r');
         var_dump($archivo);
