@@ -31,11 +31,13 @@ class FormProcessor {
             $ruta_absoluta = $this->miConfigurador->configuracion['raizDocumento'] . "/archivos/" . $this->prefijo . "_" . $nombre_archivo;
             $ruta_relativa = $this->miConfigurador->configuracion['host'] . $this->miConfigurador->configuracion['site'] . "/archivos/" . $this->prefijo . "_" . $nombre_archivo;
             $archivo['rutaDirectorio'] = $ruta_absoluta;
+            
             if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
                 exit;
                 echo "error copiando";
             }
 
+            chmod($ruta_absoluta,'0777');
             $archivo_datos = array(
                 'ruta_relativa' => $ruta_relativa,
                 'nombre_archivo' => $archivo['name'],
@@ -48,7 +50,7 @@ class FormProcessor {
 		$args = new \CURLFile ( $archivo_datos ['ruta_absoluta'], $archivo_datos['type'], $archivo_datos['nombre_archivo'] );
 		// curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
 		// $fp=fopen($archivo,'r');
-	//	var_dump ( $args );
+		var_dump ( $args );
 		
 		$beneficiario = '4444';
 		$conexion = "interoperacion";
@@ -66,8 +68,12 @@ class FormProcessor {
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/site/folder/" . $variable [0] ['site'] . "/documentLibrary/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo']; // pendiente la pagina para modificar parametro
 		
 		$archivo = json_encode(array (
-				'filedata' => json_decode(json_encode($args),true),
-				'filename' => json_decode(json_encode($args),true),
+				'filedata' => array(
+						'Name'=>$archivo_datos['nombre_archivo'],
+						'mime'=>$archivo_datos['type'],
+						''
+				),
+				'Name' => $archivo_datos['nombre_archivo'],
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
 				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'],
