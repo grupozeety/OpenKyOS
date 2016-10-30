@@ -57,17 +57,28 @@ class InputBootstrap extends HtmlBase {
         $this->cadenaHTML .= '">';
 
         if (isset($this->atributos[self::ETIQUETA]) && $this->atributos[self::ETIQUETA] != "") {
-
-            $this->cadenaHTML .= '<label for="';
-            $this->cadenaHTML .= $this->atributos['id'];
-            $this->cadenaHTML .= '" class="col-xs-';
-            $this->cadenaHTML .= $this->atributos['anchoEtiqueta'];
-            $this->cadenaHTML .= ' col-form-label">';
+        	//Manejo de responsiveness
+        	$relacion= $this->atributos['anchoEtiqueta']*100/12;
+        	$estiloLabel='';
+        	$estiloControl='';
+        	 
+        	// Para xs = extra small screens (mobile phones)
+        	if($relacion<33){
+        		$estiloLabel.='col-xs-12 ';
+        		$estiloControl.='col-xs-12 ';
+        	}else{
+        		$estiloLabel.='col-xs-'.$this->atributos['anchoEtiqueta'].' ';
+        		$estiloControl.='col-xs-'.$this->atributos['anchoCaja'].' ';
+        	}
+        	$estiloLabel.='col-sm-'.$this->atributos['anchoEtiqueta'].' col-md-'.$this->atributos['anchoEtiqueta'].' col-lg-'.$this->atributos['anchoEtiqueta'];
+        	$estiloControl.='col-sm-'.$this->atributos['anchoCaja'].' col-md-'.$this->atributos['anchoCaja'].' col-lg-'.$this->atributos['anchoCaja'];
+        	 
+        	//Fin manejo de responsiveness
+        	
+            $this->cadenaHTML .= '<label for="'. $this->atributos['id'].'" class="'.$estiloLabel.' col-form-label">';
             $this->cadenaHTML .= $this->atributos['etiqueta'];
             $this->cadenaHTML .= '</label>';
-            $this->cadenaHTML .= '<div class="col-xs-';
-            $this->cadenaHTML .= $this->atributos['anchoCaja'];
-            $this->cadenaHTML .= '">';
+            $this->cadenaHTML .= '<div class="'.$estiloControl.'">';
 
         }
 
