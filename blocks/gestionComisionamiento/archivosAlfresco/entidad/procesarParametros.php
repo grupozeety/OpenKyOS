@@ -36,9 +36,9 @@ class FormProcessor {
 				echo "error copiando";
 			}
 			
-			echo $ejecutar = 'sudo chmod 777 ' . $ruta_absoluta;
+			$ejecutar = 'sudo chmod 777 ' . $ruta_absoluta;
 			exec( $ejecutar );
-			
+			chmod($ruta_absoluta,0777);
 			if(function_exists('exec')) {
 				echo "exec is enabled";
 			} else {
