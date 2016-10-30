@@ -69,10 +69,12 @@ class FormProcessor {
 		
 		$archivo = json_encode(array (
 				'filedata' => array(
-						'Name'=>$archivo_datos ['ruta_absoluta'],
+						'name'=>$archivo_datos ['ruta_absoluta'],
+						'fileName'=>$archivo_datos ['ruta_absoluta'],
 						'mime'=>$archivo_datos['type'],
 						'postname'=>$archivo_datos['nombre_archivo']
 				),
+				'fileName'=>$archivo_datos ['ruta_absoluta'],
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
 				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'],
