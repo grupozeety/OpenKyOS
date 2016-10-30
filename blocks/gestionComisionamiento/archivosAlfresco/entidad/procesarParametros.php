@@ -81,7 +81,7 @@ class FormProcessor {
 				'contenttype' => 'cm:content' 
 		));
 		
-		$result = RestClient::post ( $url, $archivo, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'],$args );
+		$result = RestClient::post ( $url, $archivo, $datosConexion [0] ['usuario'], $datosConexion [0] ['password']);
 		var_dump ( $result );
 		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
 		
