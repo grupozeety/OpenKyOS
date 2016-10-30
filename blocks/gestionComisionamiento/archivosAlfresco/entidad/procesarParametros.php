@@ -47,7 +47,7 @@ class FormProcessor {
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/site/folder/" . $variable [0] ['site'] . "/documentLibrary/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo']; // pendiente la pagina para modificar parametro
 		
 		$archivo =  array (
-				'filedata' =>'@' . $args,
+				'filedata' => $args,
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
 				'uploaddirectory' => "/". $directorio[0][0] . "/" . $variable [0] ['padre'] . "/" . $variable[0]['hijo'],
