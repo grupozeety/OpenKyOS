@@ -37,10 +37,7 @@ class RestClient {
             curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($this->curl, CURLOPT_POST, true);
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->params);
-            curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
-            		'Content-Type: application/json',
-            		//'Content-Length: ' . strlen($this->params))
-            		));
+            curl_setopt($this->curl, CURLOPT_HTTPHEADER, false);
         } else if ($this->method == "GET") {
             curl_setopt($this->curl, CURLOPT_HTTPGET, true);
             $this->treatURL();

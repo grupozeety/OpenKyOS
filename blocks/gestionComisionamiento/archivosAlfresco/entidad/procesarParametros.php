@@ -52,7 +52,7 @@ class FormProcessor {
 		var_dump ( $args );
 		var_dump($args2);
 		$beneficiario = '4444';
-		$archivo ['name'] = 'pruebea';
+
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
