@@ -141,12 +141,6 @@ $(document).ready(function() {
 			"t"+"<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>",
 	        processing: true,
 	        searching: true,
-	         "columnDefs": [
-                                      {"className": "dt-center", "targets": "_all"}
-                        ],
-                        "scrollY":"300px",
-                        "scrollCollapse": true,
-                        responsive: true,
 	        ajax: {
 	            url: "<?php echo $urlCargarInformacion?>",
 	            dataSrc:"data"   
@@ -164,9 +158,6 @@ $(document).ready(function() {
 	        ]
 	    } );
 	    
-	    new $.fn.dataTable.DtColSearch(table,{
-    		placement: "foot",
-    	});
 		$("div.toolbar").html('<button type="button" id="agregarCabecera" class="btn btn-primary">Agregar Cabecera</button>'); 
 		    
 	    $('#example tbody').on( 'click', '.optionRemove', function () {
