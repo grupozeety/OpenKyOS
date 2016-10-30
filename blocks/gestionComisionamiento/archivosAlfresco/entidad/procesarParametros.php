@@ -69,7 +69,7 @@ class FormProcessor {
 		
 		$archivo = json_encode(array (
 				'filedata' => array(
-						'name'=>$archivo_datos ['ruta_absoluta'],
+						'Name'=>$archivo_datos ['ruta_absoluta'],
 						'mime'=>$archivo_datos['type'],
 						'postname'=>$archivo_datos['nombre_archivo']
 				),
@@ -79,6 +79,7 @@ class FormProcessor {
 				'contenttype' => 'cm:content' 
 		));
 		
+		var_dump(json_decode($archivo));
 		$result = RestClient::post ( $url, $archivo, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] );
 		var_dump ( $result );
 		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
