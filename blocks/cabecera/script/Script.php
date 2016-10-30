@@ -5,7 +5,11 @@
  */
 $indice = 0;
 
-$funcion[$indice++]="dataTables.bootstrap.min.js";
+$funcion[$indice++] = "jquery.dataTables.js";
+$funcion[$indice++] = "dataTables.bootstrap.js";
+$funcion[$indice++] = "dataTables.responsive.js";
+$funcion[$indice++] = "datatables.colsearch.plugin.js";
+
 $funcion[$indice++]="bootstrap.min.js";
 $funcion[$indice++]="select2.min.js";
 $funcion[$indice++]="modalLoad.js";

@@ -115,7 +115,7 @@ class Formulario {
         echo $this->miFormulario->division ( "fin" );
         
         echo '
-        		<table id="example" class="display" cellspacing="0" width="100%">
+        		<table id="example" class="table table-striped table-hover table-condensed" cellspacing="0" width="100%">
 			        <thead>
 			            <tr>
 			                <th>Código de Cabecera</th>
@@ -126,6 +126,16 @@ class Formulario {
         					<th>Opciones</th>
 			            </tr>
 			        </thead>
+        			<tfoot>
+			            <tr>
+			                <th>Código de Cabecera</th>
+			                <th>Descripción</th>
+			                <th>Departamento</th>
+			                <th>Municipio</th>
+        					<th>Urbanización</th>
+        					<th>Opciones</th>
+			            </tr>
+			        </tfoot>
 			    </table>
         	';
         

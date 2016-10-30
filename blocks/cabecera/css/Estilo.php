@@ -6,10 +6,12 @@ if(!isset($GLOBALS["autorizado"])) {
 
 
 $indice=0;
-$estilo[$indice++]="dataTables.bootstrap.min.css";
+$estilo [$indice ++] = "responsive.dataTables.css";
+$estilo [$indice ++] = "modalLoad.css";
+$estilo [$indice ++] = "dataTables.bootstrap.min.css";
+$estilo [$indice ++] = "dataTables.bootstrap.css";
 $estilo[$indice++]="select2.min.css";
 $estilo[$indice++]="miestilo.css";
-$estilo[$indice++]="modalLoad.css";
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");
