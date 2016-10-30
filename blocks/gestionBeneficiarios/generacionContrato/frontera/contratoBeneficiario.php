@@ -1059,6 +1059,12 @@ class Contrato {
                     echo $this->miFormulario->agrupacion('fin');
                     unset($atributos);
 
+                }
+                // ------------------Fin Division para los botones-------------------------
+                echo $this->miFormulario->division("fin");
+                unset($atributos);
+                {
+
                     $esteCampo = 'Agrupacion';
                     $atributos['id'] = $esteCampo;
                     $atributos['leyenda'] = "Firmas Interesados";
@@ -1112,13 +1118,6 @@ class Contrato {
 
                     echo $this->miFormulario->agrupacion('fin');
                     unset($atributos);
-
-                }
-                // ------------------Fin Division para los botones-------------------------
-                echo $this->miFormulario->division("fin");
-                unset($atributos);
-                {
-
                     // ------------------Division para los botones-------------------------
                     $atributos["id"] = "botones";
                     $atributos["estilo"] = "marcoBotones";
