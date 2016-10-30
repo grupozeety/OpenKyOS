@@ -110,7 +110,7 @@ class Formulario {
 		
 		$esteCampo = 'ficheros';
 		$atributos ['id'] = $esteCampo;
-		$atributos ['leyenda'] = "Agendar Comisionamiento";
+		$atributos ['leyenda'] = "Agendar Visita";
 		echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 		unset ( $atributos );
 		

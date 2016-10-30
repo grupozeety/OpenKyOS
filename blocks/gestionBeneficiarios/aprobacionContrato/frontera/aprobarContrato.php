@@ -89,7 +89,7 @@ class Registrador {
 
                 $esteCampo = 'Agrupacion';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "<b>Aprobación Contrato</b>";
+                $atributos['leyenda'] = "<b>Generación Contrato</b>";
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
 
