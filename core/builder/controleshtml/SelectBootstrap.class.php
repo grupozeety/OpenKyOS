@@ -66,21 +66,36 @@ class SelectBootstrap extends HtmlBase {
 
 //         $this->cadenaHTML .= $this->etiqueta($atributos);
         
-        $this->cadenaHTML .= '<div class="form-group row">';
-        $this->cadenaHTML .= '<label for="';
-        $this->cadenaHTML .= $this->atributos['id'];
-        $this->cadenaHTML .= '" class="col-xs-';
-        $this->cadenaHTML .= $this->atributos['anchoEtiqueta'];
-        $this->cadenaHTML .= ' col-form-label">';
-        $this->cadenaHTML .= $this->atributos['etiqueta'];
-        $this->cadenaHTML .= '</label>';
-        $this->cadenaHTML .= '<div class="col-xs-';
-        $this->cadenaHTML .= $this->atributos['anchoCaja'];
-        $this->cadenaHTML .= '">';
+    	if(isset($this->atributos['etiquetalado']) && $this->atributos['etiquetalado'] != ""){
+    	
+    		$this->cadenaHTML .= '<div class="form-group row">';
+	        $this->cadenaHTML .= '<label for="';
+	        $this->cadenaHTML .= $this->atributos['id'];
+	        $this->cadenaHTML .= '" class="col-xs-';
+	        $this->cadenaHTML .= $this->atributos['anchoEtiqueta'];
+	        $this->cadenaHTML .= ' col-form-label">';
+	        $this->cadenaHTML .= $this->atributos['etiqueta'];
+	        $this->cadenaHTML .= '</label>';
+	        $this->cadenaHTML .= '<div class="col-xs-';
+	        $this->cadenaHTML .= $this->atributos['anchoCaja'];
+	        $this->cadenaHTML .= '">';
+	        
+	        $this->cadenaHTML .= $this->cuadro_lista($atributos);
+	        $this->cadenaHTML .= "</div>\n";
+	        $this->cadenaHTML .= "</div>\n";
+    		 
+    	}else{
+    		$this->cadenaHTML .= '<div class="form-group">';
+	        $this->cadenaHTML .= '<label for="';
+	        $this->cadenaHTML .= $this->atributos['id'];
+	        $this->cadenaHTML .= '">';
+	        $this->cadenaHTML .= $this->atributos['etiqueta'];
+	        $this->cadenaHTML .= '</label>';
+	        $this->cadenaHTML .= $this->cuadro_lista($atributos);
+	        $this->cadenaHTML .= '</div>';
+	         
+    	}
         
-        $this->cadenaHTML .= $this->cuadro_lista($atributos);
-        $this->cadenaHTML .= "</div>\n";
-        $this->cadenaHTML .= "</div>\n";
 //         $this->cadenaHTML .= "</div>\n";
         
 		unset($atributos);
