@@ -9,8 +9,7 @@ $indice=0;
 $estilo[$indice++]="dataTables.bootstrap.min.css";
 // $estilo[$indice++]="bootstrap.min.css";
 $estilo[$indice++]="miestilo.css";
-
-
+$estilo[$indice++]="responsive.css";
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");

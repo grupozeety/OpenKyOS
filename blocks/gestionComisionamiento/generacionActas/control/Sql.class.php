@@ -38,10 +38,10 @@ class Sql extends \Sql {
                 break;
             case 'consultarAgendamientos':
 
-                $cadenaSql = " SELECT id_agendamiento, codigo_nodo, fecha_agendamiento , responsable, count(id_orden_trabajo) cantidad_beneficiarios";
+                $cadenaSql = " SELECT id_agendamiento, codigo_nodo, fecha_agendamiento ,nombre_comisionador as responsable, count(id_orden_trabajo) cantidad_beneficiarios";
                 $cadenaSql .= " FROM interoperacion.agendamiento_comisionamiento";
                 $cadenaSql .= " WHERE estado_registro = TRUE";
-                $cadenaSql .= " GROUP BY id_agendamiento,codigo_nodo,fecha_agendamiento,responsable;";
+                $cadenaSql .= " GROUP BY id_agendamiento,codigo_nodo,fecha_agendamiento,nombre_comisionador;";
                 break;
 
             case 'consultarAgendamientosGeneral':
@@ -56,7 +56,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE estado_registro = TRUE ";
                 $cadenaSql .= " AND  id_agendamiento ='" . $variable['id_agendamiento'] . "' ";
                 $cadenaSql .= " AND  codigo_nodo ='" . $variable['codigo_nodo'] . "' ";
-                $cadenaSql .= " AND  responsable ='" . $variable['responsable'] . "'; ";
+                $cadenaSql .= " AND  nombre_comisionador ='" . $variable['responsable'] . "'; ";
                 break;
 
             case 'insertarBloque':

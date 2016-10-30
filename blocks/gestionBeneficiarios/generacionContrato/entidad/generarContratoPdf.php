@@ -153,8 +153,7 @@ class GenerarDocumento {
 
         $contenidoPagina .= "
 
-
-        			<table style='width:100%;'>
+	<table style='width:100%;'>
         				<tr>
         					<td style='width:35%;text-align=center;border:none'> </td>
         					<td style='width:30%;text-align=center;border:none'>
@@ -220,10 +219,12 @@ class GenerarDocumento {
 					        <td style='width:15%;text-align=center;'><b>Dirección Domicilio</b></td>
 					        <td colspan='6' style='width:70%;text-align=center;'>" . $this->beneficiario['direccion_domicilio'] . "</td>
 				        </tr>
+
 				        <tr>
 					        <td style='width:15%;text-align=center;'><b>Dirección Instalación</b></td>
 					        <td colspan='6' style='width:70%;text-align=center;'>" . $this->beneficiario['direccion_instalacion'] . "</td>
 				        </tr>
+
 				          <tr>
 					        <td style='width:15%;text-align=center;'><b>Departamento</b></td>
 					        <td colspan='1'style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_departamento'] . "</td>
@@ -248,6 +249,7 @@ class GenerarDocumento {
 					         <td colspan='1' style='width:5%;text-align=center;'><b>Correo Electrónico</b></td>
 					        <td colspan='2'style='width:10%;text-align=center;'>" . $this->beneficiario['correo'] . "</td>
 				        </tr>
+
      					<tr>
 					        <td style='width:15%;text-align=center;'><b>Cuenta Suscriptor</b></td>
 					        <td colspan='6' style='width:70%;text-align=center;'>" . $this->beneficiario['cuenta_suscriptor'] . "</td>

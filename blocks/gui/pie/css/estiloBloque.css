@@ -16,3 +16,11 @@
 	float: right;
 	position: relative;
 }
+
+#footer img {
+    width:100%;
+}
+
+#footer{
+	background-color: #1c88af;
+}

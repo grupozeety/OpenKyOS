@@ -1,8 +1,7 @@
 <?php
 $indice=0;
 //$estilo[$indice++]="component.css";
-//$estilo[$indice++]="default.css";
-
+$estilo[$indice++]="miestilo.css";
 $estilo[$indice++]="";
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");

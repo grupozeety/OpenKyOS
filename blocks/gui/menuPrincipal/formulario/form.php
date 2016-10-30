@@ -210,18 +210,28 @@ class FormularioMenu {
         }
 
         $cadenaHTML = '<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-                        <div class="container">
-                             <div class="collapse navbar-collapse">
-                                      <ul class="nav navbar-nav">
-        		                      <li><a href="/OpenKyOS/index.php">Inicio</a></li>
+        				<div class="container">
+        			 	  <div class="navbar-header">
+    						<button type="button" class="navbar-toggle" data-toggle="collapse"
+            				data-target=".navbar-ex1-collapse">
+      							<span class="sr-only">Desplegar navegación</span>
+      							<span class="icon-bar"></span>
+      							<span class="icon-bar"></span>
+      							<span class="icon-bar"></span>
+    						</button>
+  						  </div>
+                        
+                          <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        	<ul class="nav navbar-nav">
+        		            	<li><a href="/OpenKyOS/index.php">Inicio</a></li>
 
                 ';
         $cadenaHTML .= $menu;
 
-        $cadenaHTML .= '                      </ul>
-                                        </div>
-                                    </div>
-                                </div>';
+        $cadenaHTML .= '    </ul>
+                          </div>
+                         </div>
+                        </div>';
 
         echo $cadenaHTML;
     }

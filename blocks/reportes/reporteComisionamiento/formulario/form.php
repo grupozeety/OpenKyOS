@@ -118,7 +118,7 @@ class Formulario {
         
         $esteCampo = 'ficheros';
         $atributos ['id'] = $esteCampo;
-        $atributos ['leyenda'] = "Generar Reporte de Comisionamiento";
+        $atributos ['leyenda'] = "Generar Reporte de Visitas";
         echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
         unset ( $atributos );
         
