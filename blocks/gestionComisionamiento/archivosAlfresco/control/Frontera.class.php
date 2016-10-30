@@ -46,6 +46,8 @@ class Frontera {
 
         include_once $this->ruta . "frontera/formulario.php";
     }
+    
+    
 }
 ?>
 

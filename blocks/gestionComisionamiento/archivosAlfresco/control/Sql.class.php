@@ -59,6 +59,7 @@ class Sql extends \Sql {
 				break;
 			
             case 'consultarBeneficiariosPotenciales':
+            	
                 $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
                 $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
                 $cadenaSql .= "WHERE estado_registro=TRUE ";
