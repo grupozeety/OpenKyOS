@@ -46,6 +46,10 @@ class Entidad {
     public function generarContratoPdf() {
         include_once $this->ruta . "entidad/generarContratoPdf.php";
     }
+
+    public function procesarContrato() {
+        include_once $this->ruta . "entidad/guardarContrato.php";
+    }
     public function action() {
         $resultado = true;
 
@@ -66,9 +70,16 @@ class Entidad {
                 $this->cargarRequisitos();
 
                 break;
+
             case 'generarContratoPDF':
 
                 $this->generarContratoPdf();
+
+                break;
+
+            case 'guardarContrato':
+
+                $this->procesarContrato();
 
                 break;
 

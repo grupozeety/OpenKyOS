@@ -41,6 +41,7 @@ class Registrador {
         }
     }
     public function seleccionarForm() {
+
         //Conexion a Base de Datos
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
@@ -48,9 +49,18 @@ class Registrador {
         //Consulta información
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
-
         $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $infoBeneficiario = $infoBeneficiario[0];
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
+        $infoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $infoContrato = $infoContrato[0];
+
+        if ($infoContrato['numero_identificacion'] != NULL) {
+
+            $_REQUEST['mensaje'] = 'insertoInformacionContrato';
+
+        }
 
         //Ruta Imagen
         $rutaWarning = $this->rutaURL . "/frontera/css/imagen/warning.png";
@@ -107,11 +117,11 @@ class Registrador {
 
                 {
 
-                    if (is_null($infoBeneficiario['id_contrato']) != true) {
+                    if (is_null($infoBeneficiario['id_contrato']) != true && !isset($_REQUEST['mensaje'])) {
                         $_REQUEST['mensaje'] = 'inserto';
                         $this->mensaje();
                         unset($atributos);
-                    } elseif (isset($_REQUEST['mensaje']) && $_REQUEST['mensaje'] == 'noinserto') {
+                    } elseif (isset($_REQUEST['mensaje'])) {
 
                         $this->mensaje();
                         unset($atributos);
@@ -508,10 +518,36 @@ class Registrador {
                     echo $this->miFormulario->division("inicio", $atributos);
                     unset($atributos);
                     {
-                        if (is_null($infoBeneficiario['id_contrato']) != true) {
+                        if (is_null($infoBeneficiario['id_contrato']) != true && $infoContrato['numero_identificacion'] === NULL) {
 
                             // -----------------CONTROL: Botón ----------------------------------------------------------------
-                            $esteCampo = 'botonBorradorContrato';
+                            $esteCampo = 'botonVisualizarContrato';
+                            $atributos["id"] = $esteCampo;
+                            $atributos["tabIndex"] = $tab;
+                            $atributos["tipo"] = 'boton';
+                            // submit: no se coloca si se desea un tipo button genérico
+                            $atributos['submit'] = true;
+                            $atributos["simple"] = true;
+                            $atributos["estiloMarco"] = '';
+                            $atributos["estiloBoton"] = 'default';
+                            $atributos["block"] = false;
+                            // verificar: true para verificar el formulario antes de pasarlo al servidor.
+                            $atributos["verificar"] = '';
+                            $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+                            $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+                            $atributos['nombreFormulario'] = $esteBloque['nombre'];
+                            $tab++;
+
+                            // Aplica atributos globales al control
+                            $atributos = array_merge($atributos, $atributosGlobales);
+                            echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
+                            unset($atributos);
+                            // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+
+                        } elseif ($infoContrato['numero_identificacion'] != NULL) {
+
+                            // -----------------CONTROL: Botón ----------------------------------------------------------------
+                            $esteCampo = 'botonGenerarPdf';
                             $atributos["id"] = $esteCampo;
                             $atributos["tabIndex"] = $tab;
                             $atributos["tipo"] = 'boton';
@@ -585,11 +621,24 @@ class Registrador {
 
                 // Paso 1: crear el listado de variables
 
-                $valorCodificado = "action=" . $esteBloque["nombre"];
+                //$valorCodificado = "action=" . $esteBloque["nombre"];
+
+                if ($infoContrato['numero_identificacion'] != NULL) {
+                    $valorCodificado = "action=" . $esteBloque["nombre"];
+                } else {
+                    $valorCodificado = (is_null($infoBeneficiario['id_contrato']) != true) ? "actionBloque=" . $esteBloque["nombre"] : "action=" . $esteBloque["nombre"];
+                }
+
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                $valorCodificado .= (is_null($infoBeneficiario['id_contrato']) != true) ? "&opcion=generarContratoPDF" : "&opcion=cargarRequisitos";
+
+                if ($infoContrato['numero_identificacion'] != NULL) {
+                    $valorCodificado .= "&opcion=generarContratoPDF";
+                } else {
+                    $valorCodificado .= (is_null($infoBeneficiario['id_contrato']) != true) ? "&opcion=mostrarContrato" : "&opcion=cargarRequisitos";
+                }
+
                 $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo_beneficiario'];
                 $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
                 if (is_null($infoBeneficiario['id_contrato']) != true) {
@@ -626,16 +675,26 @@ class Registrador {
         echo $this->miFormulario->formulario($atributos);
     }
     public function mensaje() {
-
+        //var_dump($_REQUEST);
         switch ($_REQUEST['mensaje']) {
             case 'inserto':
                 $estilo_mensaje = 'success';     //information,warning,error,validation
-                $atributos["mensaje"] = 'Requisitos Correctamente Validados<br>Se ha Habilitado la Opcion de Descargar Borrador del Contrato';
+                $atributos["mensaje"] = 'Requisitos Correctamente Validados<br>Se ha Habilitado la Opcion de ver Contrato';
                 break;
 
             case 'noinserto':
                 $estilo_mensaje = 'error';     //information,warning,error,validation
                 $atributos["mensaje"] = 'Error al validar los Requisitos.<br>Verifique los Documentos de Requisitos';
+                break;
+
+            case 'insertoInformacionContrato':
+                $estilo_mensaje = 'success';     //information,warning,error,validation
+                $atributos["mensaje"] = 'Se ha registrado la información de contrato con exito.<br>Habilitado la Opcion de Descargar Contrato';
+                break;
+
+            case 'noInsertoInformacionContrato':
+                $estilo_mensaje = 'error';     //information,warning,error,validation
+                $atributos["mensaje"] = 'Error al registrar información del contrato';
                 break;
 
             default:

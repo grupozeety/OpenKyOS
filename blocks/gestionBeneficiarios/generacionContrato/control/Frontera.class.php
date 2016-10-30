@@ -52,6 +52,12 @@ class Frontera {
 
                     break;
 
+                case 'mostrarContrato':
+
+                    include_once $this->ruta . "frontera/contratoBeneficiario.php";
+
+                    break;
+
                 default:
                     include_once $this->ruta . "frontera/consultaBeneficiario.php";
                     break;

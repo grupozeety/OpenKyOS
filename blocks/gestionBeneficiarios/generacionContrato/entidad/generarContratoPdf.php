@@ -21,7 +21,7 @@ class GenerarDocumento {
     public $esteRecursoDB;
     public $clausulas;
     public $beneficiario;
-
+    public $esteRecursoOP;
     public function __construct($sql) {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -32,18 +32,15 @@ class GenerarDocumento {
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
+        $conexion = "openproject";
+        $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
         if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
 
             $this->rutaURL .= "/blocks/" . $_REQUEST["bloque"] . "/";
         } else {
             $this->rutaURL .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
         }
-
-        /**
-         *  1. Optener Clausulas
-         **/
-
-        $this->obtenerClausulas();
 
         /**
          *  2. Información de Beneficiario
@@ -66,25 +63,10 @@ class GenerarDocumento {
     }
     public function obtenerInformacionBeneficiario() {
 
-        $cadenaSql = $this->miSql->getCadenaSql('obtenerDatosBasicosBeneficiarios');
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
 
         $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $this->beneficiario = $beneficiario[0];
-
-    }
-    public function obtenerClausulas() {
-        $cadenaSql = $this->miSql->getCadenaSql('consultarNumeralesContrato');
-        $numerales = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-        foreach ($numerales as $key => $value) {
-
-            $cadenaSql = $this->miSql->getCadenaSql('consultarClausulas', $value['id_parametro']);
-            $clausulas = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-            $numerales[$key]['clausulas'] = $clausulas;
-
-        }
-
-        $this->clausulas = $numerales;
 
     }
 
@@ -104,6 +86,10 @@ class GenerarDocumento {
     }
     public function estruturaDocumento() {
 
+        $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->beneficiario['urbanizacion']);
+        $urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
+        $urbanizacion = $urbanizacion[0];
+
         $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Cédula de Ciudadanía");
         $CodigoCedula = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $CodigoCedula = $CodigoCedula[0];
@@ -114,6 +100,10 @@ class GenerarDocumento {
 
         $cedula = ($this->beneficiario['tipo_documento'] == $CodigoCedula['codigo']) ? '<b>(X)</b>' : '';
         $targeta = ($this->beneficiario['tipo_documento'] == $CodigoTargeta['codigo']) ? '<b>(X)</b>' : '';
+
+        $firma_contratista = ($this->beneficiario['url_firma_contratista'] != '') ? "<img src='" . $this->beneficiario['url_firma_contratista'] . "'  width='125' height='40'>" : "";
+
+        $firma_beneficiario = ($this->beneficiario['url_firma_beneficiarios'] != '') ? "<img src='" . $this->beneficiario['url_firma_beneficiarios'] . "'  width='125' height='40'>" : "";
 
         $contenidoPagina = "
 							<style type=\"text/css\">
@@ -210,7 +200,7 @@ class GenerarDocumento {
 				        <tr>
 				        	<td rowspan='8' style='width:15%;text-align=center;'><b>DATOS ABONADO SUSCRIPTOR</b></td>
 					        <td style='width:15%;text-align=center;'><b>Nombres</b></td>
-					        <td style='width:10%;text-align=center;'>" . $this->beneficiario['nombre'] . "</td>
+					        <td style='width:10%;text-align=center;'>" . $this->beneficiario['nombres'] . "</td>
 					        <td style='width:10%;text-align=center;'><b>Primer Apellido</b></td>
 					        <td style='width:10%;text-align=center;'>" . $this->beneficiario['primer_apellido'] . "</td>
 					        <td style='width:5%;text-align=center;'><b>Segundo Apellido</b></td>
@@ -221,21 +211,27 @@ class GenerarDocumento {
 					        <td style='width:5%;text-align=center;'>CC " . $cedula . "</td>
 					        <td style='width:5%;text-align=center;'>TI " . $targeta . "</td>
 					        <td style='width:10%;text-align=center;'><b>Número</b></td>
-					  		<td style='width:15%;text-align=center;'>" . $this->beneficiario['identificacion'] . "</td>
+					  		<td style='width:15%;text-align=center;'>" . $this->beneficiario['numero_identificacion'] . "</td>
 					        <td style='width:15%;text-align=center;'><b>Lugar/Fecha Expedición</b></td>
-					        <td style='width:10%;text-align=center;'> </td>
+					        <td style='width:10%;text-align=center;'>" . $this->beneficiario['fecha_expedicion'] . "</td>
 				        </tr>
 				         <tr>
 					        <td style='width:15%;text-align=center;'><b>Dirección Domicilio</b></td>
-					        <td colspan='6' style='width:70%;text-align=center;'>" . $this->beneficiario['direccion'] . "</td>
+					        <td colspan='6' style='width:70%;text-align=center;'>" . $this->beneficiario['direccion_domicilio'] . "</td>
 				        </tr>
+
+				        <tr>
+					        <td style='width:15%;text-align=center;'><b>Dirección Instalación</b></td>
+					        <td colspan='6' style='width:70%;text-align=center;'>" . $this->beneficiario['direccion_instalacion'] . "</td>
+				        </tr>
+
 				          <tr>
 					        <td style='width:15%;text-align=center;'><b>Departamento</b></td>
 					        <td colspan='1'style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_departamento'] . "</td>
 					        <td style='width:10%;text-align=center;'><b>Municipio</b></td>
 					        <td colspan='1' style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_municipio'] . "</td>
 					       <td colspan='1'style='width:5%;text-align=center;'><b>Urbanización</b></td>
-					        <td colspan='2'style='width:20%;text-align=center;'>" . $this->beneficiario['proyecto'] . "</td>
+					        <td colspan='2'style='width:20%;text-align=center;'>" . $urbanizacion['nombre'] . "</td>
 				        </tr>
 				        <tr>
 					        <td style='width:15%;text-align=center;'><b>Estrato</b></td>
@@ -243,7 +239,7 @@ class GenerarDocumento {
 					        <td style='width:5%;text-align=center;'>1 Residencial</td>
 					        <td style='width:5%;text-align=center;'>1 Residencial</td>
 					       <td colspan='1'style='width:5%;text-align=center;'>Barrio</td>
-					        <td colspan='2'style='width:10%;text-align=center;'> </td>
+					        <td colspan='2'style='width:10%;text-align=center;'>" . $this->beneficiario['barrio'] . " </td>
 					    </tr>
 				         <tr>
 					        <td style='width:15%;text-align=center;'><b>Telefono</b></td>
@@ -253,40 +249,118 @@ class GenerarDocumento {
 					         <td colspan='1' style='width:5%;text-align=center;'><b>Correo Electrónico</b></td>
 					        <td colspan='2'style='width:10%;text-align=center;'>" . $this->beneficiario['correo'] . "</td>
 				        </tr>
+
+     					<tr>
+					        <td style='width:15%;text-align=center;'><b>Cuenta Suscriptor</b></td>
+					        <td colspan='6' style='width:70%;text-align=center;'>" . $this->beneficiario['cuenta_suscriptor'] . "</td>
+				        </tr>
+
 			        </table>
-			        <br>";
-        $contenidoPagina .= "<P style='text-align:justify'>Entre las partes antes descritas, se ha celebrado el presente <b>CONTRATO DE PRESTACIÓN DE SERVICIOS DE COMUNICACIONES</b>, el cual se regirá por lo dispuesto en la ley 1341 de 2009, en la Resolución 3066 de 2011 expedida por la Comisión de Regulación de Comunicaciones, y en las normas que la adicionen, modifiquen o deroguen; y en especial, por las siguientes cláusulas:</P>";
+			        <br>
+			        <table style='width:100%;'>
+				        <tr>
+				        	<td rowspan='2' style='width:15%;text-align=center;'><b>DATOS SERVICIO</b></td>
+					        <td style='width:15%;text-align=center;'><b>Velocidad Internet</b></td>
+					        <td style='width:30%;text-align=right;'>" . $this->beneficiario['velocidad_internet'] . " MB</td>
+					        <td style='width:20%;text-align=center;'><b>Vigencia Servicio</b></td>
+					        <td style='width:20%;text-align=center;'>  </td>
+					    </tr>
+					    <tr>
+				            <td style='width:15%;text-align=center;'><b>Valor Mensual Servicio Básico con IVA</b></td>
+					        <td colspan='3' style='width:70%;text-align=left;'><b>$ " . $this->beneficiario['valor_mensual'] . "</b></td>
+					    </tr>
+					 </table>
+					 <br>
+					  <table style='width:100%;'>
+				        <tr>
+				        	<td rowspan='4' style='width:15%;text-align=center;'><b>EQUIPO ENTREGADO</b></td>
+					        <td style='width:15%;text-align=center;'><b>Marca</b></td>
+					        <td  colspan='3' style='width:70%;text-align=center;'>" . $this->beneficiario['marca'] . " </td>
+					    </tr>
+					    <tr>
+				        	<td style='width:15%;text-align=center;'><b>Modelo</b></td>
+				        	<td style='width:27.5%;text-align=center;'>" . $this->beneficiario['modelo'] . "</td>
+				        	<td style='width:15%;text-align=center;'><b>Serial</b></td>
+				        	<td style='width:27.5%;text-align=center;'> " . $this->beneficiario['serial'] . "</td>
+					    </tr>
+					    <tr>
+					    	<td style='width:15%;text-align=center;'><b>Tecnología</b></td>
+					        <td  colspan='3' style='width:70%;text-align=center;'>" . $this->beneficiario['tecnologia'] . "</td>
+					    </tr>
+					    <tr>
+					    	<td style='width:15%;text-align=center;'><b>Estado</b></td>
+					        <td  colspan='3' style='width:70%;text-align=center;'>" . $this->beneficiario['estado'] . "</td>
+					    </tr>
+					   </table>
+				     <br>";
 
-        foreach ($this->clausulas as $key => $value) {
+        $contenidoPagina .= "<P style='text-align:justify'>" . $this->beneficiario['clausulas'] . "</P>";
 
-            $contenidoPagina .= "<br><b>" . $value['descripcion'] . "</b><br>";
+        /*  foreach ($this->clausulas as $key => $value) {
 
-            foreach ($value['clausulas'] as $key => $contenido) {
-                $contenidoPagina .= "<P style='text-align:justify'><b>CLÁUSULA " . trim($contenido['orden_general']) . ".</b>" . $contenido['contenido'] . "</P><br>";
-            }
+        $contenidoPagina .= "<br><b>" . $value['descripcion'] . "</b><br>";
 
+        foreach ($value['clausulas'] as $key => $contenido) {
+        $contenidoPagina .= "<P style='text-align:justify'><b>CLÁUSULA " . trim($contenido['orden_general']) . ".</b>" . $contenido['contenido'] . "</P><br>";
         }
+
+        }*/
         $contenidoPagina .= "<P>
 	        						<b>COMO CONSTANCIA DE ACEPTACIÓN SUSCRIBE EL PRESENTE CONTRATO EL USUARIO:
-
+	        						<br>
+	        						<br>
+	        						<br>
+	        						<br>
+	        						<br>
+	        						<br>
 	        						<table style='width:100%;border:none'>
 	        							<tr>
 	        								<td style='width:25%;text-align:left;border:none'>FIRMA :</td>
-	        								<td style='width:25%;text-align:center;border:none'>_________________________________</td>
+	        								<td style='width:25%;text-align:left;border:none'>" . $firma_beneficiario . "</td>
 	        								<td style='width:50%;text-align:center;border:none'> </td>
 	        							</tr>
 	        							<tr>
 	        								<td style='width:25%;text-align:left;border:none'>NOMBRE :</td>
-	        								<td style='width:25%;text-align:center;border:none'>_________________________________</td>
+	        								<td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['nombres'] . " " . $this->beneficiario['primer_apellido'] . " " . $this->beneficiario['segundo_apellido'] . "</td>
 	        								<td style='width:50%;text-align:center;border:none'> </td>
 	        							</tr>
 	        							<tr>
 	        								<td style='width:25%;text-align:left;border:none'>C.C :</td>
-	        								<td style='width:25%;text-align:center;border:none'>_________________________________</td>
+	        								<td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['numero_identificacion'] . "</td>
 	        								<td style='width:50%;text-align:center;border:none'> </td>
 	        							</tr>
 	        						</table>
+
+	        						<br>
+	        						FIRMA CONTRATISTA:
+	        						<br>
+	        						<br>
+	        						<br>
+	        						<br>
+	        						<br>
+	        						<br>
+	        						<table style='width:100%;border:none'>
+	        							<tr>
+	        								<td style='width:25%;text-align:left;border:none'>FIRMA :</td>
+	        								<td style='width:25%;text-align:left;border:none'>" . $firma_contratista . "</td>
+	        								<td style='width:50%;text-align:center;border:none'> </td>
+	        							</tr>
+	        							<tr>
+	        								<td style='width:25%;text-align:left;border:none'>NOMBRE :</td>
+	        								<td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['usuario'] . "</td>
+	        								<td style='width:50%;text-align:center;border:none'> </td>
+	        							</tr>
+	        							<tr>
+	        								<td style='width:25%;text-align:left;border:none'>C.C :</td>
+	        								<td style='width:25%;text-align:left;border:none'>_____________________________</td>
+	        								<td style='width:50%;text-align:center;border:none'> </td>
+	        							</tr>
+	        						</table>
+
+
 	        						</b>
+
+
 	        					 </P>
 	        			     ";
 
