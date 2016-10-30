@@ -52,34 +52,50 @@ class InputBootstrap extends HtmlBase {
 
         $final = '';
 
-        $this->cadenaHTML .= '<div class="';
-        $this->cadenaHTML .= 'form-group row';
-        $this->cadenaHTML .= '">';
+        
 
         if (isset($this->atributos[self::ETIQUETA]) && $this->atributos[self::ETIQUETA] != "") {
 
-            $this->cadenaHTML .= '<label for="';
-            $this->cadenaHTML .= $this->atributos['id'];
-            $this->cadenaHTML .= '" class="col-xs-';
-            $this->cadenaHTML .= $this->atributos['anchoEtiqueta'];
-            $this->cadenaHTML .= ' col-form-label">';
-            $this->cadenaHTML .= $this->atributos['etiqueta'];
-            $this->cadenaHTML .= '</label>';
-            $this->cadenaHTML .= '<div class="col-xs-';
-            $this->cadenaHTML .= $this->atributos['anchoCaja'];
-            $this->cadenaHTML .= '">';
+        	if(isset($this->atributos['etiquetalado']) && $this->atributos['etiquetalado'] != ""){
+        		
+        		$this->cadenaHTML .= '<div class="';
+        		$this->cadenaHTML .= 'form-group row';
+        		$this->cadenaHTML .= '">';
+	            $this->cadenaHTML .= '<label for="';
+	            $this->cadenaHTML .= $this->atributos['id'];
+	            $this->cadenaHTML .= '" class="col-xs-';
+	            $this->cadenaHTML .= $this->atributos['anchoEtiqueta'];
+	            $this->cadenaHTML .= ' col-form-label">';
+	            $this->cadenaHTML .= $this->atributos['etiqueta'];
+	            $this->cadenaHTML .= '</label>';
+	            $this->cadenaHTML .= '<div class="col-xs-';
+	            $this->cadenaHTML .= $this->atributos['anchoCaja'];
+	            $this->cadenaHTML .= '">';
+	            
+	            if (isset($this->atributos["dobleLinea"]) && $this->atributos["dobleLinea"]) {
+	            	$this->cadenaHTML .= "<br>";
+	            }
+	            
+	           
+	            
+	            $this->cadenaHTML .= '</div>';
+	            
+	            $this->cadenaHTML .= '</div>';
+	            
+        	}else{
+        		$this->cadenaHTML .= '<div class="form-group">';
+        		$this->cadenaHTML .= '<label for="';
+        		$this->cadenaHTML .= $this->atributos['id'];
+        		$this->cadenaHTML .= '">';
+        		$this->cadenaHTML .= $this->atributos['etiqueta'];
+        		$this->cadenaHTML .= '</label>';
+        		$this->cadenaHTML .= $this->cuadro_texto();
+        		$this->cadenaHTML .= '</div>';
+        	}
 
         }
 
-        if (isset($this->atributos["dobleLinea"]) && $this->atributos["dobleLinea"]) {
-            $this->cadenaHTML .= "<br>";
-        }
-
-        $this->cadenaHTML .= $this->cuadro_texto();
-
-        $this->cadenaHTML .= '</div>';
-
-        $this->cadenaHTML .= '</div>';
+       
 
 //         $this->cadenaHTML .= '</div>';
         unset($atributos);
