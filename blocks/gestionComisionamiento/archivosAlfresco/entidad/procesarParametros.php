@@ -67,19 +67,13 @@ class FormProcessor {
 		
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/site/folder/" . $variable [0] ['site'] . "/documentLibrary/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo']; // pendiente la pagina para modificar parametro
 		
-		$archivo = json_encode(array (
-				'filedata' => array(
-						'name'=>$archivo_datos ['ruta_absoluta'],
-						'fileName'=>$archivo_datos ['ruta_absoluta'],
-						'mime'=>$archivo_datos['type'],
-						'postname'=>$archivo_datos['nombre_archivo']
-				),
-				'fileName'=>$archivo_datos ['ruta_absoluta'],
+		$archivo =array (
+				'filedata' =>$args,
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
 				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'],
 				'contenttype' => 'cm:content' 
-		));
+		);
 		
 		var_dump(json_decode($archivo));
 		$result = RestClient::post ( $url, $archivo, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] );
