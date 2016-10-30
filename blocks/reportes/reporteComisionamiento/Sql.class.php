@@ -163,7 +163,7 @@ class Sql extends \Sql {
 	               	$cadenaSql .= "WHERE ";
 	               	$cadenaSql .= "rparam.descripcion = 'Tipo de Agendamiento') AS ta ";
                	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "estado_registro=true AND cast ( ta.codigo as int8) = ac.tipo_agendamiento ";
+               	$cadenaSql .= "estado_registro=true AND ta.codigo= cast(ac.tipo_agendamiento as char) ";
 				$cadenaSql .= "AND consecutivo IN " . "" . $variable . "";
                	break;
                 

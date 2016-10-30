@@ -32,7 +32,6 @@ class Registrar {
 
 		$agendamientos = "(";
 		$cont = 0;
-		
 		foreach ($_REQUEST as $key => $value){
 			
 			$name = explode("_", $key);
@@ -51,7 +50,6 @@ class Registrar {
 		}
 		
 		$agendamientos .= ")";
-		
 		/**
          *  1. Consultar Los porcentajes por Proyecto Consumidos
          **/
@@ -77,7 +75,6 @@ class Registrar {
         
         $cadenaSql = $this->miSql->getCadenaSql('agendamientosReporte', $agendamientos); 
         $this->elementos_reporte = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        
     }
 }
 

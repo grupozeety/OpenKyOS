@@ -358,6 +358,7 @@ class GenerarDocumento {
 
         );
 
+if(isset($paqueteVelocidad)){
         foreach ($paqueteVelocidad as $key => $value) {
 
             switch ($key) {
@@ -441,7 +442,7 @@ class GenerarDocumento {
                     $info_conexion['vl_sb_performance'] = $value;
                     break;
 
-            }
+            }}
         }
 
 //        var_dump($info_conexion);
@@ -540,7 +541,7 @@ class GenerarDocumento {
                                                                 <td style='width:25%;border:none;border-right:#CCC;'>Dirección de instalación:</td>
                                                                 <td align='center' style='width:25%;border:#CCC;'>" . $informacion_beneficiario['direccion'] . "</td>
                                                                 <td style='width:20%;border:none;border-right:#CCC;'>&nbsp;Nombre del Proyecto:</td>
-                                                                <td align='center' style='width:25%;border:#CCC;'>" . $informacion_beneficiario['urbanizacion'] . "</td>
+                                                                <td align='center' style='width:25%;border:#CCC;'>" . $informacion_beneficiario['proyecto'] . "</td>
                                                                 <td align='center' style='width:5%;border:none;'> </td>
                                                             </tr>
                                                             </table>
@@ -591,7 +592,7 @@ class GenerarDocumento {
                                                                 <table width:100%;>
                                                                     <tr>
                                                                         <td style='width:20%;border:none;border-right:#CCC;'>Nombre del Técnico:</td>
-                                                                        <td align='center' style='width:30%;border:#CCC;'>" . $this->agendamiento_particular['responsable'] . "</td>
+                                                                        <td align='center' style='width:30%;border:#CCC;'>" . $this->agendamiento_particular['nombre_comisionador'] . "</td>
                                                                         <td style='width:20%;border:none;border-right:#CCC;'>&nbsp;Empresa Contratista:</td>
                                                                         <td align='center' style='width:25%;border:#CCC;'>POLITÉCNICA</td>
                                                                         <td align='center' style='width:5%;border:none;'> </td>

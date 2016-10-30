@@ -163,8 +163,7 @@ class GenerarDocumento {
 
         $contenidoPagina .= "
 
-
-        			<table style='width:100%;'>
+	<table style='width:100%;'>
         				<tr>
         					<td style='width:35%;text-align=center;border:none'> </td>
         					<td style='width:30%;text-align=center;border:none'>
@@ -230,10 +229,6 @@ class GenerarDocumento {
 					        <td style='width:15%;text-align=center;'><b>Dirección Domicilio</b></td>
 					        <td colspan='6' style='width:70%;text-align=center;'>" . $this->beneficiario['direccion'] . "</td>
 				        </tr>
-				        <tr>
-					        <td style='width:15%;text-align=center;'><b>Dirección Instalación</b></td>
-					        <td colspan='6' style='width:70%;text-align=center;'> </td>
-				        </tr>
 				          <tr>
 					        <td style='width:15%;text-align=center;'><b>Departamento</b></td>
 					        <td colspan='1'style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_departamento'] . "</td>
@@ -258,50 +253,8 @@ class GenerarDocumento {
 					         <td colspan='1' style='width:5%;text-align=center;'><b>Correo Electrónico</b></td>
 					        <td colspan='2'style='width:10%;text-align=center;'>" . $this->beneficiario['correo'] . "</td>
 				        </tr>
-     					<tr>
-					        <td style='width:15%;text-align=center;'><b>Cuenta Suscriptor</b></td>
-					        <td colspan='6' style='width:70%;text-align=center;'> </td>
-				        </tr>
-
 			        </table>
-			        <br>
-			        <table style='width:100%;'>
-				        <tr>
-				        	<td rowspan='2' style='width:15%;text-align=center;'><b>DATOS SERVICIO</b></td>
-					        <td style='width:15%;text-align=center;'><b>Velocidad Internet</b></td>
-					        <td style='width:30%;text-align=right;'>MB</td>
-					        <td style='width:20%;text-align=center;'><b>Vigencia Servicio</b></td>
-					        <td style='width:20%;text-align=center;'>  </td>
-					    </tr>
-					    <tr>
-				            <td style='width:15%;text-align=center;'><b>Valor Mensual Servicio Básico con IVA</b></td>
-					        <td colspan='3' style='width:70%;text-align=left;'><b>$</b></td>
-					    </tr>
-					 </table>
-					 <br>
-					  <table style='width:100%;'>
-				        <tr>
-				        	<td rowspan='4' style='width:15%;text-align=center;'><b>EQUIPO ENTREGADO</b></td>
-					        <td style='width:15%;text-align=center;'><b>Marca</b></td>
-					        <td  colspan='3' style='width:70%;text-align=right;'> </td>
-					    </tr>
-					    <tr>
-				        	<td style='width:15%;text-align=center;'><b>Modelo</b></td>
-				        	<td style='width:27.5%;text-align=center;'> </td>
-				        	<td style='width:15%;text-align=center;'><b>Serial</b></td>
-				        	<td style='width:27.5%;text-align=center;'> </td>
-					    </tr>
-					    <tr>
-					    	<td style='width:15%;text-align=center;'><b>Tecnología</b></td>
-					        <td  colspan='3' style='width:70%;text-align=right;'> </td>
-					    </tr>
-					    <tr>
-					    	<td style='width:15%;text-align=center;'><b>Estado</b></td>
-					        <td  colspan='3' style='width:70%;text-align=right;'> </td>
-					    </tr>
-					   </table>
-				     <br>";
-
+			        <br>";
         $contenidoPagina .= "<P style='text-align:justify'>Entre las partes antes descritas, se ha celebrado el presente <b>CONTRATO DE PRESTACIÓN DE SERVICIOS DE COMUNICACIONES</b>, el cual se regirá por lo dispuesto en la ley 1341 de 2009, en la Resolución 3066 de 2011 expedida por la Comisión de Regulación de Comunicaciones, y en las normas que la adicionen, modifiquen o deroguen; y en especial, por las siguientes cláusulas:</P>";
 
         foreach ($this->clausulas as $key => $value) {
