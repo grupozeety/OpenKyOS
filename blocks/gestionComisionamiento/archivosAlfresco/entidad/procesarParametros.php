@@ -36,8 +36,8 @@ class FormProcessor {
 				echo "error copiando";
 			}
 			
-			$ejecutar = 'sudo chmod 777 ' . $ruta_absoluta;
-			exec ( $ejecutar );
+			echo $ejecutar = 'sudo chmod 777 ' . $ruta_absoluta;
+			exec( $ejecutar );
 			
 			$archivo_datos = array (
 					'ruta_relativa' => $ruta_relativa,
