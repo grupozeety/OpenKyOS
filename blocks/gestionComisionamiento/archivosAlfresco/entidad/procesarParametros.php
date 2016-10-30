@@ -68,19 +68,16 @@ class FormProcessor {
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/site/folder/" . $variable [0] ['site'] . "/documentLibrary/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo']; // pendiente la pagina para modificar parametro
 		
 		$archivo = json_encode(array (
-				'filedata' => array(
-						'name' =>  '/usr/share/nginx/html/OpenKyOS/archivos/f63be6_zeety.png',
-						'mime' => 'image/png',
-						'postname'=>'zeety.png',
-				),
-				
+				'filedata' => '@' . $archivo_datos['nombre_archivo'],
+				'filename' => $archivo_datos['nombre_archivo'],
+				'mime' => 'image/png',
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
 				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'],
 				'contenttype' => 'cm:content' 
 		));
 		
-		$result = RestClient::post ( $url, $archivo, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] );
+		$result = RestClient::post ( $url, $archivo, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'],$args );
 		var_dump ( $result );
 		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
 		
