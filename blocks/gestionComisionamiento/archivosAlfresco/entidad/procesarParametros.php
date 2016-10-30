@@ -16,6 +16,7 @@ class FormProcessor {
 	}
 	public function procesarFormulario() {
 		$_REQUEST ['tiempo'] = time ();
+		
 	        foreach ($_FILES as $key => $archivo) {
 
             $this->prefijo = substr(md5(uniqid(time())), 0, 6);
@@ -45,11 +46,11 @@ class FormProcessor {
         }
 		
         var_dump($archivo_datos);
-		$args = new \CURLFile ( $archivo_datos ['ruta_absoluta'], $archivo_datos['type'], $archivo_datos['nombre_archivo'] );
-		// curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
-		// $fp=fopen($archivo,'r');
-	//	var_dump ( $args );
-		
+		$args = new \CURLFile($archivo_datos ['ruta_absoluta'], $archivo_datos['type'], $archivo_datos['nombre_archivo'] );
+		$args2 = new \CURLFile($archivo_datos ['ruta_relativa'], $archivo_datos['type'], $archivo_datos['nombre_archivo'] );
+	
+		var_dump ( $args );
+		var_dump($args2);
 		$beneficiario = '4444';
 		$archivo ['name'] = 'pruebea';
 		$conexion = "interoperacion";
