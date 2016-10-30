@@ -38,7 +38,7 @@ class RestClient {
             curl_setopt($this->curl, CURLOPT_POST, true);
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->params);
             curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
-            		'Content-Type: multipart/form-data',
+            		'Content-Type: application/json',
             		//'Content-Length: ' . strlen($this->params))
             		));
         } else if ($this->method == "GET") {
