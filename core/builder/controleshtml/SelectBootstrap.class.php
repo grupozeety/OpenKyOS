@@ -65,19 +65,30 @@ class SelectBootstrap extends HtmlBase {
 //         }
 
 //         $this->cadenaHTML .= $this->etiqueta($atributos);
-        
+
+    	//Manejo de responsiveness
+    	$relacion= $this->atributos['anchoEtiqueta']*100/12;    	
+    	$estiloLabel='';
+    	$estiloControl='';    	
+    	
+    	// Para xs = extra small screens (mobile phones)
+    	if($relacion<33){    	
+    		$estiloLabel.='col-xs-12 ';
+    		$estiloControl.='col-xs-12 ';    		
+    	}else{
+    		$estiloLabel.='col-xs-'.$this->atributos['anchoEtiqueta'].' ';
+    		$estiloControl.='col-xs-'.$this->atributos['anchoCaja'].' ';
+    	}
+    	$estiloLabel.='col-sm-'.$this->atributos['anchoEtiqueta'].' col-md-'.$this->atributos['anchoEtiqueta'].' col-lg-'.$this->atributos['anchoEtiqueta'];
+    	$estiloControl.='col-sm-'.$this->atributos['anchoCaja'].' col-md-'.$this->atributos['anchoCaja'].' col-lg-'.$this->atributos['anchoCaja'];
+    	
+    	//Fin manejo de responsiveness
+    	
         $this->cadenaHTML .= '<div class="form-group row">';
-        $this->cadenaHTML .= '<label for="';
-        $this->cadenaHTML .= $this->atributos['id'];
-        $this->cadenaHTML .= '" class="col-xs-';
-        $this->cadenaHTML .= $this->atributos['anchoEtiqueta'];
-        $this->cadenaHTML .= ' col-form-label">';
+        $this->cadenaHTML .= '<label for="'.$this->atributos['id'].'" class="'.$estiloLabel.' col-form-label">';
         $this->cadenaHTML .= $this->atributos['etiqueta'];
         $this->cadenaHTML .= '</label>';
-        $this->cadenaHTML .= '<div class="col-xs-';
-        $this->cadenaHTML .= $this->atributos['anchoCaja'];
-        $this->cadenaHTML .= '">';
-        
+        $this->cadenaHTML .= '<div class="'.$estiloControl.'">';        
         $this->cadenaHTML .= $this->cuadro_lista($atributos);
         $this->cadenaHTML .= "</div>\n";
         $this->cadenaHTML .= "</div>\n";
