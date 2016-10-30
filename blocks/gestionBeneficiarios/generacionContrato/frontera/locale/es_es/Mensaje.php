@@ -9,6 +9,41 @@ $this->idioma['beneficiario'] = 'Identificación Beneficiario';
 $this->idioma['beneficiarioTitulo'] = 'Ingrese Identificación Beneficiario';
 
 $this->idioma['botonValidar'] = 'Validar Requisitos Contrato';
+//----------------------Contrato-------------------------------
+
+$this->idioma['nombres'] = 'Nombres';
+
+$this->idioma['primer_apellido'] = 'Primer Apellido';
+
+$this->idioma['segundo_apellido'] = 'Segundo Apellido';
+
+$this->idioma['tipo_documento'] = 'Tipo Documento';
+
+$this->idioma['numero_identificacion'] = 'Número Identificación';
+
+$this->idioma['fecha_expedicion'] = 'Fecha Expedición';
+
+$this->idioma['direccion_domicilio'] = 'Dirección Domicilio';
+
+$this->idioma['direccion_instalacion'] = 'Dirección Instalación';
+
+$this->idioma['departamento'] = 'Departamento';
+
+$this->idioma['municipio'] = 'Municipio';
+
+$this->idioma['urbanizacion'] = 'Urbanización';
+
+$this->idioma['estrato'] = 'Estrato';
+
+$this->idioma['barrio'] = 'Barrio';
+
+$this->idioma['telefono'] = 'Teléfono Fijo';
+
+$this->idioma['celular'] = 'Celular';
+
+$this->idioma['correo'] = 'Correo Electrónico';
+
+$this->idioma['cn_suscriptor'] = 'Cuenta Suscriptor';
 
 //-----------------------Requisitos-------------------------------
 
@@ -32,7 +67,7 @@ $this->idioma['documento_acceso_propietario'] = '<b>006</b> Documento que demues
 
 $this->idioma['botonCargarRequisitos'] = 'Cargar Requisitos';
 
-$this->idioma['botonBorradorContrato'] = 'Ver Borrador Contrato';
+$this->idioma['botonBorradorContrato'] = 'Ver Contrato';
 
 $this->idioma['noDefinido'] = 'Etiqueta No definida';
 

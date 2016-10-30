@@ -186,7 +186,22 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND rl.descripcion='Tipo de Documento'";
                 $cadenaSql .= " AND pr.descripcion='" . $variable . "' ";
                 $cadenaSql .= " AND rl.estado_registro=TRUE ";
+                break;
 
+            case 'consultarDepartamento':
+                $cadenaSql = " SELECT codigo_dep, departamento";
+                $cadenaSql .= " FROM parametros.departamento;";
+                break;
+
+            case 'consultarMunicipio':
+                $cadenaSql = " SELECT codigo_mun, municipio";
+                $cadenaSql .= " FROM parametros.municipio;";
+                break;
+
+            case 'consultarProyectos':
+                $cadenaSql = " SELECT id ||'-'||name as id,name as nombre";
+                $cadenaSql .= " FROM public.projects";
+                $cadenaSql .= " WHERE description LIKE '%(Proyecto/Urbanizacion)%';";
                 break;
 
         }

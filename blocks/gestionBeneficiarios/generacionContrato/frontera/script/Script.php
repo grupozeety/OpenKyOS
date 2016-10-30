@@ -12,10 +12,13 @@ $indice = 0;
 
 //$funcion [$indice ++] = " ";
 
-$funcion [$indice ++] = "bootstrap-filestyle.min.js";
-$funcion [$indice ++] = "bootstrap-filestyle.js";
-$funcion [$indice ++] = "jquery.autocomplete.min.js";
-$funcion [$indice ++] = "jquery.autocomplete.js";
+$funcion[$indice++] = "bootstrap-datetimepicker.js";
+$funcion[$indice++] = "bootstrap-datetimepicker.min.js";
+$funcion[$indice++] = "bootstrap-datetimepicker.es.js";
+$funcion[$indice++] = "bootstrap-filestyle.min.js";
+$funcion[$indice++] = "bootstrap-filestyle.js";
+$funcion[$indice++] = "jquery.autocomplete.min.js";
+$funcion[$indice++] = "jquery.autocomplete.js";
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");
 if ($esteBloque["grupo"] == "") {
@@ -41,6 +44,9 @@ if (isset($funcion[0])) {
 include "ajax.php";
 
 ?>
+
+
+
 
 
 
