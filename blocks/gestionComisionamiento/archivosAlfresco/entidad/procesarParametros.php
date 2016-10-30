@@ -16,7 +16,6 @@ class FormProcessor {
 	}
 	public function procesarFormulario() {
 		$_REQUEST ['tiempo'] = time ();
-		
 	        foreach ($_FILES as $key => $archivo) {
 
             $this->prefijo = substr(md5(uniqid(time())), 0, 6);
@@ -46,13 +45,12 @@ class FormProcessor {
         }
 		
         var_dump($archivo_datos);
-		$args = new \CURLFile($archivo_datos ['ruta_absoluta'], $archivo_datos['type'], $archivo_datos['nombre_archivo'] );
-		$args2 = new \CURLFile($archivo_datos ['ruta_relativa'], $archivo_datos['type'], $archivo_datos['nombre_archivo'] );
-	
-		var_dump ( $args );
-		var_dump($args2);
+		$args = new \CURLFile ( $archivo_datos ['ruta_absoluta'], $archivo_datos['type'], $archivo_datos['nombre_archivo'] );
+		// curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
+		// $fp=fopen($archivo,'r');
+	//	var_dump ( $args );
+		
 		$beneficiario = '4444';
-
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
@@ -67,26 +65,15 @@ class FormProcessor {
 		
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/site/folder/" . $variable [0] ['site'] . "/documentLibrary/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo']; // pendiente la pagina para modificar parametro
 		
-		$archivo = json_encode(array (
-				'filedata' => array(
-						'name'=>$archivo_datos ['ruta_absoluta'],
-						'filename'=>$archivo_datos['nombre_archivo'],
-						'mime'=>$archivo_datos['type'],
-						'postname'=>$archivo_datos['nombre_archivo']
-				),
-				'filename'=> array(
-						'name'=>$archivo_datos ['ruta_absoluta'],
-						'filename'=>$archivo_datos['nombre_archivo'],
-						'mime'=>$archivo_datos['type'],
-						'postname'=>$archivo_datos['nombre_archivo']
-				),
+		$archivo = array (
+				'filedata' => json_decode(json_encode($args),true),
+				'filename' => json_decode(json_encode($args),true),
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
 				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'],
 				'contenttype' => 'cm:content' 
-		));
+		);
 		
-		var_dump(json_decode($archivo));
 		$result = RestClient::post ( $url, $archivo, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] );
 		var_dump ( $result );
 		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
