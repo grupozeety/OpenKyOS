@@ -29,6 +29,24 @@ class Redireccionador {
                 $variable .= '&tipo=' . $_REQUEST['tipo'];
                 break;
 
+            case "InsertoInformacionContrato":
+
+                $variable = 'pagina=generacionContrato';
+                $variable .= '&opcion=validarRequisitos';
+                $variable .= '&mensaje=insertoInformacionContrato';
+                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+                $variable .= '&tipo=' . $_REQUEST['tipo'];
+                break;
+
+            case "NoInsertoInformacionContrato":
+
+                $variable = 'pagina=generacionContrato';
+                $variable .= '&opcion=validarRequisitos';
+                $variable .= '&mensaje=noInsertoInformacionContrato';
+                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+                $variable .= '&tipo=' . $_REQUEST['tipo'];
+                break;
+
             default:
                 $variable = '';
 

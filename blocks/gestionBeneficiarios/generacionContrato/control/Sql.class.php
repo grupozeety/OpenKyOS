@@ -55,7 +55,7 @@ class Sql extends \Sql {
                 break;
 
             case 'consultaInformacionBeneficiario':
-                $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ";
+                $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato  ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
                 $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
                 $cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
@@ -204,6 +204,60 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE description LIKE '%(Proyecto/Urbanizacion)%';";
                 break;
 
+            case 'registrarInformacionContrato':
+                $cadenaSql = " UPDATE interoperacion.contrato";
+                $cadenaSql .= " SET ";
+                $cadenaSql .= " nombres='" . $variable['nombres'] . "',";
+                $cadenaSql .= " primer_apellido='" . $variable['primer_apellido'] . "', ";
+                $cadenaSql .= " segundo_apellido='" . $variable['segundo_apellido'] . "',";
+                $cadenaSql .= " tipo_documento='" . $variable['tipo_documento'] . "',";
+                $cadenaSql .= " numero_identificacion='" . $variable['numero_identificacion'] . "', ";
+                $cadenaSql .= " fecha_expedicion='" . $variable['fecha_expedicion'] . "', ";
+                $cadenaSql .= " direccion_domicilio='" . $variable['direccion_domicilio'] . "',";
+                $cadenaSql .= " direccion_instalacion='" . $variable['direccion_instalacion'] . "', ";
+                $cadenaSql .= " departamento='" . $variable['departamento'] . "',";
+                $cadenaSql .= " municipio='" . $variable['municipio'] . "', ";
+                $cadenaSql .= " urbanizacion='" . $variable['urbanizacion'] . "', ";
+                $cadenaSql .= " estrato='" . $variable['estrato'] . "', ";
+                $cadenaSql .= " barrio='" . $variable['barrio'] . "', ";
+                $cadenaSql .= " telefono='" . $variable['telefono'] . "',";
+                $cadenaSql .= " celular='" . $variable['celular'] . "',";
+                $cadenaSql .= " correo='" . $variable['correo'] . "',";
+                $cadenaSql .= " cuenta_suscriptor='" . $variable['cuenta_suscriptor'] . "', ";
+                $cadenaSql .= " velocidad_internet='" . $variable['velocidad_internet'] . "', ";
+                $cadenaSql .= " fecha_inicio_vigencia_servicio='" . $variable['fecha_inicio_vigencia_servicio'] . "',";
+                $cadenaSql .= " fecha_fin_vigencia_servicio='" . $variable['fecha_fin_vigencia_servicio'] . "', ";
+                $cadenaSql .= " valor_mensual='" . $variable['valor_mensual'] . "',";
+                $cadenaSql .= " marca='" . $variable['marca'] . "',";
+                $cadenaSql .= " modelo='" . $variable['modelo'] . "',";
+                $cadenaSql .= " serial='" . $variable['serial'] . "', ";
+                $cadenaSql .= " tecnologia='" . $variable['tecnologia'] . "',";
+                $cadenaSql .= " estado='" . $variable['estado'] . "', ";
+                $cadenaSql .= " clausulas='" . $variable['clausulas'] . "', ";
+                $cadenaSql .= " url_firma_beneficiarios='" . $variable['url_firma_beneficiario'] . "',";
+                $cadenaSql .= " url_firma_contratista='" . $variable['url_firma_contratista'] . "' ";
+                $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' ";
+                $cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
+                $cadenaSql .= " AND estado_registro=TRUE;";
+                break;
+
+            case 'consultaInformacionContrato':
+
+                $cadenaSql = " SELECT bn.*, dp.departamento nombre_departamento,mn.municipio nombre_municipio   ";
+                $cadenaSql .= " FROM interoperacion.contrato bn";
+                $cadenaSql .= " LEFT JOIN parametros.departamento dp ON dp.codigo_dep= bn.departamento";
+                $cadenaSql .= " LEFT JOIN parametros.municipio mn ON mn.codigo_mun= bn.municipio";
+                $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' ";
+                //$cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
+                $cadenaSql .= " AND estado_registro=TRUE;";
+
+                break;
+
+            case 'consultaNombreProyecto':
+                $cadenaSql = " SELECT  name as nombre";
+                $cadenaSql .= " FROM public.projects";
+                $cadenaSql .= " WHERE id='" . $variable . "';";
+                break;
         }
 
         return $cadenaSql;
