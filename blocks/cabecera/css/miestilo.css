@@ -1,23 +1,3 @@
-/*
-Código css correspondiente al Bloque.
-*/
-
-th.dt-center, td.dt-center { 
-	text-align: center; 
-}
-
-div.dataTables_filter label {
-    float: right;
-}
-@media (min-width: 768px){
-.form-inline .form-control {
-    display: inline-block;
-    width: 100%;
-    vertical-align: middle;
-    text-align: center; 
-	}
-}
-
 .toolbar {
     text-align: center;
  	position: relative;
