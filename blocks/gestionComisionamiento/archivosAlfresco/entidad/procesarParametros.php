@@ -39,6 +39,12 @@ class FormProcessor {
 			echo $ejecutar = 'sudo chmod 777 ' . $ruta_absoluta;
 			exec( $ejecutar );
 			
+			if(function_exists('exec')) {
+				echo "exec is enabled";
+			} else {
+				echo "exec is disabled";
+			}
+			
 			$archivo_datos = array (
 					'ruta_relativa' => $ruta_relativa,
 					'nombre_archivo' => $archivo ['name'],
