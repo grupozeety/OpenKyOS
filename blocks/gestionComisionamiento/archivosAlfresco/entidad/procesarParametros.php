@@ -69,11 +69,11 @@ class FormProcessor {
 		
 		$archivo = json_encode(array (
 				'filedata' => array(
-						'Name'=>$archivo_datos['nombre_archivo'],
-						'mime'=>$archivo_datos['type'],
-						''
+						'name' =>  '/usr/share/nginx/html/OpenKyOS/archivos/f63be6_zeety.png',
+						'mime' => 'image/png',
+						'postname'=>'zeety.png',
 				),
-				'Name' => $archivo_datos['nombre_archivo'],
+				
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
 				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'],
