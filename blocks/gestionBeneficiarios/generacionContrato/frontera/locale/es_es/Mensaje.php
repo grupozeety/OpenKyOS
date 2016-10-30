@@ -43,7 +43,33 @@ $this->idioma['celular'] = 'Celular';
 
 $this->idioma['correo'] = 'Correo Electrónico';
 
-$this->idioma['cn_suscriptor'] = 'Cuenta Suscriptor';
+$this->idioma['cuenta_suscriptor'] = 'Cuenta Suscriptor';
+
+$this->idioma['velocidad_internet'] = 'Velocidad Internet';
+
+$this->idioma['fecha_inicio_vigencia_servicio'] = 'Inicio Vigencia Servicio';
+
+$this->idioma['fecha_fin_vigencia_servicio'] = 'Fin Vigencia Servicio';
+
+$this->idioma['valor_mensual'] = 'Valor Mensual';
+
+$this->idioma['marca'] = 'Marca';
+
+$this->idioma['modelo'] = 'Modelo';
+
+$this->idioma['serial'] = 'Serial';
+
+$this->idioma['tecnologia'] = 'Tecnología';
+
+$this->idioma['estado'] = 'Estado';
+
+$this->idioma['firma_contratista'] = 'Firma Contratrista';
+
+$this->idioma['firma_beneficiario'] = 'Firma Beneficiario';
+
+$this->idioma['clausulas'] = 'Clausulas Contrato';
+
+$this->idioma['botonGuardarContrato'] = 'Guardar Contrato';
 
 //-----------------------Requisitos-------------------------------
 

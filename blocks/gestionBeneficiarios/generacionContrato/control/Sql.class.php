@@ -199,7 +199,7 @@ class Sql extends \Sql {
                 break;
 
             case 'consultarProyectos':
-                $cadenaSql = " SELECT id ||'-'||name as id,name as nombre";
+                $cadenaSql = " SELECT id as id,name as nombre";
                 $cadenaSql .= " FROM public.projects";
                 $cadenaSql .= " WHERE description LIKE '%(Proyecto/Urbanizacion)%';";
                 break;
