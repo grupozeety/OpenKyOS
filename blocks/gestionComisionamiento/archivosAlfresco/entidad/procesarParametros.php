@@ -24,6 +24,8 @@ class FormProcessor {
               foreach ($_FILES as $key=>$values){
         	$archivo=$_FILES[$key];
         }
+              
+        $args = new CurlFile('/tmp/texto.txt',$archivo['type'],'archivo.txt');
 
        // $fp=fopen($archivo,'r');
         var_dump($archivo);
@@ -45,8 +47,7 @@ class FormProcessor {
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/site/folder/" . $variable [0] ['site'] . "/documentLibrary/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo']; // pendiente la pagina para modificar parametro
 		
 		$archivo = json_encode ( array (
-				'filedata' =>'@' . curl_create_file(($archivo['tmp_name'])),
-				'filename'=>'prueba',
+				'filedata' =>'@' . $args,
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
 				'uploaddirectory' => "/". $directorio[0][0] . "/" . $variable [0] ['padre'] . "/" . $variable[0]['hijo'],
