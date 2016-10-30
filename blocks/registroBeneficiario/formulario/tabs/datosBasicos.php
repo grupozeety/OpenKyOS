@@ -115,7 +115,7 @@ class Formulario {
         
         $esteCampo = 'ficheros';
         $atributos ['id'] = $esteCampo;
-        $atributos ['leyenda'] = "Datos Básicos de Beneficiario (Titular)";
+        $atributos ['leyenda'] = "Datos Básicos de Beneficiario Potencial (Titular)";
         echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
         unset ( $atributos );
         

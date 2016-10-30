@@ -112,7 +112,7 @@ class Formulario {
         // ------------------Fin Division para los botones-------------------------
         echo $this->miFormulario->division ( "fin" );
         
-        echo '
+        echo '<div class="table-responsive">
         		<table id="example" class="display" cellspacing="0" width="100%">
 			        <thead>
 			            <tr>
@@ -133,6 +133,7 @@ class Formulario {
 			            </tr>
 			        </tfoot>
 			    </table>
+        		</div>
         	';
         
         // ------------------- SECCION: Paso de variables ------------------------------------------------

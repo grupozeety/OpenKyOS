@@ -109,8 +109,9 @@ $('#example')
 		
 $(document).ready(function() {
     var table = $('#example').DataTable( {
+    responsive: true,
+    "scrollX": true,
     language: {
-        
     "sProcessing":     "Procesando...",
     "sLengthMenu":     "Mostrar _MENU_ registros",
     "sZeroRecords":    "No se encontraron resultados",
@@ -155,7 +156,7 @@ $(document).ready(function() {
         ]
     } );
     
-	$("div.toolbar").html('<button type="button" id="AgregarBeneficiario" class="btn btn-default">Registrar Beneficiario</button>'); 
+	$("div.toolbar").html('<button type="button" id="AgregarBeneficiario" class="btn btn-default">Registrar Beneficiario Potencial</button>'); 
 	    
     $('#example tbody').on( 'click', '.optionRemove', function () {
     	var data = table.row( $(this).parents('tr') ).data();

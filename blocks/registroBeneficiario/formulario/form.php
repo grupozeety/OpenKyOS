@@ -75,13 +75,13 @@ unset ( $atributos );
 						<div class="connecting-line"></div>
 							<ul class="nav nav-tabs" role="tablist">
                     			<li role="presentation" class="active">
-                     			<a href="#datosBasicos" data-toggle="tab" title="Datos Básicos de Beneficiario">
+                     			<a href="#datosBasicos" data-toggle="tab" title="Datos Básicos de Beneficiario Potencial">
                       				<span class="round-tabs one">
                               			<i class="glyphicon glyphicon-user"></i>
                       				</span>
                   				</a></li>
 							 	<li role="presentation" class="disabled">
-                  				<a href="#conformacionHogar" data-toggle="tab" title="Conformación Hogar Beneficiario">
+                  				<a href="#conformacionHogar" data-toggle="tab" title="Conformación Hogar Beneficiario Potencial">
                      			<span class="round-tabs two">
                          			<i class="glyphicon glyphicon-home"></i>
                      			</span>
