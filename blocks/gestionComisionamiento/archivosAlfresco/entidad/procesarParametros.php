@@ -69,6 +69,7 @@ class FormProcessor {
 		
 		$archivo =array (
 				'filedata' =>$args,
+				'filename' =>$args,
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
 				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'],
