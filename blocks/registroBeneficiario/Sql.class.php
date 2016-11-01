@@ -107,7 +107,7 @@ class Sql extends \Sql {
 
             case "cargarBeneficiarioPotencial":
 
-            	$cadenaSql = "SELECT ";
+                $cadenaSql = "SELECT ";
                 $cadenaSql .= "id_beneficiario AS id_beneficiario,";
                 $cadenaSql .= "tipo_beneficiario AS tipo_beneficiario,";
                 $cadenaSql .= "tipo_documento AS tipo_documento,";
@@ -145,13 +145,19 @@ class Sql extends \Sql {
                 $cadenaSql .= "interoperacion.beneficiario_potencial ";
                 $cadenaSql .= "WHERE ";
                 $cadenaSql .= "estado_registro=true ";
-                $cadenaSql .= "AND ";
-                $cadenaSql .= "id_beneficiario=" . "'" . $variable . "'";
+
+                if (isset($_REQUEST['id']) && $_REQUEST['id'] != '') {
+                    $cadenaSql .= " AND id_beneficiario='" . $_REQUEST['id'] . "'";
+                }
+
+                if (isset($_REQUEST['direccion']) && $_REQUEST['direccion'] != '') {
+                    $cadenaSql .= " AND direccion='" . $_REQUEST['direccion'] . "'";
+                }
                 break;
-                
+
             case "cargarFamiliares":
-                
-               	$cadenaSql = "SELECT ";
+
+                $cadenaSql = "SELECT ";
                 $cadenaSql .= "id_beneficiario,";
                 $cadenaSql .= "identificacion_familiar,";
                 $cadenaSql .= "nombre_familiar,";
@@ -171,19 +177,19 @@ class Sql extends \Sql {
                 $cadenaSql .= "AND ";
                 $cadenaSql .= "id_beneficiario=" . "'" . $variable . "'";
                 break;
-                
-           case "actualizarBeneficiario":
-                
-               	$cadenaSql = "UPDATE interoperacion.beneficiario_potencial ";
+
+            case "actualizarBeneficiario":
+
+                $cadenaSql = "UPDATE interoperacion.beneficiario_potencial ";
                 $cadenaSql .= "SET ";
                 $cadenaSql .= "estado_registro=FALSE ";
                 $cadenaSql .= "WHERE ";
                 $cadenaSql .= "id_beneficiario=";
                 $cadenaSql .= "'" . $variable . "'";
                 break;
-                
-           case "actualizarFamiliarBeneficiario":
-                
+
+            case "actualizarFamiliarBeneficiario":
+
                 $cadenaSql = "UPDATE interoperacion.familiar_beneficiario_potencial ";
                 $cadenaSql .= "SET ";
                 $cadenaSql .= "estado_registro=FALSE ";
@@ -191,9 +197,9 @@ class Sql extends \Sql {
                 $cadenaSql .= "id_beneficiario=";
                 $cadenaSql .= "'" . $variable . "'";
                 break;
-                
+
             case "registrarBeneficiarioPotencial":
-            	
+
                 $cadenaSql = "INSERT INTO interoperacion.beneficiario_potencial (";
                 $cadenaSql .= "id_beneficiario,";
                 $cadenaSql .= "tipo_beneficiario,";
@@ -266,8 +272,8 @@ class Sql extends \Sql {
                 $cadenaSql .= "'" . $variable['pertenencia_etnica'] . "',";
                 $cadenaSql .= "'" . $variable['ocupacion'] . "'";
                 $cadenaSql .= ")";
-               	break;
-                
+                break;
+
             case "registrarFamiliares":
 
                 $cadenaSql = "INSERT INTO interoperacion.familiar_beneficiario_potencial(";
@@ -308,35 +314,35 @@ class Sql extends \Sql {
                 break;
 
             case "parametroTipoBeneficiario":
-               	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= "codigo, ";
-               	$cadenaSql .= "param.descripcion ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.parametros as param ";
-               	$cadenaSql .= "INNER JOIN ";
-               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-               	$cadenaSql .= "ON ";
-               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "rparam.descripcion = 'Tipo de Beneficario o Cliente' ";
-               	break;
-            
+                $cadenaSql = "SELECT        ";
+                $cadenaSql .= "codigo, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Tipo de Beneficario o Cliente' ";
+                break;
+
             case "parametroTipoDocumento":
-               	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= "codigo, ";
-               	$cadenaSql .= "param.descripcion ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.parametros as param ";
-               	$cadenaSql .= "INNER JOIN ";
-               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-               	$cadenaSql .= "ON ";
-               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "rparam.descripcion = 'Tipo de Documento' ";
-               	break;
-               		
+                $cadenaSql = "SELECT        ";
+                $cadenaSql .= "codigo, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Tipo de Documento' ";
+                break;
+
             case "parametroGenero":
-            	$cadenaSql = "SELECT        ";
+                $cadenaSql = "SELECT        ";
                 $cadenaSql .= " codigo, ";
                 $cadenaSql .= "param.descripcion ";
                 $cadenaSql .= "FROM ";
@@ -348,234 +354,234 @@ class Sql extends \Sql {
                 $cadenaSql .= "WHERE ";
                 $cadenaSql .= "rparam.descripcion = 'Genero' ";
                 break;
-                
+
             case "parametroNivelEstudio":
-               	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " codigo, ";
-               	$cadenaSql .= "param.descripcion ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.parametros as param ";
-               	$cadenaSql .= "INNER JOIN ";
-               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-               	$cadenaSql .= "ON ";
-               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "rparam.descripcion = 'Nivel de Estudio' ";
-               	break;
-               	
+                $cadenaSql = "SELECT        ";
+                $cadenaSql .= " codigo, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Nivel de Estudio' ";
+                break;
+
             case "parametroTipoVivienda":
-            	$cadenaSql = "SELECT        ";
-            	$cadenaSql .= " codigo, ";
-             	$cadenaSql .= "param.descripcion ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.parametros as param ";
-               	$cadenaSql .= "INNER JOIN ";
-               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-               	$cadenaSql .= "ON ";
-               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "rparam.descripcion = 'Tipo de Vivienda' ";
-               	break;
-               	
+                $cadenaSql = "SELECT        ";
+                $cadenaSql .= " codigo, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Tipo de Vivienda' ";
+                break;
+
             case "parametroTerritorio":
-              	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " codigo, ";
-               	$cadenaSql .= "param.descripcion ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.parametros as param ";
-               	$cadenaSql .= "INNER JOIN ";
-               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-               	$cadenaSql .= "ON ";
-               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "rparam.descripcion = 'Territorio' ";
-               	break;
-               	
+                $cadenaSql = "SELECT        ";
+                $cadenaSql .= " codigo, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Territorio' ";
+                break;
+
             case "parametroEstrato":
-             	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " codigo, ";
-               	$cadenaSql .= "param.descripcion ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.parametros as param ";
-               	$cadenaSql .= "INNER JOIN ";
-               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-               	$cadenaSql .= "ON ";
-               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "rparam.descripcion = 'Estrato' ";
-               	break;
-               	
+                $cadenaSql = "SELECT        ";
+                $cadenaSql .= " codigo, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Estrato' ";
+                break;
+
             case "parametroJefeHogar":
-            	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " codigo, ";
-               	$cadenaSql .= "param.descripcion ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.parametros as param ";
-               	$cadenaSql .= "INNER JOIN ";
-               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-               	$cadenaSql .= "ON ";
-               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "rparam.descripcion = 'Jefe de Hogar' ";
-               	break;
-               	
+                $cadenaSql = "SELECT        ";
+                $cadenaSql .= " codigo, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Jefe de Hogar' ";
+                break;
+
             case "parametroPertenenciaEtnica":
-              	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " codigo, ";
-               	$cadenaSql .= "param.descripcion ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.parametros as param ";
-               	$cadenaSql .= "INNER JOIN ";
-               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-               	$cadenaSql .= "ON ";
-               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "rparam.descripcion = 'Pertinencia Étnica' ";
-               	break;
-               	
-             case "parametroOcupacion":
-               	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " codigo, ";
-               	$cadenaSql .= "param.descripcion ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.parametros as param ";
-               	$cadenaSql .= "INNER JOIN ";
-               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-               	$cadenaSql .= "ON ";
-               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "rparam.descripcion = 'Ocupación' ";
-               	break;
-               	
-             case "parametroParentesco":
-             	$cadenaSql = "SELECT        ";
-               	$cadenaSql .= " codigo, ";
-               	$cadenaSql .= "param.descripcion ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.parametros as param ";
-               	$cadenaSql .= "INNER JOIN ";
-               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-               	$cadenaSql .= "ON ";
-               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "rparam.descripcion = 'Parentesco con jefe de hogar' ";
-               	break;
-               	
+                $cadenaSql = "SELECT        ";
+                $cadenaSql .= " codigo, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Pertinencia Étnica' ";
+                break;
+
+            case "parametroOcupacion":
+                $cadenaSql = "SELECT        ";
+                $cadenaSql .= " codigo, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Ocupación' ";
+                break;
+
+            case "parametroParentesco":
+                $cadenaSql = "SELECT        ";
+                $cadenaSql .= " codigo, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Parentesco con jefe de hogar' ";
+                break;
+
             case "parametroDepartamento":
-             	$cadenaSql = "SELECT ";
-             	$cadenaSql .= "codigo_dep, ";
-               	$cadenaSql .= "departamento ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.departamento ";
-               	break;
-               	
-             case "parametroMunicipio":
-             	$cadenaSql = "SELECT ";
-             	$cadenaSql .= "codigo_mun, ";
-               	$cadenaSql .= "municipio ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "parametros.municipio ";
-               	break;
-               	
-               	case "actualizarCampo" :
-               		$campo = $this->miConfigurador->fabricaConexiones->crypto->decodificar ( $variable ['campo'] );
-               	
-               		$cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
-               		if (is_numeric ( strpos ( $campo, 'identificacion_beneficiario' ) )) {
-               			$cadenaSql .= "identificacion ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'tipo_beneficiario' ) )) {
-               			$cadenaSql .= "tipo_beneficiario ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'tipo_documento' ) )) {
-               			$cadenaSql .= "tipo_documento ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'nombre_beneficiario' ) )) {
-               			$cadenaSql .= "nombre ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'primer_apellido' ) )) {
-               			$cadenaSql .= "primer_apellido ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'segundo_apellido' ) )) {
-               			$cadenaSql .= "segundo_apellido ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'genero_beneficiario' ) )) {
-               			$cadenaSql .= "genero ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'edad_beneficiario' ) )) {
-               			$cadenaSql .= "edad ='" . $variable ['valor'] . "' ";
-               		}
-               	
-               		if (is_numeric ( strpos ( $campo, 'nivel_estudio' ) )) {
-               			$cadenaSql .= "nivel_estudio ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'correo' ) )) {
-               			$cadenaSql .= "correo='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'direccion' ) )) {
-               			$cadenaSql .= "direccion='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'tipo_vivienda' ) )) {
-               			$cadenaSql .= "tipo_vivienda ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'manzana' ) )) {
-               			$cadenaSql .= "manzana ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'torre' ) )) {
-               			$cadenaSql .= "torre='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'bloque' ) )) {
-               			$cadenaSql .= "bloque ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'apartamento' ) )) {
-               			$cadenaSql .= "apartamento='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'telefono' ) )) {
-               			$cadenaSql .= "telefono='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'celular' ) )) {
-               			$cadenaSql .= "celular='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'whatsapp' ) )) {
-               			$cadenaSql .= "whatsapp ='" . $variable ['valor'] . "' ";
-               		}
-               		// if(strpos ($campo,'urbanizacion'),
-               		// if(strpos ($campo,'departamento'),
-               		// if(strpos ($campo,'municipio'),
-               		if (is_numeric ( strpos ( $campo, 'territorio' ) )) {
-               			$cadenaSql .= "territorio ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'facebook' ) )) {
-               			$cadenaSql .= "facebook ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'estrato' ) )) {
-               			$cadenaSql .= "estrato ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'geolocalizacion' ) )) {
-               			$cadenaSql .= "geolocalizacion ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'jefe_hogar' ) )) {
-               			$cadenaSql .= "jefe_hogar ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'pertenencia_etnica' ) )) {
-               			$cadenaSql .= "pertenencia_etnica ='" . $variable ['valor'] . "' ";
-               		}
-               		if (is_numeric ( strpos ( $campo, 'ocupacion' ) )) {
-               			$cadenaSql .= "ocupacion ='" . $variable ['valor'] . "' ";
-               		}
-               		$cadenaSql .= "WHERE id_beneficiario='" . $variable ['id'] . "' ";
-               		break;
-               			
-               	case "actualizarCampoUrb" :
-               		$campo = $this->miConfigurador->fabricaConexiones->crypto->decodificar ( $variable ['campo'] );
-               	
-               		$cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
-               		$cadenaSql .= "id_proyecto ='" . $variable['urba'] . "', ";
-               		$cadenaSql .= "proyecto ='" . $variable['proy'] . "', ";
-               		$cadenaSql .= "departamento ='" . explode(" ", $variable['depa'])[0]. "', ";
-               		$cadenaSql .= "municipio ='" . explode(" ", $variable['muni'])[0] . "' ";
-               		$cadenaSql .= "WHERE id_beneficiario='" . $variable['id'] . "' ";
-               		break;
+                $cadenaSql = "SELECT ";
+                $cadenaSql .= "codigo_dep, ";
+                $cadenaSql .= "departamento ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.departamento ";
+                break;
+
+            case "parametroMunicipio":
+                $cadenaSql = "SELECT ";
+                $cadenaSql .= "codigo_mun, ";
+                $cadenaSql .= "municipio ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.municipio ";
+                break;
+
+            case "actualizarCampo":
+                $campo = $this->miConfigurador->fabricaConexiones->crypto->decodificar($variable['campo']);
+
+                $cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
+                if (is_numeric(strpos($campo, 'identificacion_beneficiario'))) {
+                    $cadenaSql .= "identificacion ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'tipo_beneficiario'))) {
+                    $cadenaSql .= "tipo_beneficiario ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'tipo_documento'))) {
+                    $cadenaSql .= "tipo_documento ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'nombre_beneficiario'))) {
+                    $cadenaSql .= "nombre ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'primer_apellido'))) {
+                    $cadenaSql .= "primer_apellido ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'segundo_apellido'))) {
+                    $cadenaSql .= "segundo_apellido ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'genero_beneficiario'))) {
+                    $cadenaSql .= "genero ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'edad_beneficiario'))) {
+                    $cadenaSql .= "edad ='" . $variable['valor'] . "' ";
+                }
+
+                if (is_numeric(strpos($campo, 'nivel_estudio'))) {
+                    $cadenaSql .= "nivel_estudio ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'correo'))) {
+                    $cadenaSql .= "correo='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'direccion'))) {
+                    $cadenaSql .= "direccion='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'tipo_vivienda'))) {
+                    $cadenaSql .= "tipo_vivienda ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'manzana'))) {
+                    $cadenaSql .= "manzana ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'torre'))) {
+                    $cadenaSql .= "torre='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'bloque'))) {
+                    $cadenaSql .= "bloque ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'apartamento'))) {
+                    $cadenaSql .= "apartamento='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'telefono'))) {
+                    $cadenaSql .= "telefono='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'celular'))) {
+                    $cadenaSql .= "celular='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'whatsapp'))) {
+                    $cadenaSql .= "whatsapp ='" . $variable['valor'] . "' ";
+                }
+                // if(strpos ($campo,'urbanizacion'),
+                // if(strpos ($campo,'departamento'),
+                // if(strpos ($campo,'municipio'),
+                if (is_numeric(strpos($campo, 'territorio'))) {
+                    $cadenaSql .= "territorio ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'facebook'))) {
+                    $cadenaSql .= "facebook ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'estrato'))) {
+                    $cadenaSql .= "estrato ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'geolocalizacion'))) {
+                    $cadenaSql .= "geolocalizacion ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'jefe_hogar'))) {
+                    $cadenaSql .= "jefe_hogar ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'pertenencia_etnica'))) {
+                    $cadenaSql .= "pertenencia_etnica ='" . $variable['valor'] . "' ";
+                }
+                if (is_numeric(strpos($campo, 'ocupacion'))) {
+                    $cadenaSql .= "ocupacion ='" . $variable['valor'] . "' ";
+                }
+                $cadenaSql .= "WHERE id_beneficiario='" . $variable['id'] . "' ";
+                break;
+
+            case "actualizarCampoUrb":
+                $campo = $this->miConfigurador->fabricaConexiones->crypto->decodificar($variable['campo']);
+
+                $cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
+                $cadenaSql .= "id_proyecto ='" . $variable['urba'] . "', ";
+                $cadenaSql .= "proyecto ='" . $variable['proy'] . "', ";
+                $cadenaSql .= "departamento ='" . explode(" ", $variable['depa'])[0] . "', ";
+                $cadenaSql .= "municipio ='" . explode(" ", $variable['muni'])[0] . "' ";
+                $cadenaSql .= "WHERE id_beneficiario='" . $variable['id'] . "' ";
+                break;
         }
 
         return $cadenaSql;
