@@ -53,6 +53,7 @@ class Registrar {
 		$beneficiarioPotencial['telefono'] = $_REQUEST['telefono'];
 		$beneficiarioPotencial['celular'] = $_REQUEST['celular'];
 		$beneficiarioPotencial['whatsapp'] = $_REQUEST['whatsapp'];
+		$beneficiarioPotencial['facebook'] = $_REQUEST['facebook'];
 		$departamento = explode(" ", $_REQUEST['departamento']);
 		$beneficiarioPotencial['departamento'] = $departamento[0];
 		$municipio = explode(" ", $_REQUEST['municipio']);
