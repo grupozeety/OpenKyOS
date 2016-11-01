@@ -10,7 +10,8 @@ $this->idioma["noDefinido"]="";
 $this->idioma["botonIngresar"]="Ingresar";
 $this->idioma["botonAgregar"]="Agregar";
 $this->idioma["botonContinuar"]="Continuar";
-$this->idioma["confirma"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial.";
+$this->idioma["confirma"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
+$this->idioma["confirmaAlfresco"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial. ERROR Carpeta NO sincronizada en el Gestor Documental";
 $this->idioma["error"]="No se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 $this->idioma["regresarConsultar"]="Aceptar";
 
@@ -63,6 +64,8 @@ $this->idioma["parentesco"]="Parentesco";
 $this->idioma["geolocalizacion"]="Geolocalización";
 
 $this->idioma["mensajeRegistro"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial.";
+$this->idioma["mensajeRegistro"]=$this->idioma["confirma"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
+$this->idioma["mensajeAlfresco"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial. ERROR Carpeta NO sincronizada en el Gestor Documental";
 
 
 

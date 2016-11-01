@@ -14,13 +14,19 @@ class redireccion {
 		switch ($opcion) {
 			case "inserto" :
 				$variable = "pagina=" . $miPaginaActual;
-// 				$variable .= "&opcion=mensaje";
+				// $variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
+				break;
+			
+			case "insertoAlfresco" :
+				$variable = "pagina=" . $miPaginaActual;
+				// $variable .= "&opcion=mensaje";
+				$variable .= "&mensaje=confirmaAlfresco";
 				break;
 			
 			case "noInserto" :
 				$variable = "pagina=" . $miPaginaActual;
-// 				$variable .= "&opcion=mensaje";
+				// $variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=error";
 				break;
 			
@@ -41,7 +47,7 @@ class redireccion {
 			case "regresar" :
 				$variable = "pagina=" . $miPaginaActual;
 				break;
-				
+			
 			case "actualizo" :
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
@@ -68,7 +74,7 @@ class redireccion {
 			case "paginaConsulta" :
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=consultar";
-				$variable .= "&id_variable=".$valor[0];
+				$variable .= "&id_variable=" . $valor [0];
 				break;
 		}
 		

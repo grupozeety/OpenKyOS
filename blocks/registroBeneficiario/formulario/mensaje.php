@@ -68,6 +68,16 @@ if (!isset($GLOBALS["autorizado"])) {
         $valorCodificado.="&bloqueGrupo=" . $esteBloque["grupo"];
         
         
+    } else if($_REQUEST['mensaje'] == 'confirmaAlfresco') {
+        $tipo = 'warning';
+        $mensaje =  $this->lenguaje->getCadena('mensajeAlfresco');
+        $boton = "regresar";
+
+        $valorCodificado = "pagina=".$esteBloque['nombre'];
+        $valorCodificado.="&opcion=nuevo";
+        $valorCodificado.="&bloque=" . $esteBloque["id_bloque"];
+        $valorCodificado.="&bloqueGrupo=" . $esteBloque["grupo"];
+       
     } else if($_REQUEST['mensaje'] == 'error') {
         $tipo = 'error';
         $mensaje =  $this->lenguaje->getCadena('mensajeError');
