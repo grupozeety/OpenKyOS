@@ -3,7 +3,7 @@
 namespace registroBeneficiario\funcion;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
-	include ("index.php");
+	include "index.php";
 	exit ();
 }
 class redireccion {
@@ -12,15 +12,27 @@ class redireccion {
 		$miPaginaActual = $miConfigurador->getVariableConfiguracion ( "pagina" );
 		
 		switch ($opcion) {
+			
+			case "noExisteBeneficiario" :
+				$variable = "pagina=consultarBeneficiario";
+				$variable .= "&mensaje=errorBeneficiario";
+				break;
+			
 			case "inserto" :
 				$variable = "pagina=" . $miPaginaActual;
-// 				$variable .= "&opcion=mensaje";
+				// $variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
+				break;
+			
+			case "insertoAlfresco" :
+				$variable = "pagina=" . $miPaginaActual;
+				// $variable .= "&opcion=mensaje";
+				$variable .= "&mensaje=confirmaAlfresco";
 				break;
 			
 			case "noInserto" :
 				$variable = "pagina=" . $miPaginaActual;
-// 				$variable .= "&opcion=mensaje";
+				// $variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=error";
 				break;
 			
@@ -41,7 +53,7 @@ class redireccion {
 			case "regresar" :
 				$variable = "pagina=" . $miPaginaActual;
 				break;
-				
+			
 			case "actualizo" :
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=mensaje";
@@ -68,7 +80,7 @@ class redireccion {
 			case "paginaConsulta" :
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=consultar";
-				$variable .= "&id_variable=".$valor[0];
+				$variable .= "&id_variable=" . $valor [0];
 				break;
 		}
 		
@@ -84,14 +96,7 @@ class redireccion {
 		
 		echo "<script>location.replace('" . $redireccion . "')</script>";
 		
-		// $enlace =$miConfigurador->getVariableConfiguracion("enlace");
-		// $variable = $miConfigurador->fabricaConexiones->crypto->codificar($variable);
-		// // echo $enlace;
-		// // // echo $variable;
-		// // exit;
-		// $_REQUEST[$enlace] = $variable;
-		// $_REQUEST["recargar"] = true;
-		// return true;
+		exit ();
 	}
 }
 

@@ -34,4 +34,6 @@ if (isset($funcion)) {
     }
 }
 
+include_once "direccion.php";
+
 ?>

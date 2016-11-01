@@ -54,4 +54,14 @@
      border-top-right-radius: 5px;
 }
 
-
+div.marcoBotones {
+    width: 95%;
+    border-collapse: collapse;
+    border-width: 0px 0px 0px 0px;
+    border-style: solid;
+    border-color: #000000;
+    border-spacing: 0px;
+    margin: 5px auto 15px auto;
+    text-align: center;
+    padding-bottom: 50px;
+}

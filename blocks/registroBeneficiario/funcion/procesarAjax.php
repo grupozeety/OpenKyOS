@@ -111,5 +111,30 @@ if ($_REQUEST ['funcion'] == "eliminarImagen") {
 		include_once "consultarProyectos.php";
 
 	}
+	
+	if ($_REQUEST ['funcion'] == "actualizarCampo") {
+	
+		$conexion = "interoperacion";
+		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+	
+		$cadenaSql = $this->sql->getCadenaSql ( 'actualizarCampo', $_REQUEST);
+		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
+	
+		echo $resultado;
+	
+	
+	}
+	
+	if ($_REQUEST ['funcion'] == "actualizarCampoUrb") {
+		$conexion = "interoperacion";
+		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+	
+		$cadenaSql = $this->sql->getCadenaSql ( 'actualizarCampoUrb', $_REQUEST);
+		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
+	
+		echo $resultado;
+	
+	
+	}
 
 ?>

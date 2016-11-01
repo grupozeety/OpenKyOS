@@ -268,7 +268,13 @@ $(document).ready(function() {
 		   	serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
 		   	onSelect: function (suggestion) {
 
-			     	$("#<?php echo $this->campoSeguro('id_beneficiario');?>").val(suggestion.data);
+			     	$("#<?php echo $this->campoSeguro('id');?>").val(suggestion.data);
+			if($("#<?php echo $this->campoSeguro('id');?>").val()!=''){
+
+		     $("#AgrupacionDireccion").find("input").removeAttr("required");
+
+		     	}
+
 		   	    }
 		   });
 
@@ -276,9 +282,10 @@ $(document).ready(function() {
 
 
 		     $("#<?php echo $this->campoSeguro('beneficiario');?>").change(function() {
-		     	if($("#<?php echo $this->campoSeguro('id_beneficiario');?>").val()==''){
+		     	if($("#<?php echo $this->campoSeguro('id');?>").val()==''){
 
 		     	$("#<?php echo $this->campoSeguro('beneficiario');?>").val('');
+		     	 $("#<?php echo $this->campoSeguro('direccion');?>").attr("required",true);
 
 		     	}
 
