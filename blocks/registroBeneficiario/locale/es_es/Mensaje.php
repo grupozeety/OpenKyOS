@@ -61,7 +61,7 @@ $this->idioma["geolocalizacion"] = "Geolocalización";
 $this->idioma["mensajeRegistro"] = "Se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 $this->idioma["facebook"] = "Facebook";
 
-$this->idioma["mensajeRegistro"]=$this->idioma["confirma"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
+$this->idioma["mensajeRegistro"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
 $this->idioma["mensajeAlfresco"]="Se ha registrado correctamente el Beneficiario/Cliente Potencial. ERROR Carpeta NO sincronizada en el Gestor Documental";
 
 ?>
