@@ -664,7 +664,7 @@ class Formulario {
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['estilo'] = "bootstrap";
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 5;
 					        $atributos ['miEvento'] = '';
 					        //         $atributos ['validar'] = '';
 					        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTipoVivienda" );
@@ -690,6 +690,12 @@ class Formulario {
 					         
 					        // ----------------FIN CONTROL: Lista Tipo de Vivienda--------------------------------------------------------
 					        
+					        
+					        $esteCampo = 'infoCasa';
+					        $atributos ['id'] = $esteCampo;
+					        $atributos ['leyenda'] = "Información Casa";
+					        echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
+					        unset ( $atributos );
 					        // ----------------INICIO CONTROL: Campo Texto Manzana--------------------------------------------------------
 					        
 					        $esteCampo = 'manzana';
@@ -711,7 +717,7 @@ class Formulario {
 					        $atributos ['ajax_function'] = "";
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 3;
 					        $atributos ['miEvento'] = '';
 					        $atributos ['validar'] = '';
 					        // Aplica atributos globales al control
@@ -728,44 +734,7 @@ class Formulario {
 					         
 					        // ----------------FIN CONTROL: Campo Texto Manzana-------------------------------------------------------
 					        
-					        // ----------------INICIO CONTROL: Campo Texto Torre--------------------------------------------------------
-					        
-					        $esteCampo = 'torre';
-					        $atributos ['nombre'] = $esteCampo;
-					        $atributos ['tipo'] = "text";
-					        $atributos ['id'] = $esteCampo;
-					        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-					        $atributos ["etiquetaObligatorio"] = true;
-					        $atributos ['tab'] = $tab ++;
-					        $atributos ['anchoEtiqueta'] = 2;
-					        $atributos ['estilo'] = "bootstrap";
-					        $atributos ['evento'] = '';
-					        $atributos ['deshabilitado'] = false;
-					        $atributos ['readonly'] = false;
-					        $atributos ['columnas'] = 1;
-					        $atributos ['tamanno'] = 1;
-					        $atributos ['placeholder'] = "";
-					        $atributos ['valor'] = "";
-					        $atributos ['ajax_function'] = "";
-					        $atributos ['ajax_control'] = $esteCampo;
-					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
-					        $atributos ['miEvento'] = '';
-					        $atributos ['validar'] = '';
-					        // Aplica atributos globales al control
-					        
-					        if (isset ( $cargueDatos [$esteCampo] )) {
-					        	$atributos ['valor'] = $cargueDatos [$esteCampo];
-					        } else {
-					        	$atributos ['valor'] = '';
-					        }
-					        
-					        $atributos = array_merge ( $atributos, $atributosGlobales );
-					        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
-					        unset ( $atributos );
-					         
-					        // ----------------FIN CONTROL: Campo Texto Torre-------------------------------------------------------
-					        
+					            
 					        // ----------------INICIO CONTROL: Campo Texto Bloque--------------------------------------------------------
 					        
 					        $esteCampo = 'bloque';
@@ -787,7 +756,7 @@ class Formulario {
 					        $atributos ['ajax_function'] = "";
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 3;
 					        $atributos ['miEvento'] = '';
 					        $atributos ['validar'] = '';
 					        // Aplica atributos globales al control
@@ -804,8 +773,67 @@ class Formulario {
 					         
 					        // ----------------FIN CONTROL: Campo Texto Bloque-------------------------------------------------------
 					        
-					        // ----------------INICIO CONTROL: Campo Texto Apartamento--------------------------------------------------------
+	
+					         
 					        
+					        
+					        echo $this->miFormulario->agrupacion ( 'fin' );
+					        unset ( $atributos );
+					         
+					        $esteCampo = 'infoApartamento';
+					        $atributos ['id'] = $esteCampo;
+					        $atributos ['leyenda'] = "Información Apartamento";
+					        echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
+					        unset ( $atributos );
+					        
+					        
+					        // ----------------INICIO CONTROL: Campo Texto Torre--------------------------------------------------------
+					         
+					        $esteCampo = 'torre';
+					        $atributos ['nombre'] = $esteCampo;
+					        $atributos ['tipo'] = "text";
+					        $atributos ['id'] = $esteCampo;
+					        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+					        $atributos ["etiquetaObligatorio"] = true;
+					        $atributos ['tab'] = $tab ++;
+					        $atributos ['anchoEtiqueta'] = 2;
+					        $atributos ['estilo'] = "bootstrap";
+					        $atributos ['evento'] = '';
+					        $atributos ['deshabilitado'] = false;
+					        $atributos ['readonly'] = false;
+					        $atributos ['columnas'] = 1;
+					        $atributos ['tamanno'] = 1;
+					        $atributos ['placeholder'] = "";
+					        $atributos ['valor'] = "";
+					        $atributos ['ajax_function'] = "";
+					        $atributos ['ajax_control'] = $esteCampo;
+					        $atributos ['limitar'] = false;
+					        $atributos ['anchoCaja'] = 3;
+					        $atributos ['miEvento'] = '';
+					        $atributos ['validar'] = '';
+					        // Aplica atributos globales al control
+					         
+					        if (isset ( $cargueDatos [$esteCampo] )) {
+					        	$atributos ['valor'] = $cargueDatos [$esteCampo];
+					        } else {
+					        	$atributos ['valor'] = '';
+					        }
+					         
+					        $atributos = array_merge ( $atributos, $atributosGlobales );
+					        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+					        unset ( $atributos );
+					        
+					        // ----------------FIN CONTROL: Campo Texto Torre-------------------------------------------------------
+					        					
+					        
+					        
+					        echo $this->miFormulario->agrupacion ( 'fin' );
+					        unset ( $atributos );
+					        
+					        
+					        
+					        // ----------------INICIO CONTROL: Campo Texto Apartamento--------------------------------------------------------
+					         
 					        $esteCampo = 'apartamento';
 					        $atributos ['nombre'] = $esteCampo;
 					        $atributos ['tipo'] = "text";
@@ -825,21 +853,22 @@ class Formulario {
 					        $atributos ['ajax_function'] = "";
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 3;
 					        $atributos ['miEvento'] = '';
-					        $atributos ['validar'] = '';
+					        $atributos ['validar'] = 'required';
 					        // Aplica atributos globales al control
-					        
+					         
 					        if (isset ( $cargueDatos [$esteCampo] )) {
 					        	$atributos ['valor'] = $cargueDatos [$esteCampo];
 					        } else {
 					        	$atributos ['valor'] = '';
 					        }
-					        
+					         
 					        $atributos = array_merge ( $atributos, $atributosGlobales );
 					        echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
 					        unset ( $atributos );
-					         
+					        
+					        
 					        // ----------------FIN CONTROL: Campo Texto Apartamento-------------------------------------------------------
 					        
 					        // ----------------INICIO CONTROL: Lista Proyecto--------------------------------------------------------
@@ -953,7 +982,7 @@ class Formulario {
 					        $atributos ['ajax_function'] = "";
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 5;
 					        $atributos ['miEvento'] = '';
 					        $atributos ['validar'] = 'required';
 					        // Aplica atributos globales al control
@@ -991,7 +1020,7 @@ class Formulario {
 					        $atributos ['ajax_function'] = "";
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 5;
 					        $atributos ['miEvento'] = '';
 					        $atributos ['validar'] = 'required';
 					        // Aplica atributos globales al control
@@ -1026,7 +1055,7 @@ class Formulario {
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['estilo'] = "bootstrap";
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 5;
 					        $atributos ['miEvento'] = '';
 					        //         $atributos ['validar'] = '';
 					        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTerritorio" );
@@ -1070,7 +1099,7 @@ class Formulario {
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['estilo'] = "bootstrap";
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 5;
 					        $atributos ['miEvento'] = '';
 					        $atributos ['validar'] = 'required';
 					        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroEstrato" );
@@ -1117,7 +1146,7 @@ class Formulario {
 					        $atributos ['ajax_function'] = "";
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 50;
 					        $atributos ['miEvento'] = '';
 					        $atributos ['validar'] = '';
 					        // Aplica atributos globales al control
@@ -1206,7 +1235,7 @@ class Formulario {
 					        $atributos ['ajax_function'] = "";
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 5;
 					        $atributos ['miEvento'] = '';
 					        $atributos ['validar'] = '';
 					        // Aplica atributos globales al control
@@ -1244,7 +1273,7 @@ class Formulario {
 					        $atributos ['ajax_function'] = "";
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 5;
 					        $atributos ['miEvento'] = '';
 					        $atributos ['validar'] = 'required';
 					        // Aplica atributos globales al control
@@ -1282,7 +1311,7 @@ class Formulario {
 					        $atributos ['ajax_function'] = "";
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 5;
 					        $atributos ['miEvento'] = '';
 					        $atributos ['validar'] = '';
 					        // Aplica atributos globales al control
@@ -1320,7 +1349,7 @@ class Formulario {
 					        $atributos ['ajax_function'] = "";
 					        $atributos ['ajax_control'] = $esteCampo;
 					        $atributos ['limitar'] = false;
-					        $atributos ['anchoCaja'] = 10;
+					        $atributos ['anchoCaja'] = 5;
 					        $atributos ['miEvento'] = '';
 					        $atributos ['validar'] = '';
 					        // Aplica atributos globales al control
@@ -1411,7 +1440,7 @@ class Formulario {
 			        $atributos ['ajax_control'] = $esteCampo;
 			        $atributos ['estilo'] = "bootstrap";
 			        $atributos ['limitar'] = false;
-			        $atributos ['anchoCaja'] = 10;
+			        $atributos ['anchoCaja'] = 5;
 			        $atributos ['miEvento'] = '';
 			//         $atributos ['validar'] = '';
 			        $atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroJefeHogar" );
