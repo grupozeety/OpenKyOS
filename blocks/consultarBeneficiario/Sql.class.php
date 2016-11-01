@@ -44,6 +44,18 @@ class Sql extends \Sql {
              * se espera que estén en todos los formularios
              * que utilicen esta plantilla
              */
+
+            case 'consultarBeneficiariosPotenciales':
+                $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+                $cadenaSql .= "WHERE estado_registro=TRUE ";
+                $cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "LIMIT 10; ";
+                break;
+
             case "iniciarTransaccion":
                 $cadenaSql = "START TRANSACTION";
                 break;
@@ -106,46 +118,46 @@ class Sql extends \Sql {
             /* Consultas del desarrollo */
 
             case "consultarBeneficiario":
-                
-               	$cadenaSql = "SELECT ";
-               	$cadenaSql .= "proyecto  AS urbanizacion,";
-               	$cadenaSql .= "(nombre ||' '|| primer_apellido ||' '|| segundo_apellido) as nombre,";
-               	$cadenaSql .= "identificacion,";
-               	$cadenaSql .= "tipoben.descripcion as tipo_beneficiario, ";
-               	$cadenaSql .= "id_beneficiario ";
-               	$cadenaSql .= "FROM ";
-               	$cadenaSql .= "interoperacion.beneficiario_potencial, ";
-	               	$cadenaSql .= "(SELECT        ";
-	               	$cadenaSql .= "codigo, ";
-	               	$cadenaSql .= "param.descripcion ";
-	               	$cadenaSql .= "FROM ";
-	               	$cadenaSql .= "parametros.parametros as param ";
-	               	$cadenaSql .= "INNER JOIN ";
-	               	$cadenaSql .= "parametros.relacion_parametro as rparam ";
-	               	$cadenaSql .= "ON ";
-	               	$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-               		$cadenaSql .= "WHERE ";
-               		$cadenaSql .= "rparam.descripcion = 'Tipo de Beneficario o Cliente') AS tipoben ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "tipo_beneficiario=cast ( tipoben.codigo as int8) ";
-               	$cadenaSql .= "AND ";
-               	$cadenaSql .= "estado_registro=true ";
-                
-               	break;
-               	
-               	case "parametroTipoBeneficiario":
-               		
-               		break;
-               	
+
+                $cadenaSql = "SELECT ";
+                $cadenaSql .= "proyecto  AS urbanizacion,";
+                $cadenaSql .= "(nombre ||' '|| primer_apellido ||' '|| segundo_apellido) as nombre,";
+                $cadenaSql .= "identificacion,";
+                $cadenaSql .= "tipoben.descripcion as tipo_beneficiario, ";
+                $cadenaSql .= "id_beneficiario ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "interoperacion.beneficiario_potencial, ";
+                $cadenaSql .= "(SELECT        ";
+                $cadenaSql .= "codigo, ";
+                $cadenaSql .= "param.descripcion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "parametros.parametros as param ";
+                $cadenaSql .= "INNER JOIN ";
+                $cadenaSql .= "parametros.relacion_parametro as rparam ";
+                $cadenaSql .= "ON ";
+                $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "rparam.descripcion = 'Tipo de Beneficario o Cliente') AS tipoben ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "tipo_beneficiario=cast ( tipoben.codigo as int8) ";
+                $cadenaSql .= "AND ";
+                $cadenaSql .= "estado_registro=true ";
+
+                break;
+
+            case "parametroTipoBeneficiario":
+
+                break;
+
             case "inhabilitarBeneficiario":
-               	
-               	$cadenaSql = "UPDATE interoperacion.beneficiario_potencial ";
-               	$cadenaSql .= "SET ";
-               	$cadenaSql .= "estado_registro=FALSE ";
-               	$cadenaSql .= "WHERE ";
-               	$cadenaSql .= "id_beneficiario=" . "'" . $variable . "'";
-               	break;
-                	
+
+                $cadenaSql = "UPDATE interoperacion.beneficiario_potencial ";
+                $cadenaSql .= "SET ";
+                $cadenaSql .= "estado_registro=FALSE ";
+                $cadenaSql .= "WHERE ";
+                $cadenaSql .= "id_beneficiario=" . "'" . $variable . "'";
+                break;
+
         }
 
         return $cadenaSql;

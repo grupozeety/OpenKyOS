@@ -526,3 +526,23 @@ span.round-tab:hover {
         left: 35%;
     }
 }
+
+
+
+}
+
+#botones {
+    
+}
+@media (max-height: 720px) {
+#botones {
+    position: fixed;
+    bottom:  40px;
+    right: 0%;
+    z-index:1000;
+  
+
+}
+}
+
+

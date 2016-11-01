@@ -5,24 +5,40 @@
  */
 
 // URL base
-$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
-$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url = $this->miConfigurador->getVariableConfiguracion("host");
+$url .= $this->miConfigurador->getVariableConfiguracion("site");
 $url .= "/index.php?";
 // Variables
-$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
 $valor .= "&procesarAjax=true";
 $valor .= "&action=index.php";
-$valor .= "&bloqueNombre=". $esteBloque ["nombre"]; 
-$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&bloqueNombre=" . $esteBloque["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque["grupo"];
 $valor .= "&funcion=consultarBeneficiarios";
-$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+$valor .= "&tiempo=" . $_REQUEST['tiempo'];
 
 // Codificar las variables
-$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valor, $enlace);
 
 // URL definitiva
 $urlCargarInformacion = $url . $cadena;
+
+// Variables para Con
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultaBeneficiarios";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarBeneficiarios = $url . $cadena;
+
 ?>
 
 <?php
@@ -32,21 +48,21 @@ $urlCargarInformacion = $url . $cadena;
  */
 
 // URL base
-$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
-$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url = $this->miConfigurador->getVariableConfiguracion("host");
+$url .= $this->miConfigurador->getVariableConfiguracion("site");
 $url .= "/index.php?";
 // Variables
-$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
 $valor .= "&procesarAjax=true";
 $valor .= "&action=index.php";
-$valor .= "&bloqueNombre=". $esteBloque ["nombre"]; 
-$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&bloqueNombre=" . $esteBloque["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque["grupo"];
 $valor .= "&funcion=inhabilitarBeneficiario";
-$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+$valor .= "&tiempo=" . $_REQUEST['tiempo'];
 
 // Codificar las variables
-$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valor, $enlace);
 
 // URL definitiva
 $urlEliminarBeneficiario = $url . $cadena;
@@ -59,21 +75,21 @@ $urlEliminarBeneficiario = $url . $cadena;
  */
 
 // URL base
-$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
-$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url = $this->miConfigurador->getVariableConfiguracion("host");
+$url .= $this->miConfigurador->getVariableConfiguracion("site");
 $url .= "/index.php?";
 // Variables
-$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
 $valor .= "&procesarAjax=true";
 $valor .= "&action=index.php";
-$valor .= "&bloqueNombre=". $esteBloque ["nombre"]; 
-$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&bloqueNombre=" . $esteBloque["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque["grupo"];
 $valor .= "&funcion=redireccionar";
-$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+$valor .= "&tiempo=" . $_REQUEST['tiempo'];
 
 // Codificar las variables
-$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valor, $enlace);
 
 // URL definitiva
 $urlGenerarEnlace = $url . $cadena;
@@ -81,9 +97,9 @@ $urlGenerarEnlace = $url . $cadena;
 
 <?php
 
-$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
-$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
-$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$directorio = $this->miConfigurador->getVariableConfiguracion("host");
+$directorio .= $this->miConfigurador->getVariableConfiguracion("site") . "/index.php?";
+$directorio .= $this->miConfigurador->getVariableConfiguracion("enlace");
 $valorCodificado = "pagina=registroBeneficiario";
 $valorCodificado .= "&id=";
 
@@ -91,14 +107,16 @@ $valorCodificado .= "&id=";
 
 <?php
 
-$directorioReg = $this->miConfigurador->getVariableConfiguracion ( "host" );
-$directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
-$directorioReg .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$directorioReg = $this->miConfigurador->getVariableConfiguracion("host");
+$directorioReg .= $this->miConfigurador->getVariableConfiguracion("site") . "/index.php?";
+$directorioReg .= $this->miConfigurador->getVariableConfiguracion("enlace");
 $valorCodificadoReg = "pagina=registroBeneficiario";
-$variableReg = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificadoReg );
+$variableReg = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificadoReg);
 $enlaceReg = $directorioReg . '=' . $variableReg;
 
 ?>
+
+
 
 var id = "";
 
@@ -106,7 +124,7 @@ $('#example')
 		.removeClass( 'display' )
 		.addClass('table table-striped table-bordered');
 
-		
+
 $(document).ready(function() {
     var table = $('#example').DataTable( {
     responsive: true,
@@ -141,8 +159,8 @@ $(document).ready(function() {
         processing: true,
         searching: true,
         ajax: {
-            url: "<?php echo $urlCargarInformacion?>",
-            dataSrc:"data"   
+            url: "<?php echo $urlCargarInformacion;?>",
+            dataSrc:"data"
         },
         "columns": [
             { "data": "urbanizacion" },
@@ -155,40 +173,40 @@ $(document).ready(function() {
     		}
         ]
     } );
-    
-	$("div.toolbar").html('<button type="button" id="AgregarBeneficiario" class="btn btn-default">Registrar Beneficiario Potencial</button>'); 
-	    
+
+	$("div.toolbar").html('<button type="button" id="AgregarBeneficiario" class="btn btn-default">Registrar Beneficiario Potencial</button>');
+
     $('#example tbody').on( 'click', '.optionRemove', function () {
     	var data = table.row( $(this).parents('tr') ).data();
         id = data['id_beneficiario'];
         $("#myModal").modal("show");
     } );
-    
+
     $('#example tbody').on( 'click', '.optionEdit', function () {
     	var data = table.row( $(this).parents('tr') ).data();
         id = data['id_beneficiario'];
         generarEnlace();
     } );
-    
+
     $(function() {
-		$("#botonCancelarElim").click(function( event ) {	
+		$("#botonCancelarElim").click(function( event ) {
 			$("#myModal").modal("hide");
 		});
-	}); 
-	
+	});
+
 	$(function() {
-		$("#botonAceptarElim").click(function( event ) {	
+		$("#botonAceptarElim").click(function( event ) {
 			eliminarBeneficiario();
 			$("#myModal").modal("hide");
 		});
 	});
-	
+
 	$(function() {
-		$("#AgregarBeneficiario").click(function( event ) {	
+		$("#AgregarBeneficiario").click(function( event ) {
 	    	location.href = "<?php echo $enlaceReg;?>";
 		});
 	});
-	
+
 	function eliminarBeneficiario(){
 
 		$.ajax({
@@ -204,10 +222,10 @@ $(document).ready(function() {
 					$("#confirmacionNoElim").modal("show");
 				}
 			}
-			
+
 		});
 	};
-	
+
 	function generarEnlace(){
 
 		$.ajax({
@@ -219,18 +237,18 @@ $(document).ready(function() {
 			success: function(data){
 				location.href = data;
 			}
-			
+
 		});
 	};
-	
+
 	$(function() {
-		$("#botonCerrar").click(function( event ) {	
+		$("#botonCerrar").click(function( event ) {
 			$("#confirmacionElim").modal("hide");
 		});
 	});
-	
+
 	$(function() {
-		$("#botonCerrar2").click(function( event ) {	
+		$("#botonCerrar2").click(function( event ) {
 			$("#confirmacionNoElim").modal("hide");
 		});
 	});
@@ -238,5 +256,31 @@ $(document).ready(function() {
 });
 
 
-			
- 
+
+
+/**
+ * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
+ */
+
+
+ 		   $("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
+		   	minChars: 3,
+		   	serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
+		   	onSelect: function (suggestion) {
+
+			     	$("#<?php echo $this->campoSeguro('id_beneficiario');?>").val(suggestion.data);
+		   	    }
+		   });
+
+
+
+
+		     $("#<?php echo $this->campoSeguro('beneficiario');?>").change(function() {
+		     	if($("#<?php echo $this->campoSeguro('id_beneficiario');?>").val()==''){
+
+		     	$("#<?php echo $this->campoSeguro('beneficiario');?>").val('');
+
+		     	}
+
+		   });
+
