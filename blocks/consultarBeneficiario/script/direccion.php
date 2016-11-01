@@ -13,6 +13,13 @@ echo "";
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
  */
 
+
+$("#divMensaje").fadeTo(2000, 500).slideUp(1000, function(){
+    $("#divMensaje").slideUp(500);
+});
+
+
+
  	function eliminarRequiredBeneficiario() {
 
 

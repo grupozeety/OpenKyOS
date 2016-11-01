@@ -677,28 +677,28 @@ class Registrador {
     }
     public function mensaje() {
 
-        // Si existe algun tipo de error en el login aparece el siguiente mensaje
-        $mensaje = $this->miConfigurador->getVariableConfiguracion('mostrarMensaje');
-        $this->miConfigurador->setVariableConfiguracion('mostrarMensaje', null);
+        if (isset($_REQUEST['mensaje'])) {
+            switch ($_REQUEST['mensaje']) {
 
-        if ($mensaje) {
-            $tipoMensaje = $this->miConfigurador->getVariableConfiguracion('tipoMensaje');
-            if ($tipoMensaje == 'json') {
+                case 'errorBeneficiario':
+                    $estilo_mensaje = 'error';     //information,warning,error,validation
+                    $atributos["mensaje"] = 'Error no exite Beneficiario';
+                    break;
 
-                $atributos['mensaje'] = $mensaje;
-                $atributos['json'] = true;
-            } else {
-                $atributos['mensaje'] = $this->lenguaje->getCadena($mensaje);
+                default:
+                    # code...
+                    break;
             }
             // ------------------Division para los botones-------------------------
             $atributos['id'] = 'divMensaje';
-            $atributos['estilo'] = 'marcoBotones';
-            echo $this->miFormulario->division("inicio", $atributos);
+            $atributos['estilo'] = ' ';
+            // echo $this->miFormulario->division("inicio", $atributos);
 
             // -------------Control texto-----------------------
             $esteCampo = 'mostrarMensaje';
             $atributos["tamanno"] = '';
-            $atributos["estilo"] = 'information';
+            $atributos["estilo"] = $estilo_mensaje;
+            $atributos["estiloEnLinea"] = "text-align: center;";
             $atributos["etiqueta"] = '';
             $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
             echo $this->miFormulario->campoMensaje($atributos);
@@ -706,6 +706,7 @@ class Registrador {
 
             // ------------------Fin Division para los botones-------------------------
             echo $this->miFormulario->division("fin");
+            unset($atributos);
         }
     }
 }
