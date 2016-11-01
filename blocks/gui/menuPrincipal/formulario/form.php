@@ -17,7 +17,7 @@ class FormularioMenu {
     public $atributosMenu;
     public $miSesionSso;
     public $_rutaBloque;
-    
+
     public function __construct($lenguaje, $formulario, $sql) {
         $this->miConfigurador = \Configurador::singleton();
 
@@ -60,7 +60,7 @@ class FormularioMenu {
         $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
         $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site") . "/blocks/";
         $rutaBloque .= $esteBloque['grupo'] . '/' . $esteBloque['nombre'];
-        
+
         $this->_rutaBloque = $rutaBloque;
         /**
          * IMPORTANTE: Este formulario está utilizando jquery.
@@ -175,11 +175,11 @@ class FormularioMenu {
         echo $this->miFormulario->formulario($atributos);
     }
     public function ConstruirMenu() {
-      
-    	$menu = '';
+
+        $menu = '';
 
         $menuGeneral = array();
-        
+
         foreach ($this->atributosMenu as $valor) {
 
             $menuGeneral[] = $valor['nombre_menu'];
@@ -198,11 +198,11 @@ class FormularioMenu {
         }
         $i = 0;
         foreach ($arreglo as $valor => $key) {
-        	
+
             if (isset($key[0]['clase_enlace']) && $key[0]['clase_enlace'] == 'menu') {
 
                 $menu .= ($i == 0) ? '<li><a data-toggle="dropdown" href="' . $this->CrearUrl($key[0]) . '">' . $valor . '</a></li>' : '<li><a href="' . $this->CrearUrl($key[0]) . '" data-toggle="dropdown">' . $valor . '</a><li>';
-            } else{
+            } else {
 
                 $menu .= $this->ConstruirGrupoGeneralMenu($key, $valor);
             }
@@ -210,20 +210,20 @@ class FormularioMenu {
         }
 
         $cadenaHTML = '<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        				<div class="container">
-        			 	  <div class="navbar-header">
-    						<button type="button" class="navbar-toggle" data-toggle="collapse"
-            				data-target=".navbar-ex1-collapse">
-      							<span class="sr-only">Desplegar navegación</span>
-      							<span class="icon-bar"></span>
-      							<span class="icon-bar"></span>
-      							<span class="icon-bar"></span>
-    						</button>
-  						  </div>
-                        
+                        <div class="container">
+                          <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target=".navbar-ex1-collapse">
+                                <span class="sr-only">Desplegar navegación</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                          </div>
+
                           <div class="collapse navbar-collapse navbar-ex1-collapse">
-                        	<ul class="nav navbar-nav">
-        		            	<li><a href="/OpenKyOS/index.php">Inicio</a></li>
+                            <ul class="nav navbar-nav">
+                                <li><a href="/OpenKyOS/index.php">Inicio</a></li>
 
                 ';
         $cadenaHTML .= $menu;
@@ -240,42 +240,44 @@ class FormularioMenu {
         $i = 0;
         foreach ($ArrayAtributos as $valor) {
 
-        	if(isset($valor['clase_enlace']) && $valor['clase_enlace'] == "normal") {
+            if (isset($valor['clase_enlace']) && $valor['clase_enlace'] == "normal") {
 
-        		$enlace = $valor['id_enlace'];
-        		
-        		$submenu .= ' <li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $valor['titulo_enlace'] . '</a>
-								<ul class="dropdown-menu">';
-        		
-        		foreach ($ArrayAtributos as $valor) {
-        			
-        			if($valor['submenu'] == $enlace){
-        				
-        				$image = "";
-        				
-        				if($valor['icon'] != ""){
-        					$image = '<img src="' . $valor['icon'] . '">  ';
-        				}
-        				
-        				$submenu .= '<li><a href="' . $this->CrearUrl($valor) . '">' . $image . $valor['titulo_enlace'] . '</a></li>';
-        			}
-        			
-        		}
-        		
-				$submenu .= '</ul>
-						</li>';
-        	
-        	}else if($valor['submenu'] == null){
-        		
-        		$image = "";
-        		
-        		if($valor['icon'] != ""){
-        			$image = '<img src="' . $this->_rutaBloque . "/imagenes/"  . $valor['icon'] . '">  ';
-        		}
-        		
-        		$submenu .= '<li><a href="' . $this->CrearUrl($valor) . '">' . $image . $valor['titulo_enlace'] . '</a></li>';
-        	}
-        	
+                $enlace = $valor['id_enlace'];
+
+                $submenu .= ' <li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $valor['titulo_enlace'] . '</a>
+                                <ul class="dropdown-menu">
+                                <li class="divider"></li>';
+
+                foreach ($ArrayAtributos as $valor) {
+
+                    if ($valor['submenu'] == $enlace) {
+
+                        $image = "";
+
+                        if ($valor['icon'] != "") {
+                            $image = '<img src="' . $valor['icon'] . '">  ';
+                        }
+
+                        $submenu .= '<li><a href="' . $this->CrearUrl($valor) . '">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&#9672 ' . $image . $valor['titulo_enlace'] . '</a></li>';
+                    }
+
+                }
+
+                $submenu .= '<li class="divider"></li>
+                            </ul>
+                        </li>';
+
+            } else if ($valor['submenu'] == null) {
+
+                $image = "";
+
+                if ($valor['icon'] != "") {
+                    $image = '<img src="' . $this->_rutaBloque . "/imagenes/" . $valor['icon'] . '">  ';
+                }
+
+                $submenu .= '<li><a href="' . $this->CrearUrl($valor) . '">' . $image . $valor['titulo_enlace'] . '</a></li>';
+            }
+
         }
 
         $cadena = '';
@@ -284,36 +286,34 @@ class FormularioMenu {
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $nombre . '<b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">';
         $cadena .= $submenu;
-        
+
         $cadena .= '  </ul>
-        		
-               		</li>';
-                
-               
+
+                    </li>';
+
         return $cadena;
     }
-    
+
     public function ConstruirSubGrupoGeneralMenu($ArrayAtributos, $nombre) {
-    	$submenu = '';
-    	$i = 0;
-    	foreach ($ArrayAtributos as $valor) {
-    
-    		$submenu .= '<li><a href="' . $this->CrearUrl($valor) . '">' . $valor['titulo_enlace'] . '</a></li>';
-    	}
-    
-    	$cadena = '';
-    
-    	$cadena .= '<li>
+        $submenu = '';
+        $i = 0;
+        foreach ($ArrayAtributos as $valor) {
+
+            $submenu .= '<li><a href="' . $this->CrearUrl($valor) . '">' . $valor['titulo_enlace'] . '</a></li>';
+        }
+
+        $cadena = '';
+
+        $cadena .= '<li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $nombre . '<b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">';
-    	$cadena .= $submenu;
-    
-    	$cadena .= '</li>';
-    
-    	 
-    	return $cadena;
+        $cadena .= $submenu;
+
+        $cadena .= '</li>';
+
+        return $cadena;
     }
-    
+
     public function CrearUrl($atributos) {
         if ($atributos['tipo_enlace'] == 'interno' && !is_null($atributos['enlace'])) {
 

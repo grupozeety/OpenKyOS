@@ -23,4 +23,19 @@
 
 #footer{
 	background-color: #1c88af;
+
+
+}
+@media (max-height: 720px) {
+
+
+#footer{
+    background-color: #1c88af;
+    position: fixed;
+    bottom: 0px;
+    height: 50px;
+    z-index:1000;
+  
+
+}
 }
