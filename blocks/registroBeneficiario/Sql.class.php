@@ -476,6 +476,106 @@ class Sql extends \Sql {
                	$cadenaSql .= "FROM ";
                	$cadenaSql .= "parametros.municipio ";
                	break;
+               	
+               	case "actualizarCampo" :
+               		$campo = $this->miConfigurador->fabricaConexiones->crypto->decodificar ( $variable ['campo'] );
+               	
+               		$cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
+               		if (is_numeric ( strpos ( $campo, 'identificacion_beneficiario' ) )) {
+               			$cadenaSql .= "identificacion ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'tipo_beneficiario' ) )) {
+               			$cadenaSql .= "tipo_beneficiario ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'tipo_documento' ) )) {
+               			$cadenaSql .= "tipo_documento ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'nombre_beneficiario' ) )) {
+               			$cadenaSql .= "nombre ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'primer_apellido' ) )) {
+               			$cadenaSql .= "primer_apellido ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'segundo_apellido' ) )) {
+               			$cadenaSql .= "segundo_apellido ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'genero_beneficiario' ) )) {
+               			$cadenaSql .= "genero ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'edad_beneficiario' ) )) {
+               			$cadenaSql .= "edad ='" . $variable ['valor'] . "' ";
+               		}
+               	
+               		if (is_numeric ( strpos ( $campo, 'nivel_estudio' ) )) {
+               			$cadenaSql .= "nivel_estudio ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'correo' ) )) {
+               			$cadenaSql .= "correo='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'direccion' ) )) {
+               			$cadenaSql .= "direccion='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'tipo_vivienda' ) )) {
+               			$cadenaSql .= "tipo_vivienda ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'manzana' ) )) {
+               			$cadenaSql .= "manzana ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'torre' ) )) {
+               			$cadenaSql .= "torre='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'bloque' ) )) {
+               			$cadenaSql .= "bloque ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'apartamento' ) )) {
+               			$cadenaSql .= "apartamento='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'telefono' ) )) {
+               			$cadenaSql .= "telefono='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'celular' ) )) {
+               			$cadenaSql .= "celular='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'whatsapp' ) )) {
+               			$cadenaSql .= "whatsapp ='" . $variable ['valor'] . "' ";
+               		}
+               		// if(strpos ($campo,'urbanizacion'),
+               		// if(strpos ($campo,'departamento'),
+               		// if(strpos ($campo,'municipio'),
+               		if (is_numeric ( strpos ( $campo, 'territorio' ) )) {
+               			$cadenaSql .= "territorio ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'facebook' ) )) {
+               			$cadenaSql .= "facebook ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'estrato' ) )) {
+               			$cadenaSql .= "estrato ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'geolocalizacion' ) )) {
+               			$cadenaSql .= "geolocalizacion ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'jefe_hogar' ) )) {
+               			$cadenaSql .= "jefe_hogar ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'pertenencia_etnica' ) )) {
+               			$cadenaSql .= "pertenencia_etnica ='" . $variable ['valor'] . "' ";
+               		}
+               		if (is_numeric ( strpos ( $campo, 'ocupacion' ) )) {
+               			$cadenaSql .= "ocupacion ='" . $variable ['valor'] . "' ";
+               		}
+               		$cadenaSql .= "WHERE id_beneficiario='" . $variable ['id'] . "' ";
+               		break;
+               			
+               	case "actualizarCampoUrb" :
+               		$campo = $this->miConfigurador->fabricaConexiones->crypto->decodificar ( $variable ['campo'] );
+               	
+               		$cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
+               		$cadenaSql .= "id_proyecto ='" . $variable['urba'] . "', ";
+               		$cadenaSql .= "proyecto ='" . $variable['proy'] . "', ";
+               		$cadenaSql .= "departamento ='" . explode(" ", $variable['depa'])[0]. "', ";
+               		$cadenaSql .= "municipio ='" . explode(" ", $variable['muni'])[0] . "' ";
+               		$cadenaSql .= "WHERE id_beneficiario='" . $variable['id'] . "' ";
+               		break;
         }
 
         return $cadenaSql;

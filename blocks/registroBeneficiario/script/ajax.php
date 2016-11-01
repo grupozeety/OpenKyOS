@@ -135,7 +135,50 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $val
 // URL definitiva
 $urlCargarImagen = $url . $cadena;
 ?>
+<?php 
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=". $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=actualizarCampo";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
 
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+// URL definitiva
+$urlActualizar = $url . $cadena;
+
+?>
+<?php 
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=". $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=actualizarCampoUrb";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+// URL definitiva
+$urlActualizarUrb = $url . $cadena;
+
+?>
 <?php
 
 $directorioReg = $this->miConfigurador->getVariableConfiguracion ( "host" );
@@ -148,6 +191,88 @@ $enlaceReg = $directorioReg . '=' . $variableReg;
 ?>
 
 $(document).ready(function() {
+var beneficiario =$("#<?php echo $this->campoSeguro('id_beneficiario')?>").val();
+
+//Here we are
+
+<?php $arreglo=array(
+		$this->campoSeguro('identificacion_beneficiario'),
+		$this->campoSeguro('nombre_beneficiario'),
+		$this->campoSeguro('primer_apellido'),
+		$this->campoSeguro('segundo_apellido'),
+		$this->campoSeguro('edad_beneficiario'),
+		$this->campoSeguro('correo'),
+		$this->campoSeguro('direccion'),
+		$this->campoSeguro('manzana'),
+		$this->campoSeguro('torre'),
+		$this->campoSeguro('bloque'),
+		$this->campoSeguro('apartamento'),
+		$this->campoSeguro('telefono'),
+		$this->campoSeguro('celular'),
+		$this->campoSeguro('whatsapp'),
+		$this->campoSeguro('geolocalizacion'),
+);
+
+$arreglo2=array(
+		$this->campoSeguro('tipo_beneficiario'),
+		$this->campoSeguro('tipo_documento'),
+		$this->campoSeguro('genero_beneficiario'),
+		$this->campoSeguro('tipo_documento'),
+		$this->campoSeguro('nivel_estudio'),
+		$this->campoSeguro('tipo_vivienda'),
+		//$this->campoSeguro('urbanizacion'),
+		//$this->campoSeguro('departamento'),
+		//$this->campoSeguro('municipio'),
+		$this->campoSeguro('territorio'),
+		$this->campoSeguro('estrato'),
+		$this->campoSeguro('jefe_hogar'),
+		$this->campoSeguro('pertenencia_etnica'),
+		$this->campoSeguro('ocupacion'),
+);
+
+foreach ($arreglo as $key=>$values){
+	?>
+	$("#<?php echo $values;?>").on('click touchstart', function() {
+		$("#<?php echo $values?>").attr('readonly', false);
+	});
+	
+		$( "#<?php echo $values;?>" ).dblclick(function() {
+			$("#<?php echo $values?>").attr('readonly', false);
+		});
+	
+		 $( "#<?php echo $values;?>" ).blur(function() {
+		 	var id =$("#<?php echo $values;?>").val();
+		 	$.ajax({
+		 		url: "<?php echo $urlActualizar?>",
+		 		dataType: "json",
+		 		data: { valor: id, id:beneficiario, campo:'<?php echo $values?>'},
+		 		success: function(data){
+		 			$( "#<?php echo $values;?>" ).attr('readonly', 'readonly');
+		 		}
+		 	});
+		 });
+		 	 
+		 	//Here we leave
+<?php }
+
+foreach ($arreglo2 as $key2=>$values2){
+	?>
+		 $( "#<?php echo $values2;?>" ).change(function() {
+		 	var id =$("#<?php echo $values2;?>").val();
+		 	$.ajax({
+		 		url: "<?php echo $urlActualizar?>",
+		 		dataType: "json",
+		 		data: { valor: id, id:beneficiario, campo:'<?php echo $values2?>'},
+		 		success: function(data){
+		 			$( "#<?php echo $values2;?>" ).attr('disable', 'disable');
+		 		}
+		 	});
+		 });
+<?php }?>	
+
+
+
+
 
 	var id = parseInt($("#<?php echo $this->campoSeguro('familiares')?>").val());
 	
@@ -433,6 +558,32 @@ $(document).ready(function() {
 	});
 	 
 	urbanizacion();
+	
+		 $( "#<?php echo $this->campoSeguro('urbanizacion');?>" ).change(function() {
+		 
+		    var urb='';
+		 	var dep='';
+		 	var mun='';
+		 	var abc='';
+		 	
+		 	urb =$("#<?php echo $this->campoSeguro('urbanizacion');?>").val();
+		 	dep =$("#<?php echo $this->campoSeguro('departamento');?>").val();
+		 	mun =$("#<?php echo $this->campoSeguro('municipio');?>").val();
+		 	abc=$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val();
+		 	
+		 	console.log(abc, urb);
+		 	
+		 	
+		 	$.ajax({
+		 		url: "<?php echo $urlActualizarUrb?>",
+		 		dataType: "json",
+		 		data: {urba:urb, depa:dep, muni: mun, proy:abc,id:beneficiario, campo:'<?php echo $this->campoSeguro('urbanizacion')?>'},
+		 		success: function(data){
+		 			$( "#<?php echo $this->campoSeguro('urbanizacion');?>" ).attr('disable', 'disable');
+		 		}
+		 	});
+		 });
+
   
 });
  
