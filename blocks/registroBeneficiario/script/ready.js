@@ -137,3 +137,77 @@ function generar(longitud)
 }
 
 
+//Habilitar inhabilitar campos tipo de vivienda
+
+function removeRequiredCasa(){
+	$("#<?php echo $this->campoSeguro('manzana');?>").removeAttr('required');
+}
+
+function removeRequiredApartamento(){
+	$("#<?php echo $this->campoSeguro('torre');?>").removeAttr('required');
+	}
+
+function clearCasa(){
+	$("#<?php echo $this->campoSeguro('manzana');?>").val("").change();
+	$("#<?php echo $this->campoSeguro('bloque');?>").val("").change();
+}
+
+function clearApartamento(){
+	$("#<?php echo $this->campoSeguro('torre');?>").val("").change();	
+}
+
+function addRequiredCasa(){
+	$("#<?php echo $this->campoSeguro('manzana');?>").attr("required", "true");
+}
+
+function addRequiredApartamento(){
+	$("#<?php echo $this->campoSeguro('torre');?>").attr("required", "true");	
+}
+
+function validarTipoVivienda(){
+	
+	if($("#<?php echo $this->campoSeguro('tipo_vivienda');?>").val() == "2"){
+			$("#infoApartamento").show();
+			$("#infoCasa").hide();
+			removeRequiredCasa();
+			clearCasa();
+			addRequiredApartamento();
+			
+		}else if($("#<?php echo $this->campoSeguro('tipo_vivienda');?>").val() == "1"){
+			
+			$("#infoApartamento").hide();
+			$("#infoCasa").show();
+			removeRequiredApartamento();
+			clearApartamento();
+			addRequiredCasa();
+			
+		}else if($("#<?php echo $this->campoSeguro('tipo_vivienda');?>").val() == "3"){
+			
+			$("#infoApartamento").hide();
+			$("#infoCasa").hide();
+			addRequiredCasa();
+			addRequiredApartamento();
+			clearCasa();
+			clearApartamento();
+			
+		}else if($("#<?php echo $this->campoSeguro('tipo_vivienda');?>").val() == ""){
+			
+			$("#infoApartamento").hide();
+			$("#infoCasa").hide();
+			addRequiredCasa();
+			addRequiredApartamento();
+			clearCasa();
+			clearApartamento();
+			
+		}
+}
+
+validarTipoVivienda();
+
+$("#<?php echo $this->campoSeguro('tipo_vivienda');?>").change(function() {
+
+	validarTipoVivienda();
+	
+});
+
+
