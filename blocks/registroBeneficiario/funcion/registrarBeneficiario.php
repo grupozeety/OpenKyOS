@@ -2,13 +2,11 @@
 
 namespace registroBeneficiario\funcion;
 
-use registroBeneficiario\funcion\redireccion;
+use agendarComisionamiento\funcion\sincronizar;
+use registroBeneficiario\funcion\redireccionar;
 
 require_once 'blocks/agendarComisionamiento/funcion/sincronizar.php';
 
-use registroBeneficiario\funcion\redireccionar;
-
-//include_once ('redireccionar.php');
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
