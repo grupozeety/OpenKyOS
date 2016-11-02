@@ -5,9 +5,9 @@ if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit;
 }
-
+use agendarComisionamiento\funcion\sincronizar;
 use registroBeneficiario\funcion\redireccion;
-
+require_once 'blocks/agendarComisionamiento/funcion/sincronizar.php';
 //include "funcion/redireccionar.php";
 
 class Formulario {
@@ -28,6 +28,8 @@ class Formulario {
         $this->miFormulario = $formulario;
 
         $this->miSql = $sql;
+        
+        $this->sincronizacion = new sincronizar ( $lenguaje, $sql, $funcion );
 
     }
 
@@ -118,6 +120,20 @@ class Formulario {
                 redireccion::redireccionar("noExisteBeneficiario");
                 exit;
 
+            }else{
+            	$cadenaSql = $this->miSql->getCadenaSql('estadoAlfresco', $_REQUEST['id_beneficiario']);
+            	$estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            	
+            	if ($estado_carpeta[0][0] == 'f') {
+            		$alfresco = $this->sincronizacion->alfresco($_REQUEST['id_beneficiario']);
+            		if ($alfresco['estado'][0] == 0) {
+            			$cadenaSql = $this->miSql->getCadenaSql('estadoAlfrescoUpdate', $_REQUEST['id_beneficiario']);
+            			$estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            		} else {
+            			redireccion::redireccionar('insertoAlfresco');
+            			exit();
+            		}
+            	}
             }
 
             $deshabilitado = true;
