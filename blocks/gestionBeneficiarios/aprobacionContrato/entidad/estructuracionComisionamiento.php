@@ -14,6 +14,7 @@ class comisionamientoOP {
     public $proyecto;
     public $nombreHogar;
     public $Info_Beneficiario_Contrato;
+    public $contrato;
     public function __construct($lenguaje, $sql) {
 
         $this->miConfigurador = \Configurador::singleton();
@@ -55,11 +56,14 @@ class comisionamientoOP {
             $this->proyecto['paquetesTrabajo'] = $paquetesTrabajo;
         }
 
+        $cadenaSql = $this->miSql->getCadenaSql('consultarContratoEspecifico');
+        $contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $this->contrato = $contrato[0];
         /**
          * Nombre Hogar
          **/
 
-        $this->nombreHogar = "Hogar" . time();
+        $this->nombreHogar = $this->contrato['id_beneficiario'];
 
         /**
          * Clasificación Proyecto
@@ -96,7 +100,7 @@ class comisionamientoOP {
         {
 
             //Crear Hogar
-            $variableHogar = $this->crearPaqueteTrabajo($this->nombreHogar, $paqueteComisionamiento['id']);
+            $variableHogar = $this->crearPaqueteTrabajo($this->nombreHogar, $paqueteComisionamiento['id'], 2, "Comisionamiento para Benficiario con Identificación: " . $this->contrato['identificacion_beneficiario']);
 
             /**
              *  Registro de Orden de  Trabajo en beneficiario
@@ -105,6 +109,8 @@ class comisionamientoOP {
             $cadenaSql = $this->miSql->getCadenaSql("registrarOrdenTrabajo", array('identificador_beneficiario' => $this->Info_Beneficiario_Contrato[0]['identificador_beneficiario'], "id_orden" => $this->obtenerIdentificadorPaqueteTrabajo($variableHogar)));
 
             $registro_orden_trabajo = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+            //var_dump($this->obtenerIdentificadorPaqueteTrabajo($variableHogar));exit;
 
             //Verificación de la viabilidad social y comercial
 
@@ -263,7 +269,7 @@ class comisionamientoOP {
 
         return $urlApi;
     }
-    public function crearPaqueteTrabajo($nombre_paquete = '', $id_paquete_padre = '', $tipo = 2) {
+    public function crearPaqueteTrabajo($nombre_paquete = '', $id_paquete_padre = '', $tipo = 2, $descripcion = '') {
 
         $url = $this->miConfigurador->getVariableConfiguracion("host");
         $url .= $this->miConfigurador->getVariableConfiguracion("site");
@@ -280,7 +286,13 @@ class comisionamientoOP {
         $arreglo['proyecto'] = $this->proyecto['id'];
         $arreglo['nombre'] = $nombre_paquete;
         $arreglo['porcentaje_avance'] = "0";
-        $arreglo['descripcion'] = $nombre_paquete;
+
+        if ($descripcion != '') {
+            $arreglo['descripcion'] = $descripcion;
+        } else {
+            $arreglo['descripcion'] = $nombre_paquete;
+        }
+
         $arreglo['tipo'] = $tipo;
         $arreglo['estado'] = "1";
         $arreglo['prioridad'] = "8";
