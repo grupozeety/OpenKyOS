@@ -8,4 +8,8 @@ $this->idioma["beneficiario"] = "Identificación del Titular";
 
 $this->idioma["botonConsultar"] = "Cambiar Titular";
 
+$this->idioma["confirma"] = "Se ha cambiado correctamente el titular.";
+$this->idioma["error"] = "No se ha podido cambiar el titular.";
+$this->idioma["regresarConsultar"] = "Aceptar";
+
 ?>

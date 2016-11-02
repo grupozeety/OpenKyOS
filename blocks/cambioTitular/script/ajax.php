@@ -144,5 +144,14 @@ $('.btn').click(function() {
 	if (!$("input[type='radio']:checked").val()) {
     	return false;
     }
- });
+});
 
+if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
+	$("#myModalMensaje").modal('show');
+}
+
+$(function() {
+	$("#regresarConsultar").click(function( event ) {	
+	 	$("#myModalMensaje").modal('hide');
+	});
+});

@@ -54,6 +54,21 @@ class Registrador {
 		$tab = 1;
 		// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
 		
+		
+		if (isset($_REQUEST['mensaje'])) {
+			$esteCampo = 'mensajemodal';
+			$atributos["id"] = $esteCampo; // No cambiar este nombre
+			$atributos["tipo"] = "hidden";
+			$atributos['estilo'] = '';
+			$atributos["obligatorio"] = false;
+			$atributos['marco'] = true;
+			$atributos["etiqueta"] = "";
+			$atributos['valor'] = $_REQUEST['mensaje'];
+			$atributos = array_merge($atributos, $atributosGlobales);
+			echo $this->miFormulario->campoCuadroTexto($atributos);
+			unset($atributos);
+		}
+		
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
@@ -216,6 +231,49 @@ class Registrador {
 		$atributos ['marco'] = true;
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->formulario ( $atributos );
+		
+		// -----------------INICIO CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
+		
+		$atributos['tipoEtiqueta'] = 'inicio';
+		$atributos['titulo'] = 'Mensaje';
+		$atributos['id'] = 'myModalMensaje';
+		echo $this->miFormulario->modal($atributos);
+		unset($atributos);
+		
+		echo "<h5><p  ALIGN=center>" . $this->lenguaje->getCadena($_REQUEST['mensaje']) . "</p></h5>";
+		
+		// -----------------CONTROL: Botón ----------------------------------------------------------------
+		$esteCampo = 'regresarConsultar';
+		$atributos["id"] = $esteCampo;
+		$atributos["tabIndex"] = $tab;
+		$atributos["tipo"] = 'boton';
+		$atributos["basico"] = false;
+		// submit: no se coloca si se desea un tipo button genérico
+		$atributos['submit'] = true;
+		$atributos["estiloMarco"] = 'text-center';
+		$atributos["estiloBoton"] = 'default';
+		$atributos["block"] = false;
+		$atributos['deshabilitado'] = true;
+		
+		// verificar: true para verificar el formulario antes de pasarlo al servidor.
+		$atributos["verificar"] = '';
+		$atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+		$atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+		$atributos['nombreFormulario'] = $esteBloque['nombre'];
+		$tab++;
+		
+		// Aplica atributos globales al control
+		//         $atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
+		unset($atributos);
+		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+		
+		$atributos['tipoEtiqueta'] = 'fin';
+		echo $this->miFormulario->modal($atributos);
+		unset($atributos);
+		
+		// -----------------FIN CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
+		
 	}
 	public function mensaje() {
 		
