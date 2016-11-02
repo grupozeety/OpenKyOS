@@ -55,23 +55,23 @@ class Registrador {
             unset($atributos);
 
             {
-                echo '<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th><center>Número de Contrato</center></th>
-                            <th><center>Urbanización o Proyecto</center></th>
-                            <th><center>Identificación Beneficiario</center></th>
-                            <th><center>Nombre Beneficiario</center></th>
-                            <th><center>Archivo Contrato</center></th>
-                            <th><center>Estado Contrato</center></th>
+                            <th><center>Número de Contrato<center></th>
+                            <th><center>Urbanización o Proyecto<center></th>
+                            <th><center>Identificación Beneficiario<center></th>
+                            <th class="marca"><center>Nombre Beneficiario<center></th>
+                            <th><center>Archivo Contrato<center></th>
+                            <th><center>Estado Contrato<center></th>
                         </tr>
                     </thead>
-                    <tfoot>
+                           <tfoot>
                         <tr>
                             <th><center>Número de Contrato</center></th>
                             <th><center>Urbanización o Proyecto</center></th>
                             <th><center>Identificación Beneficiario</center></th>
-                            <th><center>Nombre Beneficiario</center></th>
+                            <th class="marca"><center>Nombre Beneficiario</center></th>
                             <th><center>Archivo Contrato</center></th>
                             <th><center>Estado Contrato</center></th>
                         </tr>

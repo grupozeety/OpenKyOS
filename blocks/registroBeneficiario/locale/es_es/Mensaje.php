@@ -48,6 +48,10 @@ $this->idioma["torre"] = "Número de Bloque";
 $this->idioma["apartamento"] = "Número de Apartamento";
 $this->idioma["identificacion_familiar"] = "Identificación";
 $this->idioma["nombre_familiar"] = "Nombre Completo";
+$this->idioma["primer_apellido_familiar"] = "Primer Apellido";
+$this->idioma["tipo_documento_familiar"] = "Tipo de Documento";
+$this->idioma["segundo_apellido_familiar"] = "Segundo Apellido";
+$this->idioma["celular_familiar"] = "Celular";
 $this->idioma["genero_familiar"] = "Genero";
 $this->idioma["edad_familiar"] = "Edad";
 $this->idioma["nivel_estudio_familiar"] = "Nivel de Estudio";
@@ -63,5 +67,9 @@ $this->idioma["facebook"] = "Facebook";
 
 $this->idioma["mensajeRegistro"] = "Se ha registrado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
 $this->idioma["mensajeAlfresco"] = "ERROR Carpeta NO sincronizada en el Gestor Documental.";
+
+$this->idioma['id_hogar'] = "Id Hogar";
+$this->idioma['nomenclatura'] = "Nomenclatura";
+$this->idioma['resolucion_adjudicacion'] = "Resolucion Adjudicación";
 
 ?>

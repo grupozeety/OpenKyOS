@@ -2,6 +2,30 @@
 Código css correspondiente al Bloque.
 */
 
+div.dataTables_filter label {
+    float: right;
+}
 .col-xs-2 {
     text-align: left;
+}
+td{
+    text-align: justify;
+}
+
+.col-lg-2 {
+    text-align: left;
+}
+
+.col-xs-12 {
+    text-align: left;
+}
+
+@media (max-height: 720px) {
+.marca{
+display: none;
+}
+
+#example_paginate{
+text-align: center;
+}
 }

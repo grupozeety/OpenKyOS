@@ -12,9 +12,12 @@ $indice = 0;
 
 //$funcion [$indice ++] = " ";
 
-$funcion [$indice ++] = "select2.min.js";
-$funcion [$indice ++] = "jquery.dataTables.js";
-$funcion [$indice ++] = "dataTables.bootstrap.js";
+$funcion[$indice++] = "select2.min.js";
+$funcion[$indice++] = "jquery.dataTables.min.js";
+$funcion[$indice++] = "dataTables.bootstrap.min.js";
+$funcion[$indice++] = "dataTables.responsive.min.js";
+//$funcion[$indice++] = "responsive.bootstrap.min.js";
+
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");
 if ($esteBloque["grupo"] == "") {
