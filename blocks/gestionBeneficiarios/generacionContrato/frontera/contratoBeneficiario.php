@@ -60,9 +60,6 @@ class Contrato {
 
         {
 
-            $clausulas = '
-                Entre las siguientes partes a saber: LA CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA, en adelante POLITÉCNICA, entidad sin ánimo de lucro, domiciliada en la ciudad de Bogotá D.C, por una parte, y por la otra, la persona identificada como USUARIO, cuyos datos son los que aparecen registrados en el formato de solicitud de servicios N° _____ suscrito por él mismo, quien ha leído y aceptado en todos sus términos el presente documento, hemos convenido celebrar el presente CONTRATO DE PRESTACIÓN DE SERVICIOS DE COMUNICACIONES el cual se regirá por lo dispuesto en la ley 1341 de 2009, en la Resolución 3066 de 2011 expedida por la Comisión de Regulación de Comunicaciones, y en las normas que la adicionen, modifiquen o deroguen; y en especial, por las siguientes cláusulas: El USUARIO al realizar la acción de iniciar el (los) procedimiento (s) de suscripción para el (los) plan (es) del Servicio de Comunicaciones en la modalidad postpago y prepago, conforme aplique en el contrato suscrito, (en lo sucesivo el Servicio) a través del medio que POLITÉCNICA ponga a disposición del USUARIO; y al suministrar sus datos personales o de empresa, según sea persona natural o jurídica, se entiende que el USUARIO acuerda suscribirse a uno de los planes ofrecidos por POLITÉCNICA del Servicio y expresa su entera e incondicional aceptación, de ser aprobada su solicitud, a los términos y condiciones contenidos en el presente contrato y en los anexos que lo integran (en lo sucesivo denominado, el Contrato) para disponer del Servicio CLÁUSULA PRIMERA. OBJETO DEL CONTRATO. Este contrato tiene por objeto establecer las condiciones técnicas, jurídicas y económicas que regirán la prestación al USUARIO de servicios de comunicaciones, específicamente Internet fijo, en condiciones de calidad y eficiencia, a cambio de un precio en dinero, pactado de acuerdo con lo previsto en el Anexo Técnico del Contrato de Aporte N° 681 de 2015 y al documento de recomendaciones de la CRC “CONEXIONES DIGITALES Esquema para la implementación de subsidios e Incentivos para el acceso a Internet de Última milla”, la regulación y reglamentación que expidan la Comisión de Regulación de Comunicaciones, el Ministerio de Tecnologías de la Información y las Comunicaciones y la Superintendencia de Industria y Comercio, cada uno de ellos en la órbita de su competencia y las cláusulas del presente contrato, en el marco del Contrato de Aporte N° 681 de 2015. PARÁGRAFO PRIMERO: El USUARIO tiene derecho a elegir el medio a través del cual desea recibir copia del presente Contrato, es decir, de manera física o electrónica, de acuerdo con lo estipulado en el artículo 11.1 de la Resolución CRC 3066 de 2011. En caso que EL USUARIO elija que sea por medio electrónico, de todas formas tendrá el derecho a solicitar en cualquier momento, la entrega de la copia impresa, por una sola vez durante la vigencia del contrato. CLÁUSULA SEGUNDA. SERVICIOS CONTRATADOS, PRECIO Y FORMA DE PAGO: Los servicios que prestará POLITÉCNICA al USUARIO, serán definidos en el Formato de Solicitud de Servicios suscrito(s) por el USUARIO en el (los) cual (es) acepta los términos y condiciones de prestación de los mismos. El valor de los servicios contratados se establecerá de conformidad con las tarifas contenidas en el Anexo Técnico del Contrato de Aporte N° 681 de 2015 y al documento de recomendaciones de la CRC “CONEXIONES DIGITALES Esquema para la implementación de subsidios e Incentivos para el acceso a Internet de Última milla”. A dicha suma se le agregará el IVA en el porcentaje establecido por el Gobierno Nacional, según sea el caso. POLITÉCNICA realizará, por mensualidades vencidas, los cobros derivados de la prestación del servicio. Dichos valores se incorporarán en la factura de servicios que expida POLITÉCNICA. Los pagos se realizarán de acuerdo con las condiciones, plazos y sitios establecidos en las facturas expedidas por POLITÉCNICA. El no recibo de la factura no exime al USUARIO del pago de Servicio ni del recargo por mora que se genere.';
-
             $arreglo = array(
                 'nombres' => $infoBeneficiario['nombre'],
                 'primer_apellido' => $infoBeneficiario['primer_apellido'],
@@ -77,7 +74,7 @@ class Contrato {
                 'telefono' => $infoBeneficiario['telefono'],
                 'celular' => $infoBeneficiario['celular'],
                 'correo' => $infoBeneficiario['correo'],
-                'clausulas' => $clausulas,
+                // 'clausulas' => '',
 
             );
 
@@ -1047,7 +1044,7 @@ class Contrato {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = $this->lenguaje->getCadena("Clausulas_contrato");
                         }
                         $atributos['validar'] = 'required';
                         $atributos['filas'] = 10;
