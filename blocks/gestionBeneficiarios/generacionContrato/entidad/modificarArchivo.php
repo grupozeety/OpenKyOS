@@ -8,7 +8,6 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 }
 
 use gestionBeneficiarios\generacionContrato\entidad\Redireccionador;
-
 use gestionBeneficiarios\generacionContrato\entidad\Sincronizar;
 
 include_once "core/auth/SesionSso.class.php";
@@ -27,7 +26,6 @@ class Alfresco {
 	public $rutaURL;
 	public $rutaAbsoluta;
 	public $miSesionSso;
-	
 	public function __construct($lenguaje, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
@@ -51,27 +49,28 @@ class Alfresco {
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-
 		$_REQUEST ['tiempo'] = time ();
-
-		if ($_REQUEST['verificar']=='true'){
 		
+		if ($_REQUEST ['verificar'] == 'true') {
+			
 			// Modificar el estado del archivo por verificación según el rol
 			$this->modificarArchivo ();
 		}
 		
-		if ($_REQUEST['actualizar']=='true'){
+		if ($_REQUEST ['actualizar'] == 'true') {
+			if ($_FILES ['archivo'] ['size'] == 0) {
+				Redireccionador::redireccionar ( "noverifico", $_REQUEST ['id_beneficiario'] );
+			}
 			
 			// Modificar Documento Actual por uno nuevo
-			$this->cargarArchivos();
+			$this->cargarArchivos ();
 			$this->asociarCodigoDocumento ();
-		
-           $this->sincronizacion->sincronizarAlfresco ($_REQUEST['id_beneficiario'],$this->archivos_datos[0]);
 			
-
-			$this->actualizarLocal();
+			$this->sincronizacion->sincronizarAlfresco ( $_REQUEST ['id_beneficiario'], $this->archivos_datos [0] );
+			
+			$this->actualizarLocal ();
 		}
-
+		
 		if ($this->verificacion) {
 			Redireccionador::redireccionar ( "verifico", $_REQUEST ['id_beneficiario'] );
 		} else {
@@ -84,10 +83,10 @@ class Alfresco {
 			$respuesta ['rol'] [] = $rol;
 		}
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'pruebas');
+		$cadenaSql = $this->miSql->getCadenaSql ( 'pruebas' );
 		$pruebas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
-		$rol = $pruebas[0][0];
+		$rol = $pruebas [0] [0];
 		
 		$datos = array (
 				'archivo' => $_REQUEST ['id_archivo'],
@@ -97,16 +96,13 @@ class Alfresco {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'verificarArchivo', $datos );
 		$this->verificacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 	}
-	
 	public function actualizarLocal() {
-			
-		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarLocal', $this->archivos_datos[0]);
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarLocal', $this->archivos_datos [0] );
 		$this->verificacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 	}
-	
 	public function cargarArchivos() {
 		foreach ( $_FILES as $key => $archivo ) {
-				
+			
 			$this->prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
 			/*
 			 * obtenemos los datos del Fichero
@@ -124,62 +120,61 @@ class Alfresco {
 				exit ();
 				Redireccionador::redireccionar ( "ErrorCargarFicheroDirectorio" );
 			}
-				
+			
 			$archivo_datos [] = array (
 					'ruta_archivo' => $ruta_relativa,
 					'rutaabsoluta' => $ruta_absoluta,
 					'nombre_archivo' => $archivo ['name'],
 					'campo' => $key,
-					'id_archivo'=>$_REQUEST['id_archivo'],
+					'id_archivo' => $_REQUEST ['id_archivo'] 
 			);
 		}
-	
+		
 		$this->archivos_datos = $archivo_datos;
 	}
-	
 	public function asociarCodigoDocumento() {
 		foreach ( $this->archivos_datos as $key => $value ) {
-				
+			
 			switch ($value ['campo']) {
 				case 'cedula' :
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "001" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
 					break;
-	
+				
 				case 'certificado_servicio' :
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "003" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
 					break;
-	
+				
 				case 'acta_vip' :
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "002" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
 					break;
-	
+				
 				case 'documento_acceso_propietario' :
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "006" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
 					break;
-	
+				
 				case 'documento_direccion' :
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "007" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
 					break;
-	
+				
 				case 'certificado_proyecto_vip' :
-						
+					
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "005" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
 					break;
-	
+				
 				case 'cedula_cliente' :
-						
+					
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "777" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
@@ -187,7 +182,6 @@ class Alfresco {
 			}
 		}
 	}
-	
 }
 
 $miProcesador = new Alfresco ( $this->lenguaje, $this->sql );
