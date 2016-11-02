@@ -27,7 +27,7 @@ class Formulario {
 		
 		$this->miSql = $sql;
 		
-		$this->sincronizacion = new sincronizar ( $lenguaje, $sql, $funcion );
+		$this->sincronizacion = new sincronizar ( $lenguaje, $sql, $formulario );
 	}
 	public function formulario() {
 		
@@ -117,10 +117,12 @@ class Formulario {
 			} else {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'estadoAlfresco', $_REQUEST ['id'] );
 				$estado_carpeta = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-				
+
 				if ($estado_carpeta != FALSE) {
 					if ($estado_carpeta [0][0] == 'f') {
+		
 						$alfresco = $this->sincronizacion->alfresco ( $_REQUEST ['id'] );
+
 						if ($alfresco ['estado'] [0] == 0) {
 							$cadenaSql = $this->miSql->getCadenaSql ( 'estadoAlfrescoUpdate', $_REQUEST ['id'] );
 							$estado_carpeta = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
