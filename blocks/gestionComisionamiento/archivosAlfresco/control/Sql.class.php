@@ -31,11 +31,11 @@ class Sql extends \Sql {
 			
 			// Sincronización Comisionamiento
 			case "alfrescoUser" :
-				$cadenaSql = " SELECT id_beneficiario, nombre_carpeta_dep as padre, nombre_carpeta_mun as hijo, site_alfresco as site ";
+				$cadenaSql = " SELECT DISTINCT id_beneficiario, nombre_carpeta_dep as padre, nombre_carpeta_mun as hijo, site_alfresco as site ";
 				$cadenaSql .= " FROM interoperacion.beneficiario_potencial ";
 				$cadenaSql .= " INNER JOIN interoperacion.carpeta_alfresco on beneficiario_potencial.departamento=cast(carpeta_alfresco.cod_departamento as integer) ";
 				$cadenaSql .= " WHERE cast(cod_municipio as integer)=municipio ";
-				$cadenaSql .= " AND identificacion='" . $variable . "' ";
+				$cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
 				break;
 			
 			case "alfrescoCarpetas" :
@@ -69,6 +69,18 @@ class Sql extends \Sql {
                 $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "LIMIT 10; ";
                 break;
+                
+                case "consultarCarpetaSoportes" :
+				$cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
+				$cadenaSql .= " FROM parametros.parametros pr";
+				$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+				$cadenaSql .= " WHERE ";
+				$cadenaSql .= " pr.estado_registro=TRUE ";
+				$cadenaSql .= " AND rl.descripcion='Alfresco Folders'";
+				$cadenaSql .= " AND pr.codigo='" . $variable . "' ";
+				$cadenaSql .= " AND rl.estado_registro=TRUE ";
+                	break;
+                		
 				
 		}
 		

@@ -50,6 +50,10 @@ class Entidad {
     public function procesarContrato() {
         include_once $this->ruta . "entidad/guardarContrato.php";
     }
+    
+    public function modificarArchivo() {
+    	include_once $this->ruta . "entidad/modificarArchivo.php";
+    }
     public function action() {
         $resultado = true;
 
@@ -65,6 +69,8 @@ class Entidad {
         }
 
         switch ($_REQUEST['opcion']) {
+        	
+
             case 'cargarRequisitos':
 
                 $this->cargarRequisitos();
@@ -82,6 +88,13 @@ class Entidad {
                 $this->procesarContrato();
 
                 break;
+                
+                case 'modificarArchivo':
+
+                $this->modificarArchivo();
+                exit;
+                     
+                	break;
 
         }
 

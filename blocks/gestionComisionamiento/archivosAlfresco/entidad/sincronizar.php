@@ -48,9 +48,10 @@ class sincronizar {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'alfrescoDirectorio', '' );
 		$directorio = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'alfrescoUser', $beneficiario );
+	echo	$cadenaSql = $this->miSql->getCadenaSql ( 'alfrescoUser', $beneficiario );
 		$variable = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+		var_dump($variable);
 		$cadenaSql = $this->miSql->getCadenaSql ( 'alfrescoLog', $beneficiario );
 		$datosConexion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		

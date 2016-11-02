@@ -47,9 +47,8 @@ class Frontera {
         if (isset($_REQUEST['opcion'])) {
             switch ($_REQUEST['opcion']) {
                 case 'validarRequisitos':
-
+                	$_REQUEST['id_beneficiario']=$_REQUEST['id_beneficiario'];
                     include_once $this->ruta . "frontera/requisitosBeneficiario.php";
-
                     break;
 
                 case 'mostrarContrato':
@@ -57,6 +56,12 @@ class Frontera {
                     include_once $this->ruta . "frontera/contratoBeneficiario.php";
 
                     break;
+                    
+                    case 'verArchivo':
+                    
+                    	include_once $this->ruta . "frontera/verArchivo.php";
+                    
+                    	break;
 
                 default:
                     include_once $this->ruta . "frontera/consultaBeneficiario.php";
