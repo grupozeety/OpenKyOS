@@ -2,6 +2,9 @@
 Código css correspondiente al Bloque.
 */
 
+div.dataTables_filter label {
+    float: right;
+}
 .col-xs-2 {
     text-align: left;
 }
@@ -20,5 +23,9 @@ td{
 @media (max-height: 720px) {
 .marca{
 display: none;
+}
+
+#example_paginate{
+text-align: center;
 }
 }
