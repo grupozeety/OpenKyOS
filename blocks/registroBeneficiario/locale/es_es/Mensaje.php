@@ -64,4 +64,8 @@ $this->idioma["facebook"] = "Facebook";
 $this->idioma["mensajeRegistro"] = "Se ha registrado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
 $this->idioma["mensajeAlfresco"] = "Se ha registrado correctamente el Beneficiario/Cliente Potencial. ERROR Carpeta NO sincronizada en el Gestor Documental";
 
+$this->idioma['id_hogar'] = "Id Hogar";
+$this->idioma['nomenclatura'] = "Nomenclatura";
+$this->idioma['resolucion_adjudicacion'] = "Resolucion Adjudicación";
+
 ?>

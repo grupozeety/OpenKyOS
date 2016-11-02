@@ -65,6 +65,9 @@ class Registrar {
         $beneficiarioPotencial['jefe_hogar'] = $_REQUEST['jefe_hogar'];
         $beneficiarioPotencial['pertenencia_etnica'] = $_REQUEST['pertenencia_etnica'];
         $beneficiarioPotencial['ocupacion'] = $_REQUEST['ocupacion'];
+        $beneficiarioPotencial['id_hogar'] = $_REQUEST['id_hogar'];
+        $beneficiarioPotencial['nomenclatura'] = $_REQUEST['nomenclatura'];
+        $beneficiarioPotencial['resolucion_adjudicacion'] = $_REQUEST['resolucion_adjudicacion'];
 
         $familiar = array();
 
