@@ -44,7 +44,7 @@ class Registrador {
 		$atributos ['id'] = $esteCampo;
 		$atributos ['nombre'] = $esteCampo;
 		// Si no se coloca, entonces toma el valor predeterminado 'application/x-www-form-urlencoded'
-			$atributos ['tipoFormulario'] = 'multipart/form-data';
+		$atributos ['tipoFormulario'] = 'multipart/form-data';
 		// Si no se coloca, entonces toma el valor predeterminado 'POST'
 		$atributos ['metodo'] = 'POST';
 		// Si no se coloca, entonces toma el valor predeterminado 'index.php' (Recomendado)
@@ -106,11 +106,11 @@ class Registrador {
 						$atributos ["tabIndex"] = $tab;
 						$atributos ["tipo"] = 'boton';
 						// submit: no se coloca si se desea un tipo button genérico
-						//$atributos ['submit'] = true;
+						$atributos ['submit'] = true;
 						$atributos ["simple"] = true;
 						$atributos ["columnas"] = 1;
 						$atributos ["estiloMarco"] = '';
-						$atributos ["estiloBoton"] = 'default';
+						$atributos ["estiloBoton"] = 'jqueryui';
 						$atributos ["block"] = false;
 						// verificar: true para verificar el formulario antes de pasarlo al servidor.
 						$atributos ["verificar"] = '';
@@ -121,20 +121,30 @@ class Registrador {
 						
 						// Aplica atributos globales al control
 						$atributos = array_merge ( $atributos, $atributosGlobales );
-						echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
+						echo $this->miFormulario->campoBoton ( $atributos );
 						unset ( $atributos );
 						// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+					}
+					// ------------------Fin Division para los botones-------------------------
+					echo $this->miFormulario->division ( "fin" );
+					unset ( $atributos );
+					$atributos ["id"] = "botones";
+					$atributos ["estilo"] = "marcoBotones";
+					$atributos ["estiloEnLinea"] = "display:block;";
+					echo $this->miFormulario->division ( "inicio", $atributos );
+					unset ( $atributos );
+					{
 						// -----------------CONTROL: Botón ----------------------------------------------------------------
 						$esteCampo = 'actualizar';
 						$atributos ["id"] = $esteCampo;
 						$atributos ["tabIndex"] = $tab;
 						$atributos ["tipo"] = 'boton';
 						// submit: no se coloca si se desea un tipo button genérico
-						//$atributos ['submit'] = true;
+						$atributos ['submit'] = true;
 						$atributos ["simple"] = true;
 						$atributos ["estiloMarco"] = '';
 						$atributos ["columnas"] = 1;
-						$atributos ["estiloBoton"] = 'default';
+						$atributos ["estiloBoton"] = 'jqueryui';
 						$atributos ["block"] = false;
 						// verificar: true para verificar el formulario antes de pasarlo al servidor.
 						$atributos ["verificar"] = '';
@@ -145,7 +155,7 @@ class Registrador {
 						
 						// Aplica atributos globales al control
 						$atributos = array_merge ( $atributos, $atributosGlobales );
-						echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
+						echo $this->miFormulario->campoBoton ( $atributos );
 						unset ( $atributos );
 						// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 					}

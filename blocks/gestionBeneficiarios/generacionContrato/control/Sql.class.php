@@ -189,17 +189,17 @@ class Sql extends \Sql {
 				$cadenaSql .= " AND rl.estado_registro=TRUE ";
 				
 				break;
+			
+			case 'consultarParametroCodigo' :
+				$cadenaSql = " SELECT pr.id_parametro, pr.codigo ";
+				$cadenaSql .= " FROM parametros.parametros pr";
+				$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+				$cadenaSql .= " WHERE ";
+				$cadenaSql .= " pr.estado_registro=TRUE ";
+				$cadenaSql .= " AND rl.descripcion='Tipologia Archivo'";
+				$cadenaSql .= " AND rl.estado_registro=TRUE ";
 				
-				case 'consultarParametroCodigo' :
-					$cadenaSql = " SELECT pr.id_parametro, pr.codigo ";
-					$cadenaSql .= " FROM parametros.parametros pr";
-					$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
-					$cadenaSql .= " WHERE ";
-					$cadenaSql .= " pr.estado_registro=TRUE ";
-					$cadenaSql .= " AND rl.descripcion='Tipologia Archivo'";
-					$cadenaSql .= " AND rl.estado_registro=TRUE ";
-				
-					break;
+				break;
 			
 			case 'consultarTipoDocumento' :
 				$cadenaSql = " SELECT pr.id_parametro,pr.codigo, pr.descripcion ";
@@ -298,68 +298,77 @@ class Sql extends \Sql {
 				}
 				$cadenaSql .= " WHERE id='" . $variable ['archivo'] . "';";
 				break;
+			
+			case "alfrescoUser" :
+				$cadenaSql = " SELECT DISTINCT id_beneficiario, nombre_carpeta_dep as padre, nombre_carpeta_mun as hijo, site_alfresco as site ";
+				$cadenaSql .= " FROM interoperacion.beneficiario_potencial ";
+				$cadenaSql .= " INNER JOIN interoperacion.carpeta_alfresco on beneficiario_potencial.departamento=cast(carpeta_alfresco.cod_departamento as integer) ";
+				$cadenaSql .= " WHERE cast(cod_municipio as integer)=municipio ";
+				$cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
+				break;
+			
+			case "alfrescoCarpetas" :
+				$cadenaSql = "SELECT parametros.codigo, parametros.descripcion ";
+				$cadenaSql .= " FROM parametros.parametros ";
+				$cadenaSql .= " JOIN parametros.relacion_parametro ON relacion_parametro.id_rel_parametro=parametros.rel_parametro ";
+				$cadenaSql .= " WHERE parametros.estado_registro=TRUE AND relacion_parametro.descripcion='Alfresco Folders' ";
+				break;
+			
+			case "alfrescoDirectorio" :
+				$cadenaSql = "SELECT parametros.descripcion ";
+				$cadenaSql .= " FROM parametros.parametros ";
+				$cadenaSql .= " JOIN parametros.relacion_parametro ON relacion_parametro.id_rel_parametro=parametros.rel_parametro ";
+				$cadenaSql .= " WHERE parametros.estado_registro=TRUE AND relacion_parametro.descripcion='Directorio Alfresco Site' ";
+				break;
+			
+			case "alfrescoLog" :
+				$cadenaSql = "SELECT host, usuario, password ";
+				$cadenaSql .= " FROM parametros.api_data ";
+				$cadenaSql .= " WHERE componente='alfresco' ";
+				break;
+			
+			case 'consultarBeneficiariosPotenciales' :
 				
-				case "alfrescoUser" :
-					$cadenaSql = " SELECT DISTINCT id_beneficiario, nombre_carpeta_dep as padre, nombre_carpeta_mun as hijo, site_alfresco as site ";
-					$cadenaSql .= " FROM interoperacion.beneficiario_potencial ";
-					$cadenaSql .= " INNER JOIN interoperacion.carpeta_alfresco on beneficiario_potencial.departamento=cast(carpeta_alfresco.cod_departamento as integer) ";
-					$cadenaSql .= " WHERE cast(cod_municipio as integer)=municipio ";
-					$cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
-					break;
-						
-				case "alfrescoCarpetas" :
-					$cadenaSql = "SELECT parametros.codigo, parametros.descripcion ";
-					$cadenaSql .= " FROM parametros.parametros ";
-					$cadenaSql .= " JOIN parametros.relacion_parametro ON relacion_parametro.id_rel_parametro=parametros.rel_parametro ";
-					$cadenaSql .= " WHERE parametros.estado_registro=TRUE AND relacion_parametro.descripcion='Alfresco Folders' ";
-					break;
-						
-				case "alfrescoDirectorio" :
-					$cadenaSql = "SELECT parametros.descripcion ";
-					$cadenaSql .= " FROM parametros.parametros ";
-					$cadenaSql .= " JOIN parametros.relacion_parametro ON relacion_parametro.id_rel_parametro=parametros.rel_parametro ";
-					$cadenaSql .= " WHERE parametros.estado_registro=TRUE AND relacion_parametro.descripcion='Directorio Alfresco Site' ";
-					break;
-						
-				case "alfrescoLog" :
-					$cadenaSql = "SELECT host, usuario, password ";
-					$cadenaSql .= " FROM parametros.api_data ";
-					$cadenaSql .= " WHERE componente='alfresco' ";
-					break;
-						
-				case 'consultarBeneficiariosPotenciales':
-					 
-					$cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
-					$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
-					$cadenaSql .= "WHERE estado_registro=TRUE ";
-					$cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
-					$cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
-					$cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
-					$cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
-					$cadenaSql .= "LIMIT 10; ";
-					break;
-				
-				case "consultarCarpetaSoportes" :
-					$cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
-					$cadenaSql .= " FROM parametros.parametros pr";
-					$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
-					$cadenaSql .= " WHERE ";
-					$cadenaSql .= " pr.estado_registro=TRUE ";
-					$cadenaSql .= " AND rl.descripcion='Alfresco Folders'";
-					$cadenaSql .= " AND pr.codigo='" . $variable . "' ";
-					$cadenaSql .= " AND rl.estado_registro=TRUE ";
-					break;
-					
-					case "actualizarLocal" :
-						$cadenaSql = "UPDATE interoperacion.documentos_contrato SET";
-						$cadenaSql .= " nombre_documento='".$variable['nombre_archivo']."',";
-						$cadenaSql .= " ruta_relativa='".$variable['ruta_archivo']."',";
-						$cadenaSql .= " supervisor=FALSE,";
-						$cadenaSql .= " comisionador=FALSE,";
-						$cadenaSql .= " analista=FALSE,";
-						$cadenaSql .= " WHERE id='".$variable['id_archivo']."'";
-						break;
-					
+				$cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
+				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+				$cadenaSql .= "WHERE estado_registro=TRUE ";
+				$cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "OR nombre ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "LIMIT 10; ";
+				break;
+			
+			case "consultarCarpetaSoportes" :
+				$cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
+				$cadenaSql .= " FROM parametros.parametros pr";
+				$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+				$cadenaSql .= " WHERE ";
+				$cadenaSql .= " pr.estado_registro=TRUE ";
+				$cadenaSql .= " AND rl.descripcion='Alfresco Folders'";
+				$cadenaSql .= " AND pr.codigo='" . $variable . "' ";
+				$cadenaSql .= " AND rl.estado_registro=TRUE ";
+				break;
+			
+			case "actualizarLocal" :
+				$cadenaSql = "UPDATE interoperacion.documentos_contrato SET";
+				$cadenaSql .= " nombre_documento='" . $variable ['nombre_archivo'] . "',";
+				$cadenaSql .= " ruta_relativa='" . $variable ['ruta_archivo'] . "',";
+				$cadenaSql .= " supervisor=FALSE,";
+				$cadenaSql .= " comisionador=FALSE,";
+				$cadenaSql .= " analista=FALSE ";
+				$cadenaSql .= " WHERE id='" . $variable ['id_archivo'] . "'";
+				break;
+			
+			case "pruebas" :
+				$cadenaSql = " SELECT pr.descripcion ";
+				$cadenaSql .= " FROM parametros.parametros pr";
+				$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+				$cadenaSql .= " WHERE ";
+				$cadenaSql .= " pr.estado_registro=TRUE ";
+				$cadenaSql .= " AND rl.descripcion='Pruebas Rol Comision'";
+				$cadenaSql .= " AND rl.estado_registro=TRUE ";
+				break;
 		}
 		
 		return $cadenaSql;
