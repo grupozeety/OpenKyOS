@@ -13,11 +13,15 @@ $_REQUEST['ready']= true;
 
 if ($_REQUEST ['funcion'] == "codificar") {
 	
+	$codificado['tipo_documento'] = $miFormulario->campoSeguro("tipo_documento_familiar_".$_REQUEST ['valor']);
 	$codificado['identificacion'] = $miFormulario->campoSeguro("identificacion_familiar_".$_REQUEST ['valor']);
 	$codificado['nombre'] = $miFormulario->campoSeguro("nombre_familiar_".$_REQUEST ['valor']);
+	$codificado['primer_apellido'] = $miFormulario->campoSeguro("primer_apellido_familiar_".$_REQUEST ['valor']);
+	$codificado['segundo_apellido'] = $miFormulario->campoSeguro("segundo_apellido_familiar_".$_REQUEST ['valor']);
 	$codificado['parentesco'] = $miFormulario->campoSeguro("parentesco_".$_REQUEST ['valor']);
 	$codificado['genero'] = $miFormulario->campoSeguro("genero_familiar_".$_REQUEST ['valor']);
 	$codificado['edad'] = $miFormulario->campoSeguro("edad_familiar_".$_REQUEST ['valor']);
+	$codificado['celular'] = $miFormulario->campoSeguro("celular_familiar_".$_REQUEST ['valor']);
 	$codificado['nivel_estudio'] = $miFormulario->campoSeguro("nivel_estudio_familiar_".$_REQUEST ['valor']);
 	$codificado['correo'] = $miFormulario->campoSeguro("correo_familiar_".$_REQUEST ['valor']);
 	$codificado['grado'] = $miFormulario->campoSeguro("grado_familiar_".$_REQUEST ['valor']);

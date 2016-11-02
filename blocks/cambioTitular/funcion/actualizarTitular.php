@@ -50,8 +50,8 @@ class Registrar {
 		$titular['tipo_documento'] = $actualTitular['tipo_documento'];
 		$titular['identificacion'] = $nuevoTitular['identificacion_familiar'];
 		$titular['nombre'] = $nuevoTitular['nombre_familiar'];
-		$titular['primer_apellido'] = $nuevoTitular['primer_apellido'];
-		$titular['segundo_apellido'] = $nuevoTitular['segundo_apellido'];
+		$titular['primer_apellido'] = $nuevoTitular['primer_apellido_familiar'];
+		$titular['segundo_apellido'] = $nuevoTitular['segundo_apellido_familiar'];
 		$titular['genero'] = $nuevoTitular['genero_familiar'];
 		$titular['edad'] = $nuevoTitular['edad_familiar'];
 		$titular['nivel_estudio'] = $nuevoTitular['nivel_estudio_familiar'];
@@ -66,7 +66,7 @@ class Registrar {
 		$titular['bloque'] = $actualTitular['bloque'];
 		$titular['apartamento'] = $actualTitular['apartamento'];
 		$titular['telefono'] = $actualTitular['telefono'];
-		$titular['celular'] = $nuevoTitular['celular'];
+		$titular['celular'] = $nuevoTitular['celular_familiar'];
 		$titular['whatsapp'] = '';
 		$titular['facebook'] = '';
 		$titular['departamento'] = $actualTitular['departamento'];
@@ -83,13 +83,15 @@ class Registrar {
 		$familiar = array();
 			
 		$familiar['id_beneficiario'] = $actualTitular['id_beneficiario'];
+		$familiar['tipo_documento'] = $nuevoTitular['tipo_documento_familiar'];
 		$familiar['identificacion_familiar'] = $actualTitular['identificacion'];
 		$familiar['nombre_familiar'] = $actualTitular['nombre'];
 		$familiar['primer_apellido'] = $actualTitular['primer_apellido'];
 		$familiar['segundo_apellido'] = $actualTitular['segundo_apellido'];
-		$familiar['parentesco'] = $nuevoTitular['parentesco'];
+		$familiar['parentesco'] = '';
 		$familiar['genero_familiar'] = $actualTitular['genero'];
 		$familiar['edad_familiar'] = $actualTitular['edad'];
+		$familiar['celular'] = $actualTitular['celular'];
 		$familiar['nivel_estudio_familiar'] = $actualTitular['nivel_estudio'];
 		$familiar['correo_familiar'] = $actualTitular['correo'];
 		$familiar['grado'] = '';
@@ -129,7 +131,6 @@ class Registrar {
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 		} 
 		
-		die;
 		if ($resultado) {
 			redireccion::redireccionar ( 'inserto');
 			exit ();
