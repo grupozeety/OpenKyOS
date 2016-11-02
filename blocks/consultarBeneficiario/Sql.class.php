@@ -54,6 +54,8 @@ class Sql extends \Sql {
                 $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "LIMIT 10; ";
+                
+
                 break;
 
             case "iniciarTransaccion":
