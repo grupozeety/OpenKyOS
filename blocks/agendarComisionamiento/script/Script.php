@@ -8,10 +8,12 @@ $indice = 0;
 $funcion[$indice++]="dataTables.bootstrap.min.js";
 $funcion[$indice++]="bootstrap.min.js";
 $funcion[$indice++]="select2.min.js";
-$funcion[$indice++]="modalLoad.js";
+// $funcion[$indice++]="modalLoad.js";
 $funcion[$indice++] = "bootstrap-datetimepicker.js";
 $funcion[$indice++] = "bootstrap-datetimepicker.min.js";
 $funcion[$indice++] = "jquery.dataTables.js";
+$funcion[$indice++] = "jquery.autocomplete.min.js";
+$funcion[$indice++] = "jquery.autocomplete.js";
 
 $embebido [$indice] = true;
 $funcion [$indice ++] = "ajax.php";

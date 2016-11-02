@@ -44,7 +44,13 @@ class Registrar {
 				$agen [$cont] ['identificacion_beneficiario'] = $informacion [8];
 				$agen [$cont] ['nombre_beneficiario'] = $informacion [9];
 				$agen [$cont] ['tipo_agendamiento'] = $_REQUEST ['tipo_agendamiento'];
-				$agen [$cont] ['tipo_tecnologia'] = $_REQUEST ['tipo_tecnologia'];
+				
+				if(isset($_REQUEST ['tipo_tecnologia'])){
+					$agen [$cont] ['tipo_tecnologia'] = $_REQUEST ['tipo_tecnologia'];
+				}else{
+					$agen [$cont] ['tipo_tecnologia'] = null;
+				}
+
 				$agen [$cont] ['id_comisionador'] = $_REQUEST ['comisionador'];
 				$agen [$cont] ['nombre_comisionador'] = $_REQUEST ['nombre_comisionador'];
 				$agen [$cont] ['fecha_agendamiento'] = $_REQUEST ['fecha_agendamiento'];
@@ -70,7 +76,9 @@ class Registrar {
 		$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/" . $esteBloque ['nombre'];
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarAgendamiento', $agen );
+		$cadenaSql = str_replace("''", 'null', $cadenaSql);
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
+		
 		if ($resultado) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConsecutivoAgendamiento' );
 			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );

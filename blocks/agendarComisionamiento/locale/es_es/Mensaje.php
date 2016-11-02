@@ -24,6 +24,10 @@ $this->idioma["tipo_agendamiento"]="Tipo de Agendamiento";
 $this->idioma["tipo_tecnologia"]="Tipo de Tecnología";
 $this->idioma["comisionador"]="Comisionador";
 
+$this->idioma["urbanizacion"]="Urbanización";
+$this->idioma["tipo_vivienda"]="Tipo de Vivienda";
+$this->idioma["bloque_manzana"]="Bloque/Manzana";
+
 
 
 

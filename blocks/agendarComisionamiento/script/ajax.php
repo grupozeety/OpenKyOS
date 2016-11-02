@@ -12,6 +12,100 @@ $url .= "/index.php?";
 $valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
 $valor .= "&procesarAjax=true";
 $valor .= "&action=index.php";
+$valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarBeneficiarios";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+// URL definitiva
+$urlCargarInformacion = $url . $cadena;
+
+// Variables para Con
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$cadenaACodificar .= "&funcion=consultaBeneficiarios";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $cadenaACodificar, $enlace );
+
+// URL Consultar Proyectos
+$urlConsultarBeneficiarios = $url . $cadena;
+
+?>
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarUrbanizacion";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+$urlConsultarUrbanizacion = $url . $cadena;
+
+?>
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarBloqueManzana";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+$urlConsultarBloqueManzana = $url . $cadena;
+
+?>
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
 $valor .= "&bloqueNombre=". $esteBloque ["nombre"]; 
 $valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 $valor .= "&funcion=consultarCabecera";
@@ -106,42 +200,9 @@ $(document).ready(function() {
 	$('#example')
 			.removeClass( 'display' )
 			.addClass('table table-striped table-bordered');
-	
 			
 	$(document).ready(function() {
 	
-		$('#example thead tr#filterrow th').each( function () {
-	        var title = $('#example thead th').eq( $(this).index() ).text();
-	        $(this).html( '<input type="text" onclick="stopPropagation(event);" placeholder=" '+title+'" />' );
-	    } );
-	    
-	    function stopPropagation(evt) {
-			if (evt.stopPropagation !== undefined) {
-				evt.stopPropagation();
-			} else {
-				evt.cancelBubble = true;
-			}
-		}
-		
-	    // Apply the filter
-	    $("#example thead input").on( 'keyup change', function () {
-	    
-	    	if( $(this)[0].id != "seleccionar_todo"){
-	    		table
-	            .column( $(this).parent().index()+':visible' )
-	            .search( this.value )
-	            .draw();
-	    	}
-	         
-	    } );
-	   
-		$('#seleccionar_todo').change(function(){
-	    	var cells = table.cells( ).nodes();
-	   		$( cells ).find(':checkbox').prop('checked', $(this).is(':checked'));
-		});
-		
-		
-		
 		 $('#<?php echo $this->campoSeguro("fecha_agendamiento");?>').datetimepicker({
 	               format: 'yyyy-mm-dd',
 	               language: "es",
@@ -173,7 +234,73 @@ $(document).ready(function() {
 		
 	$("#<?php echo $this->campoSeguro('tipo_agendamiento');?>").change(function() {
 
-$('#example').DataTable().destroy();
+		
+	    
+	});
+	
+	
+});
+
+
+
+
+
+var urbanizacion = "";
+var tipo = "";
+var bloque_manzana = "";
+
+$("#<?php echo $this->campoSeguro('urbanizacion');?>").autocomplete({
+	minChars: 1,
+	serviceUrl: '<?php echo $urlConsultarUrbanizacion;?>',
+	onSelect: function (suggestion) {
+
+	  	$("#<?php echo $this->campoSeguro('id');?>").val(suggestion.data);
+		
+		if($("#<?php echo $this->campoSeguro('id');?>").val()!=''){
+			urbanizacion = $("#<?php echo $this->campoSeguro('id');?>").val();
+		}else{
+			$("#<?php echo $this->campoSeguro('urbanizacion');?>").val('');
+			$("#<?php echo $this->campoSeguro('urbanizacion');?>").val('');
+			urbanizacion = "";
+		}
+		
+		actualizarTabla();
+				
+	}
+
+});
+
+$("#<?php echo $this->campoSeguro('tipo_vivienda');?>").change(function() {
+	if($("#<?php echo $this->campoSeguro('tipo_vivienda');?>").val() != ""){
+		tipo = $("#<?php echo $this->campoSeguro('tipo_vivienda');?>").val();
+	}else{
+		tipo = "";
+	}
+	actualizarTabla();
+});
+
+$("#<?php echo $this->campoSeguro('bloque_manzana');?>").autocomplete({
+	minChars: 1,
+	serviceUrl: '<?php echo $urlConsultarBloqueManzana;?>',
+	onSelect: function (suggestion) {
+
+	  	$("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val(suggestion.data);
+		
+		if($("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val()!=""){
+			bloque_manzana = $("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val();
+		}else{
+			$("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val('');
+			$("#<?php echo $this->campoSeguro('bloque_manzana');?>").val('');
+			bloque_manzana = "";
+		}
+		
+		actualizarTabla();
+	}
+});
+
+function actualizarTabla(){
+	
+	$('#example').DataTable().destroy();
 	    var table = $('#example').DataTable( {
 	    	"processing": true,
 	        "searching": true,
@@ -183,9 +310,6 @@ $('#example').DataTable().destroy();
 	        "scrollX": true,
 	        "scrollCollapse": true,
 	        "responsive": true,
-	    	"aoColumnDefs": [
-	          { 'bSortable': false, 'aTargets': [ 7 ] }
-	       	],
 	       	"columnDefs": [
 	        	{"className": "dt-center", "targets": "_all"}
 	        ],
@@ -216,15 +340,10 @@ $('#example').DataTable().destroy();
 	        },
 	        ajax: {
 	            url: "<?php echo $urlCargarInformacion?>",
-	             data: { valor:$("#<?php echo $this->campoSeguro('tipo_agendamiento')?>").val()},
+	             data: { tipoV: tipo, urban: urbanizacion, bloq_man: bloque_manzana},
 	            dataSrc:"data"   
 	        },
 	        "columns": [
-	            { "data": "urbanizacion" },
-	            { "data": "celda" },
-	            { "data": "manzana" },
-	            { "data": "bloque" },
-	            { "data": "torre" },
 	            { "data": "identificacion_beneficiario" },
 	            { "data": "nombre_beneficiario" },
 	            
@@ -242,7 +361,16 @@ $('#example').DataTable().destroy();
 	        ]
 	    } );
 	    
-	});
-	
-	
-});
+	    setInterval( function () {
+    		table.fnReloadAjax();
+		}, 30000 );
+	    
+	    $('#seleccionar_todo').change(function(){
+	    	var cells = table.cells( ).nodes();
+	   		$( cells ).find(':checkbox').prop('checked', $(this).is(':checked'));
+		});
+		
+	}
+
+actualizarTabla();
+		

@@ -1,5 +1,8 @@
 <?php
 
+$conexion = "interoperacion";
+$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+
 function codificarNombre($nombre) {
 
 	include_once "core/builder/FormularioHtml.class.php";
@@ -17,31 +20,48 @@ function codificarNombre($nombre) {
 
 }
 
-if ($_REQUEST ['funcion'] == "consultarCabecera") {
+if ($_REQUEST ['funcion'] == "consultaBeneficiarios") {
+	
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarBeneficiariosPotenciales' );
+	
+	$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+	foreach ( $resultadoItems as $key => $values ) {
+		$keys = array (
+				'value',
+				'data' 
+		);
+		$resultado [$key] = array_intersect_key ( $resultadoItems [$key], array_flip ( $keys ) );
+	}
+	echo '{"suggestions":' . json_encode ( $resultado ) . '}';
+	
+} else if ($_REQUEST ['funcion'] == "consultarCabecera") {
 	
 	$conexion = "interoperacion";
 	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 	
-	if($_REQUEST['valor']==1){
-	$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios' );
-	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	$cadenaSql = "";
+	
+	if(isset($_REQUEST ['tipoV']) && $_REQUEST ['tipoV'] != ""){
+		$cadenaSql .= "AND bp.tipo_vivienda='" . $_REQUEST ['tipoV'] . "' ";
 	}
 	
-	if($_REQUEST['valor']==2){
-		$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios_comercial' );
-		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	if(isset($_REQUEST ['urban']) && $_REQUEST ['urban'] != ""){
+		$cadenaSql .= "AND bp.id_proyecto='" . $_REQUEST ['urban'] . "' ";
 	}
+	
+	if(isset($_REQUEST ['bloq_man']) && $_REQUEST ['bloq_man'] != ""){
+		$cadenaSql .= "AND bp.bloque='" . $_REQUEST ['bloq_man'] . "' ";
+	}
+	
+	$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios_comercial', $cadenaSql );
+	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 	
 	if($resultado!=false){
 	
 	for($i = 0; $i < count ( $resultado ); $i ++) {
 	
 		$resultadoFinal [] = array (
-				'urbanizacion' =>  $resultado [$i] ['urbanizacion'],
-				'celda' => $resultado [$i] ['codigo_nodo'],
-				'manzana' => $resultado [$i] ['manzana'],
-				'bloque' => $resultado [$i] ['bloque'],
-				'torre' => $resultado [$i] ['torre'],
 				'identificacion_beneficiario' => $resultado [$i] ['identificacion_beneficiario'],
 				'nombre_beneficiario' => $resultado [$i] ['nombre_beneficiario'],
 				'id_checkbox' => array( 'value' =>  (  
@@ -107,6 +127,34 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 	
 	echo json_encode($enlace);
 		
+}else if ($_REQUEST ['funcion'] == "consultarUrbanizacion") {
+	
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarUrbanizacion' );
+	$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+	foreach ( $resultadoItems as $key => $values ) {
+		$keys = array (
+				'value',
+				'data' 
+		);
+		$resultado [$key] = array_intersect_key ( $resultadoItems [$key], array_flip ( $keys ) );
+	}
+	echo '{"suggestions":' . json_encode ( $resultado ) . '}';
+	
+}else if ($_REQUEST ['funcion'] == "consultarBloqueManzana") {
+	
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarBloqueManzana' );
+	$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+	foreach ( $resultadoItems as $key => $values ) {
+		$keys = array (
+				'value',
+				'data' 
+		);
+		$resultado [$key] = array_intersect_key ( $resultadoItems [$key], array_flip ( $keys ) );
+	}
+	echo '{"suggestions":' . json_encode ( $resultado ) . '}';
+	
 }
 
 ?>
