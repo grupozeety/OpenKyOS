@@ -53,21 +53,25 @@ class Alfresco {
 		
 
 		$_REQUEST ['tiempo'] = time ();
+
+		if ($_REQUEST['verificar']=='true'){
 		
-		if (empty($_FILES)){
 			// Modificar el estado del archivo por verificación según el rol
 			$this->modificarArchivo ();
-		}else{
+		}
+		
+		if ($_REQUEST['actualizar']=='true'){
+			
 			// Modificar Documento Actual por uno nuevo
 			$this->cargarArchivos();
 			$this->asociarCodigoDocumento ();
 		
-			$this->sincronizacion->sincronizarAlfresco ($_REQUEST['id_beneficiario'],$this->archivos_datos[0]);
+           $this->sincronizacion->sincronizarAlfresco ($_REQUEST['id_beneficiario'],$this->archivos_datos[0]);
+			
+
 			$this->actualizarLocal();
 		}
-		
-		
-		exit;
+
 		if ($this->verificacion) {
 			Redireccionador::redireccionar ( "verifico", $_REQUEST ['id_beneficiario'] );
 		} else {
@@ -80,7 +84,10 @@ class Alfresco {
 			$respuesta ['rol'] [] = $rol;
 		}
 		
-		$rol = 'Comisionador';
+		$cadenaSql = $this->miSql->getCadenaSql ( 'pruebas');
+		$pruebas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		$rol = $pruebas[0][0];
 		
 		$datos = array (
 				'archivo' => $_REQUEST ['id_archivo'],
