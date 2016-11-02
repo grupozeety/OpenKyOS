@@ -101,9 +101,9 @@ class GenerarDocumento {
         $cedula = ($this->beneficiario['tipo_documento'] == $CodigoCedula['codigo']) ? '<b>(X)</b>' : '';
         $targeta = ($this->beneficiario['tipo_documento'] == $CodigoTargeta['codigo']) ? '<b>(X)</b>' : '';
 
-        $firma_contratista = ($this->beneficiario['url_firma_contratista'] != '') ? "<img src='" . $this->beneficiario['url_firma_contratista'] . "'  width='125' height='40'>" : "";
+        $firma_contratista = ($this->beneficiario['url_firma_contratista'] != '' && $_REQUEST['botonGenerarPdfNoFirmas'] != 'true') ? "<img src='" . $this->beneficiario['url_firma_contratista'] . "'  width='125' height='40'>" : "";
 
-        $firma_beneficiario = ($this->beneficiario['url_firma_beneficiarios'] != '') ? "<img src='" . $this->beneficiario['url_firma_beneficiarios'] . "'  width='125' height='40'>" : "";
+        $firma_beneficiario = ($this->beneficiario['url_firma_beneficiarios'] != '' && $_REQUEST['botonGenerarPdfNoFirmas'] != 'true') ? "<img src='" . $this->beneficiario['url_firma_beneficiarios'] . "'  width='125' height='40'>" : "";
 
         $contenidoPagina = "
 							<style type=\"text/css\">
