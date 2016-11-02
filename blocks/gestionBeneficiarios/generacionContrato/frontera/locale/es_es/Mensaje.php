@@ -99,4 +99,10 @@ $this->idioma['botonGenerarPdf'] = 'Generar Minuta Contrato';
 
 $this->idioma['noDefinido'] = 'Etiqueta No definida';
 
+//-------------------------------------- documentos verificacion/cambios
+
+
+$this->idioma['archivo'] = 'Reemplazar Archivo';
+$this->idioma['verificar'] = 'Verificar Archivo';
+$this->idioma['actualizar'] = 'Actualizar Archivo';
 ?>

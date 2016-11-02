@@ -23,22 +23,21 @@ class sincronizar {
 		$this->miFuncion = $funcion;
 	}
 	public function iniciarSincronizacion($id_orden, $beneficiario, $kit) {
-		
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		$resultado = 0;
-
+		
 		// // Crear el cliente
 		$clienteURL = $this->crearUrlCliente ( $beneficiario );
 		$clienteCrear = $this->crearCliente ( $clienteURL );
-
+		
 		// Crear el material request
 		$cadenaSql = $this->miSql->getCadenaSql ( 'recuperarOrden', $id_orden );
 		$orden = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		if ($orden != false && $kit != 0) {
-	
+			
 			$material = $this->datosmaterial ( $orden, $kit, $beneficiario );
 			$materialURL = $this->crearUrlMaterial ( $material );
 			$materialCrear = $this->crearMaterial ( $materialURL );
@@ -48,20 +47,20 @@ class sincronizar {
 		}
 		
 		// Carpetas
-	    $alfresco = $this->alfresco ($beneficiario);
-	    $resultado = $alfresco ['estado'] + $clienteCrear ['estado'] + $materialCrear ['estado'];
-
+		$alfresco = $this->alfresco ( $beneficiario );
+		$resultado = $alfresco ['estado'] + $clienteCrear ['estado'] + $materialCrear ['estado'];
+		
 		if ($resultado > 0) {
 			$mensajes = $beneficiario . ': ' . $alfresco ['mensaje'] . ". " . $clienteCrear ['mensaje'] . ". " . $materialCrear ['mensaje'];
 		} else {
 			$mensajes = 0;
 		}
 		
-		
 		return $mensajes;
 	}
 	// La siguiente funcionalidad es para crear carpetas de Comisionamiento
 	public function alfresco($beneficiario) {
+
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
@@ -79,26 +78,36 @@ class sincronizar {
 		
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/site/folder/" . $variable [0] ['site'] . "/documentLibrary/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo']; // pendiente la pagina para modificar parametro
 		
+		$unwanted_array = array (
+				'é' => '%C3%A9',
+				'í' => '%C3%AD',
+				'ó' => '%C3%B3',
+				' ' => '%20',
+				'(' => '%28',
+				')' => '%29' 
+		);
+		
+		$url_limpia = strtr ( $url, $unwanted_array );
 		$carpeta = json_encode ( array (
 				'name' => $variable [0] ['id_beneficiario'],
 				'type' => 'cm:folder' 
 		) );
 		
-		$result = RestClient::post ( $url, $carpeta, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] ); 
-
-		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
+		$result = RestClient::post ( $url_limpia, $carpeta, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] );
 		
-		$validacion = strpos ( $json_decode, 'error' );
-		if (! is_numeric ( $validacion )) {
+		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
+
+		$status=$json_decode($json_decode,true);
+		if (is_null ( $status )) {
 			
 			foreach ( $carpetas as $llave => $valores ) {
-				$url2 = $url . "/" . $variable [0] ['id_beneficiario']; 
+				$url2 = $url_limpia . "/" . $variable [0] ['id_beneficiario'];
 				$carpeta2 = array (
 						'name' => $carpetas [$llave] ['descripcion'],
 						'type' => 'cm:folder' 
 				);
 				
-				$result2 = RestClient::post ( $url2, json_encode ( $carpeta2 ), 'admin', 'qelvui2016=' ); 
+				$result2 = RestClient::post ( $url2, json_encode ( $carpeta2 ), $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] );
 				$json_decode2 = json_decode ( json_encode ( $result2->getResponse () ), true );
 				
 				$validacion = strpos ( $json_decode, 'error' );
@@ -174,9 +183,9 @@ class sincronizar {
 	public function kit($url) {
 		$variable = 0;
 		$operar = file_get_contents ( $url );
-		$validacion = strlen( $operar);
-
-		if ($validacion!=0) {
+		$validacion = strlen ( $operar );
+		
+		if ($validacion != 0) {
 			$variable = json_decode ( $operar, true );
 		}
 		
@@ -185,8 +194,10 @@ class sincronizar {
 	public function datosmaterial($orden, $items, $base) {
 		$parametros = 0;
 		
-		foreach($items as $key=>$values){
-			$items[$key]=array_merge($values,array('warehouse'=>$orden [0]['proyecto'] . " - CPNDC"));
+		foreach ( $items as $key => $values ) {
+			$items [$key] = array_merge ( $values, array (
+					'warehouse' => $orden [0] ['proyecto'] . " - CPNDC" 
+			) );
 		}
 		
 		$parametros = array (
@@ -194,13 +205,13 @@ class sincronizar {
 				"material_request_type" => "Material Transfer",
 				"id_orden_trabajo" => $orden [0] ['orden_trabajo'],
 				"descripcion_orden" => 'Hogar Comisionamiento',
-				"centro_costos" =>$orden [0] ['proyecto'] . " - CPNDC",
+				"centro_costos" => $orden [0] ['proyecto'] . " - CPNDC",
 				"status" => "Draft",
 				"project" => $orden [0] ['proyecto'],
 				"docstatus" => 0,
 				"transaction_date" => date ( 'Y-m-d' ),
 				"description" => "Solicitud de Kit de Comisionamiento por Agendamiento de Beneficiario",
-				"items" => $items
+				"items" => $items 
 		);
 		
 		return $parametros;
