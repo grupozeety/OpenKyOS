@@ -57,7 +57,7 @@ class FormProcessor {
 		// $fp=fopen($archivo,'r');
 		// var_dump ( $args );
 		
-		$beneficiario = '4444';
+		$beneficiario = $_REQUEST['id_beneficiario'];
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
@@ -71,6 +71,33 @@ class FormProcessor {
 		$datosConexion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/site/folder/" . $variable [0] ['site'] . "/documentLibrary/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo']; // pendiente la pagina para modificar parametro
+		
+		
+		$curl_request = curl_init();
+		curl_setopt($curl_request, CURLOPT_URL, 'http://54.165.128.229:8080/alfresco/service/api/upload?alf_ticket=TICKET_8c64e8c1aaed20f27c2dae9f5b818562ce615338');
+		curl_setopt($curl_request, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl_request, CURLOPT_HEADER, false);
+		curl_setopt($curl_request, CURLOPT_POST,true);
+		$args = new CurlFile($ruta_absoluta,$archivo ['type'],$this->prefijo . "_" . $nombre_archivo);
+		
+		$archivo = array (
+				'filedata' => $args,
+				'siteid' => $variable [0] ['site'],
+				'containerid' => 'documentLibrary',
+				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'],
+				'contenttype' => 'cm:content'
+		);
+		
+		curl_setopt($curl_request, CURLOPT_POSTFIELDS, $archivo);
+		$result = curl_exec($curl_request);
+		
+		
+		var_dump($result);
+		exit;
+		
+		
+		
+		
 		
 		$archivo = str_replace("\\","",json_encode ( array (
 				'filedata' => '@'.$archivo_datos ['ruta_absoluta'],
