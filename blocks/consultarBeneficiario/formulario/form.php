@@ -682,7 +682,7 @@ class Registrador {
 
                 case 'errorBeneficiario':
                     $estilo_mensaje = 'error';     //information,warning,error,validation
-                    $atributos["mensaje"] = 'Error no exite Beneficiario';
+                    $atributos["mensaje"] = 'Error no existe Beneficiario';
                     break;
 
                 default:
