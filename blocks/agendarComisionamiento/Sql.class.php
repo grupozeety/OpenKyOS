@@ -103,6 +103,48 @@ class Sql extends \Sql {
 				$cadenaSql .= "id_sesion='" . $idSesion . "'";
 				break;
 			
+			case 'consultarBeneficiariosPotenciales' :
+				$cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
+				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+				$cadenaSql .= "WHERE estado_registro=TRUE ";
+				$cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "OR nombre ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "LIMIT 10; ";
+				break;
+				
+			case 'consultarUrbanizacion' :
+				$cadenaSql = " SELECT DISTINCT id_proyecto ||' - '|| proyecto AS  value, id_proyecto  AS data  ";
+				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+				$cadenaSql .= "WHERE estado_registro=TRUE ";
+				$cadenaSql .= "AND  cast(id_proyecto  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "OR proyecto ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "LIMIT 10; ";
+				break;
+				
+			case 'consultarBloqueManzana' :
+				$cadenaSql = " SELECT DISTINCT bloque AS  value, bloque  AS data  ";
+				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+				$cadenaSql .= "WHERE estado_registro=TRUE ";
+				$cadenaSql .= "AND  cast(bloque  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "LIMIT 10; ";
+				break;
+			
+			case "parametroTipoVivienda" :
+				$cadenaSql = "SELECT        ";
+				$cadenaSql .= " codigo, ";
+				$cadenaSql .= "param.descripcion ";
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "parametros.parametros as param ";
+				$cadenaSql .= "INNER JOIN ";
+				$cadenaSql .= "parametros.relacion_parametro as rparam ";
+				$cadenaSql .= "ON ";
+				$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "rparam.descripcion = 'Tipo de Vivienda' ";
+				break;
+				
 			/* Consultas del desarrollo */
 			case "consultarBeneficiarios" :
 				
@@ -121,19 +163,19 @@ class Sql extends \Sql {
 				$cadenaSql .= "interoperacion.beneficiario_potencial AS bp ";
 				$cadenaSql .= "join interoperacion.asociacion_benf_nodo AS abn ";
 				$cadenaSql .= "ON bp.id_beneficiario=abn.id_beneficiario ";
-				//$cadenaSql .= "AND bp.estado_registro=true ";
-				//$cadenaSql .= "AND abn.estado_registro=true ";
+				// $cadenaSql .= "AND bp.estado_registro=true ";
+				// $cadenaSql .= "AND abn.estado_registro=true ";
 				$cadenaSql .= "join interoperacion.contrato ct ";
 				$cadenaSql .= "ON bp.id_beneficiario=ct.id_beneficiario ";
-//				$cadenaSql .= "AND ct.estado_contrato=(SELECT pm.id_parametro id_est_contrato
-//                				FROM parametros.parametros pm
-//                				JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND rl.descripcion='Estado Contrato' AND rl.estado_registro=TRUE
-//                				WHERE pm.estado_registro=TRUE AND pm.descripcion='Aprobado') ";
-//				$cadenaSql .= "WHERE ";
-//				$cadenaSql .= "not exists (select 1 from interoperacion.agendamiento_comisionamiento AS ac where ac.identificacion_beneficiario=bp.identificacion AND ac.estado_registro=true)";
+				// $cadenaSql .= "AND ct.estado_contrato=(SELECT pm.id_parametro id_est_contrato
+				// FROM parametros.parametros pm
+				// JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND rl.descripcion='Estado Contrato' AND rl.estado_registro=TRUE
+				// WHERE pm.estado_registro=TRUE AND pm.descripcion='Aprobado') ";
+				// $cadenaSql .= "WHERE ";
+				// $cadenaSql .= "not exists (select 1 from interoperacion.agendamiento_comisionamiento AS ac where ac.identificacion_beneficiario=bp.identificacion AND ac.estado_registro=true)";
 				break;
-				
-			case "consultarBeneficiarios_comercial":
+			
+			case "consultarBeneficiarios_comercial" :
 				$cadenaSql = "SELECT DISTINCT ";
 				$cadenaSql .= "bp.proyecto as urbanizacion, ";
 				$cadenaSql .= "bp.id_proyecto as id_urbanizacion, ";
@@ -148,8 +190,9 @@ class Sql extends \Sql {
 				$cadenaSql .= "FROM  ";
 				$cadenaSql .= "interoperacion.beneficiario_potencial AS bp ";
 				$cadenaSql .= "WHERE bp.estado_registro=TRUE ";
-//				$cadenaSql .= "AND ";
-//				$cadenaSql .= "not exists (select 1 from interoperacion.contrato AS con where con.id_beneficiario=bp.id_beneficiario AND con.estado_registro=true) ";
+				$cadenaSql .= $variable;
+				// $cadenaSql .= "AND ";
+				// $cadenaSql .= "not exists (select 1 from interoperacion.contrato AS con where con.id_beneficiario=bp.id_beneficiario AND con.estado_registro=true) ";
 				break;
 			// select urbanizacion as urbanizacion, urbanizacion as id_urbanizacion, manzana, torre, bloque, apartamento, identificacion as identificacion_beneficiario, nombre || ' ' || primer_apellido || ' ' || segundo_apellido as nombre from interoperacion.beneficiario_potencial natural join WHERE estado_registro=TRUE
 			
@@ -300,7 +343,7 @@ class Sql extends \Sql {
 			case "recuperarOrden" :
 				$cadenaSql = "SELECT orden_trabajo,left(proyecto,strpos(proyecto,' -')-1) as proyecto ";
 				$cadenaSql .= " FROM interoperacion.beneficiario_potencial ";
-				$cadenaSql .= " WHERE orden_trabajo='".$variable."' ";
+				$cadenaSql .= " WHERE orden_trabajo='" . $variable . "' ";
 				$cadenaSql .= " AND estado_registro=TRUE ";
 				break;
 		}

@@ -10,6 +10,7 @@ $estilo[$indice++]="dataTables.bootstrap.min.css";
 $estilo[$indice++]="select2.min.css";
 $estilo[$indice++]="miestilo.css";
 $estilo[$indice++]="modalLoad.css";
+$estilo[$indice++] = "jquery.auto-complete.css";
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");
