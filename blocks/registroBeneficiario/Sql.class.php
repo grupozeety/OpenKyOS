@@ -159,11 +159,15 @@ class Sql extends \Sql {
 				
 				$cadenaSql = "SELECT ";
 				$cadenaSql .= "id_beneficiario,";
+				$cadenaSql .= "tipo_documento AS tipo_documento_familiar,";
 				$cadenaSql .= "identificacion_familiar,";
 				$cadenaSql .= "nombre_familiar,";
+				$cadenaSql .= "primer_apellido_familiar,";
+				$cadenaSql .= "segundo_apellido_familiar,";
 				$cadenaSql .= "parentesco,";
 				$cadenaSql .= "genero_familiar,";
 				$cadenaSql .= "edad_familiar,";
+				$cadenaSql .= "celular_familiar,";
 				$cadenaSql .= "nivel_estudio_familiar,";
 				$cadenaSql .= "correo_familiar,";
 				$cadenaSql .= "grado_estudio_familiar,";
@@ -278,11 +282,15 @@ class Sql extends \Sql {
 				
 				$cadenaSql = "INSERT INTO interoperacion.familiar_beneficiario_potencial(";
 				$cadenaSql .= "id_beneficiario,";
+				$cadenaSql .= "tipo_documento,";
 				$cadenaSql .= "identificacion_familiar,";
 				$cadenaSql .= "nombre_familiar,";
+				$cadenaSql .= "primer_apellido_familiar,";
+				$cadenaSql .= "segundo_apellido_familiar,";
 				$cadenaSql .= "parentesco,";
 				$cadenaSql .= "genero_familiar,";
 				$cadenaSql .= "edad_familiar,";
+				$cadenaSql .= "celular_familiar,";
 				$cadenaSql .= "nivel_estudio_familiar,";
 				$cadenaSql .= "correo_familiar,";
 				$cadenaSql .= "grado_estudio_familiar,";
@@ -295,11 +303,15 @@ class Sql extends \Sql {
 					
 					$cadenaSql .= "(";
 					$cadenaSql .= "'" . $valor ['id_beneficiario'] . "',";
+					$cadenaSql .= "'" . $valor ['tipo_documento'] . "',";
 					$cadenaSql .= "'" . $valor ['identificacion'] . "',";
 					$cadenaSql .= "'" . $valor ['nombre'] . "',";
+					$cadenaSql .= "'" . $valor ['primer_apellido'] . "',";
+					$cadenaSql .= "'" . $valor ['segundo_apellido'] . "',";
 					$cadenaSql .= "'" . $valor ['parentesco'] . "',";
 					$cadenaSql .= "'" . $valor ['genero'] . "',";
 					$cadenaSql .= "'" . $valor ['edad'] . "',";
+					$cadenaSql .= "'" . $valor ['celular'] . "',";
 					$cadenaSql .= "'" . $valor ['nivel_estudio'] . "',";
 					$cadenaSql .= "'" . $valor ['correo'] . "',";
 					$cadenaSql .= "'" . $valor ['grado'] . "',";

@@ -73,7 +73,7 @@ class Registrar {
 
         	
             $familiar[$i]['id_beneficiario'] = $_REQUEST['id_beneficiario'];
-            $familiar[$i]['tipo_documento'] = $_REQUEST['tipo_documento_familiar_' - $i];
+            $familiar[$i]['tipo_documento'] = $_REQUEST['tipo_documento_familiar_' . $i];
             $familiar[$i]['identificacion'] = $_REQUEST['identificacion_familiar_' . $i];
             $familiar[$i]['nombre'] = $_REQUEST['nombre_familiar_' . $i];
             $familiar[$i]['primer_apellido'] = $_REQUEST['primer_apellido_familiar_' . $i];

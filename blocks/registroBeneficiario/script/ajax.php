@@ -394,7 +394,7 @@ foreach ($arreglo2 as $key2=>$values2){
 					$($( '#div_' + (id + 1) + ' :input')[0]).select2({width:'100%'});
 					$($( '#div_' + (id + 1) + ' :input')[5]).select2({width:'100%'});
 					$($( '#div_' + (id + 1) + ' :input')[6]).select2({width:'100%'});
-					$($( '#div_' + (id + 1) + ' :input')[8]).select2({width:'100%'});
+					$($( '#div_' + (id + 1) + ' :input')[9]).select2({width:'100%'});
 					$($( '#div_' + (id + 1) + ' :input')[13]).select2({width:'100%'});
 					$($( '#div_' + (id + 1) + ' :input')[14]).select2({width:'100%'});
 					
@@ -442,7 +442,14 @@ foreach ($arreglo2 as $key2=>$values2){
 					
 					$($( '#div_' + (id + 1) + ' :input')[14]).attr('id', data.ocupacion).val("").change();
 					$($( '#div_' + (id + 1) + ' :input')[14]).attr('name', data.ocupacion);
-				
+					
+					$( '#div_' + (id + 1) + ' a').attr('href', '#familiar' + (id + 1)).change();
+					$( '#div_' + (id + 1) + ' .panel-collapse').attr('id', 'familiar' + (id + 1)).change();
+
+					$('#familiar' + id).removeClass("in");
+					$('#familiar' + id).removeAttr("aria-expanded");
+					$( '#div_' + (id) + ' a').removeAttr("aria-expanded");
+					$( '#div_' + (id) + ' a').removeClass("collapsed");
 			}
 			
 		});

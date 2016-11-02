@@ -160,10 +160,10 @@ class Formulario {
     				<div class="panel panel-default">
       					<div class="panel-heading">
         					<h4 class="panel-title">
-          						<a data-toggle="collapse" data-parent="#accordion" href="#collapse5">Familiar</a>
+          						<a data-toggle="collapse" data-parent="#accordion" href="#familiar1">Familiar</a>
         					</h4>
       					</div>
-      					<div id="collapse5" class="panel-collapse collapse">
+      					<div id="familiar1" class="panel-collapse collapse">
        						<div class="panel-body">';
 								
 									$cargueDatos = array();
