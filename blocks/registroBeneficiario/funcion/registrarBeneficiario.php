@@ -27,7 +27,8 @@ class Registrar {
         $this->sincronizacion = new sincronizar($lenguaje, $sql, $funcion);
     }
     public function procesarFormulario() {
-        $beneficiarioPotencial = array();
+
+    	$beneficiarioPotencial = array();
 
         $beneficiarioPotencial['id_beneficiario'] = $_REQUEST['id_beneficiario'];
         $beneficiarioPotencial['tipo_beneficiario'] = $_REQUEST['tipo_beneficiario'];
@@ -70,12 +71,17 @@ class Registrar {
 
         for ($i = 0; $i < $_REQUEST['familiares']; $i++) {
 
+        	
             $familiar[$i]['id_beneficiario'] = $_REQUEST['id_beneficiario'];
+            $familiar[$i]['tipo_documento'] = $_REQUEST['tipo_documento_familiar_' - $i];
             $familiar[$i]['identificacion'] = $_REQUEST['identificacion_familiar_' . $i];
             $familiar[$i]['nombre'] = $_REQUEST['nombre_familiar_' . $i];
+            $familiar[$i]['primer_apellido'] = $_REQUEST['primer_apellido_familiar_' . $i];
+            $familiar[$i]['segundo_apellido'] = $_REQUEST['segundo_apellido_familiar_' . $i];
             $familiar[$i]['parentesco'] = $_REQUEST['parentesco_' . $i];
             $familiar[$i]['genero'] = $_REQUEST['genero_familiar_' . $i];
             $familiar[$i]['edad'] = $_REQUEST['edad_familiar_' . $i];
+            $familiar[$i]['celular'] = $_REQUEST['celular_familiar_' . $i];
             $familiar[$i]['nivel_estudio'] = $_REQUEST['nivel_estudio_familiar_' . $i];
             $familiar[$i]['correo'] = $_REQUEST['correo_familiar_' . $i];
             $familiar[$i]['grado'] = $_REQUEST['grado_familiar_' . $i];
