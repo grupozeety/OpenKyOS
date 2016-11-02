@@ -4,6 +4,8 @@ namespace registroBeneficiario\funcion;
 
 use registroBeneficiario\funcion\redireccionar;
 
+include_once ('redireccionar.php');
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -22,7 +24,6 @@ class Registrar {
         $this->lenguaje = $lenguaje;
         $this->miSql = $sql;
         $this->miFuncion = $funcion;
-        $this->sincronizacion = new sincronizar($lenguaje, $sql, $funcion);
     }
     public function procesarFormulario() {
 

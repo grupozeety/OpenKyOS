@@ -97,7 +97,7 @@ class sincronizar {
 
         $json_decode = json_decode(json_encode($result->getResponse()), true);
 
-        $status = $json_decode($json_decode, true);
+        $status = json_decode($json_decode, true);
 
         if (is_null($status)) {
 
