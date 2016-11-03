@@ -179,7 +179,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarParametro' :
-				$cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
+				$cadenaSql = " SELECT pr.id_parametro, pr.descripcion, pr.codigo ";
 				$cadenaSql .= " FROM parametros.parametros pr";
 				$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
 				$cadenaSql .= " WHERE ";

@@ -32,14 +32,10 @@ class FormProcessor {
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
+	
 		$_REQUEST ['tiempo'] = time ();
 		
-		/**
-		 * 1.
-		 * CargarArchivos en el Directorio
-		 */
 		
-		$this->cargarArchivos ();
 		
 		/**
 		 * 2.
@@ -48,6 +44,14 @@ class FormProcessor {
 		
 		$this->asosicarCodigoDocumento ();
 		
+		
+		/**
+		 * 1.
+		 * CargarArchivos en el Directorio
+		 */
+		
+		$this->cargarArchivos ();
+	
 		/**
 		 * 3.
 		 * Registrar Documentos
@@ -60,6 +64,8 @@ class FormProcessor {
 		 * Sincronizar Alfresco
 		 */
 		$total=0;
+		
+
 		foreach ( $this->archivos_datos as $key => $values ) {
 			$resultado[$key]=$this->sincronizacion->sincronizarAlfresco ( $_REQUEST ['id_beneficiario'], $this->archivos_datos[$key] );
 			
@@ -72,7 +78,7 @@ class FormProcessor {
 		 */
 		
 		$this->registrarContratoBorrador ();
-		
+		exit;
 		if ($this->datos_contrato) {
 			Redireccionador::redireccionar ( "Inserto",$total);
 		} else {
@@ -95,70 +101,82 @@ class FormProcessor {
 		}
 	}
 	public function asosicarCodigoDocumento() {
-		foreach ( $this->archivos_datos as $key => $value ) {
+		foreach ( $_FILES as $key => $value ) {
 			
-			switch ($value ['campo']) {
+			switch ($key) {
 				case 'cedula' :
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "001" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['id_parametro'].'_'.$id_parametro [0] ['descripcion'];
 					break;
 				
 				case 'certificado_servicio' :
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "003" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['id_parametro'].'_'.$id_parametro [0] ['descripcion'];
 					break;
 				
 				case 'acta_vip' :
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "002" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['codigo'].'_'.$id_parametro [0] ['descripcion'];
 					break;
 				
 				case 'documento_acceso_propietario' :
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "006" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['codigo'].'_'.$id_parametro [0] ['descripcion'];
 					break;
 				
 				case 'documento_direccion' :
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "007" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES[$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['codigo'].'_'.$id_parametro [0] ['descripcion'];
 					break;
 				
 				case 'certificado_proyecto_vip' :
 					
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "005" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES[$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['codigo'].'_'.$id_parametro [0] ['descripcion'];
 					break;
 				
 				case 'cedula_cliente' :
 					
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', "777" );
 					$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-					$this->archivos_datos [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+					$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['codigo'].'_'.$id_parametro [0] ['descripcion'];
 					break;
 			}
 		}
 	}
 	public function cargarArchivos() {
+		
 		foreach ( $_FILES as $key => $archivo ) {
 			
 			$this->prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
 			/*
 			 * obtenemos los datos del Fichero
 			 */
+			
+
+			$exten=pathinfo($archivo['name']);
 			$tamano = $archivo ['size'];
 			$tipo = $archivo ['type'];
-			$nombre_archivo = str_replace ( " ", "", $archivo ['name'] );
+			$nombre_archivo = str_replace ( " ", "_", $archivo ['descripcion_documento'] );
+			$doc=$_REQUEST ['id_beneficiario'] . "_" . $nombre_archivo. "_" . $this->prefijo.'.'.$exten['extension'];
 			/*
 			 * guardamos el fichero en el Directorio
 			 */
-			$ruta_absoluta = $this->miConfigurador->configuracion ['raizDocumento'] . "/archivos/" . $_REQUEST ['id_beneficiario'] . "_" . $this->prefijo . "_" . $nombre_archivo;
-			$ruta_relativa = $this->miConfigurador->configuracion ['host'] . $this->miConfigurador->configuracion ['site'] . "/archivos/" . $_REQUEST ['id_beneficiario'] . "_" . $this->prefijo . "_" . $nombre_archivo;
+			$ruta_absoluta = $this->miConfigurador->configuracion ['raizDocumento'] . "/archivos/" . $doc ;
+			$ruta_relativa = $this->miConfigurador->configuracion ['host'] . $this->miConfigurador->configuracion ['site'] . "/archivos/" . $doc ;
 			$archivo ['rutaDirectorio'] = $ruta_absoluta;
 			if (! copy ( $archivo ['tmp_name'], $ruta_absoluta )) {
 				exit ();
@@ -168,8 +186,9 @@ class FormProcessor {
 			$archivo_datos [] = array (
 					'ruta_archivo' => $ruta_relativa,
 					'rutaabsoluta' => $ruta_absoluta,
-					'nombre_archivo' => $archivo ['name'],
-					'campo' => $key 
+					'nombre_archivo' => $doc,
+					'campo' => $key ,
+					'tipo_documento'=>$archivo['tipo_documento']
 			);
 		}
 		

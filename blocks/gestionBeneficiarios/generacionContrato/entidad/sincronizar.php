@@ -35,7 +35,7 @@ public function sincronizarAlfresco($beneficiario, $documento) {
 		
 		$filename = $ruta_absoluta;
 		$mimetype = mime_content_type ( $filename );
-		$postname = $beneficiario . "-" . $this->prefijo . "_" . $documento['nombre_archivo'];
+		$postname = $documento['nombre_archivo'];
 		
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
