@@ -696,7 +696,7 @@ class Registrador {
 
                             $urlpdfNoFirmas = $url . $cadena;
 
-                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Documento Constrato Sin Firmas</a></b>";
+                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Documento Contrato Sin Firmas</a></b>";
 
                             // -----------------CONTROL: Botón ----------------------------------------------------------------
                             $esteCampo = 'botonGenerarPdfNoFirmas';
