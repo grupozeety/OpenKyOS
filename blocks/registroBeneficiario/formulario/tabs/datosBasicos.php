@@ -183,7 +183,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+//             //$atributos['validar'] = 'required';
 
             if (isset($cargueDatos[$esteCampo])) {
                 $atributos['valor'] = $cargueDatos[$esteCampo];
@@ -218,7 +218,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
             $atributos['cadena_sql'] = $this->miSql->getCadenaSql("parametroTipoBeneficiario");
             $matrizItems = array(
                 array(
@@ -261,7 +261,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
 
             if (isset($cargueDatos[$esteCampo])) {
                 $atributos['valor'] = $cargueDatos[$esteCampo];
@@ -274,73 +274,73 @@ class Formulario {
             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
             unset($atributos);
 
-            $esteCampo = 'nomenclatura';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "text";
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['evento'] = '';
-            $atributos['deshabilitado'] = false;
-            $atributos['readonly'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['placeholder'] = "";
-            $atributos['valor'] = "";
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
-            $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+//             $esteCampo = 'nomenclatura';
+//             $atributos['nombre'] = $esteCampo;
+//             $atributos['tipo'] = "text";
+//             $atributos['id'] = $esteCampo;
+//             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+//             $atributos["etiquetaObligatorio"] = true;
+//             $atributos['tab'] = $tab++;
+//             $atributos['anchoEtiqueta'] = 2;
+//             $atributos['estilo'] = "bootstrap";
+//             $atributos['evento'] = '';
+//             $atributos['deshabilitado'] = false;
+//             $atributos['readonly'] = false;
+//             $atributos['columnas'] = 1;
+//             $atributos['tamanno'] = 1;
+//             $atributos['placeholder'] = "";
+//             $atributos['valor'] = "";
+//             $atributos['ajax_function'] = "";
+//             $atributos['ajax_control'] = $esteCampo;
+//             $atributos['limitar'] = false;
+//             $atributos['anchoCaja'] = 10;
+//             $atributos['miEvento'] = '';
+//             //$atributos['validar'] = 'required';
 
-            if (isset($cargueDatos[$esteCampo])) {
-                $atributos['valor'] = $cargueDatos[$esteCampo];
-            } else {
-                $atributos['valor'] = '';
-            }
+//             if (isset($cargueDatos[$esteCampo])) {
+//                 $atributos['valor'] = $cargueDatos[$esteCampo];
+//             } else {
+//                 $atributos['valor'] = '';
+//             }
 
-            // Aplica atributos globales al control
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-            unset($atributos);
+//             // Aplica atributos globales al control
+//             $atributos = array_merge($atributos, $atributosGlobales);
+//             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+//             unset($atributos);
 
-            $esteCampo = 'resolucion_adjudicacion';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "text";
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['evento'] = '';
-            $atributos['deshabilitado'] = false;
-            $atributos['readonly'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['placeholder'] = "";
-            $atributos['valor'] = "";
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
-            $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+//             $esteCampo = 'resolucion_adjudicacion';
+//             $atributos['nombre'] = $esteCampo;
+//             $atributos['tipo'] = "text";
+//             $atributos['id'] = $esteCampo;
+//             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+//             $atributos["etiquetaObligatorio"] = true;
+//             $atributos['tab'] = $tab++;
+//             $atributos['anchoEtiqueta'] = 2;
+//             $atributos['estilo'] = "bootstrap";
+//             $atributos['evento'] = '';
+//             $atributos['deshabilitado'] = false;
+//             $atributos['readonly'] = false;
+//             $atributos['columnas'] = 1;
+//             $atributos['tamanno'] = 1;
+//             $atributos['placeholder'] = "";
+//             $atributos['valor'] = "";
+//             $atributos['ajax_function'] = "";
+//             $atributos['ajax_control'] = $esteCampo;
+//             $atributos['limitar'] = false;
+//             $atributos['anchoCaja'] = 10;
+//             $atributos['miEvento'] = '';
+//             //$atributos['validar'] = 'required';
 
-            if (isset($cargueDatos[$esteCampo])) {
-                $atributos['valor'] = $cargueDatos[$esteCampo];
-            } else {
-                $atributos['valor'] = '';
-            }
+//             if (isset($cargueDatos[$esteCampo])) {
+//                 $atributos['valor'] = $cargueDatos[$esteCampo];
+//             } else {
+//                 $atributos['valor'] = '';
+//             }
 
-            // Aplica atributos globales al control
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-            unset($atributos);
+//             // Aplica atributos globales al control
+//             $atributos = array_merge($atributos, $atributosGlobales);
+//             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+//             unset($atributos);
 
             // ----------------FIN CONTROL: Lista Tipo de Beneficiario--------------------------------------------------------
 
@@ -364,7 +364,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
             $atributos['cadena_sql'] = $this->miSql->getCadenaSql("parametroTipoDocumento");
             $matrizItems = array(
                 array(
@@ -411,7 +411,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
 
             if (isset($cargueDatos[$esteCampo])) {
                 $atributos['valor'] = $cargueDatos[$esteCampo];
@@ -449,7 +449,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
             // Aplica atributos globales al control
 
             if (isset($cargueDatos[$esteCampo])) {
@@ -487,7 +487,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
             // Aplica atributos globales al control
 
             if (isset($cargueDatos[$esteCampo])) {
@@ -525,7 +525,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
             // Aplica atributos globales al control
 
             if (isset($cargueDatos[$esteCampo])) {
@@ -764,7 +764,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
             // Aplica atributos globales al control
 
             if (isset($cargueDatos[$esteCampo])) {
@@ -846,7 +846,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = '';
+//             $atributos['validar'] = '';
             // Aplica atributos globales al control
 
             if (isset($cargueDatos[$esteCampo])) {
@@ -861,81 +861,81 @@ class Formulario {
 
             // ----------------FIN CONTROL: Campo Texto Manzana-------------------------------------------------------
 
-            // ----------------INICIO CONTROL: Campo Texto Torre--------------------------------------------------------
+//             // ----------------INICIO CONTROL: Campo Texto Torre--------------------------------------------------------
 
-            $esteCampo = 'torre';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "text";
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['evento'] = '';
-            $atributos['deshabilitado'] = false;
-            $atributos['readonly'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['placeholder'] = "";
-            $atributos['valor'] = "";
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
-            $atributos['miEvento'] = '';
-            $atributos['validar'] = '';
-            // Aplica atributos globales al control
+//             $esteCampo = 'torre';
+//             $atributos['nombre'] = $esteCampo;
+//             $atributos['tipo'] = "text";
+//             $atributos['id'] = $esteCampo;
+//             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+//             $atributos["etiquetaObligatorio"] = true;
+//             $atributos['tab'] = $tab++;
+//             $atributos['anchoEtiqueta'] = 2;
+//             $atributos['estilo'] = "bootstrap";
+//             $atributos['evento'] = '';
+//             $atributos['deshabilitado'] = false;
+//             $atributos['readonly'] = false;
+//             $atributos['columnas'] = 1;
+//             $atributos['tamanno'] = 1;
+//             $atributos['placeholder'] = "";
+//             $atributos['valor'] = "";
+//             $atributos['ajax_function'] = "";
+//             $atributos['ajax_control'] = $esteCampo;
+//             $atributos['limitar'] = false;
+//             $atributos['anchoCaja'] = 10;
+//             $atributos['miEvento'] = '';
+// //             $atributos['validar'] = '';
+//             // Aplica atributos globales al control
 
-            if (isset($cargueDatos[$esteCampo])) {
-                $atributos['valor'] = $cargueDatos[$esteCampo];
-            } else {
-                $atributos['valor'] = '';
-            }
+//             if (isset($cargueDatos[$esteCampo])) {
+//                 $atributos['valor'] = $cargueDatos[$esteCampo];
+//             } else {
+//                 $atributos['valor'] = '';
+//             }
 
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-            unset($atributos);
+//             $atributos = array_merge($atributos, $atributosGlobales);
+//             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+//             unset($atributos);
 
-            // ----------------FIN CONTROL: Campo Texto Torre-------------------------------------------------------
+//             // ----------------FIN CONTROL: Campo Texto Torre-------------------------------------------------------
 
-            // ----------------INICIO CONTROL: Campo Texto Bloque--------------------------------------------------------
+//             // ----------------INICIO CONTROL: Campo Texto Bloque--------------------------------------------------------
 
-            $esteCampo = 'bloque';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "text";
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['evento'] = '';
-            $atributos['deshabilitado'] = false;
-            $atributos['readonly'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['placeholder'] = "";
-            $atributos['valor'] = "";
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
-            $atributos['miEvento'] = '';
-            $atributos['validar'] = '';
-            // Aplica atributos globales al control
+//             $esteCampo = 'bloque';
+//             $atributos['nombre'] = $esteCampo;
+//             $atributos['tipo'] = "text";
+//             $atributos['id'] = $esteCampo;
+//             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+//             $atributos["etiquetaObligatorio"] = true;
+//             $atributos['tab'] = $tab++;
+//             $atributos['anchoEtiqueta'] = 2;
+//             $atributos['estilo'] = "bootstrap";
+//             $atributos['evento'] = '';
+//             $atributos['deshabilitado'] = false;
+//             $atributos['readonly'] = false;
+//             $atributos['columnas'] = 1;
+//             $atributos['tamanno'] = 1;
+//             $atributos['placeholder'] = "";
+//             $atributos['valor'] = "";
+//             $atributos['ajax_function'] = "";
+//             $atributos['ajax_control'] = $esteCampo;
+//             $atributos['limitar'] = false;
+//             $atributos['anchoCaja'] = 10;
+//             $atributos['miEvento'] = '';
+// //             $atributos['validar'] = '';
+//             // Aplica atributos globales al control
 
-            if (isset($cargueDatos[$esteCampo])) {
-                $atributos['valor'] = $cargueDatos[$esteCampo];
-            } else {
-                $atributos['valor'] = '';
-            }
+//             if (isset($cargueDatos[$esteCampo])) {
+//                 $atributos['valor'] = $cargueDatos[$esteCampo];
+//             } else {
+//                 $atributos['valor'] = '';
+//             }
 
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-            unset($atributos);
+//             $atributos = array_merge($atributos, $atributosGlobales);
+//             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+//             unset($atributos);
 
-            // ----------------FIN CONTROL: Campo Texto Bloque-------------------------------------------------------
+//             // ----------------FIN CONTROL: Campo Texto Bloque-------------------------------------------------------
 
             // ----------------INICIO CONTROL: Campo Texto Apartamento--------------------------------------------------------
 
@@ -960,7 +960,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = '';
+//             $atributos['validar'] = '';
             // Aplica atributos globales al control
 
             if (isset($cargueDatos[$esteCampo])) {
@@ -995,7 +995,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
 
             $matrizItems = array(
                 array(
@@ -1088,7 +1088,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
             // Aplica atributos globales al control
 
             if (isset($cargueDatos[$esteCampo])) {
@@ -1126,7 +1126,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
             // Aplica atributos globales al control
 
             if (isset($cargueDatos[$esteCampo])) {
@@ -1205,7 +1205,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
             $atributos['cadena_sql'] = $this->miSql->getCadenaSql("parametroEstrato");
             $matrizItems = array(
                 array(
@@ -1302,7 +1302,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required';
             // Aplica atributos globales al control
 
             if (isset($cargueDatos[$esteCampo])) {
@@ -1378,7 +1378,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            //$atributos['validar'] = 'required'; 
             // Aplica atributos globales al control
 
             if (isset($cargueDatos[$esteCampo])) {

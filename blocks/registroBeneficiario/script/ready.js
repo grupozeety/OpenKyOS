@@ -202,11 +202,11 @@ function validarTipoVivienda(){
 		}
 }
 
-validarTipoVivienda();
+<!--validarTipoVivienda();-->
 
 $("#<?php echo $this->campoSeguro('tipo_vivienda');?>").change(function() {
 
-	validarTipoVivienda();
+<!--validarTipoVivienda();-->
 	
 });
 
