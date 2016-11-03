@@ -118,7 +118,35 @@ class Sql extends \Sql {
                 break;
 
             /* Consultas del desarrollo */
+                
+            case 'consultarUrbanizacion' :
+                
+                $cadenaSql = " SELECT DISTINCT id_proyecto ||' - '|| proyecto AS  value, id_proyecto  AS data  ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+                $cadenaSql .= "WHERE estado_registro=TRUE ";
+                $cadenaSql .= "AND  cast(id_proyecto  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+                $cadenaSql .= "OR proyecto ILIKE '%" . $_GET ['query'] . "%' ";
+                $cadenaSql .= "LIMIT 10; ";
+                break;
+                
+            case 'consultarBloqueManzana' :
 
+            	$cadenaSql = " SELECT DISTINCT manzana AS  value, manzana  AS data  ";
+               	$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+               	$cadenaSql .= "WHERE estado_registro=TRUE ";
+               	$cadenaSql .= "AND  cast(manzana  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+               	$cadenaSql .= "LIMIT 10; ";
+                break;
+                
+            case 'consultarCasaAparta' :
+                
+                $cadenaSql = " SELECT DISTINCT apartamento AS  value, apartamento  AS data  ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+                $cadenaSql .= "WHERE estado_registro=TRUE ";
+                $cadenaSql .= "AND  cast(apartamento  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+                $cadenaSql .= "LIMIT 10; ";
+                break;
+                		
             case "consultarBeneficiario":
 
                 $cadenaSql = "SELECT ";

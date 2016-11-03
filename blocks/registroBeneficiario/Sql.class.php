@@ -150,13 +150,48 @@ class Sql extends \Sql {
                 $cadenaSql .= "WHERE ";
                 $cadenaSql .= "estado_registro=true ";
 
+                $cont = 0;
+                
                 if (isset($_REQUEST['id']) && $_REQUEST['id'] != '') {
                     $cadenaSql .= " AND id_beneficiario='" . $_REQUEST['id'] . "'";
+                    $cont++;
                 }
 
                 if (isset($_REQUEST['direccion']) && $_REQUEST['direccion'] != '') {
                     $cadenaSql .= " AND direccion='" . $_REQUEST['direccion'] . "'";
+                    $cont++;
                 }
+                
+                if( (isset($_REQUEST['urbanizacion']) && $_REQUEST['urbanizacion'] != "") || (isset($_REQUEST['id_urbanizacion']) && $_REQUEST['id_urbanizacion'] != "")){
+                	if(isset($_REQUEST['id_urbanizacion']) && $_REQUEST['id_urbanizacion'] != "" ){
+                		$cadenaSql .= " AND id_proyecto='" . $_REQUEST['id_urbanizacion'] . "'";
+                	}else{
+                		$cadenaSql .= " AND id_proyecto='" . $_REQUEST['urbanizacion'] . "'";
+                	}
+                	$cont++;
+                }
+                
+                if( (isset($_REQUEST['bloque_manzana']) && $_REQUEST['bloque_manzana'] != "") || (isset($_REQUEST['id_bloque_manzana']) && $_REQUEST['id_bloque_manzana'] != "")){
+                	if(isset($_REQUEST['id_bloque_manzana']) && $_REQUEST['id_bloque_manzana'] != ""){
+                		$cadenaSql .= " AND manzana='" . $_REQUEST['id_bloque_manzana'] . "'";
+                	}else{
+                		$cadenaSql .= " AND manzana='" . $_REQUEST['bloque_manzana'] . "'";
+                	}
+                	$cont++;
+                }
+                
+                if( (isset($_REQUEST['casa_aparta']) && $_REQUEST['casa_aparta'] != "")  || (isset($_REQUEST['id_casa_aparta']) && $_REQUEST['id_casa_aparta'] != "")){
+                	if(isset($_REQUEST['id_casa_aparta']) && $_REQUEST['id_casa_aparta'] != ""){
+                		$cadenaSql .= " AND apartamento='" . $_REQUEST['id_casa_aparta'] . "'";
+                	}else{
+                		$cadenaSql .= " AND apartamento='" . $_REQUEST['casa_aparta'] . "'";
+                	}
+                	$cont++;
+                }
+                if($cont == 0){
+                	$cadenaSql = '';
+                }
+                
                 break;
 
             case "cargarFamiliares":

@@ -114,11 +114,10 @@ class Registrar {
             $cadenaSql = str_replace("''", 'null', $cadenaSql);
             $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
         }
-
+        
         if ($resultado) {
             $cadenaSql = $this->miSql->getCadenaSql('actualizarFamiliarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
             $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-
         }
 
         if ($resultado && $_REQUEST['familiares'] > 0) {

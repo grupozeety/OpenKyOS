@@ -108,33 +108,40 @@ class Formulario {
         $deshabilitado = false;
 
         if (isset($_REQUEST['id'])) {
-            $cadena_sql = $this->miSql->getCadenaSql("cargarBeneficiarioPotencial", $_REQUEST['id']);
+           $cadena_sql = $this->miSql->getCadenaSql("cargarBeneficiarioPotencial");
+           $cargueDatos = $esteRecursoDB->ejecutarAcceso($cadena_sql, "busqueda");
+          
+            if(count($cargueDatos) > 1){
+            	redireccion::redireccionar("multipleBeneficiario");
+            	exit();
+            }
+
             $cargueDatos = $esteRecursoDB->ejecutarAcceso($cadena_sql, "busqueda")[0];
 
             if ($cargueDatos == false) {
                 redireccion::redireccionar("noExisteBeneficiario");
                 exit();
             } else {
-                $cadenaSql = $this->miSql->getCadenaSql('estadoAlfresco', $_REQUEST['id']);
-                $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 $cadenaSql = $this->miSql->getCadenaSql('estadoAlfresco', $_REQUEST['id']);
+//                 $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-                if ($estado_carpeta != FALSE) {
-                    if ($estado_carpeta[0][0] == 'f') {
+//                 if ($estado_carpeta != FALSE) {
+//                     if ($estado_carpeta[0][0] == 'f') {
 
-                        $alfresco = $this->sincronizacion->alfresco($_REQUEST['id']);
+//                         $alfresco = $this->sincronizacion->alfresco($_REQUEST['id']);
 
-                        if ($alfresco['estado'][0] == 0) {
-                            $cadenaSql = $this->miSql->getCadenaSql('estadoAlfrescoUpdate', $_REQUEST['id']);
-                            $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                        } else {
-                            redireccion::redireccionar('insertoAlfresco');
-                            exit();
-                        }
-                    }
-                } else {
-                    redireccion::redireccionar('insertoAlfresco');
-                    exit();
-                }
+//                         if ($alfresco['estado'][0] == 0) {
+//                             $cadenaSql = $this->miSql->getCadenaSql('estadoAlfrescoUpdate', $_REQUEST['id']);
+//                             $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                         } else {
+//                             redireccion::redireccionar('insertoAlfresco');
+//                             exit();
+//                         }
+//                     }
+//                 } else {
+//                     redireccion::redireccionar('insertoAlfresco');
+//                     exit();
+//                 }
             }
 
             $deshabilitado = true;
