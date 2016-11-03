@@ -19,7 +19,7 @@ $this->idioma['tipo_documento'] = 'Tipo Documento';
 
 $this->idioma['numero_identificacion'] = 'Número Identificación';
 
-$this->idioma['ciudad'] = 'Ciudad o Municipio Expedición';
+$this->idioma['ciudad'] = 'Ciudad o Municipio Expedición Identificación';
 
 $this->idioma['botonGenerarPdf'] = 'Generar Certificación';
 
