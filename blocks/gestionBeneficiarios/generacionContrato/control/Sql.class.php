@@ -14,6 +14,7 @@ include_once "core/auth/SesionSso.class.php";
 // Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 // en camel case precedida por la palabra sql
 class Sql extends \Sql {
+
     public $miConfigurador;
     public $miSesionSso;
     public function __construct() {
@@ -179,7 +180,7 @@ class Sql extends \Sql {
                 break;
 
             case 'consultarParametro':
-                $cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
+                $cadenaSql = " SELECT pr.id_parametro, pr.descripcion, pr.codigo ";
                 $cadenaSql .= " FROM parametros.parametros pr";
                 $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
                 $cadenaSql .= " WHERE ";
@@ -375,4 +376,3 @@ class Sql extends \Sql {
     }
 }
 ?>
-

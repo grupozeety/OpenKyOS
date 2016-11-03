@@ -978,7 +978,11 @@ class Registrador {
         echo $this->miFormulario->division("fin");
         unset($atributos);
     }
+   
+    
 }
+
+
 
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
 
