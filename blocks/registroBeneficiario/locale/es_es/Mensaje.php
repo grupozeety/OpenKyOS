@@ -15,6 +15,10 @@ $this->idioma["confirmaAlfresco"] = "Se ha registrado correctamente el Beneficia
 $this->idioma["error"] = "No se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 $this->idioma["regresarConsultar"] = "Aceptar";
 
+$this->idioma["errorAct"] = "No se ha podido actualizar el Beneficiario/Cliente Potencial.";
+$this->idioma["confirmaAct"] = "Se ha actualizado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
+
+
 $this->idioma["id_beneficiario"] = "Id Beneficiario";
 $this->idioma["tipo_beneficiario"] = "Tipo de Beneficiario/Cliente";
 $this->idioma["identificacion_beneficiario"] = "Número de Documento Beneficiario";
