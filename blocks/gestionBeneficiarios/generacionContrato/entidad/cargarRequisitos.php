@@ -78,8 +78,9 @@ class FormProcessor {
 		 */
 		
 		$this->registrarContratoBorrador ();
-		exit;
+
 		if ($this->datos_contrato) {
+
 			Redireccionador::redireccionar ( "Inserto",$total);
 		} else {
 			Redireccionador::redireccionar ( "NoInserto" );
