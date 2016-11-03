@@ -113,7 +113,7 @@ class Formulario {
         echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
         unset ( $atributos );
         
-        	echo '<div class="container text-center alert alert-success"><h4>Se han diligenciado correctamente los formularios, para finalizar el registro de clic en el botón "Guardar Información".</h4></div>';	
+        	echo '<div class="container text-center alert alert-danger"><h4>¿Desea guardar la información?</h4></div>';	
         
         echo $this->miFormulario->agrupacion ( 'fin' );
         unset ( $atributos );
