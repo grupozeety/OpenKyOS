@@ -91,7 +91,7 @@ class FormProcessor {
             'numero_identificacion' => $_REQUEST['numero_identificacion'],
             'fecha_expedicion' => $_REQUEST['fecha_expedicion'],
             'direccion_domicilio' => $_REQUEST['direccion_domicilio'],
-            'direccion_instalacion' => $_REQUEST['direccion_instalacion'],
+            'direccion_instalacion' => '',
             'departamento' => $_REQUEST['departamento'],
             'municipio' => $_REQUEST['municipio'],
             'urbanizacion' => $_REQUEST['urbanizacion'],

@@ -51,7 +51,7 @@ class Sql extends \Sql {
                 $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%') ";
-            $cadenaSql .= "LIMIT 10; ";
+                $cadenaSql .= "LIMIT 10; ";
                 break;
 
             case 'consultaInformacionBeneficiario':
@@ -240,7 +240,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " numero_identificacion='" . $variable['numero_identificacion'] . "', ";
                 $cadenaSql .= " fecha_expedicion='" . $variable['fecha_expedicion'] . "', ";
                 $cadenaSql .= " direccion_domicilio='" . $variable['direccion_domicilio'] . "',";
-                $cadenaSql .= " direccion_instalacion='" . $variable['direccion_instalacion'] . "', ";
+            /*$cadenaSql .= " direccion_instalacion='" . $variable['direccion_instalacion'] . "', ";*/
                 $cadenaSql .= " departamento='" . $variable['departamento'] . "',";
                 $cadenaSql .= " municipio='" . $variable['municipio'] . "', ";
                 $cadenaSql .= " urbanizacion='" . $variable['urbanizacion'] . "', ";
@@ -329,7 +329,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE componente='alfresco' ";
                 break;
 
-                case "consultarCarpetaSoportes":
+            case "consultarCarpetaSoportes":
                 $cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
                 $cadenaSql .= " FROM parametros.parametros pr";
                 $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
