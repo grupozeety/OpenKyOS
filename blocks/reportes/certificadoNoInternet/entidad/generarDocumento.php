@@ -76,6 +76,7 @@ $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->benefic
 $urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
 $urbanizacion = $urbanizacion[0];
  */
+        setlocale(LC_ALL, "es_CO.UTF-8");
         $contenidoPagina = "
 							<style type=\"text/css\">
 							    table {
@@ -133,7 +134,7 @@ $urbanizacion = $urbanizacion[0];
 					<br>
 					<br>
 					<br>
-					<b>Fecha " . date("Y-m-d") . "
+					<b>Fecha " . strftime("%d de %B del %Y") . "<br>
 					Ciudad " . $_REQUEST['ciudad_firma'] . ",
 					</b>
 					<br>
@@ -160,7 +161,7 @@ $urbanizacion = $urbanizacion[0];
 					<br>
 					<br>
 					<br>
-					Como constancia se firma a los  <b>" . date('d') . "</b> días del mes <b>" . date('m') . "</b> del año <b>" . date('Y') . "</b> en la ciudad de " . $_REQUEST['ciudad_firma'] . ".
+					Como constancia se firma a los  <b>" . date('d') . "</b> días del mes <b>" . strftime("%B") . "</b> del año <b>" . date('Y') . "</b> en la ciudad de " . $_REQUEST['ciudad_firma'] . ".
 
 								</td>
 							</tr>
