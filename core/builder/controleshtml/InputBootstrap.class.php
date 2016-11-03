@@ -57,6 +57,7 @@ class InputBootstrap extends HtmlBase {
         $this->cadenaHTML .= '">';
 
         if (isset($this->atributos[self::ETIQUETA]) && $this->atributos[self::ETIQUETA] != "") {
+     
         	//Manejo de responsiveness
         	$relacion= $this->atributos['anchoEtiqueta']*100/12;
         	$estiloLabel='';
