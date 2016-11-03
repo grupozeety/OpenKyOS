@@ -83,13 +83,14 @@ class Registrador {
 					$atributos ["estilo"] = "textoIzquierda";
 					$atributos ["anchoEtiqueta"] = 0;
 					$atributos ["tamanno"] = 500000;
-					$atributos ["validar"] = "";
+					$atributos ["validar"] = "required";
 					$atributos ["estilo"] = "file";
+					$atributos ["anchoCaja"] = 15;
 					$atributos ["etiqueta"] = $this->lenguaje->getCadena ( $esteCampo );
 					$atributos ["bootstrap"] = true;
 					// $atributos ["valor"] = $valorCodificado;
 					$atributos = array_merge ( $atributos );
-					echo $this->miFormulario->campoCuadroTexto ( $atributos );
+					echo $this->miFormulario->campoCuadroTexto($atributos) ;
 					unset ( $atributos );
 					
 					// ----------------INICIO CONTROL: Archivo---------------------------
