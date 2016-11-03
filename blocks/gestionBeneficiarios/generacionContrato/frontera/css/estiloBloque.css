@@ -16,3 +16,10 @@ td{
 .col-xs-12 {
     text-align: left;
 }
+
+a#link_a {
+    color: #509a42;
+}
+a#link_b {
+    color: #509a42;
+}

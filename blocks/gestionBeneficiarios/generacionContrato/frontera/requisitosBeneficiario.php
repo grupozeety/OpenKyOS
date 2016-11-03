@@ -653,12 +653,51 @@ class Registrador {
                             // -----------------FIN CONTROL: Botón -----------------------------------------------------------
                         } elseif ($infoContrato['numero_identificacion'] != NULL) {
 
+                            $url = $this->miConfigurador->getVariableConfiguracion("host");
+                            $url .= $this->miConfigurador->getVariableConfiguracion("site");
+                            $url .= "/index.php?";
+
                             // ------------------Division para los botones-------------------------
                             $atributos["id"] = "botones_sin";
                             $atributos["estilo"] = "marcoBotones";
                             $atributos["estiloEnLinea"] = "display:block;";
                             echo $this->miFormulario->division("inicio", $atributos);
                             unset($atributos);
+
+                            {
+
+                                if ($infoContrato['numero_identificacion'] != NULL) {
+                                    $valorCodificado = "action=" . $esteBloque["nombre"];
+                                } else {
+                                    $valorCodificado = (is_null($infoBeneficiario['id_contrato']) != true) ? "actionBloque=" . $esteBloque["nombre"] : "action=" . $esteBloque["nombre"];
+                                }
+
+                                $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                                $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                                $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                                $valorCodificado .= "&botonGenerarPdfNoFirmas=true";
+                                $valorCodificado .= "&botonGenerarPdf=false";
+
+                                if ($infoContrato['numero_identificacion'] != NULL) {
+                                    $valorCodificado .= "&opcion=generarContratoPDF";
+                                } else {
+                                    $valorCodificado .= (is_null($infoBeneficiario['id_contrato']) != true) ? "&opcion=mostrarContrato" : "&opcion=cargarRequisitos";
+                                }
+
+                                $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo_beneficiario'];
+                                $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+                                if (is_null($infoBeneficiario['id_contrato']) != true) {
+                                    $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
+                                }
+                            }
+
+                            $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                            $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+                            $urlpdfNoFirmas = $url . $cadena;
+
+                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Documento Constrato Sin Firmas</a></b>";
+
                             // -----------------CONTROL: Botón ----------------------------------------------------------------
                             $esteCampo = 'botonGenerarPdfNoFirmas';
                             $atributos["id"] = $esteCampo;
@@ -679,10 +718,10 @@ class Registrador {
 
                             // Aplica atributos globales al control
                             $atributos = array_merge($atributos, $atributosGlobales);
-                            echo $this->miFormulario->campoBoton($atributos);
+                            //echo $this->miFormulario->campoBoton($atributos);
                             unset($atributos);
 
-                            echo $this->miFormulario->division("fin");
+                            //echo $this->miFormulario->division("fin");
                             unset($atributos);
 
                             // ------------------Division para los botones-------------------------
@@ -692,6 +731,39 @@ class Registrador {
                             echo $this->miFormulario->division("inicio", $atributos);
                             unset($atributos);
 
+                            {
+
+                                if ($infoContrato['numero_identificacion'] != NULL) {
+                                    $valorCodificado = "action=" . $esteBloque["nombre"];
+                                } else {
+                                    $valorCodificado = (is_null($infoBeneficiario['id_contrato']) != true) ? "actionBloque=" . $esteBloque["nombre"] : "action=" . $esteBloque["nombre"];
+                                }
+
+                                $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                                $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                                $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                                $valorCodificado .= "&botonGenerarPdfNoFirmas=false";
+                                $valorCodificado .= "&botonGenerarPdf=true";
+
+                                if ($infoContrato['numero_identificacion'] != NULL) {
+                                    $valorCodificado .= "&opcion=generarContratoPDF";
+                                } else {
+                                    $valorCodificado .= (is_null($infoBeneficiario['id_contrato']) != true) ? "&opcion=mostrarContrato" : "&opcion=cargarRequisitos";
+                                }
+
+                                $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo_beneficiario'];
+                                $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+                                if (is_null($infoBeneficiario['id_contrato']) != true) {
+                                    $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
+                                }
+                            }
+
+                            $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                            $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+                            $urlpdfFirmas = $url . $cadena;
+
+                            echo "<b><a id='link_a' href='" . $urlpdfFirmas . "'>Documento Contrato Con Firmas</a></b>";
                             // -----------------CONTROL: Botón ----------------------------------------------------------------
                             $esteCampo = 'botonGenerarPdf';
                             $atributos["id"] = $esteCampo;
@@ -712,7 +784,7 @@ class Registrador {
 
                             // Aplica atributos globales al control
                             $atributos = array_merge($atributos, $atributosGlobales);
-                            echo $this->miFormulario->campoBoton($atributos);
+                            //echo $this->miFormulario->campoBoton($atributos);
                             unset($atributos);
 
                             echo $this->miFormulario->division("fin");
