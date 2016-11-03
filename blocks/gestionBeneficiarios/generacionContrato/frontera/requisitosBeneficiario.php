@@ -205,11 +205,11 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["estilo"] = "file";
-                    $atributos["anchoCaja"] =15;
+                    $atributos["anchoCaja"] =6;
                     $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo) ;
                     $atributos["bootstrap"] = true;
                     // $atributos ["valor"] = $valorCodificado;
@@ -241,7 +241,7 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["estilo"] = "file";
@@ -277,7 +277,7 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] =0;
+                    $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["estilo"] = "file";
@@ -313,7 +313,7 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                   $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["anchoCaja"] =15;
@@ -346,7 +346,7 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["anchoCaja"] =15;
@@ -379,7 +379,7 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                   $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["anchoCaja"] =15;
@@ -412,7 +412,7 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["estilo"] = "file";
