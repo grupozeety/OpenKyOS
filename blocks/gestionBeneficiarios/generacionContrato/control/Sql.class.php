@@ -46,11 +46,12 @@ class Sql extends \Sql {
                 $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
                 $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
                 $cadenaSql .= "WHERE estado_registro=TRUE ";
-                $cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "AND alfresco=TRUE ";
+                $cadenaSql .= "AND  (cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "LIMIT 10; ";
+                $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%') ";
+            $cadenaSql .= "LIMIT 10; ";
                 break;
 
             case 'consultaInformacionBeneficiario':
@@ -328,19 +329,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE componente='alfresco' ";
                 break;
 
-            case 'consultarBeneficiariosPotenciales':
-
-                $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
-                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
-                $cadenaSql .= "WHERE estado_registro=TRUE ";
-                $cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "LIMIT 10; ";
-                break;
-
-            case "consultarCarpetaSoportes":
+                case "consultarCarpetaSoportes":
                 $cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
                 $cadenaSql .= " FROM parametros.parametros pr";
                 $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";

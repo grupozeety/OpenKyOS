@@ -102,7 +102,7 @@ $this->idioma['noDefinido'] = 'Etiqueta No definida';
 //-------------------------------------- documentos verificacion/cambios
 
 $this->idioma['archivo'] = 'Reemplazar Archivo';
-$this->idioma['verificar'] = 'Verificar Archivo';
+$this->idioma['verificar'] = 'Apruebo Archivo';
 $this->idioma['actualizar'] = 'Actualizar Archivo';
 
 $this->idioma['botonGenerarPdfNoFirmas'] = 'Generar Minuta Contrato Sin Firmas';
