@@ -580,9 +580,165 @@ class Registrador {
                         echo $this->miFormulario->division("fin");
                         unset($atributos);
 
-                        echo "</div>
-                    </div>
-                </div>";
+                        echo '</div>
+                    	</div>
+                        	</div>
+                        	<div class="panel panel-default">
+                    			<div class="panel-heading">
+                        			<h4 class="panel-title">
+                            			<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Ubicación</a>
+                        			</h4>
+                    			</div>
+                    			<div id="collapse3" class="panel-collapse collapse">
+                        			<div class="panel-body">';
+                        
+                        {
+                        	// ----------------INICIO CONTROL: Lista Proyectos---------------------------
+                        
+                        	$esteCampo = 'urbanizacion';
+                        	$atributos ['nombre'] = $esteCampo;
+                        	$atributos ['tipo'] = "text";
+                        	$atributos ['id'] = $esteCampo;
+                        	$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+                        	$atributos ["etiquetaObligatorio"] = true;
+                        	$atributos ['tab'] = $tab ++;
+                        	$atributos ['anchoEtiqueta'] = 2;
+                        	$atributos ['estilo'] = "bootstrap";
+                        	$atributos ['evento'] = '';
+                        	$atributos ['deshabilitado'] = false;
+                        	$atributos ['readonly'] = false;
+                        	$atributos ['columnas'] = 1;
+                        	$atributos ['tamanno'] = 1;
+                        	$atributos ['placeholder'] = "Ingrese los criterios de busqueda";
+                        	$atributos ['valor'] = "";
+                        	$atributos ['ajax_function'] = "";
+                        	$atributos ['ajax_control'] = $esteCampo;
+                        	$atributos ['limitar'] = false;
+                        	$atributos ['anchoCaja'] = 10;
+                        	$atributos ['miEvento'] = '';
+                        	// 			$atributos ['validar'] = 'required';
+                        	// Aplica atributos globales al control
+                        	$atributos = array_merge ( $atributos, $atributosGlobales );
+                        	echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+                        	unset ( $atributos );
+                        
+                        	$esteCampo = 'id_urbanizacion';
+                        	$atributos ["id"] = $esteCampo; // No cambiar este nombre
+                        	$atributos ["tipo"] = "hidden";
+                        	$atributos ['estilo'] = '';
+                        	$atributos ["obligatorio"] = false;
+                        	$atributos ['marco'] = true;
+                        	$atributos ["etiqueta"] = "";
+                        	if (isset ( $_REQUEST [$esteCampo] )) {
+                        		$atributos ['valor'] = $_REQUEST [$esteCampo];
+                        	} else {
+                        		$atributos ['valor'] = '';
+                        	}
+                        	$atributos = array_merge ( $atributos, $atributosGlobales );
+                        	echo $this->miFormulario->campoCuadroTexto ( $atributos );
+                        	unset ( $atributos );
+                        		
+                        }
+                        
+                        
+                        {
+                        	// ----------------INICIO CONTROL: Lista Proyectos---------------------------
+                        		
+                        	$esteCampo = 'bloque_manzana';
+                        	$atributos ['nombre'] = $esteCampo;
+                        	$atributos ['tipo'] = "text";
+                        	$atributos ['id'] = $esteCampo;
+                        	$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+                        	$atributos ["etiquetaObligatorio"] = true;
+                        	$atributos ['tab'] = $tab ++;
+                        	$atributos ['anchoEtiqueta'] = 2;
+                        	$atributos ['estilo'] = "bootstrap";
+                        	$atributos ['evento'] = '';
+                        	$atributos ['deshabilitado'] = false;
+                        	$atributos ['readonly'] = false;
+                        	$atributos ['columnas'] = 1;
+                        	$atributos ['tamanno'] = 1;
+                        	$atributos ['placeholder'] = "Ingrese los criterios de busqueda";
+                        	$atributos ['valor'] = "";
+                        	$atributos ['ajax_function'] = "";
+                        	$atributos ['ajax_control'] = $esteCampo;
+                        	$atributos ['limitar'] = false;
+                        	$atributos ['anchoCaja'] = 10;
+                        	$atributos ['miEvento'] = '';
+                        	// 				$atributos ['validar'] = 'required';
+                        	// Aplica atributos globales al control
+                        	$atributos = array_merge ( $atributos, $atributosGlobales );
+                        	echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+                        	unset ( $atributos );
+                        		
+                        	$esteCampo = 'id_bloque_manzana';
+                        	$atributos ["id"] = $esteCampo; // No cambiar este nombre
+                        	$atributos ["tipo"] = "hidden";
+                        	$atributos ['estilo'] = '';
+                        	$atributos ["obligatorio"] = false;
+                        	$atributos ['marco'] = true;
+                        	$atributos ["etiqueta"] = "";
+                        	if (isset ( $_REQUEST [$esteCampo] )) {
+                        		$atributos ['valor'] = $_REQUEST [$esteCampo];
+                        	} else {
+                        		$atributos ['valor'] = '';
+                        	}
+                        	$atributos = array_merge ( $atributos, $atributosGlobales );
+                        	echo $this->miFormulario->campoCuadroTexto ( $atributos );
+                        	unset ( $atributos );
+                        		
+                        }
+                        
+                        {
+                        	// ----------------INICIO CONTROL: Lista Proyectos---------------------------
+                        
+                        	$esteCampo = 'casa_aparta';
+                        	$atributos ['nombre'] = $esteCampo;
+                        	$atributos ['tipo'] = "text";
+                        	$atributos ['id'] = $esteCampo;
+                        	$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+                        	$atributos ["etiquetaObligatorio"] = true;
+                        	$atributos ['tab'] = $tab ++;
+                        	$atributos ['anchoEtiqueta'] = 2;
+                        	$atributos ['estilo'] = "bootstrap";
+                        	$atributos ['evento'] = '';
+                        	$atributos ['deshabilitado'] = false;
+                        	$atributos ['readonly'] = false;
+                        	$atributos ['columnas'] = 1;
+                        	$atributos ['tamanno'] = 1;
+                        	$atributos ['placeholder'] = "Ingrese los criterios de busqueda";
+                        	$atributos ['valor'] = "";
+                        	$atributos ['ajax_function'] = "";
+                        	$atributos ['ajax_control'] = $esteCampo;
+                        	$atributos ['limitar'] = false;
+                        	$atributos ['anchoCaja'] = 10;
+                        	$atributos ['miEvento'] = '';
+                        	// 				$atributos ['validar'] = 'required';
+                        	// Aplica atributos globales al control
+                        	$atributos = array_merge ( $atributos, $atributosGlobales );
+                        	echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+                        	unset ( $atributos );
+                        
+                        	$esteCampo = 'id_casa_aparta';
+                        	$atributos ["id"] = $esteCampo; // No cambiar este nombre
+                        	$atributos ["tipo"] = "hidden";
+                        	$atributos ['estilo'] = '';
+                        	$atributos ["obligatorio"] = false;
+                        	$atributos ['marco'] = true;
+                        	$atributos ["etiqueta"] = "";
+                        	if (isset ( $_REQUEST [$esteCampo] )) {
+                        		$atributos ['valor'] = $_REQUEST [$esteCampo];
+                        	} else {
+                        		$atributos ['valor'] = '';
+                        	}
+                        	$atributos = array_merge ( $atributos, $atributosGlobales );
+                        	echo $this->miFormulario->campoCuadroTexto ( $atributos );
+                        	unset ( $atributos );
+                        
+                        }
+                				echo '</div>
+                					</div>
+                    			</div>';
 
                     }
 
@@ -674,46 +830,180 @@ class Registrador {
         $atributos['marco'] = true;
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
+        
+        if(isset($_REQUEST['mensaje'])){
+        	$this->mensaje($tab, $esteBloque['nombre']);
+        }
+        
+        $this->mensajeModal($tab, $esteBloque['nombre']);
     }
-    public function mensaje() {
+    
+ 	public function mensajeModal($tab = '', $nombreBloque = '') {
 
-        if (isset($_REQUEST['mensaje'])) {
+        $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+        
+        $mensaje = "Error! no existe Beneficiario <br> ¿Desea Registralo?";
+
+        // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+
+        $atributos['tipoEtiqueta'] = 'inicio';
+        $atributos['titulo'] = 'Mensaje';
+        $atributos['id'] = 'mensajeModal';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
+
+        echo '<p><h5>' . $mensaje . '</h5></p>';
+
+        echo '</div>';
+
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+
+        echo '<div style="text-align:center;">';
+
+        echo '</div>';
+        
+                // -----------------CONTROL: Botón ----------------------------------------------------------------
+                $esteCampo = 'registrar';
+                $atributos["id"] = $esteCampo;
+                $atributos["tabIndex"] = $tab;
+                $atributos["tipo"] = 'boton';
+                $atributos["basico"] = false;
+                // submit: no se coloca si se desea un tipo button genérico
+                $atributos['submit'] = true;
+                $atributos["estiloMarco"] = 'text-center';
+                $atributos["estiloBoton"] = 'default';
+                $atributos["block"] = false;
+                $atributos['deshabilitado'] = true;
+        
+                // verificar: true para verificar el formulario antes de pasarlo al servidor.
+                $atributos["verificar"] = '';
+                $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+                $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+                $atributos['nombreFormulario'] = $nombreBloque;
+                $tab++;
+        
+                // Aplica atributos globales al control
+                // $atributos = array_merge ( $atributos, $atributosGlobales );
+                echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
+                unset($atributos);
+                // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+        
+
+        $atributos['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+    }
+    
+    public function mensaje($tab = '', $nombreBloque = '') {
+    
+    	if (isset($_REQUEST['mensaje'])) {
+    		
             switch ($_REQUEST['mensaje']) {
 
                 case 'errorBeneficiario':
-                    $estilo_mensaje = 'error';     //information,warning,error,validation
-                    $atributos["mensaje"] = 'Error no existe Beneficiario';
-                    break;
-
-                default:
-                    # code...
-                    break;
-            }
-            // ------------------Division para los botones-------------------------
-            $atributos['id'] = 'divMensaje';
-            $atributos['estilo'] = ' ';
-            // echo $this->miFormulario->division("inicio", $atributos);
-
-            // -------------Control texto-----------------------
-            $esteCampo = 'mostrarMensaje';
-            $atributos["tamanno"] = '';
-            $atributos["estilo"] = $estilo_mensaje;
-            $atributos["estiloEnLinea"] = "text-align: center;";
-            $atributos["etiqueta"] = '';
-            $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-            echo $this->miFormulario->campoMensaje($atributos);
-            unset($atributos);
-
-            // ------------------Fin Division para los botones-------------------------
-            echo $this->miFormulario->division("fin");
-            unset($atributos);
-        }
+                	
+                    $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+        	        $mensaje = "Error! No existe el beneficiario buscado. <br> ¿Desea Registralo?";
+                  
+    
+			    	// ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+			    
+			    	$atributos['tipoEtiqueta'] = 'inicio';
+			    	$atributos['titulo'] = 'Mensaje';
+			    	$atributos['id'] = 'mensaje';
+			    	echo $this->miFormulario->modal($atributos);
+			    	unset($atributos);
+			    
+			    	// ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+			    	echo '<div style="text-align:center;">';
+			    
+			    	echo '<p><h5>' . $mensaje . '</h5></p>';
+			    
+			    	echo '</div>';
+			    
+			    	// ----------------FIN CONTROL: Mapa--------------------------------------------------------
+			    
+			    	echo '<div style="text-align:center;">';
+			    
+			    	echo '</div>';
+			    
+			    	// -----------------CONTROL: Botón ----------------------------------------------------------------
+			    	$esteCampo = 'registrar';
+			    	$atributos["id"] = $esteCampo;
+			    	$atributos["tabIndex"] = $tab;
+			    	$atributos["tipo"] = 'boton';
+			    	$atributos["basico"] = false;
+			    	// submit: no se coloca si se desea un tipo button genérico
+			    	$atributos['submit'] = true;
+			    	$atributos["estiloMarco"] = 'text-center';
+			    	$atributos["estiloBoton"] = 'default';
+			    	$atributos["block"] = false;
+			    	$atributos['deshabilitado'] = true;
+			    
+			    	// verificar: true para verificar el formulario antes de pasarlo al servidor.
+			    	$atributos["verificar"] = '';
+			    	$atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+			    	$atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+			    	$atributos['nombreFormulario'] = $nombreBloque;
+			    	$tab++;
+			    
+			    	// Aplica atributos globales al control
+			    	// $atributos = array_merge ( $atributos, $atributosGlobales );
+			    	echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
+			    	unset($atributos);
+			    	// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+			    
+			    
+			    	$atributos['tipoEtiqueta'] = 'fin';
+			    	echo $this->miFormulario->modal($atributos);
+			    	unset($atributos);
+			    	
+			    	break;
+			    	
+			    case 'errorMultipleBeneficiario':
+			    	
+			    	$atributos['estiloLinea'] = 'error';     //success,error,information,warning
+			    	$mensaje = "Error! Los parametros de la consulta retorna multiples resultados.";
+			    	
+			    	
+			    	// ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+			    		 
+			    	$atributos['tipoEtiqueta'] = 'inicio';
+			    	$atributos['titulo'] = 'Mensaje';
+			    	$atributos['id'] = 'mensaje';
+			    	echo $this->miFormulario->modal($atributos);
+			    	unset($atributos);
+			    	 
+			    	// ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+			    	echo '<div style="text-align:center;">';
+			    		 
+			    	echo '<p><h5>' . $mensaje . '</h5></p>';
+			    		 
+			    	echo '</div>';
+			    		 
+			    	// ----------------FIN CONTROL: Mapa--------------------------------------------------------
+			    		 
+			    	echo '<div style="text-align:center;">';
+			    		 
+			    	echo '</div>';
+			    	
+			    	break;
+		    	
+		    	default:
+		    		# code...
+		    		break;
+		    	}
+    	}
+    
     }
 }
-
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario);
 
-$miSeleccionador->mensaje();
+// $miSeleccionador->mensaje();
 
 $miSeleccionador->seleccionarForm();
 

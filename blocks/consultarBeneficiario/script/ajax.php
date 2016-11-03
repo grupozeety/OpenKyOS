@@ -116,7 +116,85 @@ $enlaceReg = $directorioReg . '=' . $variableReg;
 
 ?>
 
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
 
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarUrbanizacion";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+$urlConsultarUrbanizacion = $url . $cadena;
+
+?>
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarBloqueManzana";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+$urlConsultarBloqueManzana = $url . $cadena;
+
+?>
+
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarCasaAparta";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+$urlConsultarCasaAparta = $url . $cadena;
+
+?>
 
 var id = "";
 
@@ -281,13 +359,146 @@ $(document).ready(function() {
 
 
 
-		     $("#<?php echo $this->campoSeguro('beneficiario');?>").change(function() {
-		     	if($("#<?php echo $this->campoSeguro('id');?>").val()==''){
+$("#<?php echo $this->campoSeguro('beneficiario');?>").change(function() {
 
-		     	$("#<?php echo $this->campoSeguro('beneficiario');?>").val('');
-		     	 $("#<?php echo $this->campoSeguro('direccion');?>").attr("required",true);
+  	$("#<?php echo $this->campoSeguro('direccion');?>").attr("required",false);
+  	$("#<?php echo $this->campoSeguro('urbanizacion');?>").attr("required",false);
+	$("#<?php echo $this->campoSeguro('bloque_manzana');?>").attr("required",false);
+	$("#<?php echo $this->campoSeguro('casa_aparta');?>").attr("required",false);
+	$("#<?php echo $this->campoSeguro('direccion');?>").val('');
+   	$("#<?php echo $this->campoSeguro('urbanizacion');?>").val('');
+	$("#<?php echo $this->campoSeguro('bloque_manzana');?>").val('');
+	$("#<?php echo $this->campoSeguro('casa_aparta');?>").val('');
 
-		     	}
+});
 
-		   });
+ $("#<?php echo $this->campoSeguro('direccion');?>").change(function() {
 
+   	$("#<?php echo $this->campoSeguro('beneficiario');?>").attr("required",false);
+   	$("#<?php echo $this->campoSeguro('urbanizacion');?>").attr("required",false);
+	$("#<?php echo $this->campoSeguro('bloque_manzana');?>").attr("required",false);
+	$("#<?php echo $this->campoSeguro('casa_aparta');?>").attr("required",false);
+	$("#<?php echo $this->campoSeguro('beneficiario');?>").val('');
+   	$("#<?php echo $this->campoSeguro('urbanizacion');?>").val('');
+	$("#<?php echo $this->campoSeguro('bloque_manzana');?>").val('');
+	$("#<?php echo $this->campoSeguro('casa_aparta');?>").val('');
+
+});
+
+$(function() {
+	$(".btn").click(function( event ) {
+		if($("#<?php echo $this->campoSeguro('beneficiario');?>").val()=='' && $("#<?php echo $this->campoSeguro('direccion');?>").val()==''  && $("#<?php echo $this->campoSeguro('urbanizacion');?>").val()==''  && $("#<?php echo $this->campoSeguro('bloque_manzana');?>").val()==''  && $("#<?php echo $this->campoSeguro('casa_aparta');?>").val()==''){
+			$("#mensajeModal").modal("show");
+			event.preventDefault();
+		}
+	});
+	
+	$("#registrar").click(function( event ) {	
+	   	location.href = "<?php echo $enlaceReg;?>";
+	});
+	
+	$("#mensaje").modal("show");
+}); 
+	
+var urbanizacion = "";
+var tipo = "";
+var bloque_manzana = "";
+
+$("#<?php echo $this->campoSeguro('urbanizacion');?>").autocomplete({
+	minChars: 1,
+	serviceUrl: '<?php echo $urlConsultarUrbanizacion;?>',
+	onSelect: function (suggestion) {
+
+	  	$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val(suggestion.data);
+		
+		if($("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val()!=''){
+			urbanizacion = $("#<?php echo $this->campoSeguro('id');?>").val();
+		}else{
+			$("#<?php echo $this->campoSeguro('urbanizacion');?>").val('');
+			$("#<?php echo $this->campoSeguro('urbanizacion');?>").val('');
+			urbanizacion = "";
+		}
+		
+	}
+
+});
+
+$("#<?php echo $this->campoSeguro('bloque_manzana');?>").autocomplete({
+	minChars: 1,
+	serviceUrl: '<?php echo $urlConsultarBloqueManzana;?>',
+	onSelect: function (suggestion) {
+
+	  	$("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val(suggestion.data);
+		
+		if($("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val()!=""){
+			bloque_manzana = $("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val();
+		}else{
+			$("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val('');
+			$("#<?php echo $this->campoSeguro('bloque_manzana');?>").val('');
+			bloque_manzana = "";
+		}
+		
+	}
+});
+
+$("#<?php echo $this->campoSeguro('casa_aparta');?>").autocomplete({
+	minChars: 1,
+	serviceUrl: '<?php echo $urlConsultarCasaAparta;?>',
+	onSelect: function (suggestion) {
+
+	  	$("#<?php echo $this->campoSeguro('id_casa_aparta');?>").val(suggestion.data);
+		
+		if($("#<?php echo $this->campoSeguro('id_casa_aparta');?>").val()!=""){
+			bloque_manzana = $("#<?php echo $this->campoSeguro('id_casa_aparta');?>").val();
+		}else{
+			$("#<?php echo $this->campoSeguro('id_casa_aparta');?>").val('');
+			$("#<?php echo $this->campoSeguro('casa_aparta');?>").val('');
+			bloque_manzana = "";
+		}
+		
+	}
+});
+
+$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
+
+	<!-- $("#<?php echo $this->campoSeguro('beneficiario');?>").val(''); -->
+	$("#<?php echo $this->campoSeguro('beneficiario');?>").attr("required",false);
+	$("#<?php echo $this->campoSeguro('direccion');?>").attr("required",false);
+	
+	$("#<?php echo $this->campoSeguro('urbanizacion');?>").attr("required",true);
+	$("#<?php echo $this->campoSeguro('bloque_manzana');?>").attr("required",true);
+	$("#<?php echo $this->campoSeguro('casa_aparta');?>").attr("required",true);
+
+	$("#<?php echo $this->campoSeguro('beneficiario');?>").val('');
+	$("#<?php echo $this->campoSeguro('direccion');?>").val('');
+
+});
+
+$("#<?php echo $this->campoSeguro('bloque_manzana');?>").change(function() {
+
+	<!-- $("#<?php echo $this->campoSeguro('beneficiario');?>").val(''); -->
+	$("#<?php echo $this->campoSeguro('beneficiario');?>").attr("required",false);
+	$("#<?php echo $this->campoSeguro('direccion');?>").attr("required",false);
+		
+	$("#<?php echo $this->campoSeguro('urbanizacion');?>").attr("required",true);
+	$("#<?php echo $this->campoSeguro('bloque_manzana');?>").attr("required",true);
+	$("#<?php echo $this->campoSeguro('casa_aparta');?>").attr("required",true);
+
+	$("#<?php echo $this->campoSeguro('beneficiario');?>").val('');
+	$("#<?php echo $this->campoSeguro('direccion');?>").val('');
+});
+
+$("#<?php echo $this->campoSeguro('casa_aparta');?>").change(function() {
+
+	<!-- $("#<?php echo $this->campoSeguro('beneficiario');?>").val(''); -->
+	$("#<?php echo $this->campoSeguro('beneficiario');?>").attr("required",false);
+	$("#<?php echo $this->campoSeguro('direccion');?>").attr("required",false);
+		
+	$("#<?php echo $this->campoSeguro('urbanizacion');?>").attr("required",true);
+	$("#<?php echo $this->campoSeguro('bloque_manzana');?>").attr("required",true);
+	$("#<?php echo $this->campoSeguro('casa_aparta');?>").attr("required",true);
+		
+	$("#<?php echo $this->campoSeguro('beneficiario');?>").val('');
+	$("#<?php echo $this->campoSeguro('direccion');?>").val('');
+
+});

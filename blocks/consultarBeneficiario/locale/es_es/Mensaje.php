@@ -16,6 +16,8 @@ $this->idioma["botonAgregarBeneficiario"] = "Agregar Beneficiario";
 $this->idioma["confirma"] = "Se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 $this->idioma["error"] = "No se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 
+$this->idioma["registrar"] = "Registrar";
+
 $this->idioma["botonAceptarElim"] = "Eliminar";
 $this->idioma["botonCancelarElim"] = "Cancelar";
 
@@ -71,5 +73,9 @@ $this->idioma["mensajeRegistro"] = "Se ha registrado correctamente el Beneficiar
 $this->idioma["beneficiario"] = "Identificación Beneficiario";
 
 $this->idioma["botonConsultar"] = "Consultar";
+
+$this->idioma["urbanizacion"]="Urbanización";
+$this->idioma["casa_aparta"]="No. Casa/Apartamento";
+$this->idioma["bloque_manzana"]="No. Bloque/Manzana";
 
 ?>
