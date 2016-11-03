@@ -653,7 +653,6 @@ class Registrador {
                             $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
                             $atributos['nombreFormulario'] = $esteBloque['nombre'];
                             $tab++;
-
                             // Aplica atributos globales al control
                             $atributos = array_merge($atributos, $atributosGlobales);
                             echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
