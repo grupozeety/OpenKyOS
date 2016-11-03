@@ -112,30 +112,29 @@ class Formulario {
             $cargueDatos = $esteRecursoDB->ejecutarAcceso($cadena_sql, "busqueda")[0];
 
             if ($cargueDatos == false) {
-
                 redireccion::redireccionar("noExisteBeneficiario");
                 exit();
             } else {
-                $cadenaSql = $this->miSql->getCadenaSql('estadoAlfresco', $_REQUEST['id']);
-                $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 $cadenaSql = $this->miSql->getCadenaSql('estadoAlfresco', $_REQUEST['id']);
+//                 $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-                if ($estado_carpeta != FALSE) {
-                    if ($estado_carpeta[0][0] == 'f') {
+//                 if ($estado_carpeta != FALSE) {
+//                     if ($estado_carpeta[0][0] == 'f') {
 
-                        $alfresco = $this->sincronizacion->alfresco($_REQUEST['id']);
+//                         $alfresco = $this->sincronizacion->alfresco($_REQUEST['id']);
 
-                        if ($alfresco['estado'][0] == 0) {
-                            $cadenaSql = $this->miSql->getCadenaSql('estadoAlfrescoUpdate', $_REQUEST['id']);
-                            $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                        } else {
-                            redireccion::redireccionar('insertoAlfresco');
-                            exit();
-                        }
-                    }
-                } else {
-                    redireccion::redireccionar('insertoAlfresco');
-                    exit();
-                }
+//                         if ($alfresco['estado'][0] == 0) {
+//                             $cadenaSql = $this->miSql->getCadenaSql('estadoAlfrescoUpdate', $_REQUEST['id']);
+//                             $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                         } else {
+//                             redireccion::redireccionar('insertoAlfresco');
+//                             exit();
+//                         }
+//                     }
+//                 } else {
+//                     redireccion::redireccionar('insertoAlfresco');
+//                     exit();
+//                 }
             }
 
             $deshabilitado = true;
@@ -1899,85 +1898,103 @@ class Formulario {
 
         // -----------------INICIO CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
 
+//         $atributos['tipoEtiqueta'] = 'inicio';
+//         $atributos['titulo'] = 'Mensaje';
+//         $atributos['id'] = 'myModalMensaje';
+//         echo $this->miFormulario->modal($atributos);
+//         unset($atributos);
+
+//         echo "<h5><p>" . $this->lenguaje->getCadena($_REQUEST['mensaje']) . "</p></h5>";
+
+//         // -----------------CONTROL: Botón ----------------------------------------------------------------
+//         $esteCampo = 'regresarConsultar';
+//         $atributos["id"] = $esteCampo;
+//         $atributos["tabIndex"] = $tab;
+//         $atributos["tipo"] = 'boton';
+//         $atributos["basico"] = false;
+//         // submit: no se coloca si se desea un tipo button genérico
+//         $atributos['submit'] = true;
+//         $atributos["estiloMarco"] = 'text-center';
+//         $atributos["estiloBoton"] = 'default';
+//         $atributos["block"] = false;
+//         $atributos['deshabilitado'] = true;
+
+//         // verificar: true para verificar el formulario antes de pasarlo al servidor.
+//         $atributos["verificar"] = '';
+//         $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+//         $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+//         $atributos['nombreFormulario'] = $esteBloque['nombre'];
+//         $tab++;
+
+//         // Aplica atributos globales al control
+//         // $atributos = array_merge ( $atributos, $atributosGlobales );
+//         echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
+//         unset($atributos);
+//         // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+
+//         $atributos['tipoEtiqueta'] = 'fin';
+//         echo $this->miFormulario->modal($atributos);
+//         unset($atributos);
+
+        // -----------------FIN CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
+      if (isset($_REQUEST['mensaje'])) {
+        	$this->mensaje($tab, $esteBloque['nombre']);
+        }
+    }
+    
+ 	public function mensaje($tab = '', $nombreBloque = '') {
+
+        switch ($_REQUEST['mensaje']) {
+        	
+            case 'confirmaAct':
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
+            case 'errorAct':
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
+            
+            case 'confirma':
+               	$atributos['estiloLinea'] = 'success';     //success,error,information,warning
+               	break;
+                
+            case 'error':
+              	$atributos['estiloLinea'] = 'error';     //success,error,information,warning
+               	break;
+        }
+        
+        $mensaje = $this->lenguaje->getCadena($_REQUEST['mensaje']);
+
+        // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+
         $atributos['tipoEtiqueta'] = 'inicio';
         $atributos['titulo'] = 'Mensaje';
-        $atributos['id'] = 'myModalMensaje';
+        $atributos['id'] = 'mensaje';
         echo $this->miFormulario->modal($atributos);
         unset($atributos);
 
-        echo "<h5><p>" . $this->lenguaje->getCadena($_REQUEST['mensaje']) . "</p></h5>";
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
 
-        // -----------------CONTROL: Botón ----------------------------------------------------------------
-        $esteCampo = 'regresarConsultar';
-        $atributos["id"] = $esteCampo;
-        $atributos["tabIndex"] = $tab;
-        $atributos["tipo"] = 'boton';
-        $atributos["basico"] = false;
-        // submit: no se coloca si se desea un tipo button genérico
-        $atributos['submit'] = true;
-        $atributos["estiloMarco"] = 'text-center';
-        $atributos["estiloBoton"] = 'default';
-        $atributos["block"] = false;
-        $atributos['deshabilitado'] = true;
+        echo '<p><h5>' . $mensaje . '</h5></p>';
 
-        // verificar: true para verificar el formulario antes de pasarlo al servidor.
-        $atributos["verificar"] = '';
-        $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-        $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
-        $atributos['nombreFormulario'] = $esteBloque['nombre'];
-        $tab++;
+        echo '</div>';
 
-        // Aplica atributos globales al control
-        // $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
-        unset($atributos);
-        // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+
+        echo '<div style="text-align:center;">';
+
+        echo '</div>';
 
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->modal($atributos);
         unset($atributos);
 
-        // -----------------FIN CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
-    }
-    public function mensaje() {
-
-        // Si existe algun tipo de error en el login aparece el siguiente mensaje
-        $mensaje = $this->miConfigurador->getVariableConfiguracion('mostrarMensaje');
-        $this->miConfigurador->setVariableConfiguracion('mostrarMensaje', null);
-
-        if ($mensaje) {
-
-            $tipoMensaje = $this->miConfigurador->getVariableConfiguracion('tipoMensaje');
-
-            if ($tipoMensaje == 'json') {
-
-                $atributos['mensaje'] = $mensaje;
-                $atributos['json'] = true;
-            } else {
-                $atributos['mensaje'] = $this->lenguaje->getCadena($mensaje);
-            }
-            // -------------Control texto-----------------------
-            $esteCampo = 'divMensaje';
-            $atributos['id'] = $esteCampo;
-            $atributos["tamanno"] = '';
-            $atributos["estilo"] = 'information';
-            $atributos["etiqueta"] = '';
-            $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-            echo $this->miFormulario->campoMensaje($atributos);
-            unset($atributos);
-
-            return true;
-        }
-        function elementosAdicionales() {
-        }
-
-        return true;
     }
 }
 
 $miFormulario = new Formulario($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miFormulario->formulario();
-$miFormulario->mensaje();
 
 ?>

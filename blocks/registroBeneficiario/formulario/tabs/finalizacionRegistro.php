@@ -30,7 +30,6 @@ class Formulario {
     }
 
     function formulario() {
-
         /**
          * IMPORTANTE: Este formulario está utilizando jquery.
          * Por tanto en el archivo script/ready.php y script/ready.js se declaran 
@@ -177,6 +176,11 @@ class Formulario {
         $valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
         $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
         $valorCodificado .= "&opcion=registrarBeneficiario";
+        
+        if(isset($_REQUEST['id'])){
+        	$valorCodificado .= "&actualizar=true";
+        }
+
         /**
          * SARA permite que los nombres de los campos sean dinámicos.
          * Para ello utiliza la hora en que es creado el formulario para

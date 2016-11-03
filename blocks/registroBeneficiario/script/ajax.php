@@ -617,6 +617,7 @@ foreach ($arreglo2 as $key2=>$values2){
 		 	});
 		 });
 
+$("#mensaje").modal("show");
   
 });
   

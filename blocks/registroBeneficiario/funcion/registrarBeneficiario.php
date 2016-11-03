@@ -72,7 +72,7 @@ class Registrar {
         //$beneficiarioPotencial['resolucion_adjudicacion'] = $_REQUEST['resolucion_adjudicacion'];
         $beneficiarioPotencial['nomenclatura'] = '';
         $beneficiarioPotencial['resolucion_adjudicacion'] = '';
-
+        
         $familiar = array();
 
         for ($i = 0; $i < $_REQUEST['familiares']; $i++) {
@@ -94,7 +94,7 @@ class Registrar {
             $familiar[$i]['pertenencia_etnica'] = $_REQUEST['pertenencia_etnica_familiar_' . $i];
             $familiar[$i]['ocupacion'] = $_REQUEST['ocupacion_familiar_' . $i];
         }
-
+        
         $beneficiarioPotencial['familiar'] = $familiar;
 
         $conexion = "interoperacion";
@@ -132,10 +132,18 @@ class Registrar {
 
         if ($resultado) {
 
-            redireccion::redireccionar('inserto');
+        	if(isset($_REQUEST['actualizar'])){
+        		redireccion::redireccionar('actualizo');
+        	}else{
+        		redireccion::redireccionar('inserto');
+        	}
             exit();
         } else {
-            redireccion::redireccionar('noInserto');
+        	if(isset($_REQUEST['actualizar'])){
+            	redireccion::redireccionar('noActualizo');
+        	}else{
+            	redireccion::redireccionar('noInserto');
+            }
             exit();
         }
     }
