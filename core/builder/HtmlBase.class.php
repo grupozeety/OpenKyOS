@@ -93,6 +93,8 @@ class HtmlBase {
     const VALOR = 'valor';
 
     const ETIQUETA = 'etiqueta';
+    
+    const ETIQUETA_BOTON= 'etiquetaBoton';
 
     const ANCHOETIQUETA = 'anchoEtiqueta';
 
