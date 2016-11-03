@@ -46,8 +46,10 @@ class Registrar {
         $beneficiarioPotencial['direccion'] = $_REQUEST['direccion'];
         $beneficiarioPotencial['tipo_vivienda'] = $_REQUEST['tipo_vivienda'];
         $beneficiarioPotencial['manzana'] = $_REQUEST['manzana'];
-        $beneficiarioPotencial['torre'] = $_REQUEST['torre'];
-        $beneficiarioPotencial['bloque'] = $_REQUEST['bloque'];
+		//$beneficiarioPotencial['torre'] = $_REQUEST['torre'];
+		//$beneficiarioPotencial['bloque'] = $_REQUEST['bloque'];
+        $beneficiarioPotencial['torre'] = '';
+        $beneficiarioPotencial['bloque'] = '';
         $beneficiarioPotencial['apartamento'] = $_REQUEST['apartamento'];
         $beneficiarioPotencial['telefono'] = $_REQUEST['telefono'];
         $beneficiarioPotencial['celular'] = $_REQUEST['celular'];
@@ -66,8 +68,10 @@ class Registrar {
         $beneficiarioPotencial['pertenencia_etnica'] = $_REQUEST['pertenencia_etnica'];
         $beneficiarioPotencial['ocupacion'] = $_REQUEST['ocupacion'];
         $beneficiarioPotencial['id_hogar'] = $_REQUEST['id_hogar'];
-        $beneficiarioPotencial['nomenclatura'] = $_REQUEST['nomenclatura'];
-        $beneficiarioPotencial['resolucion_adjudicacion'] = $_REQUEST['resolucion_adjudicacion'];
+        //$beneficiarioPotencial['nomenclatura'] = $_REQUEST['nomenclatura'];
+        //$beneficiarioPotencial['resolucion_adjudicacion'] = $_REQUEST['resolucion_adjudicacion'];
+        $beneficiarioPotencial['nomenclatura'] = '';
+        $beneficiarioPotencial['resolucion_adjudicacion'] = '';
 
         $familiar = array();
 

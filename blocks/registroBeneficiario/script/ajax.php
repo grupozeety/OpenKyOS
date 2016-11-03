@@ -310,9 +310,9 @@ foreach ($arreglo2 as $key2=>$values2){
 			}else if(id==0){
 				$('#div_1').show();
 				
-				$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").attr("required", "true");
-				$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").attr("required", "true");
-				$("#<?php echo $this->campoSeguro('parentesco_0')?>").attr("required", "true");
+				$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").attr("required", "false");
+				$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").attr("required", "false");
+				$("#<?php echo $this->campoSeguro('parentesco_0')?>").attr("required", "false");
 			}
 			$('#botonEliminar').show();
 			id++;	
@@ -352,6 +352,11 @@ foreach ($arreglo2 as $key2=>$values2){
 				$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").removeAttr('required');
 				$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").removeAttr('required');
 				$("#<?php echo $this->campoSeguro('parentesco_0')?>").removeAttr('required');
+				$("#<?php echo $this->campoSeguro('tipo_documento_familiar_0')?>").removeAttr('required');
+				$("#<?php echo $this->campoSeguro('primer_apellido_familiar_0')?>").removeAttr('required');
+				$("#<?php echo $this->campoSeguro('segundo_apellido_familiar_0')?>").removeAttr('required');
+				$("#<?php echo $this->campoSeguro('celular_familiar_0')?>").removeAttr('required');
+				
 				
 				$("#<?php echo $this->campoSeguro('familiares')?>").val(id);
 			}
