@@ -43,29 +43,41 @@ class Frontera {
 
         $miBloque = $this->miConfigurador->getVariableConfiguracion('esteBloque');
         $resultado = $this->miConfigurador->getVariableConfiguracion('errorFormulario');
-
         if (isset($_REQUEST['opcion'])) {
-            switch ($_REQUEST['opcion']) {
-                case 'validarRequisitos':
-                	$_REQUEST['id_beneficiario']=$_REQUEST['id_beneficiario'];
-                    include_once $this->ruta . "frontera/requisitosBeneficiario.php";
-                    break;
 
-                case 'mostrarContrato':
+            if (isset($_REQUEST['proceso'])) {
+                switch ($_REQUEST['proceso']) {
 
-                    include_once $this->ruta . "frontera/contratoBeneficiario.php";
+                    case 'gestionarContrato':
 
-                    break;
-                    
+                        include_once $this->ruta . "frontera/gestionarContrato.php";
+
+                        break;
+
+                }
+
+            } else {
+
+                switch ($_REQUEST['opcion']) {
+                    case 'validarRequisitos':
+                        $_REQUEST['id_beneficiario'] = $_REQUEST['id_beneficiario'];
+                        include_once $this->ruta . "frontera/requisitosBeneficiario.php";
+                        break;
+
+                    case 'mostrarContrato':
+                        include_once $this->ruta . "frontera/contratoBeneficiario.php";
+
+                        break;
+
                     case 'verArchivo':
-                    
-                    	include_once $this->ruta . "frontera/verArchivo.php";
-                    
-                    	break;
+                        include_once $this->ruta . "frontera/verArchivo.php";
 
-                default:
-                    include_once $this->ruta . "frontera/consultaBeneficiario.php";
-                    break;
+                        break;
+
+                    default:
+                        include_once $this->ruta . "frontera/consultaBeneficiario.php";
+                        break;
+                }
             }
         } else {
 
