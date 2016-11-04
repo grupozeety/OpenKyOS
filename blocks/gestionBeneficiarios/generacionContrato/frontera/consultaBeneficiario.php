@@ -171,6 +171,7 @@ class Registrador {
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
                 $valorCodificado .= "&opcion=validarRequisitos";
+                $valorCodificado .= "&proceso=" . $_REQUEST['proceso'];
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.
