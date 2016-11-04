@@ -604,9 +604,6 @@ foreach ($arreglo2 as $key2=>$values2){
 		 	mun =$("#<?php echo $this->campoSeguro('municipio');?>").val();
 		 	abc=$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val();
 		 	
-		 	console.log(abc, urb);
-		 	
-		 	
 		 	$.ajax({
 		 		url: "<?php echo $urlActualizarUrb?>",
 		 		dataType: "json",
