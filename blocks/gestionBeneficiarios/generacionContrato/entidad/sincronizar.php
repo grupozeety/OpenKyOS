@@ -15,26 +15,23 @@ class Sincronizar {
 	var $miFuncion;
 	var $miSql;
 	var $conexion;
-	
 	function __construct($lenguaje, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
 		$this->lenguaje = $lenguaje;
 		$this->miSql = $sql;
-
 	}
-	
-public function sincronizarAlfresco($beneficiario, $documento) {
+	public function sincronizarAlfresco($beneficiario, $documento) {
 		$_REQUEST ['tiempo'] = time ();
 		$this->prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
-		$ruta_absoluta=$documento ['rutaabsoluta'];
+		$ruta_absoluta = $documento ['rutaabsoluta'];
 		$ejecutar = 'sudo chmod 755 ' . $ruta_absoluta;
 		exec ( $ejecutar );
 		chmod ( $ruta_absoluta, 0755 );
 		
 		$filename = $ruta_absoluta;
 		$mimetype = mime_content_type ( $filename );
-		$postname = $documento['nombre_archivo'];
+		$postname = $documento ['nombre_archivo'];
 		
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
@@ -52,22 +49,21 @@ public function sincronizarAlfresco($beneficiario, $documento) {
 		$datosConexion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/upload";
-
-if (!function_exists('curl_file_create')) {
-$args = "@$filename;filename=" . ($postname ?: basename ( $filename )) . ($mimetype ? ";type=$mimetype" : '');
-}else{
-$args = curl_file_create($filename,$mimetype,$postname);
-}
-
-		$unwanted_array = array(
+		
+		if (! function_exists ( 'curl_file_create' )) {
+			$args = "@$filename;filename=" . ($postname ?: basename ( $filename )) . ($mimetype ? ";type=$mimetype" : '');
+		} else {
+			$args = curl_file_create ( $filename, $mimetype, $postname );
+		}
+		
+		$unwanted_array = array (
 				'é' => '%C3%A9',
 				'í' => '%C3%AD',
 				'ó' => '%C3%B3',
 				' ' => '%20',
 				'(' => '%28',
-				')' => '%29',
+				')' => '%29' 
 		);
-		
 		
 		$archivo = array (
 				'filedata' => $args,
@@ -81,7 +77,6 @@ $args = curl_file_create($filename,$mimetype,$postname);
 		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
 		
 		$status = json_decode ( $json_decode, true );
-
 		
 		if ($status ['status'] ['code'] == 200) {
 			

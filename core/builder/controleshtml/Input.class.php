@@ -151,7 +151,7 @@ class Input extends HtmlBase {
                 $cadena .= $this->atributos[self::VALIDAR];
             }
 
-            $cadena .= "><br>\n";
+            $cadena .= "><br></div>\n";
 
         } elseif (!isset($this->atributos[self::TIPO]) || $this->atributos[self::TIPO] != self::HIDDEN) {
 
@@ -160,7 +160,7 @@ class Input extends HtmlBase {
 
             $cadena .= $this->atributoClassCuadroTexto();
 
-            $cadena .= $this->atributosGeneralesCuadroTexto();
+            $cadena .= $this->atributosGeneralesCuadroTexto(); 
 
             $cadena .= ">\n";
         } elseif ($this->atributos[self::TIPO] == self::HIDDEN) {

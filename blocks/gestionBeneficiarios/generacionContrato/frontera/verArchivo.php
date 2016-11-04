@@ -16,7 +16,7 @@ class Registrador {
 	public $miConfigurador;
 	public $lenguaje;
 	public $miFormulario;
-	public function __construct($lenguaje, $formulario) {
+	public function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
@@ -24,19 +24,34 @@ class Registrador {
 		$this->lenguaje = $lenguaje;
 		
 		$this->miFormulario = $formulario;
+
+		$this->miSql = $sql;
 	}
 	public function seleccionarForm() {
 		$ruta = $_REQUEST ['ruta'];
 		$idArchivo = $_REQUEST ['archivo'];
 		$tipologia = $_REQUEST ['tipologia'];
 		// Rescatar los datos de este bloque
+
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
 		
 		// ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 		
 		$atributosGlobales ['campoSeguro'] = 'true';
-		
+
 		$_REQUEST ['tiempo'] = time ();
+		
+		$data = array (
+				'tipo' => $_REQUEST ['tipo_beneficiario'],
+				'codigo' => $_REQUEST ['tipologia'] 
+		);
+		
+		$conexion = "interoperacion";
+		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosEspecificos', $data );
+		$requisitos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
 		// -------------------------------------------------------------------------------------------------
 		
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -61,176 +76,181 @@ class Registrador {
 		echo $this->miFormulario->formulario ( $atributos );
 		{
 			
-			{
-				
-				$esteCampo = 'Agrupacion';
-				$atributos ['id'] = $esteCampo;
-				$atributos ['leyenda'] = "Detalles del Archivo";
-				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
-				unset ( $atributos );
-				
-				{
-					
-					// ----------------INICIO CONTROL: Cambio imagen--------------------------------------------------------
-					$esteCampo = "archivo"; // 777
-					$atributos ["id"] = $esteCampo; // No cambiar este nombre
-					$atributos ["nombre"] = $esteCampo;
-					$atributos ["tipo"] = "file";
-					$atributos ["obligatorio"] = true;
-					$atributos ["etiquetaObligatorio"] = false;
-					$atributos ["tabIndex"] = $tab ++;
-					$atributos ["columnas"] = 1;
-					$atributos ["estilo"] = "textoIzquierda";
-					$atributos ["anchoEtiqueta"] = 0;
-					$atributos ["tamanno"] = 500000;
-					$atributos ["validar"] = "required";
-					$atributos ["estilo"] = "file";
-					$atributos ["anchoCaja"] = 15;
-					$atributos ["etiqueta"] = $this->lenguaje->getCadena ( $esteCampo );
-					$atributos ["bootstrap"] = true;
-					// $atributos ["valor"] = $valorCodificado;
-					$atributos = array_merge ( $atributos );
-					echo $this->miFormulario->campoCuadroTexto($atributos) ;
-					unset ( $atributos );
-					
-					// ----------------INICIO CONTROL: Archivo---------------------------
-					// ------------------Division para los botones-------------------------
-					$atributos ["id"] = "botones";
-					$atributos ["estilo"] = "marcoBotones";
-					$atributos ["estiloEnLinea"] = "display:block;";
-					echo $this->miFormulario->division ( "inicio", $atributos );
-					unset ( $atributos );
-					{
-						// -----------------CONTROL: Botón ----------------------------------------------------------------
-						$esteCampo = 'verificar';
-						$atributos ["id"] = $esteCampo;
-						$atributos ["tabIndex"] = $tab;
-						$atributos ["tipo"] = 'boton';
-						// submit: no se coloca si se desea un tipo button genérico
-						$atributos ['submit'] = true;
-						$atributos ["simple"] = true;
-						$atributos ["columnas"] = 1;
-						$atributos ["estiloMarco"] = '';
-						$atributos ["estiloBoton"] = 'jqueryui';
-						$atributos ["block"] = false;
-						// verificar: true para verificar el formulario antes de pasarlo al servidor.
-						$atributos ["verificar"] = '';
-						$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-						$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-						$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-						$tab ++;
-						
-						// Aplica atributos globales al control
-						$atributos = array_merge ( $atributos, $atributosGlobales );
-						echo $this->miFormulario->campoBoton ( $atributos );
-						unset ( $atributos );
-						// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-					}
-					// ------------------Fin Division para los botones-------------------------
-					echo $this->miFormulario->division ( "fin" );
-					unset ( $atributos );
-					$atributos ["id"] = "botones";
-					$atributos ["estilo"] = "marcoBotones";
-					$atributos ["estiloEnLinea"] = "display:block;";
-					echo $this->miFormulario->division ( "inicio", $atributos );
-					unset ( $atributos );
-					{
-						// -----------------CONTROL: Botón ----------------------------------------------------------------
-						$esteCampo = 'actualizar';
-						$atributos ["id"] = $esteCampo;
-						$atributos ["tabIndex"] = $tab;
-						$atributos ["tipo"] = 'boton';
-						// submit: no se coloca si se desea un tipo button genérico
-						$atributos ['submit'] = true;
-						$atributos ["simple"] = true;
-						$atributos ["estiloMarco"] = '';
-						$atributos ["columnas"] = 1;
-						$atributos ["estiloBoton"] = 'jqueryui';
-						$atributos ["block"] = false;
-						// verificar: true para verificar el formulario antes de pasarlo al servidor.
-						$atributos ["verificar"] = '';
-						$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-						$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-						$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-						$tab ++;
-						
-						// Aplica atributos globales al control
-						$atributos = array_merge ( $atributos, $atributosGlobales );
-						echo $this->miFormulario->campoBoton ( $atributos );
-						unset ( $atributos );
-						// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-					}
-					// ------------------Fin Division para los botones-------------------------
-					echo $this->miFormulario->division ( "fin" );
-					unset ( $atributos );
-					// ----------------INICIO CONTROL: Archivo---------------------------
-					
-					$esteCampo = 'imagen';
-					$atributos ['id'] = $esteCampo;
-					$atributos ['leyenda'] = "Archivo Seleccionado";
-					echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
-					unset ( $atributos );
-					$atributos ['imagen'] = str_replace ( "\\", "", $_REQUEST ['ruta'] );
-					$atributos ['estilo'] = '';
-					$atributos ['etiqueta'] = '';
-					$atributos ['borde'] = '';
-					$atributos ['ancho'] = '200';
-					$atributos ['alto'] = '360';
-					
-					$atributos = array_merge ( $atributos, $atributosGlobales );
-					echo $this->miFormulario->campoImagen ( $atributos );
-					unset ( $atributos );
-					
-					echo $this->miFormulario->agrupacion ( 'fin' );
-					unset ( $atributos );
-				}
-				echo $this->miFormulario->agrupacion ( 'fin' );
-				unset ( $atributos );
-			}
+			$esteCampo = 'Agrupacion';
+			$atributos ['id'] = $esteCampo;
+			$atributos ['leyenda'] = "Detalles del Archivo";
+			echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
+			unset ( $atributos );
 			
 			{
-				/**
-				 * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
-				 * SARA permite realizar esto a través de tres
-				 * mecanismos:
-				 * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
-				 * la base de datos.
-				 * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
-				 * formsara, cuyo valor será una cadena codificada que contiene las variables.
-				 * (c) a través de campos ocultos en los formularios. (deprecated)
-				 */
+
+				// ----------------INICIO CONTROL: Cambio imagen--------------------------------------------------------
+				$esteCampo = $requisitos [0] ['codigo']; // Código documento
+				$atributos ["id"] = $esteCampo; // No cambiar este nombre
+				$atributos ["nombre"] = $esteCampo;
+				$atributos ["tipo"] = "file";
+				$atributos ["obligatorio"] = true;
+				$atributos ["etiquetaObligatorio"] = false;
+				$atributos ["tabIndex"] = $tab ++;
+				$atributos ["columnas"] = 1;
+				$atributos ["estilo"] = "textoIzquierda";
+				$atributos ["anchoEtiqueta"] = 6;
+				$atributos ["tamanno"] = 500000;
+				$atributos ["etiqueta"] = "<b>" . $requisitos [0] ['codigo'] . "</b> " . $requisitos [0] ['descripcion'];
+				if ($requisitos [0] ['obligatoriedad'] == 1) {
+					$atributos ["etiqueta"] = "<b>" . $requisitos [0] ['codigo'] . "</b> " . $requisitos [0] ['descripcion'] . "<b> (*)</b>";
+				}
+				$atributos ["estilo"] = "file";
+				$atributos ["anchoCaja"] = 6;
 				
-				// En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
-				
-				// Paso 1: crear el listado de variables
-				
-				$valorCodificado = "action=" . $esteBloque ["nombre"];
-				$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
-				$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
-				$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-				$valorCodificado .= "&opcion=modificarArchivo";
-				$valorCodificado .= "&id_archivo=" . $idArchivo;
-				$valorCodificado .= "&id_beneficiario=" . $_REQUEST ['id_beneficiario'];
-				
-				/**
-				 * SARA permite que los nombres de los campos sean dinámicos.
-				 * Para ello utiliza la hora en que es creado el formulario para
-				 * codificar el nombre de cada campo.
-				 */
-				$valorCodificado .= "&campoSeguro=" . $_REQUEST ['tiempo'];
-				// Paso 2: codificar la cadena resultante
-				$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );
-				
-				$atributos ["id"] = "formSaraData"; // No cambiar este nombre
-				$atributos ["tipo"] = "hidden";
-				$atributos ['estilo'] = '';
-				$atributos ["obligatorio"] = false;
-				$atributos ['marco'] = true;
-				$atributos ["etiqueta"] = "";
-				$atributos ["valor"] = $valorCodificado;
+				$atributos ["bootstrap"] = true;
+				// $atributos ["valor"] = $valorCodificado;
+				$atributos = array_merge ( $atributos );
 				echo $this->miFormulario->campoCuadroTexto ( $atributos );
 				unset ( $atributos );
 			}
+			echo $this->miFormulario->agrupacion ( 'fin' );
+			unset ( $atributos );
+			
+			// ----------------INICIO CONTROL: Archivo---------------------------
+			// ------------------Division para los botones-------------------------
+			$atributos ["id"] = "botones";
+			$atributos ["estilo"] = "marcoBotones";
+			$atributos ["estiloEnLinea"] = "display:block;";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			unset ( $atributos );
+			{
+				// -----------------CONTROL: Botón ----------------------------------------------------------------
+				$esteCampo = 'verificar';
+				$atributos ["id"] = $esteCampo;
+				$atributos ["tabIndex"] = $tab;
+				$atributos ["tipo"] = 'boton';
+				// submit: no se coloca si se desea un tipo button genérico
+				$atributos ['submit'] = true;
+				$atributos ["simple"] = true;
+				$atributos ["columnas"] = 1;
+				$atributos ["estiloMarco"] = '';
+				$atributos ["estiloBoton"] = 'jqueryui';
+				$atributos ["block"] = false;
+				// verificar: true para verificar el formulario antes de pasarlo al servidor.
+				$atributos ["verificar"] = '';
+				$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+				$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+				$tab ++;
+				
+				// Aplica atributos globales al control
+				$atributos = array_merge ( $atributos, $atributosGlobales );
+				echo $this->miFormulario->campoBoton ( $atributos );
+				unset ( $atributos );
+				// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+			}
+			// ------------------Fin Division para los botones-------------------------
+			echo $this->miFormulario->division ( "fin" );
+			unset ( $atributos );
+			
+			$atributos ["id"] = "botones";
+			$atributos ["estilo"] = "marcoBotones";
+			$atributos ["estiloEnLinea"] = "display:block;";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			unset ( $atributos );
+			{
+				// -----------------CONTROL: Botón ----------------------------------------------------------------
+				$esteCampo = 'actualizar';
+				$atributos ["id"] = $esteCampo;
+				$atributos ["tabIndex"] = $tab;
+				$atributos ["tipo"] = 'boton';
+				// submit: no se coloca si se desea un tipo button genérico
+				$atributos ['submit'] = true;
+				$atributos ["simple"] = true;
+				$atributos ["estiloMarco"] = '';
+				$atributos ["columnas"] = 1;
+				$atributos ["estiloBoton"] = 'jqueryui';
+				$atributos ["block"] = false;
+				// verificar: true para verificar el formulario antes de pasarlo al servidor.
+				$atributos ["verificar"] = '';
+				$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+				$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+				$tab ++;
+				
+				// Aplica atributos globales al control
+				$atributos = array_merge ( $atributos, $atributosGlobales );
+				echo $this->miFormulario->campoBoton ( $atributos );
+				unset ( $atributos );
+				// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+			}
+			// ------------------Fin Division para los botones-------------------------
+			echo $this->miFormulario->division ( "fin" );
+			unset ( $atributos );
+			// ----------------INICIO CONTROL: Archivo---------------------------
+			
+			{
+				$esteCampo = 'imagen';
+				$atributos ['id'] = $esteCampo;
+				$atributos ['leyenda'] = "Archivo Seleccionado";
+				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
+				unset ( $atributos );
+				$atributos ['imagen'] = str_replace ( "\\", "", $_REQUEST ['ruta'] );
+				$atributos ['estilo'] = '';
+				$atributos ['etiqueta'] = '';
+				$atributos ['borde'] = '';
+				$atributos ['ancho'] = '200';
+				$atributos ['alto'] = '360';
+				
+				$atributos = array_merge ( $atributos, $atributosGlobales );
+				echo $this->miFormulario->campoImagen ( $atributos );
+				unset ( $atributos );
+				
+				echo $this->miFormulario->agrupacion ( 'fin' );
+				unset ( $atributos );
+			}
+		}
+		
+		{
+			/**
+			 * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
+			 * SARA permite realizar esto a través de tres
+			 * mecanismos:
+			 * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
+			 * la base de datos.
+			 * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
+			 * formsara, cuyo valor será una cadena codificada que contiene las variables.
+			 * (c) a través de campos ocultos en los formularios. (deprecated)
+			 */
+			
+			// En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
+			
+			// Paso 1: crear el listado de variables
+			
+			$valorCodificado = "action=" . $esteBloque ["nombre"];
+			$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
+			$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
+			$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+			$valorCodificado .= "&opcion=modificarArchivo";
+			$valorCodificado .= "&id_archivo=" . $idArchivo;
+			$valorCodificado .= "&id_beneficiario=" . $_REQUEST ['id_beneficiario'];
+			$valorCodificado .= "&tipo_beneficiario=" . $_REQUEST ['tipo_beneficiario'];
+			$valorCodificado .= "&proceso=verificarRequisitos";
+			
+			/**
+			 * SARA permite que los nombres de los campos sean dinámicos.
+			 * Para ello utiliza la hora en que es creado el formulario para
+			 * codificar el nombre de cada campo.
+			 */
+			$valorCodificado .= "&campoSeguro=" . $_REQUEST ['tiempo'];
+			// Paso 2: codificar la cadena resultante
+			$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );
+			
+			$atributos ["id"] = "formSaraData"; // No cambiar este nombre
+			$atributos ["tipo"] = "hidden";
+			$atributos ['estilo'] = '';
+			$atributos ["obligatorio"] = false;
+			$atributos ['marco'] = true;
+			$atributos ["etiqueta"] = "";
+			$atributos ["valor"] = $valorCodificado;
+			echo $this->miFormulario->campoCuadroTexto ( $atributos );
+			unset ( $atributos );
 		}
 		
 		// ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
@@ -274,7 +294,7 @@ class Registrador {
 	}
 }
 
-$miSeleccionador = new Registrador ( $this->lenguaje, $this->miFormulario );
+$miSeleccionador = new Registrador ( $this->lenguaje, $this->miFormulario , $this->sql);
 
 $miSeleccionador->mensaje ();
 
