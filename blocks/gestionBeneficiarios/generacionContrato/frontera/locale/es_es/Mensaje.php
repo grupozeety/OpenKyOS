@@ -91,6 +91,8 @@ $this->idioma['certificado_proyecto_vip'] = '<b>005</b> Certificado del proyecto
 
 $this->idioma['documento_acceso_propietario'] = '<b>006</b> Documento que demuestre beneficiario acceso es el propietario';
 
+$this->idioma['certificado_nointernet'] = '<b>900</b> Certificado No Internet';
+
 $this->idioma['botonCargarRequisitos'] = 'Cargar Requisitos';
 
 $this->idioma['botonVisualizarContrato'] = 'Ver Contrato';
@@ -102,7 +104,7 @@ $this->idioma['noDefinido'] = 'Etiqueta No definida';
 //-------------------------------------- documentos verificacion/cambios
 
 $this->idioma['archivo'] = 'Reemplazar Archivo';
-$this->idioma['verificar'] = 'Verificar Archivo';
+$this->idioma['verificar'] = 'Apruebo Archivo';
 $this->idioma['actualizar'] = 'Actualizar Archivo';
 
 $this->idioma['botonGenerarPdfNoFirmas'] = 'Generar Minuta Contrato Sin Firmas';

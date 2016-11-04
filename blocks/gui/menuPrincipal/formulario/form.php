@@ -246,7 +246,7 @@ class FormularioMenu {
 
                 $submenu .= ' <li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $valor['titulo_enlace'] . '</a>
                                 <ul class="dropdown-menu">
-                                <li class="divider"></li>';
+                                ';
 
                 foreach ($ArrayAtributos as $valor) {
 
@@ -263,7 +263,7 @@ class FormularioMenu {
 
                 }
 
-                $submenu .= '<li class="divider"></li>
+                $submenu .= '
                             </ul>
                         </li>';
 

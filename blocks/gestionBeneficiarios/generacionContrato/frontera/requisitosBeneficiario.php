@@ -205,11 +205,12 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["estilo"] = "file";
-                    $atributos["etiqueta"] = "001 Cédula Beneficiario Potencial";
+                    $atributos["anchoCaja"] =6;
+                    $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo) ;
                     $atributos["bootstrap"] = true;
                     // $atributos ["valor"] = $valorCodificado;
                     $atributos = array_merge($atributos);
@@ -240,11 +241,12 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["estilo"] = "file";
-                    $atributos["etiqueta"] = "777 Cédula Cliente";
+                    $atributos["anchoCaja"] =15;
+                    $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo) ;
                     $atributos["bootstrap"] = true;
                     // $atributos ["valor"] = $valorCodificado;
                     $atributos = array_merge($atributos);
@@ -254,7 +256,7 @@ class Registrador {
 
                         if (!is_null($indice) && isset($redireccion['777'])) {
 
-                            $cadena = "<center><a href='" . $redireccion['777'] . "'  >" . $infoArchivo[$indice]['nombre_documento'] . "</a></center>";
+                            $cadena = "<center><a href='" . $redireccion['777'] . "'  >" . $this->lenguaje->getCadena($esteCampo) . "</a></center>";
                         } else {
 
                             $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
@@ -275,11 +277,12 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["estilo"] = "file";
-                    $atributos["etiqueta"] = "002 Acta VIP";
+                    $atributos["anchoCaja"] =15;
+                    $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
                     $atributos["bootstrap"] = true;
                     // $atributos ["valor"] = $valorCodificado;
                     $atributos = array_merge($atributos);
@@ -297,6 +300,7 @@ class Registrador {
                     } else {
                         $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
                     }
+                    
                     $archivo_acta_vip = $cadena;
                     unset($atributos);
 
@@ -309,10 +313,11 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                   $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
-                    $atributos["etiqueta"] = "003 Certificado Servicio Público";
+                    $atributos["anchoCaja"] =15;
+                  $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo); ;
                     $atributos["bootstrap"] = true;
                     // $atributos ["valor"] = $valorCodificado;
                     $atributos = array_merge($atributos);
@@ -341,10 +346,11 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
-                    $atributos["etiqueta"] = "005 Certificado Proyecto es VIP";
+                    $atributos["anchoCaja"] =15;
+                  $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);;
                     $atributos["bootstrap"] = true;
                     // $atributos ["valor"] = $valorCodificado;
                     $atributos = array_merge($atributos);
@@ -373,10 +379,11 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                   $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
-                    $atributos["etiqueta"] = "006 Evidencia Acceso Propietario";
+                    $atributos["anchoCaja"] =15;
+                    $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);;
                     $atributos["bootstrap"] = true;
                     // $atributos ["valor"] = $valorCodificado;
                     $atributos = array_merge($atributos);
@@ -405,11 +412,12 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 1;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["anchoEtiqueta"] = 6;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
                     $atributos["estilo"] = "file";
-                    $atributos["etiqueta"] = "007 Evidencia Dirección Propietario";
+                    $atributos["anchoCaja"] =15;
+                    $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);;
                     $atributos["bootstrap"] = true;
                     // $atributos ["valor"] = $valorCodificado;
                     $atributos = array_merge($atributos);
@@ -429,18 +437,56 @@ class Registrador {
 
                     $archivo_documento_direccion = $cadena;
                     unset($atributos);
-
+                    
+                    
+                    $esteCampo = "certificado_nointernet"; // 900
+                    $atributos["id"] = $esteCampo; // No cambiar este nombre
+                    $atributos["nombre"] = $esteCampo;
+                    $atributos["tipo"] = "file";
+                    $atributos["obligatorio"] = true;
+                    $atributos["etiquetaObligatorio"] = false;
+                    $atributos["tabIndex"] = $tab++;
+                    $atributos["columnas"] = 1;
+                    $atributos["estilo"] = "textoIzquierda";
+                    $atributos["anchoEtiqueta"] = 6;
+                    $atributos["tamanno"] = 500000;
+                    $atributos["validar"] = "required";
+                    $atributos["estilo"] = "file";
+                    $atributos["anchoCaja"] =15;
+                    $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["bootstrap"] = true;
+                    // $atributos ["valor"] = $valorCodificado;
+                    $atributos = array_merge($atributos);
+                    
+   
+                    if (isset($infoArchivo)) {
+                    	$indice = array_search("900", array_column($infoArchivo, 'codigo_requisito'), true);
+                    
+                    	if (!is_null($indice) && isset($redireccion['900'])) {
+                    
+                    		$cadena = "<center><a href='" . $redireccion['900'] . "' >" . $this->lenguaje->getCadena("certificado_nointernet") . "</a></center>";
+                    	} else {
+                    
+                    		$cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
+                    	}
+                    } else {
+                    	$cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
+                    }
+                    
+                    $archivo_certificado_nointernet = $cadena;
+                    unset($atributos);
+                    
                     switch ($infoBeneficiario['tipo_beneficiario']) {
                         case '1':
                             if ($estadoAprobacion != false) {
                                 $tabla = "
-                                     <table id='contenido' class='table  table-hover'>
+                                     <table id='example' class='table table-striped table-bordered dt-responsive nowrap' cellspacing='0' width='100%'>
                                       <thead>
                                         <tr>
-                                          <td align='left'> </td>
-                                          <td><center><strong>Comisión</strong></center></td>
-                                          <td><center><strong>Supervisor</strong></center></td>
-                                          <td><center><strong>Analista</strong></center></td>
+                                          <th>Documento</th>
+                                          <th ><center><strong>Comisión</strong></center></th>
+                                          <th><center><strong>Supervisor</strong></center></th>
+                                          <th><center><strong>Analista</strong></center></th>
                                         </tr>
                                         </thead>
 
@@ -480,11 +526,18 @@ class Registrador {
                                           <td><center><IMG SRC='"     . $imagenSupervisor['007'] . "'width='19px'></center> </td>
                                           <td><center><IMG SRC='"     . $imagenAnalista['007'] . "'width='19px'></center> </td>
                                         </tr>
+                                        
+                                     <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                         <td><center><IMG SRC='"     . $imagenComisionador['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenSupervisor['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenAnalista['900'] . "'width='19px'></center> </td>
+                                        </tr>
 
                                         </table>"    ;
                             } else {
                                 $tabla = "
-                                     <table id='contenido' class='table  table-hover'>
+                       <table id='example' class='table table-striped table-bordered dt-responsive nowrap' cellspacing='0' width='100%'>
                                       <thead>
                                         <tr>
                                           <td align='left'> </td>
@@ -512,7 +565,10 @@ class Registrador {
                                         <tr>
                                           <td>"     . $archivo_documento_direccion . "</td>
                                         </tr>
-
+        <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                        </tr>
+                                          		
                                         </table>"    ;
                             }
                             break;
@@ -520,13 +576,13 @@ class Registrador {
                         case '2':
                             if ($estadoAprobacion != false) {
                                 $tabla = "
-                                     <table id='contenido' class='table  table-hover'>
+                          <table id='example' class='table table-striped table-bordered dt-responsive nowrap' cellspacing='0' width='100%'>
                                       <thead>
                                         <tr>
-                                          <td> </td>
-                                          <td><center><strong>Comisión</strong></center></td>
-                                          <td><center><strong>Supervisor</strong></center></td>
-                                          <td><center><strong>Analista</strong></center></td>
+                                          <th>Documento</th>
+                                          <th><center><strong>Comisión</strong></center></th>
+                                          <th><center><strong>Supervisor</strong></center></th>
+                                          <th><center><strong>Analista</strong></center></th>
                                         </tr>
                                         </thead>
 
@@ -550,11 +606,16 @@ class Registrador {
                                           <td><center><IMG SRC='"     . $imagenSupervisor['007'] . "'width='19px'></center> </td>
                                           <td><center><IMG SRC='"     . $imagenAnalista['007'] . "'width='19px'></center> </td>
                                         </tr>
-
+                                                <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                         <td><center><IMG SRC='"     . $imagenComisionador['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenSupervisor['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenAnalista['900'] . "'width='19px'></center> </td>
+                                        </tr>
                                         </table>"    ;
                             } else {
                                 $tabla = "
-                                     <table id='contenido' class='table  table-hover'>
+                                    <table id='example' class='table table-striped table-bordered dt-responsive nowrap' cellspacing='0' width='100%'>
                                       <thead>
                                         <tr>
                                           <td> </td>
@@ -570,6 +631,11 @@ class Registrador {
                                         <tr>
                                           <td>"     . $archivo_documento_direccion . "</td>
                                         </tr>
+                                          		
+        <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                        </tr>
+                                          		
                                         </table>"    ;
                             }
                             break;
@@ -577,13 +643,13 @@ class Registrador {
                         case '3':
                             if ($estadoAprobacion != false) {
                                 $tabla = "
-                                     <table id='contenido' class='table  table-hover'>
+                                    <table id='example' class='table table-striped table-bordered dt-responsive nowrap' cellspacing='0' width='100%'>
                                       <thead>
                                         <tr>
-                                          <td> </td>
-                                          <td><center><strong>Comisión</strong></center></td>
-                                          <td><center><strong>Supervisor</strong></center></td>
-                                          <td><center><strong>Analista</strong></center></td>
+                                          <th>Documento</th>
+                                          <th><center><strong>Comisión</strong></center></th>
+                                          <th><center><strong>Supervisor</strong></center></th>
+                                          <th><center><strong>Analista</strong></center></th>
                                         </tr>
                                         </thead>
 
@@ -593,22 +659,32 @@ class Registrador {
                                           <td><center><IMG SRC='"     . $imagenSupervisor['777'] . "'width='19px'></center> </td>
                                           <td><center><IMG SRC='"     . $imagenAnalista['777'] . "'width='19px'></center> </td>
                                         </tr>
-
+                                        <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                         <td><center><IMG SRC='"     . $imagenComisionador['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenSupervisor['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenAnalista['900'] . "'width='19px'></center> </td>
+                                        </tr>
 
                                      </table>"    ;
                                 break;
                             } else {
                                 $tabla = "
-                                     <table id='contenido' class='table  table-hover'>
+                                     <table id='example' class='table table-striped table-bordered dt-responsive nowrap' cellspacing='0' width='100%'>
                                       <thead>
                                         <tr>
-                                          <td> </td>
+                                          <th>Documento</th>
                                         </tr>
                                         </thead>
 
                                         <tr>
                                           <td>"     . $archivo_cedula_cliente . "</td>
                                         </tr>
+                                          		
+        <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                        </tr>
+                                          		
 
                                      </table>"    ;
                             }
@@ -645,7 +721,6 @@ class Registrador {
                             $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
                             $atributos['nombreFormulario'] = $esteBloque['nombre'];
                             $tab++;
-
                             // Aplica atributos globales al control
                             $atributos = array_merge($atributos, $atributosGlobales);
                             echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
@@ -920,12 +995,14 @@ class Registrador {
         // var_dump($_REQUEST);
         switch ($_REQUEST['mensaje']) {
             case 'inserto':
-                $estilo_mensaje = 'success';     // information,warning,error,validation
-                // $atributos["mensaje"] = 'Requisitos Correctamente Subidos<br>Se ha Habilitado la Opcion de ver Contrato';
-                $atributos["mensaje"] = 'Requisitos Correctamente Subidos. <br>Proceder a Validar';
+               
 
-                if (isset($_REQUEST['alfresco'])) {
-                    $atributos["mensaje"] .= 'Errores de Gestor Documental:' . $_REQUEST['alfresco'];
+                if (isset($_REQUEST['alfresco']) && $_REQUEST['alfresco']>0) {
+                	$estilo_mensaje = 'warning';
+                    $atributos["mensaje"] .= '<br>Errores de Gestor Documental:' . $_REQUEST['alfresco'];
+                }else{
+                	$estilo_mensaje = 'success'; 
+                	$atributos["mensaje"] = 'Requisitos Correctamente Subidos. <br>Proceder a Validar';
                 }
                 break;
 
@@ -981,7 +1058,77 @@ class Registrador {
    
     
 }
-
+function array_column($input = null, $columnKey = null, $indexKey = null)
+{
+	// Using func_get_args() in order to check for proper number of
+	// parameters and trigger errors exactly as the built-in array_column()
+	// does in PHP 5.5.
+	$argc = func_num_args();
+	$params = func_get_args();
+	if ($argc < 2) {
+		trigger_error("array_column() expects at least 2 parameters, {$argc} given", E_USER_WARNING);
+		return null;
+	}
+	if (!is_array($params[0])) {
+		trigger_error(
+				'array_column() expects parameter 1 to be array, ' . gettype($params[0]) . ' given',
+				E_USER_WARNING
+				);
+		return null;
+	}
+	if (!is_int($params[1])
+			&& !is_float($params[1])
+			&& !is_string($params[1])
+			&& $params[1] !== null
+			&& !(is_object($params[1]) && method_exists($params[1], '__toString'))
+			) {
+				trigger_error('array_column(): The column key should be either a string or an integer', E_USER_WARNING);
+				return false;
+			}
+			if (isset($params[2])
+					&& !is_int($params[2])
+					&& !is_float($params[2])
+					&& !is_string($params[2])
+					&& !(is_object($params[2]) && method_exists($params[2], '__toString'))
+					) {
+						trigger_error('array_column(): The index key should be either a string or an integer', E_USER_WARNING);
+						return false;
+					}
+					$paramsInput = $params[0];
+					$paramsColumnKey = ($params[1] !== null) ? (string) $params[1] : null;
+					$paramsIndexKey = null;
+					if (isset($params[2])) {
+						if (is_float($params[2]) || is_int($params[2])) {
+							$paramsIndexKey = (int) $params[2];
+						} else {
+							$paramsIndexKey = (string) $params[2];
+						}
+					}
+					$resultArray = array();
+					foreach ($paramsInput as $row) {
+						$key = $value = null;
+						$keySet = $valueSet = false;
+						if ($paramsIndexKey !== null && array_key_exists($paramsIndexKey, $row)) {
+							$keySet = true;
+							$key = (string) $row[$paramsIndexKey];
+						}
+						if ($paramsColumnKey === null) {
+							$valueSet = true;
+							$value = $row;
+						} elseif (is_array($row) && array_key_exists($paramsColumnKey, $row)) {
+							$valueSet = true;
+							$value = $row[$paramsColumnKey];
+						}
+						if ($valueSet) {
+							if ($keySet) {
+								$resultArray[$key] = $value;
+							} else {
+								$resultArray[] = $value;
+							}
+						}
+					}
+					return $resultArray;
+} 
 
 
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);

@@ -46,10 +46,11 @@ class Sql extends \Sql {
                 $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
                 $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
                 $cadenaSql .= "WHERE estado_registro=TRUE ";
-                $cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "AND alfresco=TRUE ";
+                $cadenaSql .= "AND  (cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%') ";
                 $cadenaSql .= "LIMIT 10; ";
                 break;
 
@@ -239,7 +240,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " numero_identificacion='" . $variable['numero_identificacion'] . "', ";
                 $cadenaSql .= " fecha_expedicion='" . $variable['fecha_expedicion'] . "', ";
                 $cadenaSql .= " direccion_domicilio='" . $variable['direccion_domicilio'] . "',";
-                $cadenaSql .= " direccion_instalacion='" . $variable['direccion_instalacion'] . "', ";
+            /*$cadenaSql .= " direccion_instalacion='" . $variable['direccion_instalacion'] . "', ";*/
                 $cadenaSql .= " departamento='" . $variable['departamento'] . "',";
                 $cadenaSql .= " municipio='" . $variable['municipio'] . "', ";
                 $cadenaSql .= " urbanizacion='" . $variable['urbanizacion'] . "', ";
@@ -326,18 +327,6 @@ class Sql extends \Sql {
                 $cadenaSql = "SELECT host, usuario, password ";
                 $cadenaSql .= " FROM parametros.api_data ";
                 $cadenaSql .= " WHERE componente='alfresco' ";
-                break;
-
-            case 'consultarBeneficiariosPotenciales':
-
-                $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
-                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
-                $cadenaSql .= "WHERE estado_registro=TRUE ";
-                $cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "LIMIT 10; ";
                 break;
 
             case "consultarCarpetaSoportes":

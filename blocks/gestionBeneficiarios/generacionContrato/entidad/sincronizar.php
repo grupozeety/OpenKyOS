@@ -25,7 +25,6 @@ class Sincronizar {
 	}
 	
 public function sincronizarAlfresco($beneficiario, $documento) {
-
 		$_REQUEST ['tiempo'] = time ();
 		$this->prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
 		$ruta_absoluta=$documento ['rutaabsoluta'];
@@ -53,7 +52,22 @@ public function sincronizarAlfresco($beneficiario, $documento) {
 		$datosConexion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/upload";
-		$args = "@$filename;filename=" . ($postname ?: basename ( $filename )) . ($mimetype ? ";type=$mimetype" : '');
+
+if (!function_exists('curl_file_create')) {
+$args = "@$filename;filename=" . ($postname ?: basename ( $filename )) . ($mimetype ? ";type=$mimetype" : '');
+}else{
+$args = curl_file_create($filename,$mimetype,$postname);
+}
+
+		$unwanted_array = array(
+				'é' => '%C3%A9',
+				'í' => '%C3%AD',
+				'ó' => '%C3%B3',
+				' ' => '%20',
+				'(' => '%28',
+				')' => '%29',
+		);
+		
 		
 		$archivo = array (
 				'filedata' => $args,
