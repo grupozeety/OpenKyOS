@@ -74,7 +74,7 @@ class Registrar {
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
         
-        $cadenaSql = $this->miSql->getCadenaSql('agendamientosReporteViabilidad', $agendamientos); 
+        $cadenaSql = $this->miSql->getCadenaSql('agendamientosReporteViabilidad', $agendamientos);
         $this->elementos_reporte = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         
     }
