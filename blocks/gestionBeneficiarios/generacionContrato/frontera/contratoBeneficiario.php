@@ -381,7 +381,7 @@ class Contrato {
                         $atributos = array_merge($atributos, $atributosGlobales);
                         echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
                         unset($atributos);
-
+                        /*
                         $esteCampo = 'direccion_instalacion';
                         $atributos['nombre'] = $esteCampo;
                         $atributos['tipo'] = "text";
@@ -398,9 +398,9 @@ class Contrato {
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Ingrese Dirección Instalación";
                         if (isset($_REQUEST[$esteCampo])) {
-                            $atributos['valor'] = $_REQUEST[$esteCampo];
+                        $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                        $atributos['valor'] = '';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -411,7 +411,7 @@ class Contrato {
                         // Aplica atributos globales al control
                         $atributos = array_merge($atributos, $atributosGlobales);
                         echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-                        unset($atributos);
+                        unset($atributos);*/
 
                         $esteCampo = 'departamento';
                         $atributos['nombre'] = $esteCampo;
