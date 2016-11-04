@@ -37,6 +37,7 @@ class logger extends loggerBase {
 	 * @access public
 	 */
 	function log_usuario($log) {
+		date_default_timezone_set ( 'America/Bogota' );
 // 		if(isset($log['opcion']) && (/*$log['opcion']=="buscar" ||*/ $log['opcion']=="insertar" || $log['opcion']=="actualizar")){
 			if(strcmp($log['opcion'], "buscar")==0){
 				$log['opcion']= "CONSULTAR";
