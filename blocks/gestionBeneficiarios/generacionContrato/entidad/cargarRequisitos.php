@@ -40,7 +40,7 @@ class FormProcessor {
 		 */
 		
 		$this->asosicarCodigoDocumento ();
-		
+
 		/**
 		 * 1.
 		 * CargarArchivos en el Directorio
@@ -54,7 +54,7 @@ class FormProcessor {
 		 */
 		
 		$this->registrarDocumentos ();
-		
+
 		/**
 		 * 4.
 		 * Sincronizar Alfresco
@@ -163,7 +163,7 @@ class FormProcessor {
 		}
 	}
 	public function cargarArchivos() {
-		foreach ( $_FILES as $key => $archivo ) {
+	foreach ( $_FILES as $key => $archivo ) {
 			
 			$this->prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
 			/*
@@ -194,7 +194,7 @@ class FormProcessor {
 					'tipo_documento' => $archivo ['tipo_documento'] 
 			);
 		}
-		
+
 		$this->archivos_datos = $archivo_datos;
 	}
 }
