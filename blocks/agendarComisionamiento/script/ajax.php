@@ -231,13 +231,6 @@ $(document).ready(function() {
 		    	$("#myModalMensaje").modal('hide');
 			});
 	});
-		
-	$("#<?php echo $this->campoSeguro('tipo_agendamiento');?>").change(function() {
-
-		
-	    
-	});
-	
 	
 });
 
@@ -254,12 +247,12 @@ $("#<?php echo $this->campoSeguro('urbanizacion');?>").autocomplete({
 	serviceUrl: '<?php echo $urlConsultarUrbanizacion;?>',
 	onSelect: function (suggestion) {
 
-	  	$("#<?php echo $this->campoSeguro('id');?>").val(suggestion.data);
+	  	$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val(suggestion.data);
 		
-		if($("#<?php echo $this->campoSeguro('id');?>").val()!=''){
-			urbanizacion = $("#<?php echo $this->campoSeguro('id');?>").val();
+		if($("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val()!=''){
+			urbanizacion = $("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val();
 		}else{
-			$("#<?php echo $this->campoSeguro('id');?>").val('');
+			$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val('');
 			$("#<?php echo $this->campoSeguro('urbanizacion');?>").val('');
 			urbanizacion = "";
 		}
@@ -296,6 +289,20 @@ $("#<?php echo $this->campoSeguro('bloque_manzana');?>").autocomplete({
 		
 		actualizarTabla();
 	}
+});
+
+$("#<?php echo $this->campoSeguro('bloque_manzana');?>").change(function() {
+	if($("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val() == ""){
+		bloque_manzana = $("#<?php echo $this->campoSeguro('bloque_manzana');?>").val();
+		actualizarTabla();
+	}	    
+});
+
+$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
+	if($("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val() == ""){
+		urbanizacion = $("#<?php echo $this->campoSeguro('urbanizacion');?>").val();
+		actualizarTabla();
+	}	    
 });
 
 function actualizarTabla(){
@@ -373,4 +380,6 @@ function actualizarTabla(){
 	}
 
 actualizarTabla();
+
+
 		

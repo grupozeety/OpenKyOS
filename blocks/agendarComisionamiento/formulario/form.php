@@ -335,7 +335,7 @@ class Formulario {
 			echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
 			unset ( $atributos );
 				
-			$esteCampo = 'id';
+			$esteCampo = 'id_urbanizacion';
 			$atributos ["id"] = $esteCampo; // No cambiar este nombre
 			$atributos ["tipo"] = "hidden";
 			$atributos ['estilo'] = '';

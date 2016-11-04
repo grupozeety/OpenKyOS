@@ -51,7 +51,7 @@ if ($_REQUEST ['funcion'] == "consultaBeneficiarios") {
 	}
 	
 	if(isset($_REQUEST ['bloq_man']) && $_REQUEST ['bloq_man'] != ""){
-		$cadenaSql .= "AND bp.bloque='" . $_REQUEST ['bloq_man'] . "' ";
+		$cadenaSql .= "AND bp.manzana='" . $_REQUEST ['bloq_man'] . "' ";
 	}
 	
 	$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios_comercial', $cadenaSql );
