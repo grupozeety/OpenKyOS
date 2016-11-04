@@ -114,15 +114,17 @@ class GenerarDocumento {
         $contenidoPagina .= "
 	 							<table style='width:100%;'>
 								<tr>
-								<td style='width:5%;text-align=center;'>N°</td>
-								<td style='width:10%;text-align=center;'>Agendamiento </td>
-								<td style='width:13%;text-align=center;'>Urbanización </td>
-								<td style='width:12%;text-align=center;'>Celda o Nodo EOC </td>
-        						<td style='width:12%;text-align=center;'>Tipo de Agendamiento </td>
-        						<td style='width:13%;text-align=center;'>Comisionador </td>
-								<td style='width:12%;text-align=center;'>Número Orden Trabajo </td>
-        						<td style='width:13%;text-align=center;'>Nombre Beneficiario </td>
-        						<td style='width:10%;text-align=center;'>Fecha </td>
+									<td style='width:5%;text-align=center;'>N°</td>
+									<td style='width:10%;text-align=center;'>Agendamiento </td>
+									<td style='width:13%;text-align=center;'>Urbanización </td>
+	        						<td style='width:7%;text-align=center;'>Manzana </td>
+	        						<td style='width:7%;text-align=center;'>Torre </td>
+	        						<td style='width:7%;text-align=center;'>Bloque </td>
+	        						<td style='width:8%;text-align=center;'>Casa Apartamento </td>
+	        						<td style='width:10%;text-align=center;'>Tipo de Agendamiento </td>
+	        						<td style='width:13%;text-align=center;'>Comisionador </td>
+	        						<td style='width:13%;text-align=center;'>Nombre Beneficiario </td>
+	        						<td style='width:8%;text-align=center;'>Fecha </td>
 								</tr>";
 
         $i = 1;
@@ -134,12 +136,14 @@ class GenerarDocumento {
 							            <td style='width:5%;text-align=center;'>" . $i . "</td>
 							            <td style='width:10%;text-align=center;'>" . $valor['id_agendamiento'] . "</td>
 							            <td style='width:13%;text-align=center;'>" . $valor['urbanizacion'] . "</td>
-							            <td style='width:12%;text-align=center;'>" . $valor['codigo_nodo'] . "</td>
-							            <td style='width:12%;text-align=center;'>" . $valor['tipo_agendamiento'] . "</td>
+							            <td style='width:7%;text-align=center;'>" . $valor['manzana'] . "</td>
+							            <td style='width:7%;text-align=center;'>" . $valor['torre'] . "</td>
+							            <td style='width:7%;text-align=center;'>" . $valor['bloque'] . "</td>
+							            <td style='width:8%;text-align=center;'>" . $valor['apartamento'] . "</td>
+							            <td style='width:10%;text-align=center;'>" . $valor['tipo_agendamiento'] . "</td>
 							            <td style='width:13%;text-align=center;'>" . $valor['comisionador'] . "</td>
-							            <td style='width:12%;text-align=center;'>" . $valor['orden_trabajo'] . "</td>
 							            <td style='width:13%;text-align=center;'>" . $valor['nombre_beneficiario'] . "</td>
-							            <td style='width:10%;text-align=center;'>" . $valor['fecha'] . "</td>
+							            <td style='width:8%;text-align=center;'>" . $valor['fecha'] . "</td>
 							            </tr>";
 
             $i++;

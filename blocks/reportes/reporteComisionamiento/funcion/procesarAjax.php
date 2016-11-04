@@ -1,5 +1,8 @@
 <?php
 
+$conexion = "interoperacion";
+$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+
 function codificarNombre($nombre) {
 
 	include_once "core/builder/FormularioHtml.class.php";
@@ -17,12 +20,49 @@ function codificarNombre($nombre) {
 
 }
 
-if ($_REQUEST ['funcion'] == "consultarCabecera") {
+if ($_REQUEST ['funcion'] == "consultarComisionador") {
+
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarComisionador' );
+	$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+	foreach ( $resultadoItems as $key => $values ) {
+		$keys = array (
+				'value',
+				'data'
+		);
+		$resultado [$key] = array_intersect_key ( $resultadoItems [$key], array_flip ( $keys ) );
+	}
+	echo '{"suggestions":' . json_encode ( $resultado ) . '}';
+
+} else if ($_REQUEST ['funcion'] == "consultarAgendamiento") {
+	
+	$manz = trim($_REQUEST ['manz']);
+	$tipoA = trim($_REQUEST ['tipoA']);
+	$urban = trim($_REQUEST ['urban']);
+	$comis = trim($_REQUEST ['comis']);
+	
+	$cadenaSql = "";
+	
+	if(isset($tipoA) && $tipoA != ""){
+		$cadenaSql .= "AND ac.tipo_agendamiento='" . $tipoA . "' ";
+	}
+	
+	if(isset($manz) && $manz != ""){
+		$cadenaSql .= "AND bp.manzana='" . $manz . "' ";
+	}
+	
+	if(isset($urban) && $urban != ""){
+		$cadenaSql .= "AND bp.id_proyecto='" . $urban . "' ";
+	}
+	
+	if(isset($comis) && $comis != ""){
+		$cadenaSql .= "AND ac.id_comisionador='" . $comis . "' ";
+	}
 	
 	$conexion = "interoperacion";
 	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 	
-	$cadenaSql = $this->sql->getCadenaSql ( 'consultarAgendamiento' );
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarAgendamiento', $cadenaSql );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
 	for($i = 0; $i < count ( $resultado ); $i ++) {
@@ -30,17 +70,10 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 		
 		$resultadoFinal [] = array (
 				'id_agendamiento' =>  $resultado [$i] ['id_agendamiento'],
-				'orden_trabajo' => $resultado [$i] ['orden_trabajo'],
-				'urbanizacion' => $resultado [$i] ['urbanizacion'],
-				'comisionador' => $resultado [$i] ['comisionador'],
-				'tipo_agendamiento' => $resultado [$i] ['tipo_agendamiento'],
 				'identificacion_beneficiario' => $resultado [$i] ['identificacion_beneficiario'],
 				'nombre_beneficiario' => $resultado [$i] ['nombre_beneficiario'],
-				'codigo_nodo' => $resultado [$i] ['codigo_nodo'],
 				'id_checkbox' => array( 'value' =>  $resultado [$i] ['consecutivo'],
 				'id' => codificarNombre( "checkbox_" . $i ) ),
-				
-				
 		);
 	}
 	
@@ -55,6 +88,54 @@ if ($_REQUEST ['funcion'] == "consultarCabecera") {
 	
 	echo $resultado;
 	
+}else if ($_REQUEST ['funcion'] == "redireccionar"){
+
+	include_once ("core/builder/FormularioHtml.class.php");
+
+	$miFormulario = new \FormularioHtml();
+
+	if(!isset($_REQUEST['tiempo'])){
+		$_REQUEST['tiempo']=time();
+	}
+	//Estas funciones se llaman desde ajax.php y estas a la vez realizan las consultas de Sql.class.php
+
+	$_REQUEST['ready']= true;
+
+	$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $_REQUEST ['valor'] . $_REQUEST ['id']);
+
+	$enlace = $_REQUEST ['directorio'] . '=' . $valorCodificado;
+
+	echo json_encode($enlace);
+
+}else if ($_REQUEST ['funcion'] == "consultarUrbanizacion") {
+
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarUrbanizacion' );
+	$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+	foreach ( $resultadoItems as $key => $values ) {
+		$keys = array (
+				'value',
+				'data'
+		);
+		$resultado [$key] = array_intersect_key ( $resultadoItems [$key], array_flip ( $keys ) );
+	}
+	echo '{"suggestions":' . json_encode ( $resultado ) . '}';
+
+}else if ($_REQUEST ['funcion'] == "consultarManzana") {
+
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarManzana' );
+	$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+	foreach ( $resultadoItems as $key => $values ) {
+		$keys = array (
+				'value',
+				'data'
+		);
+		$resultado [$key] = array_intersect_key ( $resultadoItems [$key], array_flip ( $keys ) );
+	}
+	echo '{"suggestions":' . json_encode ( $resultado ) . '}';
+
 }
 
 ?>
+

@@ -65,16 +65,7 @@ if ($_REQUEST ['funcion'] == "consultaBeneficiarios") {
 				'identificacion_beneficiario' => $resultado [$i] ['identificacion_beneficiario'],
 				'nombre_beneficiario' => $resultado [$i] ['nombre_beneficiario'],
 				'id_checkbox' => array( 'value' =>  (  
-						$resultado [$i] ['urbanizacion'] . ":"
-						. $resultado [$i] ['id_urbanizacion'] . ":"
-						. $resultado [$i] ['codigo_nodo'] . ":"
-						. $resultado [$i] ['orden_trabajo'] . ":"
-						. $resultado [$i] ['manzana'] . ":"
-						. $resultado [$i] ['bloque'] . ":"
-						. $resultado [$i] ['torre'] . ":"
-						. $resultado [$i] ['apartamento'] . ":"
-						. $resultado [$i] ['identificacion_beneficiario'] . ":"
-						. $resultado [$i] ['nombre_beneficiario']
+						$resultado [$i] ['id_beneficiario'] 
 						), 'id' => codificarNombre( "checkbox_" . $i ) ),
 				
 				

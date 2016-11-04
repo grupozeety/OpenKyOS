@@ -116,12 +116,207 @@ class Formulario {
         
         echo "<div class='modalLoad'></div>";
         
-        $esteCampo = 'ficheros';
-        $atributos ['id'] = $esteCampo;
-        $atributos ['leyenda'] = "Generar Reporte de Visitas";
-        echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
-        unset ( $atributos );
-        
+	        $esteCampo = 'ficheros';
+	        $atributos ['id'] = $esteCampo;
+	        $atributos ['leyenda'] = "Generar Reporte de Visitas";
+	        echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
+	        unset ( $atributos );
+	        	
+	        $esteCampo = 'Agrupacionfiltros';
+	        $atributos ['id'] = $esteCampo;
+	        $atributos ['leyenda'] = "Filtrar información";
+	        echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
+	        unset ( $atributos );
+	        
+	        {
+	        	// ----------------INICIO CONTROL: Lista Proyectos---------------------------
+	        
+	        	$esteCampo = 'urbanizacion';
+	        	$atributos ['nombre'] = $esteCampo;
+	        	$atributos ['tipo'] = "text";
+	        	$atributos ['id'] = $esteCampo;
+	        	$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+	        	$atributos ["etiquetaObligatorio"] = true;
+	        	$atributos ['tab'] = $tab ++;
+	        	$atributos ['anchoEtiqueta'] = 2;
+	        	$atributos ['estilo'] = "bootstrap";
+	        	$atributos ['evento'] = '';
+	        	$atributos ['deshabilitado'] = false;
+	        	$atributos ['readonly'] = false;
+	        	$atributos ['columnas'] = 1;
+	        	$atributos ['tamanno'] = 1;
+	        	$atributos ['placeholder'] = "Ingrese los criterios de busqueda";
+	        	$atributos ['valor'] = "";
+	        	$atributos ['ajax_function'] = "";
+	        	$atributos ['ajax_control'] = $esteCampo;
+	        	$atributos ['limitar'] = false;
+	        	$atributos ['anchoCaja'] = 10;
+	        	$atributos ['miEvento'] = '';
+	        	// 			$atributos ['validar'] = 'required';
+	        	// Aplica atributos globales al control
+	        	$atributos = array_merge ( $atributos, $atributosGlobales );
+	        	echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+	        	unset ( $atributos );
+	        
+	        	$esteCampo = 'id_urbanizacion';
+	        	$atributos ["id"] = $esteCampo; // No cambiar este nombre
+	        	$atributos ["tipo"] = "hidden";
+	        	$atributos ['estilo'] = '';
+	        	$atributos ["obligatorio"] = false;
+	        	$atributos ['marco'] = true;
+	        	$atributos ["etiqueta"] = "";
+	        	if (isset ( $_REQUEST [$esteCampo] )) {
+	        		$atributos ['valor'] = $_REQUEST [$esteCampo];
+	        	} else {
+	        		$atributos ['valor'] = '';
+	        	}
+	        	$atributos = array_merge ( $atributos, $atributosGlobales );
+	        	echo $this->miFormulario->campoCuadroTexto ( $atributos );
+	        	unset ( $atributos );
+	        		
+	        }
+	        
+	        // ----------------INICIO CONTROL: Lista Tipo de Vivienda--------------------------------------------------------
+	        	
+	        $esteCampo = 'tipo_agendamiento';
+	        $atributos['nombre'] = $esteCampo;
+	        $atributos['id'] = $esteCampo;
+	        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+	        $atributos["etiquetaObligatorio"] = true;
+	        $atributos['tab'] = $tab++;
+	        $atributos['anchoEtiqueta'] = 2;
+	        $atributos['evento'] = '';
+	        $atributos['seleccion'] = -1;
+	        $atributos['deshabilitado'] = false;
+	        $atributos['columnas'] = 1;
+	        $atributos['tamanno'] = 1;
+	        $atributos['ajax_function'] = "";
+	        $atributos['ajax_control'] = $esteCampo;
+	        $atributos['estilo'] = "bootstrap";
+	        $atributos['limitar'] = false;
+	        $atributos['anchoCaja'] = 10;
+	        $atributos['miEvento'] = '';
+	        //         $atributos ['validar'] = '';
+	        $atributos['cadena_sql'] = $this->miSql->getCadenaSql("parametroTipoAgendamiento");
+	        $matrizItems = array(
+	        		array(
+	        				0,
+	        				' ',
+	        		),
+	        );
+	        $matrizItems = $esteRecursoDB->ejecutarAcceso($atributos['cadena_sql'], "busqueda");
+	        $atributos['matrizItems'] = $matrizItems;
+	        // Aplica atributos globales al control
+	        	
+	        if (isset($cargueDatos[$esteCampo])) {
+	        	$atributos['seleccion'] = $cargueDatos[$esteCampo];
+	        } else {
+	        	$atributos['seleccion'] = -1;
+	        }
+	        	
+	        $atributos = array_merge($atributos, $atributosGlobales);
+	        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+	        unset($atributos);
+	        	
+	        // ----------------FIN CONTROL: Lista Tipo de Vivienda--------------------------------------------------------
+	        
+	        {
+	        	// ----------------INICIO CONTROL: Lista Proyectos---------------------------
+	        		
+	        	$esteCampo = 'manzana';
+	        	$atributos ['nombre'] = $esteCampo;
+	        	$atributos ['tipo'] = "text";
+	        	$atributos ['id'] = $esteCampo;
+	        	$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+	        	$atributos ["etiquetaObligatorio"] = true;
+	        	$atributos ['tab'] = $tab ++;
+	        	$atributos ['anchoEtiqueta'] = 2;
+	        	$atributos ['estilo'] = "bootstrap";
+	        	$atributos ['evento'] = '';
+	        	$atributos ['deshabilitado'] = false;
+	        	$atributos ['readonly'] = false;
+	        	$atributos ['columnas'] = 1;
+	        	$atributos ['tamanno'] = 1;
+	        	$atributos ['placeholder'] = "Ingrese los criterios de busqueda";
+	        	$atributos ['valor'] = "";
+	        	$atributos ['ajax_function'] = "";
+	        	$atributos ['ajax_control'] = $esteCampo;
+	        	$atributos ['limitar'] = false;
+	        	$atributos ['anchoCaja'] = 10;
+	        	$atributos ['miEvento'] = '';
+	        	// 				$atributos ['validar'] = 'required';
+	        	// Aplica atributos globales al control
+	        	$atributos = array_merge ( $atributos, $atributosGlobales );
+	        	echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+	        	unset ( $atributos );
+	        		
+	        	$esteCampo = 'id_manzana';
+	        	$atributos ["id"] = $esteCampo; // No cambiar este nombre
+	        	$atributos ["tipo"] = "hidden";
+	        	$atributos ['estilo'] = '';
+	        	$atributos ["obligatorio"] = false;
+	        	$atributos ['marco'] = true;
+	        	$atributos ["etiqueta"] = "";
+	        	if (isset ( $_REQUEST [$esteCampo] )) {
+	        		$atributos ['valor'] = $_REQUEST [$esteCampo];
+	        	} else {
+	        		$atributos ['valor'] = '';
+	        	}
+	        	$atributos = array_merge ( $atributos, $atributosGlobales );
+	        	echo $this->miFormulario->campoCuadroTexto ( $atributos );
+	        	unset ( $atributos );
+	        		
+	        }
+	        
+	        {
+	        	// ----------------INICIO CONTROL: Lista Proyectos---------------------------
+	        	 
+	        	$esteCampo = 'comisionador';
+	        	$atributos ['nombre'] = $esteCampo;
+	        	$atributos ['tipo'] = "text";
+	        	$atributos ['id'] = $esteCampo;
+	        	$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+	        	$atributos ["etiquetaObligatorio"] = true;
+	        	$atributos ['tab'] = $tab ++;
+	        	$atributos ['anchoEtiqueta'] = 2;
+	        	$atributos ['estilo'] = "bootstrap";
+	        	$atributos ['evento'] = '';
+	        	$atributos ['deshabilitado'] = false;
+	        	$atributos ['readonly'] = false;
+	        	$atributos ['columnas'] = 1;
+	        	$atributos ['tamanno'] = 1;
+	        	$atributos ['placeholder'] = "Ingrese los criterios de busqueda";
+	        	$atributos ['valor'] = "";
+	        	$atributos ['ajax_function'] = "";
+	        	$atributos ['ajax_control'] = $esteCampo;
+	        	$atributos ['limitar'] = false;
+	        	$atributos ['anchoCaja'] = 10;
+	        	$atributos ['miEvento'] = '';
+	        	// 				$atributos ['validar'] = 'required';
+	        	// Aplica atributos globales al control
+	        	$atributos = array_merge ( $atributos, $atributosGlobales );
+	        	echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+	        	unset ( $atributos );
+	        	 
+	        	$esteCampo = 'id_comisionador';
+	        	$atributos ["id"] = $esteCampo; // No cambiar este nombre
+	        	$atributos ["tipo"] = "hidden";
+	        	$atributos ['estilo'] = '';
+	        	$atributos ["obligatorio"] = false;
+	        	$atributos ['marco'] = true;
+	        	$atributos ["etiqueta"] = "";
+	        	if (isset ( $_REQUEST [$esteCampo] )) {
+	        		$atributos ['valor'] = $_REQUEST [$esteCampo];
+	        	} else {
+	        		$atributos ['valor'] = '';
+	        	}
+	        	$atributos = array_merge ( $atributos, $atributosGlobales );
+	        	echo $this->miFormulario->campoCuadroTexto ( $atributos );
+	        	unset ( $atributos );
+	        	 
+	        }
+	        echo $this->miFormulario->agrupacion ( 'fin' );
+	        unset ( $atributos );
         
 	        
  			echo '
@@ -129,19 +324,7 @@ class Formulario {
         			        <thead>
         			        	<tr id="filterrow">
         			                <th>Agendamiento</th>
-        			                <th>Celda o Nodo EOC</th>
-        			                <th>Urbanización</th>
-        			                <th>Tipo de Agendamiento</th>
-                					<th>Comisionador</th>
-                					<th>Orden de Trabajo</th>
-        			            </tr>
-        			            <tr>
-        			                <th>Agendamiento</th>
-        			                <th>Celda o Nodo EOC</th>
-        			                <th>Urbanización</th>
-        			                <th>Tipo de Agendamiento</th>
-                					<th>Comisionador</th>
-                					<th>Orden de Trabajo</th>
+ 									<th>Identificación</th>
                 					<th>Todo<input type="checkbox" id="seleccionar_todo"/></th>
         			            </tr>
         			        </thead>

@@ -177,9 +177,9 @@ class Sql extends \Sql {
 			
 			case "consultarBeneficiarios_comercial" :
 				$cadenaSql = "SELECT DISTINCT ";
+				$cadenaSql .= "bp.id_beneficiario as id_beneficiario, ";
 				$cadenaSql .= "bp.proyecto as urbanizacion, ";
 				$cadenaSql .= "bp.id_proyecto as id_urbanizacion, ";
-				$cadenaSql .= "0 as codigo_nodo, ";
 				$cadenaSql .= "bp.manzana, ";
 				$cadenaSql .= "bp.torre, ";
 				$cadenaSql .= "bp.bloque, ";
@@ -256,44 +256,24 @@ class Sql extends \Sql {
 				
 				$cadenaSql = "INSERT INTO interoperacion.agendamiento_comisionamiento(";
 				$cadenaSql .= "id_agendamiento,";
-				$cadenaSql .= "id_orden_trabajo,";
-				$cadenaSql .= "descripcion_orden_trabajo,";
-				$cadenaSql .= "id_urbanizacion,";
-				$cadenaSql .= "descripcion_urbanizacion,";
-				$cadenaSql .= "identificacion_beneficiario,";
-				$cadenaSql .= "nombre_beneficiario,";
+				$cadenaSql .= "id_beneficiario,";
 				$cadenaSql .= "tipo_agendamiento,";
 				$cadenaSql .= "tipo_tecnologia,";
 				$cadenaSql .= "id_comisionador,";
 				$cadenaSql .= "nombre_comisionador,";
-				$cadenaSql .= "fecha_agendamiento,";
-				$cadenaSql .= "codigo_nodo,";
-				$cadenaSql .= "manzana,";
-				$cadenaSql .= "torre,";
-				$cadenaSql .= "bloque,";
-				$cadenaSql .= "apartamento";
+				$cadenaSql .= "fecha_agendamiento";
 				$cadenaSql .= ") VALUES ";
 				
 				foreach ( $variable as $clave => $valor ) {
 					
 					$cadenaSql .= "(";
 					$cadenaSql .= "" . "(SELECT 'AG-' || MAX(consecutivo) + 1 from  interoperacion.consecutivo_agendamiento)" . ",";
-					$cadenaSql .= "'" . $valor ['id_orden_trabajo'] . "',";
-					$cadenaSql .= "'" . $valor ['descripcion_orden_trabajo'] . "',";
-					$cadenaSql .= "'" . $valor ['id_urbanizacion'] . "',";
-					$cadenaSql .= "'" . $valor ['descripcion_urbanizacion'] . "',";
-					$cadenaSql .= "'" . $valor ['identificacion_beneficiario'] . "',";
-					$cadenaSql .= "'" . $valor ['nombre_beneficiario'] . "',";
+					$cadenaSql .= "'" . $valor ['id_beneficiario'] . "',";
 					$cadenaSql .= "'" . $valor ['tipo_agendamiento'] . "',";
 					$cadenaSql .= "'" . $valor ['tipo_tecnologia'] . "',";
 					$cadenaSql .= "'" . $valor ['id_comisionador'] . "',";
 					$cadenaSql .= "'" . $valor ['nombre_comisionador'] . "',";
-					$cadenaSql .= "'" . $valor ['fecha_agendamiento'] . "',";
-					$cadenaSql .= "'" . $valor ['codigo_nodo'] . "',";
-					$cadenaSql .= "'" . $valor ['manzana'] . "',";
-					$cadenaSql .= "'" . $valor ['torre'] . "',";
-					$cadenaSql .= "'" . $valor ['bloque'] . "',";
-					$cadenaSql .= "'" . $valor ['apartamento'] . "'";
+					$cadenaSql .= "'" . $valor ['fecha_agendamiento'] . "'";
 					$cadenaSql .= "),";
 				}
 				
