@@ -77,21 +77,21 @@ $this->idioma['nombre_beneficiario'] = '<b>Nombre Beneficiario: </b>';
 
 $this->idioma['identificacion_beneficiario'] = '<b>Identificación Beneficiario: </b>';
 
-$this->idioma['cedula'] = '<b>001</b> Fotocopia de la cédula del usuario beneficiario del servicio';
+$this->idioma['001'] = '<b>001</b> Fotocopia de la cédula del usuario beneficiario del servicio';
 
 $this->idioma['cedula_cliente'] = '<b>777</b> Cedula del cliente';
 
-$this->idioma['certificado_servicio'] = '<b>003</b> Certificado de servicio público (Agua, luz, gas)';
+$this->idioma['003'] = '<b>003</b> Certificado de servicio público (Agua, luz, gas)';
 
-$this->idioma['documento_direccion'] = '<b>007</b> Documento que demuestra dirección de la vivienda del beneficiario';
+$this->idioma['007'] = '<b>007</b> Documento que demuestra dirección de la vivienda del beneficiario';
 
-$this->idioma['acta_vip'] = '<b>002</b> Fotocopia Acta de entrega VIP';
+$this->idioma['002'] = '<b>002</b> Fotocopia Acta de entrega VIP';
 
-$this->idioma['certificado_proyecto_vip'] = '<b>005</b> Certificado del proyecto catalogado como VIP';
+$this->idioma['005'] = '<b>005</b> Certificado del proyecto catalogado como VIP';
 
-$this->idioma['documento_acceso_propietario'] = '<b>006</b> Documento que demuestre beneficiario acceso es el propietario';
+$this->idioma['006'] = '<b>006</b> Documento que demuestre beneficiario acceso es el propietario';
 
-$this->idioma['certificado_nointernet'] = '<b>900</b> Certificado No Internet';
+$this->idioma['900'] = '<b>900</b> Certificado No Internet';
 
 $this->idioma['botonCargarRequisitos'] = 'Cargar Requisitos';
 

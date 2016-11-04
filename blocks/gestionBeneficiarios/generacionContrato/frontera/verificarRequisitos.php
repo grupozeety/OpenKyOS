@@ -57,8 +57,17 @@ class Registrador {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionAprobacion' );
 		$estadoAprobacion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+		// Ruta Imagen
+		$rutaWarning = $this->rutaURL . "/frontera/css/imagen/warning.png";
+		$rutaCheck = $this->rutaURL . "/frontera/css/imagen/check.png";
+		$rutaNone=$this->rutaURL . "/frontera/css/imagen/none.png";
+		
 		if ($estadoAprobacion != false) {
 			foreach ( $estadoAprobacion as $key => $values ) {
+				$imagenSupervisor [$estadoAprobacion [$key] ['codigo_requisito']] = $estadoAprobacion [$key] ['supervisor'] == 't' ? $rutaCheck : $rutaWarning;
+				$imagenComisionador [$estadoAprobacion [$key] ['codigo_requisito']] = $estadoAprobacion [$key] ['comisionador'] == 't' ? $rutaCheck : $rutaWarning;
+				$imagenAnalista [$estadoAprobacion [$key] ['codigo_requisito']] = $estadoAprobacion [$key] ['analista'] == 't' ? $rutaCheck : $rutaWarning;
+				
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=verArchivo";
 				$variable .= "&mensaje=confirma";
@@ -193,25 +202,37 @@ class Registrador {
 								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . $this->lenguaje->getCadena ( $esteCampo ) . "</a></center>";
 							} else {
 								$a ++;
-								$cadena = "<center>" . $this->miFormulario->campoCuadroTexto ( $atributos ) . "</center>";
+								$imagenComisionador [$esteCampo] = $rutaNone;
+								$imagenSupervisor [$esteCampo] =$rutaNone;
+								$imagenAnalista [$esteCampo] = $rutaNone;
+								$cadena = "<center>" . $this->lenguaje->getCadena ( $esteCampo ) . "</center>";
 							}
 						} else {
 							$a ++;
-							$cadena = "<center>" . $this->miFormulario->campoCuadroTexto ( $atributos ) . "</center>";
+							$cadena = "<center>" . $this->lenguaje->getCadena ( $esteCampo ) . "</center>";
 						}
-						$filasTabla [$key] = $cadena;
+						$filasTabla [$key] = array (
+								0 => $cadena,
+								1 => $requisitos [$key] ['codigo'] 
+						);
 						unset ( $atributos );
 					}
 					
 					$tabla = "<table id='example' class='table table-striped table-bordered dt-responsive nowrap' cellspacing='0' width='100%'>
                                       <thead>
                                         <tr>
-                                             <th><center>Documento<center></th>
+                                            <th><center>Documento<center></th>
+											<th><center>Comisionador<center></th>
+											<th><center>Supervisor<center></th>
+											<th><center>Analista<center></th>
                                         </tr>
                                         </thead>";
 					foreach ( $filasTabla as $key => $values ) {
 						$tabla .= " <tr>
-                                             <td >" . $filasTabla [$key] . "</td>
+                                          <td >" . $filasTabla [$key] [0] . "</td>
+                                          <td><center><IMG SRC='" . $imagenComisionador [$filasTabla [$key] [1]] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='" . $imagenSupervisor [$filasTabla [$key] [1]] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='" . $imagenAnalista [$filasTabla [$key] [1]] . "'width='19px'></center> </td>
                                         </tr>";
 					}
 					$tabla .= "</table>";
@@ -219,6 +240,7 @@ class Registrador {
 					echo $tabla;
 				}
 				{
+					
 					// ------------------Division para los botones-------------------------
 					$atributos ["id"] = "botones";
 					$atributos ["estilo"] = "marcoBotones";

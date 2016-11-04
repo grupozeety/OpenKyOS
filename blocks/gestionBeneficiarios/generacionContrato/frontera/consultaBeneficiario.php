@@ -24,7 +24,6 @@ class Registrador {
         $this->miFormulario = $formulario;
     }
     public function seleccionarForm() {
-
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 
@@ -171,7 +170,7 @@ class Registrador {
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
                 $valorCodificado .= "&opcion=validarRequisitos";
-                $valorCodificado .= "&proceso=" . $_REQUEST['proceso'];
+                $valorCodificado .= "&proceso=".$_REQUEST['proceso'] ;
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.

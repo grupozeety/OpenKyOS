@@ -53,6 +53,7 @@ class Redireccionador {
 				$variable = 'pagina=generacionContrato';
 				$variable .= '&opcion=validarRequisitos';
 				$variable .= '&mensaje=verifico';
+				$variable .= '&proceso=verificarRequisitos';
 				$variable .= '&id_beneficiario=' . $_REQUEST ['id_beneficiario'];
 				break;
 			
@@ -60,6 +61,7 @@ class Redireccionador {
 				$variable = 'pagina=generacionContrato';
 				$variable .= '&opcion=validarRequisitos';
 				$variable .= '&mensaje=noverifico';
+				$variable .= '&proceso=verificarRequisitos';
 				$variable .= '&id_beneficiario=' . $_REQUEST ['id_beneficiario'];
 				break;
 			
