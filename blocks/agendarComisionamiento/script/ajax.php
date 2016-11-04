@@ -259,7 +259,7 @@ $("#<?php echo $this->campoSeguro('urbanizacion');?>").autocomplete({
 		if($("#<?php echo $this->campoSeguro('id');?>").val()!=''){
 			urbanizacion = $("#<?php echo $this->campoSeguro('id');?>").val();
 		}else{
-			$("#<?php echo $this->campoSeguro('urbanizacion');?>").val('');
+			$("#<?php echo $this->campoSeguro('id');?>").val('');
 			$("#<?php echo $this->campoSeguro('urbanizacion');?>").val('');
 			urbanizacion = "";
 		}

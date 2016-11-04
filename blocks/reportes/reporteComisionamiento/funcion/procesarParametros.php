@@ -50,6 +50,7 @@ class Registrar {
 		}
 		
 		$agendamientos .= ")";
+		
 		/**
          *  1. Consultar Los porcentajes por Proyecto Consumidos
          **/
@@ -73,8 +74,9 @@ class Registrar {
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
         
-        $cadenaSql = $this->miSql->getCadenaSql('agendamientosReporte', $agendamientos); 
+        $cadenaSql = $this->miSql->getCadenaSql('agendamientosReporteViabilidad', $agendamientos); 
         $this->elementos_reporte = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        
     }
 }
 
