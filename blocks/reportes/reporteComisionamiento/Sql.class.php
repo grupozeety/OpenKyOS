@@ -154,7 +154,7 @@ class Sql extends \Sql {
                	$cadenaSql .= "ac.fecha_agendamiento::timestamp::date AS fecha ";
                	$cadenaSql .= "FROM ";
                	$cadenaSql .= "interoperacion.agendamiento_comisionamiento as ac join interoperacion.beneficiario_potencial as bp ON "; 
-               	$cadenaSql .= "ac.identificacion_beneficiario=bp.identificacion, ";
+               	$cadenaSql .= "ac.id_beneficiario=bp.id_beneficiario, ";
                		$cadenaSql .= "(SELECT        ";
 	               	$cadenaSql .= "codigo, ";
 	               	$cadenaSql .= "param.descripcion ";
