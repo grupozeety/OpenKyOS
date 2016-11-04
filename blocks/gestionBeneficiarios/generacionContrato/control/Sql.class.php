@@ -359,6 +359,16 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND rl.descripcion='Pruebas Rol Comision'";
                 $cadenaSql .= " AND rl.estado_registro=TRUE ";
                 break;
+
+            case 'consultarValidacionRequisitos':
+                $cadenaSql = " SELECT dr.perfil, dr.tipologia_documento, dr.obligatoriedad, dr.proceso,";
+                $cadenaSql .= " dc.*";
+                $cadenaSql .= " FROM interoperacion.documentos_requisitos AS dr";
+                $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato AS dc ON dc.tipologia_documento= dr.tipologia_documento AND dc.id_beneficiario='" . $variable['id_beneficiario'] . "'";
+                $cadenaSql .= " WHERE dr.estado_registro='TRUE'";
+                $cadenaSql .= " AND dr.proceso='125'";
+                $cadenaSql .= " AND dr.perfil='" . $variable['perfil_beneficiario'] . "';";
+                break;
         }
 
         return $cadenaSql;

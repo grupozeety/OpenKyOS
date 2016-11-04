@@ -1076,7 +1076,8 @@ class Contrato {
                         $atributos["obligatorio"] = true;
                         $atributos["etiquetaObligatorio"] = false;
                         $atributos["tabIndex"] = $tab++;
-                        $atributos["columnas"] = 2;
+                        $atributos["columnas"] = 1;
+                        $atributos["anchoCaja"] = "12";
                         $atributos["estilo"] = "textoIzquierda";
                         $atributos["anchoEtiqueta"] = 0;
                         $atributos["tamanno"] = 500000;
@@ -1097,7 +1098,8 @@ class Contrato {
                         $atributos["obligatorio"] = true;
                         $atributos["etiquetaObligatorio"] = false;
                         $atributos["tabIndex"] = $tab++;
-                        $atributos["columnas"] = 2;
+                        $atributos["columnas"] = 1;
+                        $atributos["anchoCaja"] = "12";
                         $atributos["estilo"] = "textoIzquierda";
                         $atributos["anchoEtiqueta"] = 0;
                         $atributos["tamanno"] = 500000;

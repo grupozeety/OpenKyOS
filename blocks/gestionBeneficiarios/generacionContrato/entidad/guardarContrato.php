@@ -60,7 +60,7 @@ class FormProcessor {
          **/
 
         $this->procesarInformacion();
-
+        var_dump($_REQUEST);exit;
         if ($this->registro_info_contrato) {
             Redireccionador::redireccionar("InsertoInformacionContrato");
         } else {
