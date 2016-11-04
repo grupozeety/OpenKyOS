@@ -46,10 +46,10 @@ class Registrar {
         $beneficiarioPotencial['direccion'] = $_REQUEST['direccion'];
         $beneficiarioPotencial['tipo_vivienda'] = $_REQUEST['tipo_vivienda'];
         $beneficiarioPotencial['manzana'] = $_REQUEST['manzana'];
-		//$beneficiarioPotencial['torre'] = $_REQUEST['torre'];
-		//$beneficiarioPotencial['bloque'] = $_REQUEST['bloque'];
-        $beneficiarioPotencial['torre'] = '';
-        $beneficiarioPotencial['bloque'] = '';
+		$beneficiarioPotencial['torre'] = $_REQUEST['torre'];
+		$beneficiarioPotencial['bloque'] = $_REQUEST['bloque'];
+        //$beneficiarioPotencial['torre'] = '';
+        //$beneficiarioPotencial['bloque'] = '';
         $beneficiarioPotencial['apartamento'] = $_REQUEST['apartamento'];
         $beneficiarioPotencial['telefono'] = $_REQUEST['telefono'];
         $beneficiarioPotencial['celular'] = $_REQUEST['celular'];
