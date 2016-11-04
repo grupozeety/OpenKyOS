@@ -437,7 +437,45 @@ class Registrador {
 
                     $archivo_documento_direccion = $cadena;
                     unset($atributos);
-
+                    
+                    
+                    $esteCampo = "certificado_nointernet"; // 900
+                    $atributos["id"] = $esteCampo; // No cambiar este nombre
+                    $atributos["nombre"] = $esteCampo;
+                    $atributos["tipo"] = "file";
+                    $atributos["obligatorio"] = true;
+                    $atributos["etiquetaObligatorio"] = false;
+                    $atributos["tabIndex"] = $tab++;
+                    $atributos["columnas"] = 1;
+                    $atributos["estilo"] = "textoIzquierda";
+                    $atributos["anchoEtiqueta"] = 6;
+                    $atributos["tamanno"] = 500000;
+                    $atributos["validar"] = "required";
+                    $atributos["estilo"] = "file";
+                    $atributos["anchoCaja"] =15;
+                    $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["bootstrap"] = true;
+                    // $atributos ["valor"] = $valorCodificado;
+                    $atributos = array_merge($atributos);
+                    
+   
+                    if (isset($infoArchivo)) {
+                    	$indice = array_search("900", array_column($infoArchivo, 'codigo_requisito'), true);
+                    
+                    	if (!is_null($indice) && isset($redireccion['900'])) {
+                    
+                    		$cadena = "<center><a href='" . $redireccion['900'] . "' >" . $this->lenguaje->getCadena("certificado_nointernet") . "</a></center>";
+                    	} else {
+                    
+                    		$cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
+                    	}
+                    } else {
+                    	$cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
+                    }
+                    
+                    $archivo_certificado_nointernet = $cadena;
+                    unset($atributos);
+                    
                     switch ($infoBeneficiario['tipo_beneficiario']) {
                         case '1':
                             if ($estadoAprobacion != false) {
@@ -488,6 +526,13 @@ class Registrador {
                                           <td><center><IMG SRC='"     . $imagenSupervisor['007'] . "'width='19px'></center> </td>
                                           <td><center><IMG SRC='"     . $imagenAnalista['007'] . "'width='19px'></center> </td>
                                         </tr>
+                                        
+                                     <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                         <td><center><IMG SRC='"     . $imagenComisionador['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenSupervisor['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenAnalista['900'] . "'width='19px'></center> </td>
+                                        </tr>
 
                                         </table>"    ;
                             } else {
@@ -520,7 +565,10 @@ class Registrador {
                                         <tr>
                                           <td>"     . $archivo_documento_direccion . "</td>
                                         </tr>
-
+        <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                        </tr>
+                                          		
                                         </table>"    ;
                             }
                             break;
@@ -558,7 +606,12 @@ class Registrador {
                                           <td><center><IMG SRC='"     . $imagenSupervisor['007'] . "'width='19px'></center> </td>
                                           <td><center><IMG SRC='"     . $imagenAnalista['007'] . "'width='19px'></center> </td>
                                         </tr>
-
+                                                <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                         <td><center><IMG SRC='"     . $imagenComisionador['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenSupervisor['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenAnalista['900'] . "'width='19px'></center> </td>
+                                        </tr>
                                         </table>"    ;
                             } else {
                                 $tabla = "
@@ -578,6 +631,11 @@ class Registrador {
                                         <tr>
                                           <td>"     . $archivo_documento_direccion . "</td>
                                         </tr>
+                                          		
+        <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                        </tr>
+                                          		
                                         </table>"    ;
                             }
                             break;
@@ -601,7 +659,12 @@ class Registrador {
                                           <td><center><IMG SRC='"     . $imagenSupervisor['777'] . "'width='19px'></center> </td>
                                           <td><center><IMG SRC='"     . $imagenAnalista['777'] . "'width='19px'></center> </td>
                                         </tr>
-
+                                        <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                         <td><center><IMG SRC='"     . $imagenComisionador['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenSupervisor['900'] . "'width='19px'></center> </td>
+                                          <td><center><IMG SRC='"     . $imagenAnalista['900'] . "'width='19px'></center> </td>
+                                        </tr>
 
                                      </table>"    ;
                                 break;
@@ -617,6 +680,11 @@ class Registrador {
                                         <tr>
                                           <td>"     . $archivo_cedula_cliente . "</td>
                                         </tr>
+                                          		
+        <tr>
+                                          <td>"     . $archivo_certificado_nointernet . "</td>
+                                        </tr>
+                                          		
 
                                      </table>"    ;
                             }
@@ -927,12 +995,14 @@ class Registrador {
         // var_dump($_REQUEST);
         switch ($_REQUEST['mensaje']) {
             case 'inserto':
-                $estilo_mensaje = 'success';     // information,warning,error,validation
-                // $atributos["mensaje"] = 'Requisitos Correctamente Subidos<br>Se ha Habilitado la Opcion de ver Contrato';
-                $atributos["mensaje"] = 'Requisitos Correctamente Subidos. <br>Proceder a Validar';
+               
 
-                if (isset($_REQUEST['alfresco'])) {
-                    $atributos["mensaje"] .= 'Errores de Gestor Documental:' . $_REQUEST['alfresco'];
+                if (isset($_REQUEST['alfresco']) && $_REQUEST['alfresco']>0) {
+                	$estilo_mensaje = 'warning';
+                    $atributos["mensaje"] .= '<br>Errores de Gestor Documental:' . $_REQUEST['alfresco'];
+                }else{
+                	$estilo_mensaje = 'success'; 
+                	$atributos["mensaje"] = 'Requisitos Correctamente Subidos. <br>Proceder a Validar';
                 }
                 break;
 

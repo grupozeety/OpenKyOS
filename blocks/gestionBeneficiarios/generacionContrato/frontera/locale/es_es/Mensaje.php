@@ -91,6 +91,8 @@ $this->idioma['certificado_proyecto_vip'] = '<b>005</b> Certificado del proyecto
 
 $this->idioma['documento_acceso_propietario'] = '<b>006</b> Documento que demuestre beneficiario acceso es el propietario';
 
+$this->idioma['certificado_nointernet'] = '<b>900</b> Certificado No Internet';
+
 $this->idioma['botonCargarRequisitos'] = 'Cargar Requisitos';
 
 $this->idioma['botonVisualizarContrato'] = 'Ver Contrato';

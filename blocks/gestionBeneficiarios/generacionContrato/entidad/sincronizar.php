@@ -55,17 +55,31 @@ public function sincronizarAlfresco($beneficiario, $documento) {
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/upload";
 		$args = "@$filename;filename=" . ($postname ?: basename ( $filename )) . ($mimetype ? ";type=$mimetype" : '');
 		
+		$unwanted_array = array(
+				'é' => '%C3%A9',
+				'í' => '%C3%AD',
+				'ó' => '%C3%B3',
+				' ' => '%20',
+				'(' => '%28',
+				')' => '%29',
+		);
+		
+		
 		$archivo = array (
 				'filedata' => $args,
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
 				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'] . "/" . $beneficiario . "/" . $carpetaDocumentos [0] ['descripcion'],
+				//'uploaddirectory' => "/3. Ejecucion/4. Accesos (Comisionamiento)/1. Córdoba/C1. Montería/VM024/Soportes beneficiarios y vivienda",
 				'contenttype' => 'cm:content' 
 		);
 		
 		$result = RestClient::post ( $url, $archivo, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] );
 		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
 		
+		
+		var_dump($json_decode);
+
 		$status = json_decode ( $json_decode, true );
 
 		
