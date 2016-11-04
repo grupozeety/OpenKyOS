@@ -111,6 +111,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "OR nombre ILIKE '%" . $_GET ['query'] . "%' ";
 				$cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET ['query'] . "%' ";
 				$cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= " order by identificacion asc ";
 				$cadenaSql .= "LIMIT 10; ";
 				break;
 				
@@ -120,14 +121,16 @@ class Sql extends \Sql {
 				$cadenaSql .= "WHERE estado_registro=TRUE ";
 				$cadenaSql .= "AND  cast(id_proyecto  as text) ILIKE '%" . $_GET ['query'] . "%' ";
 				$cadenaSql .= "OR proyecto ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= " order by id_proyecto asc ";
 				$cadenaSql .= "LIMIT 10; ";
 				break;
 				
 			case 'consultarBloqueManzana' :
-				$cadenaSql = " SELECT DISTINCT bloque AS  value, bloque  AS data  ";
+				$cadenaSql = " SELECT DISTINCT manzana AS  value, manzana  AS data  ";
 				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
 				$cadenaSql .= "WHERE estado_registro=TRUE ";
-				$cadenaSql .= "AND  cast(bloque  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "AND  cast(manzana  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= " order by manzana asc ";
 				$cadenaSql .= "LIMIT 10; ";
 				break;
 			
@@ -191,10 +194,8 @@ class Sql extends \Sql {
 				$cadenaSql .= "interoperacion.beneficiario_potencial AS bp ";
 				$cadenaSql .= "WHERE bp.estado_registro=TRUE ";
 				$cadenaSql .= $variable;
-				// $cadenaSql .= "AND ";
-				// $cadenaSql .= "not exists (select 1 from interoperacion.contrato AS con where con.id_beneficiario=bp.id_beneficiario AND con.estado_registro=true) ";
+				$cadenaSql .= " LIMIT 100;";
 				break;
-			// select urbanizacion as urbanizacion, urbanizacion as id_urbanizacion, manzana, torre, bloque, apartamento, identificacion as identificacion_beneficiario, nombre || ' ' || primer_apellido || ' ' || segundo_apellido as nombre from interoperacion.beneficiario_potencial natural join WHERE estado_registro=TRUE
 			
 			case "comisionador" :
 				$cadenaSql = " SELECT usr.id as identificador, usr.firstname||' '||lastname as nombre_usuario";
