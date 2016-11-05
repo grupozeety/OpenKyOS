@@ -75,7 +75,7 @@ class Sincronizar {
 		
 		$result = RestClient::post ( $url, $archivo, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] );
 		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
-		
+
 		$status = json_decode ( $json_decode, true );
 		
 		if ($status ['status'] ['code'] == 200) {
