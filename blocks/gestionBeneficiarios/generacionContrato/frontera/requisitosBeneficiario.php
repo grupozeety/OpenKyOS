@@ -133,6 +133,16 @@ class Registrador {
 						unset ( $atributos );
 					}
 					
+					$esteCampo = 'codigo_beneficiario'; // Nombre Beneficiario
+					$atributos ['id'] = $esteCampo;
+					$atributos ['nombre'] = $esteCampo;
+					$atributos ['tipo'] = 'text';
+					$atributos ['estilo'] = 'textoElegante';
+					$atributos ['columnas'] = 1;
+					$atributos ['dobleLinea'] = false;
+					$atributos ['tabIndex'] = $tab;
+					$atributos ['texto'] = $this->lenguaje->getCadena ( $esteCampo ) . $infoBeneficiario ['id_beneficiario'];
+					
 					$esteCampo = 'nombre_beneficiario'; // Nombre Beneficiario
 					$atributos ['id'] = $esteCampo;
 					$atributos ['nombre'] = $esteCampo;
