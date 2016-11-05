@@ -24,7 +24,7 @@ class Registrador {
 		$this->lenguaje = $lenguaje;
 		
 		$this->miFormulario = $formulario;
-
+		
 		$this->miSql = $sql;
 	}
 	public function seleccionarForm() {
@@ -32,13 +32,13 @@ class Registrador {
 		$idArchivo = $_REQUEST ['archivo'];
 		$tipologia = $_REQUEST ['tipologia'];
 		// Rescatar los datos de este bloque
-
+		
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
 		
 		// ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 		
 		$atributosGlobales ['campoSeguro'] = 'true';
-
+		
 		$_REQUEST ['tiempo'] = time ();
 		
 		$data = array (
@@ -83,7 +83,7 @@ class Registrador {
 			unset ( $atributos );
 			
 			{
-
+				
 				// ----------------INICIO CONTROL: Cambio imagen--------------------------------------------------------
 				$esteCampo = $requisitos [0] ['codigo']; // Código documento
 				$atributos ["id"] = $esteCampo; // No cambiar este nombre
@@ -94,14 +94,14 @@ class Registrador {
 				$atributos ["tabIndex"] = $tab ++;
 				$atributos ["columnas"] = 1;
 				$atributos ["estilo"] = "textoIzquierda";
-				$atributos ["anchoEtiqueta"] = 6;
+				$atributos ["anchoEtiqueta"] = 2;
 				$atributos ["tamanno"] = 500000;
 				$atributos ["etiqueta"] = "<b>" . $requisitos [0] ['codigo'] . "</b> " . $requisitos [0] ['descripcion'];
 				if ($requisitos [0] ['obligatoriedad'] == 1) {
 					$atributos ["etiqueta"] = "<b>" . $requisitos [0] ['codigo'] . "</b> " . $requisitos [0] ['descripcion'] . "<b> (*)</b>";
 				}
 				$atributos ["estilo"] = "file";
-				$atributos ["anchoCaja"] = 6;
+				$atributos ["anchoCaja"] = 3;
 				
 				$atributos ["bootstrap"] = true;
 				// $atributos ["valor"] = $valorCodificado;
@@ -186,22 +186,42 @@ class Registrador {
 			// ----------------INICIO CONTROL: Archivo---------------------------
 			
 			{
+				
 				$esteCampo = 'imagen';
 				$atributos ['id'] = $esteCampo;
 				$atributos ['leyenda'] = "Archivo Seleccionado";
 				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 				unset ( $atributos );
-				$atributos ['imagen'] = str_replace ( "\\", "", $_REQUEST ['ruta'] );
-				$atributos ['estilo'] = '';
-				$atributos ['etiqueta'] = '';
-				$atributos ['borde'] = '';
-				$atributos ['ancho'] = '200';
-				$atributos ['alto'] = '360';
 				
-				$atributos = array_merge ( $atributos, $atributosGlobales );
-				echo $this->miFormulario->campoImagen ( $atributos );
-				unset ( $atributos );
+				$tipo = getimagesize ( str_replace ( "\\", "", $ruta ) );
 				
+				if ($tipo != false) {
+					
+					$atributos ['imagen'] = str_replace ( "\\", "", $_REQUEST ['ruta'] );
+					$atributos ['estilo'] = '';
+					$atributos ['etiqueta'] = '';
+					$atributos ['borde'] = '';
+					$atributos ['ancho'] = '100%';
+					$atributos ['alto'] = '';
+					$atributos ['enlace'] = str_replace ( "\\", "", $ruta );
+					$atributos = array_merge ( $atributos, $atributosGlobales );
+					echo $this->miFormulario->campoImagen ( $atributos );
+					unset ( $atributos );
+				} else {
+					$esteCampo = 'imagen';
+					$atributos ['id'] = $esteCampo;
+					$atributos ['leyenda'] = "Archivo Seleccionado";
+					$atributos ['imagen'] = str_replace ( "\\", "", $_REQUEST ['ruta'] );
+					$atributos ['estilo'] = '';
+					$atributos ['etiqueta'] = '';
+					$atributos ['borde'] = '';
+					$atributos ['enlace'] = str_replace ( "\\", "", $ruta );
+					$atributos ['enlaceTexto'] = "<b>" . $requisitos [0] ['codigo'] . "</b> " . $requisitos [0] ['descripcion'];
+					
+					$atributos = array_merge ( $atributos, $atributosGlobales );
+					echo $this->miFormulario->enlace ( $atributos );
+					unset ( $atributos );
+				}
 				echo $this->miFormulario->agrupacion ( 'fin' );
 				unset ( $atributos );
 			}
@@ -294,7 +314,7 @@ class Registrador {
 	}
 }
 
-$miSeleccionador = new Registrador ( $this->lenguaje, $this->miFormulario , $this->sql);
+$miSeleccionador = new Registrador ( $this->lenguaje, $this->miFormulario, $this->sql );
 
 $miSeleccionador->mensaje ();
 
