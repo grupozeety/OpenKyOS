@@ -94,12 +94,14 @@ class GestionarContrato {
         $cadenaSql = $this->miSql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
         $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        foreach ($requisitos as $key => $value) {
+        if ($requisitos) {
+            foreach ($requisitos as $key => $value) {
 
-            if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
-                $requisitosFaltantesObligatorios = true;
+                if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
+                    $requisitosFaltantesObligatorios = true;
+                }
+
             }
-
         }
 
         // Rescatar los datos de este bloque
