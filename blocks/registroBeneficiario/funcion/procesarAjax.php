@@ -45,6 +45,18 @@ if ($_REQUEST ['funcion'] == "codificarSelect") {
 
 }
 
+if ($_REQUEST ['funcion'] == "consultarCodigo") {
+
+	$conexion = "interoperacion";
+	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+	
+	$cadenaSql = $this->sql->getCadenaSql ( 'codificacion', $_REQUEST['urba']);
+	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+	echo json_encode($resultado[0]);
+
+}
+
 if ($_REQUEST ['funcion'] == "cargarImagen") {
 	
 	$prefijo = substr(md5(uniqid(time())), 0, 6);

@@ -112,7 +112,17 @@ class Formulario {
            $cargueDatos = $esteRecursoDB->ejecutarAcceso($cadena_sql, "busqueda");
           
             if(count($cargueDatos) > 1){
-            	redireccion::redireccionar("multipleBeneficiario");
+
+            	$documentos = "";
+            	
+            	foreach ($cargueDatos as $key => $value){
+            		$documentos .=  $value['identificacion_beneficiario'] . ", ";
+            	}
+            	
+            	$documentos = substr($documentos, 0, (strlen($documentos) - 2));
+            	 
+            	redireccion::redireccionar("multipleBeneficiario", $documentos);
+            	
             	exit();
             }
 
@@ -145,7 +155,28 @@ class Formulario {
             }
 
             $deshabilitado = true;
+        }else{
+        	
         }
+        
+        $esteCampo = 'consecutivo';
+        $atributos["id"] = $esteCampo; // No cambiar este nombre
+        $atributos["tipo"] = "hidden";
+        $atributos['valor'] = '';
+        $atributos['estilo'] = '';
+        $atributos["obligatorio"] = false;
+        $atributos['marco'] = true;
+        $atributos["etiqueta"] = "";
+        
+        if (isset($cargueDatos[$esteCampo])) {
+        	$atributos['valor'] = $cargueDatos[$esteCampo];
+        } else {
+        	$atributos['valor'] = '';
+        }
+        
+        $atributos = array_merge($atributos, $atributosGlobales);
+        echo $this->miFormulario->campoCuadroTexto($atributos);
+        unset($atributos);
 
         $esteCampo = 'ficheros';
         $atributos['id'] = $esteCampo;
@@ -179,7 +210,7 @@ class Formulario {
             $atributos['estilo'] = "bootstrap";
             $atributos['evento'] = '';
             $atributos['deshabilitado'] = false;
-            $atributos['readonly'] = $deshabilitado;
+            $atributos['readonly'] = true;
             $atributos['columnas'] = 1;
             $atributos['tamanno'] = 1;
             $atributos['placeholder'] = "";
@@ -280,39 +311,39 @@ class Formulario {
             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
             unset($atributos);
 
-//             $esteCampo = 'nomenclatura';
-//             $atributos['nombre'] = $esteCampo;
-//             $atributos['tipo'] = "text";
-//             $atributos['id'] = $esteCampo;
-//             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-//             $atributos["etiquetaObligatorio"] = true;
-//             $atributos['tab'] = $tab++;
-//             $atributos['anchoEtiqueta'] = 2;
-//             $atributos['estilo'] = "bootstrap";
-//             $atributos['evento'] = '';
-//             $atributos['deshabilitado'] = false;
-//             $atributos['readonly'] = false;
-//             $atributos['columnas'] = 1;
-//             $atributos['tamanno'] = 1;
-//             $atributos['placeholder'] = "";
-//             $atributos['valor'] = "";
-//             $atributos['ajax_function'] = "";
-//             $atributos['ajax_control'] = $esteCampo;
-//             $atributos['limitar'] = false;
-//             $atributos['anchoCaja'] = 10;
-//             $atributos['miEvento'] = '';
-//             //$atributos['validar'] = 'required';
+            $esteCampo = 'nomenclatura';
+            $atributos['nombre'] = $esteCampo;
+            $atributos['tipo'] = "text";
+            $atributos['id'] = $esteCampo;
+            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+            $atributos["etiquetaObligatorio"] = true;
+            $atributos['tab'] = $tab++;
+            $atributos['anchoEtiqueta'] = 2;
+            $atributos['estilo'] = "bootstrap";
+            $atributos['evento'] = '';
+            $atributos['deshabilitado'] = false;
+            $atributos['readonly'] = true;
+            $atributos['columnas'] = 1;
+            $atributos['tamanno'] = 1;
+            $atributos['placeholder'] = "";
+            $atributos['valor'] = "";
+            $atributos['ajax_function'] = "";
+            $atributos['ajax_control'] = $esteCampo;
+            $atributos['limitar'] = false;
+            $atributos['anchoCaja'] = 10;
+            $atributos['miEvento'] = '';
+            //$atributos['validar'] = 'required';
 
-//             if (isset($cargueDatos[$esteCampo])) {
-//                 $atributos['valor'] = $cargueDatos[$esteCampo];
-//             } else {
-//                 $atributos['valor'] = '';
-//             }
+            if (isset($cargueDatos[$esteCampo])) {
+                $atributos['valor'] = $cargueDatos[$esteCampo];
+            } else {
+                $atributos['valor'] = '';
+            }
 
-//             // Aplica atributos globales al control
-//             $atributos = array_merge($atributos, $atributosGlobales);
-//             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-//             unset($atributos);
+            // Aplica atributos globales al control
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+            unset($atributos);
 
 //             $esteCampo = 'resolucion_adjudicacion';
 //             $atributos['nombre'] = $esteCampo;
@@ -1084,7 +1115,7 @@ class Formulario {
             $atributos['estilo'] = "bootstrap";
             $atributos['evento'] = '';
             $atributos['deshabilitado'] = false;
-            $atributos['readonly'] = false;
+            $atributos['readonly'] = true;
             $atributos['columnas'] = 1;
             $atributos['tamanno'] = 1;
             $atributos['placeholder'] = "";
@@ -1122,7 +1153,7 @@ class Formulario {
             $atributos['estilo'] = "bootstrap";
             $atributos['evento'] = '';
             $atributos['deshabilitado'] = false;
-            $atributos['readonly'] = false;
+            $atributos['readonly'] = true;
             $atributos['columnas'] = 1;
             $atributos['tamanno'] = 1;
             $atributos['placeholder'] = "";

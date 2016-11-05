@@ -109,6 +109,7 @@ class Sql extends \Sql {
             case "cargarBeneficiarioPotencial":
 
                 $cadenaSql = "SELECT ";
+                $cadenaSql .= "consecutivo AS consecutivo,";
                 $cadenaSql .= "id_beneficiario AS id_beneficiario,";
                 $cadenaSql .= "tipo_beneficiario AS tipo_beneficiario,";
                 $cadenaSql .= "tipo_documento AS tipo_documento,";
@@ -681,6 +682,19 @@ class Sql extends \Sql {
                 $cadenaSql .= " FROM parametros.api_data ";
                 $cadenaSql .= " WHERE componente='alfresco' ";
                 break;
+                
+            case "codificacion":
+            	$cadenaSql = "SELECT mc.abreviatura AS abr_mun, ur.abreviatura AS  abr_urb, ur.abreviatura_benef AS abr_benf ";
+            	$cadenaSql .= "FROM parametros.urbanizacion ur join parametros.municipio mc ON  ur.codigo_mun=mc.codigo_mun ";
+            	$cadenaSql .= "WHERE id_urbanizacion='" . $variable . "'";
+            	break;
+            	
+            case 'consultarConsecutivo' :
+            	$cadenaSql = " select id_beneficiario ";
+            	$cadenaSql .= "FROM interoperacion.beneficiario_potencial ";
+            	$cadenaSql .= "WHERE id_beneficiario ";
+            	$cadenaSql .= "LIKE '" . $variable . "%' ORDER BY id_beneficiario DESC LIMIT 1";
+            	break;
         }
 
         return $cadenaSql;

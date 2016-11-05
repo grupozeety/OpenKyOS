@@ -21,6 +21,7 @@ class redireccion {
 			case "multipleBeneficiario" :
 				$variable = "pagina=consultarBeneficiario";
 				$variable .= "&mensaje=errorMultipleBeneficiario";
+				$variable .= "&informacion=" . $valor;
 				break;
 			
 			case "inserto" :
