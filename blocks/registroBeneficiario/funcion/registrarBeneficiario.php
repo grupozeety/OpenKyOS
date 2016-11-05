@@ -169,6 +169,10 @@ class Registrar {
             $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
 
         }
+        
+        var_dump($beneficiarioPotencial);
+        echo $cadenaSql;
+        die;
 
         if ($resultado) {
 
