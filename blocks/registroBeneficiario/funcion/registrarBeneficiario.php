@@ -27,9 +27,59 @@ class Registrar {
     }
     public function procesarFormulario() {
 
+    	$conexion = "interoperacion";
+    	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+    	
+    	$esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
+    	
+    	$rutaBloque = $this->miConfigurador->getVariableConfiguracion("raizDocumento") . "/blocks/";
+    	$rutaBloque .= $esteBloque['nombre'];
+    	$host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/blocks/" . $esteBloque['nombre'];
+    	 
         $beneficiarioPotencial = array();
+        
+        if(isset($_REQUEST['actualizar'])){
+        	$beneficiarioPotencial['id_beneficiario'] = $_REQUEST['id_beneficiario'];
+        }else{
+        	$cadenaSql = $this->miSql->getCadenaSql('consultarConsecutivo', $_REQUEST['consecutivo']);
+        	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        	
+        	if($resultado){
+        		$consecutivo = explode($_REQUEST['consecutivo'], $resultado[0]['id_beneficiario']);
+        		$nuevoConsecutivo = $consecutivo[1] + 1;
+        		
+        		if(strlen($_REQUEST['consecutivo']) == 1){
+        			if($nuevoConsecutivo<10){
+        				$nuevoConsecutivo = $_REQUEST['consecutivo'] . '000' . $nuevoConsecutivo;
+        			}else if ($nuevoConsecutivo<100){
+        				$nuevoConsecutivo = $_REQUEST['consecutivo'] . '00' . $nuevoConsecutivo;
+        			}else if ($nuevoConsecutivo<1000){
+        				$nuevoConsecutivo = $_REQUEST['consecutivo'] . '0' . $nuevoConsecutivo;
+        			}else{
+        				$nuevoConsecutivo = $_REQUEST['consecutivo'] . $nuevoConsecutivo;
+        			}
+        		}else if(strlen($_REQUEST['consecutivo']) == 2){
+        			if($nuevoConsecutivo<10){
+        				$nuevoConsecutivo = $_REQUEST['consecutivo'] . '00' . $nuevoConsecutivo;
+        			}else if ($nuevoConsecutivo<100){
+        				$nuevoConsecutivo = $_REQUEST['consecutivo'] . '0' . $nuevoConsecutivo;
+        			}else{
+        				$nuevoConsecutivo = $_REQUEST['consecutivo'] . $nuevoConsecutivo;
+        			}
+        		}
 
-        $beneficiarioPotencial['id_beneficiario'] = $_REQUEST['id_beneficiario'];
+        		$beneficiarioPotencial['id_beneficiario'] = $nuevoConsecutivo;
+        	}else{
+        		if(strlen($_REQUEST['consecutivo']) == 1){
+        			$nuevoConsecutivo = $_REQUEST['consecutivo'] . '0001';
+        		}else if(strlen($_REQUEST['consecutivo']) == 2){
+        			$nuevoConsecutivo = $_REQUEST['consecutivo'] . '001';
+        		}
+        		
+        		$beneficiarioPotencial['id_beneficiario'] = $nuevoConsecutivo;
+        	}
+        }
+
         $beneficiarioPotencial['tipo_beneficiario'] = $_REQUEST['tipo_beneficiario'];
         $beneficiarioPotencial['identificacion_beneficiario'] = $_REQUEST['identificacion_beneficiario'];
         $beneficiarioPotencial['tipo_documento'] = $_REQUEST['tipo_documento'];
@@ -68,9 +118,9 @@ class Registrar {
         $beneficiarioPotencial['pertenencia_etnica'] = $_REQUEST['pertenencia_etnica'];
         $beneficiarioPotencial['ocupacion'] = $_REQUEST['ocupacion'];
         $beneficiarioPotencial['id_hogar'] = $_REQUEST['id_hogar'];
-        //$beneficiarioPotencial['nomenclatura'] = $_REQUEST['nomenclatura'];
+        $beneficiarioPotencial['nomenclatura'] = str_replace ( "\\" , "" , $_REQUEST['nomenclatura']);
         //$beneficiarioPotencial['resolucion_adjudicacion'] = $_REQUEST['resolucion_adjudicacion'];
-        $beneficiarioPotencial['nomenclatura'] = '';
+        //$beneficiarioPotencial['nomenclatura'] = '';
         $beneficiarioPotencial['resolucion_adjudicacion'] = '';
         
         $familiar = array();
@@ -96,15 +146,6 @@ class Registrar {
         }
         
         $beneficiarioPotencial['familiar'] = $familiar;
-
-        $conexion = "interoperacion";
-        $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
-        $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
-
-        $rutaBloque = $this->miConfigurador->getVariableConfiguracion("raizDocumento") . "/blocks/";
-        $rutaBloque .= $esteBloque['nombre'];
-        $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/blocks/" . $esteBloque['nombre'];
 
         $cadenaSql = $this->miSql->getCadenaSql('actualizarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
         $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "actualizar");

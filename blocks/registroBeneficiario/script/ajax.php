@@ -190,6 +190,34 @@ $enlaceReg = $directorioReg . '=' . $variableReg;
 
 ?>
 
+<?php
+
+/**
+ * Código Correspondiente a las Url de la peticiones Ajax.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion("host");
+$url .= $this->miConfigurador->getVariableConfiguracion("site");
+$url .= "/index.php?";
+
+// Variables para Consultar Proyectos
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultarCodigo";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar código para actualizar la nomenclatrua y el id_hogar
+$urlActualizarNomHog = $url . $cadena;
+
+?>
+
 $(document).ready(function() {
 var beneficiario =$("#<?php echo $this->campoSeguro('id_beneficiario')?>").val();
 
@@ -554,7 +582,6 @@ foreach ($arreglo2 as $key2=>$values2){
 			dataType: "json",
 			data: { metodo:''},
 			success: function(data){
-				
 				urbanizacion = data;
 				
 				$.each(data , function(indice,valor){
@@ -612,9 +639,42 @@ foreach ($arreglo2 as $key2=>$values2){
 		 			$( "#<?php echo $this->campoSeguro('urbanizacion');?>" ).attr('disable', 'disable');
 		 		}
 		 	});
+		 	
+		 	if(urb != ""){
+			 	$.ajax({
+			 		url: "<?php echo $urlActualizarNomHog?>",
+			 		dataType: "json",
+			 		data: {urba:urb},
+			 		success: function(data){
+			 			$( "#<?php echo $this->campoSeguro('nomenclatura');?>" ).val(data.abr_mun + '_' + data.abr_urb + '_' + $( "#<?php echo $this->campoSeguro('identificacion_beneficiario');?>" ).val()).change();
+			 			$( "#<?php echo $this->campoSeguro('consecutivo');?>" ).val(data.abr_benf);
+			 		}
+			 	});
+			 }
+		 });
+		 
+		  $( "#<?php echo $this->campoSeguro('identificacion_beneficiario');?>" ).change(function() {
+		 
+		    var urb='';
+		 	
+		 	urb =$("#<?php echo $this->campoSeguro('urbanizacion');?>").val();
+		 	
+		 	if(urb != ""){
+			 	$.ajax({
+			 		url: "<?php echo $urlActualizarNomHog?>",
+			 		dataType: "json",
+			 		data: {urba:urb},
+			 		success: function(data){
+			 			$( "#<?php echo $this->campoSeguro('nomenclatura');?>" ).val(data.abr_mun + '_' + data.abr_urb + '_' + $( "#<?php echo $this->campoSeguro('identificacion_beneficiario');?>" ).val()).change();
+			 			$( "#<?php echo $this->campoSeguro('consecutivo');?>" ).val(data.abr_benf);
+			 			
+			 		}
+			 	});
+			 }
 		 });
 
 $("#mensaje").modal("show");
   
+ 
 });
   
