@@ -109,6 +109,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " SET orden_trabajo='" . $variable['id_orden'] . "'";
                 $cadenaSql .= " WHERE id_beneficiario='" . $variable['identificador_beneficiario'] . "'  ";
                 $cadenaSql .= " AND estado_registro=TRUE ;";
+                break;
 
             case "consultarCarpetaSoportes":
                 $cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
