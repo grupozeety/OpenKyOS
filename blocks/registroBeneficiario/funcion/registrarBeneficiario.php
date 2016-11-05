@@ -147,31 +147,42 @@ class Registrar {
         
         $beneficiarioPotencial['familiar'] = $familiar;
 
+        var_dump($beneficiarioPotencial);
+        
         $cadenaSql = $this->miSql->getCadenaSql('actualizarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
         $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "actualizar");
 
+        echo $cadenaSql;
+        var_dump($resultado);
+        
         if ($resultado) {
             $cadenaSql = $this->miSql->getCadenaSql('registrarBeneficiarioPotencial', $beneficiarioPotencial);
             $cadenaSql = str_replace("''", 'null', $cadenaSql);
             $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
         }
         
+        echo $cadenaSql;
+        var_dump($resultado);
+        
         if ($resultado) {
             $cadenaSql = $this->miSql->getCadenaSql('actualizarFamiliarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
             $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
         }
 
+        echo $cadenaSql;
+        var_dump($resultado);
+        
         if ($resultado && $_REQUEST['familiares'] > 0) {
             $cadenaSql = $this->miSql->getCadenaSql('registrarFamiliares', $beneficiarioPotencial['familiar']);
 
             $cadenaSql = str_replace("''", 'null', $cadenaSql);
 
             $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
-
         }
         
-        var_dump($beneficiarioPotencial);
         echo $cadenaSql;
+        var_dump($resultado);
+        
         die;
 
         if ($resultado) {
