@@ -11,7 +11,7 @@ $this->idioma['botonAprobarContrato'] = 'Aprobar Contrato';
 
 $this->idioma['archivo_contrato'] = 'Archivo Contrato';
 
-$this->idioma['medio_pago'] = 'Medio de Pago';
+$this->idioma['medio_pago'] = 'Tipo de Pago';
 
 $this->idioma['tipo_tecnologia'] = 'Tipo Tecnología';
 
