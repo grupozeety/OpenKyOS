@@ -219,93 +219,92 @@ $urlActualizarNomHog = $url . $cadena;
 ?>
 
 $(document).ready(function() {
-var beneficiario =$("#<?php echo $this->campoSeguro('id_beneficiario')?>").val();
 
-//Here we are
+	var beneficiario =$("#<?php echo $this->campoSeguro('id_beneficiario')?>").val();
 
-<?php $arreglo=array(
-		$this->campoSeguro('identificacion_beneficiario'),
-		$this->campoSeguro('nombre_beneficiario'),
-		$this->campoSeguro('primer_apellido'),
-		$this->campoSeguro('segundo_apellido'),
-		$this->campoSeguro('edad_beneficiario'),
-		$this->campoSeguro('correo'),
-		$this->campoSeguro('direccion'),
-		$this->campoSeguro('manzana'),
-		$this->campoSeguro('torre'),
-		$this->campoSeguro('bloque'),
-		$this->campoSeguro('apartamento'),
-		$this->campoSeguro('telefono'),
-		$this->campoSeguro('celular'),
-		$this->campoSeguro('whatsapp'),
-		$this->campoSeguro('geolocalizacion'),
-		$this->campoSeguro('id_hogar'),
-		$this->campoSeguro('nomenclatura'),
-		$this->campoSeguro('resolucion_adjudicacion'),
-);
+	//Here we are
 
-$arreglo2=array(
-		$this->campoSeguro('tipo_beneficiario'),
-		$this->campoSeguro('tipo_documento'),
-		$this->campoSeguro('genero_beneficiario'),
-		$this->campoSeguro('tipo_documento'),
-		$this->campoSeguro('nivel_estudio'),
-		$this->campoSeguro('tipo_vivienda'),
-		//$this->campoSeguro('urbanizacion'),
-		//$this->campoSeguro('departamento'),
-		//$this->campoSeguro('municipio'),
-		$this->campoSeguro('territorio'),
-		$this->campoSeguro('estrato'),
-		$this->campoSeguro('jefe_hogar'),
-		$this->campoSeguro('pertenencia_etnica'),
-		$this->campoSeguro('ocupacion'),
-);
-
-foreach ($arreglo as $key=>$values){
-	?>
-	$("#<?php echo $values;?>").on('click touchstart', function() {
-		$("#<?php echo $values?>").attr('readonly', false);
-	});
+	<?php $arreglo=array(
+			$this->campoSeguro('identificacion_beneficiario'),
+			$this->campoSeguro('nombre_beneficiario'),
+			$this->campoSeguro('primer_apellido'),
+			$this->campoSeguro('segundo_apellido'),
+			$this->campoSeguro('edad_beneficiario'),
+			$this->campoSeguro('correo'),
+			$this->campoSeguro('direccion'),
+			$this->campoSeguro('manzana'),
+			$this->campoSeguro('torre'),
+			$this->campoSeguro('bloque'),
+			$this->campoSeguro('apartamento'),
+			$this->campoSeguro('telefono'),
+			$this->campoSeguro('celular'),
+			$this->campoSeguro('whatsapp'),
+			$this->campoSeguro('geolocalizacion'),
+			$this->campoSeguro('id_hogar'),
+			$this->campoSeguro('nomenclatura'),
+			$this->campoSeguro('resolucion_adjudicacion'),
+	);
 	
-		$( "#<?php echo $values;?>" ).dblclick(function() {
+	$arreglo2=array(
+			$this->campoSeguro('tipo_beneficiario'),
+			$this->campoSeguro('tipo_documento'),
+			$this->campoSeguro('genero_beneficiario'),
+			$this->campoSeguro('tipo_documento'),
+			$this->campoSeguro('nivel_estudio'),
+			$this->campoSeguro('tipo_vivienda'),
+			//$this->campoSeguro('urbanizacion'),
+			//$this->campoSeguro('departamento'),
+			//$this->campoSeguro('municipio'),
+			$this->campoSeguro('territorio'),
+			$this->campoSeguro('estrato'),
+			$this->campoSeguro('jefe_hogar'),
+			$this->campoSeguro('pertenencia_etnica'),
+			$this->campoSeguro('ocupacion'),
+	);
+	
+	foreach ($arreglo as $key=>$values){
+		?>
+		$("#<?php echo $values;?>").on('click touchstart', function() {
 			$("#<?php echo $values?>").attr('readonly', false);
 		});
-	
-		 $( "#<?php echo $values;?>" ).blur(function() {
-		 	var id =$("#<?php echo $values;?>").val();
-		 	$.ajax({
-		 		url: "<?php echo $urlActualizar?>",
-		 		dataType: "json",
-		 		data: { valor: id, id:beneficiario, campo:'<?php echo $values?>'},
-		 		success: function(data){
-		 			$( "#<?php echo $values;?>" ).attr('readonly', 'readonly');
-		 		}
-		 	});
-		 });
-		 	 
-		 	//Here we leave
-<?php }
+		
+			$( "#<?php echo $values;?>" ).dblclick(function() {
+				$("#<?php echo $values?>").attr('readonly', false);
+			});
+		
+			 $( "#<?php echo $values;?>" ).blur(function() {
+			 	var id =$("#<?php echo $values;?>").val();
+			 	$.ajax({
+			 		url: "<?php echo $urlActualizar?>",
+			 		dataType: "json",
+			 		data: { valor: id, id:beneficiario, campo:'<?php echo $values?>'},
+			 		success: function(data){
+			 			$( "#<?php echo $values;?>" ).attr('readonly', 'readonly');
+			 		}
+			 	});
+			 });
+			 	 
+			 	//Here we leave
+	<?php }
 
-foreach ($arreglo2 as $key2=>$values2){
-	?>
-		 $( "#<?php echo $values2;?>" ).change(function() {
-		 	var id =$("#<?php echo $values2;?>").val();
-		 	$.ajax({
-		 		url: "<?php echo $urlActualizar?>",
-		 		dataType: "json",
-		 		data: { valor: id, id:beneficiario, campo:'<?php echo $values2?>'},
-		 		success: function(data){
-		 			$( "#<?php echo $values2;?>" ).attr('disable', 'disable');
-		 		}
-		 	});
-		 });
-<?php }?>	
-
-
-
-
+	foreach ($arreglo2 as $key2=>$values2){
+		?>
+			 $( "#<?php echo $values2;?>" ).change(function() {
+			 	var id =$("#<?php echo $values2;?>").val();
+			 	$.ajax({
+			 		url: "<?php echo $urlActualizar?>",
+			 		dataType: "json",
+			 		data: { valor: id, id:beneficiario, campo:'<?php echo $values2?>'},
+			 		success: function(data){
+			 			$( "#<?php echo $values2;?>" ).attr('disable', 'disable');
+			 		}
+			 	});
+			 });
+	<?php }?>	
 
 	var id = parseInt($("#<?php echo $this->campoSeguro('familiares')?>").val());
+	
+	alert(id);
 	
 	function codificacionCamposSelect(id){
 	
@@ -332,7 +331,7 @@ foreach ($arreglo2 as $key2=>$values2){
 	
 	$(function() {
 		$("#botonAgregar").click(function( event ) {	
-		
+			alert(id);
 			if(id > 0){
 				codificacionCampos(id);
 			}else if(id==0){
@@ -353,8 +352,9 @@ foreach ($arreglo2 as $key2=>$values2){
 	$(function() {
 		
 		$("#botonEliminar").click(function( event ) {
+		console.log(id);
 			if(id > 1){
-				$('#hogar fieldset').remove('#div_' + id);
+				$('#hogar #div_' + id).remove();
 				id--;
 				$("#<?php echo $this->campoSeguro('familiares')?>").val(id);
 			}else if(id == 1){
@@ -673,7 +673,7 @@ foreach ($arreglo2 as $key2=>$values2){
 			 }
 		 });
 
-$("#mensaje").modal("show");
+	$("#mensaje").modal("show");
   
  
 });

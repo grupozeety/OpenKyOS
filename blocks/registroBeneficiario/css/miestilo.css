@@ -1,7 +1,13 @@
-/* img {  */
-/* 	margin: 10px; */
-/* 	float: right; */
-/* } */
+#botonAgregar { 
+	margin: 10px;
+	float: right;
+}
+
+#botonEliminar { 
+	margin: 10px;
+	float: right;
+}
+
 
 .col-form-label {
       text-align: left;
