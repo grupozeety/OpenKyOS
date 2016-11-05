@@ -43,6 +43,13 @@ class GestionarContrato {
         }
     }
     public function formulario() {
+
+        if (isset($_REQUEST['mensaje'])) {
+
+            $this->mensajeModal();
+
+        }
+
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
         $miPaginaActual = $this->miConfigurador->getVariableConfiguracion("pagina");
         // Conexion a Base de Datos
@@ -171,6 +178,11 @@ class GestionarContrato {
                         $_REQUEST['mensaje'] = 'requisitosFaltantes';
                         $this->mensaje();
 
+                    } else {
+
+                        $_REQUEST['mensaje'] = 'requisitosCompletos';
+                        $this->mensaje();
+
                     }
 
                     // ------------------Division para los botones-------------------------
@@ -232,6 +244,7 @@ class GestionarContrato {
                             $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
                             $valorCodificado .= "&botonGenerarPdfNoFirmas=true";
                             $valorCodificado .= "&botonGenerarPdf=false";
+                            $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
 
                             if ($infoContrato['numero_identificacion'] != NULL) {
                                 $valorCodificado .= "&opcion=generarContratoPDF";
@@ -299,6 +312,7 @@ class GestionarContrato {
                             $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
                             $valorCodificado .= "&botonGenerarPdfNoFirmas=false";
                             $valorCodificado .= "&botonGenerarPdf=true";
+                            $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
 
                             if ($infoContrato['numero_identificacion'] != NULL) {
                                 $valorCodificado .= "&opcion=generarContratoPDF";
@@ -425,48 +439,17 @@ class GestionarContrato {
     public function mensaje() {
 
         switch ($_REQUEST['mensaje']) {
-            case 'inserto':
-
-                if (isset($_REQUEST['alfresco']) && $_REQUEST['alfresco'] > 0) {
-                    $estilo_mensaje = 'warning';
-                    $atributos["mensaje"] .= '<br>Errores de Gestor Documental:' . $_REQUEST['alfresco'];
-                } else {
-                    $estilo_mensaje = 'success';
-                    $atributos["mensaje"] = 'Requisitos Correctamente Subidos. <br>Proceder a Validar';
-                }
-                break;
-
-            case 'noinserto':
-                $estilo_mensaje = 'error';     // information,warning,error,validation
-                $atributos["mensaje"] = 'Error al validar los Requisitos.<br>Verifique los Documentos de Requisitos';
-                break;
-
-            case 'insertoInformacionContrato':
-                $estilo_mensaje = 'success';     // information,warning,error,validation
-                $atributos["mensaje"] = 'Se ha registrado la información de contrato con exito.<br>Habilitado la Opcion de Descargar Contrato';
-                break;
-
-            case 'noInsertoInformacionContrato':
-                $estilo_mensaje = 'error';     // information,warning,error,validation
-                $atributos["mensaje"] = 'Error al registrar información del contrato';
-                break;
-
-            case 'verifico':
-                $estilo_mensaje = 'success';     // information,warning,error,validation
-                // $atributos["mensaje"] = 'Requisitos Correctamente Subidos<br>Se ha Habilitado la Opcion de ver Contrato';
-                $atributos["mensaje"] = 'Documento Verificado';
-                break;
-
-            case 'noverifico':
-                $estilo_mensaje = 'warning';     // information,warning,error,validation
-                // $atributos["mensaje"] = 'Requisitos Correctamente Subidos<br>Se ha Habilitado la Opcion de ver Contrato';
-                $atributos["mensaje"] = 'Atención, fallo en actualización.';
-                break;
 
             case 'requisitosFaltantes':
                 $estilo_mensaje = 'warning';     // information,warning,error,validation
-                $atributos["mensaje"] = 'No todos los documentos requeridos estan registratos en el sistema';
+                $atributos["mensaje"] = 'No todos los documentos requeridos estan registrados en el sistema';
                 break;
+
+            case 'requisitosCompletos':
+                $estilo_mensaje = 'success';     // information,warning,error,validation
+                $atributos["mensaje"] = 'Todos los documentos requeridos estan registrados en el sistema';
+                break;
+
             default:
                 // code...
                 break;
@@ -488,6 +471,50 @@ class GestionarContrato {
         // ------------------Fin Division para los botones-------------------------
         echo $this->miFormulario->division("fin");
         unset($atributos);
+
+    }
+
+    public function mensajeModal() {
+
+        switch ($_REQUEST['mensaje']) {
+
+            case 'insertoInformacionContrato':
+                $mensaje = "Exito en el registro información del contrato";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+            case 'errorGenerarArchivo':
+                $mensaje = "Error en el registro de información del Contrato";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
+                break;
+
+        }
+
+        // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+
+        $atributos['tipoEtiqueta'] = 'inicio';
+        $atributos['titulo'] = 'Mensaje';
+        $atributos['id'] = 'mensaje';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
+
+        echo '<p><h5>' . $mensaje . '</h5></p>';
+
+        echo '</div>';
+
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+
+        echo '<div style="text-align:center;">';
+
+        echo '</div>';
+
+        $atributos['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
     }
 
 }

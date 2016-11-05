@@ -361,13 +361,15 @@ class Sql extends \Sql {
                 break;
 
             case 'consultarValidacionRequisitos':
-                $cadenaSql = " SELECT dr.perfil, dr.tipologia_documento, dr.obligatoriedad, dr.proceso,";
-                $cadenaSql .= " dc.*";
+                $cadenaSql = " SELECT dr.perfil, dr.tipologia_documento, dr.obligatoriedad, dr.proceso, ";
+                $cadenaSql .= " dc.nombre_documento, pr.descripcion nombre_requisitos ";
                 $cadenaSql .= " FROM interoperacion.documentos_requisitos AS dr";
+                $cadenaSql .= " JOIN  parametros.parametros AS pr ON pr.id_parametro= dr.tipologia_documento ";
                 $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato AS dc ON dc.tipologia_documento= dr.tipologia_documento AND dc.id_beneficiario='" . $variable['id_beneficiario'] . "'";
                 $cadenaSql .= " WHERE dr.estado_registro='TRUE'";
                 $cadenaSql .= " AND dr.proceso='125'";
                 $cadenaSql .= " AND dr.perfil='" . $variable['perfil_beneficiario'] . "';";
+
                 break;
         }
 

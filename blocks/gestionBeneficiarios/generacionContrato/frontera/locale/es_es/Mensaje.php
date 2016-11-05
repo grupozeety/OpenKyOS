@@ -8,7 +8,7 @@ $this->idioma['generacionContrato'] = 'Generar Contrato Beneficiario Potencial';
 $this->idioma['beneficiario'] = 'Identificación Beneficiario';
 $this->idioma['beneficiarioTitulo'] = 'Ingrese Identificación Beneficiario';
 
-$this->idioma['botonValidar'] = 'Validar Requisitos Contrato';
+$this->idioma['botonValidar'] = 'Consultar Beneficiario';
 //----------------------Contrato-------------------------------
 
 $this->idioma['nombres'] = 'Nombres';
@@ -63,7 +63,7 @@ $this->idioma['tecnologia'] = 'Tecnología';
 
 $this->idioma['estado'] = 'Estado';
 
-$this->idioma['firma_contratista'] = 'Firma Contratrista';
+$this->idioma['firma_contratista'] = 'Firma Contratista';
 
 $this->idioma['firma_beneficiario'] = 'Firma Beneficiario';
 
