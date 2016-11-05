@@ -60,7 +60,7 @@ class Registrador {
 		// Ruta Imagen
 		$rutaWarning = $this->rutaURL . "/frontera/css/imagen/warning.png";
 		$rutaCheck = $this->rutaURL . "/frontera/css/imagen/check.png";
-		$rutaNone=$this->rutaURL . "/frontera/css/imagen/none.png";
+		$rutaNone = $this->rutaURL . "/frontera/css/imagen/none.png";
 		
 		if ($estadoAprobacion != false) {
 			foreach ( $estadoAprobacion as $key => $values ) {
@@ -201,13 +201,16 @@ class Registrador {
 							if (! is_null ( $indice ) && isset ( $redireccion [$requisitos [$key] ['codigo']] )) {
 								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . $this->lenguaje->getCadena ( $esteCampo ) . "</a></center>";
 							} else {
-								$a ++;
 								$imagenComisionador [$esteCampo] = $rutaNone;
-								$imagenSupervisor [$esteCampo] =$rutaNone;
+								$imagenSupervisor [$esteCampo] = $rutaNone;
 								$imagenAnalista [$esteCampo] = $rutaNone;
+								$a ++;
 								$cadena = "<center>" . $this->lenguaje->getCadena ( $esteCampo ) . "</center>";
 							}
 						} else {
+							$imagenComisionador [$esteCampo] = $rutaNone;
+							$imagenSupervisor [$esteCampo] = $rutaNone;
+							$imagenAnalista [$esteCampo] = $rutaNone;
 							$a ++;
 							$cadena = "<center>" . $this->lenguaje->getCadena ( $esteCampo ) . "</center>";
 						}
