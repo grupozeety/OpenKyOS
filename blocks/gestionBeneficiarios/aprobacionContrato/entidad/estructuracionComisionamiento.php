@@ -79,22 +79,6 @@ class comisionamientoOP {
     public function estruturarComisionamiento() {
 
         /**
-         * Identificar Paquete Trabajo Padre
-         **/
-
-        foreach ($this->proyecto['paquetesTrabajo'] as $key => $value) {
-
-            //Comisionamiento
-
-            if ($value['subject'] === 'Comisionamiento') {
-
-                $paqueteComisionamiento = $value;
-
-            }
-
-        }
-
-        /**
          * Paquetes Comisionamiento
          **/
 
@@ -246,6 +230,7 @@ class comisionamientoOP {
         $cadenaSql = $this->miSql->getCadenaSql('ConsultarParametrizacionProyecto', $Info_Beneficiario_Contrato[0]['id_proyecto']);
 
         $idActividadHogar = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
         $this->idActividadHogar = $idActividadHogar[0]['valor_actividad'];
 
     }
