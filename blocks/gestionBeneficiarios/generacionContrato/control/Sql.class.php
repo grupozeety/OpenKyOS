@@ -245,7 +245,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " municipio='" . $variable['municipio'] . "', ";
                 $cadenaSql .= " urbanizacion='" . $variable['urbanizacion'] . "', ";
                 $cadenaSql .= " estrato='" . $variable['estrato'] . "', ";
-                $cadenaSql .= " barrio='" . $variable['barrio'] . "', ";
+            /*$cadenaSql .= " barrio='" . $variable['barrio'] . "', ";*/
                 $cadenaSql .= " telefono='" . $variable['telefono'] . "',";
                 $cadenaSql .= " celular='" . $variable['celular'] . "',";
                 $cadenaSql .= " correo='" . $variable['correo'] . "',";
