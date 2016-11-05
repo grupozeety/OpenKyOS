@@ -21,7 +21,7 @@ class Redireccionador {
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
                 $variable .= '&tipo=' . $_REQUEST['tipo'];
                 $variable .= '&alfresco=' . $valor;
-                $variable .= '&proceso=cargarRequisitos';
+                $variable .= '&proceso=cargueRequisitos';
                 break;
 
             case "NoInserto":
@@ -30,7 +30,7 @@ class Redireccionador {
                 $variable .= '&mensaje=noinserto';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
                 $variable .= '&tipo=' . $_REQUEST['tipo']; 
-                $variable .= '&proceso=cargarRequisitos';
+                $variable .= '&proceso=cargueRequisitos';
                 break;
 
             case "InsertoInformacionContrato":
