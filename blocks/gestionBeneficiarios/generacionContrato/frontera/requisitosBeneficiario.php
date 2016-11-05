@@ -142,6 +142,11 @@ class Registrador {
 					$atributos ['dobleLinea'] = false;
 					$atributos ['tabIndex'] = $tab;
 					$atributos ['texto'] = $this->lenguaje->getCadena ( $esteCampo ) . $infoBeneficiario ['id_beneficiario'];
+					$tab ++;
+					// Aplica atributos globales al control
+					$atributos = array_merge ( $atributos, $atributosGlobales );
+					echo $this->miFormulario->campoTexto ( $atributos );
+					unset ( $atributos );
 					
 					$esteCampo = 'nombre_beneficiario'; // Nombre Beneficiario
 					$atributos ['id'] = $esteCampo;
