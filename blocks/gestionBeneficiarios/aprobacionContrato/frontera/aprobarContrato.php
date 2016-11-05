@@ -140,26 +140,7 @@ class Registrador {
                     echo $this->miFormulario->campoTexto($atributos);
                     unset($atributos);
 
-                    $esteCampo = "archivo_contrato"; //001
-                    $atributos["id"] = $esteCampo; // No cambiar este nombre
-                    $atributos["nombre"] = $esteCampo;
-                    $atributos["tipo"] = "file";
-                    $atributos["obligatorio"] = true;
-                    $atributos["etiquetaObligatorio"] = false;
-                    $atributos["tabIndex"] = $tab++;
-                    $atributos["columnas"] = 2;
-                    $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] = 0;
-                    $atributos["tamanno"] = 500000;
-                    $atributos["validar"] = "required";
-                    $atributos["estilo"] = "file";
-                    $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
-                    $atributos["bootstrap"] = true;
-                    $tab++;
-                    // $atributos ["valor"] = $valorCodificado;
-                    $atributos = array_merge($atributos);
-                    echo $this->miFormulario->campoCuadroTexto($atributos);
-                    unset($atributos);
+                    
 
                     $esteCampo = 'tipo_tecnologia';
                     $atributos['nombre'] = $esteCampo;
@@ -246,6 +227,27 @@ class Registrador {
                     echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
 
+                    $esteCampo = "900_1"; //001
+                    $atributos["id"] = $esteCampo; // No cambiar este nombre
+                    $atributos["nombre"] = $esteCampo;
+                    $atributos["tipo"] = "file";
+                    $atributos["obligatorio"] = true;
+                    $atributos["etiquetaObligatorio"] = false;
+                    $atributos["tabIndex"] = $tab++;
+                    $atributos["columnas"] = 5;
+                    $atributos["estilo"] = "textoIzquierda";
+                    $atributos["anchoEtiqueta"] =2;
+                    $atributos["anchoCaja"] = 5;
+                    $atributos["tamanno"] = 500000;
+                    $atributos["validar"] = "required";
+                    $atributos["estilo"] = "file";
+                    $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["bootstrap"] = true;
+                    $tab++;
+                    // $atributos ["valor"] = $valorCodificado;
+                    $atributos = array_merge($atributos);
+                    echo $this->miFormulario->campoCuadroTexto($atributos);
+                    unset($atributos);
                 }
                 {
 
@@ -315,7 +317,8 @@ class Registrador {
                 $valorCodificado .= "&numero_contrato=" . $_REQUEST['numero_contrato'];
                 $valorCodificado .= "&nombre_beneficiario=" . $_REQUEST['nombre_beneficiario'];
                 $valorCodificado .= "&identificacion_beneficiario=" . $_REQUEST['identificacion_beneficiario'];
-
+                $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+ 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.
                  * Para ello utiliza la hora en que es creado el formulario para

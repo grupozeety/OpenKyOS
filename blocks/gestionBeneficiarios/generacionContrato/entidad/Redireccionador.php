@@ -21,15 +21,16 @@ class Redireccionador {
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
                 $variable .= '&tipo=' . $_REQUEST['tipo'];
                 $variable .= '&alfresco=' . $valor;
+                $variable .= '&proceso=cargarRequisitos';
                 break;
 
             case "NoInserto":
-
                 $variable = 'pagina=generacionContrato';
                 $variable .= '&opcion=validarRequisitos';
                 $variable .= '&mensaje=noinserto';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
-                $variable .= '&tipo=' . $_REQUEST['tipo'];
+                $variable .= '&tipo=' . $_REQUEST['tipo']; 
+                $variable .= '&proceso=cargarRequisitos';
                 break;
 
             case "InsertoInformacionContrato":
