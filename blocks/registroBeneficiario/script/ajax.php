@@ -304,8 +304,6 @@ $(document).ready(function() {
 
 	var id = parseInt($("#<?php echo $this->campoSeguro('familiares')?>").val());
 	
-	alert(id);
-	
 	function codificacionCamposSelect(id){
 	
 		$.ajax({
@@ -352,7 +350,6 @@ $(document).ready(function() {
 	$(function() {
 		
 		$("#botonEliminar").click(function( event ) {
-		console.log(id);
 			if(id > 1){
 				$('#hogar #div_' + id).remove();
 				id--;
