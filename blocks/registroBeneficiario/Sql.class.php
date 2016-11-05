@@ -646,7 +646,7 @@ class Sql extends \Sql {
 
             case "estadoAlfresco":
                 $cadenaSql = "SELECT alfresco FROM interoperacion.beneficiario_potencial ";
-                $cadenaSql .= "WHERE id_beneficiario='" . $variable . "' ";
+                $cadenaSql .= "WHERE id_beneficiario='" . $variable . "' ORDER BY alfresco DESC";
                 break;
 
             case "estadoAlfrescoUpdate":
