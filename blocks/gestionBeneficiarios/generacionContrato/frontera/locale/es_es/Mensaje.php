@@ -13,6 +13,8 @@ $this->idioma['botonValidar'] = 'Consultar Beneficiario';
 
 $this->idioma['nombres'] = 'Nombres';
 
+$this->idioma['codigo_beneficiario'] = '<b>Código Beneficiario: </b>';
+
 $this->idioma['primer_apellido'] = 'Primer Apellido';
 
 $this->idioma['segundo_apellido'] = 'Segundo Apellido';
