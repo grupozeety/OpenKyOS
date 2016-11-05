@@ -60,7 +60,7 @@ class Registrador {
 		// Ruta Imagen
 		$rutaWarning = $this->rutaURL . "/frontera/css/imagen/warning.png";
 		$rutaCheck = $this->rutaURL . "/frontera/css/imagen/check.png";
-		$rutaNone = $this->rutaURL . "/frontera/css/imagen/none.png";
+		$rutaNone=$this->rutaURL . "/frontera/css/imagen/none.png";
 		
 		if ($estadoAprobacion != false) {
 			foreach ( $estadoAprobacion as $key => $values ) {
@@ -199,17 +199,18 @@ class Registrador {
 						if (isset ( $infoArchivo )) {
 							$indice = array_search ( $requisitos [$key] ['codigo'], array_column ( $infoArchivo, 'codigo_requisito' ), true );
 							if (! is_null ( $indice ) && isset ( $redireccion [$requisitos [$key] ['codigo']] )) {
+
 								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . $this->lenguaje->getCadena ( $esteCampo ) . "</a></center>";
 							} else {
 								$imagenComisionador [$esteCampo] = $rutaNone;
-								$imagenSupervisor [$esteCampo] = $rutaNone;
+								$imagenSupervisor [$esteCampo] =$rutaNone;
 								$imagenAnalista [$esteCampo] = $rutaNone;
 								$a ++;
 								$cadena = "<center>" . $this->lenguaje->getCadena ( $esteCampo ) . "</center>";
 							}
 						} else {
 							$imagenComisionador [$esteCampo] = $rutaNone;
-							$imagenSupervisor [$esteCampo] = $rutaNone;
+							$imagenSupervisor [$esteCampo] =$rutaNone;
 							$imagenAnalista [$esteCampo] = $rutaNone;
 							$a ++;
 							$cadena = "<center>" . $this->lenguaje->getCadena ( $esteCampo ) . "</center>";
@@ -243,62 +244,7 @@ class Registrador {
 					echo $tabla;
 				}
 				{
-					
-					// ------------------Division para los botones-------------------------
-					$atributos ["id"] = "botones";
-					$atributos ["estilo"] = "marcoBotones";
-					$atributos ["estiloEnLinea"] = "display:block;";
-					echo $this->miFormulario->division ( "inicio", $atributos );
-					unset ( $atributos );
-					if ($a > 0) {
-						// -----------------CONTROL: Botón ----------------------------------------------------------------
-						$esteCampo = 'botonCargarRequisitos';
-						$atributos ["id"] = $esteCampo;
-						$atributos ["tabIndex"] = $tab;
-						$atributos ["tipo"] = 'boton';
-						// submit: no se coloca si se desea un tipo button genérico
-						$atributos ['submit'] = true;
-						$atributos ["simple"] = true;
-						$atributos ["estiloMarco"] = '';
-						$atributos ["estiloBoton"] = 'default';
-						$atributos ["block"] = false;
-						// verificar: true para verificar el formulario antes de pasarlo al servidor.
-						$atributos ["verificar"] = '';
-						$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-						$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-						$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-						$tab ++;
-						
-						// Aplica atributos globales al control
-						$atributos = array_merge ( $atributos, $atributosGlobales );
-						echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
-						unset ( $atributos );
-					} else {
-						$esteCampo = 'botonValidar';
-						$atributos ["id"] = $esteCampo;
-						$atributos ["tabIndex"] = $tab;
-						$atributos ["tipo"] = 'boton';
-						// submit: no se coloca si se desea un tipo button genérico
-						$atributos ['submit'] = true;
-						$atributos ["simple"] = true;
-						$atributos ["estiloMarco"] = '';
-						$atributos ["estiloBoton"] = 'default';
-						$atributos ["block"] = false;
-						// verificar: true para verificar el formulario antes de pasarlo al servidor.
-						$atributos ["verificar"] = '';
-						$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-						$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-						$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-						$tab ++;
-						
-						// Aplica atributos globales al control
-						$atributos = array_merge ( $atributos, $atributosGlobales );
-						echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
-						unset ( $atributos );
-					}
-					// ------------------Fin Division para los botones-------------------------
-					echo $this->miFormulario->division ( "fin" );
-					unset ( $atributos );
+
 				}
 				echo $this->miFormulario->agrupacion ( 'fin' );
 				unset ( $atributos );
