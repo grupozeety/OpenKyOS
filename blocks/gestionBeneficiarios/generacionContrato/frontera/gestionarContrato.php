@@ -459,7 +459,7 @@ class GestionarContrato {
 
             case 'minimoRequisitos':
                 $estilo_mensaje = 'error';     // information,warning,error,validation
-                $atributos["mensaje"] = 'Mínimo debera tener como requisito cargado en el sistema la identificación para generar contrato';
+                $atributos["mensaje"] = '<b>Cargue mínimo el documento de identidad para generar contrato<b>';
                 break;
 
             default:
