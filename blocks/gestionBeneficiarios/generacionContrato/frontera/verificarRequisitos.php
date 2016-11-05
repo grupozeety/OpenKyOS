@@ -340,7 +340,7 @@ class Registrador {
 				
 				if (isset ( $_REQUEST ['alfresco'] ) && $_REQUEST ['alfresco'] > 0) {
 					$estilo_mensaje = 'warning';
-					$atributos ["mensaje"] .= '<br>Errores de Gestor Documental:' . $_REQUEST ['alfresco'];
+					$atributos ["mensaje"]= '<br>Errores de Gestor Documental:' . $_REQUEST ['alfresco'];
 				} else {
 					$estilo_mensaje = 'success';
 					$atributos ["mensaje"] = 'Requisitos Correctamente Subidos.';
@@ -365,7 +365,7 @@ class Registrador {
 			case 'verifico' :
 				$estilo_mensaje = 'success'; // information,warning,error,validation
 				                             // $atributos["mensaje"] = 'Requisitos Correctamente Subidos<br>Se ha Habilitado la Opcion de ver Contrato';
-				$atributos ["mensaje"] = 'Documento Verificado';
+				$atributos ["mensaje"] = 'Documento Actualizado;
 				break;
 			
 			case 'noverifico' :

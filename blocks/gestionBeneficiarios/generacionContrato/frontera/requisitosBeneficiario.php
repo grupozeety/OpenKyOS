@@ -196,7 +196,7 @@ class Registrador {
 							$atributos ["etiqueta"] = "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion'] . "<b> (*)</b>";
 						}
 						$atributos ["estilo"] = "file";
-						$atributos ["anchoCaja"] = 6;
+						$atributos ["anchoCaja"] =1;
 						
 						$atributos ["bootstrap"] = true;
 						// $atributos ["valor"] = $valorCodificado;
@@ -363,13 +363,15 @@ class Registrador {
 		echo $this->miFormulario->formulario ( $atributos );
 	}
 	public function mensaje() {
-		// var_dump($_REQUEST);
+	//var_dump($_REQUEST);
+	
+	$atributos ["mensaje"]="";
 		switch ($_REQUEST ['mensaje']) {
 			case 'inserto' :
 				
 				if (isset ( $_REQUEST ['alfresco'] ) && $_REQUEST ['alfresco'] > 0) {
 					$estilo_mensaje = 'warning';
-					$atributos ["mensaje"] .= '<br>Errores de Gestor Documental:' . $_REQUEST ['alfresco'];
+					$atributos ["mensaje"]= '<br>Errores de Gestor Documental:' . $_REQUEST ['alfresco'];
 				} else {
 					$estilo_mensaje = 'success';
 					$atributos ["mensaje"] = 'Requisitos Correctamente Subidos.';
