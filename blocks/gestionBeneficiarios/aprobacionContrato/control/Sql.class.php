@@ -126,7 +126,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
 				$cadenaSql .= " WHERE ";
 				$cadenaSql .= " pr.estado_registro=TRUE ";
-				$cadenaSql .= " AND rl.descripcion='Tipologia Archivo'";
+				$cadenaSql .= " AND rl.descripcion='Carpeta Contrato'";
 				$cadenaSql .= " AND pr.codigo='" . $variable . "' ";
 				$cadenaSql .= " AND rl.estado_registro=TRUE ";
 				break;
