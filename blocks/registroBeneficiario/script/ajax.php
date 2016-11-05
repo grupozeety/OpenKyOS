@@ -240,9 +240,9 @@ $(document).ready(function() {
 			$this->campoSeguro('celular'),
 			$this->campoSeguro('whatsapp'),
 			$this->campoSeguro('geolocalizacion'),
-			$this->campoSeguro('id_hogar'),
-			$this->campoSeguro('nomenclatura'),
-			$this->campoSeguro('resolucion_adjudicacion'),
+			//$this->campoSeguro('id_hogar'),
+			//$this->campoSeguro('nomenclatura'),
+			//$this->campoSeguro('resolucion_adjudicacion'),
 	);
 	
 	$arreglo2=array(
