@@ -15,6 +15,7 @@ class comisionamientoOP {
     public $nombreHogar;
     public $Info_Beneficiario_Contrato;
     public $contrato;
+    public $idActividadHogar;
     public function __construct($lenguaje, $sql) {
 
         $this->miConfigurador = \Configurador::singleton();
@@ -100,7 +101,7 @@ class comisionamientoOP {
         {
 
             //Crear Hogar
-            $variableHogar = $this->crearPaqueteTrabajo($this->nombreHogar, $paqueteComisionamiento['id'], 2, "Comisionamiento para Benficiario con Identificación: " . $this->contrato['identificacion_beneficiario']);
+            $variableHogar = $this->crearPaqueteTrabajo($this->Info_Beneficiario_Contrato[0]['nomenclatura'], $this->idActividadHogar, 2, "Comisionamiento para Beneficiario con Identificación: " . $this->contrato['identificacion_beneficiario']);
 
             /**
              *  Registro de Orden de  Trabajo en beneficiario
@@ -166,7 +167,7 @@ class comisionamientoOP {
                 {
 
                     //Protocolos de prueba de aceptación equipos activos
-                    $variablePrtPrEquAct = $this->crearPaqueteTrabajo("Protocolos de prueba de aceptación equipos activos", $this->obtenerIdentificadorPaqueteTrabajo($variableRevPrInter), 3);
+                    $variablePrtPrEquAct = $this->crearPaqueteTrabajo("Protocolos de prueba de aceptación equipos activos", $this->obtenerIdentificadorPaqueteTrabajo($variableRevPrInter));
 
                 }
 
@@ -241,6 +242,11 @@ class comisionamientoOP {
         $proyecto = file_get_contents($UrlProyecto);
 
         $this->proyecto = json_decode($proyecto, true);
+
+        $cadenaSql = $this->miSql->getCadenaSql('ConsultarParametrizacionProyecto', $Info_Beneficiario_Contrato[0]['id_proyecto']);
+
+        $idActividadHogar = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $this->idActividadHogar = $idActividadHogar[0]['valor_actividad'];
 
     }
 
