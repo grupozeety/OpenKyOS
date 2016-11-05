@@ -175,9 +175,14 @@ class GestionarContrato {
                     echo $this->miFormulario->campoTexto($atributos);
                     unset($atributos);
 
-                    if (isset($requisitosFaltantesObligatorios) && $requisitosFaltantesObligatorios) {
+                    if (isset($requisitosFaltantesObligatorios) && $requisitosFaltantesObligatorios && $infoContrato != NULL) {
 
                         $_REQUEST['mensaje'] = 'requisitosFaltantes';
+                        $this->mensaje();
+
+                    } elseif (is_null($infoContrato)) {
+
+                        $_REQUEST['mensaje'] = 'minimoRequisitos';
                         $this->mensaje();
 
                     } else {
@@ -196,7 +201,7 @@ class GestionarContrato {
 
                     // Acordar Roles
 
-                    if (is_null($infoBeneficiario['id_contrato']) != true && $infoContrato['numero_identificacion'] === NULL) {
+                    if (is_null($infoBeneficiario['id_contrato']) != true && $infoContrato != NULL && $infoContrato['numero_identificacion'] === NULL) {
 
                         // -----------------CONTROL: Botón ----------------------------------------------------------------
                         $esteCampo = 'botonVisualizarContrato';
@@ -450,6 +455,11 @@ class GestionarContrato {
             case 'requisitosCompletos':
                 $estilo_mensaje = 'success';     // information,warning,error,validation
                 $atributos["mensaje"] = 'Todos los documentos requeridos estan registrados en el sistema';
+                break;
+
+            case 'minimoRequisitos':
+                $estilo_mensaje = 'error';     // information,warning,error,validation
+                $atributos["mensaje"] = 'Mínimo debera tener como requisito cargado en el sistema la identificación para generar contrato';
                 break;
 
             default:
