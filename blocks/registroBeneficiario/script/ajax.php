@@ -640,6 +640,17 @@ foreach ($arreglo2 as $key2=>$values2){
 		 		}
 		 	});
 		 	
+		 	if(urb != ""){
+			 	$.ajax({
+			 		url: "<?php echo $urlActualizarNomHog?>",
+			 		dataType: "json",
+			 		data: {urba:urb},
+			 		success: function(data){
+			 			$( "#<?php echo $this->campoSeguro('nomenclatura');?>" ).val(data.abr_mun + '_' + data.abr_urb + '_' + $( "#<?php echo $this->campoSeguro('identificacion_beneficiario');?>" ).val()).change();
+			 			$( "#<?php echo $this->campoSeguro('consecutivo');?>" ).val(data.abr_benf);
+			 		}
+			 	});
+			 }
 		 });
 		 
 		  $( "#<?php echo $this->campoSeguro('identificacion_beneficiario');?>" ).change(function() {
