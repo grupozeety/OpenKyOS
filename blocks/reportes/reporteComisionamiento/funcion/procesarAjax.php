@@ -65,27 +65,35 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 	$cadenaSql = $this->sql->getCadenaSql ( 'consultarAgendamiento', $cadenaSql );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
-	for($i = 0; $i < count ( $resultado ); $i ++) {
-	
+	if($resultado!=false){
+		for($i = 0; $i < count ( $resultado ); $i ++) {
 		
-		$resultadoFinal [] = array (
-				'id_agendamiento' =>  $resultado [$i] ['id_agendamiento'],
-				'identificacion_beneficiario' => $resultado [$i] ['identificacion_beneficiario'],
-				'nombre_beneficiario' => $resultado [$i] ['nombre_beneficiario'],
-				'id_checkbox' => array( 'value' =>  $resultado [$i] ['consecutivo'],
-				'id' => codificarNombre( "checkbox_" . $i ) ),
-		);
+			
+			$resultadoFinal [] = array (
+					'id_agendamiento' =>  $resultado [$i] ['id_agendamiento'],
+					'identificacion_beneficiario' => $resultado [$i] ['identificacion_beneficiario'],
+					'nombre_beneficiario' => $resultado [$i] ['nombre_beneficiario'],
+					'id_checkbox' => array( 'value' =>  $resultado [$i] ['consecutivo'],
+					'id' => codificarNombre( "checkbox_" . $i ) ),
+			);
+		}
+		
+		$total = count ( $resultadoFinal );
+		
+		$resultado = json_encode ( $resultadoFinal );
+		
+		$resultado = '{
+	                "recordsTotal":' . $total . ',
+	                "recordsFiltered":' . $total . ',
+					"data":' . $resultado . '}';
+	}else{
+
+		$resultado = '{
+            "recordsTotal":0,
+            "recordsFiltered":0,
+			"data":0}';
 	}
-	
-	$total = count ( $resultadoFinal );
-	
-	$resultado = json_encode ( $resultadoFinal );
-	
-	$resultado = '{
-                "recordsTotal":' . $total . ',
-                "recordsFiltered":' . $total . ',
-				"data":' . $resultado . '}';
-	
+		
 	echo $resultado;
 	
 }else if ($_REQUEST ['funcion'] == "redireccionar"){

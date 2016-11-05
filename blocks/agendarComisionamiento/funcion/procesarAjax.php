@@ -53,9 +53,16 @@ if ($_REQUEST ['funcion'] == "consultaBeneficiarios") {
 	if(isset($_REQUEST ['bloq_man']) && $_REQUEST ['bloq_man'] != ""){
 		$cadenaSql .= "AND bp.manzana='" . $_REQUEST ['bloq_man'] . "' ";
 	}
-	
-	$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios_comercial', $cadenaSql );
-	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+	if($_REQUEST ['agen'] == 1){
+		$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios', $cadenaSql );
+		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	}else if($_REQUEST ['agen'] == 2){
+		$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios_comercial', $cadenaSql );
+		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	}else{
+		$resultado = false;
+	}
 	
 	if($resultado!=false){
 	
@@ -65,7 +72,9 @@ if ($_REQUEST ['funcion'] == "consultaBeneficiarios") {
 				'identificacion_beneficiario' => $resultado [$i] ['identificacion_beneficiario'],
 				'nombre_beneficiario' => $resultado [$i] ['nombre_beneficiario'],
 				'id_checkbox' => array( 'value' =>  (  
-						$resultado [$i] ['id_beneficiario'] 
+						$resultado [$i] ['id_beneficiario'] . ":"
+						.$resultado [$i] ['identificacion_beneficiario'] . ":"
+						.$resultado [$i] ['orden_trabajo']
 						), 'id' => codificarNombre( "checkbox_" . $i ) ),
 				
 				

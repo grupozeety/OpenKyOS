@@ -196,6 +196,33 @@ $enlaceReg = $directorioReg . '=' . $variableReg;
 $(document).ready(function() {
 
 	var id = "";
+	var urbanizacion = "";
+	var tipo = "";
+	var bloque_manzana = "";
+	var agendamiento = "";
+
+	$("#tipo_tecnologia_div").hide();
+	$("#<?php echo $this->campoSeguro('tipo_tecnologia');?>").attr("required", false);
+	
+	$("#<?php echo $this->campoSeguro('tipo_tecnologia');?>").attr("required", false);
+				 $("#<?php echo $this->campoSeguro('tipo_tecnologia');?>").css("visibility", "hidden");
+	
+	
+	$("#<?php echo $this->campoSeguro('tipo_agendamiento');?>").change(function() {
+		if($("#<?php echo $this->campoSeguro('tipo_agendamiento');?>").val() == 1){
+			$("#<?php echo $this->campoSeguro('tipo_tecnologia');?>").attr("required", true);
+			$("#tipo_tecnologia_div").show();
+		}else if($("#<?php echo $this->campoSeguro('tipo_agendamiento');?>").val() == 1){
+			$("#<?php echo $this->campoSeguro('tipo_tecnologia');?>").attr("required", false);
+			$("#tipo_tecnologia_div").hide();
+		}else{
+			$("#<?php echo $this->campoSeguro('tipo_tecnologia');?>").attr("required", false);
+			$("#tipo_tecnologia_div").hide();
+		}    
+		
+		agendamiento = $("#<?php echo $this->campoSeguro('tipo_agendamiento');?>").val();
+		actualizarTabla();
+	});
 	
 	$('#example')
 			.removeClass( 'display' )
@@ -232,16 +259,6 @@ $(document).ready(function() {
 			});
 	});
 	
-});
-
-
-
-
-
-var urbanizacion = "";
-var tipo = "";
-var bloque_manzana = "";
-
 $("#<?php echo $this->campoSeguro('urbanizacion');?>").autocomplete({
 	minChars: 1,
 	serviceUrl: '<?php echo $urlConsultarUrbanizacion;?>',
@@ -307,7 +324,7 @@ $("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
 
 function actualizarTabla(){
 	
-	$('#example').DataTable().destroy();
+		$('#example').DataTable().destroy();
 	    var table = $('#example').DataTable( {
 	    	"processing": true,
 	        "searching": true,
@@ -347,7 +364,7 @@ function actualizarTabla(){
 	        },
 	        ajax: {
 	            url: "<?php echo $urlCargarInformacion?>",
-	             data: { tipoV: tipo, urban: urbanizacion, bloq_man: bloque_manzana},
+	             data: { tipoV: tipo, urban: urbanizacion, bloq_man: bloque_manzana, agen: agendamiento},
 	            dataSrc:"data"   
 	        },
 	        "columns": [
@@ -371,15 +388,56 @@ function actualizarTabla(){
 	    setInterval( function () {
     		table.fnReloadAjax();
 		}, 30000 );
-	    
-	    $('#seleccionar_todo').change(function(){
-	    	var cells = table.cells( ).nodes();
-	   		$( cells ).find(':checkbox').prop('checked', $(this).is(':checked'));
-		});
+		
+		$('.btn-primary').prop('disabled', true);
+
+	 	$('#seleccionar_todo').change(function(){
+	
+	       var cells = table.cells( ).nodes();
+	       $( cells ).find(':checkbox').prop('checked', $(this).is(':checked'));
+	
+	       cont = 0;
+	
+	       var checkbox = $( cells ).find(':checkbox');
+	
+	       $.each(checkbox , function(indice,valor){
+	       		if(valor['checked'] == true){
+	        		cont++;
+	        	}
+	        });
+	
+	        if(cont > 0 ){
+	            $('.btn-primary').prop('disabled', false);
+	        }else{
+	        	$('.btn-primary').prop('disabled', true);
+	        }
+	     });
+	     
+	     $('#example').change(function() {
+
+                cont = 0;
+
+                var cells = table.cells( ).nodes();
+                var checkbox = $( cells ).find(':checkbox');
+
+                $.each(checkbox , function(indice,valor){
+                        if(valor['checked'] == true){
+                                cont++;
+                        }
+                });
+
+                if(cont > 0){
+                        $('.btn-primary').prop('disabled', false);
+                }else{
+                        $('#seleccionar_todo').attr('checked', false);
+                        $('.btn-primary').prop('disabled', true);
+                }
+  		});
+	     
+		
 		
 	}
 
 actualizarTabla();
 
-
-		
+});
