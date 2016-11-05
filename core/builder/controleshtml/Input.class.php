@@ -109,26 +109,27 @@ class Input extends HtmlBase {
         		$estiloControl='';
         	
         		// Para xs = extra small screens (mobile phones)
-        		if($relacion<33){
-        			$estiloLabel.='col-xs-12 ';
-        			$estiloControl.='col-xs-12 ';
-        		}else{
-        			$estiloLabel.='col-xs-'.$this->atributos['anchoEtiqueta'].' ';
-        			$estiloControl.='col-xs-'.$this->atributos['anchoCaja'].' ';
-        		}
-        		$estiloLabel.='col-sm-'.$this->atributos['anchoEtiqueta'].' col-md-'.$this->atributos['anchoEtiqueta'].' col-lg-'.$this->atributos['anchoEtiqueta'];
-        		$estiloControl.='col-sm-'.$this->atributos['anchoCaja'].' col-md-'.$this->atributos['anchoCaja'].' col-lg-'.$this->atributos['anchoCaja'];
-        	
+      
+    	if($relacion<33){    	
+    		$estiloLabel.='col-xs-12 ';
+    		$estiloControl.='col-xs-12 ';    		
+    	}else{
+    		$estiloLabel.='col-xs-'.$this->atributos['anchoEtiqueta'].' ';
+    		$estiloControl.='col-xs-'.$this->atributos['anchoCaja'].' ';
+    	}
+    	$estiloLabel.='col-sm-'.$this->atributos['anchoEtiqueta'].' col-md-'.$this->atributos['anchoEtiqueta'].' col-lg-'.$this->atributos['anchoEtiqueta'];
+    	$estiloControl.='col-sm-'.$this->atributos['anchoCaja'].' col-md-'.$this->atributos['anchoCaja'].' col-lg-'.$this->atributos['anchoCaja'];
+    	
         		//Fin manejo de responsiveness
-        		 
+        		$this->cadenaHTML .= '<div class="form-group row">';
         		$this->cadenaHTML .= '<label for="'. $this->atributos['id'].'" class="'.$estiloLabel.' col-form-label">';
         		$this->cadenaHTML .= $this->atributos['etiqueta'];
+
         		$this->cadenaHTML .= '</label>';
         		$this->cadenaHTML .= '<div class="'.$estiloControl.'">';
-        	
         	}
         	 
-            $cadena = '<br><input ';
+            $cadena = '<input ';
             $cadena .= $this->definirAtributosGenerales();
 
             $cadena .= "type='file' ";
@@ -151,7 +152,7 @@ class Input extends HtmlBase {
                 $cadena .= $this->atributos[self::VALIDAR];
             }
 
-            $cadena .= "><br></div>\n";
+            $cadena .= "></div></div>\n";
 
         } elseif (!isset($this->atributos[self::TIPO]) || $this->atributos[self::TIPO] != self::HIDDEN) {
 
