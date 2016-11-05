@@ -37,6 +37,7 @@ class procesarAjax {
                         $cadenaACodificar .= "&numero_contrato=" . $valor["numero_contrato"];
                         $cadenaACodificar .= "&nombre_beneficiario=" . $valor["nombre_beneficiario"];
                         $cadenaACodificar .= "&identificacion_beneficiario=" . $valor["identificacion"];
+                        $cadenaACodificar .= "&id_beneficiario=" . $valor["identificador_beneficiario"];
 
                         // Codificar las variables
                         $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
