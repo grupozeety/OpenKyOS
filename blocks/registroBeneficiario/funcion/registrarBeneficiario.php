@@ -170,10 +170,6 @@ class Registrar {
 
         }
         
-        
-        echo $cadenaSql;
-        die;
-
         if ($resultado) {
 
         	if(isset($_REQUEST['actualizar'])){
