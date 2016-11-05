@@ -365,7 +365,7 @@ class Registrador {
 			case 'verifico' :
 				$estilo_mensaje = 'success'; // information,warning,error,validation
 				                             // $atributos["mensaje"] = 'Requisitos Correctamente Subidos<br>Se ha Habilitado la Opcion de ver Contrato';
-				$atributos ["mensaje"] = 'Documento Actualizado;
+				$atributos ["mensaje"] = 'Documento Actualizado';
 				break;
 			
 			case 'noverifico' :
