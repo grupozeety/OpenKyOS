@@ -35,19 +35,15 @@ class Registrar {
 		$cont = 0;
 		
 		foreach ( $_REQUEST as $key => $beneficiario ) {
-			
+
 			if (explode ( "_", $key ) [0] == "checkbox") {
 				
-				//$agen [$cont] ['id_agendamiento'] = "AG-01";
-				$agen [$cont] ['id_beneficiario'] = $beneficiario;
+				$beneficiario = explode(":", $beneficiario);
+				$agen [$cont] ['id_beneficiario'] = $beneficiario[0];
+				$agen [$cont] ['identificacion_beneficiario'] = $beneficiario[1];
+				$agen [$cont] ['id_orden_trabajo'] = $beneficiario[2];
 				$agen [$cont] ['tipo_agendamiento'] = $_REQUEST ['tipo_agendamiento'];
-				
-				if(isset($_REQUEST ['tipo_tecnologia'])){
-					$agen [$cont] ['tipo_tecnologia'] = $_REQUEST ['tipo_tecnologia'];
-				}else{
-					$agen [$cont] ['tipo_tecnologia'] = null;
-				}
-
+				$agen [$cont] ['tipo_tecnologia'] = $_REQUEST ['tipo_tecnologia'];
 				$agen [$cont] ['id_comisionador'] = $_REQUEST ['comisionador'];
 				$agen [$cont] ['nombre_comisionador'] = $_REQUEST ['nombre_comisionador'];
 				$agen [$cont] ['fecha_agendamiento'] = $_REQUEST ['fecha_agendamiento'];
@@ -102,6 +98,7 @@ class Registrar {
 					}
 				}
 			}
+
 			if (isset ( $mensajes )) {
 				redireccion::redireccionar ( 'insertoError',json_encode($mensajes));
 			} else {

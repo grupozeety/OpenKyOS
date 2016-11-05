@@ -277,6 +277,27 @@ $("#<?php echo $this->campoSeguro('comisionador');?>").autocomplete({
 	}
 });
 
+$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
+	if($("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val() == ""){
+		urbanizacion = $("#<?php echo $this->campoSeguro('urbanizacion');?>").val();
+		actualizarTabla();
+	}	    
+});
+
+$("#<?php echo $this->campoSeguro('manzana');?>").change(function() {
+	if($("#<?php echo $this->campoSeguro('id_manzana');?>").val() == ""){
+		manzana = $("#<?php echo $this->campoSeguro('manzana');?>").val();
+		actualizarTabla();
+	}	    
+});
+
+$("#<?php echo $this->campoSeguro('comisionador');?>").change(function() {
+	if($("#<?php echo $this->campoSeguro('id_comisionador');?>").val() == ""){
+		comisionador = $("#<?php echo $this->campoSeguro('comisionador');?>").val();
+		actualizarTabla();
+	}	    
+});
+
 function actualizarTabla(){
 	
 	$('#example').DataTable().destroy();
@@ -343,10 +364,51 @@ function actualizarTabla(){
     		table.fnReloadAjax();
 		}, 30000 );
 	    
-	    $('#seleccionar_todo').change(function(){
-	    	var cells = table.cells( ).nodes();
-	   		$( cells ).find(':checkbox').prop('checked', $(this).is(':checked'));
-		});
+	    		
+		$('.btn-primary').prop('disabled', true);
+
+	 	$('#seleccionar_todo').change(function(){
+	
+	       var cells = table.cells( ).nodes();
+	       $( cells ).find(':checkbox').prop('checked', $(this).is(':checked'));
+	
+	       cont = 0;
+	
+	       var checkbox = $( cells ).find(':checkbox');
+	
+	       $.each(checkbox , function(indice,valor){
+	       		if(valor['checked'] == true){
+	        		cont++;
+	        	}
+	        });
+	
+	        if(cont > 0 ){
+	            $('.btn-primary').prop('disabled', false);
+	        }else{
+	        	$('.btn-primary').prop('disabled', true);
+	        }
+	     });
+	     
+	     $('#example').change(function() {
+
+                cont = 0;
+
+                var cells = table.cells( ).nodes();
+                var checkbox = $( cells ).find(':checkbox');
+
+                $.each(checkbox , function(indice,valor){
+                        if(valor['checked'] == true){
+                                cont++;
+                        }
+                });
+
+                if(cont > 0){
+                        $('.btn-primary').prop('disabled', false);
+                }else{
+                        $('#seleccionar_todo').attr('checked', false);
+                        $('.btn-primary').prop('disabled', true);
+                }
+  		});
 		
 	}
 

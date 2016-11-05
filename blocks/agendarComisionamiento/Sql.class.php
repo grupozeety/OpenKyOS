@@ -161,21 +161,24 @@ class Sql extends \Sql {
 				$cadenaSql .= "bp.apartamento,";
 				$cadenaSql .= "(bp.nombre || ' ' || bp.primer_apellido || ' ' || bp.segundo_apellido) AS nombre_beneficiario, ";
 				$cadenaSql .= "bp.identificacion AS identificacion_beneficiario, ";
+				$cadenaSql .= "bp.id_beneficiario AS id_beneficiario, ";
 				$cadenaSql .= "bp.orden_trabajo ";
 				$cadenaSql .= "FROM ";
 				$cadenaSql .= "interoperacion.beneficiario_potencial AS bp ";
 				$cadenaSql .= "join interoperacion.asociacion_benf_nodo AS abn ";
 				$cadenaSql .= "ON bp.id_beneficiario=abn.id_beneficiario ";
-				// $cadenaSql .= "AND bp.estado_registro=true ";
-				// $cadenaSql .= "AND abn.estado_registro=true ";
+				$cadenaSql .= "AND bp.estado_registro=true ";
+				$cadenaSql .= "AND abn.estado_registro=true ";
 				$cadenaSql .= "join interoperacion.contrato ct ";
 				$cadenaSql .= "ON bp.id_beneficiario=ct.id_beneficiario ";
-				// $cadenaSql .= "AND ct.estado_contrato=(SELECT pm.id_parametro id_est_contrato
-				// FROM parametros.parametros pm
-				// JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND rl.descripcion='Estado Contrato' AND rl.estado_registro=TRUE
-				// WHERE pm.estado_registro=TRUE AND pm.descripcion='Aprobado') ";
-				// $cadenaSql .= "WHERE ";
-				// $cadenaSql .= "not exists (select 1 from interoperacion.agendamiento_comisionamiento AS ac where ac.identificacion_beneficiario=bp.identificacion AND ac.estado_registro=true)";
+				$cadenaSql .= "AND ct.estado_contrato=(SELECT pm.id_parametro id_est_contrato
+				FROM parametros.parametros pm
+				JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND rl.descripcion='Estado Contrato' AND rl.estado_registro=TRUE
+				WHERE pm.estado_registro=TRUE AND pm.descripcion='Aprobado') ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "not exists (select 1 from interoperacion.agendamiento_comisionamiento AS ac where ac.id_beneficiario=bp.id_beneficiario AND ac.estado_registro=true) ";
+				$cadenaSql .= $variable;
+				$cadenaSql .= " LIMIT 200;";
 				break;
 			
 			case "consultarBeneficiarios_comercial" :
@@ -189,12 +192,12 @@ class Sql extends \Sql {
 				$cadenaSql .= "bp.apartamento, ";
 				$cadenaSql .= "(bp.nombre || ' ' || bp.primer_apellido || ' ' || bp.segundo_apellido) AS nombre_beneficiario, ";
 				$cadenaSql .= "bp.identificacion AS identificacion_beneficiario, ";
-				$cadenaSql .= "0 as orden_trabajo ";
+				$cadenaSql .= "bp.orden_trabajo ";
 				$cadenaSql .= "FROM  ";
 				$cadenaSql .= "interoperacion.beneficiario_potencial AS bp ";
 				$cadenaSql .= "WHERE bp.estado_registro=TRUE ";
 				$cadenaSql .= $variable;
-				$cadenaSql .= " LIMIT 100;";
+				$cadenaSql .= " LIMIT 200;";
 				break;
 			
 			case "comisionador" :
