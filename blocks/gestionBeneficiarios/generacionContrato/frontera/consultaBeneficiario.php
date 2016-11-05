@@ -60,7 +60,7 @@ class Registrador {
 
                 $esteCampo = 'Agrupacion';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "Verificación Requisitos para Contrato";
+                $atributos['leyenda'] = "Consultar Beneficiario para Gestión Contrato";
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
 
