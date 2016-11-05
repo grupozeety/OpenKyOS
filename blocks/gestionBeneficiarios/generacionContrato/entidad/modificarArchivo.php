@@ -116,10 +116,14 @@ class Alfresco {
 			if ($_FILES [$key] ['size'] != 0) {
 				$this->prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
 				$exten = pathinfo ( $archivo ['name'] );
+				if( isset($exten ['extension'])==false){
+					$exten ['extension']='txt';
+				}
+
 				$tamano = $archivo ['size'];
 				$tipo = $archivo ['type'];
 				$nombre_archivo = str_replace ( " ", "_", $archivo ['descripcion_documento'] );
-				$doc = $_REQUEST ['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.' . $exten ['extension'];
+				$doc = $_REQUEST ['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.' .$exten ['extension'];
 				/*
 				 * guardamos el fichero en el Directorio
 				 */
