@@ -278,7 +278,7 @@ class Sql extends \Sql {
                 $cadenaSql .= "geolocalizacion,";
                 $cadenaSql .= "jefe_hogar,";
                 $cadenaSql .= "pertenencia_etnica,";
-                $cadenaSql .= "ocupacion";
+                $cadenaSql .= "ocupacionz";
                 $cadenaSql .= ") VALUES ";
                 $cadenaSql .= "(";
                 $cadenaSql .= "'" . $variable['id_beneficiario'] . "',";
@@ -646,13 +646,14 @@ class Sql extends \Sql {
                 break;
 
             case "estadoAlfresco":
-                $cadenaSql = "SELECT alfresco FROM interoperacion.beneficiario_potencial ";
+                $cadenaSql = "SELECT alfresco FROM interoperacion.beneficiario_alfresco ";
                 $cadenaSql .= "WHERE id_beneficiario='" . $variable . "' ORDER BY alfresco DESC";
                 break;
 
             case "estadoAlfrescoUpdate":
-                $cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET alfresco=TRUE ";
-                $cadenaSql .= "WHERE id_beneficiario='" . $variable . "' ";
+                $cadenaSql = "INSERT INTO interoperacion.beneficiario_alfresco (carpeta_creada,id_beneficiario) VALUES ";
+                $cadenaSql .= "(TRUE ,";
+                $cadenaSql .= "'" . $variable . "'); ";
                 break;
 
             case "alfrescoUser":

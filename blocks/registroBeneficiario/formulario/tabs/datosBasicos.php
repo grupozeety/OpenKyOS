@@ -132,26 +132,27 @@ class Formulario {
                 redireccion::redireccionar("noExisteBeneficiario");
                 exit();
             } else {
-//                 $cadenaSql = $this->miSql->getCadenaSql('estadoAlfresco', $_REQUEST['id']);
-//                 $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+				$cadenaSql = $this->miSql->getCadenaSql ( 'estadoAlfresco', $_REQUEST ['id'] );
+				$estado_carpeta = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+				
+				if ($estado_carpeta == FALSE) {
+					$alfresco = $this->sincronizacion->alfresco ( $_REQUEST ['id'] );
+					if ($alfresco ['estado'] [0] == 0) {
+						$cadenaSql = $this->miSql->getCadenaSql ( 'estadoAlfrescoUpdate', $_REQUEST ['id'] );
+						$estado_carpeta = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 
-//                 if ($estado_carpeta != FALSE) {
-//                     if ($estado_carpeta[0][0] == 'f') {
-
-//                         $alfresco = $this->sincronizacion->alfresco($_REQUEST['id']);
-
-//                         if ($alfresco['estado'][0] == 0) {
-//                             $cadenaSql = $this->miSql->getCadenaSql('estadoAlfrescoUpdate', $_REQUEST['id']);
-//                             $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-//                         } else {
-//                             redireccion::redireccionar('insertoAlfresco');
-//                             exit();
-//                         }
-//                     }
-//                 } else {
-//                     redireccion::redireccionar('insertoAlfresco');
-//                     exit();
-//                 }
+						if($estado_carpeta==FALSE){
+							redireccion::redireccionar ( 'insertoAlfresco' );
+							exit ();
+						}
+					} else {
+						redireccion::redireccionar ( 'insertoAlfresco' );
+						exit ();
+					}
+				} else {
+					redireccion::redireccionar ( 'insertoAlfresco' );
+					exit ();
+				}
             }
 
             $deshabilitado = true;
@@ -2036,3 +2037,4 @@ $miFormulario = new Formulario($this->lenguaje, $this->miFormulario, $this->sql)
 $miFormulario->formulario();
 
 ?>
+
