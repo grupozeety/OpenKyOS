@@ -85,6 +85,30 @@ class FormProcessor {
 
         $clausulas = $this->clausulas;
 
+        switch ($_REQUEST['tipo']) {
+
+            case '1':
+                $valor_tarificacion = '6400';
+                break;
+
+            case '2':
+
+                $valor_tarificacion = '0';
+
+                if ($_REQUEST['estrato_economico'] == '1') {
+                    $valor_tarificacion = '12600';
+                } elseif ($_REQUEST['estrato_economico'] == '2') {
+                    $valor_tarificacion = '17600';
+                }
+
+                break;
+
+            case '3':
+                $valor_tarificacion = $_REQUEST['valor_tarificacion'];
+                break;
+
+        }
+
         $arreglo = array(
             'nombres' => $_REQUEST['nombres'],
             'primer_apellido' => $_REQUEST['primer_apellido'],
@@ -120,7 +144,7 @@ class FormProcessor {
             'torre' => $_REQUEST['num_torre'],
             'casa_apartamento' => $_REQUEST['tipo_tecnologia'],
             'tipo_tecnologia' => $_REQUEST['tipo_tecnologia'],
-            'valor_tarificacion' => $_REQUEST['valor_tarificacion'],
+            'valor_tarificacion' => $valor_tarificacion,
             'medio_pago' => $_REQUEST['medio_pago'],
         );
 

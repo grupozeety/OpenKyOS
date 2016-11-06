@@ -25,4 +25,8 @@ $this->idioma['botonGenerarPdf'] = 'Generar Certificación';
 
 $this->idioma['ciudad_firma'] = 'Ciudad o Municipio de Firma';
 
+$this->idioma['firma_beneficiario'] = 'Firma';
+
+$this->idioma['celular'] = 'Celular';
+
 ?>

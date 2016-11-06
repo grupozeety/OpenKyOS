@@ -22,6 +22,7 @@ class GenerarDocumento {
     public $clausulas;
     public $beneficiario;
     public $esteRecursoOP;
+    public $rutaAbsoluta;
     public function __construct($sql) {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -35,13 +36,16 @@ class GenerarDocumento {
         $conexion = "openproject";
         $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 
+        if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
             $this->rutaURL .= "/blocks/" . $_REQUEST["bloque"] . "/";
+            $this->rutaAbsoluta .= "/blocks/" . $_REQUEST["bloque"] . "/";
         } else {
             $this->rutaURL .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
+            $this->rutaAbsoluta .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
         }
-
         /**
          *  1. Estruturar Documento
          **/
@@ -76,6 +80,45 @@ $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->benefic
 $urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
 $urbanizacion = $urbanizacion[0];
  */
+        $archivo_datos = '';
+        foreach ($_FILES as $key => $archivo) {
+
+            if ($archivo['error'] == 0) {
+
+                $this->prefijo = substr(md5(uniqid(time())), 0, 6);
+                /*
+                 * obtenemos los datos del Fichero
+                 */
+                $tamano = $archivo['size'];
+                $tipo = $archivo['type'];
+                $nombre_archivo = str_replace(" ", "", $archivo['name']);
+                /*
+                 * guardamos el fichero en el Directorio
+                 */
+                $ruta_absoluta = $this->rutaAbsoluta . "/entidad/firmas/" . $this->prefijo . "_" . $nombre_archivo;
+
+                $ruta_relativa = $this->rutaURL . "/entidad/firmas/" . $this->prefijo . "_" . $nombre_archivo;
+
+                $archivo['rutaDirectorio'] = $ruta_absoluta;
+
+                if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
+
+                }
+
+                $archivo_datos = array(
+                    'ruta_archivo' => $ruta_relativa,
+                    'nombre_archivo' => $archivo['name'],
+                    'campo' => $key,
+                );
+
+            }
+
+        }
+
+        //var_dump($_REQUEST);exit;
+
+        $firma_beneficiario = (isset($archivo_datos['ruta_archivo'])) ? "<img src='" . $archivo_datos['ruta_archivo'] . "'  width='125' height='40'>" : " ";
+
         setlocale(LC_ALL, "es_CO.UTF-8");
         $contenidoPagina = "
 							<style type=\"text/css\">
@@ -170,35 +213,41 @@ $urbanizacion = $urbanizacion[0];
 		<br>
 		<br>
 		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+";
 
-
-
-								<table  style='width:100%;' >
-							            <tr>
-							            	   <td align='center' style='width:50%;'><b>FIRMA</b></td>
-							                   <td align='center' style='width:50%;'><b>HUELLA</b></td>
-							            </tr>
-
-							            <tr>
-							            	   <td align='center' style='width:50%;'><br><br><br><br><br><br><br></td>
-							                   <td align='center' style='width:50%;'><br><br><br><br><br><br><br></td>
-							            </tr>
-							        </table>
-
-
-
-
-        ";
+        $contenidoPagina .= "<nobreak>
+     	            <b>Acepto,
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>" . $firma_beneficiario . "<br>
+                                    ____________________________<br>
+									Firma Propietario<br>
+                    				<table style='width:100%;border:none'>
+                                        <tr>
+                                            <td style='width:25%;text-align:left;border:none'>NOMBRE :</td>
+                                            <td style='width:25%;text-align:left;border:none'>" . $_REQUEST['nombres'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</td>
+                                            <td style='width:50%;text-align:center;border:none'> </td>
+                                        </tr>
+                                        <tr>
+                                            <td style='width:25%;text-align:left;border:none'>C.C :</td>
+                                            <td style='width:25%;text-align:left;border:none'>" . $_REQUEST['numero_identificacion'] . "</td>
+                                            <td style='width:50%;text-align:center;border:none'> </td>
+                                        </tr>
+                                      ";
+        if ($_REQUEST['celular'] != '') {
+            $contenidoPagina .= "  <tr>
+                                            <td style='width:25%;text-align:left;border:none'>No .Celular :</td>
+                                            <td style='width:25%;text-align:left;border:none'>" . $_REQUEST['celular'] . "</td>
+                                            <td style='width:50%;text-align:center;border:none'> </td>
+                                        </tr>";
+        }
+        $contenidoPagina .= "
+                                    </table>
+                                    </b>
+                                    </nobreak>";
 
         $contenidoPagina .= "</page>";
 
