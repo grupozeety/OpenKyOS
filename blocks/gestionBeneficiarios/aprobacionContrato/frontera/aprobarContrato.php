@@ -140,8 +140,6 @@ class Registrador {
                     echo $this->miFormulario->campoTexto($atributos);
                     unset($atributos);
 
-                    
-
                     $esteCampo = 'tipo_tecnologia';
                     $atributos['nombre'] = $esteCampo;
                     $atributos['id'] = $esteCampo;
@@ -167,7 +165,7 @@ class Registrador {
 
                     // Aplica atributos globales al control
                     $atributos = array_merge($atributos, $atributosGlobales);
-                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                    //echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
 
                     $esteCampo = 'valor_tarificacion';
@@ -196,7 +194,7 @@ class Registrador {
                     $atributos['validar'] = 'required';
                     // Aplica atributos globales al control
                     $atributos = array_merge($atributos, $atributosGlobales);
-                    echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                    //echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
                     unset($atributos);
 
                     $esteCampo = 'medio_pago';
@@ -224,7 +222,7 @@ class Registrador {
 
                     // Aplica atributos globales al control
                     $atributos = array_merge($atributos, $atributosGlobales);
-                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                    //echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
 
                     $esteCampo = "900_1"; //001
@@ -236,7 +234,7 @@ class Registrador {
                     $atributos["tabIndex"] = $tab++;
                     $atributos["columnas"] = 5;
                     $atributos["estilo"] = "textoIzquierda";
-                    $atributos["anchoEtiqueta"] =2;
+                    $atributos["anchoEtiqueta"] = 2;
                     $atributos["anchoCaja"] = 5;
                     $atributos["tamanno"] = 500000;
                     $atributos["validar"] = "required";
@@ -318,7 +316,7 @@ class Registrador {
                 $valorCodificado .= "&nombre_beneficiario=" . $_REQUEST['nombre_beneficiario'];
                 $valorCodificado .= "&identificacion_beneficiario=" . $_REQUEST['identificacion_beneficiario'];
                 $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
- 
+
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.
                  * Para ello utiliza la hora en que es creado el formulario para
