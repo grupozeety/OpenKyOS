@@ -352,7 +352,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "municipio=" . "'" . $variable ['municipio'] . "',";
 				$cadenaSql .= "proyecto=" . "'" . $variable ['proyecto'] . "',";
 				$cadenaSql .= "id_proyecto=" . "'" . $variable ['id_proyecto'] . "',";
-				$cadenaSql .= "territori=" . "'" . $variable ['territorio'] . "',";
+				$cadenaSql .= "territorio=" . "'" . $variable ['territorio'] . "',";
 				$cadenaSql .= "estrato=" . "'" . $variable ['estrato'] . "',";
 				$cadenaSql .= "geolocalizacion=" . "'" . $variable ['geolocalizacion'] . "',";
 				$cadenaSql .= "jefe_hogar=" . "'" . $variable ['jefe_hogar'] . "',";
