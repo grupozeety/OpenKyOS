@@ -2,9 +2,9 @@
 
 namespace gestionBeneficiarios\generacionContrato\frontera;
 
-if (! isset ( $GLOBALS ["autorizado"] )) {
-	include "../index.php";
-	exit ();
+if (!isset($GLOBALS["autorizado"])) {
+    include "../index.php";
+    exit();
 }
 /**
  * IMPORTANTE: Este formulario está utilizando jquery.
@@ -484,10 +484,12 @@ function array_column($input = null, $columnKey = null, $indexKey = null) {
 		}
 	}
 	return $resultArray;
-}
+} 
+
 
 $miSeleccionador = new Registrador ( $this->lenguaje, $this->miFormulario, $this->sql );
 
 $miSeleccionador->seleccionarForm ();
 
 ?>
+
