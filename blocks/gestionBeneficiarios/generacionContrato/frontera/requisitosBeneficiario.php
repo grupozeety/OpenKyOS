@@ -264,7 +264,7 @@ class Registrador {
 						echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
 						unset ( $atributos );
 					} else {
-						$esteCampo = 'botonValidar';
+						$esteCampo = 'botonVerificar';
 						$atributos ["id"] = $esteCampo;
 						$atributos ["tabIndex"] = $tab;
 						$atributos ["tipo"] = 'boton';
@@ -312,10 +312,10 @@ class Registrador {
 				
 				// $valorCodificado = "action=" . $esteBloque["nombre"];
 				
-				if ($a == 0) {
+				if ($a > 0) {
 					$valorCodificado = "action=" . $esteBloque ["nombre"];
 				} else {
-					$valorCodificado = "action=" . $esteBloque ["nombre"];
+					$valorCodificado = "actionBloque=" . $esteBloque ["nombre"];
 				}
 				
 				$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
@@ -324,8 +324,10 @@ class Registrador {
 				
 				if ($a > 0) {
 					$valorCodificado .= "&opcion=cargarRequisitos";
+					$valorCodificado .= "&proceso=cargueRequisitos";
 				} else {
 					$valorCodificado .= "&opcion=verificarRequisitos";
+					$valorCodificado .= "&proceso=verificarRequisitos";
 				}
 				
 				$valorCodificado .= "&tipo=" . $infoBeneficiario ['tipo_beneficiario'];
