@@ -68,6 +68,15 @@ class Redireccionador {
                 $variable .= '&proceso=verificarRequisitos';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
                 break;
+                
+                
+            case "ErrorCargarFicheroDirectorio":
+            	$variable = 'pagina=generacionContrato';
+            	$variable .= '&opcion=validarRequisitos';
+            	$variable .= '&mensaje=novalido';
+            	$variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+            	$variable .= '&proceso=cargueRequisitos';
+                break;
 
             default:
                 $variable = '';

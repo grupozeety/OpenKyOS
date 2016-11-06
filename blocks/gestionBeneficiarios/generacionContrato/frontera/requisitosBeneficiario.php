@@ -2,9 +2,9 @@
 
 namespace gestionBeneficiarios\generacionContrato\frontera;
 
-if (!isset($GLOBALS["autorizado"])) {
-    include "../index.php";
-    exit();
+if (! isset ( $GLOBALS ["autorizado"] )) {
+	include "../index.php";
+	exit ();
 }
 /**
  * IMPORTANTE: Este formulario está utilizando jquery.
@@ -196,7 +196,7 @@ class Registrador {
 							$atributos ["etiqueta"] = "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion'] . "<b> (*)</b>";
 						}
 						$atributos ["estilo"] = "file";
-						$atributos ["anchoCaja"] =1;
+						$atributos ["anchoCaja"] = 1;
 						
 						$atributos ["bootstrap"] = true;
 						// $atributos ["valor"] = $valorCodificado;
@@ -365,15 +365,14 @@ class Registrador {
 		echo $this->miFormulario->formulario ( $atributos );
 	}
 	public function mensaje() {
-	//var_dump($_REQUEST);
-	
-	$atributos ["mensaje"]="";
+		// var_dump($_REQUEST);
+		$atributos ["mensaje"] = "";
 		switch ($_REQUEST ['mensaje']) {
 			case 'inserto' :
 				
 				if (isset ( $_REQUEST ['alfresco'] ) && $_REQUEST ['alfresco'] > 0) {
 					$estilo_mensaje = 'warning';
-					$atributos ["mensaje"]= '<br>Errores de Gestor Documental:' . $_REQUEST ['alfresco'];
+					$atributos ["mensaje"] = '<br>Errores de Gestor Documental:' . $_REQUEST ['alfresco'];
 				} else {
 					$estilo_mensaje = 'success';
 					$atributos ["mensaje"] = 'Requisitos Correctamente Subidos.';
@@ -397,14 +396,17 @@ class Registrador {
 			
 			case 'verifico' :
 				$estilo_mensaje = 'success'; // information,warning,error,validation
-				                             // $atributos["mensaje"] = 'Requisitos Correctamente Subidos<br>Se ha Habilitado la Opcion de ver Contrato';
 				$atributos ["mensaje"] = 'Documento Verificado';
 				break;
 			
 			case 'noverifico' :
 				$estilo_mensaje = 'warning'; // information,warning,error,validation
-				                             // $atributos["mensaje"] = 'Requisitos Correctamente Subidos<br>Se ha Habilitado la Opcion de ver Contrato';
 				$atributos ["mensaje"] = 'Atención, fallo en actualización.';
+				break;
+			
+			case 'novalido' :
+				$estilo_mensaje = 'error'; // information,warning,error,validation
+				$atributos ["mensaje"] = 'Tipo de Archivo no Válido.';
 				break;
 			
 			default :
@@ -486,8 +488,7 @@ function array_column($input = null, $columnKey = null, $indexKey = null) {
 		}
 	}
 	return $resultArray;
-} 
-
+}
 
 $miSeleccionador = new Registrador ( $this->lenguaje, $this->miFormulario, $this->sql );
 
