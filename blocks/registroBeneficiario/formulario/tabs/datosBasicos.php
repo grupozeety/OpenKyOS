@@ -134,24 +134,21 @@ class Formulario {
             } else {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'estadoAlfresco', $_REQUEST ['id'] );
 				$estado_carpeta = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-				
-				if ($estado_carpeta == FALSE) {
+
+				if ($estado_carpeta == FALSE) { 
 					$alfresco = $this->sincronizacion->alfresco ( $_REQUEST ['id'] );
 					if ($alfresco ['estado'] [0] == 0) {
 						$cadenaSql = $this->miSql->getCadenaSql ( 'estadoAlfrescoUpdate', $_REQUEST ['id'] );
 						$estado_carpeta = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
 
 						if($estado_carpeta==FALSE){
-							redireccion::redireccionar ( 'insertoAlfresco' );
+							redireccion::redireccionar ( 'noAlfresco' );
 							exit ();
 						}
 					} else {
-						redireccion::redireccionar ( 'insertoAlfresco' );
+						redireccion::redireccionar ( 'noAlfresco' );
 						exit ();
 					}
-				} else {
-					redireccion::redireccionar ( 'insertoAlfresco' );
-					exit ();
 				}
             }
 
@@ -200,6 +197,49 @@ class Formulario {
 
             // ----------------INICIO CONTROL: Campo Texto Id Beneficiario--------------------------------------------------------
 
+        	// ----------------INICIO CONTROL: Campo Texto Identificación del Beneficiario--------------------------------------------------------
+        	
+        	$esteCampo = 'minvi';
+        	$atributos['nombre'] = $esteCampo;
+        	$atributos['tipo'] = "text";
+        	$atributos['id'] = $esteCampo;
+        	$atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+        	$atributos["etiquetaObligatorio"] = true;
+        	$atributos['tab'] = $tab++;
+        	$atributos['anchoEtiqueta'] = 2;
+        	$atributos['estilo'] = "bootstrap";
+        	$atributos['evento'] = '';
+        	$atributos['deshabilitado'] = true;
+        	$atributos['readonly'] = true;
+        	$atributos['columnas'] = 1;
+        	$atributos['tamanno'] = 1;
+        	$atributos['placeholder'] = "";
+        	$atributos['valor'] = "";
+        	$atributos['ajax_function'] = "";
+        	$atributos['ajax_control'] = $esteCampo;
+        	$atributos['limitar'] = false;
+        	$atributos['anchoCaja'] = 10;
+        	$atributos['miEvento'] = '';
+        	//$atributos['validar'] = 'required';
+        	// Aplica atributos globales al control
+        	
+        	if (isset($cargueDatos[$esteCampo])) {
+        		if($cargueDatos[$esteCampo] == 't'){
+        			$atributos['valor'] = 'SI';
+        		}else{
+        			$atributos['valor'] = 'NO';
+        		}
+        		
+        	} else {
+        		$atributos['valor'] = '';
+        	}
+        	
+        	$atributos = array_merge($atributos, $atributosGlobales);
+        	echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+        	unset($atributos);
+        	
+        	// ----------------FIN CONTROL: Campo Texto Nombre Completo Beneficiario--------------------------------------------------------
+        	     
             $esteCampo = 'id_beneficiario';
             $atributos['nombre'] = $esteCampo;
             $atributos['tipo'] = "text";
@@ -1797,7 +1837,7 @@ class Formulario {
 
         // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
 
-        echo '<div id="map-canvas" class="text-center"></div>
+ echo '<div id="map-canvas" class="text-center"></div>
                 <script>
                     var markers = [];
                     function initMap() {
@@ -1807,29 +1847,23 @@ class Formulario {
                         });
                         var infoWindow = new google.maps.InfoWindow({map: map});
 
-//                          if (navigator.geolocation) {
-//                              navigator.geolocation.getCurrentPosition(function(position) {
-//                              var pos = {
-//                                      lat: position.coords.latitude,
-//                                      lng: position.coords.longitude
-//                              };
+                         if (navigator.geolocation) {
+                             navigator.geolocation.getCurrentPosition(function(position) {
+                             var pos = {
+                                     lat: position.coords.latitude,
+                                     lng: position.coords.longitude
+                             };
 
-//                              infoWindow.setPosition(pos);
-//                              infoWindow.setContent("Localización Encontrada.");
-//                              map.setCenter(pos);
-//                              }, function() {
-//                              handleLocationError(true, infoWindow, map.getCenter());
-//                              });
-//                      } else {
-//                              // Browser doesnt support Geolocation
-//                              handleLocationError(false, infoWindow, map.getCenter());
-//                      }
-
-                        if(typeof document.getElementById("myModal")!=="undefined"){
-                            $("#myModal").on("shown.bs.modal", function () {
-                                initMap();
-                            });
-                        }
+                             infoWindow.setPosition(pos);
+                             infoWindow.setContent("Localización Encontrada.");
+                             map.setCenter(pos);
+                             }, function() {
+                             handleLocationError(true, infoWindow, map.getCenter());
+                             });
+                     		} else {
+                             	// Browser doesnt support Geolocation
+                             	handleLocationError(false, infoWindow, map.getCenter());
+                     		}
 
                         google.maps.event.addListener(map, "click", function (e) {
 
@@ -1837,7 +1871,6 @@ class Formulario {
 
                             //lat and lng is available in e object
                             var latLng = e.latLng;
-                            $("#geomodal").val(e.latLng.lat() + ", " + e.latLng.lng());
 
                             var marker=new google.maps.Marker({
                                 position:e.latLng,
@@ -1864,13 +1897,12 @@ class Formulario {
                               "Error: Your browser doesn\'t support geolocation.");
                     }
 
-
                 </script>
                 <script async defer
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgAHnG5AICmnNuBCpu75evMTBr4ZU3i60&callback=initMap">
                 </script>
         ';
-
+         
         // ----------------FIN CONTROL: Mapa--------------------------------------------------------
 
         // ----------------INICIO CONTROL: Campo Texto Geolocalización------------------------------

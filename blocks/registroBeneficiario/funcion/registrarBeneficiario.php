@@ -37,7 +37,7 @@ class Registrar {
     	$host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/blocks/" . $esteBloque['nombre'];
     	 
         $beneficiarioPotencial = array();
-        
+
         if(isset($_REQUEST['actualizar'])){
         	$beneficiarioPotencial['id_beneficiario'] = $_REQUEST['id_beneficiario'];
         }else{
@@ -123,6 +123,8 @@ class Registrar {
         //$beneficiarioPotencial['resolucion_adjudicacion'] = $_REQUEST['resolucion_adjudicacion'];
         //$beneficiarioPotencial['nomenclatura'] = '';
         $beneficiarioPotencial['resolucion_adjudicacion'] = '';
+        $beneficiarioPotencial['minvi'] = 'FALSE';
+        
         
         $familiar = array();
 
@@ -148,29 +150,42 @@ class Registrar {
         
         $beneficiarioPotencial['familiar'] = $familiar;
 
-        $cadenaSql = $this->miSql->getCadenaSql('actualizarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
-        $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "actualizar");
+        $cadenaSql = "";
+        $resultado = "";
 
-        if ($resultado) {
-            $cadenaSql = $this->miSql->getCadenaSql('registrarBeneficiarioPotencial', $beneficiarioPotencial);
-            $cadenaSql = str_replace("''", 'null', $cadenaSql);
-            $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
+        if(isset($_REQUEST['actualizar'])){
+        	$cadenaSql .= 'BEGIN; ';
+        	
+        	$cadenaSql .= $this->miSql->getCadenaSql('actualizarBeneficiarioPotencial', $beneficiarioPotencial);
+        	 
+        	if ($_REQUEST['familiares'] > 0) {
+        		$cadenaSql .= $this->miSql->getCadenaSql('actualizarFamiliarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
+        		$cadenaSql .= $this->miSql->getCadenaSql('registrarFamiliares', $beneficiarioPotencial['familiar']);
+        	}
+        	 
+        	$cadenaSql .= 'COMMIT;';
+        	 
+        	$cadenaSql = str_replace("''", 'null', $cadenaSql);
+        	 
+        	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "registrar");
+        	
+        }else{
+        	
+        	$cadenaSql .= 'BEGIN; ';
+
+        	$cadenaSql .= $this->miSql->getCadenaSql('registrarBeneficiarioPotencial', $beneficiarioPotencial);
+        	
+        	if ($_REQUEST['familiares'] > 0) {
+        		$cadenaSql .= $this->miSql->getCadenaSql('registrarFamiliares', $beneficiarioPotencial['familiar']);
+        	}
+        	
+        	$cadenaSql .= 'COMMIT;';
+        	
+        	$cadenaSql = str_replace("''", 'null', $cadenaSql);
+        	
+        	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "registrar");
         }
-        
-        if ($resultado) {
-            $cadenaSql = $this->miSql->getCadenaSql('actualizarFamiliarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
-            $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-        }
-
-        if ($resultado && $_REQUEST['familiares'] > 0) {
-            $cadenaSql = $this->miSql->getCadenaSql('registrarFamiliares', $beneficiarioPotencial['familiar']);
-
-            $cadenaSql = str_replace("''", 'null', $cadenaSql);
-
-            $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
-
-        }
-        
+       
         if ($resultado) {
 
         	if(isset($_REQUEST['actualizar'])){

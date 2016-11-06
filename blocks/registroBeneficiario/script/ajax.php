@@ -220,6 +220,75 @@ $urlActualizarNomHog = $url . $cadena;
 
 $(document).ready(function() {
 
+	var markers = [];
+	function initMap() {
+	    var map = new google.maps.Map(document.getElementById("map-canvas"), {
+	        center: {lat: 4.6482837, lng: -74.2478939},
+	        zoom: 6
+	    });
+	    var infoWindow = new google.maps.InfoWindow({map: map});
+	
+	     if (navigator.geolocation) {
+	         navigator.geolocation.getCurrentPosition(function(position) {
+	         var pos = {
+	                 lat: position.coords.latitude,
+	                 lng: position.coords.longitude
+	         };
+	
+			$("#<?php echo $this->campoSeguro('geolocalizacion');?>").val(pos.lat + "," + pos.lng).change();
+	
+	         infoWindow.setPosition(pos);
+	         infoWindow.setContent("Localización Encontrada.");
+	         map.setCenter(pos);
+	         }, function() {
+	         handleLocationError(true, infoWindow, map.getCenter());
+	         });
+	 } else {
+	         // Browser doesnt support Geolocation
+	         handleLocationError(false, infoWindow, map.getCenter());
+	 }
+	
+	    if(typeof document.getElementById("myModal")!==undefined){
+	        $("#myModal").on("shown.bs.modal", function () {
+	            initMap();
+	        });
+	    }
+	
+	    google.maps.event.addListener(map, "click", function (e) {
+	
+	        DeleteMarkers();
+	
+	        //lat and lng is available in e object
+	        var latLng = e.latLng;
+	
+	        var marker=new google.maps.Marker({
+	            position:e.latLng,
+	        });
+	
+	        marker.setMap(map);
+	
+	        markers.push(marker);
+	    });
+	
+	    function DeleteMarkers() {
+	        //Loop through all the markers and remove
+	        for (var i = 0; i < markers.length; i++) {
+	            markers[i].setMap(null);
+	        }
+	        markers = [];
+	    };
+	}
+	
+	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+	    infoWindow.setPosition(pos);
+	    infoWindow.setContent(browserHasGeolocation ?
+	          "Error: The Geolocation service failed." :
+	          "Error: Your browser doesn\'t support geolocation.");
+	}
+	
+	
+	initMap();
+	
 	var beneficiario =$("#<?php echo $this->campoSeguro('id_beneficiario')?>").val();
 
 	//Here we are

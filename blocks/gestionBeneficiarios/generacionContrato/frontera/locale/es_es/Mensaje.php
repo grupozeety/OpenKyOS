@@ -9,6 +9,8 @@ $this->idioma['beneficiario'] = 'Identificación Beneficiario';
 $this->idioma['beneficiarioTitulo'] = 'Ingrese Identificación Beneficiario';
 
 $this->idioma['botonValidar'] = 'Consultar Beneficiario';
+
+$this->idioma['botonVerificar'] = 'Verificar Requisitos';
 //----------------------Contrato-------------------------------
 
 $this->idioma['nombres'] = 'Nombres';
