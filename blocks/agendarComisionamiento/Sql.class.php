@@ -196,6 +196,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "FROM  ";
 				$cadenaSql .= "interoperacion.beneficiario_potencial AS bp ";
 				$cadenaSql .= "WHERE bp.estado_registro=TRUE ";
+				$cadenaSql .= "AND not exists (select 1 from interoperacion.agendamiento_comisionamiento AS ac where ac.id_beneficiario=bp.id_beneficiario AND ac.estado_registro=true) ";
 				$cadenaSql .= $variable;
 				$cadenaSql .= " LIMIT 200;";
 				break;
