@@ -260,7 +260,9 @@ $(document).ready(function() {
 	
 	        //lat and lng is available in e object
 	        var latLng = e.latLng;
-	
+			
+			$("#geomodal").val(e.latLng.lat() + ", " + e.latLng.lng());
+			
 	        var marker=new google.maps.Marker({
 	            position:e.latLng,
 	        });
