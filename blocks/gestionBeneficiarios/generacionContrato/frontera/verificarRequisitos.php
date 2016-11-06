@@ -57,12 +57,20 @@ class Registrador {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionAprobacion' );
 		$estadoAprobacion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionAprobacionContrato' );
+		$estadoAprobacionContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
 		// Ruta Imagen
 		$rutaWarning = $this->rutaURL . "/frontera/css/imagen/warning.png";
 		$rutaCheck = $this->rutaURL . "/frontera/css/imagen/check.png";
 		$rutaNone=$this->rutaURL . "/frontera/css/imagen/none.png";
 		
 		if ($estadoAprobacion != false) {
+			
+			if($estadoAprobacionContrato!=false){
+				$estadoAprobacion=array_merge($estadoAprobacion,$estadoAprobacionContrato);
+			}
+
 			foreach ( $estadoAprobacion as $key => $values ) {
 				$imagenSupervisor [$estadoAprobacion [$key] ['codigo_requisito']] = $estadoAprobacion [$key] ['supervisor'] == 't' ? $rutaCheck : $rutaWarning;
 				$imagenComisionador [$estadoAprobacion [$key] ['codigo_requisito']] = $estadoAprobacion [$key] ['comisionador'] == 't' ? $rutaCheck : $rutaWarning;
@@ -87,6 +95,13 @@ class Registrador {
 		if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosVerificados' );
 			$infoArchivo = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarContratoExistente' );
+			$infoArchivoContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			if($infoArchivoContrato!=FALSE){
+				$infoArchivo=array_merge($infoArchivo,$infoArchivoContrato);
+			}
 		}
 		
 		// Para revisar los requisitos según el perfil
@@ -95,8 +110,11 @@ class Registrador {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitos', $infoBeneficiario ['tipo_beneficiario'] );
 		$requisitos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
-		// Rescatar los datos de este bloque
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosContrato');
+		$requisitosContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+	    $requisitos=array_merge($requisitos, $requisitosContrato);
+		// Rescatar los datos de este bloque
 		// ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 		
 		$atributosGlobales ['campoSeguro'] = 'true';
@@ -215,20 +233,20 @@ class Registrador {
 							$indice = array_search ( $requisitos [$key] ['codigo'], array_column ( $infoArchivo, 'codigo_requisito' ), true );
 							if (! is_null ( $indice ) && isset ( $redireccion [$requisitos [$key] ['codigo']] )) {
 
-								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . $this->lenguaje->getCadena ( $esteCampo ) . "</a></center>";
+								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion']. "</a></center>";
 							} else {
 								$imagenComisionador [$esteCampo] = $rutaNone;
 								$imagenSupervisor [$esteCampo] =$rutaNone;
 								$imagenAnalista [$esteCampo] = $rutaNone;
 								$a ++;
-								$cadena = "<center>" . $this->lenguaje->getCadena ( $esteCampo ) . "</center>";
+								$cadena = "<center>" . "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion'] . "</center>";
 							}
 						} else {
 							$imagenComisionador [$esteCampo] = $rutaNone;
 							$imagenSupervisor [$esteCampo] =$rutaNone;
 							$imagenAnalista [$esteCampo] = $rutaNone;
 							$a ++;
-							$cadena = "<center>" . $this->lenguaje->getCadena ( $esteCampo ) . "</center>";
+							$cadena = "<center>" . "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion']. "</center>";
 						}
 						$filasTabla [$key] = array (
 								0 => $cadena,
@@ -396,63 +414,6 @@ class Registrador {
 		echo $this->miFormulario->division ( "fin" );
 		unset ( $atributos );
 	}
-}
-function array_column($input = null, $columnKey = null, $indexKey = null) {
-	// Using func_get_args() in order to check for proper number of
-	// parameters and trigger errors exactly as the built-in array_column()
-	// does in PHP 5.5.
-	$argc = func_num_args ();
-	$params = func_get_args ();
-	if ($argc < 2) {
-		trigger_error ( "array_column() expects at least 2 parameters, {$argc} given", E_USER_WARNING );
-		return null;
-	}
-	if (! is_array ( $params [0] )) {
-		trigger_error ( 'array_column() expects parameter 1 to be array, ' . gettype ( $params [0] ) . ' given', E_USER_WARNING );
-		return null;
-	}
-	if (! is_int ( $params [1] ) && ! is_float ( $params [1] ) && ! is_string ( $params [1] ) && $params [1] !== null && ! (is_object ( $params [1] ) && method_exists ( $params [1], '__toString' ))) {
-		trigger_error ( 'array_column(): The column key should be either a string or an integer', E_USER_WARNING );
-		return false;
-	}
-	if (isset ( $params [2] ) && ! is_int ( $params [2] ) && ! is_float ( $params [2] ) && ! is_string ( $params [2] ) && ! (is_object ( $params [2] ) && method_exists ( $params [2], '__toString' ))) {
-		trigger_error ( 'array_column(): The index key should be either a string or an integer', E_USER_WARNING );
-		return false;
-	}
-	$paramsInput = $params [0];
-	$paramsColumnKey = ($params [1] !== null) ? ( string ) $params [1] : null;
-	$paramsIndexKey = null;
-	if (isset ( $params [2] )) {
-		if (is_float ( $params [2] ) || is_int ( $params [2] )) {
-			$paramsIndexKey = ( int ) $params [2];
-		} else {
-			$paramsIndexKey = ( string ) $params [2];
-		}
-	}
-	$resultArray = array ();
-	foreach ( $paramsInput as $row ) {
-		$key = $value = null;
-		$keySet = $valueSet = false;
-		if ($paramsIndexKey !== null && array_key_exists ( $paramsIndexKey, $row )) {
-			$keySet = true;
-			$key = ( string ) $row [$paramsIndexKey];
-		}
-		if ($paramsColumnKey === null) {
-			$valueSet = true;
-			$value = $row;
-		} elseif (is_array ( $row ) && array_key_exists ( $paramsColumnKey, $row )) {
-			$valueSet = true;
-			$value = $row [$paramsColumnKey];
-		}
-		if ($valueSet) {
-			if ($keySet) {
-				$resultArray [$key] = $value;
-			} else {
-				$resultArray [] = $value;
-			}
-		}
-	}
-	return $resultArray;
 }
 
 $miSeleccionador = new Registrador ( $this->lenguaje, $this->miFormulario, $this->sql );
