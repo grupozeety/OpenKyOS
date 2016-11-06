@@ -324,7 +324,7 @@ class Sql extends \Sql {
 			
 			case "actualizarBeneficiarioPotencial" :
 				
-				$cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET";
+				$cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
 				$cadenaSql .= "tipo_beneficiario=" . "'" . $variable ['tipo_beneficiario'] . "',";
 				$cadenaSql .= "tipo_documento=" . "'" . $variable ['tipo_documento'] . "',";
 				$cadenaSql .= "identificacion=" . "'" . $variable ['identificacion_beneficiario'] . "',";
@@ -352,14 +352,14 @@ class Sql extends \Sql {
 				$cadenaSql .= "municipio=" . "'" . $variable ['municipio'] . "',";
 				$cadenaSql .= "proyecto=" . "'" . $variable ['proyecto'] . "',";
 				$cadenaSql .= "id_proyecto=" . "'" . $variable ['id_proyecto'] . "',";
-				$cadenaSql .= "territori=" . "'" . $variable ['territorio'] . "',";
+				$cadenaSql .= "territorio=" . "'" . $variable ['territorio'] . "',";
 				$cadenaSql .= "estrato=" . "'" . $variable ['estrato'] . "',";
 				$cadenaSql .= "geolocalizacion=" . "'" . $variable ['geolocalizacion'] . "',";
 				$cadenaSql .= "jefe_hogar=" . "'" . $variable ['jefe_hogar'] . "',";
 				$cadenaSql .= "pertenencia_etnica=" . "'" . $variable ['pertenencia_etnica'] . "',";
-				$cadenaSql .= "ocupacion=" . "'" . $variable ['ocupacion'] . "'";
+				$cadenaSql .= "ocupacion=" . "'" . $variable ['ocupacion'] . "' ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "id_beneficiario=" . "'" . $variable ['id_beneficiario'] . "'";
+				$cadenaSql .= "id_beneficiario=" . "'" . $variable ['id_beneficiario'] . "';";
 				break;
 			
 			case "registrarFamiliares" :

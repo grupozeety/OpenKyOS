@@ -11,6 +11,15 @@ $this->idioma['beneficiarioTitulo'] = 'Ingrese Identificación Beneficiario';
 $this->idioma['botonValidar'] = 'Consultar Beneficiario';
 
 $this->idioma['botonVerificar'] = 'Verificar Requisitos';
+
+$this->idioma['medio_pago'] = 'Tipo de Pago';
+
+$this->idioma['tipo_tecnologia'] = 'Tipo Tecnología';
+
+$this->idioma['valor_tarificacion'] = 'Valor Tarificación';
+
+$this->idioma['estrato_economico'] = 'Estrato Socio Económico';
+
 //----------------------Contrato-------------------------------
 
 $this->idioma['nombres'] = 'Nombres';
@@ -37,7 +46,7 @@ $this->idioma['municipio'] = 'Municipio';
 
 $this->idioma['urbanizacion'] = 'Urbanización';
 
-$this->idioma['estrato'] = 'Estrato';
+$this->idioma['estrato'] = 'Tipo de Beneficiario';
 
 $this->idioma['barrio'] = 'Barrio';
 
@@ -106,6 +115,9 @@ $this->idioma['005'] = '<b>005</b> Certificado del proyecto catalogado como VIP'
 $this->idioma['006'] = '<b>006</b> Documento que demuestre beneficiario acceso es el propietario';
 
 $this->idioma['900'] = '<b>900</b> Certificado No Internet';
+
+
+$this->idioma['900_1'] = '<b>900_1</b> Contrato Macro';
 
 $this->idioma['botonCargarRequisitos'] = 'Cargar Requisitos';
 

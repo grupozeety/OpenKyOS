@@ -26,7 +26,9 @@ $this->idioma["comisionador"]="Comisionador";
 
 $this->idioma["urbanizacion"]="Urbanización";
 $this->idioma["tipo_vivienda"]="Tipo de Vivienda";
-$this->idioma["bloque_manzana"]="Manzana";
+$this->idioma["manzana"]="Manzana";
+$this->idioma["bloque"]="Bloque";
+$this->idioma["torre"]="Torre";
 
 
 

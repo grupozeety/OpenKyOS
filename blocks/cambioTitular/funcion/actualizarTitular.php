@@ -110,26 +110,18 @@ class Registrar {
 		$rutaBloque .= $esteBloque ['nombre'];
 		$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/blocks/" . $esteBloque ['nombre'];
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarTitular', $titular['id_beneficiario']);
-		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
+		$cadenaSql = "";
+		$cadenaSql .= 'BEGIN; ';
 		
-		if ($resultado) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarTitular', $titular);
-			$cadenaSql = str_replace("''", 'null', $cadenaSql);
-			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
+		$cadenaSql .= $this->miSql->getCadenaSql ( 'registrarTitular', $titular);
+		$cadenaSql .= $this->miSql->getCadenaSql ( 'actualizarFamiliar', $titular['identificacion']);
+		$cadenaSql .= $this->miSql->getCadenaSql ( 'registrarFamiliar', $titular['familiar'] );
+		
+		$cadenaSql .= 'COMMIT;';
 			
-		}
-		
-		if ($resultado) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFamiliar', $titular['identificacion']);
-			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
-		}
-		
-		if ($resultado) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFamiliar', $titular['familiar'] );
-			$cadenaSql = str_replace("''", 'null', $cadenaSql);
-			$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "insertar" );
-		} 
+		$cadenaSql = str_replace("''", 'null', $cadenaSql);
+			
+		$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "registrar");
 		
 		if ($resultado) {
 			redireccion::redireccionar ( 'inserto');

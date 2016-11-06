@@ -94,7 +94,6 @@ class sincronizar {
         ));
 
         $result = RestClient::post($url_limpia, $carpeta, $datosConexion[0]['usuario'], $datosConexion[0]['password']);
-
         $json_decode = json_decode(json_encode($result->getResponse()), true);
 
         $status = json_decode($json_decode, true);
