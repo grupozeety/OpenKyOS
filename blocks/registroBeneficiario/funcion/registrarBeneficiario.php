@@ -159,7 +159,7 @@ class Registrar {
         	$cadenaSql .= $this->miSql->getCadenaSql('actualizarBeneficiarioPotencial', $beneficiarioPotencial);
         	 
         	if ($_REQUEST['familiares'] > 0) {
-        		$cadenaSql = $this->miSql->getCadenaSql('actualizarFamiliarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
+        		$cadenaSql .= $this->miSql->getCadenaSql('actualizarFamiliarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
         		$cadenaSql .= $this->miSql->getCadenaSql('registrarFamiliares', $beneficiarioPotencial['familiar']);
         	}
         	 
