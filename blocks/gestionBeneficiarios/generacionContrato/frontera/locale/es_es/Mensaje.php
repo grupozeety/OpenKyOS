@@ -9,6 +9,13 @@ $this->idioma['beneficiario'] = 'Identificación Beneficiario';
 $this->idioma['beneficiarioTitulo'] = 'Ingrese Identificación Beneficiario';
 
 $this->idioma['botonValidar'] = 'Consultar Beneficiario';
+
+$this->idioma['medio_pago'] = 'Tipo de Pago';
+
+$this->idioma['tipo_tecnologia'] = 'Tipo Tecnología';
+
+$this->idioma['valor_tarificacion'] = 'Valor Tarificación';
+
 //----------------------Contrato-------------------------------
 
 $this->idioma['nombres'] = 'Nombres';

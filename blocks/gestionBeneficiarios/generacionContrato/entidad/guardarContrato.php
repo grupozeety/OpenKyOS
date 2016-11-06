@@ -118,8 +118,10 @@ class FormProcessor {
             'manzana' => $_REQUEST['num_manzana'],
             'bloque' => $_REQUEST['num_bloque'],
             'torre' => $_REQUEST['num_torre'],
-            'casa_apartamento' => $_REQUEST['num_apto_casa'],
-
+            'casa_apartamento' => $_REQUEST['tipo_tecnologia'],
+            'tipo_tecnologia' => $_REQUEST['tipo_tecnologia'],
+            'valor_tarificacion' => $_REQUEST['valor_tarificacion'],
+            'medio_pago' => $_REQUEST['medio_pago'],
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarInformacionContrato', $arreglo);
