@@ -99,6 +99,7 @@ class GestionarContrato {
 
                 if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
                     $requisitosFaltantesObligatorios = true;
+
                 }
 
             }
@@ -449,17 +450,17 @@ class GestionarContrato {
 
             case 'requisitosFaltantes':
                 $estilo_mensaje = 'warning';     // information,warning,error,validation
-                $atributos["mensaje"] = 'No todos los documentos requeridos estan registrados en el sistema';
+                $atributos["mensaje"] = '<b>Aun hay documentos por cargar<br>¿Esta Seguro?</b>';
                 break;
 
             case 'requisitosCompletos':
                 $estilo_mensaje = 'success';     // information,warning,error,validation
-                $atributos["mensaje"] = 'Todos los documentos requeridos estan registrados en el sistema';
+                $atributos["mensaje"] = '<b>Todos los documentos están cargado</b>';
                 break;
 
             case 'minimoRequisitos':
                 $estilo_mensaje = 'error';     // information,warning,error,validation
-                $atributos["mensaje"] = '<b>Cargue mínimo el documento de identidad para generar contrato<b>';
+                $atributos["mensaje"] = '<b>Oh No!!!! <br>Cargue mínimo el documento de identidad para generar contrato<b>';
                 break;
 
             default:

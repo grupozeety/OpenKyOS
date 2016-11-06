@@ -119,6 +119,24 @@ class GenerarDocumento {
         $CodigoTargeta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $CodigoTargeta = $CodigoTargeta[0];
 
+        $anexo_dir = '';
+
+        if ($this->beneficiario['manzana'] != 0) {
+            $anexo_dir .= " Número Manzana  #" . $this->beneficiario['manzana'] . " - ";
+        }
+
+        if ($this->beneficiario['bloque'] != 0) {
+            $anexo_dir .= " Número Bloque #" . $this->beneficiario['bloque'] . " - ";
+        }
+
+        if ($this->beneficiario['torre'] != 0) {
+            $anexo_dir .= " Número Torre #" . $this->beneficiario['torre'] . " - ";
+        }
+
+        if ($this->beneficiario['casa_apartamento'] != 0) {
+            $anexo_dir .= " Número de Casa/Apartamento #" . $this->beneficiario['casa_apartamento'];
+        }
+
         $cedula = ($this->beneficiario['tipo_documento'] == $CodigoCedula['codigo']) ? '<b>(X)</b>' : '';
         $targeta = ($this->beneficiario['tipo_documento'] == $CodigoTargeta['codigo']) ? '<b>(X)</b>' : '';
 
@@ -216,9 +234,9 @@ class GenerarDocumento {
         <br>";
         $contenidoPagina .= "<P style='text-align:justify'>
         <b>CONTRATO DE PRESTACIÓN DE SERVICIOS DE COMUNICACIONES CONEXIONES DIGITALES II</b> Entre las
-        siguientes partes a saber: <b>LA CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA</b>, en adelante <b>POLITÉCNICA</b>, entidad sin ánimo de lucro, domiciliada en la ciudad de Bogotá D.C, por una parte, y por la otra, la persona con nombre  <b>" . $this->beneficiario['nombres'] . " " . $this->beneficiario['primer_apellido'] . $this->beneficiario['segundo_apellido'] . "</b> identificado(a) con cédula de ciudadanía N°. <b>" . $this->beneficiario['numero_identificacion'] . "</b>, con domicilio   <b>" . $this->beneficiario['direccion_domicilio'] . "</b>, en el departamento de <b>" . $this->beneficiario['nombre_departamento'] . "</b> , municipio <b>" . $this->beneficiario['nombre_municipio'] . "</b> y urbanización <b>" . $urbanizacion['nombre'] . "</b> como USUARIO, cuyos datos son los que aparecen registrados en el formato de solicitud de servicios <b>N° " . $_REQUEST['numero_contrato'] . "</b> suscrito por él mismo, quien ha leído y aceptado en todos sus términos el presente documento, hemos convenido celebrar el presente CONTRATO DE PRESTACIÓN DE SERVICIOS DE COMUNICACIONES el cual se regirá por lo dispuesto en la ley 1341 de 2009, en la Resolución 3066 de 2011 expedida por la Comisión de Regulación de Comunicaciones, y en las normas que la adicionen, modifiquen o deroguen; y en especial, por las siguientes cláusulas: El USUARIO al realizar la acción de iniciar el (los) procedimiento (s) de suscripción para el (los) plan (es) del Servicio de Comunicaciones en la modalidad postpago y prepago, conforme aplique en el contrato suscrito, (en lo sucesivo el Servicio) a través del medio que POLITÉCNICA ponga a disposición del USUARIO; y al suministrar sus datos personales o de empresa, según sea persona natural o jurídica, se entiende que el USUARIO acuerda suscribirse a uno de los planes ofrecidos por POLITÉCNICA del Servicio y expresa su entera e incondicional aceptación, de ser aprobada su solicitud, a los términos y condiciones contenidos en el presente contrato y en los anexos que lo integran (en lo sucesivo denominado, el Contrato)para disponer del Servicio.</P>";
+        siguientes partes a saber: <b>LA CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA</b>, en adelante <b>POLITÉCNICA</b>, entidad sin ánimo de lucro, domiciliada en la ciudad de Bogotá D.C, por una parte, y por la otra, la persona con nombre  <b>" . $this->beneficiario['nombres'] . " " . $this->beneficiario['primer_apellido'] . $this->beneficiario['segundo_apellido'] . "</b> identificado(a) con cédula de ciudadanía N°. <b>" . $this->beneficiario['numero_identificacion'] . "</b>, con domicilio   <b>" . $this->beneficiario['direccion_domicilio'] . " " . $anexo_dir . "</b>, en el departamento de <b>" . $this->beneficiario['nombre_departamento'] . "</b> , municipio <b>" . $this->beneficiario['nombre_municipio'] . "</b> y urbanización <b>" . $urbanizacion['nombre'] . "</b> como USUARIO, cuyos datos son los que aparecen registrados en el formato de solicitud de servicios <b>N° " . $_REQUEST['numero_contrato'] . "</b> suscrito por él mismo, quien ha leído y aceptado en todos sus términos el presente documento, hemos convenido celebrar el presente CONTRATO DE PRESTACIÓN DE SERVICIOS DE COMUNICACIONES el cual se regirá por lo dispuesto en la ley 1341 de 2009, en la Resolución 3066 de 2011 expedida por la Comisión de Regulación de Comunicaciones, y en las normas que la adicionen, modifiquen o deroguen; y en especial, por las siguientes cláusulas: El USUARIO al realizar la acción de iniciar el (los) procedimiento (s) de suscripción para el (los) plan (es) del Servicio de Comunicaciones en la modalidad postpago y prepago, conforme aplique en el contrato suscrito, (en lo sucesivo el Servicio) a través del medio que POLITÉCNICA ponga a disposición del USUARIO; y al suministrar sus datos personales o de empresa, según sea persona natural o jurídica, se entiende que el USUARIO acuerda suscribirse a uno de los planes ofrecidos por POLITÉCNICA del Servicio y expresa su entera e incondicional aceptación, de ser aprobada su solicitud, a los términos y condiciones contenidos en el presente contrato y en los anexos que lo integran (en lo sucesivo denominado, el Contrato)para disponer del Servicio.</P>";
 
-        $contenidoPagina .= "<P style='text-align:justify;font-size:9px'>" . ($this->beneficiario['clausulas']) . "</P>";
+        //$contenidoPagina .= "<P style='text-align:justify;font-size:9px'>" . ($this->beneficiario['clausulas']) . "</P>";
 
         /*  foreach ($this->clausulas as $key => $value) {
 
@@ -233,7 +251,7 @@ class GenerarDocumento {
         $contenidoPagina .= "<nobreak>
      <table style='width:100%;border:none'>
                             <tr>
-                                <td style='width:5%;border:none'> </td>
+                                <td style='width:0%;border:none'> </td>
                                 <td style='width:95%;border:none'>
 
                     <b>COMO CONSTANCIA DE ACEPTACIÓN SUSCRIBE EL PRESENTE CONTRATO EL USUARIO:
@@ -265,36 +283,19 @@ class GenerarDocumento {
                                             <td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['correo'] . "</td>
                                             <td style='width:50%;text-align:center;border:none'> </td>
                                         </tr>
-                                        <tr>
+                                      ";
+        if ($this->beneficiario['celular'] != '') {
+            $contenidoPagina .= "  <tr>
                                             <td style='width:25%;text-align:left;border:none'>Celular :</td>
                                             <td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['celular'] . "</td>
                                             <td style='width:50%;text-align:center;border:none'> </td>
-                                        </tr>
+                                        </tr>";
+        }
+        $contenidoPagina .= "
                                     </table>
                                     <br>
                                     <br>
                                     <br>
-                                    FIRMA CONTRATISTA:
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <table style='width:100%;border:none'>
-                                        <tr>
-                                            <td style='width:25%;text-align:left;border:none'>FIRMA :</td>
-                                            <td style='width:25%;text-align:left;border:none'>" . $firma_contratista . "</td>
-                                            <td style='width:50%;text-align:center;border:none'> </td>
-                                        </tr>
-                                        <tr>
-                                            <td style='width:25%;text-align:left;border:none'>NOMBRE :</td>
-                                            <td style='width:25%;text-align:left;border:none'>Corporación Politécnica Nacional de Colombia</td>
-                                            <td style='width:50%;text-align:center;border:none'> </td>
-                                        </tr>
-                                        <tr>
-                                            <td style='width:25%;text-align:left;border:none'>NIT :</td>
-                                            <td style='width:25%;text-align:left;border:none'>830115993</td>
-                                            <td style='width:50%;text-align:center;border:none'> </td>
-                                        </tr>
-                                    </table>
                                     <br>
                                     <br>
                                     <br>
@@ -308,6 +309,28 @@ class GenerarDocumento {
                             </tr>
                     </table>
                    </nobreak>";
+
+        /* FIRMA CONTRATISTA:
+        <br>
+        <br>
+        <br>
+        <table style='width:100%;border:none'>
+        <tr>
+        <td style='width:25%;text-align:left;border:none'>FIRMA :</td>
+        <td style='width:25%;text-align:left;border:none'>" . $firma_contratista . "</td>
+        <td style='width:50%;text-align:center;border:none'> </td>
+        </tr>
+        <tr>
+        <td style='width:25%;text-align:left;border:none'>NOMBRE :</td>
+        <td style='width:25%;text-align:left;border:none'>Corporación Politécnica Nacional de Colombia</td>
+        <td style='width:50%;text-align:center;border:none'> </td>
+        </tr>
+        <tr>
+        <td style='width:25%;text-align:left;border:none'>NIT :</td>
+        <td style='width:25%;text-align:left;border:none'>830115993</td>
+        <td style='width:50%;text-align:center;border:none'> </td>
+        </tr>
+        </table>*/
 
         if ($requisitos) {
 
