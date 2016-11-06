@@ -204,7 +204,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " comisionador, ";
 				$cadenaSql .= " analista ";
 				$cadenaSql .= " FROM interoperacion.contrato cn ";
-				$cadenaSql .= " WHERE cn.estado_registro=TRUE ";
+				$cadenaSql .= " WHERE cn.estado_registro=TRUE AND ruta_documento_contrato!=NULL  ";
 				$cadenaSql .= " AND cn.id_beneficiario='" . $_REQUEST ['id_beneficiario'] . "') as table1,(SELECT ";
 				$cadenaSql .= " pr.descripcion tipo_requisito, ";
 				$cadenaSql .= " pr.codigo codigo_requisito, ";
