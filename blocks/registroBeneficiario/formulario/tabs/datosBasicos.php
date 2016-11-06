@@ -132,7 +132,7 @@ class Formulario {
                 redireccion::redireccionar("noExisteBeneficiario");
                 exit();
             } else {
-				echo $cadenaSql = $this->miSql->getCadenaSql ( 'estadoAlfresco', $_REQUEST ['id'] );
+				$cadenaSql = $this->miSql->getCadenaSql ( 'estadoAlfresco', $_REQUEST ['id'] );
 				$estado_carpeta = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
 				if ($estado_carpeta == FALSE) { 
