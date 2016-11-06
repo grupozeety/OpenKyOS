@@ -357,9 +357,9 @@ class Sql extends \Sql {
 				$cadenaSql .= "geolocalizacion=" . "'" . $variable ['geolocalizacion'] . "',";
 				$cadenaSql .= "jefe_hogar=" . "'" . $variable ['jefe_hogar'] . "',";
 				$cadenaSql .= "pertenencia_etnica=" . "'" . $variable ['pertenencia_etnica'] . "',";
-				$cadenaSql .= "ocupacion=" . "'" . $variable ['ocupacion'] . "'";
+				$cadenaSql .= "ocupacion=" . "'" . $variable ['ocupacion'] . "' ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "id_beneficiario=" . "'" . $variable ['id_beneficiario'] . "'";
+				$cadenaSql .= "id_beneficiario=" . "'" . $variable ['id_beneficiario'] . "';";
 				break;
 			
 			case "registrarFamiliares" :
