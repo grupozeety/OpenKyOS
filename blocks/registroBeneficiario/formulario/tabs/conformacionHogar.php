@@ -203,7 +203,7 @@ class Formulario {
 			$atributos ['limitar'] = false;
 			$atributos ['anchoCaja'] = 10;
 			$atributos ['miEvento'] = '';
-			// $atributos['validar'] = 'required';
+			$atributos['validar'] = 'required'; 
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTipoDocumento" );
 			$matrizItems = array (
 					array (

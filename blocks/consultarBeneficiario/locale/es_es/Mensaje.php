@@ -16,6 +16,17 @@ $this->idioma["botonAgregarBeneficiario"] = "Agregar Beneficiario";
 $this->idioma["confirma"] = "Se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 $this->idioma["error"] = "No se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 
+$this->idioma["noAlfresco"] = "Error en el proceso de sincronización con Alfresco. Comunicar al Administrador.";
+$this->idioma["error"] = "No se ha registrado correctamente el Beneficiario/Cliente Potencial.";
+$this->idioma["regresarConsultar"] = "Aceptar";
+
+$this->idioma["errorAct"] = "No se ha podido actualizar el Beneficiario/Cliente Potencial.";
+$this->idioma["confirmaAct"] = "Se ha actualizado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
+$this->idioma["confirma"] = "Se ha registrado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
+
+$this->idioma["mensajeRegistro"] = "Se ha registrado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
+$this->idioma["mensajeAlfresco"] = "ERROR Carpeta NO sincronizada en el Gestor Documental.";
+
 $this->idioma["registrar"] = "Registrar";
 
 $this->idioma["botonAceptarElim"] = "Eliminar";
