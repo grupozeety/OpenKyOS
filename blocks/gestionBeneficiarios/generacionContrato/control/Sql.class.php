@@ -249,6 +249,10 @@ class Sql extends \Sql {
                 $cadenaSql .= " telefono='" . $variable['telefono'] . "',";
                 $cadenaSql .= " celular='" . $variable['celular'] . "',";
                 $cadenaSql .= " correo='" . $variable['correo'] . "',";
+                $cadenaSql .= " manzana='" . $variable['manzana'] . "',";
+                $cadenaSql .= " bloque='" . $variable['bloque'] . "',";
+                $cadenaSql .= " torre='" . $variable['torre'] . "',";
+                $cadenaSql .= " casa_apartamento='" . $variable['casa_apartamento'] . "',";
                 /*
              * $cadenaSql .= " cuenta_suscriptor='" . $variable ['cuenta_suscriptor'] . "', ";
              * $cadenaSql .= " velocidad_internet='" . $variable ['velocidad_internet'] . "', ";
@@ -262,8 +266,8 @@ class Sql extends \Sql {
              * $cadenaSql .= " estado='" . $variable ['estado'] . "', ";
              */
                 $cadenaSql .= " clausulas='" . $variable['clausulas'] . "', ";
-                $cadenaSql .= " url_firma_beneficiarios='" . $variable['url_firma_beneficiario'] . "',";
-                $cadenaSql .= " url_firma_contratista='" . $variable['url_firma_contratista'] . "' ";
+                $cadenaSql .= " url_firma_beneficiarios='" . $variable['url_firma_beneficiario'] . "' ";
+                //$cadenaSql .= " url_firma_contratista='" . $variable['url_firma_contratista'] . "' ";
                 $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' ";
                 $cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
                 $cadenaSql .= " AND estado_registro=TRUE;";
@@ -388,10 +392,11 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN  parametros.parametros AS pr ON pr.id_parametro= dr.tipologia_documento ";
                 $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato AS dc ON dc.tipologia_documento= dr.tipologia_documento AND dc.id_beneficiario='" . $variable['id_beneficiario'] . "'";
                 $cadenaSql .= " WHERE dr.estado_registro='TRUE'";
-                $cadenaSql .= " AND dr.proceso='125'";
+                $cadenaSql .= " AND dr.proceso='116'";
                 $cadenaSql .= " AND dr.perfil='" . $variable['perfil_beneficiario'] . "';";
 
                 break;
+
         }
 
         return $cadenaSql;

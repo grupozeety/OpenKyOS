@@ -73,14 +73,17 @@ class FormProcessor {
 
         if ($this->archivos_datos === '') {
             $url_firma_beneficiario = '';
-            $url_firma_contratista = '';
+            //$url_firma_contratista = '';
 
         } else {
 
-            $url_firma_beneficiario = $this->archivos_datos[1]['ruta_archivo'];
-            $url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
+            $url_firma_beneficiario = $this->archivos_datos[0]['ruta_archivo'];
+
+            var_dump($this->archivos_datos);
+            //$url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
 
         }
+
         $clausulas = $this->clausulas;
 
         $arreglo = array(
@@ -96,7 +99,7 @@ class FormProcessor {
             'municipio' => $_REQUEST['municipio'],
             'urbanizacion' => $_REQUEST['urbanizacion'],
             'estrato' => $_REQUEST['estrato'],
-            'barrio' => '',
+            'barrio' => ' ',
             'telefono' => $_REQUEST['telefono'],
             'celular' => $_REQUEST['celular'],
             'correo' => $_REQUEST['correo'],
@@ -111,8 +114,12 @@ class FormProcessor {
             'tecnologia' => ' ',
             'estado' => ' ',
             'clausulas' => $clausulas,
-            'url_firma_contratista' => $url_firma_contratista,
+            //'url_firma_contratista' => $url_firma_contratista,
             'url_firma_beneficiario' => $url_firma_beneficiario,
+            'manzana' => $_REQUEST['num_manzana'],
+            'bloque' => $_REQUEST['num_bloque'],
+            'torre' => $_REQUEST['num_torre'],
+            'casa_apartamento' => $_REQUEST['num_apto_casa'],
 
         );
 

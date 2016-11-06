@@ -73,6 +73,16 @@ $this->idioma['clausulas'] = 'Clausulas Contrato';
 
 $this->idioma['botonGuardarContrato'] = 'Guardar Contrato';
 
+$this->idioma['num_manzana'] = '# Manzana';
+
+$this->idioma['num_bloque'] = '# Bloque';
+
+$this->idioma['num_torre'] = '# Torre';
+
+$this->idioma['num_torre'] = '# Torre';
+
+$this->idioma['num_apto_casa'] = '# Casa/Apartamento';
+
 //-----------------------Requisitos-------------------------------
 
 $this->idioma['nombre_beneficiario'] = '<b>Nombre Beneficiario: </b>';
