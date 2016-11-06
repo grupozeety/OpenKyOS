@@ -296,7 +296,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            //$atributos['validar'] = 'required';
+            $atributos['validar'] = 'required';
             $atributos['cadena_sql'] = $this->miSql->getCadenaSql("parametroTipoBeneficiario");
             $matrizItems = array(
                 array(
@@ -489,7 +489,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            //$atributos['validar'] = 'required';
+            $atributos['validar'] = 'required';
 
             if (isset($cargueDatos[$esteCampo])) {
                 $atributos['valor'] = $cargueDatos[$esteCampo];
@@ -1073,7 +1073,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            //$atributos['validar'] = 'required';
+            $atributos['validar'] = 'required';
 
             $matrizItems = array(
                 array(

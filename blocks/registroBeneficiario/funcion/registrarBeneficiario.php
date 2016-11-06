@@ -186,6 +186,9 @@ class Registrar {
         	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "registrar");
         }
        
+        echo $cadenaSql;
+        die;
+        
         if ($resultado) {
 
         	if(isset($_REQUEST['actualizar'])){
