@@ -2037,4 +2037,3 @@ $miFormulario = new Formulario($this->lenguaje, $this->miFormulario, $this->sql)
 $miFormulario->formulario();
 
 ?>
-
