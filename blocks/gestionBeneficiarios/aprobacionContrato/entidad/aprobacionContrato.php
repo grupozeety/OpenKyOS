@@ -108,6 +108,14 @@ class FormProcessor {
             if ($_FILES[$key]['size'] != 0) {
                 $this->prefijo = substr(md5(uniqid(time())), 0, 6);
                 $exten = pathinfo($archivo['name']);
+                
+                $allowed =  array('image/jpeg','image/png','image/psd','image/bmp','application/pdf');
+                	
+                if(!in_array($_FILES[$key]['type'],$allowed) ) {
+                	Redireccionador::redireccionar ( "ErrorCargarFicheroDirectorio" );
+                	exit ();
+                }
+                
                 if( isset($exten ['extension'])==false){
                 	$exten ['extension']='txt';
                 }
