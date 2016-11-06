@@ -49,10 +49,10 @@ class Alfresco {
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-	
-		if ($_REQUEST ['tipologia']  == 128) {
+		if ($_REQUEST ['tipologia'] == 128) {
+			
 			if ($_REQUEST ['verificar'] == 'true') {
-				$this->verificarArchivoContrato();
+				$this->verificarArchivoContrato ();
 			}
 			
 			if ($_REQUEST ['actualizar'] == 'true') {
@@ -61,12 +61,12 @@ class Alfresco {
 						Redireccionador::redireccionar ( "noverifico", $_REQUEST ['id_beneficiario'] );
 					}
 				}
-				$this->asociarCodigoDocumentoContrato();
+				$this->asociarCodigoDocumentoContrato ();
 				$this->cargarArchivos ();
-		
-				$this->sincronizacion->sincronizarAlfresco( $_REQUEST ['id_beneficiario'], $this->archivos_datos [0] );
+				
+				$this->sincronizacion->sincronizarAlfresco ( $_REQUEST ['id_beneficiario'], $this->archivos_datos [0] );
 				$this->actualizarLocalContrato ();
-					}
+			}
 		} else {
 			
 			if ($_REQUEST ['verificar'] == 'true') {
@@ -82,7 +82,7 @@ class Alfresco {
 				$this->asociarCodigoDocumento ();
 				$this->cargarArchivos ();
 				$this->sincronizacion->sincronizarAlfresco ( $_REQUEST ['id_beneficiario'], $this->archivos_datos [0] );
-				$this->actualizarLocal();
+				$this->actualizarLocal ();
 			}
 		}
 		
@@ -94,34 +94,46 @@ class Alfresco {
 	}
 	public function verificarArchivo() {
 		$respuesta = $this->miSesionSso->getParametrosSesionAbierta ();
-		foreach ( $respuesta ['description'] as $key => $rol ) {
-			$respuesta ['rol'] [] = $rol;
-		}
+		var_dump ( $respuesta );
+		$rol = $respuesta ['description'];
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'pruebas' );
-		$pruebas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-		
-		$rol = $pruebas [0] [0];
+		$cadenaSql = $this->miSql->getCadenaSql ( 'buscarRol', $rol );
+		$rolDes = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 		
 		$datos = array (
 				'archivo' => $_REQUEST ['id_archivo'],
-				'rol' => $rol 
+				'rol' => $rolDes 
 		);
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'verificarArchivo', $datos );
 		$this->verificacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 	}
-	
+	public function verificarArchivoContrato() {
+		$respuesta = $this->miSesionSso->getParametrosSesionAbierta ();
+		$rol = $respuesta ['description'] [0];
+		// $cadenaSql = $this->miSql->getCadenaSql ( 'pruebas' );
+		// $pruebas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		// $rol = $pruebas [0] [0];
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'buscarRol', $rol );
+		$rolDes = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		$datos = array (
+				'archivo' => $_REQUEST ['id_archivo'],
+				'rol' => $rolDes [0] [0] 
+		);
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'verificarArchivoContrato', $datos );
+		$this->verificacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
+	}
 	public function actualizarLocal() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarLocal', $this->archivos_datos [0] );
 		$this->verificacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 	}
-	
 	public function actualizarLocalContrato() {
-$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarLocalContrato', $this->archivos_datos [0] );
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarLocalContrato', $this->archivos_datos [0] );
 		$this->verificacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 	}
-	
 	public function asociarCodigoDocumento() {
 		foreach ( $_FILES as $key => $value ) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', $key );
@@ -130,12 +142,11 @@ $cadenaSql = $this->miSql->getCadenaSql ( 'actualizarLocalContrato', $this->arch
 			$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['id_parametro'] . '_' . $id_parametro [0] ['descripcion'];
 		}
 	}
-	
 	public function asociarCodigoDocumentoContrato() {
 		foreach ( $_FILES as $key => $value ) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametroContrato', $key );
 			$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-	
+			
 			$_FILES [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
 			$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['id_parametro'] . '_' . $id_parametro [0] ['descripcion'];
 		}
