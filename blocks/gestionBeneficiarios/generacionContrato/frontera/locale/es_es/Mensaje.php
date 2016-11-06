@@ -18,6 +18,8 @@ $this->idioma['tipo_tecnologia'] = 'Tipo Tecnología';
 
 $this->idioma['valor_tarificacion'] = 'Valor Tarificación';
 
+$this->idioma['estrato_economico'] = 'Estrato Socio Económico';
+
 //----------------------Contrato-------------------------------
 
 $this->idioma['nombres'] = 'Nombres';
@@ -44,7 +46,7 @@ $this->idioma['municipio'] = 'Municipio';
 
 $this->idioma['urbanizacion'] = 'Urbanización';
 
-$this->idioma['estrato'] = 'Estrato';
+$this->idioma['estrato'] = 'Tipo de Beneficiario';
 
 $this->idioma['barrio'] = 'Barrio';
 
