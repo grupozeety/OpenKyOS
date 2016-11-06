@@ -11,7 +11,8 @@ $this->idioma["botonIngresar"] = "Ingresar";
 $this->idioma["botonAgregar"] = "Agregar";
 $this->idioma["botonContinuar"] = "Continuar";
 $this->idioma["confirma"] = "Se ha registrado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
-$this->idioma["confirmaAlfresco"] = "Error en el proceso de sincronización con Alfresco. Comunicar al Administrador.";
+
+$this->idioma["noAlfresco"] = "Error en el proceso de sincronización con Alfresco. Comunicar al Administrador.";
 $this->idioma["error"] = "No se ha registrado correctamente el Beneficiario/Cliente Potencial.";
 $this->idioma["regresarConsultar"] = "Aceptar";
 
