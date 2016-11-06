@@ -197,6 +197,49 @@ class Formulario {
 
             // ----------------INICIO CONTROL: Campo Texto Id Beneficiario--------------------------------------------------------
 
+        	// ----------------INICIO CONTROL: Campo Texto Identificación del Beneficiario--------------------------------------------------------
+        	
+        	$esteCampo = 'minvi';
+        	$atributos['nombre'] = $esteCampo;
+        	$atributos['tipo'] = "text";
+        	$atributos['id'] = $esteCampo;
+        	$atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+        	$atributos["etiquetaObligatorio"] = true;
+        	$atributos['tab'] = $tab++;
+        	$atributos['anchoEtiqueta'] = 2;
+        	$atributos['estilo'] = "bootstrap";
+        	$atributos['evento'] = '';
+        	$atributos['deshabilitado'] = true;
+        	$atributos['readonly'] = true;
+        	$atributos['columnas'] = 1;
+        	$atributos['tamanno'] = 1;
+        	$atributos['placeholder'] = "";
+        	$atributos['valor'] = "";
+        	$atributos['ajax_function'] = "";
+        	$atributos['ajax_control'] = $esteCampo;
+        	$atributos['limitar'] = false;
+        	$atributos['anchoCaja'] = 10;
+        	$atributos['miEvento'] = '';
+        	//$atributos['validar'] = 'required';
+        	// Aplica atributos globales al control
+        	
+        	if (isset($cargueDatos[$esteCampo])) {var_dump($cargueDatos[$esteCampo]);
+        		if($cargueDatos[$esteCampo] == 't'){
+        			$atributos['valor'] = 'SI';
+        		}else{
+        			$atributos['valor'] = 'NO';
+        		}
+        		
+        	} else {
+        		$atributos['valor'] = '';
+        	}
+        	
+        	$atributos = array_merge($atributos, $atributosGlobales);
+        	echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+        	unset($atributos);
+        	
+        	// ----------------FIN CONTROL: Campo Texto Nombre Completo Beneficiario--------------------------------------------------------
+        	     
             $esteCampo = 'id_beneficiario';
             $atributos['nombre'] = $esteCampo;
             $atributos['tipo'] = "text";
