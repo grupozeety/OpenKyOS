@@ -25,62 +25,62 @@ class redireccion {
 				break;
 			 
 			case "inserto" :
-				$variable = "pagina=" . $miPaginaActual;
+				$variable = "pagina=consultarBeneficiario";
 				// $variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=confirma";
 				break;
 			 
 			case "noAlfresco" :
-				$variable = "pagina=" . $miPaginaActual;
+				$variable = "pagina=consultarBeneficiario";
 				// $variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=noAlfresco";
 				break;
 			
 			case "noInserto" :
-				$variable = "pagina=" . $miPaginaActual;
+				$variable = "pagina=consultarBeneficiario";
 				// $variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=error";
 				break;
 			
 			case "noItems" :
-				$variable = "pagina=" . $miPaginaActual;
+				$variable = "pagina=consultarBeneficiario";
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=otros";
 				$variable .= "&errores=noItems";
 				break;
 			
 			case "noDatos" :
-				$variable = "pagina=" . $miPaginaActual;
+				$variable = "pagina=consultarBeneficiario";
 				$variable .= "&opcion=mensaje";
 				$variable .= "&mensaje=otros";
 				$variable .= "&errores=noDatos";
 				break;
 			
 			case "regresar" :
-				$variable = "pagina=" . $miPaginaActual;
+				$variable = "pagina=consultarBeneficiario";
 				break;
 			
 			case "actualizo" :
-				$variable = "pagina=" . $miPaginaActual;
+				$variable = "pagina=consultarBeneficiario";
 				$variable .= "&mensaje=confirmaAct";
 				break;
 			
 			case "noActualizo" :
-				$variable = "pagina=" . $miPaginaActual;
+				$variable = "pagina=consultarBeneficiario";
 				$variable .= "&mensaje=errorAct";
 				break;
 			
 			case "registrar" :
-				$variable = "pagina=" . $miPaginaActual;
+				$variable = "pagina=consultarBeneficiario";
 				$variable .= "&opcion=asociarActa";
 				break;
 			
 			case "paginaPrincipal" :
-				$variable = "pagina=" . $miPaginaActual;
+				$variable = "pagina=consultarBeneficiario";
 				break;
 			
 			case "paginaConsulta" :
-				$variable = "pagina=" . $miPaginaActual;
+				$variable = "pagina=consultarBeneficiario";
 				$variable .= "&opcion=consultar";
 				$variable .= "&id_variable=" . $valor [0];
 				break;
