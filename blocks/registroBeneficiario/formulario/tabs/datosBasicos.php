@@ -153,6 +153,8 @@ class Formulario {
             }
 
             $deshabilitado = true;
+        }else{
+        	
         }
         
         $esteCampo = 'consecutivo';
