@@ -169,10 +169,6 @@ class Registrar {
         	 
         	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "registrar");
         	
-        	echo $cadenaSql;
-        	var_dump($resultado);
-        	die;
-        	
         }else{
         	
         	$cadenaSql .= 'BEGIN; ';
