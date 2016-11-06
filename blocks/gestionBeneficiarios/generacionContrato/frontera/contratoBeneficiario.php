@@ -905,7 +905,12 @@ class Contrato {
                         $atributos['validar'] = 'required';
                         // Aplica atributos globales al control
                         $atributos = array_merge($atributos, $atributosGlobales);
-                        echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+
+                        if ($infoBeneficiario['tipo_beneficiario'] == 3) {
+
+                            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                        }
+
                         unset($atributos);
 
                         $esteCampo = 'medio_pago';

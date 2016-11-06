@@ -455,7 +455,7 @@ class GestionarContrato {
 
             case 'requisitosCompletos':
                 $estilo_mensaje = 'success';     // information,warning,error,validation
-                $atributos["mensaje"] = '<b>Todos los documentos están cargado</b>';
+                $atributos["mensaje"] = '<b>Todos los documentos están cargados</b>';
                 break;
 
             case 'minimoRequisitos':
