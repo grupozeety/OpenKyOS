@@ -223,7 +223,7 @@ class Formulario {
         	//$atributos['validar'] = 'required';
         	// Aplica atributos globales al control
         	
-        	if (isset($cargueDatos[$esteCampo])) {var_dump($cargueDatos[$esteCampo]);
+        	if (isset($cargueDatos[$esteCampo])) {
         		if($cargueDatos[$esteCampo] == 't'){
         			$atributos['valor'] = 'SI';
         		}else{
