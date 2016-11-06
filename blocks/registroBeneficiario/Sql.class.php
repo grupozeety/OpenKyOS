@@ -324,7 +324,7 @@ class Sql extends \Sql {
 			
 			case "actualizarBeneficiarioPotencial" :
 				
-				$cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET";
+				$cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
 				$cadenaSql .= "tipo_beneficiario=" . "'" . $variable ['tipo_beneficiario'] . "',";
 				$cadenaSql .= "tipo_documento=" . "'" . $variable ['tipo_documento'] . "',";
 				$cadenaSql .= "identificacion=" . "'" . $variable ['identificacion_beneficiario'] . "',";
