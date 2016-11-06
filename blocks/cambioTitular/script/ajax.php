@@ -155,3 +155,5 @@ $(function() {
 	 	$("#myModalMensaje").modal('hide');
 	});
 });
+
+$("#mensaje").modal("show");
