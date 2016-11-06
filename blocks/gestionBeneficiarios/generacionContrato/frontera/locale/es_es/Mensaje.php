@@ -107,6 +107,9 @@ $this->idioma['006'] = '<b>006</b> Documento que demuestre beneficiario acceso e
 
 $this->idioma['900'] = '<b>900</b> Certificado No Internet';
 
+
+$this->idioma['900_1'] = '<b>900_1</b> Contrato Macro';
+
 $this->idioma['botonCargarRequisitos'] = 'Cargar Requisitos';
 
 $this->idioma['botonVisualizarContrato'] = 'Ver Contrato';

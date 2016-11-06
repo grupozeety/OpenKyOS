@@ -22,8 +22,6 @@ class Sincronizar {
 		$this->miSql = $sql;
 	}
 	public function sincronizarAlfresco($beneficiario, $documento) {
-		
-
 		$_REQUEST ['tiempo'] = time ();
 		$this->prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
 		$ruta_absoluta = $documento ['rutaabsoluta'];

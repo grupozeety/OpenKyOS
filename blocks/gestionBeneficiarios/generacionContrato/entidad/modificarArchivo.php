@@ -49,29 +49,43 @@ class Alfresco {
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-			if ($_REQUEST ['verificar'] == 'true') {
-			
-			// Modificar el estado del archivo por verificación según el rol
-			$this->verificarArchivo ();
-		}
-		
-		if ($_REQUEST ['actualizar'] == 'true') {
-		
-			foreach ($_FILES as $key=>$values){
-				if ($_FILES [$key] ['size'] == 0) {
-					Redireccionador::redireccionar ( "noverifico", $_REQUEST ['id_beneficiario'] );
-				}
-			}
-			// Modificar Documento Actual por uno nuevo
-			$this->asociarCodigoDocumento ();
-			$this->cargarArchivos ();
 	
-
-			$this->sincronizacion->sincronizarAlfresco ( $_REQUEST ['id_beneficiario'], $this->archivos_datos [0] );
+		if ($_REQUEST ['tipologia']  == 128) {
+			if ($_REQUEST ['verificar'] == 'true') {
+				$this->verificarArchivoContrato();
+			}
 			
-			$this->actualizarLocal ();
+			if ($_REQUEST ['actualizar'] == 'true') {
+				foreach ( $_FILES as $key => $values ) {
+					if ($_FILES [$key] ['size'] == 0) {
+						Redireccionador::redireccionar ( "noverifico", $_REQUEST ['id_beneficiario'] );
+					}
+				}
+				$this->asociarCodigoDocumentoContrato();
+				$this->cargarArchivos ();
+		
+				$this->sincronizacion->sincronizarAlfresco( $_REQUEST ['id_beneficiario'], $this->archivos_datos [0] );
+				$this->actualizarLocalContrato ();
+					}
+		} else {
+			
+			if ($_REQUEST ['verificar'] == 'true') {
+				$this->verificarArchivo ();
+			}
+			
+			if ($_REQUEST ['actualizar'] == 'true') {
+				foreach ( $_FILES as $key => $values ) {
+					if ($_FILES [$key] ['size'] == 0) {
+						Redireccionador::redireccionar ( "noverifico", $_REQUEST ['id_beneficiario'] );
+					}
+				}
+				$this->asociarCodigoDocumento ();
+				$this->cargarArchivos ();
+				$this->sincronizacion->sincronizarAlfresco ( $_REQUEST ['id_beneficiario'], $this->archivos_datos [0] );
+				$this->actualizarLocal();
+			}
 		}
-
+		
 		if ($this->verificacion) {
 			Redireccionador::redireccionar ( "verifico", $_REQUEST ['id_beneficiario'] );
 		} else {
@@ -97,8 +111,14 @@ class Alfresco {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'verificarArchivo', $datos );
 		$this->verificacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 	}
+	
 	public function actualizarLocal() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarLocal', $this->archivos_datos [0] );
+		$this->verificacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
+	}
+	
+	public function actualizarLocalContrato() {
+$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarLocalContrato', $this->archivos_datos [0] );
 		$this->verificacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 	}
 	
@@ -110,20 +130,29 @@ class Alfresco {
 			$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['id_parametro'] . '_' . $id_parametro [0] ['descripcion'];
 		}
 	}
+	
+	public function asociarCodigoDocumentoContrato() {
+		foreach ( $_FILES as $key => $value ) {
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametroContrato', $key );
+			$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+			$_FILES [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
+			$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['id_parametro'] . '_' . $id_parametro [0] ['descripcion'];
+		}
+	}
 	public function cargarArchivos() {
-
 		foreach ( $_FILES as $key => $archivo ) {
 			if ($_FILES [$key] ['size'] != 0) {
 				$this->prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
 				$exten = pathinfo ( $archivo ['name'] );
-				if( isset($exten ['extension'])==false){
-					$exten ['extension']='txt';
+				if (isset ( $exten ['extension'] ) == false) {
+					$exten ['extension'] = 'txt';
 				}
-
+				
 				$tamano = $archivo ['size'];
 				$tipo = $archivo ['type'];
 				$nombre_archivo = str_replace ( " ", "_", $archivo ['descripcion_documento'] );
-				$doc = $_REQUEST ['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.' .$exten ['extension'];
+				$doc = $_REQUEST ['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.' . $exten ['extension'];
 				/*
 				 * guardamos el fichero en el Directorio
 				 */
@@ -140,7 +169,7 @@ class Alfresco {
 						'nombre_archivo' => $doc,
 						'campo' => $key,
 						'tipo_documento' => $archivo ['tipo_documento'],
-						'id_archivo'=>$_REQUEST['id_archivo'],
+						'id_archivo' => $_REQUEST ['id_archivo'] 
 				);
 			}
 		}
