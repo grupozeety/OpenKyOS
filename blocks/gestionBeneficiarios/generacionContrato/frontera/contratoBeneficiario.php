@@ -56,7 +56,6 @@ class Contrato {
 
         $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $infoBeneficiario = $infoBeneficiario[0];
-        var_dump($infoBeneficiario);
 
         {
 
