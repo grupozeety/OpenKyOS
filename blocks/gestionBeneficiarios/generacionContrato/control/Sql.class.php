@@ -385,13 +385,27 @@ class Sql extends \Sql {
 			
 			case 'verificarArchivo' :
 				$cadenaSql = " UPDATE interoperacion.documentos_contrato SET ";
-				if ($variable ['rol'] == 'Comisionador') {
+				if ($variable ['rol'] == 7) {
 					$cadenaSql .= " comisionador=TRUE";
 				}
-				if ($variable ['rol'] == 'Analista') {
+				if ($variable ['rol'] == 9) {
 					$cadenaSql .= " analista=TRUE";
 				}
-				if ($variable ['rol'] == 'Supervisor') {
+				if ($variable ['rol'] == 10) {
+					$cadenaSql .= " supervisor=TRUE";
+				}
+				$cadenaSql .= " WHERE id='" . $variable ['archivo'] . "';";
+				break;
+			
+			case 'verificarArchivoContrato' :
+				$cadenaSql = " UPDATE interoperacion.contrato SET ";
+				if ($variable ['rol'] == 7) {
+					$cadenaSql .= " comisionador=TRUE";
+				}
+				if ($variable ['rol'] == 9) {
+					$cadenaSql .= " analista=TRUE";
+				}
+				if ($variable ['rol'] == 10) {
 					$cadenaSql .= " supervisor=TRUE";
 				}
 				$cadenaSql .= " WHERE id='" . $variable ['archivo'] . "';";
@@ -509,6 +523,13 @@ class Sql extends \Sql {
 				$cadenaSql .= " FROM parametros.parametros pm";
 				$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND pm.estado_registro=TRUE AND rl.descripcion='Medio Pago'";
 				$cadenaSql .= " WHERE pm.estado_registro=TRUE;";
+				
+				break;
+			
+			case 'buscarRol' :
+				$cadenaSql = " SELECT id_rol ";
+				$cadenaSql .= " FROM gestion_menu.rol ";
+				$cadenaSql .= " WHERE rol='".$variable."'; ";
 				
 				break;
 		}
