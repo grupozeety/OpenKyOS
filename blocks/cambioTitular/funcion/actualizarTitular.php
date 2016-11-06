@@ -123,6 +123,10 @@ class Registrar {
 			
 		$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "registrar");
 		
+		echo $cadenaSql;
+		var_dump($resultado);
+		die;
+		
 		if ($resultado) {
 			redireccion::redireccionar ( 'inserto');
 			exit ();
