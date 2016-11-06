@@ -79,7 +79,6 @@ class FormProcessor {
 
             $url_firma_beneficiario = $this->archivos_datos[0]['ruta_archivo'];
 
-            var_dump($this->archivos_datos);
             //$url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
 
         }
