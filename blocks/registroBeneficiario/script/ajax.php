@@ -406,7 +406,7 @@ $(document).ready(function() {
 			}else if(id==0){
 				$('#div_1').show();
 				
-				$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").attr("required", "false");
+				$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").attr("required", "true");
 				$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").attr("required", "false");
 				$("#<?php echo $this->campoSeguro('parentesco_0')?>").attr("required", "false");
 			}
@@ -532,14 +532,14 @@ $(document).ready(function() {
 					$($( '#div_' + (id + 1) + ' :input')[9]).attr('id', data.nivel_estudio).val("").change();
 					$($( '#div_' + (id + 1) + ' :input')[9]).attr('name', data.nivel_estudio);
 					
-					$($( '#div_' + (id + 1) + ' :input')[10]).attr('id', data.correo).val("");;
-					$($( '#div_' + (id + 1) + ' :input')[10]).attr('name', data.correo);
+					$($( '#div_' + (id + 1) + ' :input')[10]).attr('id', data.grado);
+					$($( '#div_' + (id + 1) + ' :input')[10]).attr('name', data.grado);
 					
-					$($( '#div_' + (id + 1) + ' :input')[11]).attr('id', data.grado);
-					$($( '#div_' + (id + 1) + ' :input')[11]).attr('name', data.grado);
+					$($( '#div_' + (id + 1) + ' :input')[11]).attr('id', data.institucion_educativa).val("");;
+					$($( '#div_' + (id + 1) + ' :input')[11]).attr('name', data.institucion_educativa);
 					
-					$($( '#div_' + (id + 1) + ' :input')[12]).attr('id', data.institucion_educativa).val("");;
-					$($( '#div_' + (id + 1) + ' :input')[12]).attr('name', data.institucion_educativa);
+					$($( '#div_' + (id + 1) + ' :input')[12]).attr('id', data.correo).val("");;
+					$($( '#div_' + (id + 1) + ' :input')[12]).attr('name', data.correo);
 					
 					$($( '#div_' + (id + 1) + ' :input')[13]).attr('id', data.pertenencia_etnica).val("").change();
 					$($( '#div_' + (id + 1) + ' :input')[13]).attr('name', data.pertenencia_etnica);
