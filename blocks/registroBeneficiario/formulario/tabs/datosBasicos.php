@@ -132,7 +132,7 @@ class Formulario {
                 redireccion::redireccionar("noExisteBeneficiario");
                 exit();
             } else {
-				$cadenaSql = $this->miSql->getCadenaSql ( 'estadoAlfresco', $_REQUEST ['id'] );
+				echo $cadenaSql = $this->miSql->getCadenaSql ( 'estadoAlfresco', $_REQUEST ['id'] );
 				$estado_carpeta = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
 				if ($estado_carpeta == FALSE) { 
@@ -153,6 +153,8 @@ class Formulario {
             }
 
             $deshabilitado = true;
+        }else{
+        	
         }
         
         $esteCampo = 'consecutivo';
