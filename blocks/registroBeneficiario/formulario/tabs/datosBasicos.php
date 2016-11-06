@@ -1797,7 +1797,7 @@ class Formulario {
 
         // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
 
-        echo '<div id="map-canvas" class="text-center"></div>
+ echo '<div id="map-canvas" class="text-center"></div>
                 <script>
                     var markers = [];
                     function initMap() {
@@ -1807,29 +1807,23 @@ class Formulario {
                         });
                         var infoWindow = new google.maps.InfoWindow({map: map});
 
-//                          if (navigator.geolocation) {
-//                              navigator.geolocation.getCurrentPosition(function(position) {
-//                              var pos = {
-//                                      lat: position.coords.latitude,
-//                                      lng: position.coords.longitude
-//                              };
+                         if (navigator.geolocation) {
+                             navigator.geolocation.getCurrentPosition(function(position) {
+                             var pos = {
+                                     lat: position.coords.latitude,
+                                     lng: position.coords.longitude
+                             };
 
-//                              infoWindow.setPosition(pos);
-//                              infoWindow.setContent("Localización Encontrada.");
-//                              map.setCenter(pos);
-//                              }, function() {
-//                              handleLocationError(true, infoWindow, map.getCenter());
-//                              });
-//                      } else {
-//                              // Browser doesnt support Geolocation
-//                              handleLocationError(false, infoWindow, map.getCenter());
-//                      }
-
-                        if(typeof document.getElementById("myModal")!=="undefined"){
-                            $("#myModal").on("shown.bs.modal", function () {
-                                initMap();
-                            });
-                        }
+                             infoWindow.setPosition(pos);
+                             infoWindow.setContent("Localización Encontrada.");
+                             map.setCenter(pos);
+                             }, function() {
+                             handleLocationError(true, infoWindow, map.getCenter());
+                             });
+                     		} else {
+                             	// Browser doesnt support Geolocation
+                             	handleLocationError(false, infoWindow, map.getCenter());
+                     		}
 
                         google.maps.event.addListener(map, "click", function (e) {
 
@@ -1837,7 +1831,6 @@ class Formulario {
 
                             //lat and lng is available in e object
                             var latLng = e.latLng;
-                            $("#geomodal").val(e.latLng.lat() + ", " + e.latLng.lng());
 
                             var marker=new google.maps.Marker({
                                 position:e.latLng,
@@ -1864,13 +1857,13 @@ class Formulario {
                               "Error: Your browser doesn\'t support geolocation.");
                     }
 
-
                 </script>
                 <script async defer
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgAHnG5AICmnNuBCpu75evMTBr4ZU3i60&callback=initMap">
+        			initMap();
                 </script>
         ';
-
+         
         // ----------------FIN CONTROL: Mapa--------------------------------------------------------
 
         // ----------------INICIO CONTROL: Campo Texto Geolocalización------------------------------
