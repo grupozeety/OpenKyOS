@@ -94,7 +94,6 @@ class Alfresco {
 	}
 	public function verificarArchivo() {
 		$respuesta = $this->miSesionSso->getParametrosSesionAbierta ();
-		var_dump ( $respuesta );
 		$rol = $respuesta ['description'];
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'buscarRol', $rol );
