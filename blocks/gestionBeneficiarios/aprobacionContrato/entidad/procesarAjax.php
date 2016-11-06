@@ -30,6 +30,24 @@ class procesarAjax {
 
                     foreach ($resultadoContratos as $key => $valor) {
 
+                        $arreglo = array(
+                            'perfil_beneficiario' => $valor['tipo_beneficiario'],
+                            'id_beneficiario' => $valor['identificador_beneficiario'],
+
+                        );
+                        $cadenaSql = $this->sql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
+                        $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                        if ($requisitos) {
+                            foreach ($requisitos as $key => $value) {
+
+                                if ($value['obligatoriedad'] == '1' && ($value['comisionador'] == 'f' || $value['supervisor'] == 'f' || $value['analista'] == 'f')) {
+                                    $noAprobar = true;
+                                }
+
+                            }
+                        }
+
                         // Variables
                         $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
                         $cadenaACodificar .= "&opcion=aprobarContrato";
@@ -47,7 +65,14 @@ class procesarAjax {
                         $urlAprobarContrato = $url . $cadena;
                         $archivoContrato = (is_null($valor['nombre_documento_contrato'])) ? " " : "<center><a href='" . $valor['ruta_documento_contrato'] . "' target='_blank' >" . $valor['nombre_documento_contrato'] . "</a></center>";
 
-                        $estado_contrato = ($valor['estado_contrato'] == 'Borrador') ? "<center><b><a href='" . $urlAprobarContrato . "'  >Por Aprobar Contrato</a></b></center>" : "<center><b>" . $valor['estado_contrato'] . "</b></center>";
+                        if (isset($noAprobar) && $noAprobar == true) {
+
+                            $estado_contrato = "<center>Existen Documentos por Verificar</center>";
+                        } else {
+
+                            $estado_contrato = ($valor['estado_contrato'] == 'Borrador') ? "<center><b><a href='" . $urlAprobarContrato . "'  >Por Aprobar Contrato</a></b></center>" : "<center><b>" . $valor['estado_contrato'] . "</b></center>";
+
+                        }
 
                         $resultadoFinal[] = array(
                             'numeroContrato' => "<center>" . $valor['numero_contrato'] . "</center>",
@@ -60,16 +85,23 @@ class procesarAjax {
 
                     }
 
+                    $total = count($resultadoFinal);
+
+                    $resultado = json_encode($resultadoFinal);
+
+                    $resultado = '{
+                                "recordsTotal":'     . $total . ',
+                                "recordsFiltered":'     . $total . ',
+                                "data":'     . $resultado . '}';
+
+                } else {
+
+                    $resultado = '{
+                                "recordsTotal":0 ,
+                                "recordsFiltered":0 ,
+                                "data": 0 }'    ;
+
                 }
-
-                $total = count($resultadoFinal);
-
-                $resultado = json_encode($resultadoFinal);
-
-                $resultado = '{
-                "recordsTotal":'     . $total . ',
-                "recordsFiltered":'     . $total . ',
-                "data":'     . $resultado . '}';
 
                 echo $resultado;
 

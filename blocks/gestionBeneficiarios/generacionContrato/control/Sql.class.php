@@ -257,6 +257,9 @@ class Sql extends \Sql {
                 $cadenaSql .= " bloque='" . $variable['bloque'] . "',";
                 $cadenaSql .= " torre='" . $variable['torre'] . "',";
                 $cadenaSql .= " casa_apartamento='" . $variable['casa_apartamento'] . "',";
+                $cadenaSql .= " tipo_tecnologia='" . $variable['tipo_tecnologia'] . "',";
+                $cadenaSql .= " valor_tarificacion='" . $variable['valor_tarificacion'] . "',";
+                $cadenaSql .= " medio_pago='" . $variable['medio_pago'] . "',";
                 /*
              * $cadenaSql .= " cuenta_suscriptor='" . $variable ['cuenta_suscriptor'] . "', ";
              * $cadenaSql .= " velocidad_internet='" . $variable ['velocidad_internet'] . "', ";
@@ -398,6 +401,22 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE dr.estado_registro='TRUE'";
                 $cadenaSql .= " AND dr.proceso='116'";
                 $cadenaSql .= " AND dr.perfil='" . $variable['perfil_beneficiario'] . "';";
+
+                break;
+
+            case 'consultarTipoTecnologia':
+                $cadenaSql = " SELECT pm.id_parametro, pm.descripcion ";
+                $cadenaSql .= " FROM parametros.parametros pm";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND pm.estado_registro=TRUE AND rl.descripcion='Tipo Tecnologia'";
+                $cadenaSql .= " WHERE pm.estado_registro=TRUE;";
+
+                break;
+
+            case 'consultarMedioPago':
+                $cadenaSql = " SELECT pm.id_parametro, pm.descripcion ";
+                $cadenaSql .= " FROM parametros.parametros pm";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND pm.estado_registro=TRUE AND rl.descripcion='Medio Pago'";
+                $cadenaSql .= " WHERE pm.estado_registro=TRUE;";
 
                 break;
 
