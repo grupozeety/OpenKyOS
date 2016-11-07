@@ -71,7 +71,7 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 			
 			$resultadoFinal [] = array (
 					'id_agendamiento' =>  $resultado [$i] ['id_agendamiento'],
-					'identificacion_beneficiario' => $resultado [$i] ['identificacion_beneficiario'],
+					//'identificacion_beneficiario' => $resultado [$i] ['identificacion_beneficiario'],
 					'nombre_beneficiario' => $resultado [$i] ['nombre_beneficiario'],
 					'id_checkbox' => array( 'value' =>  $resultado [$i] ['consecutivo'],
 					'id' => codificarNombre( "checkbox_" . $i ) ),
