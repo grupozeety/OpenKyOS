@@ -450,7 +450,7 @@ class GestionarContrato {
 
             case 'requisitosFaltantes':
                 $estilo_mensaje = 'warning';     // information,warning,error,validation
-                $atributos["mensaje"] = '<b>Aun hay documentos por cargar<br>¿Esta Seguro?</b>';
+                $atributos["mensaje"] = '<b>Aún hay documentos por cargar<br>¿Esta Seguro de Generar el Contrato?</b>';
                 break;
 
             case 'requisitosCompletos':
