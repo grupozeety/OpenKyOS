@@ -40,10 +40,25 @@ class Registrar {
 
         if(isset($_REQUEST['actualizar'])){
         	$beneficiarioPotencial['id_beneficiario'] = $_REQUEST['id_beneficiario'];
+        	$beneficiarioPotencial['nomenclatura'] = $_REQUEST['nomenclatura'];
         }else{
+        	
+        	$cadenaSql = $this->miSql->getCadenaSql('codificacion', $_REQUEST['urbanizacion']);
+        	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        	if($resultado){
+        		$_REQUEST['consecutivo'] = $resultado[0]['abr_benf'];
+        		$_REQUEST['abr_urb'] = $resultado[0]['abr_urb'];
+        		$_REQUEST['abr_mun'] = $resultado[0]['abr_mun'];
+        	}else{
+        		$_REQUEST['consecutivo'] = "ND";
+        		$_REQUEST['abr_urb'] = "ND";
+        		$_REQUEST['abr_mun'] = "ND";
+        	}
+        	
         	$cadenaSql = $this->miSql->getCadenaSql('consultarConsecutivo', $_REQUEST['consecutivo']);
         	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        	
+
         	if($resultado){
         		$consecutivo = explode($_REQUEST['consecutivo'], $resultado[0]['id_beneficiario']);
         		$nuevoConsecutivo = $consecutivo[1] + 1;
@@ -66,6 +81,16 @@ class Registrar {
         			}else{
         				$nuevoConsecutivo = $_REQUEST['consecutivo'] . $nuevoConsecutivo;
         			}
+        		}else if(strlen($_REQUEST['consecutivo']) == 3){
+        			if($nuevoConsecutivo<10){
+        				$nuevoConsecutivo = $_REQUEST['consecutivo'] . '0' . $nuevoConsecutivo;
+        			}else if ($nuevoConsecutivo<100){
+        				$nuevoConsecutivo = $_REQUEST['consecutivo'] . $nuevoConsecutivo;
+        			}else{
+        				$nuevoConsecutivo = $_REQUEST['consecutivo'] . $nuevoConsecutivo;
+        			}
+        		}else{
+        			$nuevoConsecutivo = $_REQUEST['consecutivo'] . $nuevoConsecutivo;
         		}
 
         		$beneficiarioPotencial['id_beneficiario'] = $nuevoConsecutivo;
@@ -74,11 +99,19 @@ class Registrar {
         			$nuevoConsecutivo = $_REQUEST['consecutivo'] . '0001';
         		}else if(strlen($_REQUEST['consecutivo']) == 2){
         			$nuevoConsecutivo = $_REQUEST['consecutivo'] . '001';
+        		}else if(strlen($_REQUEST['consecutivo']) == 3){
+        			$nuevoConsecutivo = $_REQUEST['consecutivo'] . '01';
+        		}else if(strlen($_REQUEST['consecutivo']) == 4){
+        			$nuevoConsecutivo = $_REQUEST['consecutivo'] . '1';
         		}
         		
         		$beneficiarioPotencial['id_beneficiario'] = $nuevoConsecutivo;
         	}
+        	
+        	$beneficiarioPotencial['nomenclatura'] = $_REQUEST['abr_mun'] . "_" . $_REQUEST['abr_urb'] . "_" . $_REQUEST['identificacion_beneficiario'];
+        	
         }
+        
 
         $beneficiarioPotencial['tipo_beneficiario'] = $_REQUEST['tipo_beneficiario'];
         $beneficiarioPotencial['identificacion_beneficiario'] = $_REQUEST['identificacion_beneficiario'];
@@ -117,7 +150,7 @@ class Registrar {
         $beneficiarioPotencial['jefe_hogar'] = $_REQUEST['jefe_hogar'];
         $beneficiarioPotencial['pertenencia_etnica'] = $_REQUEST['pertenencia_etnica'];
         $beneficiarioPotencial['ocupacion'] = $_REQUEST['ocupacion'];
-        $beneficiarioPotencial['nomenclatura'] = str_replace ( "\\" , "" , $_REQUEST['nomenclatura']);
+        $beneficiarioPotencial['nomenclatura'] = str_replace ( "\\" , "" , $beneficiarioPotencial['nomenclatura']);
         $beneficiarioPotencial['id_hogar'] = '';
 		//$beneficiarioPotencial['id_hogar'] = $_REQUEST['id_hogar'];
         //$beneficiarioPotencial['resolucion_adjudicacion'] = $_REQUEST['resolucion_adjudicacion'];
@@ -158,8 +191,9 @@ class Registrar {
         	
         	$cadenaSql .= $this->miSql->getCadenaSql('actualizarBeneficiarioPotencial', $beneficiarioPotencial);
         	 
+        	$cadenaSql .= $this->miSql->getCadenaSql('actualizarFamiliarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
+        	 
         	if ($_REQUEST['familiares'] > 0) {
-        		$cadenaSql .= $this->miSql->getCadenaSql('actualizarFamiliarBeneficiario', $beneficiarioPotencial['id_beneficiario']);
         		$cadenaSql .= $this->miSql->getCadenaSql('registrarFamiliares', $beneficiarioPotencial['familiar']);
         	}
         	 
@@ -185,7 +219,7 @@ class Registrar {
         	
         	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "registrar");
         }
-       
+        
         if ($resultado) {
 
         	if(isset($_REQUEST['actualizar'])){

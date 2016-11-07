@@ -324,8 +324,8 @@ class Formulario {
         			        <thead>
         			        	<tr id="filterrow">
         			                <th>Agendamiento</th>
- 									<th>Identificación</th>
-                					<th>Todo<input type="checkbox" id="seleccionar_todo"/></th>
+ 						<th>Identificación</th>
+                				<th>Todo<input type="checkbox" id="seleccionar_todo"/></th>
         			            </tr>
         			        </thead>
                 	</table>

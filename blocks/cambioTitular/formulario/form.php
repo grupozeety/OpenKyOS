@@ -232,88 +232,56 @@ class Registrador {
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->formulario ( $atributos );
 		
-		// -----------------INICIO CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
 		
-		$atributos['tipoEtiqueta'] = 'inicio';
-		$atributos['titulo'] = 'Mensaje';
-		$atributos['id'] = 'myModalMensaje';
-		echo $this->miFormulario->modal($atributos);
-		unset($atributos);
-		
-		echo "<h5><p  ALIGN=center>" . $this->lenguaje->getCadena($_REQUEST['mensaje']) . "</p></h5>";
-		
-		// -----------------CONTROL: Botón ----------------------------------------------------------------
-		$esteCampo = 'regresarConsultar';
-		$atributos["id"] = $esteCampo;
-		$atributos["tabIndex"] = $tab;
-		$atributos["tipo"] = 'boton';
-		$atributos["basico"] = false;
-		// submit: no se coloca si se desea un tipo button genérico
-		$atributos['submit'] = true;
-		$atributos["estiloMarco"] = 'text-center';
-		$atributos["estiloBoton"] = 'default';
-		$atributos["block"] = false;
-		$atributos['deshabilitado'] = true;
-		
-		// verificar: true para verificar el formulario antes de pasarlo al servidor.
-		$atributos["verificar"] = '';
-		$atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-		$atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
-		$atributos['nombreFormulario'] = $esteBloque['nombre'];
-		$tab++;
-		
-		// Aplica atributos globales al control
-		//         $atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
-		unset($atributos);
-		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-		
-		$atributos['tipoEtiqueta'] = 'fin';
-		echo $this->miFormulario->modal($atributos);
-		unset($atributos);
-		
-		// -----------------FIN CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
-		
-	}
-	public function mensaje() {
-		
-		// Si existe algun tipo de error en el login aparece el siguiente mensaje
-		$mensaje = $this->miConfigurador->getVariableConfiguracion ( 'mostrarMensaje' );
-		$this->miConfigurador->setVariableConfiguracion ( 'mostrarMensaje', null );
-		
-		if ($mensaje) {
-			$tipoMensaje = $this->miConfigurador->getVariableConfiguracion ( 'tipoMensaje' );
-			if ($tipoMensaje == 'json') {
-				
-				$atributos ['mensaje'] = $mensaje;
-				$atributos ['json'] = true;
-			} else {
-				$atributos ['mensaje'] = $this->lenguaje->getCadena ( $mensaje );
-			}
-			// ------------------Division para los botones-------------------------
-			$atributos ['id'] = 'divMensaje';
-			$atributos ['estilo'] = 'marcoBotones';
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			
-			// -------------Control texto-----------------------
-			$esteCampo = 'mostrarMensaje';
-			$atributos ["tamanno"] = '';
-			$atributos ["estilo"] = 'information';
-			$atributos ["etiqueta"] = '';
-			$atributos ["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-			echo $this->miFormulario->campoMensaje ( $atributos );
-			unset ( $atributos );
-			
-			// ------------------Fin Division para los botones-------------------------
-			echo $this->miFormulario->division ( "fin" );
-		}
-	}
+	 if (isset($_REQUEST['mensaje'])) {
+        	$this->mensaje($tab, $esteBloque['nombre']);
+        }
+    }
+    
+ 	public function mensaje($tab = '', $nombreBloque = '') {
+
+        switch ($_REQUEST['mensaje']) {
+        	
+            case 'confirma':
+               	$atributos['estiloLinea'] = 'success';     //success,error,information,warning
+               	break;
+                
+            case 'error':
+              	$atributos['estiloLinea'] = 'error';     //success,error,information,warning
+               	break;
+        }
+        
+        $mensaje = $this->lenguaje->getCadena($_REQUEST['mensaje']);
+
+        // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+
+        $atributos['tipoEtiqueta'] = 'inicio';
+        $atributos['titulo'] = 'Mensaje';
+        $atributos['id'] = 'mensaje';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
+
+        echo '<p><h5>' . $mensaje . '</h5></p>';
+
+        echo '</div>';
+
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+
+        echo '<div style="text-align:center;">';
+
+        echo '</div>';
+
+        $atributos['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+    }
 }
 
 $miSeleccionador = new Registrador ( $this->lenguaje, $this->miFormulario );
-
-$miSeleccionador->mensaje ();
-
 $miSeleccionador->seleccionarForm ();
 
 ?>
