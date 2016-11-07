@@ -2,8 +2,6 @@
 
 namespace gestionBeneficiarios\generacionContrato\entidad;
 
-use core\general\ValidadorCampos;
-
 include_once ('RestClient.class.php');
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
