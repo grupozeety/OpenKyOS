@@ -325,7 +325,6 @@ $('#example').DataTable().destroy();
 	        "columns": [
 	           { "data": "id_agendamiento" },
 	            { "data": "beneficiario" },
-	            { "data": "tipo_agendamiento" },
 	            { "data": "estado_agenda" },
 	    		{
 	              "data":   "id_checkbox",

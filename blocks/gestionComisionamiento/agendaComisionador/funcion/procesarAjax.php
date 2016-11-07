@@ -89,14 +89,15 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 		$observaciones[$i]= $url . $_REQUEST [$enlace];
 	}
 	
+	
 	if ($resultado != false) {
 		for($i = 0; $i < count ( $resultado ); $i ++) {
 			
 			$resultadoFinal [] = array (
 					'id_agendamiento' => $resultado [$i] ['id_agendamiento'],
 					'beneficiario' => "<a href='".$redireccion[$i]."'>".$resultado [$i] ['beneficiario']."</a>",
-					'tipo_agendamiento' => $resultado [$i] ['tipo_agendamiento'],
-					'estado_agenda' => "<img src='" . $ruta . "/css/imagenes/" . $resultado [$i] ['estado_agenda'] . ".png" . "'></img>",
+					//tipo_agendamientoa' => $resultado [$i] ['tipo_agendamiento'],
+					'estado_agenda' => "<img src='" . $ruta . "/css/imagenes/" . $resultado [$i] ['estado_agenda'] . ".png" . "'>      <b>".$resultado [$i] ['etiqueta_agenda']."</b></img>",
 					'id_checkbox' => array (
 							'value' => $resultado [$i] ['consecutivo'],
 							'id' => codificarNombre ( "checkbox_" . $i ) 
