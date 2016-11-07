@@ -278,7 +278,6 @@ class Formulario {
         			        	<tr>
  						            <th id="filterrow">ID</th>
  					                <th>Beneficiario</th>
- 					                <th>Tipo</th>
  					 				<th>Estado</th>
  					                <th>Todo<input type="checkbox" id="seleccionar_todo"/></th>
         			            </tr>
