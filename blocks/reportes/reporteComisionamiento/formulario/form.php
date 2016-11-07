@@ -325,7 +325,6 @@ class Formulario {
         			        	<tr id="filterrow">
         			                <th>Agendamiento</th>
  						<th>Identificación</th>
-						<th>Nombre Beneficiario</th>
                 				<th>Todo<input type="checkbox" id="seleccionar_todo"/></th>
         			            </tr>
         			        </thead>
