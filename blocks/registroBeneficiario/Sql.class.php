@@ -738,7 +738,10 @@ class Sql extends \Sql {
 				$cadenaSql = " select id_beneficiario ";
 				$cadenaSql .= "FROM interoperacion.beneficiario_potencial ";
 				$cadenaSql .= "WHERE id_beneficiario ";
-				$cadenaSql .= "LIKE '" . $variable . "%' ORDER BY id_beneficiario DESC LIMIT 1";
+				$cadenaSql .= "ILIKE '" . $variable['string'] . "%' "; 
+				$cadenaSql .= "AND substr(id_beneficiario, length(id_beneficiario)-" . $variable['longitud'];
+				$cadenaSql .= ", 1) ~ '^[0-9]'";
+				$cadenaSql .= "ORDER BY id_beneficiario DESC LIMIT 1";
 				break;
 		}
 		

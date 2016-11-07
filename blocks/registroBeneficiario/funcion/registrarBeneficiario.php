@@ -56,9 +56,15 @@ class Registrar {
         		$_REQUEST['abr_mun'] = "ND";
         	}
         	
-        	$cadenaSql = $this->miSql->getCadenaSql('consultarConsecutivo', $_REQUEST['consecutivo']);
+        	$numeroCaracteres = 5;
+        	$numeroBusqueda = strlen($_REQUEST['consecutivo']);
+        	 
+        	$valor['string'] = $_REQUEST['consecutivo'];
+        	$valor['longitud'] = $numeroCaracteres - $numeroBusqueda - 1;
+        	 
+        	$cadenaSql = $this->miSql->getCadenaSql('consultarConsecutivo', $valor);
         	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
+        	
         	if($resultado){
         		$consecutivo = explode($_REQUEST['consecutivo'], $resultado[0]['id_beneficiario']);
         		$nuevoConsecutivo = $consecutivo[1] + 1;
