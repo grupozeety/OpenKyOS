@@ -700,42 +700,67 @@ class Formulario {
 
             // ----------------FIN CONTROL: Campo Texto Edad del Beneficiario--------------------------------------------------------
 
-            // ----------------INICIO CONTROL: Campo Texto Foto--------------------------------------------------------
-
-            $esteCampo = 'foto';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "file";
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['evento'] = '';
-            $atributos['deshabilitado'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['placeholder'] = "";
-            $atributos['valor'] = "";
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
-            $atributos['miEvento'] = '';
-            $atributos['validar'] = '';
-            // Aplica atributos globales al control
-
-            if (isset($cargueDatos[$esteCampo])) {
-                $atributos['valor'] = $cargueDatos[$esteCampo];
-            } else {
-                $atributos['valor'] = '';
+            {
+            
+            	$esteCampo = "foto";
+            	$atributos["id"] = $esteCampo;
+            	$atributos["nombre"] = $esteCampo;
+            	$atributos["tipo"] = "file";
+            	$atributos["obligatorio"] = true;
+            	$atributos["etiquetaObligatorio"] = false;
+            	$atributos["tabIndex"] = $tab++;
+            	$atributos["columnas"] = 1;
+            	$atributos["anchoCaja"] = "12";
+            	$atributos["estilo"] = "textoIzquierda";
+            	$atributos["anchoEtiqueta"] = 0;
+            	$atributos["tamanno"] = 500000;
+            	$atributos["validar"] = " ";
+            	$atributos["estilo"] = "file";
+            	$atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
+            	$atributos["bootstrap"] = true;
+            	$tab++;
+            	// $atributos ["valor"] = $valorCodificado;
+            	$atributos = array_merge($atributos);
+            	echo $this->miFormulario->campoCuadroTexto($atributos);
+            	unset($atributos);
+            
             }
+//             // ----------------INICIO CONTROL: Campo Texto Foto--------------------------------------------------------
 
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-            unset($atributos);
+//             $esteCampo = 'foto';
+//             $atributos['nombre'] = $esteCampo;
+//             $atributos['tipo'] = "file";
+//             $atributos['id'] = $esteCampo;
+//             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+//             $atributos["etiquetaObligatorio"] = true;
+//             $atributos['tab'] = $tab++;
+//             $atributos['anchoEtiqueta'] = 2;
+//             $atributos['estilo'] = "bootstrap";
+//             $atributos['evento'] = '';
+//             $atributos['deshabilitado'] = false;
+//             $atributos['columnas'] = 1;
+//             $atributos['tamanno'] = 1;
+//             $atributos['placeholder'] = "";
+//             $atributos['valor'] = "";
+//             $atributos['ajax_function'] = "";
+//             $atributos['ajax_control'] = $esteCampo;
+//             $atributos['limitar'] = false;
+//             $atributos['anchoCaja'] = 10;
+//             $atributos['miEvento'] = '';
+//             $atributos['validar'] = '';
+//             // Aplica atributos globales al control
 
-            // ----------------INICIO CONTROL: Campo Oculto Nombre de la Foto-------------------------------------------------------
+//             if (isset($cargueDatos[$esteCampo])) {
+//                 $atributos['valor'] = $cargueDatos[$esteCampo];
+//             } else {
+//                 $atributos['valor'] = '';
+//             }
+
+//             $atributos = array_merge($atributos, $atributosGlobales);
+//             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+//             unset($atributos);
+
+//             // ----------------INICIO CONTROL: Campo Oculto Nombre de la Foto-------------------------------------------------------
 
             $esteCampo = 'nombre_foto';
             $atributos["id"] = $esteCampo; // No cambiar este nombre

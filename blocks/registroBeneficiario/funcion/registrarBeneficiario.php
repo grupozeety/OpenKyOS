@@ -18,6 +18,8 @@ class Registrar {
     public $miFuncion;
     public $miSql;
     public $conexion;
+    public $archivos_datos;
+    
     public function __construct($lenguaje, $sql, $funcion) {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -100,6 +102,7 @@ class Registrar {
         		}
 
         		$beneficiarioPotencial['id_beneficiario'] = $nuevoConsecutivo;
+        		
         	}else{
         		if(strlen($_REQUEST['consecutivo']) == 1){
         			$nuevoConsecutivo = $_REQUEST['consecutivo'] . '0001';
@@ -118,6 +121,7 @@ class Registrar {
         	
         }
         
+        $this->cargarArchivos($beneficiarioPotencial['id_beneficiario']);
 
         $beneficiarioPotencial['tipo_beneficiario'] = $_REQUEST['tipo_beneficiario'];
         $beneficiarioPotencial['identificacion_beneficiario'] = $_REQUEST['identificacion_beneficiario'];
@@ -129,9 +133,17 @@ class Registrar {
         $beneficiarioPotencial['edad_beneficiario'] = $_REQUEST['edad_beneficiario'];
         $beneficiarioPotencial['nivel_estudio'] = $_REQUEST['nivel_estudio'];
         $beneficiarioPotencial['correo'] = $_REQUEST['correo'];
-        $beneficiarioPotencial['foto'] = $_REQUEST['nombre_foto'];
-        $beneficiarioPotencial['url_foto'] = $_REQUEST['urlFoto'];
-        $beneficiarioPotencial['ruta_foto'] = $_REQUEST['rutaFoto'];
+        
+        if($this->archivos_datos){
+        	$beneficiarioPotencial['foto'] = $this->archivos_datos[0]['nombre_archivo'];
+        	$beneficiarioPotencial['url_foto'] = $this->archivos_datos[0]['rutaabsoluta'];
+        	$beneficiarioPotencial['ruta_foto'] = $this->archivos_datos[0]['ruta_archivo'];
+        }else{
+        	$beneficiarioPotencial['foto'] = $_REQUEST['nombre_foto'];
+        	$beneficiarioPotencial['url_foto'] = $_REQUEST['urlFoto'];
+        	$beneficiarioPotencial['ruta_foto'] = $_REQUEST['rutaFoto'];
+        }
+        
         $beneficiarioPotencial['direccion'] = $_REQUEST['direccion'];
         $beneficiarioPotencial['tipo_vivienda'] = $_REQUEST['tipo_vivienda'];
         $beneficiarioPotencial['manzana'] = $_REQUEST['manzana'];
@@ -163,7 +175,6 @@ class Registrar {
         //$beneficiarioPotencial['nomenclatura'] = '';
         $beneficiarioPotencial['resolucion_adjudicacion'] = '';
         $beneficiarioPotencial['minvi'] = 'FALSE';
-        
         
         $familiar = array();
 
@@ -243,6 +254,84 @@ class Registrar {
             exit();
         }
     }
+    
+    public function cargarArchivos($id_beneficiario) {
+    	
+    	$archivo_datos = false;
+    	
+    	foreach ( $_FILES as $key => $archivo ) {
+    		
+    		if ($_FILES [$key] ['size'] != 0) {
+    			
+    			$this->prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
+    			$exten = pathinfo ( $archivo ['name'] );
+    
+    			$allowed =  array('image/jpeg','image/png','image/psd','image/bmp','application/pdf');
+    				
+    			if(!in_array($_FILES[$key]['type'],$allowed) ) {
+    				exit ();
+    			}
+    
+    			if( isset($exten ['extension'])==false){
+    				$exten ['extension']='txt';
+    			}
+    
+    			
+    			$tamano = $archivo ['size'];
+    			$tipo = $archivo ['type'];
+    			
+    			$prefijo = substr(md5(uniqid(time())), 0, 6);
+    			
+    			$carpetaAdjunta= $this->miConfigurador->configuracion['raizDocumento'] . "/archivos/" . $prefijo ."/";
+    			$rutaUrlBloque = $this->miConfigurador->configuracion['host'] . $this->miConfigurador->configuracion['site'] . "/archivos/"  . $prefijo . "/";
+    			
+    			$allowed =  array('image/jpeg','image/png','image/psd','image/bmp','application/pdf');
+    			 
+    			if(!in_array($_FILES[$key]['type'],$allowed) ) {
+    				exit ();
+    			}
+    			
+    			mkdir($carpetaAdjunta, 0777);
+    			
+    			// El nombre y nombre temporal del archivo que vamos para adjuntar
+    			$nombreArchivo=isset($archivo['name'])? $archivo['name']:null;
+    			$nombreTemporal=isset($archivo['tmp_name'])?$archivo['tmp_name']:null;
+    			
+    			$nombreArchivo = str_replace(" ", "", $nombreArchivo);
+    			
+    			$nombreFinal = $id_beneficiario . "-" . $prefijo . "-" . $nombreArchivo;
+    			$rutaFinal = $carpetaAdjunta;
+    			$urlFinal = $rutaUrlBloque;
+    			
+    			$rutaArchivo=$carpetaAdjunta . $nombreFinal;
+    			$rutaUrlArchivo = $rutaUrlBloque . $nombreFinal;
+    			
+    			$dir = $carpetaAdjunta;
+    			$handle = opendir($dir);
+    			$ficherosEliminados = 0;
+    			while ($file = readdir($handle)) {
+    				if (is_file($dir.$file)) {
+    					if (unlink($dir.$file) ){
+    						$ficherosEliminados++;
+    					}
+    				}
+    			}
+    			
+    			$archivo_datos [] = array (
+    					'ruta_archivo' => $rutaFinal,
+    					'rutaabsoluta' => $urlFinal,
+    					'nombre_archivo' => $nombreFinal,
+    			);
+    			
+    			move_uploaded_file($nombreTemporal,$rutaArchivo);
+    			
+
+    		}
+    	}
+    		
+    	$this->archivos_datos = $archivo_datos;
+    }
+    
     public function resetForm() {
         foreach ($_REQUEST as $clave => $valor) {
 
