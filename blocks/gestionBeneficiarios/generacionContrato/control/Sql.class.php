@@ -300,15 +300,31 @@ class Sql extends \Sql {
 
             // ----------------------- Verificación de archivos Alfresco
 
+            // ----------------------- Verificación de archivos Alfresco
+
             case 'verificarArchivo':
                 $cadenaSql = " UPDATE interoperacion.documentos_contrato SET ";
-                if ($variable['rol'] == 'Comisionador') {
+                if ($variable['rol'] == 7) {
                     $cadenaSql .= " comisionador=TRUE";
                 }
-                if ($variable['rol'] == 'Analista') {
+                if ($variable['rol'] == 9) {
                     $cadenaSql .= " analista=TRUE";
                 }
-                if ($variable['rol'] == 'Supervisor') {
+                if ($variable['rol'] == 10) {
+                    $cadenaSql .= " supervisor=TRUE";
+                }
+                $cadenaSql .= " WHERE id='" . $variable['archivo'] . "';";
+                break;
+
+            case 'verificarArchivoContrato':
+                $cadenaSql = " UPDATE interoperacion.contrato SET ";
+                if ($variable['rol'] == 7) {
+                    $cadenaSql .= " comisionador=TRUE";
+                }
+                if ($variable['rol'] == 9) {
+                    $cadenaSql .= " analista=TRUE";
+                }
+                if ($variable['rol'] == 10) {
                     $cadenaSql .= " supervisor=TRUE";
                 }
                 $cadenaSql .= " WHERE id='" . $variable['archivo'] . "';";
@@ -430,6 +446,12 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND estado_registro=TRUE;";
                 break;
 
+            case 'buscarRol':
+                $cadenaSql = " SELECT id_rol ";
+                $cadenaSql .= " FROM gestion_menu.rol ";
+                $cadenaSql .= " WHERE rol='" . $variable . "'; ";
+
+                break;
         }
 
         return $cadenaSql;
@@ -437,3 +459,4 @@ class Sql extends \Sql {
 
 }
 ?>
+

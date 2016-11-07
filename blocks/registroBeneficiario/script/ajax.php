@@ -260,7 +260,9 @@ $(document).ready(function() {
 	
 	        //lat and lng is available in e object
 	        var latLng = e.latLng;
-	
+			
+			$("#geomodal").val(e.latLng.lat() + ", " + e.latLng.lng());
+			
 	        var marker=new google.maps.Marker({
 	            position:e.latLng,
 	        });
@@ -403,10 +405,7 @@ $(document).ready(function() {
 				codificacionCampos(id);
 			}else if(id==0){
 				$('#div_1').show();
-				
-				$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").attr("required", "false");
-				$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").attr("required", "false");
-				$("#<?php echo $this->campoSeguro('parentesco_0')?>").attr("required", "false");
+				$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").attr("required", "true");
 			}
 			$('#botonEliminar').show();
 			id++;	
@@ -530,14 +529,14 @@ $(document).ready(function() {
 					$($( '#div_' + (id + 1) + ' :input')[9]).attr('id', data.nivel_estudio).val("").change();
 					$($( '#div_' + (id + 1) + ' :input')[9]).attr('name', data.nivel_estudio);
 					
-					$($( '#div_' + (id + 1) + ' :input')[10]).attr('id', data.correo).val("");;
-					$($( '#div_' + (id + 1) + ' :input')[10]).attr('name', data.correo);
+					$($( '#div_' + (id + 1) + ' :input')[10]).attr('id', data.grado);
+					$($( '#div_' + (id + 1) + ' :input')[10]).attr('name', data.grado);
 					
-					$($( '#div_' + (id + 1) + ' :input')[11]).attr('id', data.grado);
-					$($( '#div_' + (id + 1) + ' :input')[11]).attr('name', data.grado);
+					$($( '#div_' + (id + 1) + ' :input')[11]).attr('id', data.institucion_educativa).val("");;
+					$($( '#div_' + (id + 1) + ' :input')[11]).attr('name', data.institucion_educativa);
 					
-					$($( '#div_' + (id + 1) + ' :input')[12]).attr('id', data.institucion_educativa).val("");;
-					$($( '#div_' + (id + 1) + ' :input')[12]).attr('name', data.institucion_educativa);
+					$($( '#div_' + (id + 1) + ' :input')[12]).attr('id', data.correo).val("");;
+					$($( '#div_' + (id + 1) + ' :input')[12]).attr('name', data.correo);
 					
 					$($( '#div_' + (id + 1) + ' :input')[13]).attr('id', data.pertenencia_etnica).val("").change();
 					$($( '#div_' + (id + 1) + ' :input')[13]).attr('name', data.pertenencia_etnica);
@@ -624,16 +623,12 @@ $(document).ready(function() {
 	$( ".fileinput-remove" ).hide();
 	
 	$(function() {
-	
 		if($("#<?php echo $this->campoSeguro('familiares')?>").val() == 0){
-				codificacionCamposSelect(id);
-				$('#div_1').hide();
-				$('#botonEliminar').hide();
-				
-				$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").removeAttr('required');
-				$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").removeAttr('required');
-				$("#<?php echo $this->campoSeguro('parentesco_0')?>").removeAttr('required');
-			}
+			codificacionCamposSelect(id);
+			$('#div_1').hide();
+			$('#botonEliminar').hide();
+			$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").removeAttr('required');
+		}
 	});
 		
 	var urbanizacion;
@@ -706,17 +701,6 @@ $(document).ready(function() {
 		 		}
 		 	});
 		 	
-		 	if(urb != ""){
-			 	$.ajax({
-			 		url: "<?php echo $urlActualizarNomHog?>",
-			 		dataType: "json",
-			 		data: {urba:urb},
-			 		success: function(data){
-			 			$( "#<?php echo $this->campoSeguro('nomenclatura');?>" ).val(data.abr_mun + '_' + data.abr_urb + '_' + $( "#<?php echo $this->campoSeguro('identificacion_beneficiario');?>" ).val()).change();
-			 			$( "#<?php echo $this->campoSeguro('consecutivo');?>" ).val(data.abr_benf);
-			 		}
-			 	});
-			 }
 		 });
 		 
 		  $( "#<?php echo $this->campoSeguro('identificacion_beneficiario');?>" ).change(function() {

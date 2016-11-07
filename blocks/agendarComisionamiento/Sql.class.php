@@ -104,7 +104,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarBeneficiariosPotenciales' :
-				$cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
+				$cadenaSql = " SELECT DISTINCT id_beneficiario, identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
 				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
 				$cadenaSql .= "WHERE estado_registro=TRUE ";
 				$cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET ['query'] . "%' ";
@@ -114,7 +114,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " order by identificacion asc ";
 				$cadenaSql .= "LIMIT 10; ";
 				break;
-				
+			
 			case 'consultarUrbanizacion' :
 				$cadenaSql = " SELECT DISTINCT id_proyecto ||' - '|| proyecto AS  value, id_proyecto  AS data  ";
 				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
@@ -124,13 +124,31 @@ class Sql extends \Sql {
 				$cadenaSql .= " order by id_proyecto asc ";
 				$cadenaSql .= "LIMIT 10; ";
 				break;
-				
-			case 'consultarBloqueManzana' :
+			
+			case 'consultarManzana' :
 				$cadenaSql = " SELECT DISTINCT manzana AS  value, manzana  AS data  ";
 				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
 				$cadenaSql .= "WHERE estado_registro=TRUE ";
 				$cadenaSql .= "AND  cast(manzana  as text) ILIKE '%" . $_GET ['query'] . "%' ";
 				$cadenaSql .= " order by manzana asc ";
+				$cadenaSql .= "LIMIT 10; ";
+				break;
+			
+			case 'consultarBloque' :
+				$cadenaSql = " SELECT DISTINCT bloque AS  value, bloque  AS data  ";
+				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+				$cadenaSql .= "WHERE estado_registro=TRUE ";
+				$cadenaSql .= "AND  cast(bloque  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= " order by bloque asc ";
+				$cadenaSql .= "LIMIT 10; ";
+				break;
+			
+			case 'consultarTorre' :
+				$cadenaSql = " SELECT DISTINCT torre AS  value, torre  AS data  ";
+				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+				$cadenaSql .= "WHERE estado_registro=TRUE ";
+				$cadenaSql .= "AND  cast(torre  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= " order by torre asc ";
 				$cadenaSql .= "LIMIT 10; ";
 				break;
 			
@@ -147,7 +165,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "WHERE ";
 				$cadenaSql .= "rparam.descripcion = 'Tipo de Vivienda' ";
 				break;
-				
+			
 			/* Consultas del desarrollo */
 			case "consultarBeneficiarios" :
 				
