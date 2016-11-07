@@ -85,18 +85,6 @@ class Registrador {
 				}
 			}
 		}
-		// Cuando Existe Registrado un borrador del contrato
-		if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosVerificados' );
-			$infoArchivo = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-			
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarContratoExistente' );
-			$infoArchivoContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-			
-			if ($infoArchivoContrato != FALSE) {
-				$infoArchivo = array_merge ( $infoArchivo, $infoArchivoContrato );
-			}
-		}
 		
 		// Para revisar los requisitos según el perfil
 		$a = 0;
@@ -107,9 +95,26 @@ class Registrador {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosContrato' );
 		$requisitosContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
-		if ($requisitosContrato != NULL) {
-			$requisitos = array_merge ( $requisitos, $requisitosContrato );
+			// Cuando Existe Registrado un borrador del contrato
+		if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosVerificados' );
+			$infoArchivo = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarContratoExistente' );
+			$infoArchivoContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			if ($infoArchivoContrato != FALSE) {
+				$infoArchivo = array_merge ( $infoArchivo, $infoArchivoContrato );
+			}
+			
+			if ($requisitosContrato != NULL) {
+				$requisitos = array_merge ( $requisitos, $requisitosContrato );
+			}
 		}
+
+
+		
+	
 		// Rescatar los datos de este bloque
 		
 		// ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
