@@ -29,4 +29,6 @@ $this->idioma['firma_beneficiario'] = 'Firma';
 
 $this->idioma['celular'] = 'Celular';
 
+$this->idioma['botonGuardar'] = 'Generar Certificación';
+
 ?>
