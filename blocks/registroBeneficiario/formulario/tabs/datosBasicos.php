@@ -296,7 +296,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            //$atributos['validar'] = 'required';
+            $atributos['validar'] = 'required';
             $atributos['cadena_sql'] = $this->miSql->getCadenaSql("parametroTipoBeneficiario");
             $matrizItems = array(
                 array(
@@ -489,7 +489,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            //$atributos['validar'] = 'required';
+            $atributos['validar'] = 'required';
 
             if (isset($cargueDatos[$esteCampo])) {
                 $atributos['valor'] = $cargueDatos[$esteCampo];
@@ -700,42 +700,9 @@ class Formulario {
 
             // ----------------FIN CONTROL: Campo Texto Edad del Beneficiario--------------------------------------------------------
 
-            // ----------------INICIO CONTROL: Campo Texto Foto--------------------------------------------------------
-
-            $esteCampo = 'foto';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "file";
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['evento'] = '';
-            $atributos['deshabilitado'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['placeholder'] = "";
-            $atributos['valor'] = "";
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
-            $atributos['miEvento'] = '';
-            $atributos['validar'] = '';
-            // Aplica atributos globales al control
-
-            if (isset($cargueDatos[$esteCampo])) {
-                $atributos['valor'] = $cargueDatos[$esteCampo];
-            } else {
-                $atributos['valor'] = '';
-            }
-
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-            unset($atributos);
-
-            // ----------------INICIO CONTROL: Campo Oculto Nombre de la Foto-------------------------------------------------------
+            {
+            
+            	  // ----------------INICIO CONTROL: Campo Oculto Nombre de la Foto-------------------------------------------------------
 
             $esteCampo = 'nombre_foto';
             $atributos["id"] = $esteCampo; // No cambiar este nombre
@@ -771,6 +738,7 @@ class Formulario {
 
             if (isset($cargueDatos[$esteCampo])) {
                 $atributos['valor'] = $cargueDatos[$esteCampo];
+                echo '<img id="imagen" src="' . $cargueDatos[$esteCampo] . $cargueDatos['nombre_foto'] .'" width="200" height="200">';
             } else {
                 $atributos['valor'] = '';
             }
@@ -803,7 +771,66 @@ class Formulario {
             unset($atributos);
 
             // ----------------FIN CONTROL: Campo Oculto URL de la Foto--------------------------------------------------------
-        }
+      
+            	$esteCampo = "foto";
+            	$atributos["id"] = $esteCampo;
+            	$atributos["nombre"] = $esteCampo;
+            	$atributos["tipo"] = "file";
+            	$atributos["obligatorio"] = true;
+            	$atributos["etiquetaObligatorio"] = false;
+            	$atributos["tabIndex"] = $tab++;
+            	$atributos["columnas"] = 1;
+            	$atributos["anchoCaja"] = "12";
+            	$atributos["estilo"] = "textoIzquierda";
+            	$atributos["anchoEtiqueta"] = 0;
+            	$atributos["tamanno"] = 500000;
+            	$atributos["validar"] = " ";
+            	$atributos["estilo"] = "file";
+            	$atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
+            	$atributos["bootstrap"] = true;
+            	$tab++;
+            	// $atributos ["valor"] = $valorCodificado;
+            	$atributos = array_merge($atributos);
+            	echo $this->miFormulario->campoCuadroTexto($atributos);
+            	unset($atributos);
+            
+            }
+//             // ----------------INICIO CONTROL: Campo Texto Foto--------------------------------------------------------
+
+//             $esteCampo = 'foto';
+//             $atributos['nombre'] = $esteCampo;
+//             $atributos['tipo'] = "file";
+//             $atributos['id'] = $esteCampo;
+//             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+//             $atributos["etiquetaObligatorio"] = true;
+//             $atributos['tab'] = $tab++;
+//             $atributos['anchoEtiqueta'] = 2;
+//             $atributos['estilo'] = "bootstrap";
+//             $atributos['evento'] = '';
+//             $atributos['deshabilitado'] = false;
+//             $atributos['columnas'] = 1;
+//             $atributos['tamanno'] = 1;
+//             $atributos['placeholder'] = "";
+//             $atributos['valor'] = "";
+//             $atributos['ajax_function'] = "";
+//             $atributos['ajax_control'] = $esteCampo;
+//             $atributos['limitar'] = false;
+//             $atributos['anchoCaja'] = 10;
+//             $atributos['miEvento'] = '';
+//             $atributos['validar'] = '';
+//             // Aplica atributos globales al control
+
+//             if (isset($cargueDatos[$esteCampo])) {
+//                 $atributos['valor'] = $cargueDatos[$esteCampo];
+//             } else {
+//                 $atributos['valor'] = '';
+//             }
+
+//             $atributos = array_merge($atributos, $atributosGlobales);
+//             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+//             unset($atributos);
+
+            }
         // ----------------FIN CONTROL: Campo Texto Foto-------------------------------------------------------
 
         echo '</div>
@@ -1073,7 +1100,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            //$atributos['validar'] = 'required';
+            $atributos['validar'] = 'required';
 
             $matrizItems = array(
                 array(
@@ -1837,71 +1864,7 @@ class Formulario {
 
         // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
 
- echo '<div id="map-canvas" class="text-center"></div>
-                <script>
-                    var markers = [];
-                    function initMap() {
-                        var map = new google.maps.Map(document.getElementById("map-canvas"), {
-                            center: {lat: 4.6482837, lng: -74.2478939},
-                            zoom: 6
-                        });
-                        var infoWindow = new google.maps.InfoWindow({map: map});
-
-                         if (navigator.geolocation) {
-                             navigator.geolocation.getCurrentPosition(function(position) {
-                             var pos = {
-                                     lat: position.coords.latitude,
-                                     lng: position.coords.longitude
-                             };
-
-                             infoWindow.setPosition(pos);
-                             infoWindow.setContent("Localización Encontrada.");
-                             map.setCenter(pos);
-                             }, function() {
-                             handleLocationError(true, infoWindow, map.getCenter());
-                             });
-                     		} else {
-                             	// Browser doesnt support Geolocation
-                             	handleLocationError(false, infoWindow, map.getCenter());
-                     		}
-
-                        google.maps.event.addListener(map, "click", function (e) {
-
-                            DeleteMarkers();
-
-                            //lat and lng is available in e object
-                            var latLng = e.latLng;
-
-                            var marker=new google.maps.Marker({
-                                position:e.latLng,
-                            });
-
-                            marker.setMap(map);
-
-                            markers.push(marker);
-                        });
-
-                        function DeleteMarkers() {
-                            //Loop through all the markers and remove
-                            for (var i = 0; i < markers.length; i++) {
-                                markers[i].setMap(null);
-                            }
-                            markers = [];
-                        };
-                    }
-
-                    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-                        infoWindow.setPosition(pos);
-                        infoWindow.setContent(browserHasGeolocation ?
-                              "Error: The Geolocation service failed." :
-                              "Error: Your browser doesn\'t support geolocation.");
-                    }
-
-                </script>
-                <script async defer
-                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgAHnG5AICmnNuBCpu75evMTBr4ZU3i60&callback=initMap">
-                </script>
-        ';
+ 		echo '<div id="map-canvas" class="text-center"></div>';
          
         // ----------------FIN CONTROL: Mapa--------------------------------------------------------
 
@@ -1967,6 +1930,45 @@ class Formulario {
 
         // -----------------FIN CONTROL: Ventana Modal Geolocalización -----------------------------------------------------------
 
+        echo '  <script>
+                    var markers = [];
+					function initMap() {
+					    var map = new google.maps.Map(document.getElementById("map-canvas"), {
+					        center: {lat: 4.6482837, lng: -74.2478939},
+					        zoom: 6
+					    });
+					    var infoWindow = new google.maps.InfoWindow({map: map});
+					
+					     if (navigator.geolocation) {
+					         navigator.geolocation.getCurrentPosition(function(position) {
+					         var pos = {
+					                 lat: position.coords.latitude,
+					                 lng: position.coords.longitude
+					         };
+					
+					         infoWindow.setPosition(pos);
+					         infoWindow.setContent("Localización Encontrada.");
+					         map.setCenter(pos);
+					         }, function() {
+					         handleLocationError(true, infoWindow, map.getCenter());
+					         });
+						 } else {
+						         // Browser doesnt support Geolocation
+						         handleLocationError(false, infoWindow, map.getCenter());
+						 }
+					
+                    }
+					
+					function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+					    infoWindow.setPosition(pos);
+					    infoWindow.setContent(browserHasGeolocation ?
+					          "Error: The Geolocation service failed." :
+					          "Error: Your browser doesn\'t support geolocation.");
+					}
+                </script>
+                <script async defer
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgAHnG5AICmnNuBCpu75evMTBr4ZU3i60&callback=initMap">
+                </script>';
         // -----------------INICIO CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
 
 //         $atributos['tipoEtiqueta'] = 'inicio';

@@ -30,8 +30,6 @@ class Registrador {
 	public function seleccionarForm() {
 		$ruta = $_REQUEST ['ruta'];
 		$idArchivo = $_REQUEST ['archivo'];
-		$tipologia = $_REQUEST ['tipologia'];
-		// Rescatar los datos de este bloque
 		
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
 		
@@ -51,6 +49,11 @@ class Registrador {
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosEspecificos', $data );
 		$requisitos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		if($_REQUEST['tipologia']=='128'){
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosContrato');
+			$requisitos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		}
 		
 		// -------------------------------------------------------------------------------------------------
 		
@@ -249,6 +252,7 @@ class Registrador {
 			$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 			$valorCodificado .= "&opcion=modificarArchivo";
 			$valorCodificado .= "&id_archivo=" . $idArchivo;
+			$valorCodificado .= "&tipologia=" . $_REQUEST ['tipologia'];
 			$valorCodificado .= "&id_beneficiario=" . $_REQUEST ['id_beneficiario'];
 			$valorCodificado .= "&tipo_beneficiario=" . $_REQUEST ['tipo_beneficiario'];
 			$valorCodificado .= "&proceso=verificarRequisitos";

@@ -65,7 +65,7 @@ class GestionarContrato {
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
         $infoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $infoContrato = $infoContrato[0];
-
+        //var_dump($infoContrato);
         if ($infoContrato['numero_identificacion'] != NULL) {
 
             $_REQUEST['mensaje'] = 'insertoInformacionContrato';
@@ -97,7 +97,7 @@ class GestionarContrato {
         if ($requisitos) {
             foreach ($requisitos as $key => $value) {
 
-                if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
+                if ($value['obligatoriedad'] == '1' && is_null($value['nombre_documento'])) {
                     $requisitosFaltantesObligatorios = true;
 
                 }
@@ -340,7 +340,7 @@ class GestionarContrato {
 
                         $urlpdfFirmas = $url . $cadena;
 
-                        echo "<b><a id='link_a' href='" . $urlpdfFirmas . "'>Documento Contrato Con Firmas</a></b>";
+                        echo "<b><a id='link_a' target='_blank' href='" . $infoContrato['ruta_documento_contrato'] . "'>Documento Contrato Con Firmas</a></b>";
                         // -----------------CONTROL: Botón ----------------------------------------------------------------
                         $esteCampo = 'botonGenerarPdf';
                         $atributos["id"] = $esteCampo;
@@ -450,12 +450,12 @@ class GestionarContrato {
 
             case 'requisitosFaltantes':
                 $estilo_mensaje = 'warning';     // information,warning,error,validation
-                $atributos["mensaje"] = '<b>Aun hay documentos por cargar<br>¿Esta Seguro?</b>';
+                $atributos["mensaje"] = '<b>Aún hay documentos por cargar<br>¿Esta Seguro de Generar el Contrato?</b>';
                 break;
 
             case 'requisitosCompletos':
                 $estilo_mensaje = 'success';     // information,warning,error,validation
-                $atributos["mensaje"] = '<b>Todos los documentos están cargado</b>';
+                $atributos["mensaje"] = '<b>Todos los documentos están cargados</b>';
                 break;
 
             case 'minimoRequisitos':

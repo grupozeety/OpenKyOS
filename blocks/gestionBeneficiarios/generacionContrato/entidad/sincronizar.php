@@ -38,6 +38,11 @@ class Sincronizar {
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "1" );
 		$carpetaDocumentos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+		if ($documento ['tipo_documento'] == 128) {
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "5" );
+			$carpetaDocumentos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		}
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'alfrescoDirectorio', '' );
 		$directorio = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );

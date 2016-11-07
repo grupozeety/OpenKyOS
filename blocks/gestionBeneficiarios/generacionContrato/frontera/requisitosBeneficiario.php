@@ -2,9 +2,9 @@
 
 namespace gestionBeneficiarios\generacionContrato\frontera;
 
-if (!isset($GLOBALS["autorizado"])) {
-    include "../index.php";
-    exit();
+if (! isset ( $GLOBALS ["autorizado"] )) {
+	include "../index.php";
+	exit ();
 }
 /**
  * IMPORTANTE: Este formulario está utilizando jquery.
@@ -57,27 +57,33 @@ class Registrador {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionAprobacion' );
 		$estadoAprobacion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionAprobacionContrato' );
+		$estadoAprobacionContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
 		if ($estadoAprobacion != false) {
-			foreach ( $estadoAprobacion as $key => $values ) {
-				$variable = "pagina=" . $miPaginaActual;
-				$variable .= "&opcion=verArchivo";
-				$variable .= "&mensaje=confirma";
-				$variable .= "&id_beneficiario=" . $_REQUEST ['id_beneficiario'];
-				$variable .= "&tipo_beneficiario=" . $infoBeneficiario ['tipo_beneficiario'];
-				$variable .= "&ruta=" . $estadoAprobacion [$key] ['ruta_relativa'];
-				$variable .= "&archivo=" . $estadoAprobacion [$key] ['id'];
-				$variable .= "&tipologia=" . $estadoAprobacion [$key] ['tipologia_documento'];
-				$url = $this->miConfigurador->configuracion ["host"] . $this->miConfigurador->configuracion ["site"] . "/index.php?";
-				$enlace = $this->miConfigurador->configuracion ['enlace'];
-				$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
-				$_REQUEST [$enlace] = $enlace . '=' . $variable;
-				$redireccion [$estadoAprobacion [$key] ['codigo_requisito']] = $url . $_REQUEST [$enlace];
+			
+			if ($estadoAprobacionContrato != false) {
+				$estadoAprobacion = array_merge ( $estadoAprobacion, $estadoAprobacionContrato );
 			}
-		}
-		// Cuando Existe Registrado un borrador del contrato
-		if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosVerificados' );
-			$infoArchivo = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			foreach ( $estadoAprobacion as $key => $values ) {
+				if ($estadoAprobacion [$key] ['ruta_relativa'] != NULL) {
+					
+					$variable = "pagina=" . $miPaginaActual;
+					$variable .= "&opcion=verArchivo";
+					$variable .= "&mensaje=confirma";
+					$variable .= "&id_beneficiario=" . $_REQUEST ['id_beneficiario'];
+					$variable .= "&tipo_beneficiario=" . $infoBeneficiario ['tipo_beneficiario'];
+					$variable .= "&ruta=" . $estadoAprobacion [$key] ['ruta_relativa'];
+					$variable .= "&archivo=" . $estadoAprobacion [$key] ['id'];
+					$variable .= "&tipologia=" . $estadoAprobacion [$key] ['tipologia_documento'];
+					$url = $this->miConfigurador->configuracion ["host"] . $this->miConfigurador->configuracion ["site"] . "/index.php?";
+					$enlace = $this->miConfigurador->configuracion ['enlace'];
+					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
+					$_REQUEST [$enlace] = $enlace . '=' . $variable;
+					$redireccion [$estadoAprobacion [$key] ['codigo_requisito']] = $url . $_REQUEST [$enlace];
+				}
+			}
 		}
 		
 		// Para revisar los requisitos según el perfil
@@ -86,6 +92,29 @@ class Registrador {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitos', $infoBeneficiario ['tipo_beneficiario'] );
 		$requisitos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosContrato' );
+		$requisitosContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+			// Cuando Existe Registrado un borrador del contrato
+		if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosVerificados' );
+			$infoArchivo = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarContratoExistente' );
+			$infoArchivoContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			if ($infoArchivoContrato != FALSE) {
+				$infoArchivo = array_merge ( $infoArchivo, $infoArchivoContrato );
+			}
+			
+			if ($requisitosContrato != FALSE) {
+				$requisitos = array_merge ( $requisitos, $requisitosContrato );
+			}
+		}
+
+
+		
+	
 		// Rescatar los datos de este bloque
 		
 		// ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
@@ -119,7 +148,7 @@ class Registrador {
 			{
 				$esteCampo = 'Agrupacion';
 				$atributos ['id'] = $esteCampo;
-				$atributos ['leyenda'] = "Requisitos Tipo de Beneficiario: " . $infoBeneficiario ['descripcion_tipo'];
+				$atributos ['leyenda'] = "Cargue Requisitos Tipo de Beneficiario: " . $infoBeneficiario ['descripcion_tipo'];
 				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 				unset ( $atributos );
 				{
@@ -196,16 +225,18 @@ class Registrador {
 							$atributos ["etiqueta"] = "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion'] . "<b> (*)</b>";
 						}
 						$atributos ["estilo"] = "file";
-						$atributos ["anchoCaja"] =1;
+						$atributos ["anchoCaja"] = 1;
 						
 						$atributos ["bootstrap"] = true;
 						// $atributos ["valor"] = $valorCodificado;
 						$atributos = array_merge ( $atributos );
 						
 						if (isset ( $infoArchivo )) {
+							
 							$indice = array_search ( $requisitos [$key] ['codigo'], array_column ( $infoArchivo, 'codigo_requisito' ), true );
+							
 							if (! is_null ( $indice ) && isset ( $redireccion [$requisitos [$key] ['codigo']] )) {
-								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . $this->lenguaje->getCadena ( $esteCampo ) . "</a></center>";
+								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion'] . "</a></center>";
 							} else {
 								$a ++;
 								$cadena = "<center>" . $this->miFormulario->campoCuadroTexto ( $atributos ) . "</center>";
@@ -365,15 +396,14 @@ class Registrador {
 		echo $this->miFormulario->formulario ( $atributos );
 	}
 	public function mensaje() {
-	//var_dump($_REQUEST);
-	
-	$atributos ["mensaje"]="";
+		// var_dump($_REQUEST);
+		$atributos ["mensaje"] = "";
 		switch ($_REQUEST ['mensaje']) {
 			case 'inserto' :
 				
 				if (isset ( $_REQUEST ['alfresco'] ) && $_REQUEST ['alfresco'] > 0) {
 					$estilo_mensaje = 'warning';
-					$atributos ["mensaje"]= '<br>Errores de Gestor Documental:' . $_REQUEST ['alfresco'];
+					$atributos ["mensaje"] = '<br>Errores de Gestor Documental:' . $_REQUEST ['alfresco'];
 				} else {
 					$estilo_mensaje = 'success';
 					$atributos ["mensaje"] = 'Requisitos Correctamente Subidos.';
@@ -397,14 +427,17 @@ class Registrador {
 			
 			case 'verifico' :
 				$estilo_mensaje = 'success'; // information,warning,error,validation
-				                             // $atributos["mensaje"] = 'Requisitos Correctamente Subidos<br>Se ha Habilitado la Opcion de ver Contrato';
 				$atributos ["mensaje"] = 'Documento Verificado';
 				break;
 			
 			case 'noverifico' :
 				$estilo_mensaje = 'warning'; // information,warning,error,validation
-				                             // $atributos["mensaje"] = 'Requisitos Correctamente Subidos<br>Se ha Habilitado la Opcion de ver Contrato';
 				$atributos ["mensaje"] = 'Atención, fallo en actualización.';
+				break;
+			
+			case 'novalido' :
+				$estilo_mensaje = 'error'; // information,warning,error,validation
+				$atributos ["mensaje"] = 'Tipo de Archivo no Válido.';
 				break;
 			
 			default :
@@ -430,63 +463,6 @@ class Registrador {
 		unset ( $atributos );
 	}
 }
-function array_column($input = null, $columnKey = null, $indexKey = null) {
-	// Using func_get_args() in order to check for proper number of
-	// parameters and trigger errors exactly as the built-in array_column()
-	// does in PHP 5.5.
-	$argc = func_num_args ();
-	$params = func_get_args ();
-	if ($argc < 2) {
-		trigger_error ( "array_column() expects at least 2 parameters, {$argc} given", E_USER_WARNING );
-		return null;
-	}
-	if (! is_array ( $params [0] )) {
-		trigger_error ( 'array_column() expects parameter 1 to be array, ' . gettype ( $params [0] ) . ' given', E_USER_WARNING );
-		return null;
-	}
-	if (! is_int ( $params [1] ) && ! is_float ( $params [1] ) && ! is_string ( $params [1] ) && $params [1] !== null && ! (is_object ( $params [1] ) && method_exists ( $params [1], '__toString' ))) {
-		trigger_error ( 'array_column(): The column key should be either a string or an integer', E_USER_WARNING );
-		return false;
-	}
-	if (isset ( $params [2] ) && ! is_int ( $params [2] ) && ! is_float ( $params [2] ) && ! is_string ( $params [2] ) && ! (is_object ( $params [2] ) && method_exists ( $params [2], '__toString' ))) {
-		trigger_error ( 'array_column(): The index key should be either a string or an integer', E_USER_WARNING );
-		return false;
-	}
-	$paramsInput = $params [0];
-	$paramsColumnKey = ($params [1] !== null) ? ( string ) $params [1] : null;
-	$paramsIndexKey = null;
-	if (isset ( $params [2] )) {
-		if (is_float ( $params [2] ) || is_int ( $params [2] )) {
-			$paramsIndexKey = ( int ) $params [2];
-		} else {
-			$paramsIndexKey = ( string ) $params [2];
-		}
-	}
-	$resultArray = array ();
-	foreach ( $paramsInput as $row ) {
-		$key = $value = null;
-		$keySet = $valueSet = false;
-		if ($paramsIndexKey !== null && array_key_exists ( $paramsIndexKey, $row )) {
-			$keySet = true;
-			$key = ( string ) $row [$paramsIndexKey];
-		}
-		if ($paramsColumnKey === null) {
-			$valueSet = true;
-			$value = $row;
-		} elseif (is_array ( $row ) && array_key_exists ( $paramsColumnKey, $row )) {
-			$valueSet = true;
-			$value = $row [$paramsColumnKey];
-		}
-		if ($valueSet) {
-			if ($keySet) {
-				$resultArray [$key] = $value;
-			} else {
-				$resultArray [] = $value;
-			}
-		}
-	}
-	return $resultArray;
-} 
 
 
 $miSeleccionador = new Registrador ( $this->lenguaje, $this->miFormulario, $this->sql );

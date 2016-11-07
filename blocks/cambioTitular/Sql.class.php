@@ -192,78 +192,42 @@ class Sql extends \Sql {
 			
 			case "registrarTitular" :
 				
-				$cadenaSql = "INSERT INTO interoperacion.beneficiario_potencial (";
-				$cadenaSql .= "id_beneficiario,";
-				$cadenaSql .= "tipo_beneficiario,";
-				$cadenaSql .= "tipo_documento,";
-				$cadenaSql .= "identificacion,";
-				$cadenaSql .= "nombre,";
-				$cadenaSql .= "primer_apellido,";
-				$cadenaSql .= "segundo_apellido,";
-				$cadenaSql .= "genero,";
-				$cadenaSql .= "edad,";
-				$cadenaSql .= "nivel_estudio,";
-				$cadenaSql .= "correo,";
-				$cadenaSql .= "foto,";
-				$cadenaSql .= "ruta_foto,";
-				$cadenaSql .= "url_foto,";
-				$cadenaSql .= "direccion,";
-				$cadenaSql .= "tipo_vivienda,";
-				$cadenaSql .= "manzana,";
-				$cadenaSql .= "bloque,";
-				$cadenaSql .= "torre,";
-				$cadenaSql .= "apartamento,";
-				$cadenaSql .= "telefono,";
-				$cadenaSql .= "celular,";
-				$cadenaSql .= "whatsapp,";
-				$cadenaSql .= "facebook,";
-				$cadenaSql .= "departamento,";
-				$cadenaSql .= "municipio,";
-				$cadenaSql .= "proyecto,";
-				$cadenaSql .= "id_proyecto,";
-				$cadenaSql .= "territorio,";
-				$cadenaSql .= "estrato,";
-				$cadenaSql .= "geolocalizacion,";
-				$cadenaSql .= "jefe_hogar,";
-				$cadenaSql .= "pertenencia_etnica,";
-				$cadenaSql .= "ocupacion";
-				$cadenaSql .= ") VALUES ";
-				$cadenaSql .= "(";
-				$cadenaSql .= "'" . $variable ['id_beneficiario'] . "',";
-				$cadenaSql .= "'" . $variable ['tipo_beneficiario'] . "',";
-				$cadenaSql .= "'" . $variable ['tipo_documento'] . "',";
-				$cadenaSql .= "'" . $variable ['identificacion'] . "',";
-				$cadenaSql .= "'" . $variable ['nombre'] . "',";
-				$cadenaSql .= "'" . $variable ['primer_apellido'] . "',";
-				$cadenaSql .= "'" . $variable ['segundo_apellido'] . "',";
-				$cadenaSql .= "'" . $variable ['genero'] . "',";
-				$cadenaSql .= "'" . $variable ['edad'] . "',";
-				$cadenaSql .= "'" . $variable ['nivel_estudio'] . "',";
-				$cadenaSql .= "'" . $variable ['correo'] . "',";
-				$cadenaSql .= "'" . $variable ['foto'] . "',";
-				$cadenaSql .= "'" . $variable ['ruta_foto'] . "',";
-				$cadenaSql .= "'" . $variable ['url_foto'] . "',";
-				$cadenaSql .= "'" . $variable ['direccion'] . "',";
-				$cadenaSql .= "'" . $variable ['tipo_vivienda'] . "',";
-				$cadenaSql .= "'" . $variable ['manzana'] . "',";
-				$cadenaSql .= "'" . $variable ['bloque'] . "',";
-				$cadenaSql .= "'" . $variable ['torre'] . "',";
-				$cadenaSql .= "'" . $variable ['apartamento'] . "',";
-				$cadenaSql .= "'" . $variable ['telefono'] . "',";
-				$cadenaSql .= "'" . $variable ['celular'] . "',";
-				$cadenaSql .= "'" . $variable ['whatsapp'] . "',";
-				$cadenaSql .= "'" . $variable ['facebook'] . "',";
-				$cadenaSql .= "'" . $variable ['departamento'] . "',";
-				$cadenaSql .= "'" . $variable ['municipio'] . "',";
-				$cadenaSql .= "'" . $variable ['proyecto'] . "',";
-				$cadenaSql .= "'" . $variable ['id_proyecto'] . "',";
-				$cadenaSql .= "'" . $variable ['territorio'] . "',";
-				$cadenaSql .= "'" . $variable ['estrato'] . "',";
-				$cadenaSql .= "'" . $variable ['geolocalizacion'] . "',";
-				$cadenaSql .= "'" . $variable ['jefe_hogar'] . "',";
-				$cadenaSql .= "'" . $variable ['pertenencia_etnica'] . "',";
-				$cadenaSql .= "'" . $variable ['ocupacion'] . "'";
-				$cadenaSql .= ")";
+				$cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
+				$cadenaSql .= "tipo_beneficiario=" . "'" . $variable ['tipo_beneficiario'] . "',";
+				$cadenaSql .= "tipo_documento=" . "'" . $variable ['tipo_documento'] . "',";
+				$cadenaSql .= "identificacion=" . "'" . $variable ['identificacion'] . "',";
+				$cadenaSql .= "nombre=" . "'" . $variable ['nombre'] . "',";
+				$cadenaSql .= "primer_apellido=" . "'" . $variable ['primer_apellido'] . "',";
+				$cadenaSql .= "segundo_apellido=" . "'" . $variable ['segundo_apellido'] . "',";
+				$cadenaSql .= "genero=" . "'" . $variable ['genero'] . "',";
+				$cadenaSql .= "edad=" . "'" . $variable ['edad'] . "',";
+				$cadenaSql .= "nivel_estudio=" . "'" . $variable ['nivel_estudio'] . "',";
+				$cadenaSql .= "correo=" . "'" . $variable ['correo'] . "',";
+				$cadenaSql .= "foto=" . "'" . $variable ['foto'] . "',";
+				$cadenaSql .= "ruta_foto=" . "'" . $variable ['ruta_foto'] . "',";
+				$cadenaSql .= "url_foto=" . "'" . $variable ['url_foto'] . "',";
+				$cadenaSql .= "direccion=" . "'" . $variable ['direccion'] . "',";
+				$cadenaSql .= "tipo_vivienda=" . "'" . $variable ['tipo_vivienda'] . "',";
+				$cadenaSql .= "manzana=" . "'" . $variable ['manzana'] . "',";
+				$cadenaSql .= "bloque=" . "'" . $variable ['bloque'] . "',";
+				$cadenaSql .= "torre=" . "'" . $variable ['torre'] . "',";
+				$cadenaSql .= "apartamento=" . "'" . $variable ['apartamento'] . "',";
+				$cadenaSql .= "telefono=" . "'" . $variable ['telefono'] . "',";
+				$cadenaSql .= "celular=" . "'" . $variable ['celular'] . "',";
+				$cadenaSql .= "whatsapp=" . "'" . $variable ['whatsapp'] . "',";
+				$cadenaSql .= "facebook=" . "'" . $variable ['facebook'] . "',";
+				$cadenaSql .= "departamento=" . "'" . $variable ['departamento'] . "',";
+				$cadenaSql .= "municipio=" . "'" . $variable ['municipio'] . "',";
+				$cadenaSql .= "proyecto=" . "'" . $variable ['proyecto'] . "',";
+				$cadenaSql .= "id_proyecto=" . "'" . $variable ['id_proyecto'] . "',";
+				$cadenaSql .= "territorio=" . "'" . $variable ['territorio'] . "',";
+				$cadenaSql .= "estrato=" . "'" . $variable ['estrato'] . "',";
+				$cadenaSql .= "geolocalizacion=" . "'" . $variable ['geolocalizacion'] . "',";
+				$cadenaSql .= "jefe_hogar=" . "'" . $variable ['jefe_hogar'] . "',";
+				$cadenaSql .= "pertenencia_etnica=" . "'" . $variable ['pertenencia_etnica'] . "',";
+				$cadenaSql .= "ocupacion=" . "'" . $variable ['ocupacion'] . "' ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "id_beneficiario=" . "'" . $variable ['id_beneficiario'] . "';";
 				break;
 			
 			case "registrarFamiliar" :
@@ -307,7 +271,7 @@ class Sql extends \Sql {
 					$cadenaSql .= "),";
 				
 				$cadenaSql = substr ( $cadenaSql, 0, (strlen ( $cadenaSql ) - 1) );
-				
+				$cadenaSql .= ";";
 				break;
 			
 			case "actualizarTitular" :
@@ -317,7 +281,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "estado_registro=FALSE ";
 				$cadenaSql .= "WHERE ";
 				$cadenaSql .= "id_beneficiario=";
-				$cadenaSql .= "'" . $variable . "'";
+				$cadenaSql .= "'" . $variable . "';";
 				break;
 			
 			case "actualizarFamiliar" :
@@ -327,7 +291,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "estado_registro=FALSE ";
 				$cadenaSql .= "WHERE ";
 				$cadenaSql .= "identificacion_familiar=";
-				$cadenaSql .= "'" . $variable . "'";
+				$cadenaSql .= "'" . $variable . "';";
 				break;
 				
 			case "informacionFamiliar" :

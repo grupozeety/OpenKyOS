@@ -22,6 +22,7 @@ class GenerarDocumento {
     public $clausulas;
     public $beneficiario;
     public $esteRecursoOP;
+    public $rutaAbsoluta;
     public function __construct($sql) {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -35,11 +36,15 @@ class GenerarDocumento {
         $conexion = "openproject";
         $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 
+        if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
             $this->rutaURL .= "/blocks/" . $_REQUEST["bloque"] . "/";
+            $this->rutaAbsoluta .= "/blocks/" . $_REQUEST["bloque"] . "/";
         } else {
             $this->rutaURL .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
+            $this->rutaAbsoluta .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
         }
 
         /**
@@ -67,47 +72,47 @@ class GenerarDocumento {
         ));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
-        $html2pdf->Output('CertificadoNOInternet_CC_' . $_REQUEST['numero_identificacion'] . '_' . date('Y-m-d') . '.pdf', 'D');
+        $html2pdf->Output('CertificadoNOInternet_CC_' . $this->infoCertificado['identificacion'] . '_' . date('Y-m-d') . '.pdf', 'D');
 
     }
     public function estruturaDocumento() {
-/*
-$cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->beneficiario['urbanizacion']);
-$urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
-$urbanizacion = $urbanizacion[0];
- */
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
+        $infoCertificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+        $this->infoCertificado = $infoCertificado;
+
         setlocale(LC_ALL, "es_CO.UTF-8");
         $contenidoPagina = "
-							<style type=\"text/css\">
-							    table {
+                            <style type=\"text/css\">
+                                table {
 
-							        font-family:Helvetica, Arial, sans-serif; /* Nicer font */
+                                    font-family:Helvetica, Arial, sans-serif; /* Nicer font */
 
-							        border-collapse:collapse; border-spacing: 3px;
-							    }
-							    td, th {
-							        border: 1px solid #CCC;
-							        height: 13px;
-							    } /* Make cells a bit taller */
+                                    border-collapse:collapse; border-spacing: 3px;
+                                }
+                                td, th {
+                                    border: 1px solid #CCC;
+                                    height: 13px;
+                                } /* Make cells a bit taller */
 
-								th {
+                                th {
 
-							        font-weight: bold; /* Make sure they're bold */
-							        text-align: center;
-							        font-size:10px;
-							    }
-							    td {
+                                    font-weight: bold; /* Make sure they're bold */
+                                    text-align: center;
+                                    font-size:10px;
+                                }
+                                td {
 
-							        text-align: left;
+                                    text-align: left;
 
-							    }
-							</style>
+                                }
+                            </style>
 
 
 
-						<page backtop='35mm' backbottom='30mm' backleft='10mm' backright='10mm' footer='page'>
-							<page_header>
-							 <br>
+                        <page backtop='35mm' backbottom='30mm' backleft='10mm' backright='10mm' footer='page'>
+                            <page_header>
+                             <br>
                             <br>
                                     <table  style='width:100%;' >
                                         <tr>
@@ -124,81 +129,87 @@ $urbanizacion = $urbanizacion[0];
                                         </tr>
                                     </table>
 
-						</page_header>";
+                        </page_header>";
 
         $contenidoPagina .= "
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<b>Fecha " . strftime("%d de %B del %Y") . "<br>
-					Ciudad " . $_REQUEST['ciudad_firma'] . ",
-					</b>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <b>Fecha " . strftime("%d de %B del %Y") . "<br>
+                    Ciudad " . $infoCertificado['ciudad_firma'] . ",
+                    </b>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
 
 
-					<table  style='width:100%;' >
-					        <tr>
+                    <table  style='width:100%;' >
+                            <tr>
 
-								<td style='border:none;text-align:justify;' >
+                                <td style='border:none;text-align:justify;' >
 
-					Yo  <b>" . $_REQUEST['nombres'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b> identificado(a) con cédula de ciudadanía <b>N°." . $_REQUEST['numero_identificacion'] . " de " . $_REQUEST['ciudad'] . " </b> en mi calidad de beneficiario(a) del Proyecto Conexiones Digitales II Redes de Acceso última milla para la masificación de accesos de banda ancha en viviendas de interés prioritario y hogares en estratos 1 y 2 - Ministerio de las Tecnologías de la Información y las Comunicaciones, por medio de la presente declaro inequívocamente que no he contratado los servicios de internet en los últimos seis (6) meses.
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					Como constancia se firma a los  <b>" . date('d') . "</b> días del mes <b>" . strftime("%B") . "</b> del año <b>" . date('Y') . "</b> en la ciudad de " . $_REQUEST['ciudad_firma'] . ".
+                    Yo  <b>" . $infoCertificado['nombre'] . " " . $infoCertificado['primer_apellido'] . " " . $infoCertificado['segundo_apellido'] . "</b> identificado(a) con cédula de ciudadanía <b>N°." . $infoCertificado['identificacion'] . " de " . $infoCertificado['ciudad_expedicion_identificacion'] . " </b> en mi calidad de beneficiario(a) del Proyecto Conexiones Digitales II Redes de Acceso última milla para la masificación de accesos de banda ancha en viviendas de interés prioritario y hogares en estratos 1 y 2 - Ministerio de las Tecnologías de la Información y las Comunicaciones, por medio de la presente declaro inequívocamente que no he contratado los servicios de internet en los últimos seis (6) meses.
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    Como constancia se firma a los  <b>" . date('d') . "</b> días del mes <b>" . strftime("%B") . "</b> del año <b>" . date('Y') . "</b> en la ciudad de " . $infoCertificado['ciudad_firma'] . ".
 
-								</td>
-							</tr>
-				        </table>
+                                </td>
+                            </tr>
+                        </table>
 
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+        <br>
+        <br>
+        <br>
+";
 
-
-
-								<table  style='width:100%;' >
-							            <tr>
-							            	   <td align='center' style='width:50%;'><b>FIRMA</b></td>
-							                   <td align='center' style='width:50%;'><b>HUELLA</b></td>
-							            </tr>
-
-							            <tr>
-							            	   <td align='center' style='width:50%;'><br><br><br><br><br><br><br></td>
-							                   <td align='center' style='width:50%;'><br><br><br><br><br><br><br></td>
-							            </tr>
-							        </table>
-
-
-
-
-        ";
+        $contenidoPagina .= "<nobreak>
+                    <b>Acepto,
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br><br>
+                                    ____________________________<br>
+                                    Firma Propietario<br>
+                                    <table style='width:100%;border:none'>
+                                        <tr>
+                                            <td style='width:25%;text-align:left;border:none'>NOMBRE :</td>
+                                            <td style='width:25%;text-align:left;border:none'>" . $infoCertificado['nombre'] . " " . $infoCertificado['primer_apellido'] . " " . $infoCertificado['segundo_apellido'] . "</td>
+                                            <td style='width:50%;text-align:center;border:none'> </td>
+                                        </tr>
+                                        <tr>
+                                            <td style='width:25%;text-align:left;border:none'>C.C :</td>
+                                            <td style='width:25%;text-align:left;border:none'>" . $infoCertificado['identificacion'] . "</td>
+                                            <td style='width:50%;text-align:center;border:none'> </td>
+                                        </tr>
+                                      ";
+        if ($infoCertificado['celular'] != '') {
+            $contenidoPagina .= "  <tr>
+                                            <td style='width:25%;text-align:left;border:none'>No .Celular :</td>
+                                            <td style='width:25%;text-align:left;border:none'>" . $infoCertificado['celular'] . "</td>
+                                            <td style='width:50%;text-align:center;border:none'> </td>
+                                        </tr>";
+        }
+        $contenidoPagina .= "
+                                    </table>
+                                    </b>
+                                    </nobreak>";
 
         $contenidoPagina .= "</page>";
 

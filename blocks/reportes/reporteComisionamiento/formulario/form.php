@@ -323,9 +323,9 @@ class Formulario {
                 		<table id="example" class="display table-container" cellspacing="0" width="100%">
         			        <thead>
         			        	<tr id="filterrow">
-        			                <th>Agendamiento</th>
- 									<th>Identificación</th>
-                					<th>Todo<input type="checkbox" id="seleccionar_todo"/></th>
+        			                 <th>Agendamiento</th>
+ 					                 <th>Beneficiario</th>
+                				     <th>Todo<input type="checkbox" id="seleccionar_todo"/></th>
         			            </tr>
         			        </thead>
                 	</table>

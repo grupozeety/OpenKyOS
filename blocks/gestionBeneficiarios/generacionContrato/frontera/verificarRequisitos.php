@@ -57,12 +57,21 @@ class Registrador {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionAprobacion' );
 		$estadoAprobacion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionAprobacionContrato' );
+		$estadoAprobacionContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
 		// Ruta Imagen
 		$rutaWarning = $this->rutaURL . "/frontera/css/imagen/warning.png";
 		$rutaCheck = $this->rutaURL . "/frontera/css/imagen/check.png";
 		$rutaNone=$this->rutaURL . "/frontera/css/imagen/none.png";
 		
 		if ($estadoAprobacion != false) {
+			
+			if($estadoAprobacionContrato!=false){
+				$estadoAprobacion=array_merge($estadoAprobacion,$estadoAprobacionContrato);
+			}
+
 			foreach ( $estadoAprobacion as $key => $values ) {
 				$imagenSupervisor [$estadoAprobacion [$key] ['codigo_requisito']] = $estadoAprobacion [$key] ['supervisor'] == 't' ? $rutaCheck : $rutaWarning;
 				$imagenComisionador [$estadoAprobacion [$key] ['codigo_requisito']] = $estadoAprobacion [$key] ['comisionador'] == 't' ? $rutaCheck : $rutaWarning;
@@ -83,20 +92,34 @@ class Registrador {
 				$redireccion [$estadoAprobacion [$key] ['codigo_requisito']] = $url . $_REQUEST [$enlace];
 			}
 		}
-		// Cuando Existe Registrado un borrador del contrato
-		if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosVerificados' );
-			$infoArchivo = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-		}
 		
-		// Para revisar los requisitos según el perfil
+			// Para revisar los requisitos según el perfil
 		$a = 0;
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitos', $infoBeneficiario ['tipo_beneficiario'] );
 		$requisitos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
-		// Rescatar los datos de este bloque
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosContrato');
+		$requisitosContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		// Cuando Existe Registrado un borrador del contrato
 		
+		if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosVerificados' );
+			$infoArchivo = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarContratoExistente' );
+			$infoArchivoContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			if($infoArchivoContrato!=FALSE){
+				$infoArchivo=array_merge($infoArchivo,$infoArchivoContrato);
+			}
+			
+			if ($requisitosContrato != FALSE) {
+				$requisitos = array_merge ( $requisitos, $requisitosContrato );
+			}
+		}
+		
+		// Rescatar los datos de este bloque
 		// ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 		
 		$atributosGlobales ['campoSeguro'] = 'true';
@@ -128,7 +151,7 @@ class Registrador {
 			{
 				$esteCampo = 'Agrupacion';
 				$atributos ['id'] = $esteCampo;
-				$atributos ['leyenda'] = "Requisitos Tipo de Beneficiario: " . $infoBeneficiario ['descripcion_tipo'];
+				$atributos ['leyenda'] = "Verificar Requisitos Tipo de Beneficiario: " . $infoBeneficiario ['descripcion_tipo'];
 				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 				unset ( $atributos );
 				{
@@ -215,20 +238,20 @@ class Registrador {
 							$indice = array_search ( $requisitos [$key] ['codigo'], array_column ( $infoArchivo, 'codigo_requisito' ), true );
 							if (! is_null ( $indice ) && isset ( $redireccion [$requisitos [$key] ['codigo']] )) {
 
-								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . $this->lenguaje->getCadena ( $esteCampo ) . "</a></center>";
+								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion']. "</a></center>";
 							} else {
 								$imagenComisionador [$esteCampo] = $rutaNone;
 								$imagenSupervisor [$esteCampo] =$rutaNone;
 								$imagenAnalista [$esteCampo] = $rutaNone;
 								$a ++;
-								$cadena = "<center>" . $this->lenguaje->getCadena ( $esteCampo ) . "</center>";
+								$cadena = "<center>" . "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion'] . "</center>";
 							}
 						} else {
 							$imagenComisionador [$esteCampo] = $rutaNone;
 							$imagenSupervisor [$esteCampo] =$rutaNone;
 							$imagenAnalista [$esteCampo] = $rutaNone;
 							$a ++;
-							$cadena = "<center>" . $this->lenguaje->getCadena ( $esteCampo ) . "</center>";
+							$cadena = "<center>" . "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion']. "</center>";
 						}
 						$filasTabla [$key] = array (
 								0 => $cadena,
