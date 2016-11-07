@@ -420,6 +420,16 @@ class Sql extends \Sql {
 
                 break;
 
+            case 'registrarDocumentoContrato':
+                $cadenaSql = " UPDATE interoperacion.contrato";
+                $cadenaSql .= " SET ";
+                $cadenaSql .= " nombre_documento_contrato='" . $variable['nombre_contrato'] . "', ";
+                $cadenaSql .= " ruta_documento_contrato='" . $variable['ruta_contrato'] . "'  ";
+                $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' ";
+                $cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
+                $cadenaSql .= " AND estado_registro=TRUE;";
+                break;
+
         }
 
         return $cadenaSql;

@@ -61,6 +61,12 @@ class FormProcessor {
 
         $this->procesarInformacion();
 
+        if ($this->archivos_datos != '') {
+
+            include_once "guardarDocumentoPDF.php";
+
+        }
+
         if ($this->registro_info_contrato) {
             Redireccionador::redireccionar("InsertoInformacionContrato");
         } else {
