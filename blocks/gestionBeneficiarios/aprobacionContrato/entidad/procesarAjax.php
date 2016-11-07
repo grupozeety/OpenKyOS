@@ -18,7 +18,7 @@ class procesarAjax {
             case 'consultarContratos':
 
                 $cadenaSql = $this->sql->getCadenaSql('consultarContratos');
-
+                //echo $cadenaSql;exit;
                 $resultadoContratos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
                 // URL base
@@ -41,7 +41,7 @@ class procesarAjax {
                         if ($requisitos) {
                             foreach ($requisitos as $key => $value) {
 
-                                if ($value['obligatoriedad'] == '1' && ($value['comisionador'] == 'f' || $value['supervisor'] == 'f' || $value['analista'] == 'f')) {
+                                if (($value['comisionador'] == 'f' || $value['supervisor'] == 'f' || $value['analista'] == 'f')) {
                                     $noAprobar = true;
                                 }
 
@@ -70,7 +70,7 @@ class procesarAjax {
                             $estado_contrato = "<center>Existen Documentos por Verificar</center>";
                         } else {
 
-                            $estado_contrato = ($valor['estado_contrato'] == 'Borrador') ? "<center><b><a href='" . $urlAprobarContrato . "'  >Por Aprobar Contrato</a></b></center>" : "<center><b>" . $valor['estado_contrato'] . "</b></center>";
+                            $estado_contrato = "<center><b>" . $valor['estado_contrato'] . "</b></center>";
 
                         }
 

@@ -1,16 +1,11 @@
 <?php
 namespace reportes\certificadoNoInternet\frontera;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
 }
-//echo "Informacion";
-//var_dump($_REQUEST);exit;
-/**
- * IMPORTANTE: Este formulario está utilizando jquery.
- * Por tanto en el archivo ready.php se declaran algunas funciones js
- * que lo complementan.
- */
+
 class Certificado {
     public $miConfigurador;
     public $lenguaje;
@@ -50,6 +45,27 @@ class Certificado {
         $conexion = "openproject";
         $esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
+        $_REQUEST['id_beneficiario'] = $_REQUEST['id'];
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
+        $infoCertificado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        if ($infoCertificado) {
+
+            $variable = 'pagina=certificadoNoInternet';
+            $variable .= '&opcion=resultadoCertificado';
+            $variable .= '&mensaje=insertoInformacionCertificado';
+            $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+            $url = $this->miConfigurador->configuracion["host"] . $this->miConfigurador->configuracion["site"] . "/index.php?";
+            $enlace = $this->miConfigurador->configuracion['enlace'];
+            $variable = $this->miConfigurador->fabricaConexiones->crypto->codificar($variable);
+            $_REQUEST[$enlace] = $enlace . '=' . $variable;
+            $redireccion = $url . $_REQUEST[$enlace];
+
+            echo "<script>location.replace('" . $redireccion . "')</script>";
+
+            exit();
+
+        }
         //Consulta información
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
@@ -452,7 +468,7 @@ class Certificado {
                     {
 
                         // -----------------CONTROL: Botón ----------------------------------------------------------------
-                        $esteCampo = 'botonGenerarPdf';
+                        $esteCampo = 'botonGuardar';
                         $atributos["id"] = $esteCampo;
                         $atributos["tabIndex"] = $tab;
                         $atributos["tipo"] = 'boton';
@@ -504,7 +520,9 @@ class Certificado {
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                $valorCodificado .= "&opcion=generarCertificacion";
+//                $valorCodificado .= "&opcion=generarCertificacion";
+                $valorCodificado .= "&opcion=guardarInformacion";
+                $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id'];
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.

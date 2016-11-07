@@ -1,6 +1,6 @@
 <?php
 
-namespace reportes\reporteAgendamientos\funcion;
+namespace gestionComisionamiento\agendaComisionador\funcion;
 
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
@@ -20,6 +20,8 @@ class GenerarDocumento {
     public $contenidoPagina;
     public $rutaURL;
     public function __construct($sql, $elementos) {
+    	date_default_timezone_set ( 'America/Bogota' );
+    	
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
@@ -58,7 +60,7 @@ class GenerarDocumento {
         ));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
-        $html2pdf->Output('AgendamientosProgramados' . date('Y-m-d') . '.pdf', 'D');
+        $html2pdf->Output('AgendamientosAsignados' . date('Y-m-d') . '.pdf', 'D');
 
     }
     public function estruturaDocumento() {
@@ -88,7 +90,7 @@ class GenerarDocumento {
 							    td {
 
 							        text-align: left;
-									font-size:9px;
+
 							    }
 							</style>
 
@@ -114,17 +116,16 @@ class GenerarDocumento {
         $contenidoPagina .= "
 	 							<table style='width:100%;'>
 								<tr>
-									<td style='width:4%;text-align=center;'>N°</td>
-									<td style='width:9%;text-align=center;'>Agendamiento </td>
-									<td style='width:10%;text-align=center;'>Urbanización </td>
+									<td style='width:5%;text-align=center;'>N°</td>
+									<td style='width:10%;text-align=center;'>Agendamiento </td>
+									<td style='width:13%;text-align=center;'>Urbanización </td>
 	        						<td style='width:7%;text-align=center;'>Manzana </td>
 	        						<td style='width:7%;text-align=center;'>Torre </td>
 	        						<td style='width:7%;text-align=center;'>Bloque </td>
-	        						<td style='width:7%;text-align=center;'>Casa Apartamento </td>
+	        						<td style='width:8%;text-align=center;'>Casa Apartamento </td>
 	        						<td style='width:10%;text-align=center;'>Tipo de Agendamiento </td>
-	        						<td style='width:10%;text-align=center;'>Comisionador </td>
-        							<td style='width:11%;text-align=center;'>Documento Beneficiario</td>
-	        						<td style='width:10%;text-align=center;'>Nombre Beneficiario </td>
+	        						<td style='width:13%;text-align=center;'>Comisionador </td>
+	        						<td style='width:13%;text-align=center;'>Nombre Beneficiario </td>
 	        						<td style='width:8%;text-align=center;'>Fecha </td>
 								</tr>";
 
@@ -134,17 +135,16 @@ class GenerarDocumento {
 
             $contenidoPagina .= "
 							            <tr>
-							            <td style='width:4%;text-align=center;'>" . $i . "</td>
-							            <td style='width:9%;text-align=center;'>" . $valor['id_agendamiento'] . "</td>
-							            <td style='width:10%;text-align=center;'>" . $valor['urbanizacion'] . "</td>
+							            <td style='width:5%;text-align=center;'>" . $i . "</td>
+							            <td style='width:10%;text-align=center;'>" . $valor['id_agendamiento'] . "</td>
+							            <td style='width:13%;text-align=center;'>" . $valor['urbanizacion'] . "</td>
 							            <td style='width:7%;text-align=center;'>" . $valor['manzana'] . "</td>
 							            <td style='width:7%;text-align=center;'>" . $valor['torre'] . "</td>
 							            <td style='width:7%;text-align=center;'>" . $valor['bloque'] . "</td>
-							            <td style='width:7%;text-align=center;'>" . $valor['apartamento'] . "</td>
+							            <td style='width:8%;text-align=center;'>" . $valor['apartamento'] . "</td>
 							            <td style='width:10%;text-align=center;'>" . $valor['tipo_agendamiento'] . "</td>
-							            <td style='width:10%;text-align=center;'>" . $valor['comisionador'] . "</td>
-							            <td style='width:11%;text-align=center;'>" . $valor['identificacion_beneficiario'] . "</td>
-							            <td style='width:10%;text-align=center;'>" . $valor['nombre'] . " ". $valor['primer_apellido'] . " " . $valor['segundo_apellido'] . "</td>
+							            <td style='width:13%;text-align=center;'>" . $valor['comisionador'] . "</td>
+							            <td style='width:13%;text-align=center;'>" . $valor['nombre_beneficiario'] . "</td>
 							            <td style='width:8%;text-align=center;'>" . $valor['fecha'] . "</td>
 							            </tr>";
 
