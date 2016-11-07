@@ -148,7 +148,7 @@ class Registrar {
         $beneficiarioPotencial['jefe_hogar'] = $_REQUEST['jefe_hogar'];
         $beneficiarioPotencial['pertenencia_etnica'] = $_REQUEST['pertenencia_etnica'];
         $beneficiarioPotencial['ocupacion'] = $_REQUEST['ocupacion'];
-        $beneficiarioPotencial['nomenclatura'] = str_replace ( "\\" , "" , $_REQUEST['nomenclatura']);
+        $beneficiarioPotencial['nomenclatura'] = str_replace ( "\\" , "" , $beneficiarioPotencial['nomenclatura']);
         $beneficiarioPotencial['id_hogar'] = '';
 		//$beneficiarioPotencial['id_hogar'] = $_REQUEST['id_hogar'];
         //$beneficiarioPotencial['resolucion_adjudicacion'] = $_REQUEST['resolucion_adjudicacion'];
