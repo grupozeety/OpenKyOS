@@ -279,6 +279,18 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND rl.descripcion='Carpeta Contrato'";
                 $cadenaSql .= " AND pr.codigo='" . $variable . "' ";
                 $cadenaSql .= " AND rl.estado_registro=TRUE ";
+
+                break;
+
+            case 'consultarParametroContrato':
+                $cadenaSql = " SELECT pr.id_parametro, pr.descripcion, pr.codigo ";
+                $cadenaSql .= " FROM parametros.parametros pr";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+                $cadenaSql .= " WHERE ";
+                $cadenaSql .= " pr.estado_registro=TRUE ";
+                $cadenaSql .= " AND rl.descripcion='Carpeta Contrato'";
+                $cadenaSql .= " AND pr.codigo='" . $variable . "' ";
+                $cadenaSql .= " AND rl.estado_registro=TRUE ";
                 break;
 
             case 'consultarParametroCodigo':
@@ -505,7 +517,7 @@ class Sql extends \Sql {
 
             case 'consultarValidacionRequisitos':
                 $cadenaSql = " SELECT dr.perfil, dr.tipologia_documento, dr.obligatoriedad, dr.proceso, ";
-                $cadenaSql .= " dc.nombre_documento, pr.descripcion nombre_requisitos ";
+                $cadenaSql .= " dc.nombre_documento, pr.descripcion nombre_requisitos , dc.comisionador, dc.supervisor, dc.analista ";
                 $cadenaSql .= " FROM interoperacion.documentos_requisitos AS dr";
                 $cadenaSql .= " JOIN  parametros.parametros AS pr ON pr.id_parametro= dr.tipologia_documento ";
                 $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato AS dc ON dc.tipologia_documento= dr.tipologia_documento AND dc.id_beneficiario='" . $variable['id_beneficiario'] . "'";
@@ -556,6 +568,24 @@ class Sql extends \Sql {
                 $cadenaSql .= " SET estado_servicio='86'  ";
                 $cadenaSql .= " WHERE id_contrato= '" . $variable . "'";
                 $cadenaSql .= " AND estado_registro=TRUE ;";
+                break;
+
+            case 'consultaContratoInfo':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM interoperacion.contrato";
+                $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "'";
+                $cadenaSql .= " AND estado_registro='TRUE'";
+                break;
+
+            case 'actualizarEstadoContrato':
+                $cadenaSql = " UPDATE interoperacion.contrato";
+                $cadenaSql .= " SET ";
+                $cadenaSql .= " estado_contrato='83'  ";
+                $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' ";
+                $cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
+                $cadenaSql .= " AND estado_registro=TRUE ";
+                $cadenaSql .= " RETURNING id ;";
+
                 break;
 
         }
