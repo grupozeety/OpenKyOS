@@ -121,7 +121,7 @@ $this->idioma['900_1'] = '<b>900_1</b> Contrato Macro';
 
 $this->idioma['botonCargarRequisitos'] = 'Cargar Requisitos';
 
-$this->idioma['botonVisualizarContrato'] = 'Ver Contrato';
+$this->idioma['botonVisualizarContrato'] = 'Generar Contrato';
 
 $this->idioma['botonGenerarPdf'] = 'Generar Minuta Contrato Con Firmas';
 
