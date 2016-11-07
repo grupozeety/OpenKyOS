@@ -232,7 +232,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "ON ";
 				$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "rparam.descripcion = 'Tipo de Agendamiento' ";
+				$cadenaSql .= "rparam.descripcion = 'Tipo de Agendamiento' AND param.estado_registro=TRUE";
 				break;
 			
 			case "parametroTipoTecnologia" :
