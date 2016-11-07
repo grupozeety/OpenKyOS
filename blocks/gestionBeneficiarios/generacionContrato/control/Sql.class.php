@@ -452,6 +452,81 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE rol='" . $variable . "'; ";
 
                 break;
+                
+                /**
+			 * ********************************************************************************
+			 */
+			// Las siguientes son para incluir el contrato para ser gestionado por verificar
+			case 'consultarContratoExistente' :
+				$cadenaSql = " SELECT id, id_beneficiario, tipologia_documento,nombre_documento, ruta_relativa, tipo_requisito, codigo_requisito ";
+				$cadenaSql .= " FROM (SELECT";
+				$cadenaSql .= " cn.id,";
+				$cadenaSql .= " cn.id_beneficiario,";
+				$cadenaSql .= " cn.nombre_documento_contrato as nombre_documento,";
+				$cadenaSql .= " cn.ruta_documento_contrato as ruta_relativa";
+				$cadenaSql .= " FROM interoperacion.contrato cn";
+				$cadenaSql .= " WHERE cn.estado_registro=TRUE";
+				$cadenaSql .= " AND cn.id_beneficiario='" . $_REQUEST ['id_beneficiario'] . "') as table1,(SELECT";
+				$cadenaSql .= " pr.descripcion tipo_requisito,";
+				$cadenaSql .= " pr.codigo codigo_requisito,";
+				$cadenaSql .= " pr.id_parametro as tipologia_documento";
+				$cadenaSql .= " FROM parametros.parametros pr";
+				$cadenaSql .= " WHERE pr.estado_registro=TRUE";
+				$cadenaSql .= " AND pr.id_parametro=128) as table2";
+				break;
+			
+			case "consultaRequisitosContrato" :
+				$cadenaSql = "SELECT ";
+				$cadenaSql .= " pr.descripcion, ";
+				$cadenaSql .= " pr.codigo codigo, ";
+				$cadenaSql .= " pr.id_parametro as tipologia_documento, ";
+				$cadenaSql .= " 0 as obligatoriedad ";
+				$cadenaSql .= " FROM parametros.parametros pr ";
+				$cadenaSql .= " WHERE pr.estado_registro=TRUE ";
+				$cadenaSql .= " AND pr.id_parametro=128";
+				break;
+			
+			case 'consultaInformacionAprobacionContrato' :
+				$cadenaSql = " SELECT id, ";
+				$cadenaSql .= " id_beneficiario,  ";
+				$cadenaSql .= " codigo_requisito,  ";
+				$cadenaSql .= " supervisor , ";
+				$cadenaSql .= " comisionador, ";
+				$cadenaSql .= " analista, ";
+				$cadenaSql .= " tipologia_documento, ";
+				$cadenaSql .= " ruta_relativa ";
+				$cadenaSql .= " FROM (SELECT  ";
+				$cadenaSql .= " cn.id, ";
+				$cadenaSql .= " cn.id_beneficiario, ";
+				$cadenaSql .= " cn.nombre_documento_contrato as nombre_documento, ";
+				$cadenaSql .= " cn.ruta_documento_contrato as ruta_relativa, ";
+				$cadenaSql .= " supervisor , ";
+				$cadenaSql .= " comisionador, ";
+				$cadenaSql .= " analista ";
+				$cadenaSql .= " FROM interoperacion.contrato cn ";
+				$cadenaSql .= " WHERE cn.estado_registro=TRUE AND ruta_documento_contrato!=NULL  ";
+				$cadenaSql .= " AND cn.id_beneficiario='" . $_REQUEST ['id_beneficiario'] . "') as table1,(SELECT ";
+				$cadenaSql .= " pr.descripcion tipo_requisito, ";
+				$cadenaSql .= " pr.codigo codigo_requisito, ";
+				$cadenaSql .= " pr.id_parametro as tipologia_documento ";
+				$cadenaSql .= " FROM parametros.parametros pr ";
+				$cadenaSql .= " WHERE pr.estado_registro=TRUE ";
+				$cadenaSql .= " AND pr.id_parametro=128) as table2";
+				break;
+			
+			case "consultaRequisitosEspecificos" :
+				$cadenaSql = " SELECT tipologia_documento,codigo, descripcion,obligatoriedad ";
+				$cadenaSql .= " FROM interoperacion.documentos_requisitos ";
+				$cadenaSql .= " JOIN parametros.parametros ON id_parametro=tipologia_documento ";
+				$cadenaSql .= " WHERE perfil=" . $variable ['tipo'] . "";
+				$cadenaSql .= " AND documentos_requisitos.estado_registro=TRUE";
+				$cadenaSql .= " AND proceso=116";
+				$cadenaSql .= " AND tipologia_documento='" . $variable ['codigo'] . "'";
+				break;
+			
+			/**
+			 * ********************************************************************************
+			 */
         }
 
         return $cadenaSql;
