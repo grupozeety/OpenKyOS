@@ -221,7 +221,7 @@ class Registrar {
         }
         
         echo $cadenaSql;
-        var_dump($_REQUEST);
+        var_dump($resultado);
         die;
         
         if ($resultado) {
