@@ -58,7 +58,7 @@ class GenerarDocumento {
         ));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
-        $html2pdf->Output('FormatoPorcentajeMaterialConsumido' . date('Y-m-d') . '.pdf', 'D');
+        $html2pdf->Output('AgendamientosProgramados' . date('Y-m-d') . '.pdf', 'D');
 
     }
     public function estruturaDocumento() {
