@@ -7,12 +7,26 @@ if (!isset($GLOBALS["autorizado"])) {
 
 include_once "core/manager/Configurador.class.php";
 include_once "core/connection/Sql.class.php";
+include_once "core/auth/SesionSso.class.php";
 
 // Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 // en camel case precedida por la palabra sql
 class Sql extends \Sql {
     public $miConfigurador;
+    public $miSesionSso;
+    public function __construct() {
+        $this->miConfigurador = \Configurador::singleton();
+        $this->miSesionSso = \SesionSso::singleton();
+    }
     public function getCadenaSql($tipo, $variable = '') {
+
+        $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
+
+        foreach ($info_usuario['description'] as $key => $rol) {
+
+            $info_usuario['rol'][] = $rol;
+
+        }
 
         /**
          * 1.
@@ -98,6 +112,21 @@ class Sql extends \Sql {
                 $cadenaSql .= " FROM interoperacion.certificacion_no_internet";
                 $cadenaSql .= " WHERE id_beneficiario ='" . $_REQUEST['id_beneficiario'] . "'";
                 $cadenaSql .= " AND estado_registro='TRUE';";
+                break;
+
+            case 'registrarRequisito':
+                $cadenaSql = " INSERT INTO interoperacion.documentos_contrato(";
+                $cadenaSql .= " id_beneficiario, ";
+                $cadenaSql .= " tipologia_documento,";
+                $cadenaSql .= " nombre_documento, ";
+                $cadenaSql .= " ruta_relativa, ";
+                $cadenaSql .= " usuario)";
+                $cadenaSql .= " VALUES ('" . $variable['id_beneficiario'] . "',";
+                $cadenaSql .= " '" . $variable['tipologia'] . "',";
+                $cadenaSql .= " '" . $variable['nombre_documento'] . "',";
+                $cadenaSql .= " '" . $variable['ruta_relativa'] . "',";
+                $cadenaSql .= " '" . $info_usuario['uid'][0] . "');";
+
                 break;
         }
 

@@ -73,6 +73,16 @@ class GenerarDocumento {
 
         $this->registro_certificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
+        $arreglo = array(
+            'id_beneficiario' => $_REQUEST['id_beneficiario'],
+            'tipologia' => "900",
+            'nombre_documento' => $this->nombreDocumento,
+            'ruta_relativa' => $this->rutaURL . $this->nombreDocumento,
+        );
+
+        $cadenaSql = $this->miSql->getCadenaSql('registrarRequisito', $arreglo);
+        $this->registroRequisito = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
     }
 
     public function crearPDF() {
