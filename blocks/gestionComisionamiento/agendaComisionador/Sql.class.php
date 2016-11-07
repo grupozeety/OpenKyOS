@@ -114,8 +114,12 @@ class Sql extends \Sql {
 				$cadenaSql .= "bp.identificacion ||' - '|| bp.nombre ||' '||bp.primer_apellido||' '||bp.segundo_apellido AS beneficiario, ";
 				$cadenaSql .= "CASE estado_contrato WHEN  82 THEN 0"; //0 falta algo
 				$cadenaSql .= "WHEN 83 THEN 1 "; //1 todo correcto
-				$cadenaSql .= "ELSE 0 "; //no inciado
-				$cadenaSql .= "END as estado_agenda ";
+				$cadenaSql .= "ELSE 2 "; //no inciado
+				$cadenaSql .= "END as estado_agenda, ";
+				$cadenaSql .= "CASE estado_contrato WHEN  82 THEN 'En Verificación'"; //0 falta algo
+				$cadenaSql .= "WHEN 83 THEN 'Contrato Aprobado' "; //1 todo correcto
+				$cadenaSql .= "ELSE 'No iniciado' "; //no inciado
+				$cadenaSql .= "END as etiqueta_agenda ";
 				$cadenaSql .= "FROM interoperacion.agendamiento_comisionamiento as ac ";
 				$cadenaSql .= "LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario=ac.id_beneficiario ";
 				$cadenaSql .= "LEFT JOIN parametros.parametros pr ON pr.id_parametro=estado_contrato ";
@@ -144,7 +148,13 @@ class Sql extends \Sql {
 				$cadenaSql .= "WHEN  84 THEN 0 ";
 				$cadenaSql .= "WHEN 129 THEN 1  ";
 				$cadenaSql .= "ELSE 2  ";
-				$cadenaSql .= "END as estado_agenda ";
+				$cadenaSql .= "END as estado_agenda, ";
+				$cadenaSql .= "CASE estado_servicio ";
+				$cadenaSql .= "WHEN  85 THEN 'En Verificación' ";
+				$cadenaSql .= "WHEN  84 THEN 'En Verificación' ";
+				$cadenaSql .= "WHEN 129 THEN 'Completado' ";
+				$cadenaSql .= "ELSE 'No iniciado'  ";
+				$cadenaSql .= "END as etiqueta_agenda ";
 				$cadenaSql .= "FROM interoperacion.agendamiento_comisionamiento as ac ";
 				$cadenaSql .= "LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario=ac.id_beneficiario ";
 				$cadenaSql .= "LEFT JOIN interoperacion.servicio sv on sv.id_contrato=cn.id ";
