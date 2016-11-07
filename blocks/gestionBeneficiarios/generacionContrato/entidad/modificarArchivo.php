@@ -48,7 +48,7 @@ class Alfresco {
 		// Conexion a Base de Datos
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-		
+
 		if ($_REQUEST ['tipologia'] == 128) {
 			
 			if ($_REQUEST ['verificar'] == 'true') {
@@ -66,6 +66,8 @@ class Alfresco {
 				
 				$this->sincronizacion->sincronizarAlfresco ( $_REQUEST ['id_beneficiario'], $this->archivos_datos [0] );
 				$this->actualizarLocalContrato ();
+				
+				
 			}
 		} else {
 			
@@ -131,6 +133,7 @@ class Alfresco {
 	}
 	public function actualizarLocalContrato() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarLocalContrato', $this->archivos_datos [0] );
+	
 		$this->verificacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 	}
 	public function asociarCodigoDocumento() {

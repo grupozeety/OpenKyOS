@@ -57,27 +57,45 @@ class Registrador {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionAprobacion' );
 		$estadoAprobacion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionAprobacionContrato' );
+		$estadoAprobacionContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
 		if ($estadoAprobacion != false) {
+			
+			if ($estadoAprobacionContrato != false) {
+				$estadoAprobacion = array_merge ( $estadoAprobacion, $estadoAprobacionContrato );
+			}
+			
 			foreach ( $estadoAprobacion as $key => $values ) {
-				$variable = "pagina=" . $miPaginaActual;
-				$variable .= "&opcion=verArchivo";
-				$variable .= "&mensaje=confirma";
-				$variable .= "&id_beneficiario=" . $_REQUEST ['id_beneficiario'];
-				$variable .= "&tipo_beneficiario=" . $infoBeneficiario ['tipo_beneficiario'];
-				$variable .= "&ruta=" . $estadoAprobacion [$key] ['ruta_relativa'];
-				$variable .= "&archivo=" . $estadoAprobacion [$key] ['id'];
-				$variable .= "&tipologia=" . $estadoAprobacion [$key] ['tipologia_documento'];
-				$url = $this->miConfigurador->configuracion ["host"] . $this->miConfigurador->configuracion ["site"] . "/index.php?";
-				$enlace = $this->miConfigurador->configuracion ['enlace'];
-				$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
-				$_REQUEST [$enlace] = $enlace . '=' . $variable;
-				$redireccion [$estadoAprobacion [$key] ['codigo_requisito']] = $url . $_REQUEST [$enlace];
+				if ($estadoAprobacion [$key] ['ruta_relativa'] != NULL) {
+					
+					$variable = "pagina=" . $miPaginaActual;
+					$variable .= "&opcion=verArchivo";
+					$variable .= "&mensaje=confirma";
+					$variable .= "&id_beneficiario=" . $_REQUEST ['id_beneficiario'];
+					$variable .= "&tipo_beneficiario=" . $infoBeneficiario ['tipo_beneficiario'];
+					$variable .= "&ruta=" . $estadoAprobacion [$key] ['ruta_relativa'];
+					$variable .= "&archivo=" . $estadoAprobacion [$key] ['id'];
+					$variable .= "&tipologia=" . $estadoAprobacion [$key] ['tipologia_documento'];
+					$url = $this->miConfigurador->configuracion ["host"] . $this->miConfigurador->configuracion ["site"] . "/index.php?";
+					$enlace = $this->miConfigurador->configuracion ['enlace'];
+					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
+					$_REQUEST [$enlace] = $enlace . '=' . $variable;
+					$redireccion [$estadoAprobacion [$key] ['codigo_requisito']] = $url . $_REQUEST [$enlace];
+				}
 			}
 		}
 		// Cuando Existe Registrado un borrador del contrato
 		if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosVerificados' );
 			$infoArchivo = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarContratoExistente' );
+			$infoArchivoContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			if ($infoArchivoContrato != FALSE) {
+				$infoArchivo = array_merge ( $infoArchivo, $infoArchivoContrato );
+			}
 		}
 		
 		// Para revisar los requisitos según el perfil
@@ -85,6 +103,11 @@ class Registrador {
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitos', $infoBeneficiario ['tipo_beneficiario'] );
 		$requisitos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosContrato' );
+		$requisitosContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		$requisitos = array_merge ( $requisitos, $requisitosContrato );
 		
 		// Rescatar los datos de este bloque
 		
@@ -203,9 +226,11 @@ class Registrador {
 						$atributos = array_merge ( $atributos );
 						
 						if (isset ( $infoArchivo )) {
+							
 							$indice = array_search ( $requisitos [$key] ['codigo'], array_column ( $infoArchivo, 'codigo_requisito' ), true );
+							
 							if (! is_null ( $indice ) && isset ( $redireccion [$requisitos [$key] ['codigo']] )) {
-								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . $this->lenguaje->getCadena ( $esteCampo ) . "</a></center>";
+								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion']. "</a></center>";
 							} else {
 								$a ++;
 								$cadena = "<center>" . $this->miFormulario->campoCuadroTexto ( $atributos ) . "</center>";

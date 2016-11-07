@@ -57,6 +57,7 @@ class Registrador {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionAprobacion' );
 		$estadoAprobacion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionAprobacionContrato' );
 		$estadoAprobacionContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
