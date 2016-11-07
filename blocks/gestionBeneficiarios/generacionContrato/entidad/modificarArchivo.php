@@ -88,7 +88,6 @@ class Alfresco {
 
         $this->actualizarEstadoContrato();
 
-        exit;
         if ($this->verificacion) {
             Redireccionador::redireccionar("verifico", $_REQUEST['id_beneficiario']);
         } else {
@@ -104,9 +103,8 @@ class Alfresco {
 
         );
         $cadenaSql = $this->miSql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
-
         $requisitos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        var_dump($requisitos);
+
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
         $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
@@ -187,7 +185,7 @@ class Alfresco {
             }
 
         }
-        exit;
+
     }
     public function verificarArchivo() {
         $respuesta = $this->miSesionSso->getParametrosSesionAbierta();
