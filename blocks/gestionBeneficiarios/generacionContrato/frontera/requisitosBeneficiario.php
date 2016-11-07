@@ -107,8 +107,9 @@ class Registrador {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosContrato' );
 		$requisitosContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
-		$requisitos = array_merge ( $requisitos, $requisitosContrato );
-		
+		if ($requisitosContrato != NULL) {
+			$requisitos = array_merge ( $requisitos, $requisitosContrato );
+		}
 		// Rescatar los datos de este bloque
 		
 		// ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
@@ -230,7 +231,7 @@ class Registrador {
 							$indice = array_search ( $requisitos [$key] ['codigo'], array_column ( $infoArchivo, 'codigo_requisito' ), true );
 							
 							if (! is_null ( $indice ) && isset ( $redireccion [$requisitos [$key] ['codigo']] )) {
-								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion']. "</a></center>";
+								$cadena = "<center><a href='" . $redireccion [$requisitos [$key] ['codigo']] . "' >" . "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion'] . "</a></center>";
 							} else {
 								$a ++;
 								$cadena = "<center>" . $this->miFormulario->campoCuadroTexto ( $atributos ) . "</center>";
