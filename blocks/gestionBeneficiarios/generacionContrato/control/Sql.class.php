@@ -535,8 +535,8 @@ class Sql extends \Sql {
                 $cadenaSql = " UPDATE interoperacion.contrato";
                 $cadenaSql .= " SET ";
                 $cadenaSql .= " nombre_documento_contrato='" . $variable['nombre_contrato'] . "', ";
-                $cadenaSql .= " ruta_documento_contrato='" . $variable['ruta_contrato'] . "' , ";
-                $cadenaSql .= " estado_contrato='83'  ";
+                $cadenaSql .= " ruta_documento_contrato='" . $variable['ruta_contrato'] . "'  ";
+                //$cadenaSql .= " estado_contrato='83'  ";
                 $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' ";
                 $cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
                 $cadenaSql .= " AND estado_registro=TRUE ";

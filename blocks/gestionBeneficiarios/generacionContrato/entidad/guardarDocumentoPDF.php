@@ -89,9 +89,9 @@ class GenerarDocumento {
 
         $this->registro_info_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        $cadenaSql = $this->miSql->getCadenaSql('actualizarServicio', $this->registro_info_contrato['id']);
+        //$cadenaSql = $this->miSql->getCadenaSql('actualizarServicio', $this->registro_info_contrato['id']);
 
-        $this->actualizarServicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        //$this->actualizarServicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
