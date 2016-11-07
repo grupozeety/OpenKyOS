@@ -113,7 +113,7 @@ class Sql extends \Sql {
                 $cadenaSql .= "ta.descripcion AS tipo_agendamiento,";
                 $cadenaSql .= "ac.nombre_comisionador AS comisionador,";
                 $cadenaSql .= "bp.identificacion AS identificacion_beneficiario,";
-                $cadenaSql .= "bp.nombre ||' '||bp.primer_apellido||' '||segundo_apellido AS nombre_beneficiario,";
+                $cadenaSql .= "bp.identificacion ||' - '|| bp.nombre ||' '||bp.primer_apellido||' '||segundo_apellido AS nombre_beneficiario,"; 
                 $cadenaSql .= "bp.manzana AS manzana,";
                 $cadenaSql .= "bp.torre AS torre,";
                 $cadenaSql .= "bp.bloque AS bloque,";

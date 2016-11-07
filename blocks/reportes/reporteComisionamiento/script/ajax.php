@@ -345,7 +345,7 @@ function actualizarTabla(){
 	        },
 	        "columns": [
 	            { "data": "id_agendamiento" },
-	            { "data": "identificacion_beneficiario" },
+	            { "data": "nombre_beneficiario" },
 	    		{
 	              "data":   "id_checkbox",
 	               render: function ( data, type, row ) {
