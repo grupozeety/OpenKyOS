@@ -49,6 +49,56 @@ class Sql extends \Sql {
                 $cadenaSql .= "LIMIT 10; ";
 
                 break;
+
+            case 'registrarCertificacion':
+                $cadenaSql = " UPDATE interoperacion.certificacion_no_internet";
+                $cadenaSql .= " SET estado_registro='FALSE'";
+                $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "';";
+                $cadenaSql .= " INSERT INTO interoperacion.certificacion_no_internet(";
+                $cadenaSql .= " id_beneficiario,";
+                $cadenaSql .= " nombre,";
+                $cadenaSql .= " primer_apellido,";
+                $cadenaSql .= " segundo_apellido,";
+                $cadenaSql .= " identificacion, ";
+                $cadenaSql .= " celular,";
+                $cadenaSql .= " ciudad_expedicion_identificacion,";
+                $cadenaSql .= " ciudad_firma,";
+                $cadenaSql .= " ruta_firma)";
+                $cadenaSql .= " VALUES ('" . $variable['id_beneficiario'] . "',";
+                $cadenaSql .= " '" . $variable['nombres'] . "',";
+                $cadenaSql .= " '" . $variable['primer_apellido'] . "',";
+                $cadenaSql .= " '" . $variable['segundo_apellido'] . "',";
+                $cadenaSql .= " '" . $variable['identificacion'] . "',";
+                $cadenaSql .= " '" . $variable['celular'] . "', ";
+                $cadenaSql .= " '" . $variable['ciudad_expedicion_identificacion'] . "',";
+                $cadenaSql .= " '" . $variable['ciudad_firma'] . "',";
+                $cadenaSql .= " '" . $variable['ruta_firma'] . "');";
+                break;
+
+            case 'consultarParametro':
+                $cadenaSql = " SELECT pr.id_parametro, pr.descripcion, pr.codigo ";
+                $cadenaSql .= " FROM parametros.parametros pr";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+                $cadenaSql .= " WHERE ";
+                $cadenaSql .= " pr.estado_registro=TRUE ";
+                $cadenaSql .= " AND rl.descripcion='Tipologia Archivo'";
+                $cadenaSql .= " AND pr.codigo='" . $variable . "' ";
+                $cadenaSql .= " AND rl.estado_registro=TRUE ";
+
+                break;
+
+            case 'registrarDocumentoCertificado':
+                $cadenaSql = " UPDATE interoperacion.certificacion_no_internet";
+                $cadenaSql .= " SET nombre_documento='" . $variable['nombre_contrato'] . "', ruta_documento='" . $variable['ruta_contrato'] . "' ";
+                $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' AND estado_registro='TRUE';";
+                break;
+
+            case 'consultaInformacionCertificado':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM interoperacion.certificacion_no_internet";
+                $cadenaSql .= " WHERE id_beneficiario ='" . $_REQUEST['id_beneficiario'] . "'";
+                $cadenaSql .= " AND estado_registro='TRUE';";
+                break;
         }
 
         return $cadenaSql;

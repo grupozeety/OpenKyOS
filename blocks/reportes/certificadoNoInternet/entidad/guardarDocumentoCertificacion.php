@@ -57,12 +57,25 @@ class GenerarDocumento {
          *  2. Crear PDF
          **/
 
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+        $this->rutaURL .= '/archivos/certificados/';
+        $this->rutaAbsoluta .= '/archivos/certificados/';
+        $this->asosicarCodigoDocumento();
+
         $this->crearPDF();
+
+        $arreglo = array(
+            'nombre_contrato' => $this->nombreDocumento,
+            'ruta_contrato' => $this->rutaURL . $this->nombreDocumento);
+
+        $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentoCertificado', $arreglo);
+
+        $this->registro_certificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
     public function crearPDF() {
-
         ob_start();
         $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
             2,
@@ -72,14 +85,66 @@ class GenerarDocumento {
         ));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
-        $html2pdf->Output('CertificadoNOInternet_CC_' . $this->infoCertificado['identificacion'] . '_' . date('Y-m-d') . '.pdf', 'D');
+        $html2pdf->Output($this->rutaAbsoluta . $this->nombreDocumento, 'F');
 
     }
-    public function estruturaDocumento() {
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
-        $infoCertificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-        $this->infoCertificado = $infoCertificado;
+    public function asosicarCodigoDocumento() {
+
+        $this->prefijo = substr(md5(uniqid(time())), 0, 6);
+        $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', '900');
+        $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+        $tipo_documento = $id_parametro['id_parametro'];
+        $descripcion_documento = $id_parametro['id_parametro'] . '_' . $id_parametro['descripcion'];
+        $nombre_archivo = str_replace(" ", "_", $descripcion_documento);
+        $this->nombreDocumento = $_REQUEST['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.pdf';
+
+    }
+
+    public function estruturaDocumento() {
+/*
+$cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->beneficiario['urbanizacion']);
+$urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
+$urbanizacion = $urbanizacion[0];
+ */
+        $archivo_datos = '';
+        foreach ($_FILES as $key => $archivo) {
+
+            if ($archivo['error'] == 0) {
+
+                $this->prefijo = substr(md5(uniqid(time())), 0, 6);
+                /*
+                 * obtenemos los datos del Fichero
+                 */
+                $tamano = $archivo['size'];
+                $tipo = $archivo['type'];
+                $nombre_archivo = str_replace(" ", "", $archivo['name']);
+                /*
+                 * guardamos el fichero en el Directorio
+                 */
+                $ruta_absoluta = $this->rutaAbsoluta . "/entidad/firmas/" . $this->prefijo . "_" . $nombre_archivo;
+
+                $ruta_relativa = $this->rutaURL . "/entidad/firmas/" . $this->prefijo . "_" . $nombre_archivo;
+
+                $archivo['rutaDirectorio'] = $ruta_absoluta;
+
+                if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
+
+                }
+
+                $archivo_datos = array(
+                    'ruta_archivo' => $ruta_relativa,
+                    'nombre_archivo' => $archivo['name'],
+                    'campo' => $key,
+                );
+
+            }
+
+        }
+
+        //var_dump($_REQUEST);exit;
+
+        $firma_beneficiario = (isset($archivo_datos['ruta_archivo'])) ? "<img src='" . $archivo_datos['ruta_archivo'] . "'  width='125' height='40'>" : " ";
 
         setlocale(LC_ALL, "es_CO.UTF-8");
         $contenidoPagina = "
@@ -140,7 +205,7 @@ class GenerarDocumento {
                     <br>
                     <br>
                     <b>Fecha " . strftime("%d de %B del %Y") . "<br>
-                    Ciudad " . $infoCertificado['ciudad_firma'] . ",
+                    Ciudad " . $_REQUEST['ciudad_firma'] . ",
                     </b>
                     <br>
                     <br>
@@ -157,7 +222,7 @@ class GenerarDocumento {
 
                                 <td style='border:none;text-align:justify;' >
 
-                    Yo  <b>" . $infoCertificado['nombre'] . " " . $infoCertificado['primer_apellido'] . " " . $infoCertificado['segundo_apellido'] . "</b> identificado(a) con cédula de ciudadanía <b>N°." . $infoCertificado['identificacion'] . " de " . $infoCertificado['ciudad_expedicion_identificacion'] . " </b> en mi calidad de beneficiario(a) del Proyecto Conexiones Digitales II Redes de Acceso última milla para la masificación de accesos de banda ancha en viviendas de interés prioritario y hogares en estratos 1 y 2 - Ministerio de las Tecnologías de la Información y las Comunicaciones, por medio de la presente declaro inequívocamente que no he contratado los servicios de internet en los últimos seis (6) meses.
+                    Yo  <b>" . $_REQUEST['nombres'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b> identificado(a) con cédula de ciudadanía <b>N°." . $_REQUEST['numero_identificacion'] . " de " . $_REQUEST['ciudad'] . " </b> en mi calidad de beneficiario(a) del Proyecto Conexiones Digitales II Redes de Acceso última milla para la masificación de accesos de banda ancha en viviendas de interés prioritario y hogares en estratos 1 y 2 - Ministerio de las Tecnologías de la Información y las Comunicaciones, por medio de la presente declaro inequívocamente que no he contratado los servicios de internet en los últimos seis (6) meses.
                     <br>
                     <br>
                     <br>
@@ -166,7 +231,7 @@ class GenerarDocumento {
                     <br>
                     <br>
                     <br>
-                    Como constancia se firma a los  <b>" . date('d') . "</b> días del mes <b>" . strftime("%B") . "</b> del año <b>" . date('Y') . "</b> en la ciudad de " . $infoCertificado['ciudad_firma'] . ".
+                    Como constancia se firma a los  <b>" . date('d') . "</b> días del mes <b>" . strftime("%B") . "</b> del año <b>" . date('Y') . "</b> en la ciudad de " . $_REQUEST['ciudad_firma'] . ".
 
                                 </td>
                             </tr>
@@ -184,25 +249,25 @@ class GenerarDocumento {
                                     <br>
                                     <br>
                                     <br>
-                                    <br><br>
+                                    <br>" . $firma_beneficiario . "<br>
                                     ____________________________<br>
                                     Firma Propietario<br>
                                     <table style='width:100%;border:none'>
                                         <tr>
                                             <td style='width:25%;text-align:left;border:none'>NOMBRE :</td>
-                                            <td style='width:25%;text-align:left;border:none'>" . $infoCertificado['nombre'] . " " . $infoCertificado['primer_apellido'] . " " . $infoCertificado['segundo_apellido'] . "</td>
+                                            <td style='width:25%;text-align:left;border:none'>" . $_REQUEST['nombres'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</td>
                                             <td style='width:50%;text-align:center;border:none'> </td>
                                         </tr>
                                         <tr>
                                             <td style='width:25%;text-align:left;border:none'>C.C :</td>
-                                            <td style='width:25%;text-align:left;border:none'>" . $infoCertificado['identificacion'] . "</td>
+                                            <td style='width:25%;text-align:left;border:none'>" . $_REQUEST['numero_identificacion'] . "</td>
                                             <td style='width:50%;text-align:center;border:none'> </td>
                                         </tr>
                                       ";
-        if ($infoCertificado['celular'] != '') {
+        if ($_REQUEST['celular'] != '') {
             $contenidoPagina .= "  <tr>
                                             <td style='width:25%;text-align:left;border:none'>No .Celular :</td>
-                                            <td style='width:25%;text-align:left;border:none'>" . $infoCertificado['celular'] . "</td>
+                                            <td style='width:25%;text-align:left;border:none'>" . $_REQUEST['celular'] . "</td>
                                             <td style='width:50%;text-align:center;border:none'> </td>
                                         </tr>";
         }
@@ -216,6 +281,6 @@ class GenerarDocumento {
         $this->contenidoPagina = $contenidoPagina;
     }
 }
-$miDocumento = new GenerarDocumento($this->sql);
+$miDocumento = new GenerarDocumento($this->miSql);
 
 ?>
