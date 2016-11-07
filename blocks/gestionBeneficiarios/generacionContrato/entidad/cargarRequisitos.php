@@ -115,9 +115,18 @@ class cargueRequisitos {
 			if ($_FILES [$key] ['size'] != 0) {
 				$this->prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
 				$exten = pathinfo ( $archivo ['name'] );
+
+				$allowed =  array('image/jpeg','image/png','image/psd','image/bmp','application/pdf');
+			
+				if(!in_array($_FILES[$key]['type'],$allowed) ) {
+					Redireccionador::redireccionar ( "ErrorCargarFicheroDirectorio" );
+					exit ();
+				}
+		
 				if( isset($exten ['extension'])==false){
 					$exten ['extension']='txt';
 				}
+				
 				$tamano = $archivo ['size'];
 				$tipo = $archivo ['type'];
 				$nombre_archivo = str_replace ( " ", "_", $archivo ['descripcion_documento'] );
@@ -129,8 +138,8 @@ class cargueRequisitos {
 				$ruta_relativa = $this->miConfigurador->configuracion ['host'] . $this->miConfigurador->configuracion ['site'] . "/archivos/" . $doc;
 				$archivo ['rutaDirectorio'] = $ruta_absoluta;
 				if (! copy ( $archivo ['tmp_name'], $ruta_absoluta )) {
-					exit ();
 					Redireccionador::redireccionar ( "ErrorCargarFicheroDirectorio" );
+					exit ();
 				}
 				$archivo_datos [] = array (
 						'ruta_archivo' => $ruta_relativa,

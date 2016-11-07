@@ -82,14 +82,67 @@ $valor .= "&procesarAjax=true";
 $valor .= "&action=index.php";
 $valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
 $valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-$valor .= "&funcion=consultarBloqueManzana";
+$valor .= "&funcion=consultarManzana";
 $valor .= "&tiempo=" . $_REQUEST ['tiempo'];
 
 // Codificar las variables
 $enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
 $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
 
-$urlConsultarBloqueManzana = $url . $cadena;
+$urlConsultarManzana = $url . $cadena;
+
+?>
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarBloque";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+$urlConsultarBloque = $url . $cadena;
+
+?>
+
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarTorre";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+$urlConsultarTorre = $url . $cadena;
 
 ?>
 <?php
@@ -198,7 +251,9 @@ $(document).ready(function() {
 	var id = "";
 	var urbanizacion = "";
 	var tipo = "";
-	var bloque_manzana = "";
+	var bloque = "";
+	var manzana = "";
+	var torre = "";
 	var agendamiento = "";
 
 	$("#tipo_tecnologia_div").hide();
@@ -263,21 +318,9 @@ $("#<?php echo $this->campoSeguro('urbanizacion');?>").autocomplete({
 	minChars: 1,
 	serviceUrl: '<?php echo $urlConsultarUrbanizacion;?>',
 	onSelect: function (suggestion) {
-
-	  	$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val(suggestion.data);
-		
-		if($("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val()!=''){
-			urbanizacion = $("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val();
-		}else{
-			$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val('');
-			$("#<?php echo $this->campoSeguro('urbanizacion');?>").val('');
-			urbanizacion = "";
-		}
-		
+		urbanizacion = suggestion.data;
 		actualizarTabla();
-				
 	}
-
 });
 
 $("#<?php echo $this->campoSeguro('tipo_vivienda');?>").change(function() {
@@ -289,37 +332,51 @@ $("#<?php echo $this->campoSeguro('tipo_vivienda');?>").change(function() {
 	actualizarTabla();
 });
 
-$("#<?php echo $this->campoSeguro('bloque_manzana');?>").autocomplete({
+$("#<?php echo $this->campoSeguro('manzana');?>").autocomplete({
 	minChars: 1,
-	serviceUrl: '<?php echo $urlConsultarBloqueManzana;?>',
+	serviceUrl: '<?php echo $urlConsultarManzana;?>',
 	onSelect: function (suggestion) {
-
-	  	$("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val(suggestion.data);
-		
-		if($("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val()!=""){
-			bloque_manzana = $("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val();
-		}else{
-			$("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val('');
-			$("#<?php echo $this->campoSeguro('bloque_manzana');?>").val('');
-			bloque_manzana = "";
-		}
-		
+		manzana = suggestion.data;
 		actualizarTabla();
 	}
 });
 
-$("#<?php echo $this->campoSeguro('bloque_manzana');?>").change(function() {
-	if($("#<?php echo $this->campoSeguro('id_bloque_manzana');?>").val() == ""){
-		bloque_manzana = $("#<?php echo $this->campoSeguro('bloque_manzana');?>").val();
+$("#<?php echo $this->campoSeguro('bloque');?>").autocomplete({
+	minChars: 1,
+	serviceUrl: '<?php echo $urlConsultarBloque;?>',
+	onSelect: function (suggestion) {
+		bloque = suggestion.data;
 		actualizarTabla();
-	}	    
+	}
+});
+
+$("#<?php echo $this->campoSeguro('torre');?>").autocomplete({
+	minChars: 1,
+	serviceUrl: '<?php echo $urlConsultarTorre;?>',
+	onSelect: function (suggestion) {
+	  	torre = suggestion.data;
+		actualizarTabla();
+	}
+});
+
+$("#<?php echo $this->campoSeguro('manzana');?>").change(function() {
+	manzana = $("#<?php echo $this->campoSeguro('manzana');?>").val();
+	actualizarTabla();
+});
+
+$("#<?php echo $this->campoSeguro('bloque');?>").change(function() {
+	bloque = $("#<?php echo $this->campoSeguro('bloque');?>").val();
+	actualizarTabla();
+});
+
+$("#<?php echo $this->campoSeguro('torre');?>").change(function() {
+	torre = $("#<?php echo $this->campoSeguro('torre');?>").val();
+	actualizarTabla();
 });
 
 $("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
-	if($("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val() == ""){
-		urbanizacion = $("#<?php echo $this->campoSeguro('urbanizacion');?>").val();
-		actualizarTabla();
-	}	    
+	urbanizacion = $("#<?php echo $this->campoSeguro('urbanizacion');?>").val();
+	actualizarTabla();
 });
 
 function actualizarTabla(){
@@ -364,7 +421,7 @@ function actualizarTabla(){
 	        },
 	        ajax: {
 	            url: "<?php echo $urlCargarInformacion?>",
-	             data: { tipoV: tipo, urban: urbanizacion, bloq_man: bloque_manzana, agen: agendamiento},
+	             data: { tipoV: tipo, urban: urbanizacion, man: manzana, bloq: bloque, torre: torre, agen: agendamiento},
 	            dataSrc:"data"   
 	        },
 	        "columns": [

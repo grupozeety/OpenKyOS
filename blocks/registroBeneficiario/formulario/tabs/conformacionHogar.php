@@ -132,7 +132,7 @@ class Formulario {
 			$datos [0] ['pertenencia_etnica_familiar'] = '-1';
 			$datos [0] ['institucion_educativa_familiar'] = '';
 			$datos [0] ['ocupacion_familiar'] = '-1';
-			$fam = 1;
+			$fam = 0;
 		}
 		
 		// ----------------INICIO CONTROL: Campo Oculto Cantidad d Familiares-------------------------------------------------------
@@ -203,7 +203,7 @@ class Formulario {
 			$atributos ['limitar'] = false;
 			$atributos ['anchoCaja'] = 10;
 			$atributos ['miEvento'] = '';
-			// $atributos['validar'] = 'required';
+			//$atributos['validar'] = 'required';
 			$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroTipoDocumento" );
 			$matrizItems = array (
 					array (

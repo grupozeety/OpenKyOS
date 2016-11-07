@@ -37,11 +37,6 @@ $urlConsultarBeneficiarios = $url . $cadena;
 		   	onSelect: function (suggestion) {
 
 			     	$("#<?php echo $this->campoSeguro('id');?>").val(suggestion.data);
-			if($("#<?php echo $this->campoSeguro('id');?>").val()!=''){
-
-		     $("#AgrupacionDireccion").find("input").removeAttr("required");
-
-		     	}
 
 		   	    }
 		   });
@@ -53,7 +48,6 @@ $urlConsultarBeneficiarios = $url . $cadena;
 		     	if($("#<?php echo $this->campoSeguro('id');?>").val()==''){
 
 		     	$("#<?php echo $this->campoSeguro('beneficiario');?>").val('');
-		     	 $("#<?php echo $this->campoSeguro('direccion');?>").attr("required",true);
 
 		     	}
 

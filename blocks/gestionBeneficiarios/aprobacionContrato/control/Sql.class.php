@@ -31,7 +31,7 @@ class Sql extends \Sql {
              */
             case 'consultarContratos':
                 $cadenaSql = " SELECT cn.id identificador_contrato, cn.numero_contrato, bn.nombre||' '||bn.primer_apellido||' '||bn.segundo_apellido nombre_beneficiario,";
-                $cadenaSql .= " bn.id_beneficiario identificador_beneficiario, bn.identificacion, bn.proyecto,pm.descripcion estado_contrato, ";
+                $cadenaSql .= " bn.id_beneficiario identificador_beneficiario, bn.identificacion, bn.proyecto,pm.descripcion estado_contrato, bn.tipo_beneficiario, ";
                 $cadenaSql .= " cn.nombre_documento_contrato , cn.ruta_documento_contrato ";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN parametros.parametros pm ON pm.id_parametro=cn.estado_contrato AND pm.estado_registro=TRUE";
@@ -40,7 +40,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bn.id_beneficiario=ba.id_beneficiario ";
                 $cadenaSql .= " WHERE cn.estado_registro=TRUE";
                 $cadenaSql .= " AND bn.estado_registro=TRUE";
-                $cadenaSql .= " AND ba.alfresco=TRUE";
+                $cadenaSql .= " AND ba.carpeta_creada=TRUE";
                 break;
 
             case 'consultarContratoEspecifico':
@@ -97,10 +97,10 @@ class Sql extends \Sql {
 
             case 'actualizarServicio':
                 $cadenaSql = " UPDATE interoperacion.servicio";
-                $cadenaSql .= " SET estado_servicio='" . $variable['id_est_servicio'] . "',";
-                $cadenaSql .= " tipo_tecnologia='" . $_REQUEST['tipo_tecnologia'] . "', ";
-                $cadenaSql .= " medio_pago='" . $_REQUEST['medio_pago'] . "',";
-                $cadenaSql .= " valor_tarificacion='" . $_REQUEST['valor_tarificacion'] . "' ";
+                $cadenaSql .= " SET estado_servicio='" . $variable['id_est_servicio'] . "'  ";
+                //$cadenaSql .= " tipo_tecnologia='" . $_REQUEST['tipo_tecnologia'] . "', ";
+                //$cadenaSql .= " medio_pago='" . $_REQUEST['medio_pago'] . "',";
+                //$cadenaSql .= " valor_tarificacion='" . $_REQUEST['valor_tarificacion'] . "' ";
                 $cadenaSql .= " WHERE id_contrato= '" . $_REQUEST['id_contrato'] . "'";
                 $cadenaSql .= " AND estado_registro=TRUE ;";
                 break;
@@ -180,6 +180,18 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE estado_registro=TRUE";
                 $cadenaSql .= " AND campo='id_hogar'";
                 $cadenaSql .= " AND id_proyecto='" . $variable . "'";
+                break;
+
+            case 'consultarValidacionRequisitos':
+                $cadenaSql = " SELECT dr.perfil, dr.tipologia_documento, dr.obligatoriedad, dr.proceso, ";
+                $cadenaSql .= " dc.nombre_documento, pr.descripcion nombre_requisitos, dc.comisionador , dc.supervisor, dc.analista ";
+                $cadenaSql .= " FROM interoperacion.documentos_requisitos AS dr";
+                $cadenaSql .= " JOIN  parametros.parametros AS pr ON pr.id_parametro= dr.tipologia_documento ";
+                $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato AS dc ON dc.tipologia_documento= dr.tipologia_documento AND dc.id_beneficiario='" . $variable['id_beneficiario'] . "'";
+                $cadenaSql .= " WHERE dr.estado_registro='TRUE'";
+                $cadenaSql .= " AND dr.proceso='116'";
+                $cadenaSql .= " AND dr.perfil='" . $variable['perfil_beneficiario'] . "';";
+
                 break;
 
         }

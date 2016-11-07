@@ -993,9 +993,136 @@ class Registrador {
 			    	
 			    	break;
 		    	
-		    	default:
-		    		# code...
-		    		break;
+		    	 case 'confirmaAct':
+               		$atributos['estiloLinea'] = 'success';     //success,error,information,warning
+               		$atributos['tipoEtiqueta'] = 'inicio';
+               		$atributos['titulo'] = 'Mensaje';
+               		$atributos['id'] = 'mensaje';
+               		echo $this->miFormulario->modal($atributos);
+               		unset($atributos);
+               		
+               		// ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+               		echo '<div style="text-align:center;">';
+               		
+               		echo '<p><h5>' . $this->lenguaje->getCadena($_REQUEST['mensaje']) . '</h5></p>';
+               		
+               		echo '</div>';
+               		
+               		// ----------------FIN CONTROL: Mapa--------------------------------------------------------
+               		
+               		echo '<div style="text-align:center;">';
+               		
+               		echo '</div>';
+               		
+               		$atributos['tipoEtiqueta'] = 'fin';
+               		echo $this->miFormulario->modal($atributos);
+               		unset($atributos);
+               		
+                	break;
+
+            	case 'errorAct':
+	                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+	                $atributos['tipoEtiqueta'] = 'inicio';
+	                $atributos['titulo'] = 'Mensaje';
+	                $atributos['id'] = 'mensaje';
+	                echo $this->miFormulario->modal($atributos);
+	                unset($atributos);
+	                
+	                // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+	                echo '<div style="text-align:center;">';
+	                
+	                echo '<p><h5>' . $this->lenguaje->getCadena($_REQUEST['mensaje']) . '</h5></p>';
+	                
+	                echo '</div>';
+	                
+	                // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+	                
+	                echo '<div style="text-align:center;">';
+	                
+	                echo '</div>';
+	                
+	                $atributos['tipoEtiqueta'] = 'fin';
+	                echo $this->miFormulario->modal($atributos);
+	                unset($atributos);
+	                break;
+            
+	            case 'confirma':
+	               	$atributos['estiloLinea'] = 'success';     //success,error,information,warning
+	               	$atributos['tipoEtiqueta'] = 'inicio';
+	               	$atributos['titulo'] = 'Mensaje';
+	               	$atributos['id'] = 'mensaje';
+	               	echo $this->miFormulario->modal($atributos);
+	               	unset($atributos);
+	               	
+	               	// ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+	               	echo '<div style="text-align:center;">';
+	               	
+	               	echo '<p><h5>' . $this->lenguaje->getCadena($_REQUEST['mensaje']) . '</h5></p>';
+	               	
+	               	echo '</div>';
+	               	
+	               	// ----------------FIN CONTROL: Mapa--------------------------------------------------------
+	               	
+	               	echo '<div style="text-align:center;">';
+	               	
+	               	echo '</div>';
+	               	
+	               	$atributos['tipoEtiqueta'] = 'fin';
+	               	echo $this->miFormulario->modal($atributos);
+	               	unset($atributos);
+	               	break;
+                
+	            case 'error':
+	              	$atributos['estiloLinea'] = 'error';     //success,error,information,warning
+	              	$atributos['tipoEtiqueta'] = 'inicio';
+	              	$atributos['titulo'] = 'Mensaje';
+	              	$atributos['id'] = 'mensaje';
+	              	echo $this->miFormulario->modal($atributos);
+	              	unset($atributos);
+	              	
+	              	// ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+	              	echo '<div style="text-align:center;">';
+	              	 
+	              	echo '<p><h5>' . $this->lenguaje->getCadena($_REQUEST['mensaje']) . '</h5></p>';
+	              	
+	              	echo '</div>';
+	              	
+	              	// ----------------FIN CONTROL: Mapa--------------------------------------------------------
+	              	
+	              	echo '<div style="text-align:center;">';
+	              	
+	              	echo '</div>';
+	              	
+	              	$atributos['tipoEtiqueta'] = 'fin';
+	              	echo $this->miFormulario->modal($atributos);
+	              	unset($atributos);
+	               	break;
+	               	
+	               	case 'noAlfresco':
+	               		$atributos['estiloLinea'] = 'error';     //success,error,information,warning
+	               		$atributos['tipoEtiqueta'] = 'inicio';
+	               		$atributos['titulo'] = 'Mensaje';
+	               		$atributos['id'] = 'mensaje';
+	               		echo $this->miFormulario->modal($atributos);
+	               		unset($atributos);
+	               	
+	               		// ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+	               		echo '<div style="text-align:center;">';
+	               		 
+	               		echo '<p><h5>' . $this->lenguaje->getCadena($_REQUEST['mensaje']) . '</h5></p>';
+	               	
+	               		echo '</div>';
+	               	
+	               		// ----------------FIN CONTROL: Mapa--------------------------------------------------------
+	               	
+	               		echo '<div style="text-align:center;">';
+	               	
+	               		echo '</div>';
+	               	
+	               		$atributos['tipoEtiqueta'] = 'fin';
+	               		echo $this->miFormulario->modal($atributos);
+	               		unset($atributos);
+	               		break;
 		    	}
     	}
     

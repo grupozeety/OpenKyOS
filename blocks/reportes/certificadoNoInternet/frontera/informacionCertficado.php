@@ -306,6 +306,37 @@ class Certificado {
                         echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
                         unset($atributos);
 
+                        $esteCampo = 'celular';
+                        $atributos['nombre'] = $esteCampo;
+                        $atributos['tipo'] = "text";
+                        $atributos['id'] = $esteCampo;
+                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                        $atributos["etiquetaObligatorio"] = true;
+                        $atributos['tab'] = $tab++;
+                        $atributos['anchoEtiqueta'] = 2;
+                        $atributos['estilo'] = "bootstrap";
+                        $atributos['evento'] = '';
+                        $atributos['deshabilitado'] = false;
+                        $atributos['readonly'] = false;
+                        $atributos['columnas'] = 1;
+                        $atributos['tamanno'] = 1;
+                        $atributos['placeholder'] = "Ingrese Número Celular";
+                        if (isset($_REQUEST[$esteCampo])) {
+                            $atributos['valor'] = $_REQUEST[$esteCampo];
+                        } else {
+                            $atributos['valor'] = '';
+                        }
+                        $atributos['ajax_function'] = "";
+                        $atributos['ajax_control'] = $esteCampo;
+                        $atributos['limitar'] = false;
+                        $atributos['anchoCaja'] = 10;
+                        $atributos['miEvento'] = '';
+                        $atributos['validar'] = ' ';
+                        // Aplica atributos globales al control
+                        $atributos = array_merge($atributos, $atributosGlobales);
+                        echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                        unset($atributos);
+
                         $esteCampo = 'ciudad';
                         $atributos['nombre'] = $esteCampo;
                         $atributos['tipo'] = "text";
@@ -399,12 +430,13 @@ class Certificado {
                         $atributos["tamanno"] = 500000;
                         $atributos["validar"] = " ";
                         $atributos["estilo"] = "file";
+                        $atributos["anchoCaja"] = "0";
                         $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
                         $atributos["bootstrap"] = true;
                         $tab++;
                         // $atributos ["valor"] = $valorCodificado;
                         $atributos = array_merge($atributos);
-                        //echo $this->miFormulario->campoCuadroTexto($atributos);
+                        echo $this->miFormulario->campoCuadroTexto($atributos);
                         unset($atributos);
 
                     }
