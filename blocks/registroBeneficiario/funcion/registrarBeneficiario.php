@@ -40,6 +40,7 @@ class Registrar {
 
         if(isset($_REQUEST['actualizar'])){
         	$beneficiarioPotencial['id_beneficiario'] = $_REQUEST['id_beneficiario'];
+        	$beneficiarioPotencial['nomenclatura'] = $_REQUEST['nomenclatura'];
         }else{
         	
         	$cadenaSql = $this->miSql->getCadenaSql('codificacion', $_REQUEST['urbanizacion']);
@@ -107,9 +108,10 @@ class Registrar {
         		$beneficiarioPotencial['id_beneficiario'] = $nuevoConsecutivo;
         	}
         	
+        	$beneficiarioPotencial['nomenclatura'] = $_REQUEST['abr_mun'] . "_" . $_REQUEST['abr_urb'] . "_" . $_REQUEST['identificacion_beneficiario'];
+        	
         }
         
-        $beneficiarioPotencial['nomenclatura'] = $_REQUEST['abr_mun'] . "_" . $_REQUEST['abr_urb'] . "_" . $_REQUEST['identificacion_beneficiario'];
 
         $beneficiarioPotencial['tipo_beneficiario'] = $_REQUEST['tipo_beneficiario'];
         $beneficiarioPotencial['identificacion_beneficiario'] = $_REQUEST['identificacion_beneficiario'];
