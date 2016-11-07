@@ -405,10 +405,7 @@ $(document).ready(function() {
 				codificacionCampos(id);
 			}else if(id==0){
 				$('#div_1').show();
-				
 				$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").attr("required", "true");
-				$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").attr("required", "false");
-				$("#<?php echo $this->campoSeguro('parentesco_0')?>").attr("required", "false");
 			}
 			$('#botonEliminar').show();
 			id++;	
@@ -626,16 +623,12 @@ $(document).ready(function() {
 	$( ".fileinput-remove" ).hide();
 	
 	$(function() {
-	
 		if($("#<?php echo $this->campoSeguro('familiares')?>").val() == 0){
-				codificacionCamposSelect(id);
-				$('#div_1').hide();
-				$('#botonEliminar').hide();
-				
-				$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").removeAttr('required');
-				$("#<?php echo $this->campoSeguro('nombre_familiar_0')?>").removeAttr('required');
-				$("#<?php echo $this->campoSeguro('parentesco_0')?>").removeAttr('required');
-			}
+			codificacionCamposSelect(id);
+			$('#div_1').hide();
+			$('#botonEliminar').hide();
+			$("#<?php echo $this->campoSeguro('identificacion_familiar_0')?>").removeAttr('required');
+		}
 	});
 		
 	var urbanizacion;
