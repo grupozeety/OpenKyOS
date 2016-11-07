@@ -92,7 +92,17 @@ class Registrador {
 				$redireccion [$estadoAprobacion [$key] ['codigo_requisito']] = $url . $_REQUEST [$enlace];
 			}
 		}
+		
+			// Para revisar los requisitos según el perfil
+		$a = 0;
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitos', $infoBeneficiario ['tipo_beneficiario'] );
+		$requisitos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosContrato');
+		$requisitosContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		// Cuando Existe Registrado un borrador del contrato
+		
 		if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosVerificados' );
 			$infoArchivo = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
@@ -103,18 +113,12 @@ class Registrador {
 			if($infoArchivoContrato!=FALSE){
 				$infoArchivo=array_merge($infoArchivo,$infoArchivoContrato);
 			}
+			
+			if ($requisitosContrato != FALSE) {
+				$requisitos = array_merge ( $requisitos, $requisitosContrato );
+			}
 		}
 		
-		// Para revisar los requisitos según el perfil
-		$a = 0;
-		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitos', $infoBeneficiario ['tipo_beneficiario'] );
-		$requisitos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosContrato');
-		$requisitosContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-		
-	    $requisitos=array_merge($requisitos, $requisitosContrato);
 		// Rescatar los datos de este bloque
 		// ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 		
@@ -147,7 +151,7 @@ class Registrador {
 			{
 				$esteCampo = 'Agrupacion';
 				$atributos ['id'] = $esteCampo;
-				$atributos ['leyenda'] = "Requisitos Tipo de Beneficiario: " . $infoBeneficiario ['descripcion_tipo'];
+				$atributos ['leyenda'] = "Verificar Requisitos Tipo de Beneficiario: " . $infoBeneficiario ['descripcion_tipo'];
 				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 				unset ( $atributos );
 				{
