@@ -38,7 +38,7 @@ $atributos ['id'] = $esteCampo;
 $atributos ['nombre'] = $esteCampo;
 
 // Si no se coloca, entonces toma el valor predeterminado 'application/x-www-form-urlencoded'
-$atributos ['tipoFormulario'] = '';
+$atributos ['tipoFormulario'] = 'multipart/form-data';
 
 // Si no se coloca, entonces toma el valor predeterminado 'POST'
 $atributos ['metodo'] = 'POST';
