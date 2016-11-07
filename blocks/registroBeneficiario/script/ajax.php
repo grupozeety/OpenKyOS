@@ -135,6 +135,7 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $val
 // URL definitiva
 $urlCargarImagen = $url . $cadena;
 ?>
+
 <?php 
 // URL base
 $url = $this->miConfigurador->getVariableConfiguracion ( "host" );
@@ -564,52 +565,6 @@ $(document).ready(function() {
 	 
 	}
 	
-	
-	
-	if($("#<?php echo $this->campoSeguro('urlFoto')?>").val() != ''){
-		
-		$("#<?php echo $this->campoSeguro("foto")?>").fileinput({
-			uploadUrl: "<?php echo $urlCargarImagen; ?>", 
-	    	uploadAsync: false,
-	    	showUpload: false, 
-	    	showRemove: false, 
-	        maxFileSize: 2048,
-	        previewFileType: "image",
-	        allowedFileExtensions: ["jpg", "JPG", "png", "PNG"],
-			uploadExtraData: {
-				ruta: $("#<?php echo $this->campoSeguro('rutaFoto')?>").val()
-	     	},
-	        initialPreview: [
-			"<img src='" + $("#<?php echo $this->campoSeguro('urlFoto')?>").val() + $("#<?php echo $this->campoSeguro('nombre_foto')?>").val() + "' height='120px' class='file-preview-image'>",
-			]
-		});
-	}else{
-		
-		$("#<?php echo $this->campoSeguro("foto")?>").fileinput({
-			uploadUrl: "<?php echo $urlCargarImagen; ?>", 
-	    	uploadAsync: false,
-	    	showUpload: false, 
-	    	showRemove: false, 
-	        maxFileSize: 2048,
-	        previewFileType: "image",
-	        allowedFileExtensions: ["jpg", "JPG", "png", "PNG"]
-	});
-	
-	}
-	
-	    $("#<?php echo $this->campoSeguro("foto")?>").on('fileuploaded', function(event, data, previewId, index) {
-	     
-	     	var form = data.form, files = data.files, extra = data.extra,
-	        response = data.response, reader = data.reader;
-	
-	        $("#<?php echo $this->campoSeguro("rutaFoto")?>").val(response['ruta']);
-	        $("#<?php echo $this->campoSeguro("urlFoto")?>").val(response['url']);
-	        $("#<?php echo $this->campoSeguro("nombre_foto")?>").val(response['nombre']);
-	        
-	        $("#<?php echo $this->campoSeguro("foto")?>").disable(true);
-	        
-	    });
-		
 	if ($("#<?php echo $this->campoSeguro('mensajemodal')?>").length > 0 ){
 		$("#myModalMensaje").modal('show');
 	}
@@ -619,8 +574,6 @@ $(document).ready(function() {
 		    	location.href = "<?php echo $enlaceReg;?>";
 			});
 	});
-	
-	$( ".fileinput-remove" ).hide();
 	
 	$(function() {
 		if($("#<?php echo $this->campoSeguro('familiares')?>").val() == 0){
