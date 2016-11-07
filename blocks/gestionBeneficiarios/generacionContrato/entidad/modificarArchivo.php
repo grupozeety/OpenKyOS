@@ -138,7 +138,7 @@ class Alfresco {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarParametro', $key );
 			$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 			$_FILES [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
-			$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['id_parametro'] . '_' . $id_parametro [0] ['descripcion'];
+			$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['codigo'] . '_' . $id_parametro [0] ['descripcion'];
 		}
 	}
 	public function asociarCodigoDocumentoContrato() {
@@ -147,7 +147,7 @@ class Alfresco {
 			$id_parametro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 			
 			$_FILES [$key] ['tipo_documento'] = $id_parametro [0] ['id_parametro'];
-			$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['id_parametro'] . '_' . $id_parametro [0] ['descripcion'];
+			$_FILES [$key] ['descripcion_documento'] = $id_parametro [0] ['codigo'] . '_' . $id_parametro [0] ['descripcion'];
 		}
 	}
 	public function cargarArchivos() {
