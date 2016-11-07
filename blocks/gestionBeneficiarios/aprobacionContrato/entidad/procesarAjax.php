@@ -37,11 +37,10 @@ class procesarAjax {
                         );
                         $cadenaSql = $this->sql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
                         $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
                         if ($requisitos) {
                             foreach ($requisitos as $key => $value) {
 
-                                if (($value['comisionador'] == 'f' || $value['supervisor'] == 'f' || $value['analista'] == 'f')) {
+                                if ((is_null($value['nombre_documento']) || $value['comisionador'] == 'f' || $value['supervisor'] == 'f' || $value['analista'] == 'f')) {
                                     $noAprobar = true;
                                 }
 

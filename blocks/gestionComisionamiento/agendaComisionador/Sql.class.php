@@ -114,7 +114,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "bp.identificacion ||' - '|| bp.nombre ||' '||bp.primer_apellido||' '||bp.segundo_apellido AS beneficiario, ";
 				$cadenaSql .= "CASE estado_contrato WHEN  82 THEN 0"; //0 falta algo
 				$cadenaSql .= "WHEN 83 THEN 1 "; //1 todo correcto
-				$cadenaSql .= "ELSE 0 "; //no inciado
+				$cadenaSql .= "ELSE 2 "; //no inciado
 				$cadenaSql .= "END as estado_agenda ";
 				$cadenaSql .= "FROM interoperacion.agendamiento_comisionamiento as ac ";
 				$cadenaSql .= "LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario=ac.id_beneficiario ";
@@ -232,7 +232,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "ON ";
 				$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
 				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "rparam.descripcion = 'Tipo de Agendamiento' ";
+				$cadenaSql .= "rparam.descripcion = 'Tipo de Agendamiento' AND param.estado_registro=TRUE";
 				break;
 			
 			case "parametroTipoTecnologia" :
