@@ -87,7 +87,11 @@ class GenerarDocumento {
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentoContrato', $arreglo);
 
-        $this->registro_info_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        $this->registro_info_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        $cadenaSql = $this->miSql->getCadenaSql('actualizarServicio', $this->registro_info_contrato['id']);
+
+        $this->actualizarServicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
@@ -98,7 +102,6 @@ class GenerarDocumento {
         $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
         $tipo_documento = $id_parametro['id_parametro'];
         $descripcion_documento = $id_parametro['id_parametro'] . '_' . $id_parametro['descripcion'];
-
         $nombre_archivo = str_replace(" ", "_", $descripcion_documento);
         $this->nombreContrato = $_REQUEST['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.pdf';
 
