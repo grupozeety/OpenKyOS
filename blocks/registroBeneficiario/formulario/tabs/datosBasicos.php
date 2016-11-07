@@ -702,6 +702,76 @@ class Formulario {
 
             {
             
+            	  // ----------------INICIO CONTROL: Campo Oculto Nombre de la Foto-------------------------------------------------------
+
+            $esteCampo = 'nombre_foto';
+            $atributos["id"] = $esteCampo; // No cambiar este nombre
+            $atributos["tipo"] = "hidden";
+            $atributos['valor'] = '';
+            $atributos['estilo'] = '';
+            $atributos["obligatorio"] = false;
+            $atributos['marco'] = true;
+            $atributos["etiqueta"] = "";
+
+            if (isset($cargueDatos[$esteCampo])) {
+                $atributos['valor'] = $cargueDatos[$esteCampo];
+            } else {
+                $atributos['valor'] = '';
+            }
+
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroTexto($atributos);
+            unset($atributos);
+
+            // ----------------FIN CONTROL: Campo Oculto Nombre de la Foto--------------------------------------------------------
+
+            // ----------------INICIO CONTROL: Campo Oculto Ruta de la Foto-------------------------------------------------------
+
+            $esteCampo = 'urlFoto';
+            $atributos["id"] = $esteCampo; // No cambiar este nombre
+            $atributos["tipo"] = "hidden";
+            $atributos['valor'] = '';
+            $atributos['estilo'] = '';
+            $atributos["obligatorio"] = false;
+            $atributos['marco'] = true;
+            $atributos["etiqueta"] = "";
+
+            if (isset($cargueDatos[$esteCampo])) {
+                $atributos['valor'] = $cargueDatos[$esteCampo];
+                echo '<img id="imagen" src="' . $cargueDatos[$esteCampo] . $cargueDatos['nombre_foto'] .'" width="200" height="200">';
+            } else {
+                $atributos['valor'] = '';
+            }
+
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroTexto($atributos);
+            unset($atributos);
+
+            // ----------------FIN CONTROL: Campo Oculto Ruta de la Foto--------------------------------------------------------
+
+            // ----------------INICIO CONTROL: Campo Oculto URL de la Foto-------------------------------------------------------
+
+            $esteCampo = 'rutaFoto';
+            $atributos["id"] = $esteCampo; // No cambiar este nombre
+            $atributos["tipo"] = "hidden";
+            $atributos['valor'] = '';
+            $atributos['estilo'] = '';
+            $atributos["obligatorio"] = false;
+            $atributos['marco'] = true;
+            $atributos["etiqueta"] = "";
+
+            if (isset($cargueDatos[$esteCampo])) {
+                $atributos['valor'] = $cargueDatos[$esteCampo];
+            } else {
+                $atributos['valor'] = '';
+            }
+
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroTexto($atributos);
+            unset($atributos);
+
+            // ----------------FIN CONTROL: Campo Oculto URL de la Foto--------------------------------------------------------
+      
             	$esteCampo = "foto";
             	$atributos["id"] = $esteCampo;
             	$atributos["nombre"] = $esteCampo;
@@ -760,75 +830,7 @@ class Formulario {
 //             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
 //             unset($atributos);
 
-//             // ----------------INICIO CONTROL: Campo Oculto Nombre de la Foto-------------------------------------------------------
-
-            $esteCampo = 'nombre_foto';
-            $atributos["id"] = $esteCampo; // No cambiar este nombre
-            $atributos["tipo"] = "hidden";
-            $atributos['valor'] = '';
-            $atributos['estilo'] = '';
-            $atributos["obligatorio"] = false;
-            $atributos['marco'] = true;
-            $atributos["etiqueta"] = "";
-
-            if (isset($cargueDatos[$esteCampo])) {
-                $atributos['valor'] = $cargueDatos[$esteCampo];
-            } else {
-                $atributos['valor'] = '';
             }
-
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroTexto($atributos);
-            unset($atributos);
-
-            // ----------------FIN CONTROL: Campo Oculto Nombre de la Foto--------------------------------------------------------
-
-            // ----------------INICIO CONTROL: Campo Oculto Ruta de la Foto-------------------------------------------------------
-
-            $esteCampo = 'urlFoto';
-            $atributos["id"] = $esteCampo; // No cambiar este nombre
-            $atributos["tipo"] = "hidden";
-            $atributos['valor'] = '';
-            $atributos['estilo'] = '';
-            $atributos["obligatorio"] = false;
-            $atributos['marco'] = true;
-            $atributos["etiqueta"] = "";
-
-            if (isset($cargueDatos[$esteCampo])) {
-                $atributos['valor'] = $cargueDatos[$esteCampo];
-            } else {
-                $atributos['valor'] = '';
-            }
-
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroTexto($atributos);
-            unset($atributos);
-
-            // ----------------FIN CONTROL: Campo Oculto Ruta de la Foto--------------------------------------------------------
-
-            // ----------------INICIO CONTROL: Campo Oculto URL de la Foto-------------------------------------------------------
-
-            $esteCampo = 'rutaFoto';
-            $atributos["id"] = $esteCampo; // No cambiar este nombre
-            $atributos["tipo"] = "hidden";
-            $atributos['valor'] = '';
-            $atributos['estilo'] = '';
-            $atributos["obligatorio"] = false;
-            $atributos['marco'] = true;
-            $atributos["etiqueta"] = "";
-
-            if (isset($cargueDatos[$esteCampo])) {
-                $atributos['valor'] = $cargueDatos[$esteCampo];
-            } else {
-                $atributos['valor'] = '';
-            }
-
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroTexto($atributos);
-            unset($atributos);
-
-            // ----------------FIN CONTROL: Campo Oculto URL de la Foto--------------------------------------------------------
-        }
         // ----------------FIN CONTROL: Campo Texto Foto-------------------------------------------------------
 
         echo '</div>
