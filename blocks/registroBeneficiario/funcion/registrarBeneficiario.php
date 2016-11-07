@@ -139,9 +139,9 @@ class Registrar {
         	$beneficiarioPotencial['url_foto'] = $this->archivos_datos[0]['rutaabsoluta'];
         	$beneficiarioPotencial['ruta_foto'] = $this->archivos_datos[0]['ruta_archivo'];
         }else{
-        	$beneficiarioPotencial['foto'] = $_REQUEST['nombre_foto'];
-        	$beneficiarioPotencial['url_foto'] = $_REQUEST['urlFoto'];
-        	$beneficiarioPotencial['ruta_foto'] = $_REQUEST['rutaFoto'];
+        	$beneficiarioPotencial['foto'] = str_replace ( "\\" , "" , $_REQUEST['nombre_foto']);
+        	$beneficiarioPotencial['url_foto'] = str_replace ( "\\" , "" , $_REQUEST['urlFoto']);
+        	$beneficiarioPotencial['ruta_foto'] = str_replace ( "\\" , "" , $_REQUEST['rutaFoto']);
         }
         
         $beneficiarioPotencial['direccion'] = $_REQUEST['direccion'];
