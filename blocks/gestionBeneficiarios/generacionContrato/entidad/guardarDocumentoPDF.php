@@ -98,7 +98,7 @@ class GenerarDocumento {
     public function asosicarCodigoDocumento() {
 
         $this->prefijo = substr(md5(uniqid(time())), 0, 6);
-        $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', '900_1');
+        $cadenaSql = $this->miSql->getCadenaSql('consultarParametroContrato', '901');
         $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
         $tipo_documento = $id_parametro['id_parametro'];
         $descripcion_documento = $id_parametro['id_parametro'] . '_' . $id_parametro['descripcion'];
