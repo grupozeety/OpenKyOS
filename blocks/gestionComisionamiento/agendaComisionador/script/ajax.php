@@ -323,7 +323,8 @@ $('#example').DataTable().destroy();
 	            dataSrc:"data"   
 	        },
 	        "columns": [
-	           { "data": "id_agendamiento" },
+	            { "data": "num" },
+	            { "data": "id_agendamiento" },
 	            { "data": "beneficiario" },
 	            { "data": "estado_agenda" },
 	    		{

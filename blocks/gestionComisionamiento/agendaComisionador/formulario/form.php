@@ -293,6 +293,7 @@ class Formulario {
                 		<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         			        <thead>
         			        	<tr>
+ 									<th>No.</th>
  						            <th id="filterrow">ID</th>
  					                <th>Beneficiario</th>
  					 				<th>Estado</th>
