@@ -1,6 +1,7 @@
 <?php 
 namespace gestionComisionamiento\agendaComisionador\formulario;
-
+include_once "core/auth/SesionSso.class.php";
+ 
 if(!isset($GLOBALS["autorizado"])) {
 	include("../index.php");
 	exit;
@@ -37,6 +38,21 @@ class Formulario {
          * algunas funciones js que lo complementan.
          */
 
+    	
+    
+    	$sesion = \SesionSso::singleton ();
+    	$respuesta = $sesion->getParametrosSesionAbierta ();
+    	
+    	$rol = $respuesta ['description'] [0];
+    	$idusuario = $respuesta ['mail'] [0];
+    	
+    	if ($rol == 'Comisionador') {
+    		$comisionador = true;
+    	} else {
+    		$comisionador = false;
+    	}
+    	 
+    	
     	$conexion = "estructura";
     	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
     	
@@ -218,8 +234,9 @@ class Formulario {
 	        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
 	        unset($atributos);
 	        
-	        {
-	        	// ----------------INICIO CONTROL: Lista Proyectos---------------------------
+	        
+	        if($comisionador==false)
+	        {	        	// ----------------INICIO CONTROL: Lista Proyectos---------------------------
 	        	 
 	        	$esteCampo = 'comisionador';
 	        	$atributos ['nombre'] = $esteCampo;

@@ -132,7 +132,8 @@ class Sql extends \Sql {
 				$cadenaSql .= "WHERE ac.estado_registro=true ";
 				$cadenaSql .= "AND bp.estado_registro=true ";
 				$cadenaSql .= "AND ta.codigo= cast(ac.tipo_agendamiento as char) ";
-				$cadenaSql .= $variable;
+				$cadenaSql .= str_replace("\\","",$variable);
+
 				break;
 			
 			case "consultarAgendaIns" :
@@ -205,7 +206,7 @@ class Sql extends \Sql {
 				break;
 			
 			case "comisionador" :
-				$cadenaSql = " SELECT usr.id as identificador, usr.firstname||' '||lastname as nombre_usuario";
+				$cadenaSql = " SELECT usr.mail as identificador, usr.firstname||' '||lastname as nombre_usuario";
 				$cadenaSql .= " FROM public.group_users as gu";
 				$cadenaSql .= " JOIN public.users as usr ON usr.id=gu.user_id AND usr.status=1";
 				$cadenaSql .= " WHERE group_id=(SELECT DISTINCT id";
