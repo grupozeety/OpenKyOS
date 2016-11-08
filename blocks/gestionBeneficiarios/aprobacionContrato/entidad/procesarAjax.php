@@ -18,7 +18,7 @@ class procesarAjax {
             case 'consultarContratos':
 
                 $cadenaSql = $this->sql->getCadenaSql('consultarContratos');
-                //echo $cadenaSql;exit;
+
                 $resultadoContratos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
                 // URL base
@@ -30,21 +30,96 @@ class procesarAjax {
 
                     foreach ($resultadoContratos as $key => $valor) {
 
-                        $arreglo = array(
-                            'perfil_beneficiario' => $valor['tipo_beneficiario'],
-                            'id_beneficiario' => $valor['identificador_beneficiario'],
+                        {
 
-                        );
-                        $cadenaSql = $this->sql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
-                        $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                        if ($requisitos) {
-                            foreach ($requisitos as $key => $value) {
+                            $arreglo = array(
+                                'perfil_beneficiario' => $valor['tipo_beneficiario'],
+                                'id_beneficiario' => $valor['id_beneficiario'],
 
-                                if ((is_null($value['nombre_documento']) || $value['comisionador'] == 'f' || $value['supervisor'] == 'f' || $value['analista'] == 'f')) {
-                                    $noAprobar = true;
+                            );
+
+                            $cadenaSql = $this->sql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
+                            $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                            $cadenaSql = $this->sql->getCadenaSql('consultaInformacionBeneficiario', $valor['id_beneficiario']);
+                            $beneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                            $cadenaSql = $this->sql->getCadenaSql('consultaContratoInfo', $valor['id_beneficiario']);
+                            $contrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                            if ($requisitos) {
+                                foreach ($requisitos as $value) {
+
+                                    $value['comisionador'] = ($value['comisionador'] == 't') ? 1 : (($value['analista'] == 'f') ? 0 : NULL);
+                                    $value['supervisor'] = ($value['supervisor'] == 't') ? 1 : (($value['analista'] == 'f') ? 0 : NULL);
+                                    $value['analista'] = ($value['analista'] == 't') ? 1 : (($value['analista'] == 'f') ? 0 : NULL);
+
+                                    $resultado = $value['comisionador'] * $value['supervisor'] * $value['analista'];
+
+                                    if ($beneficiario['minvi'] == 't' && $resultado && !is_null($value['nombre_documento'])) {
+
+                                        switch ($value['tipologia_documento']) {
+                                        case '99':
+                                                $cambiarEstadoCB = true;
+
+                                                $contrato['comisionador'] = ($contrato['comisionador'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
+
+                                                $contrato['supervisor'] = ($contrato['supervisor'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
+
+                                                $contrato['analista'] = ($contrato['analista'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
+
+                                                $resultadoContrato = $contrato['comisionador'] * $contrato['supervisor'] * $contrato['analista'];
+                                                if ($resultadoContrato) {
+
+                                                    $cambiarEstadoCN = true;
+                                                }
+                                                break;
+
+                                        case '124':
+                                                $cambiarEstadoCNI = true;
+
+                                                $contrato['comisionador'] = ($contrato['comisionador'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
+
+                                                $contrato['supervisor'] = ($contrato['supervisor'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
+
+                                                $contrato['analista'] = ($contrato['analista'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
+
+                                                $resultadoContrato = $contrato['comisionador'] * $contrato['supervisor'] * $contrato['analista'];
+                                                if ($resultadoContrato) {
+
+                                                    $cambiarEstadoCN = true;
+                                                }
+                                                break;
+
+                                        }
+
+                                    }
+
+                                    if ($beneficiario['minvi'] == 'f' && $resultado && !is_null($value['nombre_documento'])) {
+                                        $cambiarEstado = true;
+
+                                    } else {
+                                        $EstadoFaltante = true;
+                                    }
+
+                                }
+
+                                if (isset($cambiarEstadoCB) && isset($cambiarEstadoCNI) && isset($cambiarEstadoCN) && $beneficiario['minvi'] == 't') {
+
+                                    $estado_contrato = "<center><b>" . $valor['estado_contrato'] . "</b></center>";
+
+                                } elseif (!isset($EstadoFaltante) && $beneficiario['minvi'] == 'f') {
+
+                                    $estado_contrato = "<center><b>" . $valor['estado_contrato'] . "</b></center>";
+
+                                } else {
+
+                                    $estado_contrato = "<center>Existen Documentos por Verificar</center>";
+
                                 }
 
                             }
+
                         }
 
                         // Variables
@@ -63,15 +138,6 @@ class procesarAjax {
                         // URL Aprobar Contratp
                         $urlAprobarContrato = $url . $cadena;
                         $archivoContrato = (is_null($valor['nombre_documento_contrato'])) ? " " : "<center><a href='" . $valor['ruta_documento_contrato'] . "' target='_blank' >" . $valor['nombre_documento_contrato'] . "</a></center>";
-
-                        if (isset($noAprobar) && $noAprobar == true) {
-
-                            $estado_contrato = "<center>Existen Documentos por Verificar</center>";
-                        } else {
-
-                            $estado_contrato = "<center><b>" . $valor['estado_contrato'] . "</b></center>";
-
-                        }
 
                         $resultadoFinal[] = array(
                             'numeroContrato' => "<center>" . $valor['numero_contrato'] . "</center>",
