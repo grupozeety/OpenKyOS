@@ -96,7 +96,7 @@ class Registrador {
 		$requisitosContrato = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 			// Cuando Existe Registrado un borrador del contrato
-		if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
+		//if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaRequisitosVerificados' );
 			$infoArchivo = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 			
@@ -110,7 +110,7 @@ class Registrador {
 			if ($requisitosContrato != FALSE) {
 				$requisitos = array_merge ( $requisitos, $requisitosContrato );
 			}
-		}
+		//}
 
 
 		
