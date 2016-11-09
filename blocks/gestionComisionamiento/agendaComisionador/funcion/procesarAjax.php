@@ -118,7 +118,7 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 			
 			$resultadoFinal [] = array (
 					'num'=>$i+1,
-					'id_agendamiento' => $resultado [$i] ['id_agendamiento'],
+					//'id_agendamiento' => $resultado [$i] ['id_agendamiento'],
 					'fecha'=> $resultado [$i] ['fecha'],
 					'beneficiario' => "<a href='" . $redireccion [$i] . "'>" . $resultado [$i] ['beneficiario'] . "</a>",
 					// tipo_agendamientoa' => $resultado [$i] ['tipo_agendamiento'],
