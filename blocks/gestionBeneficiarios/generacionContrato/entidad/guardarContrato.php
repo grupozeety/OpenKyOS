@@ -142,7 +142,7 @@ class FormProcessor {
             'serial' => ' ',
             'tecnologia' => ' ',
             'estado' => ' ',
-            'clausulas' => $clausulas,
+            'clausulas' => '',
             //'url_firma_contratista' => $url_firma_contratista,
             'url_firma_beneficiario' => $url_firma_beneficiario,
             'manzana' => $_REQUEST['num_manzana'],
