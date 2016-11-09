@@ -500,7 +500,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN parametros.parametros ON id_parametro=tipologia_documento ";
                 $cadenaSql .= " WHERE perfil=" . $variable . "";
                 $cadenaSql .= " AND documentos_requisitos.estado_registro=TRUE";
-                $cadenaSql .= " AND proceso=116";
+                $cadenaSql .= " AND proceso=142";
                 break;
 
             case "consultaRequisitosEspecificos":

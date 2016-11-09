@@ -108,7 +108,7 @@ class Registrador {
         }
 
         if ($requisitosContrato != FALSE) {
-            $requisitos = array_merge($requisitos, $requisitosContrato);
+            //   $requisitos = array_merge($requisitos, $requisitosContrato);
         }
         //}
 
