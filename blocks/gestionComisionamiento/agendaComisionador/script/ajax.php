@@ -324,7 +324,7 @@ $('#example').DataTable().destroy();
 	        },
 	        "columns": [
 	            { "data": "num" },
-	           
+	            { "data": "id_agendamiento" },
 	            { "data": "fecha" },
 	            { "data": "beneficiario" },
 	            { "data": "estado_agenda" },
