@@ -327,8 +327,9 @@ class Formulario {
         			        <thead>
         			        	<tr>
  									<th>No.</th>
+ 						            <th id="filterrow">ID</th>
 				                    <th>Fecha</th>
- 					                <th id="filterrow>Beneficiario</th>
+ 					                <th>Beneficiario</th>
  					 				<th>Estado</th>
  					                <th>Todo<input type="checkbox" id="seleccionar_todo"/></th>
         			            </tr>
