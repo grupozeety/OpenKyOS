@@ -25,20 +25,18 @@ class redireccion {
 				break;
 			 
 			case "inserto" :
-				$variable = "pagina=consultarBeneficiario";
-				// $variable .= "&opcion=mensaje";
+				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&mensaje=confirma";
+				$variable .= "&id=" . $valor;
 				break;
 			 
 			case "noAlfresco" :
-				$variable = "pagina=consultarBeneficiario";
-				// $variable .= "&opcion=mensaje";
+				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&mensaje=noAlfresco";
 				break;
 			
 			case "noInserto" :
-				$variable = "pagina=consultarBeneficiario";
-				// $variable .= "&opcion=mensaje";
+				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&mensaje=error";
 				break;
 			
@@ -61,17 +59,19 @@ class redireccion {
 				break;
 			
 			case "actualizo" :
-				$variable = "pagina=consultarBeneficiario";
+				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&mensaje=confirmaAct";
+				$variable .= "&id=" . $valor;
 				break;
 			
 			case "noActualizo" :
-				$variable = "pagina=consultarBeneficiario";
+				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&mensaje=errorAct";
+				$variable .= "&id=" . $valor;
 				break;
 			
 			case "registrar" :
-				$variable = "pagina=consultarBeneficiario";
+				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&opcion=asociarActa";
 				break;
 			

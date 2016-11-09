@@ -169,7 +169,7 @@ class Formulario {
 			$cargueDatos ['celular_familiar' . '_' . $i] = $datos [$i] ['celular_familiar'];
 			$cargueDatos ['nivel_estudio_familiar' . '_' . $i] = $datos [$i] ['nivel_estudio_familiar'];
 			$cargueDatos ['correo_familiar' . '_' . $i] = $datos [$i] ['correo_familiar'];
-			$cargueDatos ['grado_estudio_familiar' . '_' . $i] = $datos [$i] ['grado_estudio_familiar'];
+			$cargueDatos ['grado_familiar' . '_' . $i] = $datos [$i] ['grado_estudio_familiar'];
 			$cargueDatos ['pertenencia_etnica_familiar' . '_' . $i] = $datos [$i] ['pertenencia_etnica_familiar'];
 			$cargueDatos ['institucion_educativa_familiar' . '_' . $i] = $datos [$i] ['institucion_educativa_familiar'];
 			$cargueDatos ['ocupacion_familiar' . '_' . $i] = $datos [$i] ['ocupacion_familiar'];
