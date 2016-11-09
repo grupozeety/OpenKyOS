@@ -84,39 +84,8 @@ class Registrador {
 			$atributos ['leyenda'] = "Detalles del Archivo";
 			echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 			unset ( $atributos );
-			
-			{
-				
-				// ----------------INICIO CONTROL: Cambio imagen--------------------------------------------------------
-				$esteCampo = $requisitos [0] ['codigo']; // Código documento
-				$atributos ["id"] = $esteCampo; // No cambiar este nombre
-				$atributos ["nombre"] = $esteCampo;
-				$atributos ["tipo"] = "file";
-				$atributos ["obligatorio"] = true;
-				$atributos ["etiquetaObligatorio"] = false;
-				$atributos ["tabIndex"] = $tab ++;
-				$atributos ["columnas"] = 1;
-				$atributos ["estilo"] = "textoIzquierda";
-				$atributos ["anchoEtiqueta"] = 2;
-				$atributos ["tamanno"] = 500000;
-				$atributos ["etiqueta"] = "<b>" . $requisitos [0] ['codigo'] . "</b> " . $requisitos [0] ['descripcion'];
-				if ($requisitos [0] ['obligatoriedad'] == 1) {
-					$atributos ["etiqueta"] = "<b>" . $requisitos [0] ['codigo'] . "</b> " . $requisitos [0] ['descripcion'] . "<b> (*)</b>";
-				}
-				$atributos ["estilo"] = "file";
-				$atributos ["anchoCaja"] = 3;
-				
-				$atributos ["bootstrap"] = true;
-				// $atributos ["valor"] = $valorCodificado;
-				$atributos = array_merge ( $atributos );
-				echo $this->miFormulario->campoCuadroTexto ( $atributos );
-				unset ( $atributos );
-			}
-			echo $this->miFormulario->agrupacion ( 'fin' );
-			unset ( $atributos );
-			
-			// ----------------INICIO CONTROL: Archivo---------------------------
-			// ------------------Division para los botones-------------------------
+		
+					// ------------------Division para los botones-------------------------
 			$atributos ["id"] = "botones";
 			$atributos ["estilo"] = "marcoBotones";
 			$atributos ["estiloEnLinea"] = "display:block;";
@@ -151,6 +120,39 @@ class Registrador {
 			// ------------------Fin Division para los botones-------------------------
 			echo $this->miFormulario->division ( "fin" );
 			unset ( $atributos );
+			
+			{
+				
+				// ----------------INICIO CONTROL: Cambio imagen--------------------------------------------------------
+				$esteCampo = $requisitos [0] ['codigo']; // Código documento
+				$atributos ["id"] = $esteCampo; // No cambiar este nombre
+				$atributos ["nombre"] = $esteCampo;
+				$atributos ["tipo"] = "file";
+				$atributos ["obligatorio"] = true;
+				$atributos ["etiquetaObligatorio"] = false;
+				$atributos ["tabIndex"] = $tab ++;
+				$atributos ["columnas"] = 1;
+				$atributos ["estilo"] = "textoIzquierda";
+				$atributos ["anchoEtiqueta"] = 2;
+				$atributos ["tamanno"] = 500000;
+				$atributos ["etiqueta"] = "<b>" . $requisitos [0] ['codigo'] . "</b> " . $requisitos [0] ['descripcion'];
+				if ($requisitos [0] ['obligatoriedad'] == 1) {
+					$atributos ["etiqueta"] = "<b>" . $requisitos [0] ['codigo'] . "</b> " . $requisitos [0] ['descripcion'] . "<b> (*)</b>";
+				}
+				$atributos ["estilo"] = "file";
+				$atributos ["anchoCaja"] = 3;
+				
+				$atributos ["bootstrap"] = true;
+				// $atributos ["valor"] = $valorCodificado;
+				$atributos = array_merge ( $atributos );
+				echo $this->miFormulario->campoCuadroTexto ( $atributos );
+				unset ( $atributos );
+			}
+			echo $this->miFormulario->agrupacion ( 'fin' );
+			unset ( $atributos );
+			
+			// ----------------INICIO CONTROL: Archivo---------------------------
+
 			
 			$atributos ["id"] = "botones";
 			$atributos ["estilo"] = "marcoBotones";
