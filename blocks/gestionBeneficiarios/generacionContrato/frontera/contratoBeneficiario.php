@@ -1350,7 +1350,7 @@ class Contrato {
                         $tab++;
                         // $atributos ["valor"] = $valorCodificado;
                         $atributos = array_merge($atributos);
-                        //echo $this->miFormulario->campoCuadroTexto($atributos);
+                        echo $this->miFormulario->campoCuadroTexto($atributos);
                         unset($atributos);
 
                         $esteCampo = "firma_beneficiario";

@@ -357,8 +357,8 @@ class Sql extends \Sql {
              * $cadenaSql .= " tecnologia='" . $variable ['tecnologia'] . "',";
              * $cadenaSql .= " estado='" . $variable ['estado'] . "', ";
             $cadenaSql .= " clausulas='" . $variable['clausulas'] . "', ";*/
-                $cadenaSql .= " url_firma_beneficiarios='" . $variable['url_firma_beneficiario'] . "' ";
-                // $cadenaSql .= " url_firma_contratista='" . $variable['url_firma_contratista'] . "' ";
+                $cadenaSql .= " url_firma_beneficiarios='" . $variable['url_firma_beneficiario'] . "', ";
+                $cadenaSql .= " url_firma_contratista='" . $variable['url_firma_contratista'] . "' ";
                 $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' ";
                 $cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
                 $cadenaSql .= " AND estado_registro=TRUE;";

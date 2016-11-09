@@ -79,13 +79,13 @@ class FormProcessor {
 
         if ($this->archivos_datos === '') {
             $url_firma_beneficiario = '';
-            //$url_firma_contratista = '';
+            $url_firma_contratista = '';
 
         } else {
 
-            $url_firma_beneficiario = $this->archivos_datos[0]['ruta_archivo'];
+            $url_firma_beneficiario = $this->archivos_datos[1]['ruta_archivo'];
 
-            //$url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
+            $url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
 
         }
 
@@ -143,7 +143,7 @@ class FormProcessor {
             'tecnologia' => ' ',
             'estado' => ' ',
             'clausulas' => '',
-            //'url_firma_contratista' => $url_firma_contratista,
+            'url_firma_contratista' => $url_firma_contratista,
             'url_firma_beneficiario' => $url_firma_beneficiario,
             'manzana' => $_REQUEST['num_manzana'],
             'bloque' => $_REQUEST['num_bloque'],
