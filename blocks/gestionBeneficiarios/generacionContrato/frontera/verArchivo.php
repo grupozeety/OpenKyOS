@@ -78,7 +78,21 @@ class Registrador {
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
 		{
-			
+			                $esteCampo = 'codigo_beneficiario'; // Nombre Beneficiario
+					$atributos ['id'] = $esteCampo;
+					$atributos ['nombre'] = $esteCampo;
+					$atributos ['tipo'] = 'text';
+					$atributos ['estilo'] = 'textoElegante';
+					$atributos ['columnas'] = 1;
+					$atributos ['dobleLinea'] = false;
+					$atributos ['tabIndex'] = $tab;
+					$atributos ['texto'] = $this->lenguaje->getCadena ( $esteCampo ) . $_REQUEST ['id_beneficiario'];
+					$tab ++;
+					// Aplica atributos globales al control
+					$atributos = array_merge ( $atributos, $atributosGlobales );
+					echo $this->miFormulario->campoTexto ( $atributos );
+					unset ( $atributos );
+		
 			$esteCampo = 'Agrupacion';
 			$atributos ['id'] = $esteCampo;
 			$atributos ['leyenda'] = "Detalles del Archivo";
