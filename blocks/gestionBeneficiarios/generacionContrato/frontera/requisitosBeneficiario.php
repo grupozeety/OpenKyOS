@@ -404,7 +404,7 @@ class Registrador {
 				
 				if (isset ( $_REQUEST ['alfresco'] ) && $_REQUEST ['alfresco'] > 0) {
 					$estilo_mensaje = 'warning';
-					$atributos ["mensaje"] = '<br>Errores de Gestor Documental:' . $_REQUEST ['alfresco'];
+					$atributos ["mensaje"] = '<br>Errores de Gestor Documental:' . $_REQUEST ['alfresco']. "Avíse al administrador del sistemas";
 				} else {
 					$estilo_mensaje = 'success';
 					$atributos ["mensaje"] = 'Requisitos Correctamente Subidos.';
