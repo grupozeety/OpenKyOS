@@ -107,6 +107,7 @@ class Sql extends \Sql {
 			case "consultarAgendaVia" :
 				$cadenaSql = "SELECT DISTINCT ";
 				$cadenaSql .= "bp.id_beneficiario, ";
+				$cadenaSql .= "ac.fecha_agendamiento::timestamp::date AS fecha, ";
 				$cadenaSql .= "ac.consecutivo AS consecutivo, ";
 				$cadenaSql .= "ac.id_agendamiento AS id_agendamiento, ";
 				$cadenaSql .= "bp.proyecto AS urbanizacion, ";
@@ -138,7 +139,8 @@ class Sql extends \Sql {
 			
 			case "consultarAgendaIns" :
 				$cadenaSql = "SELECT DISTINCT ";
-				$cadenaSql .= "bp.id_beneficiario, ";
+				$cadenaSql .= "bp.id_beneficiario,  ";
+				$cadenaSql .= "ac.fecha_agendamiento::timestamp::date AS fecha, ";
 				$cadenaSql .= "ac.consecutivo AS consecutivo, ";
 				$cadenaSql .= "ac.id_agendamiento AS id_agendamiento, ";
 				$cadenaSql .= "bp.proyecto AS urbanizacion, ";
@@ -169,13 +171,13 @@ class Sql extends \Sql {
 				$cadenaSql .= "WHERE ac.estado_registro=true ";
 				$cadenaSql .= "AND bp.estado_registro=true ";
 				$cadenaSql .= "AND ta.codigo= cast(ac.tipo_agendamiento as char) ";
-				$cadenaSql .= $variable;
+					$cadenaSql .= str_replace("\\","",$variable);
 				break;
 			
 			case "agendamientosReporteViabilidad" :
 				
 				$cadenaSql = "SELECT ";
-				$cadenaSql .= "ac.id_agendamiento AS id_agendamiento,";
+				$cadenaSql .= "ac.id_agendamiento AS id_agendamiento,  ";
 				$cadenaSql .= "bp.proyecto AS urbanizacion,";
 				$cadenaSql .= "ta.descripcion AS tipo_agendamiento,";
 				$cadenaSql .= "ac.nombre_comisionador AS comisionador,";
