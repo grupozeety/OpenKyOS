@@ -199,7 +199,6 @@ class Registrar {
         }
         
         $beneficiarioPotencial['familiar'] = $familiar;
-
         $cadenaSql = "";
         $resultado = "";
 
@@ -240,16 +239,16 @@ class Registrar {
         if ($resultado) {
 
         	if(isset($_REQUEST['actualizar'])){
-        		redireccion::redireccionar('actualizo');
+        		redireccion::redireccionar('actualizo', $beneficiarioPotencial['id_beneficiario']);
         	}else{
-        		redireccion::redireccionar('inserto');
+        		redireccion::redireccionar('inserto', $beneficiarioPotencial['id_beneficiario']);
         	}
             exit();
         } else {
         	if(isset($_REQUEST['actualizar'])){
-            	redireccion::redireccionar('noActualizo');
+            	redireccion::redireccionar('noActualizo', $beneficiarioPotencial['id_beneficiario']);
         	}else{
-            	redireccion::redireccionar('noInserto');
+            	redireccion::redireccionar('noInserto', $beneficiarioPotencial['id_beneficiario']);
             }
             exit();
         }
