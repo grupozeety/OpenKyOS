@@ -399,8 +399,8 @@ class Sql extends \Sql {
 					$cadenaSql .= "'" . $valor ['nivel_estudio'] . "',";
 					$cadenaSql .= "'" . $valor ['correo'] . "',";
 					$cadenaSql .= "'" . $valor ['grado'] . "',";
-					$cadenaSql .= "'" . $valor ['institucion_educativa'] . "',";
 					$cadenaSql .= "'" . $valor ['pertenencia_etnica'] . "',";
+					$cadenaSql .= "'" . $valor ['institucion_educativa'] . "',";
 					$cadenaSql .= "'" . $valor ['ocupacion'] . "'";
 					$cadenaSql .= "),";
 				}

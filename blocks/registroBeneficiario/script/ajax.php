@@ -427,6 +427,7 @@ function cargarAjax(){
 				}else if(id == 1){
 					$('#div_' + id).hide();
 					$('#botonEliminar').hide();
+					$( '#div_' + (id) + ' a').html("Familiar");
 					id--;
 					
 					$("#<?php echo $this->campoSeguro('tipo_documento_familiar_0')?>").val("").change();
@@ -477,7 +478,6 @@ function cargarAjax(){
 						$($( '#div_' + id + ' :input')[14]).select2("destroy");
 						
 						<!--Se clona el div -->
-						
 						
 						$newClone = $('#div_' + id).clone(true);
 						$newClone.attr("id",'div_' + (id + 1));
@@ -548,11 +548,8 @@ function cargarAjax(){
 						
 						$( '#div_' + (id + 1) + ' a').attr('href', '#familiar' + (id + 1)).change();
 						$( '#div_' + (id + 1) + ' .panel-collapse').attr('id', 'familiar' + (id + 1)).change();
-	
-						$('#familiar' + id).removeClass("in");
-						$('#familiar' + id).removeAttr("aria-expanded");
-						$( '#div_' + (id) + ' a').removeAttr("aria-expanded");
-						$( '#div_' + (id) + ' a').removeClass("collapsed");
+						$( '#div_' + (id + 1) + ' a').html("Familiar");
+						
 				}
 				
 			});

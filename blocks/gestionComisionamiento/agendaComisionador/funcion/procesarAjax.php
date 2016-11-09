@@ -45,6 +45,8 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 	echo '{"suggestions":' . json_encode ( $resultado ) . '}';
 } else if ($_REQUEST ['funcion'] == "consultarAgendamiento") {
 	
+
+	$manz = trim($_REQUEST ['manz']);
 	$tipoA = trim ( $_REQUEST ['tipoA'] );
 	$urban = trim ( $_REQUEST ['urban'] );
 	$comis = trim ( $_REQUEST ['comis'] );
@@ -53,6 +55,10 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 	
 	if (isset ( $tipoA ) && $tipoA != "") {
 		$cadenaSql .= "AND ac.tipo_agendamiento='" . $tipoA . "' ";
+	}
+	
+	if(isset($manz) && $manz != ""){
+		$cadenaSql .= "AND bp.manzana='" . $manz . "' ";
 	}
 	
 	if (isset ( $urban ) && $urban != "") {
@@ -113,6 +119,7 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 			$resultadoFinal [] = array (
 					'num'=>$i+1,
 					'id_agendamiento' => $resultado [$i] ['id_agendamiento'],
+					'fecha'=> $resultado [$i] ['fecha'],
 					'beneficiario' => "<a href='" . $redireccion [$i] . "'>" . $resultado [$i] ['beneficiario'] . "</a>",
 					// tipo_agendamientoa' => $resultado [$i] ['tipo_agendamiento'],
 					'estado_agenda' => "<img src='" . $ruta . "/css/imagenes/" . $resultado [$i] ['estado_agenda'] . ".png" . "'>      <b>" . $resultado [$i] ['etiqueta_agenda'] . "</b></img>",

@@ -218,6 +218,7 @@ class Registrador {
 						$atributos ["tabIndex"] = $tab ++;
 						$atributos ["columnas"] = 1;
 						$atributos ["estilo"] = "textoIzquierda";
+						$atributos ["etiquetaBoton"] = 'Icono';
 						$atributos ["anchoEtiqueta"] = 6;
 						$atributos ["tamanno"] = 500000;
 						$atributos ["etiqueta"] = "<b>" . $requisitos [$key] ['codigo'] . "</b> " . $requisitos [$key] ['descripcion'];
