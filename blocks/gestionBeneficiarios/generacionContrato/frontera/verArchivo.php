@@ -78,6 +78,22 @@ class Registrador {
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
 		{
+		
+		
+			$esteCampo = 'Agrupacion';
+			$atributos ['id'] = $esteCampo;
+			$atributos ['leyenda'] = "Detalles del Archivo";
+			echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
+			unset ( $atributos );
+		
+					// ------------------Division para los botones-------------------------
+			$atributos ["id"] = "botones";
+			$atributos ["estilo"] = "marcoBotones";
+			$atributos ["estiloEnLinea"] = "display:block;";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			unset ( $atributos );
+			{
+		
 			                $esteCampo = 'codigo_beneficiario'; // Nombre Beneficiario
 					$atributos ['id'] = $esteCampo;
 					$atributos ['nombre'] = $esteCampo;
@@ -93,19 +109,6 @@ class Registrador {
 					echo $this->miFormulario->campoTexto ( $atributos );
 					unset ( $atributos );
 		
-			$esteCampo = 'Agrupacion';
-			$atributos ['id'] = $esteCampo;
-			$atributos ['leyenda'] = "Detalles del Archivo";
-			echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
-			unset ( $atributos );
-		
-					// ------------------Division para los botones-------------------------
-			$atributos ["id"] = "botones";
-			$atributos ["estilo"] = "marcoBotones";
-			$atributos ["estiloEnLinea"] = "display:block;";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			{
 				// -----------------CONTROL: Botón ----------------------------------------------------------------
 				$esteCampo = 'verificar';
 				$atributos ["id"] = $esteCampo;
