@@ -139,11 +139,11 @@ class Input extends HtmlBase {
             if (isset($this->atributos[self::ETIQUETA_BOTON]) && $this->atributos[self::ETIQUETA_BOTON] != "") {
                 $cadena .= "data-buttonText='" . $this->atributos[self::ETIQUETA_BOTON] . "' ";
             } else {
-                $cadena .= "data-buttonText='Seleccionar' ";
+                $cadena .= "data-buttonText='' ";
 
             }
 
-            $cadena .= "data-icon='false'";
+            $cadena .= "data-icon='icon'";
             if (isset($this->atributos[self::TAMANNO])) {
                 $cadena .= "size = '" . $this->atributos[self::TAMANNO] . "'";
             }
