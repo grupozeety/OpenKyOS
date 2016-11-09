@@ -64,7 +64,7 @@ if ($_REQUEST ['funcion'] == "consultaBeneficiarios") {
 	
 
 	if($_REQUEST ['agen'] == 1){
-		$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios', $cadenaSql );
+	$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios', $cadenaSql );
 		$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 	}else if($_REQUEST ['agen'] == 2){
 		$cadenaSql = $this->sql->getCadenaSql ('consultarBeneficiarios_comercial', $cadenaSql );
@@ -72,7 +72,7 @@ if ($_REQUEST ['funcion'] == "consultaBeneficiarios") {
 	}else{
 		$resultado = false;
 	}
-	
+
 	if($resultado!=false){
 	
 	for($i = 0; $i < count ( $resultado ); $i ++) {

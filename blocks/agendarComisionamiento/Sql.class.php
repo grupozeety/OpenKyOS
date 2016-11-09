@@ -220,7 +220,7 @@ class Sql extends \Sql {
 				break;
 			
 			case "comisionador" :
-				$cadenaSql = " SELECT usr.id as identificador, usr.firstname||' '||lastname as nombre_usuario";
+				$cadenaSql = " SELECT usr.mail as identificador, usr.firstname||' '||lastname as nombre_usuario";
 				$cadenaSql .= " FROM public.group_users as gu";
 				$cadenaSql .= " JOIN public.users as usr ON usr.id=gu.user_id AND usr.status=1";
 				$cadenaSql .= " WHERE group_id=(SELECT DISTINCT id";
@@ -302,6 +302,7 @@ class Sql extends \Sql {
 				
 				$cadenaSql = substr ( $cadenaSql, 0, (strlen ( $cadenaSql ) - 1) );
 				
+				$cadenaSql;
 				break;
 			
 			case "registrarConsecutivoAgendamiento" :

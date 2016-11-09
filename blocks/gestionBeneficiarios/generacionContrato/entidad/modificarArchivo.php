@@ -124,13 +124,6 @@ class Alfresco {
                     switch ($value['nombre_requisitos']) {
                         case 'Cedula Beneficiario':
                             $cambiarEstadoCB = true;
-                            break;
-
-                        case 'Certificado No Internet ultimos 6 meses':
-                            $cambiarEstadoCNI = true;
-                            break;
-
-                        default:
 
                             $contrato['comisionador'] = ($contrato['comisionador'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
 
@@ -143,7 +136,22 @@ class Alfresco {
 
                                 $cambiarEstadoCN = true;
                             }
+                            break;
 
+                        case 'Certificado No Internet ultimos 6 meses':
+                            $cambiarEstadoCNI = true;
+
+                            $contrato['comisionador'] = ($contrato['comisionador'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
+
+                            $contrato['supervisor'] = ($contrato['supervisor'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
+
+                            $contrato['analista'] = ($contrato['analista'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
+
+                            $resultadoContrato = $contrato['comisionador'] * $contrato['supervisor'] * $contrato['analista'];
+                            if ($resultadoContrato) {
+
+                                $cambiarEstadoCN = true;
+                            }
                             break;
 
                     }
@@ -154,12 +162,12 @@ class Alfresco {
                     $cambiarEstado = true;
 
                 } else {
-                    $cambiarEstado = false;
+                    $EstadoFaltante = true;
                 }
 
             }
 
-            if (isset($cambiarEstadoCB) && isset($cambiarEstadoCNI) && isset($cambiarEstadoCN)) {
+            if (isset($cambiarEstadoCB) && isset($cambiarEstadoCNI) && isset($cambiarEstadoCN) && $beneficiario['minvi'] == 't') {
 
                 $cadenaSql = $this->miSql->getCadenaSql('actualizarEstadoContrato');
 
@@ -169,9 +177,7 @@ class Alfresco {
 
                 $this->actualizarServicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
-            }
-
-            if (isset($cambiarEstado) && $cambiarEstado != false) {
+            } elseif (!isset($EstadoFaltante) && $beneficiario['minvi'] == 'f') {
 
                 $cadenaSql = $this->miSql->getCadenaSql('actualizarEstadoContrato');
 

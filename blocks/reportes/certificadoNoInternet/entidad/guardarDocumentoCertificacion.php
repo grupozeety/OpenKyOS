@@ -75,7 +75,7 @@ class GenerarDocumento {
 
         $arreglo = array(
             'id_beneficiario' => $_REQUEST['id_beneficiario'],
-            'tipologia' => "900",
+            'tipologia' => "124",
             'nombre_documento' => $this->nombreDocumento,
             'ruta_relativa' => $this->rutaURL . $this->nombreDocumento,
         );

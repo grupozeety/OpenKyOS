@@ -1,4 +1,18 @@
 <?php
+include_once "core/auth/SesionSso.class.php";
+
+$sesion = \SesionSso::singleton ();
+$respuesta = $sesion->getParametrosSesionAbierta ();
+
+$rol = $respuesta ['description'] [0];
+$idusuario = $respuesta ['mail'] [0];
+
+if ($rol == 'Comisionador') {
+	$comisionador = true;
+} else {
+	$comisionador = false;
+}
+
 $conexion = "interoperacion";
 $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 function codificarNombre($nombre) {
@@ -33,6 +47,7 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 	
 	$tipoA = trim ( $_REQUEST ['tipoA'] );
 	$urban = trim ( $_REQUEST ['urban'] );
+	$comis = trim ( $_REQUEST ['comis'] );
 	
 	$cadenaSql = "";
 	
@@ -44,8 +59,12 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 		$cadenaSql .= "AND bp.id_proyecto='" . $urban . "' ";
 	}
 	
-	if (isset ( $comis ) && $comis != "") {
-		$cadenaSql .= "AND ac.id_comisionador='" . $comis . "' ";
+	if ($comisionador == false) {
+		if (isset ( $comis ) && $comis != "") {
+			$cadenaSql.= "AND ac.id_comisionador='" . $comis . "' ";
+		}
+	} else {
+		$cadenaSql .= "AND ac.id_comisionador='" . $idusuario . "' ";
 	}
 	
 	$conexion = "interoperacion";
@@ -63,41 +82,40 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 		$resultado = array_merge ( $resultado, $resultado2 );
 	}
 	
-	
-	foreach($resultado as $i=>$values) {
-		$variable = "actionBloque=registroBeneficiario";
-		$variable .= "&pagina=registroBeneficiario";
-		$variable .= "&bloque=registroBeneficiario";
-		$variable .= "&id=" . $resultado[$i]['id_beneficiario'];
-		$url = $this->miConfigurador->configuracion ["host"] . $this->miConfigurador->configuracion ["site"] . "/index.php?";
-		$enlace = $this->miConfigurador->configuracion ['enlace'];
-		$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
-		$_REQUEST [$enlace] = $enlace . '=' . $variable;
-		$redireccion[$i]= $url . $_REQUEST [$enlace];
-	}
-	
-	
-	foreach($resultado as $i=>$values) {
-		$variable = "actionBloque=registroBeneficiario";
-		$variable .= "&pagina=registroBeneficiario";
-		$variable .= "&bloque=registroBeneficiario";
-		$variable .= "&id=" . $resultado[$i]['id_beneficiario'];
-		$url = $this->miConfigurador->configuracion ["host"] . $this->miConfigurador->configuracion ["site"] . "/index.php?";
-		$enlace = $this->miConfigurador->configuracion ['enlace'];
-		$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
-		$_REQUEST [$enlace] = $enlace . '=' . $variable;
-		$observaciones[$i]= $url . $_REQUEST [$enlace];
-	}
-	
-	
 	if ($resultado != false) {
+		
+		foreach ( $resultado as $i => $values ) {
+			$variable = "actionBloque=registroBeneficiario";
+			$variable .= "&pagina=registroBeneficiario";
+			$variable .= "&bloque=registroBeneficiario";
+			$variable .= "&id=" . $resultado [$i] ['id_beneficiario'];
+			$url = $this->miConfigurador->configuracion ["host"] . $this->miConfigurador->configuracion ["site"] . "/index.php?";
+			$enlace = $this->miConfigurador->configuracion ['enlace'];
+			$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
+			$_REQUEST [$enlace] = $enlace . '=' . $variable;
+			$redireccion [$i] = $url . $_REQUEST [$enlace];
+		}
+		
+		foreach ( $resultado as $i => $values ) {
+			$variable = "actionBloque=registroBeneficiario";
+			$variable .= "&pagina=registroBeneficiario";
+			$variable .= "&bloque=registroBeneficiario";
+			$variable .= "&id=" . $resultado [$i] ['id_beneficiario'];
+			$url = $this->miConfigurador->configuracion ["host"] . $this->miConfigurador->configuracion ["site"] . "/index.php?";
+			$enlace = $this->miConfigurador->configuracion ['enlace'];
+			$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
+			$_REQUEST [$enlace] = $enlace . '=' . $variable;
+			$observaciones [$i] = $url . $_REQUEST [$enlace];
+		}
+		
 		for($i = 0; $i < count ( $resultado ); $i ++) {
 			
 			$resultadoFinal [] = array (
+					'num'=>$i+1,
 					'id_agendamiento' => $resultado [$i] ['id_agendamiento'],
-					'beneficiario' => "<a href='".$redireccion[$i]."'>".$resultado [$i] ['beneficiario']."</a>",
-					//tipo_agendamientoa' => $resultado [$i] ['tipo_agendamiento'],
-					'estado_agenda' => "<img src='" . $ruta . "/css/imagenes/" . $resultado [$i] ['estado_agenda'] . ".png" . "'>      <b>".$resultado [$i] ['etiqueta_agenda']."</b></img>",
+					'beneficiario' => "<a href='" . $redireccion [$i] . "'>" . $resultado [$i] ['beneficiario'] . "</a>",
+					// tipo_agendamientoa' => $resultado [$i] ['tipo_agendamiento'],
+					'estado_agenda' => "<img src='" . $ruta . "/css/imagenes/" . $resultado [$i] ['estado_agenda'] . ".png" . "'>      <b>" . $resultado [$i] ['etiqueta_agenda'] . "</b></img>",
 					'id_checkbox' => array (
 							'value' => $resultado [$i] ['consecutivo'],
 							'id' => codificarNombre ( "checkbox_" . $i ) 
