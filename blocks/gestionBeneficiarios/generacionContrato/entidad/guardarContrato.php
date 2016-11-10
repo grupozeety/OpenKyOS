@@ -77,6 +77,7 @@ class FormProcessor {
 
     public function procesarInformacion() {
 
+        var_dump($_REQUEST);exit;
         if ($this->archivos_datos === '') {
             $url_firma_beneficiario = '';
             $url_firma_contratista = '';
