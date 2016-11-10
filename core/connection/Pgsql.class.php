@@ -202,7 +202,14 @@ class Pgsql extends ConectorDb {
 			return $acceso;
 		}
 	}
-	
+	/**
+	 *
+	 * @name log
+	 * @param
+	 *        	string evento=cadena_sql
+	 * @return 
+	 * @access public
+	 */
 	function log( $evento) {
 				
 		$sesion = \SesionSso::singleton ();
