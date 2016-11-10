@@ -29,12 +29,12 @@ class procesarAjax {
         switch ($_REQUEST['funcion']) {
 
             case 'consultaBeneficiarios':
-            	$cadena='';
+                $cadena='';
             	if($comisionador==true){
             		$cadena="AND id_comisionador='".$idusuario."'";
             	}
             	
-               $cadenaSql = $this->sql->getCadenaSql('consultarBeneficiariosPotenciales', $cadena);
+                $cadenaSql = $this->sql->getCadenaSql('consultarBeneficiariosPotenciales', $cadena);
 
                 $resultadoItems = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
