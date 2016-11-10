@@ -1353,65 +1353,48 @@ class Contrato {
                 unset($atributos);
                 {
 
+                    {
+
+                        // ------------------Fin Division para los botones-------------------------
+
+                    }
+
                     $esteCampo = 'Agrupacion';
                     $atributos['id'] = $esteCampo;
-                    $atributos['leyenda'] = "Firmas Interesados";
+                    $atributos['leyenda'] = "Firmas Instalador";
                     echo $this->miFormulario->agrupacion('inicio', $atributos);
                     unset($atributos);
                     {
 
-                        $esteCampo = "firma_contratista";
-                        $atributos["id"] = $esteCampo;
-                        $atributos["nombre"] = $esteCampo;
-                        $atributos["tipo"] = "file";
-                        $atributos["obligatorio"] = true;
-                        $atributos["etiquetaObligatorio"] = false;
-                        $atributos["tabIndex"] = $tab++;
-                        $atributos["columnas"] = 1;
-                        $atributos["anchoCaja"] = "12";
-                        $atributos["estilo"] = "textoIzquierda";
-                        $atributos["anchoEtiqueta"] = 0;
-                        $atributos["tamanno"] = 500000;
-                        $atributos["validar"] = " ";
-                        $atributos["estilo"] = "file";
-                        $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
-                        $atributos["bootstrap"] = true;
-                        $tab++;
-                        // $atributos ["valor"] = $valorCodificado;
-                        $atributos = array_merge($atributos);
-                        echo $this->miFormulario->campoCuadroTexto($atributos);
-                        unset($atributos);
-
-                        $esteCampo = "firma_beneficiario";
-                        $atributos["id"] = $esteCampo;
-                        $atributos["nombre"] = $esteCampo;
-                        $atributos["tipo"] = "file";
-                        $atributos["obligatorio"] = true;
-                        $atributos["etiquetaObligatorio"] = false;
-                        $atributos["tabIndex"] = $tab++;
-                        $atributos["columnas"] = 1;
-                        $atributos["anchoCaja"] = "12";
-                        $atributos["estilo"] = "textoIzquierda";
-                        $atributos["anchoEtiqueta"] = 0;
-                        $atributos["tamanno"] = 500000;
-                        $atributos["validar"] = " ";
-                        $atributos["estilo"] = "file";
-                        $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
-                        $atributos["bootstrap"] = true;
-                        $tab++;
-                        // $atributos ["valor"] = $valorCodificado;
-                        $atributos = array_merge($atributos);
-                        echo $this->miFormulario->campoCuadroTexto($atributos);
-                        unset($atributos);
+                        echo "<div id='firma_digital_instalador' style='border-style:double;'></div>";
+                        echo "<br>";
+                        echo "<input type='button' class='btn btn-default' id='guardarIns' value='Guardar'> <input type='button' id='limpiarIns' style='float:right' class='btn btn-default' value='Limpiar'>";
 
                     }
 
                     echo $this->miFormulario->agrupacion('fin');
                     unset($atributos);
+
+                    $esteCampo = 'Agrupacion';
+                    $atributos['id'] = $esteCampo;
+                    $atributos['leyenda'] = "Firmas Beneficiario ";
+                    echo $this->miFormulario->agrupacion('inicio', $atributos);
+                    unset($atributos);
+                    {
+
+                        echo "<div id='firma_digital_beneficiario'  style='border-style:double;'></div>";
+                        echo "<br>";
+                        echo "<input type='button' class='btn btn-default' id='guardarBn' value='Guardar'> <input type='button' id='limpiarBn' style='float:right' class='btn btn-default' value='Limpiar'>";
+
+                    }
+
+                    echo $this->miFormulario->agrupacion('fin');
+                    unset($atributos);
+
                     // ------------------Division para los botones-------------------------
                     $atributos["id"] = "botones";
                     $atributos["estilo"] = "marcoBotones";
-                    $atributos["estiloEnLinea"] = "display:block;";
+                    $atributos["estiloEnLinea"] = "";
                     echo $this->miFormulario->division("inicio", $atributos);
                     unset($atributos);
                     {

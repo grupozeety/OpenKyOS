@@ -30,6 +30,11 @@ $urlConsultarBeneficiarios = $url . $cadena;
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
  */
 
+
+
+
+
+
  		   $("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
 		   	minChars: 3,
 		   	serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
@@ -84,11 +89,25 @@ $urlConsultarBeneficiarios = $url . $cadena;
 		                    responsive: true,
 		                    filter:false,
 		                    paging:false,
-		                    lengthChange:false, 
+		                    lengthChange:false,
 		                    info:false,
-		          
+
 		       } );
 		   } );
+
+var $sigdiv1 =$("#firma_digital_instalador").jSignature();
+
+var $sigdiv2 =$("#firma_digital_beneficiario").jSignature();
+
+
+$('#limpiarIns').bind('click', function(e){
+		$sigdiv1.jSignature('reset');
+	});
+
+
+$('#limpiarBn').bind('click', function(e){
+		$sigdiv2.jSignature('reset');
+	});
 
 </script>
 

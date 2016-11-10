@@ -3,6 +3,10 @@
  * Etiquetas correspondientes a los Formularios
  */
 
+$this->idioma['firma_digital_contratista'] = 'Firma Digital Contratista';
+
+$this->idioma['firma_digital_beneficiario'] = 'Firma Digital Beneficiario';
+
 $this->idioma['generacionContrato'] = 'Generar Contrato Beneficiario Potencial';
 
 $this->idioma['beneficiario'] = 'Identificación Beneficiario';
