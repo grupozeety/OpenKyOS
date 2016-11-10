@@ -120,7 +120,7 @@ class GenerarDocumento {
 
     public function crearPDF() {
         ob_start();
-        $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
+        $html2pdf = new \HTML2PDF('P', 'LEGAL', 'es', true, 'UTF-8', array(
             2,
             2,
             2,
@@ -203,7 +203,9 @@ class GenerarDocumento {
             $tipo_pospago = ($tipoPago['descripcion'] == 'Pospago') ? "X" : " ";
 
         }
-        $contenidoPagina = "
+        {
+
+            $contenidoPagina = "
                             <style type=\"text/css\">
                                 table {
 
@@ -249,7 +251,7 @@ class GenerarDocumento {
 
                         </page_header>";
 
-        $contenidoPagina .= "
+            $contenidoPagina .= "
 
     <table style='width:100%;'>
                         <tr>
@@ -273,9 +275,9 @@ class GenerarDocumento {
                                     <table style='width:100%;'>
                                         <tr>
                                             <td style='width:25%;text-align=center;'>Fecha</td>
-                                            <td style='width:25%;text-align=center;'>DD</td>
-                                            <td style='width:25%;text-align=center;'>MM</td>
-                                            <td style='width:25%;text-align=center;'>AAAA</td>
+                                            <td style='width:25%;text-align=center;color:#c5c5c5;'>DD</td>
+                                            <td style='width:25%;text-align=center;color:#c5c5c5;'>MM</td>
+                                            <td style='width:25%;text-align=center;color:#c5c5c5;'>AAAA</td>
                                         </tr>
                                     </table>
                             </td>
@@ -291,7 +293,7 @@ class GenerarDocumento {
                         </tr>
                     </table>
                     <br>
-                    <P style='text-align:justify'>
+                    <P style='text-align:justify;font-size:10px'>
     Entre LA CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA, en adelante POLITÉCNICA, entidad sin ánimo de lucro, domiciliada en la ciudad de Bogotá D.C, por una parte, y por la otra, la persona identificada como USUARIO, cuyos datos son los registrados a continuación, quien ha leído y aceptado en todos sus términos el presente documento y sus respectivos anexos, hemos convenido celebrar el presente CONTRATO DE SERVICIOS DE COMUNICACIONES, con el objeto de establecer las condiciones técnicas, jurídicas y económicas que regirán la prestación al USUARIO de servicios de comunicaciones, específicamente Internet fijo, en condiciones de calidad y eficiencia, a cambio de un precio en dinero, el cual se regirá por lo dispuesto en el Anexo Técnico del Contrato de Aporte N° 681 de 2015 y al documento de recomendaciones de la CRC “CONEXIONES DIGITALES Esquema para la implementación de subsidios e Incentivos para el acceso a Internet de Última milla”, la ley 1341/09, Resolución 3066/11 de la CRC, la regulación y reglamentación que expidan la CRC, el Min TIC y la SuperIndustria y Comercio, según su competencia, condiciones y anexos del presente contrato, en el marco del Contrato de Aporte N° 681 de 2015. y en las normas que la modifiquen o deroguen. El USUARIO, al iniciar el (los) procedimiento (s) de suscripción para el (los) plan (es) del Servicio de Comunicaciones en la modalidad postpago y prepago, según  aplique, (en lo sucesivo el Servicio) a través del medio que POLITÉCNICA ponga a disposición del USUARIO; y al suministrar sus datos personales, se entiende que acuerda suscribirse a uno de los planes ofrecidos por POLITÉCNICA del Servicio y expresa su entera e incondicional aceptación, a los términos y condiciones contenidos en el presente contrato y en los anexos que lo integran (en lo sucesivo denominado, el Contrato) para disponer del Servicio.
                     </P>
                     <table style='width:100%;'>
@@ -362,7 +364,7 @@ class GenerarDocumento {
                      </table>
                      <br>
                       <table style='width:100%;'>
-                        <tr>
+                         <tr>
                             <td rowspan='3' style='width:15%;text-align=center;'><b>DATOS FACTURACIÓN</b></td>
                             <td style='width:15%;text-align=center;'><b>Forma de Pago</b></td>
                             <td style='width:15%;text-align=center;'>Prepago (<b>" . $tipo_prepago . "</b>)</td>
@@ -381,7 +383,7 @@ class GenerarDocumento {
                      <br>
                      <br>
                      <br>
-                     <nobreak>
+                     <br>
                     <table style='width:100%;'>
                         <tr>
                             <td text-align=center;'><b>DECLARACIONES DEL SUSCRIPTOR</b></td>
@@ -406,6 +408,9 @@ class GenerarDocumento {
                             Son derechos de los usuarios (Art 10 Resolución CRC 3066/11): 1. Contar con la medición apropiada de sus consumos reales, mediante los instrumentos tecnológicos apropiados para efectuar dicha medición, dentro de los plazos fijados por la CRC. 2. Ejercer los derechos contenidos en el Régimen de Protección al USUARIO de los Servicios de Comunicaciones, establecido en la Resolución CRC 3066 de 2011 y demás normas que lo modifiquen o deroguen; así como todos aquellos derechos que se deriven de las disposiciones contenidas en la regulación expedida por el MinTIC, la CRC y la Superintendencia de Industria y Comercio. 3. Recibir los servicios contratados de manera continua e ininterrumpida en los términos del Anexo Técnico del Contrato de Aporte N° 681 de 2015 salvo por circunstancias de fuerza mayor, caso fortuito o hecho de un tercero que impidan la prestación del servicio en condiciones normales; en caso de que el (los) servicios prestados por parte de POLITÉCNICA sean suspendidos por motivos de algún daño que impida la prestación del servicio por causas diferentes a fuerza mayor, caso fortuito o hecho de un tercero, POLITÉCNICA reparará el daño en la mayor brevedad posible, de tal forma que la prestación del servicio no se vea gravemente afectada.
                             </td>
                         </tr>
+                    </table>
+                    <nobreak>
+                    <table>
                         <tr>
                             <td text-align=center;'><b>RÉGIMEN DE OBLIGACIONES DEL USUARIO EN RELACIÓN CON LOS SERVICIOS PRESTADOS</b></td>
                         </tr>
@@ -413,7 +418,8 @@ class GenerarDocumento {
                             <td text-align=justify;font-size:9.5px'>
                             1. Las contenidas en la Resolución CRC 3066/11 y demás normas que lo modifiquen o deroguen; así como todas aquellas derivadas de las disposiciones contenidas en la regulación expedida por el MinTIC, la CRC y la Superintendencia de Industria y Comercio.<br>
 2. La utilización de la clave de acceso al servicio cuando ello resulte aplicable, es personal e intransferible y está a cargo y bajo la plena responsabilidad del USUARIO.
-3. Facilitar el acceso al inmueble a personas debidamente autorizadas e identificadas por POLITÉCNICA para efectuar revisiones a las instalaciones internas.                                                                                                                                                                                                                                                          4. Responder por cualquier anomalía, fraude o adulteración que se encuentre en las instalaciones internas, así como por las variaciones o modiﬁcaciones que sin autorización de POLITÉCNICA se hagan en relación con las condiciones del servicio contratado. Una vez suscrita el Acta de entrega de equipos y servicio de banda ancha, el USUARIO será responsable de la instalación entregada.<br>
+3. Facilitar el acceso al inmueble a personas debidamente autorizadas e identificadas por POLITÉCNICA para efectuar revisiones a las instalaciones internas.<br>
+4. Responder por cualquier anomalía, fraude o adulteración que se encuentre en las instalaciones internas, así como por las variaciones o modiﬁcaciones que sin autorización de POLITÉCNICA se hagan en relación con las condiciones del servicio contratado. Una vez suscrita el Acta de entrega de equipos y servicio de banda ancha, el USUARIO será responsable de la instalación entregada.<br>
 5. El USUARIO entiende y acepta que le está prohibida la comercialización a terceras personas del servicio y que en consecuencia los beneficios que obtenga en virtud del mismo no son objeto de venta o comercialización, y que de hacerlo, su conducta constituye causal de cancelación del servicio y terminación del contrato.<br>
 6. Proporcionar a las instalaciones internas, y equipos en general, el mantenimiento y uso adecuado con el ﬁn de prevenir daños que puedan ocasionar deﬁciencias o interrupciones en el suministro del servicio contratado.<br>
 7. El USUARIO entiende y acepta que es responsable absoluto de la utilización del servicio de comunicaciones, por lo tanto, es el único responsable de las transacciones que realice por intermedio de éste, así como de la seguridad de su identificación de ingreso, su clave y cualquier código de seguridad de bloqueo que utilice para proteger el acceso a sus datos, su(s) nombre(s) de archivo y sus archivos, el acceso a la red, o cualquier otra información que el USUARIO difunda a través del uso del servicio de POLITÉCNICA.<br>
@@ -436,11 +442,6 @@ class GenerarDocumento {
                             </td>
                         </tr>
                     </table>
-                    </nobreak>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
                     <table style='width:100%;'>
                         <tr>
                             <td text-align=center;'><b>PETICIONES, QUEJAS Y RECURSOS</b></td>
@@ -461,13 +462,7 @@ class GenerarDocumento {
                     </table>
                     ";
 
-        $contenidoPagina .= "
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+            $contenidoPagina .= "
         <br>
         <br>
         <br>
@@ -517,43 +512,36 @@ class GenerarDocumento {
         <br>
         <br>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
         <table style='width:100%;border:none'>
                         <tr>
                             <td text-align=center;' style='width:100%;'><b>OBSERVACIONES DEL OPERADOR</b></td>
                         </tr>
                         <tr>
-                            <td style='width:100%;'><br><br><br><br><br><br><br><br></td>
+                            <td style='width:100%;'><br><br><br></td>
                         </tr>
-        </table>";
+        </table>
+        </nobreak>";
 
-        if ($requisitos) {
+            /* if ($requisitos) {
 
             $contenidoDocumentos = "<br> <div style='page-break-after:always; clear:both'></div>
-                                    <P style='text-align:center'><b>Documentos Faltantes para el Contrato</b></P><br><br>";
+            <P style='text-align:center'><b>Documentos Faltantes para el Contrato</b></P><br><br>";
             foreach ($requisitos as $key => $value) {
-                if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
-                    $requisitosFaltantesObligatorios = true;
+            if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
+            $requisitosFaltantesObligatorios = true;
 
-                    $contenidoPagina .= $contenidoDocumentos . "<P style='text-align:left'>" . $value['nombre_requisitos'] . "</P><br>";
-                    $contenidoDocumentos = '';
-
-                }
+            $contenidoPagina .= $contenidoDocumentos . "<P style='text-align:left'>" . $value['nombre_requisitos'] . "</P><br>";
+            $contenidoDocumentos = '';
 
             }
+
+            }
+            }*/
+
+            $contenidoPagina .= "</page>";
+
         }
 
-        $contenidoPagina .= "</page>";
-        //echo $contenidoPagina;exit;
         $this->contenidoPagina = $contenidoPagina;
 
     }

@@ -84,7 +84,7 @@ class GenerarDocumento {
     public function crearPDF() {
 
         ob_start();
-        $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
+        $html2pdf = new \HTML2PDF('P', 'LEGAL', 'es', true, 'UTF-8', array(
             2,
             2,
             2,
@@ -109,19 +109,19 @@ class GenerarDocumento {
         $anexo_dir = '';
 
         if ($this->beneficiario['manzana'] != 0) {
-            $anexo_dir .= " Número Manzana  #" . $this->beneficiario['manzana'] . " - ";
+            $anexo_dir .= " Manzana  #" . $this->beneficiario['manzana'] . " - ";
         }
 
         if ($this->beneficiario['bloque'] != 0) {
-            $anexo_dir .= " Número Bloque #" . $this->beneficiario['bloque'] . " - ";
+            $anexo_dir .= " Bloque #" . $this->beneficiario['bloque'] . " - ";
         }
 
         if ($this->beneficiario['torre'] != 0) {
-            $anexo_dir .= " Número Torre #" . $this->beneficiario['torre'] . " - ";
+            $anexo_dir .= " Torre #" . $this->beneficiario['torre'] . " - ";
         }
 
         if ($this->beneficiario['casa_apartamento'] != 0) {
-            $anexo_dir .= " Número de Casa/Apartamento #" . $this->beneficiario['casa_apartamento'];
+            $anexo_dir .= " Casa/Apartamento #" . $this->beneficiario['casa_apartamento'];
         }
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->beneficiario['urbanizacion']);
@@ -163,8 +163,8 @@ class GenerarDocumento {
             $tipo_pospago = ($tipoPago['descripcion'] == 'Pospago') ? "X" : " ";
 
         }
-
-        $contenidoPagina = "
+        {
+            $contenidoPagina = "
                             <style type=\"text/css\">
                                 table {
 
@@ -210,7 +210,7 @@ class GenerarDocumento {
 
                         </page_header>";
 
-        $contenidoPagina .= "
+            $contenidoPagina .= "
 
     <table style='width:100%;'>
                         <tr>
@@ -342,7 +342,7 @@ class GenerarDocumento {
                      <br>
                      <br>
                      <br>
-                     <nobreak>
+                     <br>
                     <table style='width:100%;'>
                         <tr>
                             <td text-align=center;'><b>DECLARACIONES DEL SUSCRIPTOR</b></td>
@@ -367,6 +367,9 @@ class GenerarDocumento {
                             Son derechos de los usuarios (Art 10 Resolución CRC 3066/11): 1. Contar con la medición apropiada de sus consumos reales, mediante los instrumentos tecnológicos apropiados para efectuar dicha medición, dentro de los plazos fijados por la CRC. 2. Ejercer los derechos contenidos en el Régimen de Protección al USUARIO de los Servicios de Comunicaciones, establecido en la Resolución CRC 3066 de 2011 y demás normas que lo modifiquen o deroguen; así como todos aquellos derechos que se deriven de las disposiciones contenidas en la regulación expedida por el MinTIC, la CRC y la Superintendencia de Industria y Comercio. 3. Recibir los servicios contratados de manera continua e ininterrumpida en los términos del Anexo Técnico del Contrato de Aporte N° 681 de 2015 salvo por circunstancias de fuerza mayor, caso fortuito o hecho de un tercero que impidan la prestación del servicio en condiciones normales; en caso de que el (los) servicios prestados por parte de POLITÉCNICA sean suspendidos por motivos de algún daño que impida la prestación del servicio por causas diferentes a fuerza mayor, caso fortuito o hecho de un tercero, POLITÉCNICA reparará el daño en la mayor brevedad posible, de tal forma que la prestación del servicio no se vea gravemente afectada.
                             </td>
                         </tr>
+                    </table>
+                    <nobreak>
+                    <table>
                         <tr>
                             <td text-align=center;'><b>RÉGIMEN DE OBLIGACIONES DEL USUARIO EN RELACIÓN CON LOS SERVICIOS PRESTADOS</b></td>
                         </tr>
@@ -398,11 +401,6 @@ class GenerarDocumento {
                             </td>
                         </tr>
                     </table>
-                    </nobreak>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
                     <table style='width:100%;'>
                         <tr>
                             <td text-align=center;'><b>PETICIONES, QUEJAS Y RECURSOS</b></td>
@@ -423,13 +421,7 @@ class GenerarDocumento {
                     </table>
                     ";
 
-        $contenidoPagina .= "
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+            $contenidoPagina .= "
         <br>
         <br>
         <br>
@@ -486,38 +478,34 @@ class GenerarDocumento {
         <br>
         <br>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
         <table style='width:100%;border:none'>
                         <tr>
                             <td text-align=center;' style='width:100%;'><b>OBSERVACIONES DEL OPERADOR</b></td>
                         </tr>
                         <tr>
-                            <td style='width:100%;'><br><br><br><br><br><br><br><br></td>
+                            <td style='width:100%;'><br><br><br></td>
                         </tr>
-        </table>";
+        </table>
+        </nobreak>";
 
-        if ($requisitos) {
+            /* if ($requisitos) {
 
             $contenidoDocumentos = "<br> <div style='page-break-after:always; clear:both'></div>
-                                    <P style='text-align:center'><b>Documentos Faltantes para el Contrato</b></P><br><br>";
+            <P style='text-align:center'><b>Documentos Faltantes para el Contrato</b></P><br><br>";
             foreach ($requisitos as $key => $value) {
-                if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
-                    $requisitosFaltantesObligatorios = true;
+            if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
+            $requisitosFaltantesObligatorios = true;
 
-                    $contenidoPagina .= $contenidoDocumentos . "<P style='text-align:left'>" . $value['nombre_requisitos'] . "</P><br>";
-                    $contenidoDocumentos = '';
-
-                }
+            $contenidoPagina .= $contenidoDocumentos . "<P style='text-align:left'>" . $value['nombre_requisitos'] . "</P><br>";
+            $contenidoDocumentos = '';
 
             }
-        }
 
-        $contenidoPagina .= "</page>";
+            }
+            }*/
+
+            $contenidoPagina .= "</page>";
+        }
 
         $this->contenidoPagina = $contenidoPagina;
     }
