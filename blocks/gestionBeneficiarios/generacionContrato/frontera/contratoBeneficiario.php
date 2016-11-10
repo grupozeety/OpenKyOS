@@ -740,7 +740,7 @@ class Contrato {
                         echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                         unset($atributos);
 
-                        /*  $esteCampo = 'barrio';
+                        $esteCampo = 'barrio';
                         $atributos['nombre'] = $esteCampo;
                         $atributos['tipo'] = "text";
                         $atributos['id'] = $esteCampo;
@@ -756,9 +756,9 @@ class Contrato {
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Ingrese Nombre Barrio";
                         if (isset($_REQUEST[$esteCampo])) {
-                        $atributos['valor'] = $_REQUEST[$esteCampo];
+                            $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                        $atributos['valor'] = '';
+                            $atributos['valor'] = '';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -769,7 +769,7 @@ class Contrato {
                         // Aplica atributos globales al control
                         $atributos = array_merge($atributos, $atributosGlobales);
                         echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-                        unset($atributos);*/
+                        unset($atributos);
 
                         $esteCampo = 'telefono';
                         $atributos['nombre'] = $esteCampo;
@@ -993,7 +993,7 @@ class Contrato {
                     $esteCampo = 'Agrupacion';
                     $atributos['id'] = $esteCampo;
                     $atributos['leyenda'] = "Datos Servicio";
-                    //  echo $this->miFormulario->agrupacion('inicio', $atributos);
+                    echo $this->miFormulario->agrupacion('inicio', $atributos);
                     unset($atributos);
                     {
 
@@ -1025,7 +1025,7 @@ class Contrato {
                         $atributos['validar'] = 'required';
                         // Aplica atributos globales al control
                         $atributos = array_merge($atributos, $atributosGlobales);
-                        //echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                        echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
                         unset($atributos);
 
                         $esteCampo = 'fecha_inicio_vigencia_servicio';
@@ -1056,7 +1056,8 @@ class Contrato {
                         $atributos['validar'] = 'required';
                         // Aplica atributos globales al control
                         $atributos = array_merge($atributos, $atributosGlobales);
-                        //  echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+
+                        echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
                         unset($atributos);
 
                         $esteCampo = 'fecha_fin_vigencia_servicio';
@@ -1122,7 +1123,7 @@ class Contrato {
                         unset($atributos);
 
                     }
-                    //echo $this->miFormulario->agrupacion('fin');
+                    echo $this->miFormulario->agrupacion('fin');
                     unset($atributos);
 
                     $esteCampo = 'Agrupacion';
