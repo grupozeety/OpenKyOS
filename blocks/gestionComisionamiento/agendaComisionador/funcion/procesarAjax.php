@@ -1,18 +1,14 @@
 <?php
 include_once "core/auth/SesionSso.class.php";
-
 $sesion = \SesionSso::singleton ();
 $respuesta = $sesion->getParametrosSesionAbierta ();
-
 $rol = $respuesta ['description'] [0];
 $idusuario = $respuesta ['mail'] [0];
-
 if ($rol == 'Comisionador') {
 	$comisionador = true;
 } else {
 	$comisionador = false;
 }
-
 $conexion = "interoperacion";
 $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 function codificarNombre($nombre) {
@@ -29,7 +25,6 @@ function codificarNombre($nombre) {
 	
 	return $miFormulario->campoSeguro ( $nombre );
 }
-
 if ($_REQUEST ['funcion'] == "consultarComisionador") {
 	
 	$cadenaSql = $this->sql->getCadenaSql ( 'consultarComisionador' );
@@ -45,7 +40,6 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 	echo '{"suggestions":' . json_encode ( $resultado ) . '}';
 } else if ($_REQUEST ['funcion'] == "consultarAgendamiento") {
 	
-
 	$manz = trim($_REQUEST ['manz']);
 	$tipoA = trim ( $_REQUEST ['tipoA'] );
 	$urban = trim ( $_REQUEST ['urban'] );
@@ -180,6 +174,4 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 	}
 	echo '{"suggestions":' . json_encode ( $resultado ) . '}';
 }
-
 ?>
-
