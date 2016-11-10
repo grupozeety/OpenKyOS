@@ -12,7 +12,9 @@ $this->idioma['botonValidar'] = 'Consultar Beneficiario';
 
 $this->idioma['botonVerificar'] = 'Verificar Requisitos';
 
-$this->idioma['medio_pago'] = 'Tipo de Pago';
+$this->idioma['medio_pago'] = 'Medio Pago';
+
+$this->idioma['tipo_pago'] = 'Tipo Pago';
 
 $this->idioma['tipo_tecnologia'] = 'Tipo Tecnología';
 
@@ -76,7 +78,7 @@ $this->idioma['tecnologia'] = 'Tecnología';
 
 $this->idioma['estado'] = 'Estado';
 
-$this->idioma['firma_contratista'] = 'Firma Contratista';
+$this->idioma['firma_contratista'] = 'Firma Instalador';
 
 $this->idioma['firma_beneficiario'] = 'Firma Beneficiario';
 
@@ -115,7 +117,6 @@ $this->idioma['005'] = '<b>005</b> Certificado del proyecto catalogado como VIP'
 $this->idioma['006'] = '<b>006</b> Documento que demuestre beneficiario acceso es el propietario';
 
 $this->idioma['900'] = '<b>900</b> Certificado No Internet';
-
 
 $this->idioma['900_1'] = '<b>900_1</b> Contrato Macro';
 

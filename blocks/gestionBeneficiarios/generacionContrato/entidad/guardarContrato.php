@@ -79,13 +79,13 @@ class FormProcessor {
 
         if ($this->archivos_datos === '') {
             $url_firma_beneficiario = '';
-            //$url_firma_contratista = '';
+            $url_firma_contratista = '';
 
         } else {
 
-            $url_firma_beneficiario = $this->archivos_datos[0]['ruta_archivo'];
+            $url_firma_beneficiario = $this->archivos_datos[1]['ruta_archivo'];
 
-            //$url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
+            $url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
 
         }
 
@@ -127,23 +127,23 @@ class FormProcessor {
             'departamento' => $_REQUEST['departamento'],
             'municipio' => $_REQUEST['municipio'],
             'urbanizacion' => $_REQUEST['urbanizacion'],
-            'estrato' => $_REQUEST['estrato'],
-            'barrio' => ' ',
+            'estrato' => $_REQUEST['tipo'],
+            'barrio' => $_REQUEST['barrio'],
             'telefono' => $_REQUEST['telefono'],
             'celular' => $_REQUEST['celular'],
             'correo' => $_REQUEST['correo'],
             'cuenta_suscriptor' => ' ',
-            'velocidad_internet' => ' ',
-            'fecha_inicio_vigencia_servicio' => ' ',
+            'velocidad_internet' => $_REQUEST['velocidad_internet'],
+            'fecha_inicio_vigencia_servicio' => $_REQUEST['fecha_inicio_vigencia_servicio'],
             'fecha_fin_vigencia_servicio' => ' ',
-            'valor_mensual' => ' ',
+            'valor_mensual' => $valor_tarificacion,
             'marca' => ' ',
             'modelo' => ' ',
             'serial' => ' ',
             'tecnologia' => ' ',
             'estado' => ' ',
             'clausulas' => '',
-            //'url_firma_contratista' => $url_firma_contratista,
+            'url_firma_contratista' => $url_firma_contratista,
             'url_firma_beneficiario' => $url_firma_beneficiario,
             'manzana' => $_REQUEST['num_manzana'],
             'bloque' => $_REQUEST['num_bloque'],
@@ -152,6 +152,7 @@ class FormProcessor {
             'tipo_tecnologia' => $_REQUEST['tipo_tecnologia'],
             'valor_tarificacion' => $valor_tarificacion,
             'medio_pago' => $_REQUEST['medio_pago'],
+            'tipo_pago' => $_REQUEST['tipo_pago'],
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarInformacionContrato', $arreglo);
