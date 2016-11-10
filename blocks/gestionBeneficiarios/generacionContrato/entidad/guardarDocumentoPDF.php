@@ -114,6 +114,7 @@ class GenerarDocumento {
         $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
         $this->beneficiario = $beneficiario[0];
+        //var_dump($this->beneficiario);exit;
 
     }
 
@@ -152,32 +153,56 @@ class GenerarDocumento {
         $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Tarjeta de Identidad");
         $CodigoTargeta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $CodigoTargeta = $CodigoTargeta[0];
+        {
 
-        $anexo_dir = '';
+            $anexo_dir = '';
 
-        if ($this->beneficiario['manzana'] != 0) {
-            $anexo_dir .= " Número Manzana  #" . $this->beneficiario['manzana'] . " - ";
+            if ($this->beneficiario['manzana'] != 0) {
+                $anexo_dir .= " Número Manzana  #" . $this->beneficiario['manzana'] . " - ";
+            }
+
+            if ($this->beneficiario['bloque'] != 0) {
+                $anexo_dir .= " Número Bloque #" . $this->beneficiario['bloque'] . " - ";
+            }
+
+            if ($this->beneficiario['torre'] != 0) {
+                $anexo_dir .= " Número Torre #" . $this->beneficiario['torre'] . " - ";
+            }
+
+            if ($this->beneficiario['casa_apartamento'] != 0) {
+                $anexo_dir .= " Número de Casa/Apartamento #" . $this->beneficiario['casa_apartamento'];
+            }
+
+        }
+        {
+            $cedula = ($this->beneficiario['tipo_documento'] == $CodigoCedula['codigo']) ? '<b>(X)</b>' : '';
+            $targeta = ($this->beneficiario['tipo_documento'] == $CodigoTargeta['codigo']) ? '<b>(X)</b>' : '';
         }
 
-        if ($this->beneficiario['bloque'] != 0) {
-            $anexo_dir .= " Número Bloque #" . $this->beneficiario['bloque'] . " - ";
+        {
+            $firma_beneficiario = "<img src='" . $this->beneficiario['url_firma_beneficiarios'] . "'  width='125' height='40'>";
+
+            $firma_contratista = "<img src='" . $this->beneficiario['url_firma_contratista'] . "'  width='125' height='40'>";
         }
+        {
 
-        if ($this->beneficiario['torre'] != 0) {
-            $anexo_dir .= " Número Torre #" . $this->beneficiario['torre'] . " - ";
+            $cadenaSql = $this->miSql->getCadenaSql('consultarParametroParticular', $this->beneficiario['medio_pago']);
+            $medioPago = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            //var_dump($medioPago);
+            $cadenaSql = $this->miSql->getCadenaSql('consultarParametroParticular', $this->beneficiario['tipo_pago']);
+            $tipoPago = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+            //var_dump($tipoPago);exit;
+
+            $medio_virtual = ($medioPago['descripcion'] == 'Virtual') ? "X" : " ";
+
+            $medio_efectivo = ($medioPago['descripcion'] == 'Efectivo') ? "X" : " ";
+
+            $tipo_prepago = ($tipoPago['descripcion'] == 'Prepago') ? "X" : " ";
+
+            $tipo_pospago = ($tipoPago['descripcion'] == 'Pospago') ? "X" : " ";
+
         }
-
-        if ($this->beneficiario['casa_apartamento'] != 0) {
-            $anexo_dir .= " Número de Casa/Apartamento #" . $this->beneficiario['casa_apartamento'];
-        }
-
-        $cedula = ($this->beneficiario['tipo_documento'] == $CodigoCedula['codigo']) ? '<b>(X)</b>' : '';
-        $targeta = ($this->beneficiario['tipo_documento'] == $CodigoTargeta['codigo']) ? '<b>(X)</b>' : '';
-
-        $firma_beneficiario = "<img src='" . $this->beneficiario['url_firma_beneficiarios'] . "'  width='125' height='40'>";
-
-        $firma_contratista = "<img src='" . $this->beneficiario['url_firma_contratista'] . "'  width='125' height='40'>";
-
         $contenidoPagina = "
                             <style type=\"text/css\">
                                 table {
@@ -328,7 +353,7 @@ class GenerarDocumento {
                         </tr>
                         <tr>
                             <td style='width:15%;text-align=center;'><b>Fecha de inicio del Servicio</b></td>
-                            <td colspan='3' style='width:70%;text-align=left;'><b>" . $this->beneficiario['fecha_inicio_vigencia_servicio'] . "</b></td>
+                            <td colspan='3' style='width:70%;text-align=center;'><b>" . $this->beneficiario['fecha_inicio_vigencia_servicio'] . "</b></td>
                         </tr>
                         <tr>
                             <td style='width:15%;text-align=center;'><b>Valor Mensual Servicio Básico </b></td>
@@ -340,17 +365,17 @@ class GenerarDocumento {
                         <tr>
                             <td rowspan='3' style='width:15%;text-align=center;'><b>DATOS FACTURACIÓN</b></td>
                             <td style='width:15%;text-align=center;'><b>Forma de Pago</b></td>
-                            <td style='width:15%;text-align=center;'>Prepago (  )</td>
-                            <td style='width:15%;text-align=center;'>Postpago (  )</td>
+                            <td style='width:15%;text-align=center;'>Prepago (<b>" . $tipo_prepago . "</b>)</td>
+                            <td style='width:15%;text-align=center;'>Postpago (<b>" . $tipo_pospago . "</b>)</td>
                         </tr>
                         <tr>
                             <td style='width:15%;text-align=center;'><b>Mecanismos de Pago</b></td>
-                            <td style='width:15%;text-align=center;'>Virtual (  )</td>
-                            <td style='width:15%;text-align=center;'>Efectivo (  )</td>
+                            <td style='width:15%;text-align=center;'>Virtual (<b>" . $medio_virtual . "</b>)</td>
+                            <td style='width:15%;text-align=center;'>Efectivo (<b>" . $medio_efectivo . "</b>)</td>
                         </tr>
                         <tr>
                             <td style='width:15%;text-align=center;'><b>TOTAL A PAGAR FACTURA MENSUAL</b></td>
-                            <td  colspan='2' style='width:70%;text-align=left;'>$</td>
+                            <td  colspan='2' style='width:70%;text-align=left;'>$ " . $this->beneficiario['valor_tarificacion'] . "</td>
                         </tr>
                         </table>
                      <br>
@@ -528,7 +553,7 @@ class GenerarDocumento {
         }
 
         $contenidoPagina .= "</page>";
-
+        //echo $contenidoPagina;exit;
         $this->contenidoPagina = $contenidoPagina;
 
     }

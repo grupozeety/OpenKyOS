@@ -12,7 +12,9 @@ $this->idioma['botonValidar'] = 'Consultar Beneficiario';
 
 $this->idioma['botonVerificar'] = 'Verificar Requisitos';
 
-$this->idioma['medio_pago'] = 'Tipo de Pago';
+$this->idioma['medio_pago'] = 'Medio Pago';
+
+$this->idioma['tipo_pago'] = 'Tipo Pago';
 
 $this->idioma['tipo_tecnologia'] = 'Tipo Tecnología';
 

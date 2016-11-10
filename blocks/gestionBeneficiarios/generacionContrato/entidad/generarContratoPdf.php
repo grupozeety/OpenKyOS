@@ -138,10 +138,31 @@ class GenerarDocumento {
 
         $cedula = ($this->beneficiario['tipo_documento'] == $CodigoCedula['codigo']) ? '<b>(X)</b>' : '';
         $targeta = ($this->beneficiario['tipo_documento'] == $CodigoTargeta['codigo']) ? '<b>(X)</b>' : '';
+        {
+            $firma_contratista = "__________________________";
 
-        $firma_contratista = "__________________________";
+            $firma_beneficiario = "__________________________";
+        }
 
-        $firma_beneficiario = "__________________________";
+        {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarParametroParticular', $this->beneficiario['medio_pago']);
+            $medioPago = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            //var_dump($medioPago);
+            $cadenaSql = $this->miSql->getCadenaSql('consultarParametroParticular', $this->beneficiario['tipo_pago']);
+            $tipoPago = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+            //var_dump($tipoPago);exit;
+
+            $medio_virtual = ($medioPago['descripcion'] == 'Virtual') ? "X" : " ";
+
+            $medio_efectivo = ($medioPago['descripcion'] == 'Efectivo') ? "X" : " ";
+
+            $tipo_prepago = ($tipoPago['descripcion'] == 'Prepago') ? "X" : " ";
+
+            $tipo_pospago = ($tipoPago['descripcion'] == 'Pospago') ? "X" : " ";
+
+        }
 
         $contenidoPagina = "
 							<style type=\"text/css\">
@@ -293,7 +314,7 @@ class GenerarDocumento {
 					    </tr>
 					    <tr>
 				            <td style='width:15%;text-align=center;'><b>Fecha de inicio del Servicio</b></td>
-					        <td colspan='3' style='width:70%;text-align=left;'><b>" . $this->beneficiario['fecha_inicio_vigencia_servicio'] . "</b></td>
+					        <td colspan='3' style='width:70%;text-align=center;'><b>" . $this->beneficiario['fecha_inicio_vigencia_servicio'] . "</b></td>
 					    </tr>
 					    <tr>
 				            <td style='width:15%;text-align=center;'><b>Valor Mensual Servicio Básico </b></td>
@@ -302,20 +323,20 @@ class GenerarDocumento {
 					 </table>
 					 <br>
 					  <table style='width:100%;'>
-				        <tr>
-				        	<td rowspan='3' style='width:15%;text-align=center;'><b>DATOS FACTURACIÓN</b></td>
-					        <td style='width:15%;text-align=center;'><b>Forma de Pago</b></td>
-					        <td style='width:15%;text-align=center;'>Prepago (  )</td>
-					        <td style='width:15%;text-align=center;'>Postpago (  )</td>
-					    </tr>
-					    <tr>
-				        	<td style='width:15%;text-align=center;'><b>Mecanismos de Pago</b></td>
-					        <td style='width:15%;text-align=center;'>Virtual (  )</td>
-					        <td style='width:15%;text-align=center;'>Efectivo (  )</td>
-					    </tr>
+				         <tr>
+                            <td rowspan='3' style='width:15%;text-align=center;'><b>DATOS FACTURACIÓN</b></td>
+                            <td style='width:15%;text-align=center;'><b>Forma de Pago</b></td>
+                            <td style='width:15%;text-align=center;'>Prepago (<b>" . $tipo_prepago . "</b>)</td>
+                            <td style='width:15%;text-align=center;'>Postpago (<b>" . $tipo_pospago . "</b>)</td>
+                        </tr>
+                        <tr>
+                            <td style='width:15%;text-align=center;'><b>Mecanismos de Pago</b></td>
+                            <td style='width:15%;text-align=center;'>Virtual (<b>" . $medio_virtual . "</b>)</td>
+                            <td style='width:15%;text-align=center;'>Efectivo (<b>" . $medio_efectivo . "</b>)</td>
+                        </tr>
 					    <tr>
 					    	<td style='width:15%;text-align=center;'><b>TOTAL A PAGAR FACTURA MENSUAL</b></td>
-					        <td  colspan='2' style='width:70%;text-align=left;'>$</td>
+					        <td  colspan='2' style='width:70%;text-align=left;'>$ " . $this->beneficiario['valor_tarificacion'] . "</td>
 					    </tr>
 					    </table>
 				     <br>

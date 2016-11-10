@@ -42,7 +42,6 @@ class Contrato {
     }
     public function mostrarContrato() {
 
-        //var_dump($_REQUEST);
         //Conexion a Base de Datos
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
@@ -737,7 +736,7 @@ class Contrato {
                         $atributos['matrizItems'] = $matrizItems;
                         // Aplica atributos globales al control
                         $atributos = array_merge($atributos, $atributosGlobales);
-                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                        //echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                         unset($atributos);
 
                         $esteCampo = 'barrio';
@@ -978,6 +977,35 @@ class Contrato {
                         $atributos['validar'] = 'required';
                         $cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
                         $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                        $atributos['matrizItems'] = $resultado;
+
+                        // Aplica atributos globales al control
+                        $atributos = array_merge($atributos, $atributosGlobales);
+                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                        unset($atributos);
+
+                        $esteCampo = 'tipo_pago';
+                        $atributos['nombre'] = $esteCampo;
+                        $atributos['id'] = $esteCampo;
+                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                        $atributos["etiquetaObligatorio"] = true;
+                        $atributos['tab'] = $tab++;
+                        $atributos['anchoEtiqueta'] = 2;
+                        $atributos['evento'] = '';
+                        $atributos['seleccion'] = -1;
+                        $atributos['deshabilitado'] = false;
+                        $atributos['columnas'] = 1;
+                        $atributos['tamanno'] = 1;
+                        $atributos['ajax_function'] = "";
+                        $atributos['ajax_control'] = $esteCampo;
+                        $atributos['estilo'] = "bootstrap";
+                        $atributos['limitar'] = false;
+                        $atributos['anchoCaja'] = 10;
+                        $atributos['miEvento'] = '';
+                        $atributos['validar'] = 'required';
+                        $cadenaSql = $this->miSql->getCadenaSql('consultarTipoPago');
+                        $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
                         $atributos['matrizItems'] = $resultado;
 
                         // Aplica atributos globales al control
