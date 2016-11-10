@@ -38,9 +38,12 @@ class Sql extends \Sql {
 			case 'consultarBeneficiariosPotenciales' :
 				$cadenaSql = " SELECT value , data ";
 				$cadenaSql .= "FROM ";
-				$cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data ";
-				$cadenaSql .= "FROM  interoperacion.beneficiario_potencial  ";
-				$cadenaSql .= "WHERE estado_registro=TRUE ) datos ";
+				$cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
+				$cadenaSql .= "FROM  interoperacion.beneficiario_potencial bp ";
+				$cadenaSql .= "LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bp.id_beneficiario ";
+				$cadenaSql .= "WHERE bp.estado_registro=TRUE ";
+				$cadenaSql .= $variable ;
+				$cadenaSql .= "		) datos ";
 				$cadenaSql .= "WHERE value ILIKE '%" . $_GET ['query'] . "%' ";
 				$cadenaSql .= "LIMIT 10; ";
 				break;

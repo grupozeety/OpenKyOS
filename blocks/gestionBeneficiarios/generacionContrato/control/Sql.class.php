@@ -2,9 +2,9 @@
 
 namespace gestionBeneficiarios\generacionContrato;
 
-if (!isset($GLOBALS["autorizado"])) {
-    include "../index.php";
-    exit();
+if (! isset ( $GLOBALS ["autorizado"] )) {
+	include "../index.php";
+	exit ();
 }
 
 include_once "core/manager/Configurador.class.php";
@@ -44,18 +44,20 @@ class Sql extends \Sql {
              */
             case 'consultarBeneficiariosPotenciales':
 
-                $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bn.id_beneficiario  AS data  ";
-                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bn ";
-                $cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bn.id_beneficiario=ba.id_beneficiario ";
-                $cadenaSql .= "WHERE bn.estado_registro=TRUE ";
-                $cadenaSql .= "AND ba.estado_registro=TRUE  ";
-                $cadenaSql .= "AND ba.carpeta_creada=TRUE ";
-                $cadenaSql .= "AND  (cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%') ";
-                $cadenaSql .= "LIMIT 10; ";
-
+		case 'consultarBeneficiariosPotenciales' :
+				$cadenaSql = " SELECT value , data ";
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
+				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
+				$cadenaSql .= " LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bp.id_beneficiario ";
+				$cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bp.id_beneficiario=ba.id_beneficiario ";
+				$cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+				$cadenaSql .= " AND ba.estado_registro=TRUE ";
+				$cadenaSql .= " AND ba.carpeta_creada=TRUE ";
+				$cadenaSql .= $variable;
+				$cadenaSql .= "		) datos ";
+				$cadenaSql .= "WHERE value ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= "LIMIT 10; ";
                 break;
 
             case 'consultaInformacionBeneficiario':
@@ -605,6 +607,5 @@ class Sql extends \Sql {
 
         return $cadenaSql;
     }
-
 }
 ?>
