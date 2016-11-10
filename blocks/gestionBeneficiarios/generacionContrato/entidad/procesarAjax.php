@@ -1,6 +1,9 @@
 <?php
 
 namespace gestionBeneficiarios\generacionContrato\entidad;
+include_once "core/auth/SesionSso.class.php";
+
+
 
 class procesarAjax {
 	public $miConfigurador;
@@ -15,11 +18,29 @@ class procesarAjax {
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
+		$sesion = \SesionSso::singleton ();
+		$respuesta = $sesion->getParametrosSesionAbierta ();
+		
+		$rol = $respuesta ['description'] [0];
+		$idusuario = $respuesta ['mail'] [0];
+		
+		if ($rol == 'Comisionador') {
+			$comisionador = true;
+		} else {
+			$comisionador = false;
+		}
+		
 		switch ($_REQUEST ['funcion']) {
 			
 			case 'consultaBeneficiarios' :
 				
-				$cadenaSql = $this->sql->getCadenaSql ( 'consultarBeneficiariosPotenciales' );
+				$cadena='';
+				
+				if($comisionador==true){
+					$cadena="AND id_comisionador='".$idusuario."'";
+				}
+				
+			 $cadenaSql = $this->sql->getCadenaSql ( 'consultarBeneficiariosPotenciales', $cadena );
 				
 				$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				
