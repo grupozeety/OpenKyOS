@@ -94,7 +94,7 @@ class FormProcessor {
         switch ($_REQUEST['tipo']) {
 
             case '1':
-                $valor_tarificacion = '6400';
+                $valor_tarificacion = '6500';
                 break;
 
             case '2':
