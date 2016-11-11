@@ -99,23 +99,7 @@ class Formulario {
 		$deshabilitado = false;
 		
 		// ---------------- SECCION: Controles del Formulario -----------------------------------------------
-		
-		if (isset ( $_REQUEST ['mensaje'] )) {
-			$esteCampo = 'mensajemodal';
-			$atributos ["id"] = $esteCampo; // No cambiar este nombre
-			$atributos ["tipo"] = "hidden";
-			$atributos ['estilo'] = '';
-			$atributos ["obligatorio"] = false;
-			$atributos ['marco'] = true;
-			$atributos ["etiqueta"] = "";
-			$atributos ['valor'] = $_REQUEST ['mensaje'];
-			$atributos = array_merge ( $atributos, $atributosGlobales );
-			echo $this->miFormulario->campoCuadroTexto ( $atributos );
-			unset ( $atributos );
-		}
-		
-		echo "<div class='modalLoad'></div>";
-		
+
 		$esteCampo = 'ficheros';
 		$atributos ['id'] = $esteCampo;
 		$atributos ['leyenda'] = "Modificar Agendamientos Programados";
@@ -514,7 +498,7 @@ class Formulario {
 		$atributos ['estilo'] = "bootstrap";
 		$atributos ['evento'] = '';
 		$atributos ['deshabilitado'] = false;
-		$atributos ['readonly'] = false;
+		$atributos ['readonly'] = true;
 		$atributos ['columnas'] = 1;
 		$atributos ['tamanno'] = 1;
 		$atributos ['placeholder'] = "Fecha Agendamiento";
@@ -534,7 +518,7 @@ class Formulario {
 		unset ( $atributos );
 		
 		echo '
-                		<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                		<table id="example" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
         			        <thead>
         			        	<tr>
  						            <th id="filterrow">ID</th>
@@ -642,17 +626,28 @@ class Formulario {
 		echo $this->miFormulario->formulario ( $atributos );
 	}
 	
+	
 	public function mensaje($tab = '', $nombreBloque = '') {
+
 
 		switch ($_REQUEST['mensaje']) {
 			case 'confirma':
 				$mensaje = "Agendamientos Actualizados";
 				$atributos['estiloLinea'] = 'success';     //success,error,information,warning
+				$_REQUEST['mensaje']='';
+				unset($_REQUEST['mensaje']);
 				break;
 	
 			case 'error':
 				$mensaje = "Error en la actualización de la agenda";
 				$atributos['estiloLinea'] = 'error';     //success,error,information,warning
+				$_REQUEST['mensaje']='';
+				break;
+		
+			default:
+				$_REQUEST['mensaje']='';
+				unset($_REQUEST['mensaje']);
+				
 				break;
 	
 		}

@@ -5,8 +5,9 @@
  */
 $indice = 0;
 
-$funcion[$indice++] = "bootstrap-datetimepicker.js";
-$funcion[$indice++] = "bootstrap-datetimepicker.min.js";
+$funcion[$indice++] = "bootstrap-datepicker.js";
+$funcion[$indice++] = "bootstrap-datepicker.min.js";
+$funcion[$indice++] = "bootstrap-datepicker.es.min.js";
 $funcion[$indice++] = "jquery.dataTables.js";
 $funcion[$indice++] = "jquery.autocomplete.min.js";
 $funcion[$indice++] = "jquery.autocomplete.js";
@@ -14,8 +15,10 @@ $funcion[$indice++] = "dataTables.bootstrap.min.js";
 $funcion[$indice++] = "dataTables.responsive.min.js";
 $funcion[$indice++]="select2.min.js";
 $embebido [$indice] = true;
-$funcion [$indice ++] = "ajax.php";
 
+$funcion [$indice ++] = "ajax.php";
+$funcion [$indice ++] = "ready.php";
+$funcion [$indice ++] = "ready.js";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion ( "site" );

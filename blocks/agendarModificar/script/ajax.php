@@ -264,18 +264,7 @@ $(document).ready(function() {
 			.removeClass( 'display' )
 			.addClass('table table-striped table-bordered');
 
-		
-		 $('#<?php echo $this->campoSeguro("fecha_agendamiento_nueva");?>').datetimepicker({
-	               format: 'yyyy-mm-dd',
-	               language: "es",
-	                weekStart: 1,
-	                todayBtn:  1,
-	                autoclose: 1,
-	                todayHighlight: 1,
-	                startView: 2,
-	                minView: 2,
-	                forceParse: 0
-	            });
+
 });
 
 var urbanizacion = "";
@@ -439,10 +428,18 @@ $('#example').DataTable().destroy();
 	        "scrollY":"300px",
 	        "scrollX": true,
 	        "scrollCollapse": true,
-	        "responsive": true,
-	       	"columnDefs": [
-	        	{"className": "dt-center", "targets": "_all"}
-	        ],
+	                
+	        " responsive": {
+            details: {
+                type: 'column'
+            }
+        },
+        "columnDefs": [ {
+            className: 'control',
+            orderable: false,
+            targets:   0
+        } ],
+       order: [ 1, 'asc' ],
 	    	"orderCellsTop": true,
 	    	"language": {
 	            "sProcessing":     "Procesando...",
