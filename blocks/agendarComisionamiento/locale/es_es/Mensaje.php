@@ -29,6 +29,7 @@ $this->idioma["tipo_vivienda"]="Tipo de Vivienda";
 $this->idioma["manzana"]="Manzana";
 $this->idioma["bloque"]="Bloque";
 $this->idioma["torre"]="Torre";
+$this->idioma["beneficiario"]="Beneficiario";
 
 
 

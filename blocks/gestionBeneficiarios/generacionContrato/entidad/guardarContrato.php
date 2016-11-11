@@ -47,7 +47,7 @@ class FormProcessor {
 
         $_REQUEST['tiempo'] = time();
 
-        $this->cargarClausula();
+        //$this->cargarClausula();
 
         /**
          *  1. CargarArchivos en el Directorio
@@ -61,7 +61,7 @@ class FormProcessor {
 
         $this->procesarInformacion();
 
-        if ($this->archivos_datos != '') {
+        if ($_REQUEST['firmaBeneficiario'] != '') {
 
             include_once "guardarDocumentoPDF.php";
 
@@ -78,23 +78,23 @@ class FormProcessor {
     public function procesarInformacion() {
 
         if ($this->archivos_datos === '') {
-            $url_firma_beneficiario = '';
-            //$url_firma_contratista = '';
+            $soporte = '';
 
         } else {
-
-            $url_firma_beneficiario = $this->archivos_datos[0]['ruta_archivo'];
-
-            //$url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
+            $soporte = $this->archivos_datos[0]['ruta_archivo'];
 
         }
+
+        $url_firma_beneficiario = $_REQUEST['firmaBeneficiario'];
+
+        //$url_firma_contratista = $_REQUEST['firmaInstalador'];
 
         $clausulas = $this->clausulas;
 
         switch ($_REQUEST['tipo']) {
 
             case '1':
-                $valor_tarificacion = '6400';
+                $valor_tarificacion = '6500';
                 break;
 
             case '2':
@@ -127,23 +127,23 @@ class FormProcessor {
             'departamento' => $_REQUEST['departamento'],
             'municipio' => $_REQUEST['municipio'],
             'urbanizacion' => $_REQUEST['urbanizacion'],
-            'estrato' => $_REQUEST['estrato'],
-            'barrio' => ' ',
+            'estrato' => $_REQUEST['tipo'],
+            'barrio' => $_REQUEST['barrio'],
             'telefono' => $_REQUEST['telefono'],
             'celular' => $_REQUEST['celular'],
             'correo' => $_REQUEST['correo'],
             'cuenta_suscriptor' => ' ',
-            'velocidad_internet' => ' ',
-            'fecha_inicio_vigencia_servicio' => ' ',
-            'fecha_fin_vigencia_servicio' => ' ',
-            'valor_mensual' => ' ',
+            'velocidad_internet' => $_REQUEST['velocidad_internet'],
+            'fecha_inicio_vigencia_servicio' => '',
+            'fecha_fin_vigencia_servicio' => '',
+            'valor_mensual' => $valor_tarificacion,
             'marca' => ' ',
             'modelo' => ' ',
             'serial' => ' ',
             'tecnologia' => ' ',
             'estado' => ' ',
             'clausulas' => '',
-            //'url_firma_contratista' => $url_firma_contratista,
+            'url_firma_contratista' => '',
             'url_firma_beneficiario' => $url_firma_beneficiario,
             'manzana' => $_REQUEST['num_manzana'],
             'bloque' => $_REQUEST['num_bloque'],
@@ -152,10 +152,11 @@ class FormProcessor {
             'tipo_tecnologia' => $_REQUEST['tipo_tecnologia'],
             'valor_tarificacion' => $valor_tarificacion,
             'medio_pago' => $_REQUEST['medio_pago'],
+            'tipo_pago' => $_REQUEST['tipo_pago'],
+            'soporte' => $soporte,
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarInformacionContrato', $arreglo);
-
         $this->registro_info_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }

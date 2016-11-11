@@ -44,18 +44,20 @@ class Sql extends \Sql {
              */
             case 'consultarBeneficiariosPotenciales':
 
-                $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bn.id_beneficiario  AS data  ";
-                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bn ";
-                $cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bn.id_beneficiario=ba.id_beneficiario ";
-                $cadenaSql .= "WHERE bn.estado_registro=TRUE ";
-                $cadenaSql .= "AND ba.estado_registro=TRUE  ";
-                $cadenaSql .= "AND ba.carpeta_creada=TRUE ";
-                $cadenaSql .= "AND  (cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%') ";
+            case 'consultarBeneficiariosPotenciales':
+                $cadenaSql = " SELECT value , data ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bp.id_beneficiario=ba.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND ba.estado_registro=TRUE ";
+                $cadenaSql .= " AND ba.carpeta_creada=TRUE ";
+                $cadenaSql .= $variable;
+                $cadenaSql .= "     ) datos ";
+                $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "LIMIT 10; ";
-
                 break;
 
             case 'consultaInformacionBeneficiario':
@@ -334,7 +336,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " municipio='" . $variable['municipio'] . "', ";
                 $cadenaSql .= " urbanizacion='" . $variable['urbanizacion'] . "', ";
                 $cadenaSql .= " estrato='" . $variable['estrato'] . "', ";
-            /* $cadenaSql .= " barrio='" . $variable['barrio'] . "', "; */
+                $cadenaSql .= " barrio='" . $variable['barrio'] . "', ";
                 $cadenaSql .= " telefono='" . $variable['telefono'] . "',";
                 $cadenaSql .= " celular='" . $variable['celular'] . "',";
                 $cadenaSql .= " correo='" . $variable['correo'] . "',";
@@ -345,23 +347,27 @@ class Sql extends \Sql {
                 $cadenaSql .= " tipo_tecnologia='" . $variable['tipo_tecnologia'] . "',";
                 $cadenaSql .= " valor_tarificacion='" . $variable['valor_tarificacion'] . "',";
                 $cadenaSql .= " medio_pago='" . $variable['medio_pago'] . "',";
-                /*
-             * $cadenaSql .= " cuenta_suscriptor='" . $variable ['cuenta_suscriptor'] . "', ";
-             * $cadenaSql .= " velocidad_internet='" . $variable ['velocidad_internet'] . "', ";
-             * $cadenaSql .= " fecha_inicio_vigencia_servicio='" . $variable ['fecha_inicio_vigencia_servicio'] . "',";
-             * $cadenaSql .= " fecha_fin_vigencia_servicio='" . $variable ['fecha_fin_vigencia_servicio'] . "', ";
-             * $cadenaSql .= " valor_mensual='" . $variable ['valor_mensual'] . "',";
-             * $cadenaSql .= " marca='" . $variable ['marca'] . "',";
-             * $cadenaSql .= " modelo='" . $variable ['modelo'] . "',";
-             * $cadenaSql .= " serial='" . $variable ['serial'] . "', ";
-             * $cadenaSql .= " tecnologia='" . $variable ['tecnologia'] . "',";
-             * $cadenaSql .= " estado='" . $variable ['estado'] . "', ";
-            $cadenaSql .= " clausulas='" . $variable['clausulas'] . "', ";*/
+                $cadenaSql .= " tipo_pago='" . $variable['tipo_pago'] . "',";
+
+                // $cadenaSql .= " cuenta_suscriptor='" . $variable ['cuenta_suscriptor'] . "', ";
+                $cadenaSql .= " velocidad_internet='" . $variable['velocidad_internet'] . "', ";
+                //$cadenaSql .= " fecha_inicio_vigencia_servicio='" . $variable['fecha_inicio_vigencia_servicio'] . "',";
+                // $cadenaSql .= " fecha_fin_vigencia_servicio='" . $variable ['fecha_fin_vigencia_servicio'] . "', ";
+                $cadenaSql .= " valor_mensual='" . $variable['valor_mensual'] . "',";
+                $cadenaSql .= " soporte='" . $variable['soporte'] . "',";
+                //$cadenaSql .= " marca='" . $variable ['marca'] . "',";
+                //$cadenaSql .= " modelo='" . $variable ['modelo'] . "',";
+                // $cadenaSql .= " serial='" . $variable ['serial'] . "', ";
+                // $cadenaSql .= " tecnologia='" . $variable ['tecnologia'] . "',";
+                // $cadenaSql .= " estado='" . $variable ['estado'] . "', ";
+                //$cadenaSql .= " clausulas='" . $variable['clausulas'] . "', ";
                 $cadenaSql .= " url_firma_beneficiarios='" . $variable['url_firma_beneficiario'] . "' ";
-                // $cadenaSql .= " url_firma_contratista='" . $variable['url_firma_contratista'] . "' ";
+                //$cadenaSql .= " url_firma_contratista='" . $variable['url_firma_contratista'] . "' ";
                 $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' ";
                 $cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
                 $cadenaSql .= " AND estado_registro=TRUE;";
+
+                //echo $cadenaSql;exit;
                 break;
 
             case 'consultaInformacionContrato':
@@ -532,6 +538,14 @@ class Sql extends \Sql {
 
                 break;
 
+            case 'consultarTipoPago':
+                $cadenaSql = " SELECT pm.id_parametro, pm.descripcion ";
+                $cadenaSql .= " FROM parametros.parametros pm";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND pm.estado_registro=TRUE AND rl.descripcion='Tipo Pago'";
+                $cadenaSql .= " WHERE pm.estado_registro=TRUE;";
+
+                break;
+
             case 'consultarMedioPago':
                 $cadenaSql = " SELECT pm.id_parametro, pm.descripcion ";
                 $cadenaSql .= " FROM parametros.parametros pm";
@@ -584,10 +598,16 @@ class Sql extends \Sql {
                 $cadenaSql .= " RETURNING id ;";
 
                 break;
+
+            case 'consultarParametroParticular':
+                $cadenaSql = " SELECT descripcion ";
+                $cadenaSql .= " FROM parametros.parametros";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_parametro='" . $variable . "';";
+                break;
         }
 
         return $cadenaSql;
     }
-
 }
 ?>

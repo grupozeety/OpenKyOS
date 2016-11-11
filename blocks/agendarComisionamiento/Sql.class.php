@@ -104,14 +104,13 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarBeneficiariosPotenciales' :
-				$cadenaSql = " SELECT DISTINCT id_beneficiario, identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
-				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
-				$cadenaSql .= "WHERE estado_registro=TRUE ";
-				$cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET ['query'] . "%' ";
-				$cadenaSql .= "OR nombre ILIKE '%" . $_GET ['query'] . "%' ";
-				$cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET ['query'] . "%' ";
-				$cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET ['query'] . "%' ";
-				$cadenaSql .= " order by identificacion asc ";
+				$cadenaSql = " SELECT value , data ";
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
+				$cadenaSql .= "FROM  interoperacion.beneficiario_potencial bp ";
+				$cadenaSql .= "WHERE bp.estado_registro=TRUE ";
+				$cadenaSql .= "		) datos ";
+				$cadenaSql .= "WHERE value ILIKE '%" . $_GET ['query'] . "%' ";
 				$cadenaSql .= "LIMIT 10; ";
 				break;
 			
