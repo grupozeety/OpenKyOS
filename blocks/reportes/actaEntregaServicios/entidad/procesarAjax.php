@@ -1,5 +1,5 @@
 <?php
-namespace reportes\actaEntregaPortatil\entidad;
+namespace reportes\actaEntregaServicios\entidad;
 class procesarAjax {
     public $miConfigurador;
     public $sql;

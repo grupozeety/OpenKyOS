@@ -1,6 +1,6 @@
 <?php
 
-namespace reportes\actaEntregaPortatil\entidad;
+namespace reportes\actaEntregaServicios\entidad;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "../index.php";
@@ -78,8 +78,6 @@ class GenerarDocumento {
 		$infoCertificado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 		$this->infoCertificado = $infoCertificado;
 		
-// 		var_dump($this->infoCertificado);
-		
 		setlocale ( LC_ALL, "es_CO.UTF-8" );
 		$contenidoPagina = "
                             <style type=\"text/css\">
@@ -132,12 +130,12 @@ class GenerarDocumento {
 		
 		$contenidoPagina .= "
         			<h4 align='center'> ACTA DE ENTREGA DE SERVICIO DE BANDA ANCHA AL USUARIO </h4> 
-                    <b>PRODUCTO	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b><br><br>
+                    <b>PRODUCTO	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;" . $this->infoCertificado['producto'] . "<br><br>
         			<b>CLIENTE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> &nbsp;&nbsp;" . $this->infoCertificado['nombre'] . "&nbsp;" . $this->infoCertificado['primer_apellido'] . "&nbsp;" . $this->infoCertificado['segundo_apellido'] . "<br><br>
         			<b>N° CEDULA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> &nbsp;&nbsp;".  $this->infoCertificado['identificacion'] . "<br><br>
         			<b>FECHA INSTALACIÓN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['fecha_instalacion'] . "<br><br>
-        			<b>TIPO DE VIVIENDA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['tipo_beneficiario'] . "<br><br>
-        			<b>DATOS DEL SERVICIO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;<br><br>
+        			<b>TIPO DE VIVIENDA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;&nbsp;".  $this->infoCertificado['tipo_beneficiario'] . "<br><br>
+        			<b>DATOS DEL SERVICIO</b><br><br>
         			<b>DIRECCIÓN DEL PREDIO &nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['direccion'] . "<br><br>
 	        		<b>DEPARTAMENTO	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['departamento'] . "<br><br>
 	        		<b>MUNICIPIO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['municipio'] . "<br><br>
@@ -165,21 +163,21 @@ class GenerarDocumento {
                        	</tr>
                         <tr>
                         	<td align='center'style='width:14%;'>ESCLAVO</td>
-                        	<td align='center'style='width:16%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-				 			<td align='center'style='width:14%;'> </td>
-							<td align='center'style='width:14%;'> </td>
+                        	<td align='center'style='width:16%;'>".  $this->infoCertificado['numero_act_esc'] . " </td>
+                            <td align='center'style='width:14%;'>".  $this->infoCertificado['mac_esc'] . " </td>
+                            <td align='center'style='width:14%;'>".  $this->infoCertificado['serial_esc'] . " </td>
+                            <td align='center'style='width:14%;'>".  $this->infoCertificado['marca_esc'] . " </td>
+				 			<td align='center'style='width:14%;'>".  $this->infoCertificado['cant_esc'] . " </td>
+							<td align='center'style='width:14%;'>".  $this->infoCertificado['ip_esc'] . " </td>
                         </tr>
 						<tr>
                         	<td align='center'style='width:14%;'>COMPUTADOR</td>
-                        	<td align='center'style='width:16%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-				 			<td align='center'style='width:14%;'> </td>
-							<td align='center'style='width:14%;'> </td>
+                        	<td align='center'style='width:16%;'>".  $this->infoCertificado['numero_act_comp'] . " </td>
+                            <td align='center'style='width:14%;'>".  $this->infoCertificado['mac_comp'] . " </td>
+                            <td align='center'style='width:14%;'>".  $this->infoCertificado['serial_comp'] . " </td>
+                            <td align='center'style='width:14%;'>".  $this->infoCertificado['marca_comp'] . " </td>
+				 			<td align='center'style='width:14%;'>".  $this->infoCertificado['cant_comp'] . " </td>
+							<td align='center'style='width:14%;'>".  $this->infoCertificado['ip_comp'] . " </td>
                         </tr>
                     </table>
 					<br>
@@ -194,52 +192,52 @@ class GenerarDocumento {
                        	</tr>
                         <tr>
                         	<td align='rigth'style='width:20%;'><b>Velocidad de Subida</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>Mbps </td>
-                            <td align='center'style='width:25%;'> </td>
+                        	<td align='center'style='width:15%;'>".  $this->infoCertificado['hora_prueba_vs'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['resultado_vs'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['unidad_vs'] . "</td>
+                            <td align='center'style='width:25%;'>".  $this->infoCertificado['observaciones_vs'] . " </td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Velocidad de Bajada</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>Mbps </td>
-                            <td align='center'style='width:25%;'> </td>
+                        	<td align='center'style='width:15%;'>".  $this->infoCertificado['hora_prueba_vb'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['resultado_vb'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['unidad_vb'] . " </td>
+                            <td align='center'style='width:25%;'>".  $this->infoCertificado['observaciones_vb'] . " </td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Ping 1</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>ms </td>
-                            <td align='center'style='width:25%;'> </td>
+                        	<td align='center'style='width:15%;'>".  $this->infoCertificado['hora_prueba_p1'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['resultado_p1'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['unidad_p1'] . " </td>
+                            <td align='center'style='width:25%;'>".  $this->infoCertificado['observaciones_p1'] . " </td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Ping 2</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>ms </td>
-                            <td align='center'style='width:25%;'>www.mintic.gov.co </td>
+                        	<td align='center'style='width:15%;'>".  $this->infoCertificado['hora_prueba_p2'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['resultado_p2'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['unidad_p2'] . "</td>
+                            <td align='center'style='width:25%;'>".  $this->infoCertificado['observaciones_p2'] . " </td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Ping 3</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>ms </td>
-                            <td align='center'style='width:25%;'>http://www.louvre.fr/en </td>
+                        	<td align='center'style='width:15%;'>".  $this->infoCertificado['hora_prueba_p3'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['resultado_p3'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['unidad_p3'] . " </td>
+                            <td align='center'style='width:25%;'>".  $this->infoCertificado['observaciones_p3'] . "</td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Traceroute</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>estado conexión </td>
-                            <td align='center'style='width:25%;'>https://www.wikipedia.org/ </td>
+                        	<td align='center'style='width:15%;'>".  $this->infoCertificado['hora_prueba_tr1'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['resultado_tr1'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['unidad_tr1'] . "</td>
+                            <td align='center'style='width:25%;'>".  $this->infoCertificado['observaciones_tr1'] . "</td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Traceroute</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>Paso NAP Colombia </td>
-                            <td align='center'style='width:25%;'>https://www.sivirtual.gov.co/ </td>
+                        	<td align='center'style='width:15%;'>".  $this->infoCertificado['hora_prueba_tr2'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['resultado_tr2'] . " </td>
+                            <td align='center'style='width:20%;'>".  $this->infoCertificado['unidad_tr2'] . "</td>
+                            <td align='center'style='width:25%;'>".  $this->infoCertificado['observaciones_tr2'] . "</td>
                         </tr>
                     </table>
 					<br>

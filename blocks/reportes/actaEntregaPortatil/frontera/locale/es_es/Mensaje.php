@@ -53,7 +53,21 @@ $this->idioma['telefono'] = 'Teléfono y/o Celular';
 
 $this->idioma['firma_beneficiario'] = 'Firma';
 
-$this->idioma['celular'] = 'Celular';
+$this->idioma['marca'] = 'Marca';
+
+$this->idioma['modelo'] = 'Modelo';
+
+$this->idioma['serial'] = 'Serial';
+
+$this->idioma['sistema_operativo'] = 'Sistema Operativo';
+
+$this->idioma['perifericos'] = 'Periféricos';
+
+$this->idioma['procesador'] = 'Procesador';
+
+$this->idioma['memoria_ram'] = 'Memoria RAM';
+
+$this->idioma['disco_duro'] = 'Disco Duro';
 
 $this->idioma['botonGuardar'] = 'Generar Certificación';
 

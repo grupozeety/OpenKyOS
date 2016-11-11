@@ -3,7 +3,7 @@
  * Etiquetas correspondientes a los Formularios
  */
 
-$this->idioma['noDefinido'] = 'Etiqueta No definida';
+$this->idioma['noDefinido'] = '';
 
 $this->idioma["beneficiario"] = "Identificación Beneficiario";
 
@@ -49,12 +49,67 @@ $this->idioma['tipo_tecnologia'] = 'Tipo de Tecnología';
 
 $this->idioma['contacto'] = 'Contacto';
 
-$this->idioma['telefono'] = 'Teléfono y/o Celular';
+$this->idioma['telefono'] = 'Teléfono';
 
 $this->idioma['firma_beneficiario'] = 'Firma';
 
 $this->idioma['celular'] = 'Celular';
 
+$this->idioma['producto'] = 'Producto';
+
+$this->idioma['geolocalizacion'] = 'Geolocalización';
+
+
 $this->idioma['botonGuardar'] = 'Generar Certificación';
+
+$this->idioma['numero_act_esc'] = 'No. ACTIVO FIJO';
+$this->idioma['mac_esc'] = 'MAC';
+$this->idioma['serial_esc'] = 'SERIAL';
+$this->idioma['marca_esc'] = 'MARCA';
+$this->idioma['cant_esc'] = 'CATIDAD';
+$this->idioma['ip_esc'] = 'IP';
+
+$this->idioma['numero_act_comp'] = 'No. ACTIVO FIJO';
+$this->idioma['mac_comp'] = 'MAC';
+$this->idioma['serial_comp'] = 'SERIAL';
+$this->idioma['marca_comp'] = 'MARCA';
+$this->idioma['cant_comp'] = 'CATIDAD';
+$this->idioma['ip_comp'] = 'IP';
+
+$this->idioma['hora_prueba_vs'] = 'Hora de Prueba';
+$this->idioma['resultado_vs'] = 'Resultado';
+$this->idioma['unidad_vs'] = 'Unidad';
+$this->idioma['observaciones_vs'] = 'Observaciones';
+
+$this->idioma['hora_prueba_vb'] = 'Hora de Prueba';
+$this->idioma['resultado_vb'] = 'Resultado';
+$this->idioma['unidad_vb'] = 'Unidad';
+$this->idioma['observaciones_vb'] = 'Observaciones';
+
+$this->idioma['hora_prueba_p1'] = 'Hora de Prueba';
+$this->idioma['resultado_p1'] = 'Resultado';
+$this->idioma['unidad_p1'] = 'Unidad';
+$this->idioma['observaciones_p1'] = 'Observaciones';
+
+$this->idioma['hora_prueba_p2'] = 'Hora de Prueba';
+$this->idioma['resultado_p2'] = 'Resultado';
+$this->idioma['unidad_p2'] = 'Unidad';
+$this->idioma['observaciones_p2'] = 'Observaciones';
+
+$this->idioma['hora_prueba_p3'] = 'Hora de Prueba';
+$this->idioma['resultado_p3'] = 'Resultado';
+$this->idioma['unidad_p3'] = 'Unidad';
+$this->idioma['observaciones_p3'] = 'Observaciones';
+
+$this->idioma['hora_prueba_tr1'] = 'Hora de Prueba';
+$this->idioma['resultado_tr1'] = 'Resultado';
+$this->idioma['unidad_tr1'] = 'Unidad';
+$this->idioma['observaciones_tr1'] = 'Observaciones';
+
+$this->idioma['hora_prueba_tr2'] = 'Hora de Prueba';
+$this->idioma['resultado_tr2'] = 'Resultado';
+$this->idioma['unidad_tr2'] = 'Unidad';
+$this->idioma['observaciones_tr2'] = 'Observaciones';
+
 
 ?>

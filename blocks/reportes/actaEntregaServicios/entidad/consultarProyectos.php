@@ -1,5 +1,5 @@
 <?php
-namespace reportes\actaEntregaPortatil\entidad;
+namespace reportes\actaEntregaServicios\entidad;
 
 include_once "core/builder/FormularioHtml.class.php";
 class FormProcessor {

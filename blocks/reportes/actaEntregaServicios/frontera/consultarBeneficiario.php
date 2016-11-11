@@ -1,5 +1,5 @@
 <?php
-namespace reportes\actaEntregaPortatil\frontera;
+namespace reportes\actaEntregaServicios\frontera;
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();

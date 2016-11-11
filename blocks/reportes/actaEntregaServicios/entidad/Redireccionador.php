@@ -1,5 +1,5 @@
 <?php
-namespace reportes\actaEntregaPortatil\entidad;
+namespace reportes\actaEntregaServicios\entidad;
 if (!isset($GLOBALS["autorizado"])) {
     include "index.php";
     exit();
@@ -12,14 +12,14 @@ class Redireccionador {
         switch ($opcion) {
 
             case "InsertoInformacionActa":
-                $variable = 'pagina=actaEntregaPortatil';
+                $variable = 'pagina=actaEntregaServicios';
                 $variable .= '&opcion=resultadoActa';
                 $variable .= '&mensaje=insertoInformacionCertificado';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
                 break;
 
             case "NoInsertoInformacionActa":
-                $variable = 'pagina=actaEntregaPortatil';
+                $variable = 'pagina=actaEntregaServicios';
                 $variable .= '&opcion=resultadoActa';
                 $variable .= '&mensaje=noinsertoInformacionCertificado';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];

@@ -1,5 +1,5 @@
 <?php
-namespace reportes\actaEntregaPortatil;
+namespace reportes\actaEntregaServicios;
 // Evitar un acceso directo a este archivo
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");

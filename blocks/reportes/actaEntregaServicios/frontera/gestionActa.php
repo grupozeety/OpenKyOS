@@ -1,6 +1,6 @@
 <?php
 
-namespace reportes\actaEntregaPortatil\frontera;
+namespace reportes\actaEntregaServicios\frontera;
 
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
@@ -131,7 +131,7 @@ class GestionarContrato {
 
                             $urlpdfNoFirmas = $url . $cadena;
 
-                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Documento Certificado Sin Firma</a></b>";
+                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Acta Entrega  de Servicios Instalados <br> Sin Firma</a></b>";
 
                         }
 
@@ -147,7 +147,7 @@ class GestionarContrato {
                         unset($atributos);
 
                         {
-                            echo "<b><a id='link_a' target='_blank' href='" . $infoCertificado['ruta_documento'] . "'>Documento Certificado Con Firma</a></b>";
+                            echo "<b><a id='link_a' target='_blank' href='" . $infoCertificado['ruta_documento'] . "'>Acta Entrega  de Servicios Instalados <br> Con Firma</a></b>";
                         }
 
                         // ------------------Fin Division para los botones-------------------------
@@ -178,7 +178,7 @@ class GestionarContrato {
 
             case 'insertoInformacionCertificado':
                 $estilo_mensaje = 'success';     // information,warning,error,validation
-                $atributos["mensaje"] = '<b>Certificado Disponible</b>';
+                $atributos["mensaje"] = '<b>Acta de Entrega Disponible</b>';
                 break;
 
             case 'noinsertoInformacionCertificado':

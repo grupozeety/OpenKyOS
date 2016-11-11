@@ -1,5 +1,5 @@
 <?php
-namespace reportes\actaEntregaPortatil\entidad;
+namespace reportes\actaEntregaServicios\entidad;
 
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
