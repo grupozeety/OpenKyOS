@@ -1423,6 +1423,28 @@ class Contrato {
                     echo $this->miFormulario->agrupacion('fin');
                     unset($atributos);
 
+                    $esteCampo = "foto_soporte";
+                    $atributos["id"] = $esteCampo;
+                    $atributos["nombre"] = $esteCampo;
+                    $atributos["tipo"] = "file";
+                    $atributos["obligatorio"] = true;
+                    $atributos["etiquetaObligatorio"] = false;
+                    $atributos["tabIndex"] = $tab++;
+                    $atributos["columnas"] = 1;
+                    $atributos["anchoCaja"] = "12";
+                    $atributos["estilo"] = "textoIzquierda";
+                    $atributos["anchoEtiqueta"] = 0;
+                    $atributos["tamanno"] = 500000;
+                    $atributos["validar"] = " ";
+                    $atributos["estilo"] = "file";
+                    $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["bootstrap"] = true;
+                    $tab++;
+                    // $atributos ["valor"] = $valorCodificado;
+                    $atributos = array_merge($atributos);
+                    echo $this->miFormulario->campoCuadroTexto($atributos);
+                    unset($atributos);
+
                     // ------------------Division para los botones-------------------------
                     $atributos["id"] = "botones";
                     $atributos["estilo"] = "marcoBotones";

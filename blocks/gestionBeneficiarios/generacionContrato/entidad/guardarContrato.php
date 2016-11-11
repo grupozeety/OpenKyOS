@@ -77,18 +77,17 @@ class FormProcessor {
 
     public function procesarInformacion() {
 
-        var_dump($_REQUEST);exit;
         if ($this->archivos_datos === '') {
-            $url_firma_beneficiario = '';
-            $url_firma_contratista = '';
+            $soporte = '';
 
         } else {
-
-            $url_firma_beneficiario = $this->archivos_datos[1]['ruta_archivo'];
-
-            $url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
+            $soporte = $this->archivos_datos[0]['ruta_archivo'];
 
         }
+
+        $url_firma_beneficiario = $_REQUEST['firmaBeneficiario'];
+
+        $url_firma_contratista = $_REQUEST['firmaInstalador'];
 
         $clausulas = $this->clausulas;
 
@@ -154,6 +153,7 @@ class FormProcessor {
             'valor_tarificacion' => $valor_tarificacion,
             'medio_pago' => $_REQUEST['medio_pago'],
             'tipo_pago' => $_REQUEST['tipo_pago'],
+            'soporte' => $soporte,
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarInformacionContrato', $arreglo);

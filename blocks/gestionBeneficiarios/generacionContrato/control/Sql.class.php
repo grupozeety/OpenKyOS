@@ -352,6 +352,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " fecha_inicio_vigencia_servicio='" . $variable['fecha_inicio_vigencia_servicio'] . "',";
                 // $cadenaSql .= " fecha_fin_vigencia_servicio='" . $variable ['fecha_fin_vigencia_servicio'] . "', ";
                 $cadenaSql .= " valor_mensual='" . $variable['valor_mensual'] . "',";
+                $cadenaSql .= " soporte='" . $variable['soporte'] . "',";
                 //$cadenaSql .= " marca='" . $variable ['marca'] . "',";
                 //$cadenaSql .= " modelo='" . $variable ['modelo'] . "',";
                 // $cadenaSql .= " serial='" . $variable ['serial'] . "', ";
@@ -363,6 +364,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' ";
                 $cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
                 $cadenaSql .= " AND estado_registro=TRUE;";
+
                 //echo $cadenaSql;exit;
                 break;
 
