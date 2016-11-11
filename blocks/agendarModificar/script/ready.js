@@ -1,18 +1,6 @@
 $("#mensaje").modal("show");
 
-$("#<?php echo $this->campoSeguro('tipo_agendamiento')?>").select2({width:'100%'});
 
-$('#<?php echo $this->campoSeguro("fecha_agendamiento_nueva");?>').datepicker({
-          format: 'yyyy-mm-dd',
-           language: "es",
-           weekStart: 1,
-           todayBtn:  1,
-           autoclose: 1,
-               daysOfWeekHighlighted: "0",
-           todayHighlight: true,
-           startDate: new Date(),
-           forceParse: 0
-       });	
 
 
 jQuery.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnCallback, bStandingRedraw )

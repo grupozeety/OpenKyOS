@@ -55,7 +55,7 @@ class Registrar {
 		 * 2.
 		 * Modificar Agendamientos
 		 */
-		if ($resultado == true) {
+		if (!empty($agenda) && !empty($agendamientos)) {
 			$this->modificarAgendamientos ( $agenda );
 		}
 		
