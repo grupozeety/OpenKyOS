@@ -574,7 +574,7 @@ class GenerarDocumento {
                             <td text-align=center;' style='width:100%;'><b>OBSERVACIONES DEL OPERADOR</b></td>
                         </tr>
                         <tr>
-                            <td style='width:100%;'>Nombre Instalador:&nbsp;&nbsp;" . $comisionador . "<br><br><br></td>
+                            <td style='width:100%;'>Nombre Asesor:&nbsp;&nbsp;" . $comisionador . "<br><br><br></td>
                         </tr>
         </table>
         </nobreak>";
