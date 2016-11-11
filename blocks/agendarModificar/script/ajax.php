@@ -78,8 +78,8 @@ $urlConsultarUrbanizacion = $url . $cadena;
 
 ?>
 <?php
-
 /**
+ *
  * Los datos del bloque se encuentran en el arreglo $esteBloque.
  */
 
@@ -101,6 +101,59 @@ $enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
 $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
 
 $urlConsultarManzana = $url . $cadena;
+
+?>
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarBloque";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+$urlConsultarBloque = $url . $cadena;
+
+?>
+
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarTorre";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+$urlConsultarTorre = $url . $cadena;
 
 ?>
 <?php
@@ -227,7 +280,9 @@ $(document).ready(function() {
 
 var urbanizacion = "";
 var tipo = "";
+var bloque = "";
 var manzana = "";
+var torre = "";
 var comisionador = "";
 var beneficiario= "";
 
@@ -265,19 +320,42 @@ $("#<?php echo $this->campoSeguro('manzana');?>").autocomplete({
 	minChars: 1,
 	serviceUrl: '<?php echo $urlConsultarManzana;?>',
 	onSelect: function (suggestion) {
-
-	  	$("#<?php echo $this->campoSeguro('id_manzana');?>").val(suggestion.data);
-		
-		if($("#<?php echo $this->campoSeguro('id_manzana');?>").val()!=""){
-			manzana = $("#<?php echo $this->campoSeguro('id_manzana');?>").val();
-		}else{
-			$("#<?php echo $this->campoSeguro('id_manzana');?>").val('');
-			$("#<?php echo $this->campoSeguro('manzana');?>").val('');
-			manzana = "";
-		}
-		
+		manzana = suggestion.data;
 		actualizarTabla();
 	}
+});
+
+$("#<?php echo $this->campoSeguro('bloque');?>").autocomplete({
+	minChars: 1,
+	serviceUrl: '<?php echo $urlConsultarBloque;?>',
+	onSelect: function (suggestion) {
+		bloque = suggestion.data;
+		actualizarTabla();
+	}
+});
+
+$("#<?php echo $this->campoSeguro('torre');?>").autocomplete({
+	minChars: 1,
+	serviceUrl: '<?php echo $urlConsultarTorre;?>',
+	onSelect: function (suggestion) {
+	  	torre = suggestion.data;
+		actualizarTabla();
+	}
+});
+
+$("#<?php echo $this->campoSeguro('manzana');?>").change(function() {
+	manzana = $("#<?php echo $this->campoSeguro('manzana');?>").val();
+	actualizarTabla();
+});
+
+$("#<?php echo $this->campoSeguro('bloque');?>").change(function() {
+	bloque = $("#<?php echo $this->campoSeguro('bloque');?>").val();
+	actualizarTabla();
+});
+
+$("#<?php echo $this->campoSeguro('torre');?>").change(function() {
+	torre = $("#<?php echo $this->campoSeguro('torre');?>").val();
+	actualizarTabla();
 });
 
 $("#<?php echo $this->campoSeguro('comisionador');?>").autocomplete({
@@ -392,14 +470,15 @@ $('#example').DataTable().destroy();
 	        },
 	        ajax: {
 	            url: "<?php echo $urlCargarInformacion?>",
-	            data: { tipoA: tipo, urban: urbanizacion, manz: manzana, comis: comisionador,ben:beneficiario },
+	            data: { tipoA: tipo, urban: urbanizacion, man: manzana, bloq: bloque, torre: torre, comis: comisionador,ben:beneficiario },
 	            dataSrc:"data"   
 	        },
 	        "columns": [
 	           
 	            { "data": "id_agendamiento" },
 	            { "data": "fecha" },
-	            { "data": "beneficiario" },
+	            { "data": "beneficiario"},
+	            { "data": "comisionador"},
 	            { "data": "estado_agenda" },
 	    		{
 	              "data":   "id_checkbox",

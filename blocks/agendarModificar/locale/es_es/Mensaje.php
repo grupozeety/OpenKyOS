@@ -23,7 +23,10 @@ $this->idioma["tipo_tecnologia"]="Tipo de Tecnología";
 $this->idioma["comisionador"]="Comisionador";
 
 $this->idioma["urbanizacion"]="Urbanización";
-$this->idioma["manzana"]="No. Manzana/Bloque";
+$this->idioma["manzana"]="Manzana";
+$this->idioma["bloque"]="Bloque";
+$this->idioma["torre"]="Torre";
+
 $this->idioma["comisionador"]="Comisionador Actual";
 $this->idioma["beneficiario"]="Beneficiario";
 $this->idioma["comisionador_nuevo"]="Nuevo Comisionador";
