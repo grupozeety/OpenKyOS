@@ -434,11 +434,7 @@ $('#example').DataTable().destroy();
                 type: 'column'
             }
         },
-        "columnDefs": [ {
-            className: 'control',
-            orderable: false,
-            targets:   0
-        } ],
+   
        order: [ 1, 'asc' ],
 	    	"orderCellsTop": true,
 	    	"language": {

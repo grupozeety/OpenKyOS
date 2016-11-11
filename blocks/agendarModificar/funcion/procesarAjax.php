@@ -122,7 +122,7 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 					'beneficiario' => "<a href='" . $redireccion [$i] . "'>" . $resultado [$i] ['beneficiario'] . "</a>",
 					'comisionador' => $resultado [$i] ['nombre_comisionador'],
 					// tipo_agendamientoa' => $resultado [$i] ['tipo_agendamiento'],
-					'estado_agenda' => "<img src='" . $ruta . "/css/imagenes/" . $resultado [$i] ['estado_agenda'] . ".png" . "'>      <b>" . $resultado [$i] ['etiqueta_agenda'] . "</b></img>",
+					'estado_agenda' => "<img src='" . $ruta . "/css/imagenes/" . $resultado [$i] ['estado_agenda'] . ".png" . "'>   <br>   <b>" . $resultado [$i] ['etiqueta_agenda'] . "</b></img>",
 					'id_checkbox' => array (
 							'value' => $resultado [$i] ['consecutivo'],
 							'id' => codificarNombre ( "checkbox_" . $i ) 
