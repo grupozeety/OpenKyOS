@@ -61,7 +61,7 @@ class FormProcessor {
 
         $this->procesarInformacion();
 
-        if ($this->archivos_datos != '') {
+        if ($_REQUEST['firmaBeneficiario'] != '') {
 
             include_once "guardarDocumentoPDF.php";
 

@@ -181,31 +181,43 @@ class GenerarDocumento {
 
         {
             {
-                $firmaBeneficiario = base64_decode($this->beneficiario['url_firma_beneficiarios']);
-                $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
-                $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
-                $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
 
-                $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario);
+                {
+                    $firmaBeneficiario = base64_decode($this->beneficiario['url_firma_beneficiarios']);
+                    $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
+                }
 
-                $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+                {
+
+                    $firmacontratista = base64_decode($this->beneficiario['url_firma_contratista']);
+                    $firmacontratista = str_replace("image/svg+xml,", '', $firmacontratista);
+                    $firmacontratista = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista);
+                    $firmacontratista = str_replace("svg", 'draw', $firmacontratista);
+
+                }
 
                 $firmaBeneficiario = str_replace("height", 'height="40" pasos2', $firmaBeneficiario);
                 $firmaBeneficiario = str_replace("width", 'width="125" pasos1', $firmaBeneficiario);
-            }
-            {
-
-                $firmacontratista = base64_decode($this->beneficiario['url_firma_contratista']);
-                $firmacontratista = str_replace("image/svg+xml,", '', $firmacontratista);
-                $firmacontratista = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista);
-                $firmacontratista = str_replace("svg", 'draw', $firmacontratista);
-
-                $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista);
-
-                $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
-
                 $firmacontratista = str_replace("height", 'height="40" pasos2', $firmacontratista);
                 $firmacontratista = str_replace("width", 'width="125" pasos1', $firmacontratista);
+
+                $cadena = $_SERVER['HTTP_USER_AGENT'];
+                $resultado = stristr($cadena, "Android");
+
+                if ($resultado) {
+                    $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista);
+                    $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+                } else {
+                    $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista);
+                    $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+
+                }
 
             }
 
@@ -218,6 +230,8 @@ class GenerarDocumento {
             $firma_contratista = $firmacontratista;
             //var_dump($firma_beneficiario);
             //var_dump($firma_contratista);exit;
+
+            //var_dump($_SERVER['HTTP_USER_AGENT']);EXIT;
 
         }
         {
@@ -572,21 +586,19 @@ class GenerarDocumento {
         </table>
         </nobreak>";
 
-            /* if ($requisitos) {
+            if ($this->beneficiario['soporte'] != '') {
 
-            $contenidoDocumentos = "<br> <div style='page-break-after:always; clear:both'></div>
-            <P style='text-align:center'><b>Documentos Faltantes para el Contrato</b></P><br><br>";
-            foreach ($requisitos as $key => $value) {
-            if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
-            $requisitosFaltantesObligatorios = true;
-
-            $contenidoPagina .= $contenidoDocumentos . "<P style='text-align:left'>" . $value['nombre_requisitos'] . "</P><br>";
-            $contenidoDocumentos = '';
-
+                $contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
+                                         <P style='text-align:center'><b>Soporte</b></P><br><br>";
+                $contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
+                                            <tr>
+                                                <td style='text-align:center;border:none;width:100%'>
+                                                    <img src='" . $this->beneficiario['soporte'] . "'  width='500' height='500'>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                     ";
             }
-
-            }
-            }*/
 
             $contenidoPagina .= "</page>";
 
