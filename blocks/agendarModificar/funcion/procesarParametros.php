@@ -50,13 +50,7 @@ class Registrar {
 				'comisionador' => $_REQUEST ['comisionador_nuevo'] 
 		);
 		
-		/**
-		 * 2.
-		 * Crear Nuevos Agendamientos
-		 */
-		
-		$resultado = $this->crearAgendamientos ( $agendaCrear );
-		
+
 		/**
 		 * 2.
 		 * Modificar Agendamientos
@@ -64,8 +58,16 @@ class Registrar {
 		if ($resultado == true) {
 			$this->modificarAgendamientos ( $agenda );
 		}
+		
+		/**
+		 * 3.
+		 * Crear Nuevos Agendamientos
+		 */
+		
+		$resultado = $this->crearAgendamientos ( $agendaCrear );
+	
 
-		if ($this->resultadoAgenda == true) {
+		if ($resultado == true) {
 			
 			redireccion::redireccionar ( 'inserto' );
 		} else {

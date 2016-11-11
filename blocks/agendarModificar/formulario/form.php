@@ -521,7 +521,7 @@ class Formulario {
                 		<table id="example" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
         			        <thead>
         			        	<tr>
- 						            <th id="filterrow">ID</th>
+ 						            <th>ID</th>
 				                    <th>Fecha</th>
  					                <th>Beneficiario</th>
 				 					<th>Comisionador</th>

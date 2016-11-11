@@ -294,7 +294,15 @@ class Sql extends \Sql {
 				}
 				
 				$cadenaSql = substr ( $cadenaSql, 0, (strlen ( $cadenaSql ) - 1) );
-				
+				$cadenaSql .= ";";
+				break;
+			
+			case 'actualizarAgenda' :
+
+				$cadenaSql = " UPDATE interoperacion.agendamiento_comisionamiento ";
+				$cadenaSql .= " SET ";
+				$cadenaSql .= " estado_registro=FALSE ";
+				$cadenaSql .= " WHERE consecutivo IN " . $variable ['items'] . " AND estado_registro=TRUE;";
 				break;
 			
 			case "registrarConsecutivoAgendamiento" :
@@ -379,22 +387,6 @@ class Sql extends \Sql {
 				$cadenaSql .= "		) datos ";
 				$cadenaSql .= "WHERE value ILIKE '%" . $_GET ['query'] . "%' ";
 				$cadenaSql .= "LIMIT 10; ";
-				break;
-			
-			case 'actualizarAgenda' :
-				
-				// $cadenaSql = " UPDATE interoperacion.agendamiento_comisionamiento ";
-				// $cadenaSql .= " SET ";
-				// $cadenaSql .= " fecha_agendamiento='" . $variable ['fecha'] . "', ";
-				// $cadenaSql .= " id_comisionador='" . $variable ['id_comisionador'] . "' , ";
-				// $cadenaSql .= " nombre_comisionador='" . $variable ['comisionador'] . "' ";
-				// $cadenaSql .= " WHERE consecutivo IN " . $variable ['items'] . " ;";
-				// break;
-				
-				$cadenaSql = " UPDATE interoperacion.agendamiento_comisionamiento ";
-				$cadenaSql .= " SET ";
-				$cadenaSql .= " estado_registro=FALSE ";
-				$cadenaSql .= " WHERE consecutivo IN " . $variable ['items'] . " AND estado_registro=TRUE;";
 				break;
 			
 			case 'consultarAgenda' :
