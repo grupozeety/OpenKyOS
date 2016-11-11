@@ -71,4 +71,6 @@ jQuery.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource, fnC
             fnCallback( oSettings );
         }
     }, oSettings );
+
 };
+

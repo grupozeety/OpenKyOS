@@ -180,9 +180,59 @@ class GenerarDocumento {
         }
 
         {
-            $firma_beneficiario = "<img src='" . $this->beneficiario['url_firma_beneficiarios'] . "'  width='125' height='40'>";
+            {
 
-            $firma_contratista = "<img src='" . $this->beneficiario['url_firma_contratista'] . "'  width='125' height='40'>";
+                {
+                    $firmaBeneficiario = base64_decode($this->beneficiario['url_firma_beneficiarios']);
+                    $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
+                }
+
+                {
+
+                    $firmacontratista = base64_decode($this->beneficiario['url_firma_contratista']);
+                    $firmacontratista = str_replace("image/svg+xml,", '', $firmacontratista);
+                    $firmacontratista = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista);
+                    $firmacontratista = str_replace("svg", 'draw', $firmacontratista);
+
+                }
+
+                $firmaBeneficiario = str_replace("height", 'height="40" pasos2', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("width", 'width="125" pasos1', $firmaBeneficiario);
+                $firmacontratista = str_replace("height", 'height="40" pasos2', $firmacontratista);
+                $firmacontratista = str_replace("width", 'width="125" pasos1', $firmacontratista);
+
+                $cadena = $_SERVER['HTTP_USER_AGENT'];
+                $resultado = stristr($cadena, "Android");
+
+                if ($resultado) {
+                    $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista);
+                    $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+                } else {
+                    $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista);
+                    $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+
+                }
+
+            }
+
+            ini_set('xdebug.var_display_max_depth', 20000);
+            ini_set('xdebug.var_display_max_children', 20000);
+            ini_set('xdebug.var_display_max_data', 20000);
+
+            $firma_beneficiario = $firmaBeneficiario;
+
+            $firma_contratista = $firmacontratista;
+            //var_dump($firma_beneficiario);
+            //var_dump($firma_contratista);exit;
+
+            //var_dump($_SERVER['HTTP_USER_AGENT']);EXIT;
+
         }
         {
 
@@ -202,7 +252,16 @@ class GenerarDocumento {
 
             $tipo_pospago = ($tipoPago['descripcion'] == 'Pospago') ? "X" : " ";
 
+            $tipo_anticipado = ($tipoPago['descripcion'] == 'Anticipado') ? "X" : " ";
+
         }
+
+        {
+
+            $comisionador = (isset($this->info_usuario['uid'][1])) ? $this->info_usuario['uid'][1] : " ";
+
+        }
+
         {
 
             $contenidoPagina = "
@@ -227,6 +286,12 @@ class GenerarDocumento {
                                 td {
 
                                     text-align: left;
+
+                                }
+
+                                draw {
+
+                                  transform:scale(2.0);
 
                                 }
                             </style>
@@ -275,9 +340,9 @@ class GenerarDocumento {
                                     <table style='width:100%;'>
                                         <tr>
                                             <td style='width:25%;text-align=center;'>Fecha</td>
-                                            <td style='width:25%;text-align=center;color:#c5c5c5;'>DD</td>
-                                            <td style='width:25%;text-align=center;color:#c5c5c5;'>MM</td>
-                                            <td style='width:25%;text-align=center;color:#c5c5c5;'>AAAA</td>
+                                            <td style='width:25%;text-align=center;'><b>" . date('d') . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . date('m') . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . date('Y') . "</b></td>
                                         </tr>
                                     </table>
                             </td>
@@ -332,7 +397,7 @@ class GenerarDocumento {
                             <td style='width:5%;text-align=center;font-size:9px;'>VIP</td>
                             <td style='width:5%;text-align=center;font-size:9px;'>1 Residencial</td>
                             <td style='width:5%;text-align=center;font-size:9px;'>2 Residencial</td>
-                           <td colspan='1'style='width:5%;text-align=center;'>Barrio</td>
+                           <td colspan='1'style='width:5%;text-align=center;'><b>Barrio</b></td>
                             <td colspan='2'style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['barrio'] . " </td>
                         </tr>
                          <tr>
@@ -347,37 +412,36 @@ class GenerarDocumento {
                     <br>
                     <table style='width:100%;'>
                         <tr>
-                            <td rowspan='3' style='width:15%;text-align=center;'><b>DATOS SERVICIO</b></td>
-                            <td style='width:15%;text-align=center;'><b>Velocidad Internet</b></td>
-                            <td style='width:30%;text-align=right;font-size:9px;'>" . $this->beneficiario['velocidad_internet'] . " MB</td>
-                            <td style='width:20%;text-align=center;font-size:9px;'><b>Vigencia Servicio</b></td>
-                            <td style='width:20%;text-align=center;'>  </td>
+                            <td rowspan='2' style='width:15%;text-align=center;'><b>DATOS SERVICIO</b></td>
+                            <td style='width:30%;text-align=center;'><b>Velocidad Internet</b></td>
+                            <td style='width:15%;text-align=right;font-size:9px;'>" . $this->beneficiario['velocidad_internet'] . " MB</td>
+                            <td style='width:20%;text-align=center;'><b>Vigencia Servicio</b></td>
+                            <td style='width:20%;text-align=center;font-size:9px;'><b>15 Meses</b></td>
                         </tr>
                         <tr>
-                            <td style='width:15%;text-align=center;'><b>Fecha de inicio del Servicio</b></td>
-                            <td colspan='3' style='width:70%;text-align=center;font-size:9px;'><b>" . $this->beneficiario['fecha_inicio_vigencia_servicio'] . "</b></td>
-                        </tr>
-                        <tr>
-                            <td style='width:15%;text-align=center;'><b>Valor Mensual Servicio Básico </b></td>
-                            <td colspan='3' style='width:70%;text-align=left;font-size:9px;'><b>$ " . $this->beneficiario['valor_tarificacion'] . "</b></td>
+                            <td style='width:30%;text-align=center;'><b>Valor Mensual Servicio Básico </b></td>
+                            <td style='width:15%;text-align=center;font-size:9px;'><b>$ " . $this->beneficiario['valor_tarificacion'] . "</b></td>
+                            <td style='width:20%;text-align=center;'><b>Valor Total</b></td>
+                            <td style='width:20%;text-align=center;font-size:9px;'><b>$ " . $this->beneficiario['valor_tarificacion'] * 15 . "</b></td>
                         </tr>
                      </table>
                      <br>
                       <table style='width:100%;'>
                          <tr>
                             <td rowspan='3' style='width:15%;text-align=center;'><b>DATOS FACTURACIÓN</b></td>
-                            <td style='width:15%;text-align=center;'><b>Forma de Pago</b></td>
-                            <td style='width:15%;text-align=center;font-size:9px;'>Prepago (<b>" . $tipo_prepago . "</b>)</td>
-                            <td style='width:15%;text-align=center;font-size:9px;'>Postpago (<b>" . $tipo_pospago . "</b>)</td>
+                            <td style='width:35%;text-align=center;'><b>Forma de Pago</b></td>
+                            <td style='width:5%;text-align=center;font-size:9px;'>Prepago (<b>" . $tipo_prepago . "</b>)</td>
+                            <td style='width:5%;text-align=center;font-size:9px;'>Postpago (<b>" . $tipo_pospago . "</b>)</td>
+                            <td style='width:5%;text-align=center;font-size:9px;'>Anticipado (<b>" . $tipo_anticipado . "</b>)</td>
                         </tr>
                         <tr>
-                            <td style='width:15%;text-align=center;'><b>Mecanismos de Pago</b></td>
-                            <td style='width:15%;text-align=center;font-size:9px;'>Virtual (<b>" . $medio_virtual . "</b>)</td>
-                            <td style='width:15%;text-align=center;font-size:9px;'>Efectivo (<b>" . $medio_efectivo . "</b>)</td>
+                            <td style='width:35%;text-align=center;'><b>Mecanismos de Pago</b></td>
+                            <td style='width:5%;text-align=center;font-size:9px;'>Virtual (<b>" . $medio_virtual . "</b>)</td>
+                            <td  colspan='2'  style='width:5%;text-align=center;font-size:9px;'>Efectivo (<b>" . $medio_efectivo . "</b>)</td>
                         </tr>
                         <tr>
-                            <td style='width:15%;text-align=center;'><b>TOTAL A PAGAR FACTURA MENSUAL</b></td>
-                            <td  colspan='2' style='width:70%;text-align=left;font-size:9px;'>$ " . $this->beneficiario['valor_tarificacion'] . "</td>
+                            <td style='width:35%;text-align=center;'><b>TOTAL A PAGAR FACTURA MENSUAL</b></td>
+                            <td  colspan='3' style='width:50%;text-align=center;font-size:9px;'><b>$ " . $this->beneficiario['valor_tarificacion'] . "</b></td>
                         </tr>
                         </table>
                      <br>
@@ -475,24 +539,17 @@ class GenerarDocumento {
         <br>
         <br>
         <br>
-        <table style='width:100%;border:none'>
+
+
+ <table style='width:100%;border:none'>
             <tr>
-                <td style='width:50%;border:none'>
-                    <table style='width:100%;border:none'>
-                    <tr>
-                    <td style='width:25%;text-align:left;border:none'>Nombre Instalador:</td>
-                    <td style='width:25%;text-align:left;border:none'>" . $this->info_usuario['uid'][1] . "</td>
-                    <td style='width:50%;text-align:center;border:none'> </td>
-                    </tr>
+                <td style='width:100%;border:none'>
+                     <table style='width:100%;border:none'>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>FIRMA :</td>
-                    <td style='width:25%;text-align:left;border:none'>" . $firma_contratista . "</td>
+                    <td style='width:25%;text-align:left;border:none'>" . $firma_beneficiario . "</td>
                     <td style='width:50%;text-align:center;border:none'> </td>
                     </tr>
-                    </table>
-                </td>
-                <td style='width:50%;border:none'>
-                    <table style='width:100%;border:none'>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>Nombre Suscriptor:</td>
                     <td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['nombres'] . " " . $this->beneficiario['primer_apellido'] . " " . $this->beneficiario['segundo_apellido'] . "</td>
@@ -503,16 +560,10 @@ class GenerarDocumento {
                     <td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['numero_identificacion'] . "</td>
                     <td style='width:50%;text-align:center;border:none'> </td>
                     </tr>
-                    <tr>
-                    <td style='width:25%;text-align:left;border:none'>FIRMA :</td>
-                    <td style='width:25%;text-align:left;border:none'>" . $firma_beneficiario . "</td>
-                    <td style='width:50%;text-align:center;border:none'> </td>
-                    </tr>
                     </table>
                 </td>
             </tr>
         </table>
-
         <br>
         <br>
         <br>
@@ -523,33 +574,28 @@ class GenerarDocumento {
                             <td text-align=center;' style='width:100%;'><b>OBSERVACIONES DEL OPERADOR</b></td>
                         </tr>
                         <tr>
-                            <td style='width:100%;'><br><br><br></td>
+                            <td style='width:100%;'>Nombre Asesor:&nbsp;&nbsp;" . $comisionador . "<br><br><br></td>
                         </tr>
         </table>
         </nobreak>";
 
-            /* if ($requisitos) {
+            if ($this->beneficiario['soporte'] != '') {
 
-            $contenidoDocumentos = "<br> <div style='page-break-after:always; clear:both'></div>
-            <P style='text-align:center'><b>Documentos Faltantes para el Contrato</b></P><br><br>";
-            foreach ($requisitos as $key => $value) {
-            if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
-            $requisitosFaltantesObligatorios = true;
-
-            $contenidoPagina .= $contenidoDocumentos . "<P style='text-align:left'>" . $value['nombre_requisitos'] . "</P><br>";
-            $contenidoDocumentos = '';
-
+                $contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
+                                         <P style='text-align:center'><b>Soporte</b></P><br><br>";
+                $contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
+                                            <tr>
+                                                <td style='text-align:center;border:none;width:100%'>
+                                                    <img src='" . $this->beneficiario['soporte'] . "'  width='500' height='500'>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                     ";
             }
-
-            }
-            }*/
 
             $contenidoPagina .= "</page>";
 
         }
-
-        //var_dump($this->info_usuario);
-        //echo $contenidoPagina;exit;
 
         $this->contenidoPagina = $contenidoPagina;
 

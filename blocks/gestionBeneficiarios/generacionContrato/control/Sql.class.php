@@ -2,9 +2,9 @@
 
 namespace gestionBeneficiarios\generacionContrato;
 
-if (! isset ( $GLOBALS ["autorizado"] )) {
-	include "../index.php";
-	exit ();
+if (!isset($GLOBALS["autorizado"])) {
+    include "../index.php";
+    exit();
 }
 
 include_once "core/manager/Configurador.class.php";
@@ -44,20 +44,20 @@ class Sql extends \Sql {
              */
             case 'consultarBeneficiariosPotenciales':
 
-		case 'consultarBeneficiariosPotenciales' :
-				$cadenaSql = " SELECT value , data ";
-				$cadenaSql .= "FROM ";
-				$cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
-				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
-				$cadenaSql .= " LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bp.id_beneficiario ";
-				$cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bp.id_beneficiario=ba.id_beneficiario ";
-				$cadenaSql .= " WHERE bp.estado_registro=TRUE ";
-				$cadenaSql .= " AND ba.estado_registro=TRUE ";
-				$cadenaSql .= " AND ba.carpeta_creada=TRUE ";
-				$cadenaSql .= $variable;
-				$cadenaSql .= "		) datos ";
-				$cadenaSql .= "WHERE value ILIKE '%" . $_GET ['query'] . "%' ";
-				$cadenaSql .= "LIMIT 10; ";
+            case 'consultarBeneficiariosPotenciales':
+                $cadenaSql = " SELECT value , data ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bp.id_beneficiario=ba.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND ba.estado_registro=TRUE ";
+                $cadenaSql .= " AND ba.carpeta_creada=TRUE ";
+                $cadenaSql .= $variable;
+                $cadenaSql .= "     ) datos ";
+                $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "LIMIT 10; ";
                 break;
 
             case 'consultaInformacionBeneficiario':
@@ -351,20 +351,22 @@ class Sql extends \Sql {
 
                 // $cadenaSql .= " cuenta_suscriptor='" . $variable ['cuenta_suscriptor'] . "', ";
                 $cadenaSql .= " velocidad_internet='" . $variable['velocidad_internet'] . "', ";
-                $cadenaSql .= " fecha_inicio_vigencia_servicio='" . $variable['fecha_inicio_vigencia_servicio'] . "',";
+                //$cadenaSql .= " fecha_inicio_vigencia_servicio='" . $variable['fecha_inicio_vigencia_servicio'] . "',";
                 // $cadenaSql .= " fecha_fin_vigencia_servicio='" . $variable ['fecha_fin_vigencia_servicio'] . "', ";
                 $cadenaSql .= " valor_mensual='" . $variable['valor_mensual'] . "',";
+                $cadenaSql .= " soporte='" . $variable['soporte'] . "',";
                 //$cadenaSql .= " marca='" . $variable ['marca'] . "',";
                 //$cadenaSql .= " modelo='" . $variable ['modelo'] . "',";
                 // $cadenaSql .= " serial='" . $variable ['serial'] . "', ";
                 // $cadenaSql .= " tecnologia='" . $variable ['tecnologia'] . "',";
                 // $cadenaSql .= " estado='" . $variable ['estado'] . "', ";
                 //$cadenaSql .= " clausulas='" . $variable['clausulas'] . "', ";
-                $cadenaSql .= " url_firma_beneficiarios='" . $variable['url_firma_beneficiario'] . "', ";
-                $cadenaSql .= " url_firma_contratista='" . $variable['url_firma_contratista'] . "' ";
+                $cadenaSql .= " url_firma_beneficiarios='" . $variable['url_firma_beneficiario'] . "' ";
+                //$cadenaSql .= " url_firma_contratista='" . $variable['url_firma_contratista'] . "' ";
                 $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' ";
                 $cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
                 $cadenaSql .= " AND estado_registro=TRUE;";
+
                 //echo $cadenaSql;exit;
                 break;
 

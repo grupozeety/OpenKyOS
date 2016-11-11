@@ -3,9 +3,14 @@
  * Etiquetas correspondientes a los Formularios
  */
 
+$this->idioma['firma_digital_contratista'] = 'Firma Digital Contratista';
+
+$this->idioma['foto_soporte'] = 'Soporte';
+
 $this->idioma['generacionContrato'] = 'Generar Contrato Beneficiario Potencial';
 
 $this->idioma['beneficiario'] = 'Identificación Beneficiario';
+
 $this->idioma['beneficiarioTitulo'] = 'Ingrese Identificación Beneficiario';
 
 $this->idioma['botonValidar'] = 'Consultar Beneficiario';
