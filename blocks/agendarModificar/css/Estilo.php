@@ -10,6 +10,10 @@ $estilo [$indice ++] = "responsive.bootstrap.min.css";
 $estilo [$indice ++] = "select2.min.css";
 $estilo [$indice ++] = "modalLoad.css";
 $estilo [$indice ++] = "jquery.auto-complete.css";
+$estilo [$indice ++] = "bootstrap-datepicker.min.css";
+$estilo [$indice ++] = "bootstrap-datepicker.css ";
+
+
 
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion ( "host" );
