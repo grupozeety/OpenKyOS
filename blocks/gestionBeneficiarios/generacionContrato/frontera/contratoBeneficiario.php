@@ -1085,7 +1085,7 @@ class Contrato {
                         // Aplica atributos globales al control
                         $atributos = array_merge($atributos, $atributosGlobales);
 
-                        echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                        //echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
                         unset($atributos);
 
                         $esteCampo = 'fecha_fin_vigencia_servicio';
@@ -1359,34 +1359,34 @@ class Contrato {
 
                     }
 
-                    $esteCampo = 'Agrupacion';
+                    /*  $esteCampo = 'Agrupacion';
                     $atributos['id'] = $esteCampo;
                     $atributos['leyenda'] = "Firmas Instalador";
                     echo $this->miFormulario->agrupacion('inicio', $atributos);
                     unset($atributos);
                     {
-                        echo "<div id='mensaje_firma_ins' style='display:none;'><center><b>Firma Guardada<b></center></div>";
-                        echo "<div id='firma_digital_instalador' style='border-style:double;'></div>";
-                        echo "<br>";
-                        echo "<input type='button'  style='float:left' class='btn btn-default' id='guardarIns' value='Guardar'><input type='button' id='limpiarIns'  style='float:right' class='btn btn-default' value='Limpiar'>";
+                    echo "<div id='mensaje_firma_ins' style='display:none;'><center><b>Firma Guardada<b></center></div>";
+                    echo "<div id='firma_digital_instalador' style='border-style:double;'></div>";
+                    echo "<br>";
+                    echo "<input type='button'  style='float:left' class='btn btn-default' id='guardarIns' value='Guardar'><input type='button' id='limpiarIns'  style='float:right' class='btn btn-default' value='Limpiar'>";
 
-                        $esteCampo = 'firmaInstalador';
-                        $atributos["id"] = $esteCampo; // No cambiar este nombre
-                        $atributos["tipo"] = "hidden";
-                        $atributos['estilo'] = '';
-                        $atributos["obligatorio"] = false;
-                        $atributos['marco'] = true;
-                        $atributos["etiqueta"] = "";
-                        if (isset($_REQUEST[$esteCampo])) {
-                            $atributos['valor'] = $_REQUEST[$esteCampo];
-                        } else {
-                            $atributos['valor'] = '';
-                        }
-                        $atributos = array_merge($atributos, $atributosGlobales);
-                        echo $this->miFormulario->campoCuadroTexto($atributos);
-                        unset($atributos);
-
+                    $esteCampo = 'firmaInstalador';
+                    $atributos["id"] = $esteCampo; // No cambiar este nombre
+                    $atributos["tipo"] = "hidden";
+                    $atributos['estilo'] = '';
+                    $atributos["obligatorio"] = false;
+                    $atributos['marco'] = true;
+                    $atributos["etiqueta"] = "";
+                    if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                    } else {
+                    $atributos['valor'] = '';
                     }
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroTexto($atributos);
+                    unset($atributos);
+
+                    }*/
 
                     echo $this->miFormulario->agrupacion('fin');
                     unset($atributos);

@@ -162,7 +162,15 @@ class GenerarDocumento {
 
             $tipo_pospago = ($tipoPago['descripcion'] == 'Pospago') ? "X" : " ";
 
+            $tipo_anticipado = ($tipoPago['descripcion'] == 'Anticipado') ? "X" : " ";
+
         }
+        {
+
+            $comisionador = (isset($this->info_usuario['uid'][1])) ? $this->info_usuario['uid'][1] : " ";
+
+        }
+
         {
             $contenidoPagina = "
                             <style type=\"text/css\">
@@ -291,7 +299,7 @@ class GenerarDocumento {
                             <td style='width:5%;text-align=center;font-size:9px;'>VIP</td>
                             <td style='width:5%;text-align=center;font-size:9px;'>1 Residencial</td>
                             <td style='width:5%;text-align=center;font-size:9px;'>2 Residencial</td>
-                           <td colspan='1'style='width:5%;text-align=center;'>Barrio</td>
+                           <td colspan='1'style='width:5%;text-align=center;'><b>Barrio</b></td>
                             <td colspan='2'style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['barrio'] . " </td>
                         </tr>
                          <tr>
@@ -306,37 +314,36 @@ class GenerarDocumento {
                     <br>
                     <table style='width:100%;'>
                         <tr>
-                            <td rowspan='3' style='width:15%;text-align=center;'><b>DATOS SERVICIO</b></td>
-                            <td style='width:15%;text-align=center;'><b>Velocidad Internet</b></td>
-                            <td style='width:30%;text-align=right;font-size:9px;'>" . $this->beneficiario['velocidad_internet'] . " MB</td>
+                            <td rowspan='2' style='width:15%;text-align=center;'><b>DATOS SERVICIO</b></td>
+                            <td style='width:30%;text-align=center;'><b>Velocidad Internet</b></td>
+                            <td style='width:15%;text-align=right;font-size:9px;'>" . $this->beneficiario['velocidad_internet'] . " MB</td>
                             <td style='width:20%;text-align=center;'><b>Vigencia Servicio</b></td>
-                            <td style='width:20%;text-align=center;'>  </td>
+                            <td style='width:20%;text-align=center;font-size:9px;'><b>15 Meses</b></td>
                         </tr>
                         <tr>
-                            <td style='width:15%;text-align=center;'><b>Fecha de inicio del Servicio</b></td>
-                            <td colspan='3' style='width:70%;text-align=center;font-size:9px;'><b>" . $this->beneficiario['fecha_inicio_vigencia_servicio'] . "</b></td>
-                        </tr>
-                        <tr>
-                            <td style='width:15%;text-align=center;'><b>Valor Mensual Servicio Básico </b></td>
-                            <td colspan='3' style='width:70%;text-align=left;font-size:9px;'><b>$ " . $this->beneficiario['valor_tarificacion'] . "</b></td>
+                            <td style='width:30%;text-align=center;'><b>Valor Mensual Servicio Básico </b></td>
+                            <td style='width:15%;text-align=center;font-size:9px;'><b>$ " . $this->beneficiario['valor_tarificacion'] . "</b></td>
+                            <td style='width:20%;text-align=center;'><b>Valor Total</b></td>
+                            <td style='width:20%;text-align=center;font-size:9px;'><b>$ " . $this->beneficiario['valor_tarificacion'] * 15 . "</b></td>
                         </tr>
                      </table>
                      <br>
                       <table style='width:100%;'>
-                         <tr>
+                        <tr>
                             <td rowspan='3' style='width:15%;text-align=center;'><b>DATOS FACTURACIÓN</b></td>
-                            <td style='width:15%;text-align=center;'><b>Forma de Pago</b></td>
-                            <td style='width:15%;text-align=center;font-size:9px;'>Prepago (<b>" . $tipo_prepago . "</b>)</td>
-                            <td style='width:15%;text-align=center;font-size:9px;'>Postpago (<b>" . $tipo_pospago . "</b>)</td>
+                            <td style='width:35%;text-align=center;'><b>Forma de Pago</b></td>
+                            <td style='width:5%;text-align=center;font-size:9px;'>Prepago (<b>" . $tipo_prepago . "</b>)</td>
+                            <td style='width:5%;text-align=center;font-size:9px;'>Postpago (<b>" . $tipo_pospago . "</b>)</td>
+                            <td style='width:5%;text-align=center;font-size:9px;'>Anticipado (<b>" . $tipo_anticipado . "</b>)</td>
                         </tr>
                         <tr>
-                            <td style='width:15%;text-align=center;'><b>Mecanismos de Pago</b></td>
-                            <td style='width:15%;text-align=center;font-size:9px;'>Virtual (<b>" . $medio_virtual . "</b>)</td>
-                            <td style='width:15%;text-align=center;font-size:9px;'>Efectivo (<b>" . $medio_efectivo . "</b>)</td>
+                            <td style='width:35%;text-align=center;'><b>Mecanismos de Pago</b></td>
+                            <td style='width:5%;text-align=center;font-size:9px;'>Virtual (<b>" . $medio_virtual . "</b>)</td>
+                            <td  colspan='2'  style='width:5%;text-align=center;font-size:9px;'>Efectivo (<b>" . $medio_efectivo . "</b>)</td>
                         </tr>
                         <tr>
-                            <td style='width:15%;text-align=center;'><b>TOTAL A PAGAR FACTURA MENSUAL</b></td>
-                            <td  colspan='2' style='width:70%;text-align=left;font-size:9px;'>$ " . $this->beneficiario['valor_tarificacion'] . "</td>
+                            <td style='width:35%;text-align=center;'><b>TOTAL A PAGAR FACTURA MENSUAL</b></td>
+                            <td  colspan='3' style='width:50%;text-align=center;font-size:9px;'><b>$ " . $this->beneficiario['valor_tarificacion'] . "</b></td>
                         </tr>
                         </table>
                      <br>
@@ -438,22 +445,13 @@ class GenerarDocumento {
         <br>
         <table style='width:100%;border:none'>
             <tr>
-                <td style='width:50%;border:none'>
+                <td style='width:100%;border:none'>
                     <table style='width:100%;border:none'>
-                    <tr>
-                    <td style='width:25%;text-align:left;border:none'>Nombre Instalador:</td>
-                    <td style='width:25%;text-align:left;border:none'>" . $this->info_usuario['uid'][1] . "</td>
-                    <td style='width:50%;text-align:center;border:none'> </td>
-                    </tr>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>FIRMA :</td>
-                    <td style='width:25%;text-align:left;border:none'>" . $firma_contratista . "</td>
+                    <td style='width:25%;text-align:left;border:none'>" . $firma_beneficiario . "</td>
                     <td style='width:50%;text-align:center;border:none'> </td>
                     </tr>
-                    </table>
-                </td>
-                <td style='width:50%;border:none'>
-                    <table style='width:100%;border:none'>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>Nombre Suscriptor:</td>
                     <td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['nombres'] . " " . $this->beneficiario['primer_apellido'] . " " . $this->beneficiario['segundo_apellido'] . "</td>
@@ -462,11 +460,6 @@ class GenerarDocumento {
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>C.C :</td>
                     <td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['numero_identificacion'] . "</td>
-                    <td style='width:50%;text-align:center;border:none'> </td>
-                    </tr>
-                    <tr>
-                    <td style='width:25%;text-align:left;border:none'>FIRMA :</td>
-                    <td style='width:25%;text-align:left;border:none'>" . $firma_beneficiario . "</td>
                     <td style='width:50%;text-align:center;border:none'> </td>
                     </tr>
                     </table>
@@ -483,7 +476,7 @@ class GenerarDocumento {
                             <td text-align=center;' style='width:100%;'><b>OBSERVACIONES DEL OPERADOR</b></td>
                         </tr>
                         <tr>
-                            <td style='width:100%;'><br><br><br></td>
+                            <td style='width:100%;'>Nombre Instalador:&nbsp;&nbsp;" . $comisionador . "<br><br><br></td>
                         </tr>
         </table>
         </nobreak>";

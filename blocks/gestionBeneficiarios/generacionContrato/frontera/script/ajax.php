@@ -23,6 +23,28 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($caden
 // URL Consultar Proyectos
 $urlConsultarBeneficiarios = $url . $cadena;
 
+/*var $sigdiv1 =$("#firma_digital_instalador").jSignature();
+$('#limpiarIns').bind('click', function(e){
+$sigdiv1.jSignature('reset');
+
+$("#<?php echo $this->campoSeguro('firmaInstalador');?>").val('');
+$("#firma_digital_instalador").css("display","block");
+$("#mensaje_firma_ins").css("display","none");
+$("#guardarIns").css("display","block");
+
+});
+
+
+$('#guardarIns').bind('click', function(e){
+
+$("#<?php echo $this->campoSeguro('firmaInstalador');?>").val(btoa($sigdiv1.jSignature("getData", "svg")));
+
+$("#firma_digital_instalador").css("display","none");
+$("#mensaje_firma_ins").css("display","block");
+$("#guardarIns").css("display","none");
+
+});*/
+
 ?>
 <script type='text/javascript'>
 
@@ -95,20 +117,14 @@ $urlConsultarBeneficiarios = $url . $cadena;
 		       } );
 		   } );
 
-var $sigdiv1 =$("#firma_digital_instalador").jSignature();
+
+
+
+
+
+
 
 var $sigdiv2 =$("#firma_digital_beneficiario").jSignature();
-
-
-$('#limpiarIns').bind('click', function(e){
-		$sigdiv1.jSignature('reset');
-
-		 $("#<?php echo $this->campoSeguro('firmaInstalador');?>").val('');
-		$("#firma_digital_instalador").css("display","block");
-		$("#mensaje_firma_ins").css("display","none");
-		$("#guardarIns").css("display","block");
-
-	});
 
 
 $('#limpiarBn').bind('click', function(e){
@@ -118,18 +134,6 @@ $('#limpiarBn').bind('click', function(e){
 		$("#firma_digital_beneficiario").css("display","block");
 		$("#mensaje_firma_bn").css("display","none");
 		$("#guardarBn").css("display","block");
-	});
-
-
-
-$('#guardarIns').bind('click', function(e){
-
- $("#<?php echo $this->campoSeguro('firmaInstalador');?>").val(btoa($sigdiv1.jSignature("getData", "svg")));
-
-$("#firma_digital_instalador").css("display","none");
-$("#mensaje_firma_ins").css("display","block");
-$("#guardarIns").css("display","none");
-
 	});
 
 
