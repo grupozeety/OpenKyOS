@@ -488,21 +488,19 @@ class GenerarDocumento {
         </table>
         </nobreak>";
 
-            /* if ($requisitos) {
+            if ($this->beneficiario['soporte'] != '') {
 
-            $contenidoDocumentos = "<br> <div style='page-break-after:always; clear:both'></div>
-            <P style='text-align:center'><b>Documentos Faltantes para el Contrato</b></P><br><br>";
-            foreach ($requisitos as $key => $value) {
-            if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
-            $requisitosFaltantesObligatorios = true;
-
-            $contenidoPagina .= $contenidoDocumentos . "<P style='text-align:left'>" . $value['nombre_requisitos'] . "</P><br>";
-            $contenidoDocumentos = '';
-
+                $contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
+                                         <P style='text-align:center'><b>Soporte</b></P><br><br>";
+                $contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
+                                            <tr>
+                                                <td style='text-align:center;border:none;width:100%'>
+                                                    <img src='" . $this->beneficiario['soporte'] . "'  width='500' height='500'>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                     ";
             }
-
-            }
-            }*/
 
             $contenidoPagina .= "</page>";
         }

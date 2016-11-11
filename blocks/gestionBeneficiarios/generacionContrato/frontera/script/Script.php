@@ -21,6 +21,9 @@ $funcion[$indice++] = "jquery.autocomplete.js";
 $funcion[$indice++] = "jquery.dataTables.min.js";
 $funcion[$indice++] = "dataTables.bootstrap.min.js";
 $funcion[$indice++] = "dataTables.responsive.min.js";
+$funcion[$indice++] = "jSignature.js";
+$funcion[$indice++] = "jSignature.CompressorSVG.js";
+
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");
 if ($esteBloque["grupo"] == "") {

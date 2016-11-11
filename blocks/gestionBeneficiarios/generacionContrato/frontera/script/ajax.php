@@ -30,6 +30,11 @@ $urlConsultarBeneficiarios = $url . $cadena;
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
  */
 
+
+
+
+
+
  		   $("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
 		   	minChars: 3,
 		   	serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
@@ -84,11 +89,62 @@ $urlConsultarBeneficiarios = $url . $cadena;
 		                    responsive: true,
 		                    filter:false,
 		                    paging:false,
-		                    lengthChange:false, 
+		                    lengthChange:false,
 		                    info:false,
-		          
+
 		       } );
 		   } );
+
+var $sigdiv1 =$("#firma_digital_instalador").jSignature();
+
+var $sigdiv2 =$("#firma_digital_beneficiario").jSignature();
+
+
+$('#limpiarIns').bind('click', function(e){
+		$sigdiv1.jSignature('reset');
+
+		 $("#<?php echo $this->campoSeguro('firmaInstalador');?>").val('');
+		$("#firma_digital_instalador").css("display","block");
+		$("#mensaje_firma_ins").css("display","none");
+		$("#guardarIns").css("display","block");
+
+	});
+
+
+$('#limpiarBn').bind('click', function(e){
+		$sigdiv2.jSignature('reset');
+
+		$("#<?php echo $this->campoSeguro('firmaBeneficiario');?>").val('');
+		$("#firma_digital_beneficiario").css("display","block");
+		$("#mensaje_firma_bn").css("display","none");
+		$("#guardarBn").css("display","block");
+	});
+
+
+
+$('#guardarIns').bind('click', function(e){
+
+ $("#<?php echo $this->campoSeguro('firmaInstalador');?>").val(btoa($sigdiv1.jSignature("getData", "svg")));
+
+$("#firma_digital_instalador").css("display","none");
+$("#mensaje_firma_ins").css("display","block");
+$("#guardarIns").css("display","none");
+
+	});
+
+
+
+$('#guardarBn').bind('click', function(e){
+
+ $("#<?php echo $this->campoSeguro('firmaBeneficiario');?>").val(btoa($sigdiv2.jSignature("getData", "svg")));
+
+$("#firma_digital_beneficiario").css("display","none");
+$("#mensaje_firma_bn").css("display","block");
+$("#guardarBn").css("display","none");
+
+	});
+
+
 
 </script>
 

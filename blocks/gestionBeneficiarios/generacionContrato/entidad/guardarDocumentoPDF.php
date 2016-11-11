@@ -180,9 +180,59 @@ class GenerarDocumento {
         }
 
         {
-            $firma_beneficiario = "<img src='" . $this->beneficiario['url_firma_beneficiarios'] . "'  width='125' height='40'>";
+            {
 
-            $firma_contratista = "<img src='" . $this->beneficiario['url_firma_contratista'] . "'  width='125' height='40'>";
+                {
+                    $firmaBeneficiario = base64_decode($this->beneficiario['url_firma_beneficiarios']);
+                    $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
+                }
+
+                {
+
+                    $firmacontratista = base64_decode($this->beneficiario['url_firma_contratista']);
+                    $firmacontratista = str_replace("image/svg+xml,", '', $firmacontratista);
+                    $firmacontratista = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista);
+                    $firmacontratista = str_replace("svg", 'draw', $firmacontratista);
+
+                }
+
+                $firmaBeneficiario = str_replace("height", 'height="40" pasos2', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("width", 'width="125" pasos1', $firmaBeneficiario);
+                $firmacontratista = str_replace("height", 'height="40" pasos2', $firmacontratista);
+                $firmacontratista = str_replace("width", 'width="125" pasos1', $firmacontratista);
+
+                $cadena = $_SERVER['HTTP_USER_AGENT'];
+                $resultado = stristr($cadena, "Android");
+
+                if ($resultado) {
+                    $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista);
+                    $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+                } else {
+                    $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista);
+                    $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+
+                }
+
+            }
+
+            ini_set('xdebug.var_display_max_depth', 20000);
+            ini_set('xdebug.var_display_max_children', 20000);
+            ini_set('xdebug.var_display_max_data', 20000);
+
+            $firma_beneficiario = $firmaBeneficiario;
+
+            $firma_contratista = $firmacontratista;
+            //var_dump($firma_beneficiario);
+            //var_dump($firma_contratista);exit;
+
+            //var_dump($_SERVER['HTTP_USER_AGENT']);EXIT;
+
         }
         {
 
@@ -227,6 +277,12 @@ class GenerarDocumento {
                                 td {
 
                                     text-align: left;
+
+                                }
+
+                                draw {
+
+                                  transform:scale(2.0);
 
                                 }
                             </style>
@@ -475,10 +531,13 @@ class GenerarDocumento {
         <br>
         <br>
         <br>
-        <table style='width:100%;border:none'>
+
+
+ <table style='width:100%;border:none'>
             <tr>
                 <td style='width:50%;border:none'>
-                    <table style='width:100%;border:none'>
+
+                   <table style='width:100%;border:none'>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>Nombre Instalador:</td>
                     <td style='width:25%;text-align:left;border:none'>" . $this->info_usuario['uid'][1] . "</td>
@@ -487,12 +546,13 @@ class GenerarDocumento {
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>FIRMA :</td>
                     <td style='width:25%;text-align:left;border:none'>" . $firma_contratista . "</td>
-                    <td style='width:50%;text-align:center;border:none'> </td>
+                    <td style='width:50%;text-align:center;border:none'></td>
                     </tr>
                     </table>
+
                 </td>
                 <td style='width:50%;border:none'>
-                    <table style='width:100%;border:none'>
+                     <table style='width:100%;border:none'>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>Nombre Suscriptor:</td>
                     <td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['nombres'] . " " . $this->beneficiario['primer_apellido'] . " " . $this->beneficiario['segundo_apellido'] . "</td>
@@ -513,6 +573,10 @@ class GenerarDocumento {
             </tr>
         </table>
 
+
+
+
+
         <br>
         <br>
         <br>
@@ -528,28 +592,23 @@ class GenerarDocumento {
         </table>
         </nobreak>";
 
-            /* if ($requisitos) {
+            if ($this->beneficiario['soporte'] != '') {
 
-            $contenidoDocumentos = "<br> <div style='page-break-after:always; clear:both'></div>
-            <P style='text-align:center'><b>Documentos Faltantes para el Contrato</b></P><br><br>";
-            foreach ($requisitos as $key => $value) {
-            if ($value['obligatoriedad'] = '1' && is_null($value['nombre_documento'])) {
-            $requisitosFaltantesObligatorios = true;
-
-            $contenidoPagina .= $contenidoDocumentos . "<P style='text-align:left'>" . $value['nombre_requisitos'] . "</P><br>";
-            $contenidoDocumentos = '';
-
+                $contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
+                                         <P style='text-align:center'><b>Soporte</b></P><br><br>";
+                $contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
+                                            <tr>
+                                                <td style='text-align:center;border:none;width:100%'>
+                                                    <img src='" . $this->beneficiario['soporte'] . "'  width='500' height='500'>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                     ";
             }
-
-            }
-            }*/
 
             $contenidoPagina .= "</page>";
 
         }
-
-        //var_dump($this->info_usuario);
-        //echo $contenidoPagina;exit;
 
         $this->contenidoPagina = $contenidoPagina;
 
