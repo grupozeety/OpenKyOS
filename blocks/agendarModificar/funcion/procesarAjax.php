@@ -32,8 +32,7 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 	}
 	echo '{"suggestions":' . json_encode ( $resultado ) . '}';
 } else if ($_REQUEST ['funcion'] == "consultarAgendamiento") {
-	
-	$manz = trim ( $_REQUEST ['manz'] );
+
 	$tipoA = trim ( $_REQUEST ['tipoA'] );
 	$urban = trim ( $_REQUEST ['urban'] );
 	$comis = trim ( $_REQUEST ['comis'] );
@@ -45,8 +44,16 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 		$cadenaSql .= "AND ac.tipo_agendamiento='" . $tipoA . "' ";
 	}
 	
-	if (isset ( $manz ) && $manz != "") {
-		$cadenaSql .= "AND bp.manzana='" . $manz . "' ";
+	if (isset ( $_REQUEST ['man'] ) && $_REQUEST ['man'] != "") {
+		$cadenaSql .= "AND bp.manzana='" . $_REQUEST ['man'] . "' ";
+	}
+	
+	if (isset ( $_REQUEST ['bloq'] ) && $_REQUEST ['bloq'] != "") {
+		$cadenaSql .= "AND bp.bloque='" . $_REQUEST ['bloq'] . "' ";
+	}
+	
+	if (isset ( $_REQUEST ['torre'] ) && $_REQUEST ['torre'] != "") {
+		$cadenaSql .= "AND bp.torre='" . $_REQUEST ['torre'] . "' ";
 	}
 	
 	if (isset ( $urban ) && $urban != "") {
@@ -64,7 +71,7 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 	$conexion = "interoperacion";
 	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 	
-	$cadenaSql = $this->sql->getCadenaSql ( 'consultarAgendaVia', $cadenaSql );
+ 	$cadenaSql = $this->sql->getCadenaSql ( 'consultarAgendaVia', $cadenaSql );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 	
 	$cadenaSql = $this->sql->getCadenaSql ( 'consultarAgendaIns', $cadenaSql );
@@ -72,10 +79,14 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 	
 	$ruta = $this->miConfigurador->getVariableConfiguracion ( 'rutaUrlBloque' );
 	
-	if ($resultado2 != false && $resultado2 != false) {
+	if ($resultado != false && $resultado2 != false) {
 		$resultado = array_merge ( $resultado, $resultado2 );
 	}
 	
+	if ($resultado2 != false && $resultado== false) {
+		$resultado = $resultado2 ;
+	}
+
 	if ($resultado != false) {
 		
 		foreach ( $resultado as $i => $values ) {
@@ -109,6 +120,7 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 					'id_agendamiento' => $resultado [$i] ['id_agendamiento'],
 					'fecha' => $resultado [$i] ['fecha'],
 					'beneficiario' => "<a href='" . $redireccion [$i] . "'>" . $resultado [$i] ['beneficiario'] . "</a>",
+					'comisionador' => $resultado [$i] ['nombre_comisionador'],
 					// tipo_agendamientoa' => $resultado [$i] ['tipo_agendamiento'],
 					'estado_agenda' => "<img src='" . $ruta . "/css/imagenes/" . $resultado [$i] ['estado_agenda'] . ".png" . "'>      <b>" . $resultado [$i] ['etiqueta_agenda'] . "</b></img>",
 					'id_checkbox' => array (
@@ -181,5 +193,50 @@ if ($_REQUEST ['funcion'] == "consultarComisionador") {
 		$resultado [$key] = array_intersect_key ( $resultadoItems [$key], array_flip ( $keys ) );
 	}
 	echo '{"suggestions":' . json_encode ( $resultado ) . '}';
+} else if ($_REQUEST ['funcion'] == "consultarManzana") {
+	
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarManzana' );
+	$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+	if ($resultadoItems) {
+		foreach ( $resultadoItems as $key => $values ) {
+			$keys = array (
+					'value',
+					'data' 
+			);
+			$resultado [$key] = array_intersect_key ( $resultadoItems [$key], array_flip ( $keys ) );
+		}
+		echo '{"suggestions":' . json_encode ( $resultado ) . '}';
+	}
+} else if ($_REQUEST ['funcion'] == "consultarBloque") {
+	
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarBloque' );
+	$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+	if ($resultadoItems) {
+		foreach ( $resultadoItems as $key => $values ) {
+			$keys = array (
+					'value',
+					'data' 
+			);
+			$resultado [$key] = array_intersect_key ( $resultadoItems [$key], array_flip ( $keys ) );
+		}
+		echo '{"suggestions":' . json_encode ( $resultado ) . '}';
+	}
+} else if ($_REQUEST ['funcion'] == "consultarTorre") {
+	
+	$cadenaSql = $this->sql->getCadenaSql ( 'consultarTorre' );
+	$resultadoItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+	if ($resultadoItems) {
+		foreach ( $resultadoItems as $key => $values ) {
+			$keys = array (
+					'value',
+					'data' 
+			);
+			$resultado [$key] = array_intersect_key ( $resultadoItems [$key], array_flip ( $keys ) );
+		}
+		echo '{"suggestions":' . json_encode ( $resultado ) . '}';
+	}
 }
 ?>

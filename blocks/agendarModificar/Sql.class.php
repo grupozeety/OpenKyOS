@@ -105,7 +105,8 @@ class Sql extends \Sql {
 			
 			/* Consultas del desarrollo */
 			case "consultarAgendaVia" :
-				$cadenaSql = "SELECT DISTINCT ";
+				$cadenaSql = "SELECT * FROM ( ";
+				$cadenaSql .= "SELECT DISTINCT ";
 				$cadenaSql .= "bp.id_beneficiario, ";
 				$cadenaSql .= "ac.fecha_agendamiento::timestamp::date AS fecha, ";
 				$cadenaSql .= "ac.consecutivo AS consecutivo, ";
@@ -120,7 +121,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "CASE estado_contrato WHEN  82 THEN 'En Verificación'"; // 0 falta algo
 				$cadenaSql .= "WHEN 83 THEN 'Contrato Aprobado' "; // 1 todo correcto
 				$cadenaSql .= "ELSE 'No iniciado' "; // no inciado
-				$cadenaSql .= "END as etiqueta_agenda ";
+				$cadenaSql .= "END as etiqueta_agenda, ac.nombre_comisionador ";
 				$cadenaSql .= "FROM interoperacion.agendamiento_comisionamiento as ac ";
 				$cadenaSql .= "LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario=ac.id_beneficiario ";
 				$cadenaSql .= "LEFT JOIN parametros.parametros pr ON pr.id_parametro=estado_contrato ";
@@ -134,11 +135,13 @@ class Sql extends \Sql {
 				$cadenaSql .= "AND bp.estado_registro=true ";
 				$cadenaSql .= "AND ta.codigo= cast(ac.tipo_agendamiento as char) ";
 				$cadenaSql .= str_replace ( "\\", "", $variable );
+				$cadenaSql .= " ) as consulta where estado_agenda!=1 ";
 				
 				break;
 			
 			case "consultarAgendaIns" :
-				$cadenaSql = "SELECT DISTINCT ";
+				$cadenaSql = "SELECT * FROM ( ";
+				$cadenaSql .= "SELECT DISTINCT ";
 				$cadenaSql .= "bp.id_beneficiario,  ";
 				$cadenaSql .= "ac.fecha_agendamiento::timestamp::date AS fecha, ";
 				$cadenaSql .= "ac.consecutivo AS consecutivo, ";
@@ -157,7 +160,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "WHEN  84 THEN 'En Verificación' ";
 				$cadenaSql .= "WHEN 129 THEN 'Completado' ";
 				$cadenaSql .= "ELSE 'No iniciado'  ";
-				$cadenaSql .= "END as etiqueta_agenda ";
+				$cadenaSql .= "END as etiqueta_agenda, ac.nombre_comisionador ";
 				$cadenaSql .= "FROM interoperacion.agendamiento_comisionamiento as ac ";
 				$cadenaSql .= "LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario=ac.id_beneficiario ";
 				$cadenaSql .= "LEFT JOIN interoperacion.servicio sv on sv.id_contrato=cn.id ";
@@ -172,6 +175,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "AND bp.estado_registro=true ";
 				$cadenaSql .= "AND ta.codigo= cast(ac.tipo_agendamiento as char) ";
 				$cadenaSql .= str_replace ( "\\", "", $variable );
+				$cadenaSql .= " ) as consulta where estado_agenda!=1 ";
 				break;
 			
 			case "agendamientosReporteViabilidad" :
@@ -344,7 +348,25 @@ class Sql extends \Sql {
 				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
 				$cadenaSql .= "WHERE estado_registro=TRUE ";
 				$cadenaSql .= "AND  cast(manzana  as text) ILIKE '%" . $_GET ['query'] . "%' ";
-				$cadenaSql .= "order by manzana asc ";
+				$cadenaSql .= " order by manzana asc ";
+				$cadenaSql .= "LIMIT 10; ";
+				break;
+			
+			case 'consultarBloque' :
+				$cadenaSql = " SELECT DISTINCT bloque AS  value, bloque  AS data  ";
+				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+				$cadenaSql .= "WHERE estado_registro=TRUE ";
+				$cadenaSql .= "AND  cast(bloque  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= " order by bloque asc ";
+				$cadenaSql .= "LIMIT 10; ";
+				break;
+			
+			case 'consultarTorre' :
+				$cadenaSql = " SELECT DISTINCT torre AS  value, torre  AS data  ";
+				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
+				$cadenaSql .= "WHERE estado_registro=TRUE ";
+				$cadenaSql .= "AND  cast(torre  as text) ILIKE '%" . $_GET ['query'] . "%' ";
+				$cadenaSql .= " order by torre asc ";
 				$cadenaSql .= "LIMIT 10; ";
 				break;
 			
