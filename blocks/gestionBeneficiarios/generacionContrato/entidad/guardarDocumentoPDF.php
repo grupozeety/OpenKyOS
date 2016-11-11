@@ -340,9 +340,9 @@ class GenerarDocumento {
                                     <table style='width:100%;'>
                                         <tr>
                                             <td style='width:25%;text-align=center;'>Fecha</td>
-                                            <td style='width:25%;text-align=center;color:#c5c5c5;'>DD</td>
-                                            <td style='width:25%;text-align=center;color:#c5c5c5;'>MM</td>
-                                            <td style='width:25%;text-align=center;color:#c5c5c5;'>AAAA</td>
+                                            <td style='width:25%;text-align=center;'><b>" . date('d') . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . date('m') . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . date('Y') . "</b></td>
                                         </tr>
                                     </table>
                             </td>
