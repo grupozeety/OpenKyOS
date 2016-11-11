@@ -20,7 +20,7 @@ function codificarNombre($nombre) {
 
 }
 
-if ($_REQUEST ['funcion'] == "consultaBeneficiarios") {
+if ($_REQUEST ['funcion'] == "consultarBeneficiarios") {
 	
 	$cadenaSql = $this->sql->getCadenaSql ( 'consultarBeneficiariosPotenciales' );
 	
@@ -60,6 +60,10 @@ if ($_REQUEST ['funcion'] == "consultaBeneficiarios") {
 	
 	if(isset($_REQUEST ['torre']) && $_REQUEST ['torre'] != ""){
 		$cadenaSql .= "AND bp.torre='" . $_REQUEST ['torre'] . "' ";
+	}
+	
+	if(isset($_REQUEST ['ben']) && $_REQUEST ['ben'] != ""){
+		$cadenaSql .= "AND bp.id_beneficiario='" . $_REQUEST ['ben'] . "' ";
 	}
 	
 
@@ -198,6 +202,7 @@ if ($_REQUEST ['funcion'] == "consultaBeneficiarios") {
 		}
 		echo '{"suggestions":' . json_encode ( $resultado ) . '}';
 	}
+
 }
 
 ?>
