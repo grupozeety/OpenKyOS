@@ -82,6 +82,32 @@ $valor .= "&procesarAjax=true";
 $valor .= "&action=index.php";
 $valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
 $valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+$valor .= "&funcion=consultarBeneficiarios";
+$valor .= "&tiempo=" . $_REQUEST ['tiempo'];
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $valor, $enlace );
+
+$urlConsultarBeneficiario = $url . $cadena;
+
+?>
+<?php
+/**
+ *
+ * Los datos del bloque se encuentran en el arreglo $esteBloque.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+$url .= "/index.php?";
+// Variables
+$valor = "pagina=" . $this->miConfigurador->getVariableConfiguracion ( "pagina" );
+$valor .= "&procesarAjax=true";
+$valor .= "&action=index.php";
+$valor .= "&bloqueNombre=" . $esteBloque ["nombre"];
+$valor .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 $valor .= "&funcion=consultarManzana";
 $valor .= "&tiempo=" . $_REQUEST ['tiempo'];
 
@@ -255,6 +281,7 @@ $(document).ready(function() {
 	var manzana = "";
 	var torre = "";
 	var agendamiento = "";
+	var beneficiario = "";
 
 	$("#tipo_tecnologia_div").hide();
 	$("#<?php echo $this->campoSeguro('tipo_tecnologia');?>").attr("required", false);
@@ -323,6 +350,15 @@ $("#<?php echo $this->campoSeguro('urbanizacion');?>").autocomplete({
 	}
 });
 
+$("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
+	minChars: 1,
+	serviceUrl: '<?php echo $urlConsultarBeneficiario;?>',
+	onSelect: function (suggestion) {
+		beneficiario = suggestion.data;
+		actualizarTabla();
+	}
+});
+
 $("#<?php echo $this->campoSeguro('tipo_vivienda');?>").change(function() {
 	if($("#<?php echo $this->campoSeguro('tipo_vivienda');?>").val() != ""){
 		tipo = $("#<?php echo $this->campoSeguro('tipo_vivienda');?>").val();
@@ -379,6 +415,12 @@ $("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
 	actualizarTabla();
 });
 
+
+$("#<?php echo $this->campoSeguro('beneficiario');?>").change(function() {
+	beneficiario = $("#<?php echo $this->campoSeguro('beneficiario');?>").val();
+	actualizarTabla();
+});
+
 function actualizarTabla(){
 	
 		$('#example').DataTable().destroy();
@@ -421,7 +463,7 @@ function actualizarTabla(){
 	        },
 	        ajax: {
 	            url: "<?php echo $urlCargarInformacion?>",
-	             data: { tipoV: tipo, urban: urbanizacion, man: manzana, bloq: bloque, torre: torre, agen: agendamiento},
+	             data: { tipoV: tipo, urban: urbanizacion, man: manzana, bloq: bloque, torre: torre, agen: agendamiento, ben:beneficiario},
 	            dataSrc:"data"   
 	        },
 	        "columns": [
