@@ -348,6 +348,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " valor_tarificacion='" . $variable['valor_tarificacion'] . "',";
                 $cadenaSql .= " medio_pago='" . $variable['medio_pago'] . "',";
                 $cadenaSql .= " tipo_pago='" . $variable['tipo_pago'] . "',";
+                $cadenaSql .= " estrato_socioeconomico='" . $variable['estrato_socioeconomico'] . "',";
 
                 // $cadenaSql .= " cuenta_suscriptor='" . $variable ['cuenta_suscriptor'] . "', ";
                 $cadenaSql .= " velocidad_internet='" . $variable['velocidad_internet'] . "', ";

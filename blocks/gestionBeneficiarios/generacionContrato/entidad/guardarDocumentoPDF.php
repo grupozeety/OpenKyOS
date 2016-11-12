@@ -132,6 +132,7 @@ class GenerarDocumento {
 
     }
     public function estruturaDocumento() {
+
         unset($requisitos);
         $arreglo = array(
             'perfil_beneficiario' => $_REQUEST['tipo_beneficiario'],
@@ -262,6 +263,16 @@ class GenerarDocumento {
 
         }
 
+        $telefono = ($this->beneficiario['telefono'] != '0') ? $this->beneficiario['telefono'] : " ";
+
+        {
+
+            $tipo_vip = ($this->beneficiario['estrato'] == 1) ? "<b>X</b>" : "";
+            $tipo_residencial_1 = ($this->beneficiario['estrato'] == 2) ? (($this->beneficiario['estrato_socioeconomico'] == 1) ? "<b>X</b>" : "") : "";
+            $tipo_residencial_2 = ($this->beneficiario['estrato'] == 2) ? (($this->beneficiario['estrato_socioeconomico'] == 2) ? "<b>X</b>" : "") : "";
+
+        }
+
         {
 
             $contenidoPagina = "
@@ -303,28 +314,34 @@ class GenerarDocumento {
                             <br>
                             <br>
                                     <table  style='width:100%;' >
-                                        <tr>
-                                               <td align='center' style='width:30%;border=none;' >
-                                                <img src='" . $this->rutaURL . "frontera/css/imagen/vivedigital.png'  width='125' height='40'>
+                                          <tr>
+                                                <td align='center' style='width:100%;border=none;' >
+                                                <img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='35'>
                                                 </td>
-                                               <td align='center' style='width:70%;border=none;' >
-                                                <font size='40px'><b>CONTRATO DE PRESTACIÓN DE SERVICIOS DE COMUNICACIONES</b></font>
-
-                                            </td>
+                                                <tr>
+                                                <td style='width:100%;border:none;text-align:center;font-size:9px;'>><b>CONTRATO DE APORTE N° 0681 DE 2015<br>CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA</b></td>
+                                                </tr>
+                                                <tr>
+                                                <td style='width:100%;border:none;text-align:center;font-size:9px;'><br><br><br><b>CONTRATO DE APORTE N° 0681 DE 2015<br>CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA</b></td>
+                                                </tr>
+                                                <tr>
+                                                <td style='width:100%;border:none;text-align:center;font-size:9px;'><b>PROYECTO CONEXIONES DIGITALES II</b></td>
+                                                </tr>
                                         </tr>
                                     </table>
 
                         </page_header>";
 
             $contenidoPagina .= "
+            <br>
+            <br>
 
     <table style='width:100%;'>
                         <tr>
-                            <td style='width:35%;text-align=center;border:none'> </td>
-                            <td style='width:30%;text-align=center;border:none'>
+                            <td style='width:100%;text-align=center;border:none'>
                                     <table style='width:100%;'>
                                         <tr>
-                                            <td style='width:100%;border:none;text-align:center'><b>COMPRAVENTA DE SERVICIOS</b></td>
+                                         <td style='width:100%;border:none;text-align:center'><b>CONTRATO DE PRESTACIÓN DE SERVICIOS DE COMUNICACIONES</b></td>
                                         </tr>
                                     </table>
                             </td>
@@ -358,99 +375,91 @@ class GenerarDocumento {
                         </tr>
                     </table>
                     <br>
-                    <P style='text-align:justify;font-size:10px'>
-   Entre LA CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA, en adelante POLITÉCNICA, entidad sin ánimo de lucro, domiciliada en la ciudad de Bogotá D.C., por una parte, y por la otra, la persona identificada como USUARIO, cuyos datos son los registrados a continuación, quien ha leído y aceptado en todos sus términos el presente documento y sus respectivos anexos, hemos convenido celebrar el presente CONTRATO DE SERVICIOS DE COMUNICACIONES, con el objeto de establecer las condiciones técnicas, jurídicas y económicas que regirán la prestación al USUARIO de servicios de comunicaciones, específicamente Internet fijo, en condiciones de calidad y eficiencia, a cambio de un precio en dinero, el cual se regirá por lo dispuesto en el Anexo Técnico del Contrato de Aporte N° 681 de 2016 y al documento de recomendaciones de la CRC \"CONEXIONES DIGITALES Esquema para la implementación de subsidios e Incentivos para el acceso a Internet de Última milla\", la ley 1341/09, Resolución 3066/11 de la CRC, la regulación y reglamentación que expidan la CRC, el Min TIC y la SuperIndustria y Comercio, según su competencia, condiciones y anexos del presente contrato, en el marco del Contrato de Aporte N° 681 de 2015, y en las normas que la modifiquen o deroguen.  EL USUARIO, al iniciar el (los) procedimiento (s) de suscripción para el (los) plan (es) del Servicio de comunicaciones en la modalidad postpago y prepago, según aplique, (en lo sucesivo el Servicio) a través del medio que POLITÉCNICA ponga a disposición del USUARIO; y al suministrar sus datos personales, se entiende que acuerda suscribirse a uno de los planes ofrecidos por POLITÉCNICA del Servicio y expresa su entera e incondicional aceptación, a los términos y condiciones contenidos en el presente contrato y en los anexos que lo integran (en lo sucesivo denominado, el Contrato) para disponer el Servicio.
+    <P style='text-align:justify;font-size:10px'>
+  Entre LA CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA, en adelante POLITÉCNICA, entidad sin ánimo de lucro, domiciliada en la ciudad de Bogotá D.C, por una parte, y por la otra, la persona identificada como USUARIO, cuyos datos son los registrados a continuación, quien ha leído y aceptado en todos sus términos el presente documento y sus respectivos anexos, hemos convenido celebrar el presente CONTRATO DE SERVICIOS DE COMUNICACIONES, con el objeto de establecer las condiciones técnicas, jurídicas y económicas que regirán la prestación al USUARIO de servicios de Internet fijo, en condiciones de calidad y eficiencia, el cual se regirá por lo dispuesto en el Anexo Técnico del Contrato de Aporte N° 681 de 2015 y al documento de recomendaciones de la CRC “CONEXIONES DIGITALES Esquema para la implementación de subsidios e Incentivos para el acceso a Internet de Última milla”, la ley 1341/09, Resolución 3066/11 de la CRC, la regulación y reglamentación que expidan la CRC, el Min TIC y la SuperIndustria y Comercio, según su competencia, condiciones y anexos del presente contrato, en el marco del Contrato de Aporte N° 681 de 2015. y en las normas que la modifiquen o deroguen.
                     </P>
                     <table style='width:100%;'>
-                        <tr>
-                            <td rowspan='6' style='width:15%;text-align=center;'><b>DATOS ABONADO SUSCRIPTOR</b></td>
+                           <tr>
+                            <td rowspan='9' style='width:15%;text-align=center;'><b>DATOS USUARIO</b></td>
                             <td style='width:15%;text-align=center;'><b>Nombres</b></td>
-                            <td style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['nombres'] . "</td>
-                            <td style='width:10%;text-align=center;'><b>Primer Apellido</b></td>
-                            <td style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['primer_apellido'] . "</td>
-                            <td style='width:5%;text-align=center;'><b>Segundo Apellido</b></td>
-                            <td colspan='2' style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['segundo_apellido'] . "</td>
+                            <td colspan='3' style='width:70%;text-align=center;'><b>" . $this->beneficiario['nombres'] . " " . $this->beneficiario['primer_apellido'] . " " . $this->beneficiario['segundo_apellido'] . "</b></td>
                         </tr>
                         <tr>
-                            <td style='width:15%;text-align=center;'><b>Tipo Documento</b></td>
-                            <td style='width:5%;text-align=center;font-size:9px;'>CC " . $cedula . "</td>
-                            <td style='width:5%;text-align=center;font-size:9px;'>TI " . $targeta . "</td>
-                            <td style='width:10%;text-align=center;'><b>Número</b></td>
-                            <td style='width:15%;text-align=center;font-size:9px;'>" . $this->beneficiario['numero_identificacion'] . "</td>
-                            <td style='width:15%;text-align=center;'><b>Lugar/Fecha Expedición</b></td>
-                            <td style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['fecha_expedicion'] . "</td>
+                            <td style='width:15%;text-align=center;'><b>Número Identificación</b></td>
+                            <td colspan='3' style='width:15%;text-align=center;'><b>" . number_format($this->beneficiario['numero_identificacion'], 0, '', '.') . "</b></td>
+                        </tr>
+                        <tr>
+                            <td style='width:15%;text-align=center;'><b>Dirección Domicilio</b></td>
+                            <td colspan='3' style='width:70%;text-align=center;'>" . $this->beneficiario['direccion_domicilio'] . " " . $anexo_dir . "</td>
                         </tr>
                          <tr>
-                            <td style='width:15%;text-align=center;'><b>Dirección Domicilio</b></td>
-                            <td colspan='6' style='width:70%;text-align=center;font-size:9px;'>" . $this->beneficiario['direccion_domicilio'] . " " . $anexo_dir . "</td>
-                        </tr>
-                       <tr>
                             <td style='width:15%;text-align=center;'><b>Departamento</b></td>
-                            <td colspan='1'style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['nombre_departamento'] . "</td>
+                            <td style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_departamento'] . "</td>
                             <td style='width:10%;text-align=center;'><b>Municipio</b></td>
-                            <td colspan='1' style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['nombre_municipio'] . "</td>
-                           <td colspan='1'style='width:5%;text-align=center;'><b>Urbanización</b></td>
-                            <td colspan='2'style='width:20%;text-align=center;font-size:9px;'>" . $urbanizacion['nombre'] . "</td>
+                            <td style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_municipio'] . "</td>
+                         </tr>
+                         <tr>
+                            <td style='width:15%;text-align=center;'><b>Urbanización</b></td>
+                            <td colspan='3'style='width:70%;text-align=center;'>" . $urbanizacion['nombre'] . "</td>
                         </tr>
                         <tr>
                             <td style='width:15%;text-align=center;'><b>Estrato</b></td>
-                            <td style='width:5%;text-align=center;font-size:9px;'>VIP</td>
-                            <td style='width:5%;text-align=center;font-size:9px;'>1 Residencial</td>
-                            <td style='width:5%;text-align=center;font-size:9px;'>2 Residencial</td>
-                           <td colspan='1'style='width:5%;text-align=center;'><b>Barrio</b></td>
-                            <td colspan='2'style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['barrio'] . " </td>
+                            <td style='text-align=center;'>VIP (" . $tipo_vip . ")</td>
+                            <td style='text-align=center;'>1 Residencial (" . $tipo_residencial_1 . ")</td>
+                            <td style='text-align=center;'>2 Residencial (" . $tipo_residencial_2 . ")</td>
+                        </tr>
+                        <tr>
+                           <td style='width:15%;text-align=center;'><b>Barrio</b></td>
+                           <td colspan='3'style='width:70%;text-align=center;'>" . $this->beneficiario['barrio'] . " </td>
                         </tr>
                          <tr>
                             <td style='width:15%;text-align=center;'><b>Telefono</b></td>
-                             <td colspan='1' style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['telefono'] . "</td>
+                            <td style='width:10%;text-align=center;'>" . $telefono . "</td>
                             <td style='width:10%;text-align=center;'><b>Celular</b></td>
-                            <td style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['celular'] . "</td>
-                             <td colspan='1' style='width:5%;text-align=center;'><b>Correo Electrónico</b></td>
-                            <td colspan='2'style='width:10%;text-align=center;font-size:9px;'>" . $this->beneficiario['correo'] . "</td>
+                            <td style='width:10%;text-align=center;'>" . $this->beneficiario['celular'] . "</td>
                         </tr>
-                    </table>
-                    <br>
-                    <table style='width:100%;'>
                         <tr>
+                            <td style='width:15%;text-align=center;'><b>Correo Electrónico</b></td>
+                            <td colspan='3'style='width:70%;text-align=center;'>" . $this->beneficiario['correo'] . "</td>
+                        </tr>
+
+                    </table>
+                    <table style='width:100%;'>
+                       <tr>
                             <td rowspan='2' style='width:15%;text-align=center;'><b>DATOS SERVICIO</b></td>
                             <td style='width:30%;text-align=center;'><b>Velocidad Internet</b></td>
-                            <td style='width:15%;text-align=right;font-size:9px;'>" . $this->beneficiario['velocidad_internet'] . " MB</td>
+                            <td style='width:15%;text-align=right;'>" . $this->beneficiario['velocidad_internet'] . " MB</td>
                             <td style='width:20%;text-align=center;'><b>Vigencia Servicio</b></td>
-                            <td style='width:20%;text-align=center;font-size:9px;'><b>15 Meses</b></td>
+                            <td style='width:20%;text-align=center;'><b>15 Meses</b></td>
                         </tr>
                         <tr>
                             <td style='width:30%;text-align=center;'><b>Valor Mensual Servicio Básico </b></td>
-                            <td style='width:15%;text-align=center;font-size:9px;'><b>$ " . $this->beneficiario['valor_tarificacion'] . "</b></td>
+                            <td style='width:15%;text-align=center;'><b>$ " . $this->beneficiario['valor_tarificacion'] . "</b></td>
                             <td style='width:20%;text-align=center;'><b>Valor Total</b></td>
-                            <td style='width:20%;text-align=center;font-size:9px;'><b>$ " . $this->beneficiario['valor_tarificacion'] * 15 . "</b></td>
+                            <td style='width:20%;text-align=center;'><b>$ " . $this->beneficiario['valor_tarificacion'] * 15 . "</b></td>
                         </tr>
                      </table>
-                     <br>
                       <table style='width:100%;'>
                          <tr>
                             <td rowspan='3' style='width:15%;text-align=center;'><b>DATOS FACTURACIÓN</b></td>
                             <td style='width:35%;text-align=center;'><b>Forma de Pago</b></td>
-                            <td style='width:5%;text-align=center;font-size:9px;'>Prepago (<b>" . $tipo_prepago . "</b>)</td>
-                            <td style='width:5%;text-align=center;font-size:9px;'>Postpago (<b>" . $tipo_pospago . "</b>)</td>
-                            <td style='width:5%;text-align=center;font-size:9px;'>Anticipado (<b>" . $tipo_anticipado . "</b>)</td>
+                            <td style='width:5%;text-align=center;'>Prepago (<b>" . $tipo_prepago . "</b>)</td>
+                            <td style='width:5%;text-align=center;'>Postpago (<b>" . $tipo_pospago . "</b>)</td>
+                            <td style='width:5%;text-align=center;'>Anticipado (<b>" . $tipo_anticipado . "</b>)</td>
                         </tr>
                         <tr>
                             <td style='width:35%;text-align=center;'><b>Mecanismos de Pago</b></td>
-                            <td style='width:5%;text-align=center;font-size:9px;'>Virtual (<b>" . $medio_virtual . "</b>)</td>
-                            <td  colspan='2'  style='width:5%;text-align=center;font-size:9px;'>Efectivo (<b>" . $medio_efectivo . "</b>)</td>
+                            <td style='width:5%;text-align=center;'>Virtual (<b>" . $medio_virtual . "</b>)</td>
+                            <td  colspan='2'  style='width:5%;text-align=center;'>Efectivo (<b>" . $medio_efectivo . "</b>)</td>
                         </tr>
                         <tr>
                             <td style='width:35%;text-align=center;'><b>TOTAL A PAGAR FACTURA MENSUAL</b></td>
-                            <td  colspan='3' style='width:50%;text-align=center;font-size:9px;'><b>$ " . $this->beneficiario['valor_tarificacion'] . "</b></td>
+                            <td  colspan='3' style='width:50%;text-align=center;'><b>$ " . $this->beneficiario['valor_tarificacion'] . "</b></td>
                         </tr>
                         </table>
-                     <br>
-                     <br>
-                     <br>
-                     <br>
                     <table style='width:100%;'>
                         <tr>
-                            <td text-align=center;'><b>DECLARACIONES DEL SUSCRIPTOR</b></td>
+                            <td text-align=center;'><b>DECLARACIONES DEL USUARIO</b></td>
                         </tr>
                         <tr>
                             <td text-align=justify;font-size:9.5px'>
@@ -482,6 +491,9 @@ class GenerarDocumento {
                         </tr>
                     </table>
                     <nobreak>
+                    <br>
+                    <br>
+                    <br>
                     <table>
                         <tr>
                             <td text-align=center;'><b>RÉGIMEN DE OBLIGACIONES DEL USUARIO EN RELACIÓN CON LOS SERVICIOS PRESTADOS</b></td>
@@ -533,13 +545,18 @@ class GenerarDocumento {
                     ";
 
             $contenidoPagina .= "
+           <br>
         <br>
         <br>
         <br>
         <br>
         <br>
         <br>
-
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
 
  <table style='width:100%;border:none'>
             <tr>
@@ -547,18 +564,15 @@ class GenerarDocumento {
                      <table style='width:100%;border:none'>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>FIRMA :</td>
-                    <td style='width:25%;text-align:left;border:none'>" . $firma_beneficiario . "</td>
-                    <td style='width:50%;text-align:center;border:none'> </td>
+                   <td style='width:75%;text-align:left;border:none'>" . $firma_beneficiario . "</td>
                     </tr>
                     <tr>
-                    <td style='width:25%;text-align:left;border:none'>Nombre Suscriptor:</td>
-                    <td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['nombres'] . " " . $this->beneficiario['primer_apellido'] . " " . $this->beneficiario['segundo_apellido'] . "</td>
-                    <td style='width:50%;text-align:center;border:none'> </td>
+                    <td style='width:25%;text-align:left;border:none'>Nombre Usuario:</td>
+                    <td style='width:75%;text-align:left;border:none'>" . $this->beneficiario['nombres'] . " " . $this->beneficiario['primer_apellido'] . " " . $this->beneficiario['segundo_apellido'] . "</td>
                     </tr>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>C.C :</td>
-                    <td style='width:25%;text-align:left;border:none'>" . $this->beneficiario['numero_identificacion'] . "</td>
-                    <td style='width:50%;text-align:center;border:none'> </td>
+                    <td style='width:75%;text-align:left;border:none'>" . number_format($this->beneficiario['numero_identificacion'], 0, '', '.') . "</td>
                     </tr>
                     </table>
                 </td>
@@ -569,14 +583,6 @@ class GenerarDocumento {
         <br>
         <br>
         <br>
-        <table style='width:100%;border:none'>
-                        <tr>
-                            <td text-align=center;' style='width:100%;'><b>OBSERVACIONES DEL OPERADOR</b></td>
-                        </tr>
-                        <tr>
-                            <td style='width:100%;'>Nombre Asesor:&nbsp;&nbsp;" . $comisionador . "<br><br><br></td>
-                        </tr>
-        </table>
         </nobreak>";
 
             if ($this->beneficiario['soporte'] != '') {
