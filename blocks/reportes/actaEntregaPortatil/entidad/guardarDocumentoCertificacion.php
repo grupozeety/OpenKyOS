@@ -190,6 +190,7 @@ class GenerarDocumento {
 		$firma_beneficiario = $firmaBeneficiario;
 		
 		$firma_contratista = $firmacontratista;
+		
 		$fecha = explode ( "-", $_REQUEST ['fecha_entrega'] );
 		
 		$dia = $fecha [0];
@@ -280,7 +281,17 @@ class GenerarDocumento {
                                         </tr>
                                     </table>
 
-                        </page_header>";
+                        </page_header>
+                        
+                        <page_footer>
+							<table  style='width:100%;' >
+								<tr>
+									<td align='center' style='width:100%;border=none;' >
+										<img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='35'>
+									</td>
+								</tr>
+							</table>
+   					 	</page_footer>";
 		
 		$contenidoPagina .= "
 							

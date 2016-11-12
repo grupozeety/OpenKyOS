@@ -149,9 +149,180 @@ $urbanizacion = $urbanizacion[0];
 
         }
 
-        $firma_beneficiario = (isset($archivo_datos['ruta_archivo'])) ? "<img src='" . $archivo_datos['ruta_archivo'] . "'  width='125' height='40'>" : " ";
+        {
+        		
+        	{
+        		$firmaBeneficiario = base64_decode ( $_REQUEST ['firmaBeneficiario'] );
+        		$firmaBeneficiario = str_replace ( "image/svg+xml,", '', $firmaBeneficiario );
+        		$firmaBeneficiario = str_replace ( '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario );
+        		$firmaBeneficiario = str_replace ( "svg", 'draw', $firmaBeneficiario );
+        	}
+        		
+        	{
+        
+        		$firmacontratista = base64_decode ( $_REQUEST ['firmaInstalador'] );
+        		$firmacontratista = str_replace ( "image/svg+xml,", '', $firmacontratista );
+        		$firmacontratista = str_replace ( '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista );
+        		$firmacontratista = str_replace ( "svg", 'draw', $firmacontratista );
+        	}
+        		
+        	$firmaBeneficiario = str_replace ( "height", 'height="30" pasos2', $firmaBeneficiario );
+        	$firmaBeneficiario = str_replace ( "width", 'width="80" pasos1', $firmaBeneficiario );
+        	$firmacontratista = str_replace ( "height", 'height="30" pasos2', $firmacontratista );
+        	$firmacontratista = str_replace ( "width", 'width="80" pasos1', $firmacontratista );
+        		
+        	$cadena = $_SERVER ['HTTP_USER_AGENT'];
+        	$resultado = stristr ( $cadena, "Android" );
+        		
+        	if ($resultado) {
+        		$firmacontratista = str_replace ( "<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista );
+        		$firmacontratista = str_replace ( "/>", ' /></g>', $firmacontratista );
+        		$firmaBeneficiario = str_replace ( "<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario );
+        		$firmaBeneficiario = str_replace ( "/>", ' /></g>', $firmaBeneficiario );
+        	} else {
+        		$firmacontratista = str_replace ( "<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista );
+        		$firmacontratista = str_replace ( "/>", ' /></g>', $firmacontratista );
+        		$firmaBeneficiario = str_replace ( "<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario );
+        		$firmaBeneficiario = str_replace ( "/>", ' /></g>', $firmaBeneficiario );
+        	}
+        }
+        
+        ini_set ( 'xdebug.var_display_max_depth', 20000 );
+        ini_set ( 'xdebug.var_display_max_children', 20000 );
+        ini_set ( 'xdebug.var_display_max_data', 20000 );
+        
+        $firma_beneficiario = $firmaBeneficiario;
+        
+        $firma_contratista = $firmacontratista;
+        
+        $fecha = explode("-",$_REQUEST['fecha_instalacion']);
+		
+		$dia = $fecha[0];
+		$mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+		$mes = $mes[$fecha[1]];
+		$anno = $fecha[2];
+		
+		$vip = "";
+		$est1 = "";
+		$est2 = "";
+		
+		switch ($_REQUEST['tipo_beneficiario']) {
+		
+			case '1':
+				$vip = "<u> X </u>";
+				$est1 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+				$est2 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+				break;
+		
+			case '2':
+		
+				if ($_REQUEST['estrato'] == '1') {
+					$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est1 = "<u> X </u>";
+					$est2 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+				} elseif ($_REQUEST['estrato'] == '2') {
+					$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est1 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est2 = "<u> X </u>";
+				}
+		
+				break;
+		
+			case '3':
+				if ($_REQUEST['estrato'] == '1') {
+					$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est1 = "<u> X </u>";
+					$est2 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+				} elseif ($_REQUEST['estrato'] == '2') {
+					$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est1 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est2 = "<u> X </u>";
+				}
+		
+				break;
+		
+		}
 
-        setlocale ( LC_ALL, "es_CO.UTF-8" );
+// 		if($_REQUEST['tipo_beneficiario'] == 1){
+// 			$vip = "<u> X </u>";
+// 			$est1 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 			$est2 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 		}else if($_REQUEST['tipo_beneficiario'] == 2){
+// 			$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 			$est1 = "<u> X </u>";
+// 			$est2 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 		}else if($_REQUEST['tipo_beneficiario'] == 3){
+// 			$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 			$est1 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 			$est2 = "<u> X </u>";
+// 		}
+		
+		$cc = "";
+		$ce = "";
+		
+		if($_REQUEST['tipo_documento'] == 1){
+			$cc = "X";
+		}else if($_REQUEST['tipo_documento'] == 2){
+			$ce = "X";
+		}
+		
+		
+		$localizacion = explode(",", $_REQUEST['geolocalizacion']);
+		
+		$localizacion[0] = trim($localizacion[0]);
+		$localizacion[1] = trim($localizacion[1]);
+		
+		/**
+		 * Calculo Latitud GMS
+		 **/
+		$latitud = $localizacion[0];
+		
+		$latitud_grados = reset(explode(".", $latitud));
+		
+		$latitud_minutos_dc = (((($latitud - $latitud_grados) * 60) < 0) ? (($latitud - $latitud_grados) * 60) * -1 : (($latitud - $latitud_grados) * 60));
+		
+		$latitud_minutos = reset(explode(".", $latitud_minutos_dc));
+		
+		$latitud_segundos = (($latitud_minutos_dc - $latitud_minutos) * 60 < 0) ? ($latitud_minutos_dc - $latitud_minutos) * 60 * -1 : ($latitud_minutos_dc - $latitud_minutos) * 60;
+		
+		/**
+		 * Calculo longitud GMS
+		 **/
+		$longitud = $localizacion[1];
+		
+		$longitud_grados = reset(explode(".", $longitud));
+		
+		$longitud_minutos_dc = (((($longitud - $longitud_grados) * 60) < 0) ? (($longitud - $longitud_grados) * 60) * -1 : (($longitud - $longitud_grados) * 60));
+		
+		$longitud_minutos = reset(explode(".", $longitud_minutos_dc));
+		
+		$longitud_segundos = (($longitud_minutos_dc - $longitud_minutos) * 60 < 0) ? ($longitud_minutos_dc - $longitud_minutos) * 60 * -1 : ($longitud_minutos_dc - $longitud_minutos) * 60;
+		
+		switch ($_REQUEST['tipo_beneficiario']) {
+		
+			case '1':
+				$valor_tarificacion = '6500';
+				break;
+		
+			case '2':
+		
+				$valor_tarificacion = '0';
+		
+				if ($_REQUEST['estrato'] == '1') {
+					$valor_tarificacion = '12600';
+				} elseif ($_REQUEST['estrato'] == '2') {
+					$valor_tarificacion = '17600';
+				}
+		
+				break;
+		
+			case '3':
+				$valor_tarificacion = $_REQUEST['valor_tarificacion'];
+				break;
+		
+		}
+		
+		setlocale ( LC_ALL, "es_CO.UTF-8" );
 		$contenidoPagina = "
                             <style type=\"text/css\">
                                 table {
@@ -199,23 +370,33 @@ $urbanizacion = $urbanizacion[0];
                                         </tr>
                                     </table>
 
-                        </page_header>";
+                        </page_header>
+                        
+                        <page_footer>
+							<table  style='width:100%;' >
+								<tr>
+									<td align='center' style='width:100%;border=none;' >
+										<img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='35'>
+									</td>
+								</tr>
+							</table>
+   					 	</page_footer>";
 		
 		$contenidoPagina .= "
         			<h4 align='center'> ACTA DE ENTREGA DE SERVICIO DE BANDA ANCHA AL USUARIO </h4> 
-                    <b>PRODUCTO	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b><br><br>
+                    <b>PRODUCTO	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;" . $_REQUEST['producto'] . "<br><br>
         			<b>CLIENTE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> &nbsp;&nbsp;" . $_REQUEST['nombres'] . "&nbsp;" . $_REQUEST['primer_apellido'] . "&nbsp;" . $_REQUEST['segundo_apellido'] . "<br><br>
         			<b>N° CEDULA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> &nbsp;&nbsp;".  $_REQUEST['numero_identificacion'] . "<br><br>
         			<b>FECHA INSTALACIÓN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['fecha_instalacion'] . "<br><br>
-        			<b>TIPO DE VIVIENDA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['tipo_beneficiario'] . "<br><br>
-        			<b>DATOS DEL SERVICIO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;<br><br>
+        			<b>TIPO DE VIVIENDA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;&nbsp;".  "Estrato 1:&nbsp;" . $est1 . "&nbsp;" . "Estrato 2:&nbsp;" . $est2 . "&nbsp;" . "VIP:&nbsp;" . $vip . "<br><br>
+        			<b>DATOS DEL SERVICIO</b><br><br>
         			<b>DIRECCIÓN DEL PREDIO &nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['direccion'] . "<br><br>
 	        		<b>DEPARTAMENTO	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['departamento'] . "<br><br>
 	        		<b>MUNICIPIO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['municipio'] . "<br><br>
 	        		<b>NOMBRE DEL PROYECTO &nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['urbanizacion'] . "<br><br>
 	        		<b>CODIGO DANE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['codigo_dane'] . "<br><br>
-	        		<b>LATITUD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['contacto'] . "<br><br>
-	        		<b>LONGITUD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['contacto'] . "<br><br>
+	        		<b>LATITUD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $latitud_grados . "°&nbsp;" . $latitud_minutos . "'&nbsp;" . $latitud_segundos . "''" . "<br><br>
+	        		<b>LONGITUD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $longitud_grados . "°&nbsp;" . $longitud_minutos . "'&nbsp;" . $longitud_segundos . "''" . "<br><br>
 	        		<b>CONTACTO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['contacto'] . "<br><br>
 	        		<b>TELÉFONO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['telefono'] . "<br><br>
 	        		<b>E-MAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $_REQUEST['correo'] . "<br><br>
@@ -236,21 +417,21 @@ $urbanizacion = $urbanizacion[0];
                        	</tr>
                         <tr>
                         	<td align='center'style='width:14%;'>ESCLAVO</td>
-                        	<td align='center'style='width:16%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-				 			<td align='center'style='width:14%;'> </td>
-							<td align='center'style='width:14%;'> </td>
+                        	<td align='center'style='width:16%;'>".  $_REQUEST['numero_act_esc'] . " </td>
+                            <td align='center'style='width:14%;'>".  $_REQUEST['mac_esc'] . " </td>
+                            <td align='center'style='width:14%;'>".  $_REQUEST['serial_esc'] . " </td>
+                            <td align='center'style='width:14%;'>".  $_REQUEST['marca_esc'] . " </td>
+				 			<td align='center'style='width:14%;'>".  $_REQUEST['cant_esc'] . " </td>
+							<td align='center'style='width:14%;'>".  $_REQUEST['ip_esc'] . " </td>
                         </tr>
 						<tr>
                         	<td align='center'style='width:14%;'>COMPUTADOR</td>
-                        	<td align='center'style='width:16%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-				 			<td align='center'style='width:14%;'> </td>
-							<td align='center'style='width:14%;'> </td>
+                        	<td align='center'style='width:16%;'>".  $_REQUEST['numero_act_comp'] . " </td>
+                            <td align='center'style='width:14%;'>".  $_REQUEST['mac_comp'] . " </td>
+                            <td align='center'style='width:14%;'>".  $_REQUEST['serial_comp'] . " </td>
+                            <td align='center'style='width:14%;'>".  $_REQUEST['marca_comp'] . " </td>
+				 			<td align='center'style='width:14%;'>".  $_REQUEST['cant_comp'] . " </td>
+							<td align='center'style='width:14%;'>".  $_REQUEST['ip_comp'] . " </td>
                         </tr>
                     </table>
 					<br>
@@ -265,52 +446,52 @@ $urbanizacion = $urbanizacion[0];
                        	</tr>
                         <tr>
                         	<td align='rigth'style='width:20%;'><b>Velocidad de Subida</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>Mbps </td>
-                            <td align='center'style='width:25%;'> </td>
+                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_vs'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_vs'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_vs'] . "</td>
+                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_vs'] . " </td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Velocidad de Bajada</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>Mbps </td>
-                            <td align='center'style='width:25%;'> </td>
+                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_vb'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_vb'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_vb'] . " </td>
+                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_vb'] . " </td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Ping 1</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>ms </td>
-                            <td align='center'style='width:25%;'> </td>
+                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_p1'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_p1'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_p1'] . " </td>
+                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_p1'] . " </td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Ping 2</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>ms </td>
-                            <td align='center'style='width:25%;'>www.mintic.gov.co </td>
+                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_p2'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_p2'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_p2'] . "</td>
+                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_p2'] . " </td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Ping 3</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>ms </td>
-                            <td align='center'style='width:25%;'>http://www.louvre.fr/en </td>
+                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_p3'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_p3'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_p3'] . " </td>
+                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_p3'] . "</td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Traceroute</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>estado conexión </td>
-                            <td align='center'style='width:25%;'>https://www.wikipedia.org/ </td>
+                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_tr1'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_tr1'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_tr1'] . "</td>
+                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_tr1'] . "</td>
                         </tr>
 						<tr>
                         	<td align='rigth'style='width:20%;'><b>Traceroute</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>Paso NAP Colombia </td>
-                            <td align='center'style='width:25%;'>https://www.sivirtual.gov.co/ </td>
+                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_tr2'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_tr2'] . " </td>
+                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_tr2'] . "</td>
+                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_tr2'] . "</td>
                         </tr>
                     </table>
 					<br>
@@ -325,10 +506,10 @@ $urbanizacion = $urbanizacion[0];
 					<br>
 					<table width:100%;>
                         <tr>
-							<td align='justify' style='padding: 5px 5px 5px 5px;width:100%;'>Yo________________________________________ identificado con cédula de ciudadanía número ___________, como beneficiario del proyecto “Conexiones  Digitales II” – Proyecto Conexiones Digitales redes de acceso última milla para la masificación de accesos de banda ancha en viviendas de interés prioritario, hogares en estratos 1 y 2, – Ministerio de las Tecnologías de la Información y las Comunicaciones, declaro que conozco claramente las condiciones de prestación del servicio de acceso a Internet en banda ancha que adquirí; que la tarifa mensual a pagar por dicho servicio es _____ pesos y que esta condición aplica por un periodo de 15 meses. Igualmente manifiesto que este predio pertenece al estrato ___ y no he contado con el servicio de internet en el mismos en los últimos seis (6) meses. 
+							<td align='justify' style='padding: 5px 5px 5px 5px;width:100%;'>Yo&nbsp;" . $_REQUEST['nombres'] . "&nbsp;" . $_REQUEST['primer_apellido'] . "&nbsp;" . $_REQUEST['segundo_apellido'] .  "&nbsp;" . "identificado con cédula de ciudadanía número" .  "&nbsp;" . $_REQUEST['numero_identificacion'] .  ", como beneficiario del proyecto “Conexiones  Digitales II” – Proyecto Conexiones Digitales redes de acceso última milla para la masificación de accesos de banda ancha en viviendas de interés prioritario, hogares en estratos 1 y 2, – Ministerio de las Tecnologías de la Información y las Comunicaciones, declaro que conozco claramente las condiciones de prestación del servicio de acceso a Internet en banda ancha que adquirí; que la tarifa mensual a pagar por dicho servicio es &nbsp;$" . $valor_tarificacion . "&nbsp; pesos y que esta condición aplica por un periodo de 15 meses. Igualmente manifiesto que este predio pertenece al estrato &nbsp;" . $_REQUEST['estrato'] . "&nbsp; y no he contado con el servicio de internet en el mismos en los últimos seis (6) meses. 
 								Asimismo me comprometo a informar oportunamente a la Corporación Politécnica Nacional de Colombia. sobre cualquier daño, pérdida o afectación de los equipos antes mencionados.
 								Acepta y reconozco que a la fecha he consultado o he sido informado por la Corporación Politécnica Nacional de Colombia sobre las condiciones mínimas requeridas para los equipos necesarios para hacer uso de los servicios contratados. 
-								Como constancia de recibo a satisfacción, se firma a los _________ días del mes de ______________ de 2016 en la ciudad de ________________.
+								Como constancia de recibo a satisfacción, se firma a los&nbsp;" . $dia . "&nbsp;días del mes de &nbsp;" . $mes . "&nbsp; de 2016 en la ciudad de &nbsp;" . $_REQUEST['ciudad_firma'] . "&nbsp;" . ".
 							</td>
                        	</tr>
 					</table>
@@ -353,20 +534,34 @@ $urbanizacion = $urbanizacion[0];
 							<td colspan='2' align='rigth' style='width:50%;'>Responsable de Instalación</td>
                        	</tr>
 						<tr>
-							<td rowspan='3' align='rigth' style='vertical-align:top;width:25%;color:#c5c5c5;'>" . $firma_beneficiario . "</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Nombre</td>
-							<td rowspan='3' align='rigth' style='vertical-align:top;width:25%;color:#c5c5c5;'>Firma</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Nombre</td>
+							<td rowspan='3' align='center' style='width:25%;'>$firmacontratista</td>
+							<td align='rigth' style='width:25%;'>" . $_REQUEST['contacto'] . "</td>
+							<td rowspan='3' align='center' style='width:25%;'>$firmaBeneficiario</td>
+							<td align='rigth' style='width:25%;'>" . $_REQUEST['nombre_ins'] . "</td>
 						</tr>
 						<tr>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>No. Identificación</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>No. Identificación</td>
+							<td align='rigth' style='width:25%;'>" . $_REQUEST['numero_identificacion_cont'] . "</td>
+							<td align='rigth' style='width:25%;'>" . $_REQUEST['identificacion_ins'] . "</td>
 						</tr>
 						<tr>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Celular</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Celular</td>
+							<td align='rigth' style='width:25%;'>" . $_REQUEST['celular'] . "</td>
+							<td align='rigth' style='width:25%;'>" . $_REQUEST['celular_ins'] . "</td>
 						</tr>
 					</table>";
+		
+		if ($_REQUEST['soporte'] != '') {
+		
+			$contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
+                                         <P style='text-align:center'><b>Soporte</b></P><br><br>";
+			$contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
+                                            <tr>
+                                                <td style='text-align:center;border:none;width:100%'>
+                                                    <img src='" . $_REQUEST['soporte'] . "'  width='500' height='500'>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                     ";
+		}
 		
 		$contenidoPagina .= "</page>";
 		

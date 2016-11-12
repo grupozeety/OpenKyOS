@@ -183,7 +183,7 @@ class GestionarContrato {
 
             case 'noinsertoInformacionCertificado':
                 $estilo_mensaje = 'error';     // information,warning,error,validation
-                $atributos["mensaje"] = '<b>Oh No!!!! <br>Error en generar el certificado<b>';
+                $atributos["mensaje"] = 'Error al generar el Acta de Entrega<b>';
                 break;
 
         }
@@ -212,11 +212,11 @@ class GestionarContrato {
         switch ($_REQUEST['mensaje']) {
 
             case 'insertoInformacionContrato':
-                $mensaje = "Exito en el registro información del contrato";
+                $mensaje = "Exito en el registro información del Acta de Entrega";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
             case 'errorGenerarArchivo':
-                $mensaje = "Error en el registro de información del Contrato";
+                $mensaje = "Error en el registro de información del Acta de Entrega";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
 
                 break;

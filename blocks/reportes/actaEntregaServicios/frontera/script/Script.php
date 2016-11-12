@@ -18,6 +18,8 @@ $funcion[$indice++] = "jquery.autocomplete.js";
 $funcion[$indice++] = "jquery.autocomplete.min.js";
 $funcion[$indice++] = "select2.min.js";
 $funcion[$indice++] = "modalLoad.js";
+$funcion[$indice++] = "jSignature.js";
+$funcion[$indice++] = "jSignature.CompressorSVG.js";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");
