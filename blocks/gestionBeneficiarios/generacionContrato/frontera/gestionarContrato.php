@@ -29,6 +29,9 @@ class GestionarContrato {
 
         $this->miSql = $sql;
 
+        $conexion = "interoperacion";
+        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
         $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
 
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
@@ -42,6 +45,19 @@ class GestionarContrato {
             $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
         }
     }
+
+    public function registrarContratoBorrador() {
+
+        $cadenaSql = $this->miSql->getCadenaSql('registrarContrato');
+        $registro_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        $this->datos_contrato = $registro_contrato;
+
+        $cadenaSql = $this->miSql->getCadenaSql('registrarServicio', $registro_contrato[0][0]);
+        $registro_servicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+    }
+
     public function formulario() {
 
         if (isset($_REQUEST['mensaje'])) {
@@ -58,14 +74,21 @@ class GestionarContrato {
 
         // Consulta información
 
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
+        $infoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        if (!$infoContrato) {
+
+            $this->registrarContratoBorrador();
+            $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
+            $infoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        }
+
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
         $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $infoBeneficiario = $infoBeneficiario[0];
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
-        $infoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        $infoContrato = $infoContrato[0];
-        //var_dump($infoContrato);
         if ($infoContrato['numero_identificacion'] != NULL) {
 
             $_REQUEST['mensaje'] = 'insertoInformacionContrato';
@@ -94,16 +117,16 @@ class GestionarContrato {
         $cadenaSql = $this->miSql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
         $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        if ($requisitos) {
-            foreach ($requisitos as $key => $value) {
+        /*  if ($requisitos) {
+        foreach ($requisitos as $key => $value) {
 
-                if ($value['obligatoriedad'] == '1' && is_null($value['nombre_documento'])) {
-                    $requisitosFaltantesObligatorios = true;
+        if ($value['obligatoriedad'] == '1' && is_null($value['nombre_documento'])) {
+        $requisitosFaltantesObligatorios = true;
 
-                }
-
-            }
         }
+
+        }
+        }*/
 
         // Rescatar los datos de este bloque
 
@@ -176,22 +199,26 @@ class GestionarContrato {
                     echo $this->miFormulario->campoTexto($atributos);
                     unset($atributos);
 
-                    if (isset($requisitosFaltantesObligatorios) && $requisitosFaltantesObligatorios && $infoContrato != NULL) {
+                    /*                   if (isset($requisitosFaltantesObligatorios) && $requisitosFaltantesObligatorios && $infoContrato != NULL) {
 
-                        $_REQUEST['mensaje'] = 'requisitosFaltantes';
-                        $this->mensaje();
+                    $_REQUEST['mensaje'] = 'requisitosFaltantes';
+                    $this->mensaje();
 
                     } elseif (is_null($infoContrato)) {
 
-                        $_REQUEST['mensaje'] = 'minimoRequisitos';
-                        $this->mensaje();
+                    $_REQUEST['mensaje'] = 'minimoRequisitos';
+                    $this->mensaje();
 
                     } else {
 
-                        $_REQUEST['mensaje'] = 'requisitosCompletos';
-                        $this->mensaje();
+                    $_REQUEST['mensaje'] = 'requisitosCompletos';
+                    $this->mensaje();
 
                     }
+                     */
+
+                    $_REQUEST['mensaje'] = 'Pregunta';
+                    $this->mensaje();
 
                     // ------------------Division para los botones-------------------------
                     $atributos["id"] = "botones";
@@ -461,6 +488,11 @@ class GestionarContrato {
             case 'minimoRequisitos':
                 $estilo_mensaje = 'error';     // information,warning,error,validation
                 $atributos["mensaje"] = '<b>Oh No!!!! <br>Cargue mínimo el documento de identidad para generar contrato<b>';
+                break;
+
+            case 'Pregunta':
+                $estilo_mensaje = 'success';     // information,warning,error,validation
+                $atributos["mensaje"] = '<b>¿Desea Generar el Contrato?<b>';
                 break;
 
             default:
