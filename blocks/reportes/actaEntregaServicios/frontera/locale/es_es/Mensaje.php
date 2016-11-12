@@ -19,6 +19,8 @@ $this->idioma['tipo_documento'] = 'Tipo Documento';
 
 $this->idioma['numero_identificacion'] = 'Número Identificación';
 
+$this->idioma['numero_identificacion_cont'] = 'Número Identificación';
+
 $this->idioma['ciudad'] = 'Ciudad o Municipio Expedición Identificación';
 
 $this->idioma['botonGenerarPdf'] = 'Generar Certificación';
@@ -59,6 +61,7 @@ $this->idioma['producto'] = 'Producto';
 
 $this->idioma['geolocalizacion'] = 'Geolocalización';
 
+$this->idioma['valor_tarificacion'] = 'Valor Tarificación';
 
 $this->idioma['botonGuardar'] = 'Generar Certificación';
 
@@ -66,14 +69,14 @@ $this->idioma['numero_act_esc'] = 'No. ACTIVO FIJO';
 $this->idioma['mac_esc'] = 'MAC';
 $this->idioma['serial_esc'] = 'SERIAL';
 $this->idioma['marca_esc'] = 'MARCA';
-$this->idioma['cant_esc'] = 'CATIDAD';
+$this->idioma['cant_esc'] = 'CANTIDAD';
 $this->idioma['ip_esc'] = 'IP';
 
 $this->idioma['numero_act_comp'] = 'No. ACTIVO FIJO';
 $this->idioma['mac_comp'] = 'MAC';
 $this->idioma['serial_comp'] = 'SERIAL';
 $this->idioma['marca_comp'] = 'MARCA';
-$this->idioma['cant_comp'] = 'CATIDAD';
+$this->idioma['cant_comp'] = 'CANTIDAD';
 $this->idioma['ip_comp'] = 'IP';
 
 $this->idioma['hora_prueba_vs'] = 'Hora de Prueba';
@@ -110,6 +113,12 @@ $this->idioma['hora_prueba_tr2'] = 'Hora de Prueba';
 $this->idioma['resultado_tr2'] = 'Resultado';
 $this->idioma['unidad_tr2'] = 'Unidad';
 $this->idioma['observaciones_tr2'] = 'Observaciones';
+
+$this->idioma['identificacion_ins'] = 'No. Identificación';
+$this->idioma['nombre_ins'] = 'Nombre';
+$this->idioma['celular_ins'] = 'Celular';
+
+$this->idioma['foto_soporte'] = 'Soporte';
 
 
 ?>

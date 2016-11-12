@@ -60,8 +60,8 @@ class FormProcessor {
 		
 		$this->procesarInformacion ();
 		
-		if ($this->archivos_datos != '') {
-			
+		if ($_REQUEST['firmaBeneficiario'] != '') {
+
 			include_once "guardarDocumentoCertificacion.php";
 		}
 		
@@ -73,14 +73,16 @@ class FormProcessor {
 	}
 	public function procesarInformacion() {
 		if ($this->archivos_datos === '') {
-			$url_firma_beneficiario = '';
-			// $url_firma_contratista = '';
+			$soporte = '';
 		} else {
-			
-			$url_firma_beneficiario = $this->archivos_datos [0] ['ruta_archivo'];
-			
-			// $url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
+			$soporte = $this->archivos_datos [0] ['ruta_archivo'];
 		}
+		
+		$_REQUEST['soporte'] = $soporte;
+		
+		$url_firma_beneficiario = $_REQUEST ['firmaBeneficiario'];
+		
+		$url_firma_contratista = $_REQUEST ['firmaInstalador'];
 		
 		$arreglo = array (
 				'id_beneficiario' => $_REQUEST ['id_beneficiario'],
@@ -89,7 +91,7 @@ class FormProcessor {
 				'segundo_apellido' => $_REQUEST ['segundo_apellido'],
 				'identificacion' => $_REQUEST ['numero_identificacion'],
 				'tipo_documento' => $_REQUEST ['tipo_documento'],
-				'fecha_instalacion' => $_REQUEST ['fecha_instalacion'],
+				'correo' => $_REQUEST ['correo'],
 				'fecha_instalacion' => $_REQUEST ['fecha_instalacion'],
 				'tipo_beneficiario' => $_REQUEST ['tipo_beneficiario'],
 				'estrato' => $_REQUEST ['estrato'],
@@ -100,6 +102,7 @@ class FormProcessor {
 				'municipio' => $_REQUEST ['municipio'],
 				'codigo_dane' => $_REQUEST ['codigo_dane'],
 				'contacto' => $_REQUEST ['contacto'],
+				'identificacion_cont' => $_REQUEST ['numero_identificacion_cont'],
 				'telefono' => $_REQUEST ['telefono'],
 				'celular' => $_REQUEST ['celular'],
 				'geolocalizacion' => $_REQUEST ['geolocalizacion'],
@@ -147,7 +150,12 @@ class FormProcessor {
 				'observaciones_tr2' => $_REQUEST ['observaciones_tr2'],
 				'ciudad_expedicion_identificacion' => $_REQUEST ['ciudad'],
 				'ciudad_firma' => $_REQUEST ['ciudad_firma'],
-				'ruta_firma' => $url_firma_beneficiario 
+				'nombre_ins' => $_REQUEST ['nombre_ins'],
+				'identificacion_ins' => $_REQUEST ['identificacion_ins'],
+				'celular_ins' => $_REQUEST ['celular_ins'],
+				'url_firma_contratista' => $url_firma_contratista,
+				'url_firma_beneficiario' => $url_firma_beneficiario,
+				'soporte' => $soporte 
 		);
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
