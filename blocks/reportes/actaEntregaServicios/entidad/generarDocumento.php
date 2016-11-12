@@ -78,6 +78,134 @@ class GenerarDocumento {
 		$infoCertificado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 		$this->infoCertificado = $infoCertificado;
 		
+		
+		$fecha = explode("-",$this->infoCertificado['fecha_instalacion']);
+		
+		$dia = $fecha[0];
+		$mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+		$mes = $mes[$fecha[1]];
+		$anno = $fecha[2];
+		
+		$vip = "";
+		$est1 = "";
+		$est2 = "";
+		
+		switch ($this->infoCertificado['tipo_beneficiario']) {
+		
+			case '1':
+				$vip = "<u> X </u>";
+				$est1 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+				$est2 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+				break;
+		
+			case '2':
+		
+				if ($this->infoCertificado['estrato'] == '1') {
+					$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est1 = "<u> X </u>";
+					$est2 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+				} elseif ($this->infoCertificado['estrato'] == '2') {
+					$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est1 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est2 = "<u> X </u>";
+				}
+		
+				break;
+		
+			case '3':
+				if ($this->infoCertificado['estrato'] == '1') {
+					$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est1 = "<u> X </u>";
+					$est2 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+				} elseif ($this->infoCertificado['estrato'] == '2') {
+					$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est1 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+					$est2 = "<u> X </u>";
+				}
+		
+				break;
+		
+		}
+
+// 		if($this->infoCertificado['tipo_beneficiario'] == 1){
+// 			$vip = "<u> X </u>";
+// 			$est1 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 			$est2 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 		}else if($this->infoCertificado['tipo_beneficiario'] == 2){
+// 			$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 			$est1 = "<u> X </u>";
+// 			$est2 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 		}else if($this->infoCertificado['tipo_beneficiario'] == 3){
+// 			$vip = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 			$est1 = "<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>";
+// 			$est2 = "<u> X </u>";
+// 		}
+		
+		$cc = "";
+		$ce = "";
+		
+		if($this->infoCertificado['tipo_documento'] == 1){
+			$cc = "X";
+		}else if($this->infoCertificado['tipo_documento'] == 2){
+			$ce = "X";
+		}
+		
+		
+		$localizacion = explode(",", $this->infoCertificado['geolocalizacion']);
+		
+		$localizacion[0] = trim($localizacion[0]);
+		$localizacion[1] = trim($localizacion[1]);
+		
+		/**
+		 * Calculo Latitud GMS
+		 **/
+		$latitud = $localizacion[0];
+		
+		$latitud_grados = reset(explode(".", $latitud));
+		
+		$latitud_minutos_dc = (((($latitud - $latitud_grados) * 60) < 0) ? (($latitud - $latitud_grados) * 60) * -1 : (($latitud - $latitud_grados) * 60));
+		
+		$latitud_minutos = reset(explode(".", $latitud_minutos_dc));
+		
+		$latitud_segundos = (($latitud_minutos_dc - $latitud_minutos) * 60 < 0) ? ($latitud_minutos_dc - $latitud_minutos) * 60 * -1 : ($latitud_minutos_dc - $latitud_minutos) * 60;
+		
+		/**
+		 * Calculo longitud GMS
+		 **/
+		$longitud = $localizacion[1];
+		
+		$longitud_grados = reset(explode(".", $longitud));
+		
+		$longitud_minutos_dc = (((($longitud - $longitud_grados) * 60) < 0) ? (($longitud - $longitud_grados) * 60) * -1 : (($longitud - $longitud_grados) * 60));
+		
+		$longitud_minutos = reset(explode(".", $longitud_minutos_dc));
+		
+		$longitud_segundos = (($longitud_minutos_dc - $longitud_minutos) * 60 < 0) ? ($longitud_minutos_dc - $longitud_minutos) * 60 * -1 : ($longitud_minutos_dc - $longitud_minutos) * 60;
+		
+		switch ($this->infoCertificado['tipo_beneficiario']) {
+		
+			case '1':
+				$valor_tarificacion = '6500';
+				break;
+		
+			case '2':
+		
+				$valor_tarificacion = '0';
+		
+				if ($this->infoCertificado['estrato'] == '1') {
+					$valor_tarificacion = '12600';
+				} elseif ($this->infoCertificado['estrato'] == '2') {
+					$valor_tarificacion = '17600';
+				}
+		
+				break;
+		
+			case '3':
+				$valor_tarificacion = $this->infoCertificado['valor_tarificacion'];
+				break;
+		
+		}
+		
 		setlocale ( LC_ALL, "es_CO.UTF-8" );
 		$contenidoPagina = "
                             <style type=\"text/css\">
@@ -134,15 +262,15 @@ class GenerarDocumento {
         			<b>CLIENTE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> &nbsp;&nbsp;" . $this->infoCertificado['nombre'] . "&nbsp;" . $this->infoCertificado['primer_apellido'] . "&nbsp;" . $this->infoCertificado['segundo_apellido'] . "<br><br>
         			<b>N° CEDULA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> &nbsp;&nbsp;".  $this->infoCertificado['identificacion'] . "<br><br>
         			<b>FECHA INSTALACIÓN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['fecha_instalacion'] . "<br><br>
-        			<b>TIPO DE VIVIENDA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;&nbsp;".  $this->infoCertificado['tipo_beneficiario'] . "<br><br>
+        			<b>TIPO DE VIVIENDA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;&nbsp;".  "Estrato 1:&nbsp;" . $est1 . "&nbsp;" . "Estrato 2:&nbsp;" . $est2 . "&nbsp;" . "VIP:&nbsp;" . $vip . "<br><br>
         			<b>DATOS DEL SERVICIO</b><br><br>
         			<b>DIRECCIÓN DEL PREDIO &nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['direccion'] . "<br><br>
 	        		<b>DEPARTAMENTO	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['departamento'] . "<br><br>
 	        		<b>MUNICIPIO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['municipio'] . "<br><br>
 	        		<b>NOMBRE DEL PROYECTO &nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['urbanizacion'] . "<br><br>
 	        		<b>CODIGO DANE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['codigo_dane'] . "<br><br>
-	        		<b>LATITUD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['contacto'] . "<br><br>
-	        		<b>LONGITUD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['contacto'] . "<br><br>
+	        		<b>LATITUD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $latitud_grados . "°&nbsp;" . $latitud_minutos . "'&nbsp;" . $latitud_segundos . "''" . "<br><br>
+	        		<b>LONGITUD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $longitud_grados . "°&nbsp;" . $longitud_minutos . "'&nbsp;" . $longitud_segundos . "''" . "<br><br>
 	        		<b>CONTACTO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['contacto'] . "<br><br>
 	        		<b>TELÉFONO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['telefono'] . "<br><br>
 	        		<b>E-MAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['correo'] . "<br><br>
@@ -252,10 +380,10 @@ class GenerarDocumento {
 					<br>
 					<table width:100%;>
                         <tr>
-							<td align='justify' style='padding: 5px 5px 5px 5px;width:100%;'>Yo________________________________________ identificado con cédula de ciudadanía número ___________, como beneficiario del proyecto “Conexiones  Digitales II” – Proyecto Conexiones Digitales redes de acceso última milla para la masificación de accesos de banda ancha en viviendas de interés prioritario, hogares en estratos 1 y 2, – Ministerio de las Tecnologías de la Información y las Comunicaciones, declaro que conozco claramente las condiciones de prestación del servicio de acceso a Internet en banda ancha que adquirí; que la tarifa mensual a pagar por dicho servicio es _____ pesos y que esta condición aplica por un periodo de 15 meses. Igualmente manifiesto que este predio pertenece al estrato ___ y no he contado con el servicio de internet en el mismos en los últimos seis (6) meses. 
+							<td align='justify' style='padding: 5px 5px 5px 5px;width:100%;'>Yo&nbsp;" . $this->infoCertificado['nombre'] . "&nbsp;" . $this->infoCertificado['primer_apellido'] . "&nbsp;" . $this->infoCertificado['segundo_apellido'] .  "&nbsp;" . "identificado con cédula de ciudadanía número" .  "&nbsp;" . $this->infoCertificado['identificacion'] .  ", como beneficiario del proyecto “Conexiones  Digitales II” – Proyecto Conexiones Digitales redes de acceso última milla para la masificación de accesos de banda ancha en viviendas de interés prioritario, hogares en estratos 1 y 2, – Ministerio de las Tecnologías de la Información y las Comunicaciones, declaro que conozco claramente las condiciones de prestación del servicio de acceso a Internet en banda ancha que adquirí; que la tarifa mensual a pagar por dicho servicio es &nbsp;$" . $valor_tarificacion . "&nbsp; pesos y que esta condición aplica por un periodo de 15 meses. Igualmente manifiesto que este predio pertenece al estrato &nbsp;" . $this->infoCertificado['estrato'] . "&nbsp; y no he contado con el servicio de internet en el mismos en los últimos seis (6) meses. 
 								Asimismo me comprometo a informar oportunamente a la Corporación Politécnica Nacional de Colombia. sobre cualquier daño, pérdida o afectación de los equipos antes mencionados.
 								Acepta y reconozco que a la fecha he consultado o he sido informado por la Corporación Politécnica Nacional de Colombia sobre las condiciones mínimas requeridas para los equipos necesarios para hacer uso de los servicios contratados. 
-								Como constancia de recibo a satisfacción, se firma a los _________ días del mes de ______________ de 2016 en la ciudad de ________________.
+								Como constancia de recibo a satisfacción, se firma a los&nbsp;" . $dia . "&nbsp;días del mes de &nbsp;" . $mes . "&nbsp; de 2016 en la ciudad de &nbsp;" . $this->infoCertificado['ciudad_firma'] . "&nbsp;" . ".
 							</td>
                        	</tr>
 					</table>
@@ -281,19 +409,33 @@ class GenerarDocumento {
                        	</tr>
 						<tr>
 							<td rowspan='3' align='rigth' style='vertical-align:top;width:25%;color:#c5c5c5;'>Firma</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Nombre</td>
+							<td align='rigth' style='width:25%;'>" . $this->infoCertificado['contacto'] . "</td>
 							<td rowspan='3' align='rigth' style='vertical-align:top;width:25%;color:#c5c5c5;'>Firma</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Nombre</td>
+							<td align='rigth' style='width:25%;'>" . $this->infoCertificado['nombre_ins'] . "</td>
 						</tr>
 						<tr>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>No. Identificación</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>No. Identificación</td>
+							<td align='rigth' style='width:25%;'>" . $this->infoCertificado['identificacion_cont'] . "</td>
+							<td align='rigth' style='width:25%;'>" . $this->infoCertificado['identificacion_ins'] . "</td>
 						</tr>
 						<tr>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Celular</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Celular</td>
+							<td align='rigth' style='width:25%;'>" . $this->infoCertificado['celular'] . "</td>
+							<td align='rigth' style='width:25%;'>" . $this->infoCertificado['celular_ins'] . "</td>
 						</tr>
 					</table>";
+		
+		if ($this->infoCertificado['soporte'] != '') {
+		
+			$contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
+                                         <P style='text-align:center'><b>Soporte</b></P><br><br>";
+			$contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
+                                            <tr>
+                                                <td style='text-align:center;border:none;width:100%'>
+                                                    <img src='" . $this->infoCertificado['soporte'] . "'  width='500' height='500'>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                     ";
+		}
 		
 		$contenidoPagina .= "</page>";
 		

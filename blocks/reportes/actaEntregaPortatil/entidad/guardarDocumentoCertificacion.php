@@ -190,6 +190,7 @@ class GenerarDocumento {
 		$firma_beneficiario = $firmaBeneficiario;
 		
 		$firma_contratista = $firmacontratista;
+		
 		$fecha = explode ( "-", $_REQUEST ['fecha_entrega'] );
 		
 		$dia = $fecha [0];

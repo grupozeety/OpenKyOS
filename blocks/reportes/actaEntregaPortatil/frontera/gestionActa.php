@@ -183,7 +183,7 @@ class GestionarContrato {
 
             case 'noinsertoInformacionCertificado':
                 $estilo_mensaje = 'error';     // information,warning,error,validation
-                $atributos["mensaje"] = '<b>Oh No!!!! <br>Error en generar el Acta de Entrega<b>';
+                $atributos["mensaje"] = '<b>Error en generar el Acta de Entrega';
                 break;
 
         }

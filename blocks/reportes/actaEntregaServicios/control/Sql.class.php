@@ -75,6 +75,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " segundo_apellido,";
 				$cadenaSql .= " tipo_documento,";
 				$cadenaSql .= " identificacion, ";
+				$cadenaSql .= " correo, ";
 				$cadenaSql .= " fecha_instalacion,";
 				$cadenaSql .= " tipo_beneficiario,";
 				$cadenaSql .= " estrato,";
@@ -85,6 +86,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " municipio,";
 				$cadenaSql .= " codigo_dane,";
 				$cadenaSql .= " contacto,";
+				$cadenaSql .= " identificacion_cont,";
 				$cadenaSql .= " telefono,";
 				$cadenaSql .= " celular,";
 				$cadenaSql .= " tipo_tecnologia,";
@@ -132,13 +134,19 @@ class Sql extends \Sql {
 				$cadenaSql .= " observaciones_tr2,";
 				$cadenaSql .= " ciudad_expedicion_identificacion,";
 				$cadenaSql .= " ciudad_firma,";
-				$cadenaSql .= " ruta_firma)";
+				$cadenaSql .= " nombre_ins,";
+				$cadenaSql .= " identificacion_ins,";
+				$cadenaSql .= " celular_ins,";
+				$cadenaSql .= " firmaInstalador,";
+				$cadenaSql .= " firmaBeneficiario,";
+				$cadenaSql .= " soporte)";
 				$cadenaSql .= " VALUES ('" . $variable ['id_beneficiario'] . "',";
 				$cadenaSql .= " '" . $variable ['nombres'] . "',";
 				$cadenaSql .= " '" . $variable ['primer_apellido'] . "',";
 				$cadenaSql .= " '" . $variable ['segundo_apellido'] . "',";
 				$cadenaSql .= " '" . $variable ['tipo_documento'] . "', ";
 				$cadenaSql .= " '" . $variable ['identificacion'] . "',";
+				$cadenaSql .= " '" . $variable ['correo'] . "', ";
 				$cadenaSql .= " '" . $variable ['fecha_instalacion'] . "', ";
 				$cadenaSql .= " '" . $variable ['tipo_beneficiario'] . "', ";
 				$cadenaSql .= " '" . $variable ['estrato'] . "', ";
@@ -149,6 +157,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " '" . $variable ['municipio'] . "', ";
 				$cadenaSql .= " '" . $variable ['codigo_dane'] . "', ";
 				$cadenaSql .= " '" . $variable ['contacto'] . "', ";
+				$cadenaSql .= " '" . $variable ['identificacion_cont'] . "', ";
 				$cadenaSql .= " '" . $variable ['telefono'] . "', ";
 				$cadenaSql .= " '" . $variable ['celular'] . "', ";
 				$cadenaSql .= " '" . $variable ['tipo_tecnologia'] . "', ";
@@ -196,7 +205,12 @@ class Sql extends \Sql {
 				$cadenaSql .= " '" . $variable ['observaciones_tr2'] . "',";
 				$cadenaSql .= " '" . $variable ['ciudad_expedicion_identificacion'] . "',";
 				$cadenaSql .= " '" . $variable ['ciudad_firma'] . "',";
-				$cadenaSql .= " '" . $variable ['ruta_firma'] . "');";
+				$cadenaSql .= " '" . $variable ['nombre_ins'] . "', ";
+				$cadenaSql .= " '" . $variable ['identificacion_ins'] . "', ";
+				$cadenaSql .= " '" . $variable ['celular_ins'] . "', ";
+				$cadenaSql .= " '" . $variable ['url_firma_contratista'] . "',";
+				$cadenaSql .= " '" . $variable ['url_firma_beneficiario'] . "',";
+				$cadenaSql .= " '" . $variable ['soporte'] . "');";
 				break;
 			
 			case 'consultarParametro' :
@@ -297,19 +311,27 @@ class Sql extends \Sql {
 				$cadenaSql .= "rparam.descripcion = 'Estrato' ";
 				break;
 			
-			case "parametroTipoTecnologia" :
-				$cadenaSql = "SELECT        ";
-				$cadenaSql .= "codigo, ";
-				$cadenaSql .= "param.descripcion ";
-				$cadenaSql .= "FROM ";
-				$cadenaSql .= "parametros.parametros as param ";
-				$cadenaSql .= "INNER JOIN ";
-				$cadenaSql .= "parametros.relacion_parametro as rparam ";
-				$cadenaSql .= "ON ";
-				$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "rparam.descripcion = 'Tipo de Tecnología' ";
-				break;
+// 			case "parametroTipoTecnologia" :
+// 				$cadenaSql = "SELECT        ";
+// 				$cadenaSql .= "codigo, ";
+// 				$cadenaSql .= "param.descripcion ";
+// 				$cadenaSql .= "FROM ";
+// 				$cadenaSql .= "parametros.parametros as param ";
+// 				$cadenaSql .= "INNER JOIN ";
+// 				$cadenaSql .= "parametros.relacion_parametro as rparam ";
+// 				$cadenaSql .= "ON ";
+// 				$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+// 				$cadenaSql .= "WHERE ";
+// 				$cadenaSql .= "rparam.descripcion = 'Tipo de Tecnología' ";
+// 				break;
+
+				case 'parametroTipoTecnologia':
+					$cadenaSql = " SELECT pm.descripcion, pm.descripcion ";
+					$cadenaSql .= " FROM parametros.parametros pm";
+					$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND pm.estado_registro=TRUE AND rl.descripcion='Tipo Tecnologia'";
+					$cadenaSql .= " WHERE pm.estado_registro=TRUE;";
+				
+					break;
 		}
 		
 		return $cadenaSql;
