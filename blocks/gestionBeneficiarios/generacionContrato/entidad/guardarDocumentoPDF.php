@@ -610,7 +610,7 @@ De acuerdo con los lineamientos del Anexo Técnico del Contrato de Aporte N° 68
             $contenidoPagina .= "</page>";
 
         }
-        echo $contenidoPagina;exit;
+        //echo $contenidoPagina;exit;
 
         $this->contenidoPagina = $contenidoPagina;
 
