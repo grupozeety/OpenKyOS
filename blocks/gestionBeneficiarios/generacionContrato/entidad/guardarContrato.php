@@ -128,6 +128,7 @@ class FormProcessor {
             'municipio' => $_REQUEST['municipio'],
             'urbanizacion' => $_REQUEST['urbanizacion'],
             'estrato' => $_REQUEST['tipo'],
+            'estrato_socioeconomico' => $_REQUEST['estrato_economico'],
             'barrio' => $_REQUEST['barrio'],
             'telefono' => $_REQUEST['telefono'],
             'celular' => $_REQUEST['celular'],
@@ -157,6 +158,7 @@ class FormProcessor {
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarInformacionContrato', $arreglo);
+
         $this->registro_info_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }

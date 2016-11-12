@@ -51,7 +51,7 @@ class FormProcessor {
          *  1. CargarArchivos en el Directorio
          **/
 
-        $this->cargarArchivos();
+        //$this->cargarArchivos();
 
         /**
          *  2. Procesar Informacion Contrato
@@ -59,7 +59,7 @@ class FormProcessor {
 
         $this->procesarInformacion();
 
-        if ($this->archivos_datos != '') {
+        if ($_REQUEST['firmaBeneficiario'] != '') {
 
             include_once "guardarDocumentoCertificacion.php";
 
@@ -75,13 +75,12 @@ class FormProcessor {
 
     public function procesarInformacion() {
 
-        if ($this->archivos_datos === '') {
+        if ($_REQUEST['firmaBeneficiario'] === '') {
             $url_firma_beneficiario = '';
-            //$url_firma_contratista = '';
 
         } else {
 
-            $url_firma_beneficiario = $this->archivos_datos[0]['ruta_archivo'];
+            $url_firma_beneficiario = $_REQUEST['firmaBeneficiario'];
 
             //$url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
 

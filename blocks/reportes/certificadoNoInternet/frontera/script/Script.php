@@ -14,6 +14,9 @@ $indice = 0;
 
 $funcion[$indice++] = "jquery.autocomplete.js";
 $funcion[$indice++] = "jquery.autocomplete.min.js";
+$funcion[$indice++] = "jSignature.js";
+$funcion[$indice++] = "jSignature.CompressorSVG.js";
+
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");
 if ($esteBloque["grupo"] == "") {
