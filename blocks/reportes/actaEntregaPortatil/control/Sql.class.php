@@ -65,52 +65,64 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarActaEntrega' :
-				$cadenaSql = " UPDATE interoperacion.acta_entrega_servicios";
+				$cadenaSql = " UPDATE interoperacion.acta_entrega_portatil";
 				$cadenaSql .= " SET estado_registro='FALSE'";
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable ['id_beneficiario'] . "';";
-				$cadenaSql .= " INSERT INTO interoperacion.acta_entrega_servicios(";
+				$cadenaSql .= " INSERT INTO interoperacion.acta_entrega_portatil(";
 				$cadenaSql .= " id_beneficiario,";
 				$cadenaSql .= " nombre,";
 				$cadenaSql .= " primer_apellido,";
 				$cadenaSql .= " segundo_apellido,";
 				$cadenaSql .= " tipo_documento,";
 				$cadenaSql .= " identificacion, ";
-				$cadenaSql .= " fecha_instalacion,";
+				$cadenaSql .= " fecha_entrega,";
 				$cadenaSql .= " tipo_beneficiario,";
-				$cadenaSql .= " estrato,";
-				$cadenaSql .= " direccion,";
 				$cadenaSql .= " urbanizacion,";
 				$cadenaSql .= " id_urbanizacion,";
 				$cadenaSql .= " departamento,";
 				$cadenaSql .= " municipio,";
-				$cadenaSql .= " codigo_dane,";
-				$cadenaSql .= " contacto,";
-				$cadenaSql .= " telefono,";
-				$cadenaSql .= " tipo_tecnologia,";
-				$cadenaSql .= " ciudad_expedicion_identificacion,";
-				$cadenaSql .= " ciudad_firma,";
-				$cadenaSql .= " ruta_firma)";
+				$cadenaSql .= " celular,";
+				$cadenaSql .= " marca,";
+				$cadenaSql .= " modelo,";
+				$cadenaSql .= " serial,";
+				$cadenaSql .= " procesador,";
+				$cadenaSql .= " memoria_ram,";
+				$cadenaSql .= " disco_duro,";
+				$cadenaSql .= " sistema_operativo,";
+				$cadenaSql .= " perifericos,";
+				$cadenaSql .= " nombre_ins,";
+				$cadenaSql .= " identificacion_ins,";
+				$cadenaSql .= " celular_ins,";
+				$cadenaSql .= " firmaInstalador,";
+				$cadenaSql .= " firmaBeneficiario,";
+				$cadenaSql .= " soporte)";
 				$cadenaSql .= " VALUES ('" . $variable ['id_beneficiario'] . "',";
-				$cadenaSql .= " '" . $variable ['nombres'] . "',";
+				$cadenaSql .= " '" . $variable ['nombre'] . "',";
 				$cadenaSql .= " '" . $variable ['primer_apellido'] . "',";
 				$cadenaSql .= " '" . $variable ['segundo_apellido'] . "',";
 				$cadenaSql .= " '" . $variable ['tipo_documento'] . "', ";
 				$cadenaSql .= " '" . $variable ['identificacion'] . "',";
-				$cadenaSql .= " '" . $variable ['fecha_instalacion'] . "', ";
+				$cadenaSql .= " '" . $variable ['fecha_entrega'] . "', ";
 				$cadenaSql .= " '" . $variable ['tipo_beneficiario'] . "', ";
-				$cadenaSql .= " '" . $variable ['estrato'] . "', ";
-				$cadenaSql .= " '" . $variable ['direccion'] . "', ";
 				$cadenaSql .= " '" . $variable ['id_urbanizacion'] . "', ";
 				$cadenaSql .= " '" . $variable ['urbanizacion'] . "', ";
 				$cadenaSql .= " '" . $variable ['departamento'] . "', ";
 				$cadenaSql .= " '" . $variable ['municipio'] . "', ";
-				$cadenaSql .= " '" . $variable ['codigo_dane'] . "', ";
-				$cadenaSql .= " '" . $variable ['contacto'] . "', ";
-				$cadenaSql .= " '" . $variable ['telefono'] . "', ";
-				$cadenaSql .= " '" . $variable ['tipo_tecnologia'] . "', ";
-				$cadenaSql .= " '" . $variable ['ciudad_expedicion_identificacion'] . "',";
-				$cadenaSql .= " '" . $variable ['ciudad_firma'] . "',";
-				$cadenaSql .= " '" . $variable ['ruta_firma'] . "');";
+				$cadenaSql .= " '" . $variable ['celular'] . "', ";
+				$cadenaSql .= " '" . $variable ['marca'] . "', ";
+				$cadenaSql .= " '" . $variable ['modelo'] . "', ";
+				$cadenaSql .= " '" . $variable ['serial'] . "', ";
+				$cadenaSql .= " '" . $variable ['procesador'] . "', ";
+				$cadenaSql .= " '" . $variable ['memoria_ram'] . "', ";
+				$cadenaSql .= " '" . $variable ['disco_duro'] . "', ";
+				$cadenaSql .= " '" . $variable ['sistema_operativo'] . "', ";
+				$cadenaSql .= " '" . $variable ['perifericos'] . "', ";
+				$cadenaSql .= " '" . $variable ['nombre_ins'] . "', ";
+				$cadenaSql .= " '" . $variable ['identificacion_ins'] . "', ";
+				$cadenaSql .= " '" . $variable ['celular_ins'] . "', ";
+				$cadenaSql .= " '" . $variable ['url_firma_contratista'] . "',";
+				$cadenaSql .= " '" . $variable ['url_firma_beneficiario'] . "',";
+				$cadenaSql .= " '" . $variable ['soporte'] . "');";
 				break;
 			
 			case 'consultarParametro' :
@@ -126,14 +138,14 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarDocumentoCertificado' :
-				$cadenaSql = " UPDATE interoperacion.acta_entrega_servicios";
+				$cadenaSql = " UPDATE interoperacion.acta_entrega_portatil";
 				$cadenaSql .= " SET nombre_documento='" . $variable ['nombre_contrato'] . "', ruta_documento='" . $variable ['ruta_contrato'] . "' ";
 				$cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST ['id_beneficiario'] . "' AND estado_registro='TRUE';";
 				break;
 			
 			case 'consultaInformacionCertificado' :
 				$cadenaSql = " SELECT *";
-				$cadenaSql .= " FROM interoperacion.acta_entrega_servicios";
+				$cadenaSql .= " FROM interoperacion.acta_entrega_portatil";
 				$cadenaSql .= " WHERE id_beneficiario ='" . $_REQUEST ['id_beneficiario'] . "'";
 				$cadenaSql .= " AND estado_registro='TRUE';";
 				break;

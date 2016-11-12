@@ -69,6 +69,16 @@ $this->idioma['memoria_ram'] = 'Memoria RAM';
 
 $this->idioma['disco_duro'] = 'Disco Duro';
 
+$this->idioma['foto_soporte'] = 'Soporte';
+
+$this->idioma['nombre_ins'] = 'Nombre';
+
+$this->idioma['identificacion_ins'] = 'No. Identificación';
+
+$this->idioma['celular_ins'] = 'Celular';
+
+$this->idioma['celular'] = 'Celular';
+
 $this->idioma['botonGuardar'] = 'Generar Certificación';
 
 ?>

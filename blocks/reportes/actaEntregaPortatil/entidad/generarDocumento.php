@@ -78,7 +78,33 @@ class GenerarDocumento {
 		$infoCertificado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 		$this->infoCertificado = $infoCertificado;
 		
-// 		var_dump($this->infoCertificado);
+		$fecha = explode("-",$this->infoCertificado['fecha_entrega']);
+		
+		$dia = $fecha[0];
+		$mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+		$mes = $mes[$fecha[1]];
+		$anno = $fecha[2];
+		
+		$vip = "";
+		$est1 = "";
+		$est2 = "";
+		
+		if($this->infoCertificado['tipo_beneficiario'] == 1){
+			$vip = "X";
+		}else if($this->infoCertificado['tipo_beneficiario'] == 2){
+			$est1 = "X";
+		}else if($this->infoCertificado['tipo_beneficiario'] == 3){
+			$est2 = "X";
+		}
+		
+		$cc = "";
+		$ce = "";
+		
+		if($this->infoCertificado['tipo_documento'] == 1){
+			$cc = "X";
+		}else if($this->infoCertificado['tipo_documento'] == 2){
+			$ce = "X";
+		}
 		
 		setlocale ( LC_ALL, "es_CO.UTF-8" );
 		$contenidoPagina = "
@@ -130,172 +156,256 @@ class GenerarDocumento {
 
                         </page_header>";
 		
-		$contenidoPagina .= "
-        			<h4 align='center'> ACTA DE ENTREGA DE SERVICIO DE BANDA ANCHA AL USUARIO </h4> 
-                    <b>PRODUCTO	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b><br><br>
-        			<b>CLIENTE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> &nbsp;&nbsp;" . $this->infoCertificado['nombre'] . "&nbsp;" . $this->infoCertificado['primer_apellido'] . "&nbsp;" . $this->infoCertificado['segundo_apellido'] . "<br><br>
-        			<b>N° CEDULA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> &nbsp;&nbsp;".  $this->infoCertificado['identificacion'] . "<br><br>
-        			<b>FECHA INSTALACIÓN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['fecha_instalacion'] . "<br><br>
-        			<b>TIPO DE VIVIENDA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['tipo_beneficiario'] . "<br><br>
-        			<b>DATOS DEL SERVICIO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;<br><br>
-        			<b>DIRECCIÓN DEL PREDIO &nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['direccion'] . "<br><br>
-	        		<b>DEPARTAMENTO	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['departamento'] . "<br><br>
-	        		<b>MUNICIPIO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['municipio'] . "<br><br>
-	        		<b>NOMBRE DEL PROYECTO &nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['urbanizacion'] . "<br><br>
-	        		<b>CODIGO DANE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['codigo_dane'] . "<br><br>
-	        		<b>LATITUD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['contacto'] . "<br><br>
-	        		<b>LONGITUD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['contacto'] . "<br><br>
-	        		<b>CONTACTO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['contacto'] . "<br><br>
-	        		<b>TELÉFONO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['telefono'] . "<br><br>
-	        		<b>E-MAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['correo'] . "<br><br>
-	        		<b>TIPO DE TECNOLOGÍA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;".  $this->infoCertificado['tipo_tecnologia'] . "<br><br><br>
-	        		<b>DETALLE DE LOS EQUIPOS INSTALADOS</b><br><br>
-        		
-                    <br>
+						$contenidoPagina .= "
+							
+							<br><br>
+							
+							<table width:100%;>
+								<tr>
+									<td style='vertical-align:top;border:none;width:20%;'>
+										Yo:
+									</td>
+									<td style='border:none;width:80%;'>
+										<table width:100%;>
+											<tr>
+												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Apellidos</td>
+												<td align='rigth' style='padding-rigth: 5px;width:75%;'>" . $this->infoCertificado['primer_apellido'] . "&nbsp;" . $this->infoCertificado['segundo_apellido'] . "</td>
+											</tr>
+											<tr>
+												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Nombres</td>
+												<td align='rigth' style='width:75%;'>" . $this->infoCertificado['nombre'] . "</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							
+							<br>
+							
+							<table width:100%;>
+								<tr>
+									<td style='vertical-align:top;border:none;width:20%;'>
+										Identificado con:
+									</td>
+									<td style='border:none;width:80%;'>
+										<table width:100%;>
+											<tr>
+												<td align='center' style='width:10%;'>" . $cc . "</td>
+												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:40%;'>Cédula de Ciudadanía</td>
+												<td align='center' style='width:10%;'>" . $ce . "</td>
+												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:40%;'>Cédula de Extranjería</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							
+							<br>
+							
+							<table width:100%;>
+								<tr>
+									<td style='vertical-align:top;border:none;width:20%;'>
+										Número:
+									</td>
+									<td style='border:none;width:80%;'>
+										<table width:100%;>
+											<tr>
+												<td align='rigth' style='padding: 5px 5px 5px 5px;width:100%;'>" . $this->infoCertificado['identificacion'] . "</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							
+							<br>
+							
+							<table width:100%;>
+								<tr>
+									<td style='vertical-align:top;border:none;width:20%;'>
+										Habitante de:
+									</td>
+									<td style='border:none;width:80%;'>
+										<table width:100%;>
+											<tr>
+												<td align='center' style='width:25%;'>" . $vip . "</td>
+												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:75%;'>Proyecto de Vivienda de Interés Prioritario (VIP)</td>
+												
+											</tr>
+											<tr>
+												<td align='center' style='width:25%;'>" . $est1 . "</td>
+												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:75%;'>Vivienda de Estrato Uno de uso residencial</td>
+											</tr>
+											<tr>
+												<td align='center' style='width:25%;'>" . $est2 . "</td>
+												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:75%;'>Vivienda de Estrato Dos de uso residencial</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+								
+							<br>
+							
+							<table width:100%;>
+								<tr>
+									<td align='center' style='width:100%;border:none;'>
+										<b>CERTIFICO BAJO GRAVEDAD JURAMENTADA:</b>
+									</td>
+								</tr>
+							</table>
+														
+							<ol>
 
-        		 	<table width:100%;>
-                        <tr>
-	                        <td align='center'style='width:14%;'><b>EQUIPO</b></td>
-							<td align='center'style='width:16%;'><b>No. ACTIVO FIJO</b></td>
-							<td align='center'style='width:14%;'><b>MAC</b></td>
-	                        <td align='center'style='width:14%;'><b>SERIAL</b></td>
-	                        <td align='center'style='width:14%;'><b>MARCA</b></td>
-	                        <td align='center'style='width:14%;'><b>CANT</b></td>
-					 		<td align='center'style='width:14%;'><b>IP</b></td>
-                       	</tr>
-                        <tr>
-                        	<td align='center'style='width:14%;'>ESCLAVO</td>
-                        	<td align='center'style='width:16%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-				 			<td align='center'style='width:14%;'> </td>
-							<td align='center'style='width:14%;'> </td>
-                        </tr>
-						<tr>
-                        	<td align='center'style='width:14%;'>COMPUTADOR</td>
-                        	<td align='center'style='width:16%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-                            <td align='center'style='width:14%;'> </td>
-				 			<td align='center'style='width:14%;'> </td>
-							<td align='center'style='width:14%;'> </td>
-                        </tr>
-                    </table>
-					<br>
-					<b>PRUEBAS</b>
-					<table width:100%;>
-                        <tr>
-							<td align='rigth'style='width:20%;'><b></b></td>
-							<td align='center'style='width:15%;'><b>Hora de Prueba</b></td>
-	                        <td align='center'style='width:20%;'><b>Resultado</b></td>
-	                        <td align='center'style='width:20%;'><b>Unidad</b></td>
-							<td align='center'style='width:25%;'><b>Observaciones</b></td>
-                       	</tr>
-                        <tr>
-                        	<td align='rigth'style='width:20%;'><b>Velocidad de Subida</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>Mbps </td>
-                            <td align='center'style='width:25%;'> </td>
-                        </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Velocidad de Bajada</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>Mbps </td>
-                            <td align='center'style='width:25%;'> </td>
-                        </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Ping 1</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>ms </td>
-                            <td align='center'style='width:25%;'> </td>
-                        </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Ping 2</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>ms </td>
-                            <td align='center'style='width:25%;'>www.mintic.gov.co </td>
-                        </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Ping 3</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>ms </td>
-                            <td align='center'style='width:25%;'>http://www.louvre.fr/en </td>
-                        </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Traceroute</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>estado conexión </td>
-                            <td align='center'style='width:25%;'>https://www.wikipedia.org/ </td>
-                        </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Traceroute</b></td>
-                        	<td align='center'style='width:15%;'> </td>
-                            <td align='center'style='width:20%;'> </td>
-                            <td align='center'style='width:20%;'>Paso NAP Colombia </td>
-                            <td align='center'style='width:25%;'>https://www.sivirtual.gov.co/ </td>
-                        </tr>
-                    </table>
-					<br>
-					<b>OBRAS CIVILES</b>
-					<table width:100%;>
-                        <tr>
-							<td align='justify' style='padding: 5px 5px 5px 5px;width:80%;'>Si aplica, el beneficiario certifica, que las obras fueron realizadas en el proceso de instalación por parte del contratista y fueron culminadas satisfactoriamente, sin afectar la infraestructura y la estética del lugar, cumpliendo con las observaciones realizadas durante la instalación.</td>
-							<td style='padding: 5px 5px 5px 5px;width:10%;text-align:left;vertical-align:top;'><b>SI</b></td>
-	                        <td style='padding: 5px 5px 5px 5px;width:10%;text-align:left;vertical-align:top;'><b>NO</b></td>
-                       	</tr>
-					</table>
-					<br>
-					<table width:100%;>
-                        <tr>
-							<td align='justify' style='padding: 5px 5px 5px 5px;width:100%;'>Yo________________________________________ identificado con cédula de ciudadanía número ___________, como beneficiario del proyecto “Conexiones  Digitales II” – Proyecto Conexiones Digitales redes de acceso última milla para la masificación de accesos de banda ancha en viviendas de interés prioritario, hogares en estratos 1 y 2, – Ministerio de las Tecnologías de la Información y las Comunicaciones, declaro que conozco claramente las condiciones de prestación del servicio de acceso a Internet en banda ancha que adquirí; que la tarifa mensual a pagar por dicho servicio es _____ pesos y que esta condición aplica por un periodo de 15 meses. Igualmente manifiesto que este predio pertenece al estrato ___ y no he contado con el servicio de internet en el mismos en los últimos seis (6) meses. 
-								Asimismo me comprometo a informar oportunamente a la Corporación Politécnica Nacional de Colombia. sobre cualquier daño, pérdida o afectación de los equipos antes mencionados.
-								Acepta y reconozco que a la fecha he consultado o he sido informado por la Corporación Politécnica Nacional de Colombia sobre las condiciones mínimas requeridas para los equipos necesarios para hacer uso de los servicios contratados. 
-								Como constancia de recibo a satisfacción, se firma a los _________ días del mes de ______________ de 2016 en la ciudad de ________________.
-							</td>
-                       	</tr>
-					</table>
-					<br>
-					<br>
-					<table width:100%;>
-                        <tr>
-							<td align='justify' style='padding: 5px 5px 5px 5px;width:100%;'>Recuerde que cualquier inquietud sobre las funcionalidades del servicio, soporte,  los términos y condiciones, así como las peticiones, quejas o reclamos, serán atendidos en los siguientes canales:
-								<br><br>Línea gratuita nacional 018000961016
-								<br>Portal Web: http://conexionesdigitales.politecnica.edu.co/.
-								<br>Correo: soportecd2@soygenial.co.
-								<br><br>En caso de que desee efectuar la devolución de equipos instalados por la Corporación Politécnica Nacional de Colombia para la prestación del servicio, podrá comunicarse a la línea gratuita de atención nacional.
-								<br><br>Debe tener en cuenta que existen riesgos sobre la seguridad de la red y de los servicios contratados
-								los cuales incluyen: a. Riesgos relacionados con fraudes electrónicos, Riesgos relacionados con la información, Riesgos relacionados con las actividades económicas, Riesgos relacionados con el funcionamiento del Internet y Riesgos relacionados con hábitos adictivos. 
-							</td>
-                       	</tr>
-					</table>
-					<br>
-					<table width:100%;>
-                        <tr>
-							<td colspan='2' align='rigth' style='width:50%;'>Recibí a Satisfacción</td>
-							<td colspan='2' align='rigth' style='width:50%;'>Responsable de Instalación</td>
-                       	</tr>
-						<tr>
-							<td rowspan='3' align='rigth' style='vertical-align:top;width:25%;color:#c5c5c5;'>Firma</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Nombre</td>
-							<td rowspan='3' align='rigth' style='vertical-align:top;width:25%;color:#c5c5c5;'>Firma</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Nombre</td>
-						</tr>
-						<tr>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>No. Identificación</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>No. Identificación</td>
-						</tr>
-						<tr>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Celular</td>
-							<td align='rigth' style='width:25%;color:#c5c5c5;'>Celular</td>
-						</tr>
-					</table>";
+								<li value='1'>Que recibo un computador NUEVO y EN ÓPTIMAS CONDICIONES, con las siguientes características:
+									<br>
+									<br>
+									<table width:100%;>
+										<tr>
+											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Marca</td>
+											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['marca'] . "</td>
+										</tr>
+										<tr>
+											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Modelo</td>
+											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['modelo'] . "</td>
+										</tr>
+										<tr>
+											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Serial</td>
+											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['serial'] . "</td>
+										</tr>
+										<tr>
+											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Procesador</td>
+											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['procesador'] . "</td>
+										</tr>
+										<tr>
+											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Memoria RAM</td>
+											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['memoria_ram'] . "</td>
+										</tr>
+										<tr>
+											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Disco Duro</td>
+											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['disco_duro'] . "</td>
+										</tr>
+										<tr>
+											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Sistema Operativo</td>
+											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['sistema_operativo'] . "</td>
+										</tr>
+										<tr>
+											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Periféricos</td>
+											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['perifericos'] . "</td>
+										</tr>
+									</table>
+									<br>
+								</li>
+								<li>Que entiendo que dicho terminal no tiene ningún costo adicional y se encuentra incluido con el
+									servicio de internet al cual me suscribo con el proveedor.</li>
+								<li>Que este computador portátil cuenta con el servicio de internet adquirido por el suscrito.</li>
+								<li>Que me comprometo a mantener posesión y dominio de este equipo, para darle un adecuado uso permitiendo el acceso a Internet a los miembros de mi núcleo familiar.</li>
+								<li>Que el mediante el presente documento manifiesto mi interés en participar en las capacitaciones que hacen parte del componente de apropiación social del contrato.</li>
+							</ol>
+						
+								<br>Para constancia de lo anterior, firmo con copia de mi documento de identidad bajo gravedad de juramento:
+								<br><br>
+							
+								<table width:100%;>
+									<tr>
+										<td bgcolor='#e2e0e0' align='rigth' style='padding: 5px 5px 5px 5px;width:10%;'>Fecha</td>
+										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:15%;'>Día</td>
+										<td align='center' style='width:15%;'>". $dia . "</td>
+										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:15%;'>Mes</td>
+										<td align='center' style='width:15%;'>". $mes . "</td>
+										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:15%;'>Año</td>
+										<td align='center' style='width:15%;'>". $anno . "</td>
+									</tr>
+								</table>
+							
+								<br>
+							
+								<table width:100%;>
+									<tr>
+										<td bgcolor='#e2e0e0' align='rigth' style='padding: 5px 5px 5px 5px;width:10%;'>Lugar</td>
+										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>Departamento</td>
+										<td align='center' style='width:25%;'>" . $this->infoCertificado['departamento'] . "</td>
+										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>Municipio</td>
+										<td align='center' style='width:25%;'>" . $this->infoCertificado['municipio'] . "</td>
+									</tr>
+								</table>
+							
+								<br>
+												
+								<table style='width:100%;'>
+									<tr>
+										<td bgcolor='#FFFFFF' rowspan='2' align='rigth' style='vertical-align:top;padding: 5px 5px 5px 5px;width:40%;'>Firma</td>
+										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>Nombre</td>
+										<td  bgcolor='#FFFFFF' align='rigth' style='width:40%;'>" . $this->infoCertificado['nombre'] . "&nbsp;" . $this->infoCertificado['primer_apellido'] . "&nbsp;" . $this->infoCertificado['segundo_apellido'] . "</td>
+									</tr>
+									<tr>
+										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>No. Identificación</td>
+										<td bgcolor='#FFFFFF' align='rigth' style='width:40%;'>" . $this->infoCertificado['identificacion'] . "</td>
+									</tr>
+								</table>
+							
+								<br>
+												
+								<table style='width:100%;'>
+									<tr>
+										<td bgcolor='#f4f4f4'>
+											<table style='width:100%;'>
+												<tr>
+													<td style='padding: 5px 5px 5px 5px;border:none;'>
+														Para uso exclusivo de Corporación Politécnica
+														<br><br>Funcionario que entrega
+														<br><br>
+													</td>
+												</tr>
+											</table>
+											<table style='width:100%;'>
+												<tr>
+													<td style='padding: 5px 5px 5px 5px;border:none;width:100%;'>
+														<table style='width:100%;'>
+															<tr>
+																<td bgcolor='#FFFFFF' rowspan='2' align='rigth' style='vertical-align:top;padding: 5px 5px 5px 5px;width:40%;'>Firma</td>
+																<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>Nombre</td>
+																<td  bgcolor='#FFFFFF' align='rigth' style='width:40%;'>" . $this->infoCertificado['nombre_ins'] . "</td>
+															</tr>
+															<tr>
+																<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>No. Identificación</td>
+																<td bgcolor='#FFFFFF' align='rigth' style='width:40%;'>" . $this->infoCertificado['identificacion_ins'] . "</td>
+															</tr>
+														</table>
+													</td>
+												</tr>
+											</table>
+											<br><br>
+										</td>
+									</tr>
+								</table>
+							
+								<br>
+							
+								<table width:100%;>
+									<tr>
+										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:100%;'>
+											<b>Datos de Contacto del Fabricante</b>
+											<br><br>Sitio web de soporte: http://www.hp.com/latam/co/soporte/cas/
+											<br><br>Teléfono: 01-8000-51-474-68368 desde cualquier lugar del país.
+										</td>
+									</tr>
+								</table>
+							
+					";
+						
+						if ($this->infoCertificado['soporte'] != '') {
+						
+							$contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
+                                         <P style='text-align:center'><b>Soporte</b></P><br><br>";
+							$contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
+                                            <tr>
+                                                <td style='text-align:center;border:none;width:100%'>
+                                                    <img src='" . $this->infoCertificado['soporte'] . "'  width='500' height='500'>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                     ";
+						}
 		
 		$contenidoPagina .= "</page>";
 		

@@ -87,7 +87,7 @@ class GestionarContrato {
             {
                 $esteCampo = 'Agrupacion';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "ACTA DE ENTREGA DE SERVICIO DE BANDA ANCHA AL USUARIO";
+                $atributos['leyenda'] = "ACTA DE ENTREGA DE COMPUTADOR PORTÁTIL";
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
 
@@ -131,7 +131,7 @@ class GestionarContrato {
 
                             $urlpdfNoFirmas = $url . $cadena;
 
-                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Documento Certificado Sin Firma</a></b>";
+                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Acta de Entrega Computador Portátil <br> Sin Firma</a></b>";
 
                         }
 
@@ -147,7 +147,7 @@ class GestionarContrato {
                         unset($atributos);
 
                         {
-                            echo "<b><a id='link_a' target='_blank' href='" . $infoCertificado['ruta_documento'] . "'>Documento Certificado Con Firma</a></b>";
+                            echo "<b><a id='link_a' target='_blank' href='" . $infoCertificado['ruta_documento'] . "'>Acta de Entrega Computador Portátil <br> Con Firma</a></b>";
                         }
 
                         // ------------------Fin Division para los botones-------------------------
@@ -178,12 +178,12 @@ class GestionarContrato {
 
             case 'insertoInformacionCertificado':
                 $estilo_mensaje = 'success';     // information,warning,error,validation
-                $atributos["mensaje"] = '<b>Certificado Disponible</b>';
+                $atributos["mensaje"] = '<b>Acta de Entrega Disponible</b>';
                 break;
 
             case 'noinsertoInformacionCertificado':
                 $estilo_mensaje = 'error';     // information,warning,error,validation
-                $atributos["mensaje"] = '<b>Oh No!!!! <br>Error en generar el certificado<b>';
+                $atributos["mensaje"] = '<b>Oh No!!!! <br>Error en generar el Acta de Entrega<b>';
                 break;
 
         }
@@ -212,11 +212,11 @@ class GestionarContrato {
         switch ($_REQUEST['mensaje']) {
 
             case 'insertoInformacionContrato':
-                $mensaje = "Exito en el registro información del contrato";
+                $mensaje = "Exito en el registro información del Acta de Entrega";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
             case 'errorGenerarArchivo':
-                $mensaje = "Error en el registro de información del Contrato";
+                $mensaje = "Error en el registro de información del Acta de Entrega";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
 
                 break;
