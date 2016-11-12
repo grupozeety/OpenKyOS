@@ -2,3 +2,4 @@ archivos/*
 blocks/reportes/certificadoNoInternet/entidad/firmas/*
 blocks/gestionComisionamiento/generacionActas/entidad/directorio_actas/*
 blocks/gestionBeneficiarios/generacionContrato/entidad/firmas/*
+config/config.inc.php
