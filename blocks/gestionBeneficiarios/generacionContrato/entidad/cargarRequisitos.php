@@ -73,7 +73,7 @@ class cargueRequisitos {
 
         //$this->registrarContratoBorrador ();
 
-        if ($this->datos_contrato) {
+        if ($this->registro_docmuentos) {
 
             Redireccionador::redireccionar("Inserto", $total);
         } else {
@@ -98,7 +98,7 @@ class cargueRequisitos {
             if ($this->archivos_datos[$key]['tipo_documento'] != 128) {
 
                 $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentos', $value);
-                $registro_docmuentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+                $this->registro_docmuentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
             } else {
                 $this->archivos_datos[$key]['id_beneficiario'] = $_REQUEST['id_beneficiario'];
                 $cadenaSql = $this->miSql->getCadenaSql('actualizarCargueContrato', $this->archivos_datos[$key]);
