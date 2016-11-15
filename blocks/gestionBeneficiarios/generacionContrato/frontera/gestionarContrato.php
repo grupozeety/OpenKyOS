@@ -352,6 +352,7 @@ class GestionarContrato {
                             if (is_null($infoBeneficiario['id_contrato']) != true) {
                                 $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
                             }
+
                         }
 
                         $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
@@ -496,6 +497,11 @@ class GestionarContrato {
 
             case 'insertoInformacionContrato':
                 $mensaje = "Exito en el registro información del contrato";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
+            case 'ActualizoinformacionContrato':
+                $mensaje = "Exito en la Actualización información del contrato";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
             case 'errorGenerarArchivo':

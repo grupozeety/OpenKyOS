@@ -55,7 +55,7 @@ class Contrato {
 
             $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContratoParticular');
             $contratoInfo = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-            var_dump($contratoInfo);
+
             //exit;
 
             $arreglo = array(
@@ -65,9 +65,9 @@ class Contrato {
                 'tipo_documento' => $contratoInfo['tipo_documento'],
                 'numero_identificacion' => $contratoInfo['numero_identificacion'],
                 'direccion_domicilio' => $contratoInfo['direccion_domicilio'],
-                'departamento' => $contratoInfo['nombre_departamento'],
-                'municipio' => $contratoInfo['nombre_municipio'],
-                'urbanizacion' => $contratoInfo['proyecto_urbanizacion'],
+                'departamento' => $contratoInfo['departamento'],
+                'municipio' => $contratoInfo['municipio'],
+                'urbanizacion' => $contratoInfo['urbanizacion'],
                 'barrio' => $contratoInfo['barrio'],
                 'estrato' => $contratoInfo['estrato'],
                 'telefono' => $contratoInfo['telefono'],
@@ -163,8 +163,12 @@ class Contrato {
 
                 $esteCampo = 'Agrupacion';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "<b>Número de Contrato : " . $_REQUEST['numero_contrato'] . "</b>";
 
+                if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'editarContrato') {
+                    $atributos['leyenda'] = "<b>Número de Contrato : " . $_REQUEST['numero_contrato'] . " (Edición de Información Contractual)</b>";
+                } else {
+                    $atributos['leyenda'] = "<b>Número de Contrato : " . $_REQUEST['numero_contrato'] . " </b>";
+                }
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
 
@@ -1599,10 +1603,14 @@ class Contrato {
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                $valorCodificado .= "&opcion=guardarContrato";
-                $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
+                if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'editarContrato') {
+                    $valorCodificado .= "&opcion=edicionContrato";
+                } else {
+                    $valorCodificado .= "&opcion=guardarContrato";
+                }
+                $valorCodificado .= "&tipo_beneficiario=" . $_REQUEST['tipo_beneficiario'];
                 $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
-                $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
+                $valorCodificado .= "&numero_contrato=" . $_REQUEST['numero_contrato'];
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.

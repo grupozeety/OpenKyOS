@@ -13,6 +13,16 @@ class Redireccionador {
 
         switch ($opcion) {
 
+            case 'ActualizoInformacionContrato':
+                $variable = 'pagina=generacionContrato';
+                $variable .= '&opcion=validarRequisitos';
+                $variable .= '&proceso=gestionarContrato';
+                $variable .= '&mensaje=ActualizoinformacionContrato';
+                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+                $variable .= '&tipo_beneficiario=' . $_REQUEST['tipo_beneficiario'];
+
+                break;
+
             case "Inserto":
 
                 $variable = 'pagina=generacionContrato';
@@ -29,7 +39,7 @@ class Redireccionador {
                 $variable .= '&opcion=validarRequisitos';
                 $variable .= '&mensaje=noinserto';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
-                $variable .= '&tipo=' . $_REQUEST['tipo']; 
+                $variable .= '&tipo=' . $_REQUEST['tipo'];
                 $variable .= '&proceso=cargueRequisitos';
                 break;
 
@@ -68,14 +78,13 @@ class Redireccionador {
                 $variable .= '&proceso=verificarRequisitos';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
                 break;
-                
-                
+
             case "ErrorCargarFicheroDirectorio":
-            	$variable = 'pagina=generacionContrato';
-            	$variable .= '&opcion=validarRequisitos';
-            	$variable .= '&mensaje=novalido';
-            	$variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
-            	$variable .= '&proceso=cargueRequisitos';
+                $variable = 'pagina=generacionContrato';
+                $variable .= '&opcion=validarRequisitos';
+                $variable .= '&mensaje=novalido';
+                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+                $variable .= '&proceso=cargueRequisitos';
                 break;
 
             default:
