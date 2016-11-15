@@ -307,6 +307,8 @@ function cargarAjax(){
 				$this->campoSeguro('direccion'),
 				$this->campoSeguro('manzana'),
 				$this->campoSeguro('torre'),
+				$this->campoSeguro('interior'),
+				$this->campoSeguro('lote'),
 				$this->campoSeguro('bloque'),
 				$this->campoSeguro('apartamento'),
 				$this->campoSeguro('telefono'),

@@ -149,6 +149,8 @@ class Registrar {
         $beneficiarioPotencial['manzana'] = $_REQUEST['manzana'];
 		$beneficiarioPotencial['torre'] = $_REQUEST['torre'];
 		$beneficiarioPotencial['bloque'] = $_REQUEST['bloque'];
+		$beneficiarioPotencial['interior'] = $_REQUEST['interior'];
+		$beneficiarioPotencial['lote'] = $_REQUEST['lote'];
         //$beneficiarioPotencial['torre'] = '';
         //$beneficiarioPotencial['bloque'] = '';
         $beneficiarioPotencial['apartamento'] = $_REQUEST['apartamento'];
