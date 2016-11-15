@@ -83,6 +83,7 @@ if ($_REQUEST['funcion'] == "consultarBeneficiarios") {
 
 } else if ($_REQUEST['funcion'] == "consultaBeneficiarios") {
 	
+	$cadena='';
 	if($comisionador==true){
 		$cadena="AND id_comisionador='".$idusuario."'";
 	}
