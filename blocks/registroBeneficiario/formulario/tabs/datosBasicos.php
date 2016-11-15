@@ -966,6 +966,44 @@ class Formulario {
 
             // ----------------FIN CONTROL: Campo Texto Manzana-------------------------------------------------------
 
+            // ----------------INICIO CONTROL: Campo Texto Interior--------------------------------------------------------
+            
+            $esteCampo = 'interior';
+            $atributos['nombre'] = $esteCampo;
+            $atributos['tipo'] = "text";
+            $atributos['id'] = $esteCampo;
+            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+            $atributos["etiquetaObligatorio"] = true;
+            $atributos['tab'] = $tab++;
+            $atributos['anchoEtiqueta'] = 2;
+            $atributos['estilo'] = "bootstrap";
+            $atributos['evento'] = '';
+            $atributos['deshabilitado'] = false;
+            $atributos['readonly'] = false;
+            $atributos['columnas'] = 1;
+            $atributos['tamanno'] = 1;
+            $atributos['placeholder'] = "";
+            $atributos['valor'] = "";
+            $atributos['ajax_function'] = "";
+            $atributos['ajax_control'] = $esteCampo;
+            $atributos['limitar'] = false;
+            $atributos['anchoCaja'] = 10;
+            $atributos['miEvento'] = '';
+            //             $atributos['validar'] = '';
+            // Aplica atributos globales al control
+            
+            if (isset($cargueDatos[$esteCampo])) {
+            	$atributos['valor'] = $cargueDatos[$esteCampo];
+            } else {
+            	$atributos['valor'] = '';
+            }
+            
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+            unset($atributos);
+            
+            // ----------------FIN CONTROL: Campo Texto Torre-------------------------------------------------------
+            
             // ----------------INICIO CONTROL: Campo Texto Torre--------------------------------------------------------
 
             $esteCampo = 'torre';
@@ -1080,6 +1118,44 @@ class Formulario {
 
             // ----------------FIN CONTROL: Campo Texto Apartamento-------------------------------------------------------
 
+            // ----------------INICIO CONTROL: Campo Texto Apartamento--------------------------------------------------------
+            
+            $esteCampo = 'lote';
+            $atributos['nombre'] = $esteCampo;
+            $atributos['tipo'] = "text";
+            $atributos['id'] = $esteCampo;
+            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+            $atributos["etiquetaObligatorio"] = true;
+            $atributos['tab'] = $tab++;
+            $atributos['anchoEtiqueta'] = 2;
+            $atributos['estilo'] = "bootstrap";
+            $atributos['evento'] = '';
+            $atributos['deshabilitado'] = false;
+            $atributos['readonly'] = false;
+            $atributos['columnas'] = 1;
+            $atributos['tamanno'] = 1;
+            $atributos['placeholder'] = "";
+            $atributos['valor'] = "";
+            $atributos['ajax_function'] = "";
+            $atributos['ajax_control'] = $esteCampo;
+            $atributos['limitar'] = false;
+            $atributos['anchoCaja'] = 10;
+            $atributos['miEvento'] = '';
+            //$atributos['validar'] = '';
+            // Aplica atributos globales al control
+            
+            if (isset($cargueDatos[$esteCampo])) {
+            	$atributos['valor'] = $cargueDatos[$esteCampo];
+            } else {
+            	$atributos['valor'] = '';
+            }
+            
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+            unset($atributos);
+            
+            // ----------------FIN CONTROL: Campo Texto Apartamento-------------------------------------------------------
+            
             // ----------------INICIO CONTROL: Lista Proyecto--------------------------------------------------------
 
             $esteCampo = 'urbanizacion';
