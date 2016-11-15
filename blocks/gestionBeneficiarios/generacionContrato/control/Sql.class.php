@@ -520,7 +520,7 @@ class Sql extends \Sql {
                 break;
 
             case 'consultarValidacionRequisitos':
-                $cadenaSql = " SELECT dr.perfil, dr.tipologia_documento, dr.obligatoriedad, dr.proceso, ";
+                $cadenaSql = " SELECT dr.perfil,pr.codigo, dr.tipologia_documento, dr.obligatoriedad, dr.proceso, ";
                 $cadenaSql .= " dc.nombre_documento, pr.descripcion nombre_requisitos , dc.comisionador, dc.supervisor, dc.analista ";
                 $cadenaSql .= " FROM interoperacion.documentos_requisitos AS dr";
                 $cadenaSql .= " JOIN  parametros.parametros AS pr ON pr.id_parametro= dr.tipologia_documento ";
