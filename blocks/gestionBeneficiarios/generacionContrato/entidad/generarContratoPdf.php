@@ -124,6 +124,14 @@ class GenerarDocumento {
             $anexo_dir .= " Casa/Apartamento #" . $this->beneficiario['casa_apartamento'];
         }
 
+        if ($this->beneficiario['interior'] != 0) {
+            $anexo_dir .= " Interior #" . $this->beneficiario['interior'];
+        }
+
+        if ($this->beneficiario['lote'] != 0) {
+            $anexo_dir .= " Lote #" . $this->beneficiario['lote'];
+        }
+
         $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->beneficiario['urbanizacion']);
         $urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
         $urbanizacion = $urbanizacion[0];
@@ -302,13 +310,13 @@ class GenerarDocumento {
                         </tr>
                          <tr>
                             <td style='width:15%;text-align=center;'><b>Departamento</b></td>
-                            <td style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_departamento'] . "</td>
+                            <td style='width:10%;text-align=center;'>" . $this->beneficiario['departamento'] . "</td>
                             <td style='width:10%;text-align=center;'><b>Municipio</b></td>
-                            <td style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_municipio'] . "</td>
+                            <td style='width:10%;text-align=center;'>" . $this->beneficiario['municipio'] . "</td>
                          </tr>
                          <tr>
                             <td style='width:15%;text-align=center;'><b>Urbanización</b></td>
-                            <td colspan='3'style='width:70%;text-align=center;'>" . $urbanizacion['nombre'] . "</td>
+                            <td colspan='3'style='width:70%;text-align=center;'>" . $this->beneficiario['urbanizacion'] . "</td>
                         </tr>
                         <tr>
                             <td style='width:15%;text-align=center;'><b>Estrato</b></td>

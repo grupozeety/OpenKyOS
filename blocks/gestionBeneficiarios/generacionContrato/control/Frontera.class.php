@@ -75,6 +75,10 @@ class Frontera {
                         include_once $this->ruta . "frontera/contratoBeneficiario.php";
                         break;
 
+                    case 'editarContrato':
+                        include_once $this->ruta . "frontera/contratoBeneficiario.php";
+                        break;
+
                     case 'verArchivo':
                         include_once $this->ruta . "frontera/verArchivo.php";
                         break;
