@@ -98,7 +98,7 @@ class FormProcessor {
             $resultadoFinal[] = array(
 
                 'id' => $value['id'],
-                'urbanizacion' => $value['name'] . " - " . $value['custom_fields']['2']['value'],
+                'urbanizacion' =>$value['custom_fields']['2']['value'],
             	'departamento' => $value['custom_fields']['0']['value'],
             	'municipio' => $value['custom_fields']['1']['value'],
 
