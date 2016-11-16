@@ -51,6 +51,8 @@ class GestionarContrato {
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
         $infoCertificado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
+        //var_dump($infoCertificado);
+
         // Rescatar los datos de este bloque
 
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
@@ -118,7 +120,6 @@ class GestionarContrato {
                         unset($atributos);
 
                         {
-
                             $valorCodificado = "action=" . $esteBloque["nombre"];
                             $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                             $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
@@ -154,6 +155,35 @@ class GestionarContrato {
                         echo $this->miFormulario->division("fin");
                         unset($atributos);
 
+                        // ------------------Division para los botones-------------------------
+                        $atributos["id"] = "botones_editar";
+                        $atributos["estilo"] = "marcoBotones";
+                        $atributos["estiloEnLinea"] = "display:block;";
+                        echo $this->miFormulario->division("inicio", $atributos);
+                        unset($atributos);
+
+                        {
+
+                            $valorCodificado = "actionBloque=" . $esteBloque["nombre"];
+                            $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                            $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+                            $valorCodificado .= "&opcion=editarInformacionCertificacion";
+
+                            $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                            $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+                            $urlpdfNoFirmas = $url . $cadena;
+
+                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Editar Información Certficado</a></b>";
+
+                        }
+
+                        // ------------------Fin Division para los botones-------------------------
+                        echo $this->miFormulario->division("fin");
+                        unset($atributos);
+
                     }
 
                     // ------------------Fin Division para los botones-------------------------
@@ -163,6 +193,11 @@ class GestionarContrato {
                 echo $this->miFormulario->agrupacion('fin');
                 unset($atributos);
             }
+
+        }
+        if (isset($_REQUEST['mensaje_modal'])) {
+
+            $this->mensajeModal();
 
         }
 
@@ -209,44 +244,40 @@ class GestionarContrato {
 
     public function mensajeModal() {
 
-        switch ($_REQUEST['mensaje']) {
+        switch ($_REQUEST['mensaje_modal']) {
 
-            case 'insertoInformacionContrato':
-                $mensaje = "Exito en el registro información del contrato";
+            case 'actualizoInformacionCertificado':
+                $mensaje = "Exito en la actualización información del certificado";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
-                break;
-            case 'errorGenerarArchivo':
-                $mensaje = "Error en el registro de información del Contrato";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
-
                 break;
 
         }
 
         // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+        if (isset($mensaje)) {
+            $atributos['tipoEtiqueta'] = 'inicio';
+            $atributos['titulo'] = 'Mensaje';
+            $atributos['id'] = 'mensaje';
+            echo $this->miFormulario->modal($atributos);
+            unset($atributos);
 
-        $atributos['tipoEtiqueta'] = 'inicio';
-        $atributos['titulo'] = 'Mensaje';
-        $atributos['id'] = 'mensaje';
-        echo $this->miFormulario->modal($atributos);
-        unset($atributos);
+            // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+            echo '<div style="text-align:center;">';
 
-        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
-        echo '<div style="text-align:center;">';
+            echo '<p><h5>' . $mensaje . '</h5></p>';
 
-        echo '<p><h5>' . $mensaje . '</h5></p>';
+            echo '</div>';
 
-        echo '</div>';
+            // ----------------FIN CONTROL: Mapa--------------------------------------------------------
 
-        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+            echo '<div style="text-align:center;">';
 
-        echo '<div style="text-align:center;">';
+            echo '</div>';
 
-        echo '</div>';
-
-        $atributos['tipoEtiqueta'] = 'fin';
-        echo $this->miFormulario->modal($atributos);
-        unset($atributos);
+            $atributos['tipoEtiqueta'] = 'fin';
+            echo $this->miFormulario->modal($atributos);
+            unset($atributos);
+        }
 
     }
 
