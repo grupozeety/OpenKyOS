@@ -56,8 +56,6 @@ class GenerarDocumento {
             $this->rutaURL .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
         }
 
-        $_REQUEST['tipo_beneficiario'] = $_REQUEST['tipo'];
-
         /**
          *  2. Información de Beneficiario
          **/
@@ -110,11 +108,9 @@ class GenerarDocumento {
     public function obtenerInformacionBeneficiario() {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
+        $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-        $this->beneficiario = $beneficiario[0];
-        //var_dump($this->beneficiario);exit;
+        $this->beneficiario = $beneficiario;
 
     }
 
@@ -172,6 +168,14 @@ class GenerarDocumento {
 
             if ($this->beneficiario['casa_apartamento'] != 0) {
                 $anexo_dir .= " Casa/Apartamento #" . $this->beneficiario['casa_apartamento'];
+            }
+
+            if ($this->beneficiario['interior'] != 0) {
+                $anexo_dir .= " Interior #" . $this->beneficiario['interior'];
+            }
+
+            if ($this->beneficiario['lote'] != 0) {
+                $anexo_dir .= " Lote #" . $this->beneficiario['lote'];
             }
 
         }
@@ -394,13 +398,13 @@ class GenerarDocumento {
                         </tr>
                          <tr>
                             <td style='width:15%;text-align=center;'><b>Departamento</b></td>
-                            <td style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_departamento'] . "</td>
+                            <td style='width:10%;text-align=center;'>" . $this->beneficiario['departamento'] . "</td>
                             <td style='width:10%;text-align=center;'><b>Municipio</b></td>
-                            <td style='width:10%;text-align=center;'>" . $this->beneficiario['nombre_municipio'] . "</td>
+                            <td style='width:10%;text-align=center;'>" . $this->beneficiario['municipio'] . "</td>
                          </tr>
                          <tr>
                             <td style='width:15%;text-align=center;'><b>Urbanización</b></td>
-                            <td colspan='3'style='width:70%;text-align=center;'>" . $urbanizacion['nombre'] . "</td>
+                            <td colspan='3'style='width:70%;text-align=center;'>" . $this->beneficiario['urbanizacion'] . "</td>
                         </tr>
                         <tr>
                             <td style='width:15%;text-align=center;'><b>Estrato</b></td>
@@ -410,7 +414,7 @@ class GenerarDocumento {
                         </tr>
                         <tr>
                            <td style='width:15%;text-align=center;'><b>Barrio</b></td>
-                           <td colspan='3'style='width:70%;text-align=center;'>" . $this->beneficiario['barrio'] . " </td>
+                           <td colspan='3'style='width:70%;text-align=center;'> </td>
                         </tr>
                          <tr>
                             <td style='width:15%;text-align=center;'><b>Telefono</b></td>
