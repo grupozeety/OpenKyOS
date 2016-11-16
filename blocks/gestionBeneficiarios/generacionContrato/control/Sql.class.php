@@ -377,10 +377,7 @@ class Sql extends \Sql {
 
                 $cadenaSql = " SELECT bn.*  ";
                 $cadenaSql .= " FROM interoperacion.contrato bn";
-                //$cadenaSql .= " LEFT JOIN parametros.departamento dp ON dp.codigo_dep= bn.departamento";
-                //$cadenaSql .= " LEFT JOIN parametros.municipio mn ON mn.codigo_mun= bn.municipio";
                 $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "' ";
-                // $cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
                 $cadenaSql .= " AND estado_registro=TRUE;";
 
                 break;
@@ -389,8 +386,6 @@ class Sql extends \Sql {
                 $cadenaSql = " SELECT bn.*  ";
                 $cadenaSql .= " FROM interoperacion.contrato bn";
                 $cadenaSql .= " LEFT JOIN interoperacion.beneficiario_potencial bp ON bp.id_beneficiario= bn.id_beneficiario AND bp.estado_registro=TRUE";
-                //$cadenaSql .= " LEFT JOIN parametros.departamento dp ON dp.codigo_dep= bn.departamento";
-                //$cadenaSql .= " LEFT JOIN parametros.municipio mn ON mn.codigo_mun= bn.municipio";
                 $cadenaSql .= " WHERE bn.numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
                 $cadenaSql .= " AND bn.estado_registro=TRUE;";
                 break;
