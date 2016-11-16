@@ -173,6 +173,8 @@ class Alfresco {
 
                 $this->actualizarServicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
+                $this->estruturarComisionamiento();
+
             } elseif (!isset($EstadoFaltante) && isset($cambiarEstadoCN) && $beneficiario['minvi'] == 'f') {
 
                 $cadenaSql = $this->miSql->getCadenaSql('actualizarEstadoContrato');
@@ -183,10 +185,16 @@ class Alfresco {
 
                 $this->actualizarServicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
+                $this->estruturarComisionamiento();
+
             }
 
         }
 
+    }
+
+    public function estruturarComisionamiento() {
+        include_once "estruturarComisionamiento.php";
     }
     public function verificarArchivo() {
         $respuesta = $this->miSesionSso->getParametrosSesionAbierta();
