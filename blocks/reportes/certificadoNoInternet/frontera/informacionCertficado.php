@@ -38,7 +38,7 @@ class Certificado {
         }
     }
     public function edicionCertificado() {
-        var_dump($_REQUEST);
+
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
@@ -73,10 +73,22 @@ class Certificado {
 
         if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'editarInformacionCertificacion') {
 
-            echo "Entre";
+            $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionCertificadoParticular');
+            $informacionCertificado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
-            $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            $arreglo = array(
+                'nombres' => $informacionCertificado['nombre'],
+                'primer_apellido' => $informacionCertificado['primer_apellido'],
+                'segundo_apellido' => $informacionCertificado['segundo_apellido'],
+                'numero_identificacion' => $informacionCertificado['identificacion'],
+                'celular' => $informacionCertificado['celular'],
+                'ciudad' => $informacionCertificado['ciudad_expedicion_identificacion'],
+                'ciudad_firma' => $informacionCertificado['ciudad_firma'],
+                // 'clausulas' => '',
+
+            );
+
+            $_REQUEST = array_merge($_REQUEST, $arreglo);
 
         } else {
             $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
@@ -144,7 +156,13 @@ class Certificado {
 
                 $esteCampo = 'Agrupacion';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "<b>Certificado de No Internet</b>";
+
+                if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'editarInformacionCertificacion') {
+                    $atributos['leyenda'] = "<b>Certificado de No Internet (Edición de Información)</b>";
+                } else {
+                    $atributos['leyenda'] = "<b>Certificado de No Internet</b>";
+
+                }
 
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
@@ -409,7 +427,7 @@ class Certificado {
                         $atributos['readonly'] = false;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
-                        $atributos['placeholder'] = "Ingrese Ciudad de Expedición de la Identificación";
+                        $atributos['placeholder'] = "Ingrese Ciudad de Firma del Certificado";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
@@ -529,8 +547,11 @@ class Certificado {
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-//                $valorCodificado .= "&opcion=generarCertificacion";
-                $valorCodificado .= "&opcion=guardarInformacion";
+                if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'editarInformacionCertificacion') {
+                    $valorCodificado .= "&opcion=edicionInformacion";
+                } else {
+                    $valorCodificado .= "&opcion=guardarInformacion";
+                }
                 $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
 
                 /**

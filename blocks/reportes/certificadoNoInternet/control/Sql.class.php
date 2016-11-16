@@ -134,6 +134,28 @@ class Sql extends \Sql {
                 $cadenaSql .= " '" . $info_usuario['uid'][0] . "');";
 
                 break;
+
+            case 'consultarInformacionCertificadoParticular':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM interoperacion.certificacion_no_internet";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $_REQUEST['id_beneficiario'] . "'";
+                break;
+
+            case 'actualizarCertificacion':
+                $cadenaSql = " UPDATE interoperacion.certificacion_no_internet";
+                $cadenaSql .= " SET nombre='" . $variable['nombres'] . "',";
+                $cadenaSql .= " primer_apellido='" . $variable['primer_apellido'] . "', ";
+                $cadenaSql .= " segundo_apellido='" . $variable['segundo_apellido'] . "', ";
+                $cadenaSql .= " identificacion='" . $variable['identificacion'] . "',";
+                $cadenaSql .= " celular='" . $variable['celular'] . "', ";
+                $cadenaSql .= " ciudad_expedicion_identificacion='" . $variable['ciudad_expedicion_identificacion'] . "', ";
+                $cadenaSql .= " ciudad_firma='" . $variable['ciudad_firma'] . "',";
+                $cadenaSql .= " ruta_firma='" . $variable['ruta_firma'] . "' ";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable['id_beneficiario'] . "';";
+
+                break;
         }
 
         return $cadenaSql;

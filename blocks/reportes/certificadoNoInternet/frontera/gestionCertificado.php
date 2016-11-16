@@ -120,7 +120,6 @@ class GestionarContrato {
                         unset($atributos);
 
                         {
-
                             $valorCodificado = "action=" . $esteBloque["nombre"];
                             $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                             $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
@@ -196,6 +195,11 @@ class GestionarContrato {
             }
 
         }
+        if (isset($_REQUEST['mensaje_modal'])) {
+
+            $this->mensajeModal();
+
+        }
 
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
         // Se debe declarar el mismo atributo de marco con que se inició el formulario.
@@ -240,44 +244,40 @@ class GestionarContrato {
 
     public function mensajeModal() {
 
-        switch ($_REQUEST['mensaje']) {
+        switch ($_REQUEST['mensaje_modal']) {
 
-            case 'insertoInformacionContrato':
-                $mensaje = "Exito en el registro información del contrato";
+            case 'actualizoInformacionCertificado':
+                $mensaje = "Exito en la actualización información del certificado";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
-                break;
-            case 'errorGenerarArchivo':
-                $mensaje = "Error en el registro de información del Contrato";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
-
                 break;
 
         }
 
         // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+        if (isset($mensaje)) {
+            $atributos['tipoEtiqueta'] = 'inicio';
+            $atributos['titulo'] = 'Mensaje';
+            $atributos['id'] = 'mensaje';
+            echo $this->miFormulario->modal($atributos);
+            unset($atributos);
 
-        $atributos['tipoEtiqueta'] = 'inicio';
-        $atributos['titulo'] = 'Mensaje';
-        $atributos['id'] = 'mensaje';
-        echo $this->miFormulario->modal($atributos);
-        unset($atributos);
+            // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+            echo '<div style="text-align:center;">';
 
-        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
-        echo '<div style="text-align:center;">';
+            echo '<p><h5>' . $mensaje . '</h5></p>';
 
-        echo '<p><h5>' . $mensaje . '</h5></p>';
+            echo '</div>';
 
-        echo '</div>';
+            // ----------------FIN CONTROL: Mapa--------------------------------------------------------
 
-        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+            echo '<div style="text-align:center;">';
 
-        echo '<div style="text-align:center;">';
+            echo '</div>';
 
-        echo '</div>';
-
-        $atributos['tipoEtiqueta'] = 'fin';
-        echo $this->miFormulario->modal($atributos);
-        unset($atributos);
+            $atributos['tipoEtiqueta'] = 'fin';
+            echo $this->miFormulario->modal($atributos);
+            unset($atributos);
+        }
 
     }
 
