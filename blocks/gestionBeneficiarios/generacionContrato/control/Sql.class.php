@@ -331,14 +331,14 @@ class Sql extends \Sql {
                 $cadenaSql .= " segundo_apellido='" . $variable['segundo_apellido'] . "',";
                 $cadenaSql .= " tipo_documento='" . $variable['tipo_documento'] . "',";
                 $cadenaSql .= " numero_identificacion='" . $variable['numero_identificacion'] . "', ";
-                $cadenaSql .= " fecha_expedicion='" . $variable['fecha_expedicion'] . "', ";
+                //$cadenaSql .= " fecha_expedicion='" . $variable['fecha_expedicion'] . "', ";
                 $cadenaSql .= " direccion_domicilio='" . $variable['direccion_domicilio'] . "',";
-            /* $cadenaSql .= " direccion_instalacion='" . $variable['direccion_instalacion'] . "', "; */
+                //$cadenaSql .= " direccion_instalacion='" . $variable['direccion_instalacion'] . "', ";
                 $cadenaSql .= " departamento='" . $variable['departamento'] . "',";
                 $cadenaSql .= " municipio='" . $variable['municipio'] . "', ";
                 $cadenaSql .= " urbanizacion='" . $variable['urbanizacion'] . "', ";
                 $cadenaSql .= " estrato='" . $variable['estrato'] . "', ";
-                $cadenaSql .= " barrio='" . $variable['barrio'] . "', ";
+                //$cadenaSql .= " barrio='" . $variable['barrio'] . "', ";
                 $cadenaSql .= " telefono='" . $variable['telefono'] . "',";
                 $cadenaSql .= " celular='" . $variable['celular'] . "',";
                 $cadenaSql .= " correo='" . $variable['correo'] . "',";
@@ -346,6 +346,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " bloque='" . $variable['bloque'] . "',";
                 $cadenaSql .= " torre='" . $variable['torre'] . "',";
                 $cadenaSql .= " casa_apartamento='" . $variable['casa_apartamento'] . "',";
+                $cadenaSql .= " lote='" . $variable['lote'] . "',";
+                $cadenaSql .= " interior='" . $variable['interior'] . "',";
                 $cadenaSql .= " tipo_tecnologia='" . $variable['tipo_tecnologia'] . "',";
                 $cadenaSql .= " valor_tarificacion='" . $variable['valor_tarificacion'] . "',";
                 $cadenaSql .= " medio_pago='" . $variable['medio_pago'] . "',";

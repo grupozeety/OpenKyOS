@@ -123,7 +123,7 @@ class FormProcessor {
             'departamento' => $_REQUEST['departamento'],
             'municipio' => $_REQUEST['municipio'],
             'urbanizacion' => $_REQUEST['urbanizacion'],
-            'estrato' => '',
+            'estrato' => $_REQUEST['tipo_beneficiario'],
             'estrato_socioeconomico' => $_REQUEST['estrato_economico'],
             'barrio' => '',
             'telefono' => $_REQUEST['telefono'],
