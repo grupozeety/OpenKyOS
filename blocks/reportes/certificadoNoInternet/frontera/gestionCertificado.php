@@ -51,6 +51,8 @@ class GestionarContrato {
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
         $infoCertificado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
+        //var_dump($infoCertificado);
+
         // Rescatar los datos de este bloque
 
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
@@ -148,6 +150,35 @@ class GestionarContrato {
 
                         {
                             echo "<b><a id='link_a' target='_blank' href='" . $infoCertificado['ruta_documento'] . "'>Documento Certificado Con Firma</a></b>";
+                        }
+
+                        // ------------------Fin Division para los botones-------------------------
+                        echo $this->miFormulario->division("fin");
+                        unset($atributos);
+
+                        // ------------------Division para los botones-------------------------
+                        $atributos["id"] = "botones_editar";
+                        $atributos["estilo"] = "marcoBotones";
+                        $atributos["estiloEnLinea"] = "display:block;";
+                        echo $this->miFormulario->division("inicio", $atributos);
+                        unset($atributos);
+
+                        {
+
+                            $valorCodificado = "actionBloque=" . $esteBloque["nombre"];
+                            $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                            $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+                            $valorCodificado .= "&opcion=editarInformacionCertificacion";
+
+                            $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                            $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+                            $urlpdfNoFirmas = $url . $cadena;
+
+                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Editar Información Certficado</a></b>";
+
                         }
 
                         // ------------------Fin Division para los botones-------------------------

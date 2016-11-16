@@ -2,9 +2,9 @@
 
 namespace reportes\certificadoNoInternet;
 
-if (! isset ( $GLOBALS ["autorizado"] )) {
-	include "../index.php";
-	exit ();
+if (!isset($GLOBALS["autorizado"])) {
+    include "../index.php";
+    exit();
 }
 
 include_once "core/manager/Configurador.class.php";
@@ -51,23 +51,23 @@ class Sql extends \Sql {
                 $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id_beneficiario AND cn.estado_registro=TRUE ";
                 $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
                 $cadenaSql .= " AND pr.estado_registro = TRUE ";
-                $cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST['id'] . "';";
+                $cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST['id_beneficiario'] . "';";
                 break;
 
             case 'consultarBeneficiariosPotenciales':
-        		$cadenaSql = " SELECT value , data ";
-				$cadenaSql .= "FROM ";
-				$cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
-				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
-				$cadenaSql .= " LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bp.id_beneficiario ";
-				$cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bp.id_beneficiario=ba.id_beneficiario ";
-				$cadenaSql .= " WHERE bp.estado_registro=TRUE ";
-				$cadenaSql .= " AND ba.estado_registro=TRUE ";
-				$cadenaSql .= " AND ba.carpeta_creada=TRUE ";
-				$cadenaSql .= $variable;
-				$cadenaSql .= "		) datos ";
-				$cadenaSql .= "WHERE value ILIKE '%" . $_GET ['query'] . "%' ";
-				$cadenaSql .= "LIMIT 10; ";
+                $cadenaSql = " SELECT value , data ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bp.id_beneficiario=ba.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND ba.estado_registro=TRUE ";
+                $cadenaSql .= " AND ba.carpeta_creada=TRUE ";
+                $cadenaSql .= $variable;
+                $cadenaSql .= "     ) datos ";
+                $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "LIMIT 10; ";
                 break;
 
             case 'registrarCertificacion':
