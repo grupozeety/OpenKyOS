@@ -100,13 +100,6 @@ class Registrador {
         $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosVerificados');
         $infoArchivo = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultarContratoExistente');
-        $infoArchivoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-        if ($infoArchivoContrato != FALSE) {
-            $infoArchivo = array_merge($infoArchivo, $infoArchivoContrato);
-        }
-
         if ($requisitosContrato != FALSE) {
             //   $requisitos = array_merge($requisitos, $requisitosContrato);
         }
@@ -215,35 +208,36 @@ class Registrador {
                         $atributos["tabIndex"] = $tab++;
                         $atributos["columnas"] = 1;
                         $atributos["estilo"] = "textoIzquierda";
-                        $atributos["anchoEtiqueta"] = 6;
+                        $atributos["anchoEtiqueta"] = 4;
                         $atributos["tamanno"] = 500000;
                         $atributos["etiqueta"] = "<b>" . $requisitos[$key]['codigo'] . "</b> " . $requisitos[$key]['descripcion'];
                         if ($requisitos[$key]['obligatoriedad'] == 1) {
                             $atributos["etiqueta"] = "<b>" . $requisitos[$key]['codigo'] . "</b> " . $requisitos[$key]['descripcion'] . "<b> (*)</b>";
                         }
                         $atributos["estilo"] = "file";
-                        $atributos["anchoCaja"] = 1;
+                        $atributos["anchoCaja"] = 8;
 
                         $atributos["bootstrap"] = true;
                         // $atributos ["valor"] = $valorCodificado;
                         $atributos = array_merge($atributos);
 
-                        if (isset($infoArchivo)) {
+                        if (isset($infoArchivo) && $infoArchivo) {
 
                             $indice = array_search($requisitos[$key]['codigo'], array_column($infoArchivo, 'codigo_requisito'), true);
 
                             if (!is_null($indice) && isset($redireccion[$requisitos[$key]['codigo']])) {
-                                $cadena = "<center><a href='" . $redireccion[$requisitos[$key]['codigo']] . "' >" . "<b>" . $requisitos[$key]['codigo'] . "</b> " . $requisitos[$key]['descripcion'] . "</a></center>";
+                                $cadena = "<center><a href='" . $redireccion[$requisitos[$key]['codigo']] . "' >" . "<b>" . $requisitos[$key]['codigo'] . "</b> " . $requisitos[$key]['descripcion'] . "</a></center><br>";
                             } else {
                                 $a++;
-                                $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
+                                $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center><br>";
                             }
                         } else {
                             $a++;
-                            $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center>";
+                            $cadena = "<center>" . $this->miFormulario->campoCuadroTexto($atributos) . "</center><br>";
                         }
                         $filasTabla[$key] = $cadena;
                         unset($atributos);
+
                     }
 
                     $tabla = "<table id='example' class='table table-striped table-bordered dt-responsive nowrap' cellspacing='0' width='100%'>
@@ -257,9 +251,16 @@ class Registrador {
                                              <td >" . $filasTabla[$key] . "</td>
                                         </tr>";
                     }
+
                     $tabla .= "</table>";
 
-                    echo $tabla;
+                    //echo $tabla;
+
+                    echo "<br>";
+
+                    foreach ($filasTabla as $key => $values) {
+                        echo $filasTabla[$key];
+                    }
                 }
                 {
                     // ------------------Division para los botones-------------------------

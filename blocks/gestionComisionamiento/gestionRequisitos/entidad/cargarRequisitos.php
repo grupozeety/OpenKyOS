@@ -7,8 +7,8 @@ if (!isset($GLOBALS["autorizado"])) {
     exit();
 }
 
-use gestionBeneficiarios\generacionContrato\entidad\Redireccionador;
-use gestionBeneficiarios\generacionContrato\entidad\Sincronizar;
+use gestionComisionamiento\gestionRequisitos\entidad\Redireccionador;
+use gestionComisionamiento\gestionRequisitos\entidad\Sincronizar;
 
 include_once 'Redireccionador.php';
 require_once 'sincronizar.php';
@@ -71,63 +71,41 @@ class cargueRequisitos {
          * Registrar Contrato Borrador y Servicio
          */
 
-        $this->registrarContratoBorrador();
-
-        if ($this->datos_contrato) {
+        if ($this->registro_documentos) {
 
             Redireccionador::redireccionar("Inserto", $total);
         } else {
             Redireccionador::redireccionar("NoInserto");
         }
     }
-    public function registrarContratoBorrador() {
-        if (!isset($_REQUEST['numero_contrato'])) {
-            $cadenaSql = $this->miSql->getCadenaSql('registrarContrato');
-            $registro_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-            $this->datos_contrato = $registro_contrato;
-
-            $cadenaSql = $this->miSql->getCadenaSql('registrarServicio', $registro_contrato[0][0]);
-            $registro_servicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-        } else {
-            $this->datos_contrato = TRUE;
-        }
-    }
     public function registrarDocumentos() {
-        foreach ($this->archivos_datos as $key => $value) {
-            if ($this->archivos_datos[$key]['tipo_documento'] != 128) {
 
-                $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentos', $value);
-                $registro_docmuentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-            } else {
-                $this->archivos_datos[$key]['id_beneficiario'] = $_REQUEST['id_beneficiario'];
-                $cadenaSql = $this->miSql->getCadenaSql('actualizarCargueContrato', $this->archivos_datos[$key]);
-                $this->verificacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-            }
+        foreach ($this->archivos_datos as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentos', $value);
+            $this->registro_documentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
         }
     }
     public function asosicarCodigoDocumento() {
+
         foreach ($_FILES as $key => $value) {
 
-            if ($key != "901") {
+            $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', $key);
+            $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            $_FILES[$key]['tipo_documento'] = $id_parametro[0]['id_parametro'];
+            $_FILES[$key]['descripcion_documento'] = $id_parametro[0]['codigo'] . '_' . $id_parametro[0]['descripcion'];
 
-                $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', $key);
-                $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                $_FILES[$key]['tipo_documento'] = $id_parametro[0]['id_parametro'];
-                $_FILES[$key]['descripcion_documento'] = $id_parametro[0]['codigo'] . '_' . $id_parametro[0]['descripcion'];
-            } else {
-                $cadenaSql = $this->miSql->getCadenaSql('consultarParametroContrato', 128);
-                $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-                $_FILES[$key]['tipo_documento'] = $id_parametro[0]['id_parametro'];
-                $_FILES[$key]['descripcion_documento'] = $id_parametro[0]['codigo'] . '_' . $id_parametro[0]['descripcion'];
-            }
         }
+
     }
     public function cargarArchivos() {
+
         foreach ($_FILES as $key => $archivo) {
 
-            if ($_FILES[$key]['size'] != 0) {
+            if ($_FILES[$key]['size'] != 0 && $_FILES[$key]['error'] == 0) {
+
                 $this->prefijo = substr(md5(uniqid(time())), 0, 6);
                 $exten = pathinfo($archivo['name']);
 
@@ -140,6 +118,7 @@ class cargueRequisitos {
                 );
 
                 if (!in_array($_FILES[$key]['type'], $allowed)) {
+
                     Redireccionador::redireccionar("ErrorCargarFicheroDirectorio");
                     exit();
                 }
@@ -152,13 +131,17 @@ class cargueRequisitos {
                 $tipo = $archivo['type'];
                 $nombre_archivo = str_replace(" ", "_", $archivo['descripcion_documento']);
                 $doc = $_REQUEST['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.' . $exten['extension'];
+
                 /*
                  * guardamos el fichero en el Directorio
                  */
                 $ruta_absoluta = $this->miConfigurador->configuracion['raizDocumento'] . "/archivos/" . $doc;
+
                 $ruta_relativa = $this->miConfigurador->configuracion['host'] . $this->miConfigurador->configuracion['site'] . "/archivos/" . $doc;
+
                 $archivo['rutaDirectorio'] = $ruta_absoluta;
                 if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
+
                     Redireccionador::redireccionar("ErrorCargarFicheroDirectorio");
                     exit();
                 }
@@ -169,7 +152,9 @@ class cargueRequisitos {
                     'campo' => $key,
                     'tipo_documento' => $archivo['tipo_documento'],
                 );
+
             }
+
         }
         $this->archivos_datos = $archivo_datos;
     }

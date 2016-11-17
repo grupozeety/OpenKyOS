@@ -15,7 +15,7 @@ class Redireccionador {
 
             case "Inserto":
 
-                $variable = 'pagina=generacionContrato';
+                $variable = 'pagina=gestionRequisitos';
                 $variable .= '&opcion=validarRequisitos';
                 $variable .= '&mensaje=inserto';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
@@ -25,7 +25,7 @@ class Redireccionador {
                 break;
 
             case "NoInserto":
-                $variable = 'pagina=generacionContrato';
+                $variable = 'pagina=gestionRequisitos';
                 $variable .= '&opcion=validarRequisitos';
                 $variable .= '&mensaje=noinserto';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
@@ -35,7 +35,7 @@ class Redireccionador {
 
             case "InsertoInformacionContrato":
 
-                $variable = 'pagina=generacionContrato';
+                $variable = 'pagina=gestionRequisitos';
                 $variable .= '&opcion=validarRequisitos';
                 $variable .= '&proceso=gestionarContrato';
                 $variable .= '&mensaje=insertoInformacionContrato';
@@ -45,7 +45,7 @@ class Redireccionador {
 
             case "NoInsertoInformacionContrato":
 
-                $variable = 'pagina=generacionContrato';
+                $variable = 'pagina=gestionRequisitos';
                 $variable .= '&opcion=validarRequisitos';
                 $variable .= '&mensaje=noInsertoInformacionContrato';
                 $variable .= '&proceso=gestionarContrato';
@@ -54,7 +54,7 @@ class Redireccionador {
                 break;
 
             case "verifico":
-                $variable = 'pagina=generacionContrato';
+                $variable = 'pagina=gestionRequisitos';
                 $variable .= '&opcion=validarRequisitos';
                 $variable .= '&mensaje=verifico';
                 $variable .= '&proceso=verificarRequisitos';
@@ -62,7 +62,7 @@ class Redireccionador {
                 break;
 
             case "noverifico":
-                $variable = 'pagina=generacionContrato';
+                $variable = 'pagina=gestionRequisitos';
                 $variable .= '&opcion=validarRequisitos';
                 $variable .= '&mensaje=noverifico';
                 $variable .= '&proceso=verificarRequisitos';
@@ -70,7 +70,7 @@ class Redireccionador {
                 break;
 
             case "ErrorCargarFicheroDirectorio":
-                $variable = 'pagina=generacionContrato';
+                $variable = 'pagina=gestionRequisitos';
                 $variable .= '&opcion=validarRequisitos';
                 $variable .= '&mensaje=novalido';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
