@@ -37,12 +37,12 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN parametros.parametros pm ON pm.id_parametro=cn.estado_contrato AND pm.estado_registro=TRUE";
                 $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND rl.descripcion='Estado Contrato' AND rl.estado_registro=TRUE";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.id_beneficiario=cn.id_beneficiario";
-                $cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bn.id_beneficiario=ba.id_beneficiario ";
+                //$cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bn.id_beneficiario=ba.id_beneficiario ";
                 $cadenaSql .= " LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bn.id_beneficiario ";
                 $cadenaSql .= " WHERE cn.estado_registro=TRUE ";
-                $cadenaSql .=  $variable;
+                $cadenaSql .= $variable;
                 $cadenaSql .= " AND bn.estado_registro=TRUE";
-                $cadenaSql .= " AND ba.carpeta_creada=TRUE";
+                //$cadenaSql .= " AND ba.carpeta_creada=TRUE";
                 break;
 
             case 'consultarContratoEspecifico':

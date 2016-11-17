@@ -27,6 +27,10 @@ $this->idioma['valor_tarificacion'] = 'Valor Tarificación';
 
 $this->idioma['estrato_economico'] = 'Estrato Socio Económico';
 
+$this->idioma['interior'] = '# Interior';
+
+$this->idioma['lote'] = '# Lote';
+
 //----------------------Contrato-------------------------------
 
 $this->idioma['nombres'] = 'Nombres';

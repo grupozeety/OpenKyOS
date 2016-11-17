@@ -91,7 +91,7 @@ class FormProcessor {
 
         $clausulas = $this->clausulas;
 
-        switch ($_REQUEST['tipo']) {
+        switch ($_REQUEST['tipo_beneficiario']) {
 
             case '1':
                 $valor_tarificacion = '6500';
@@ -121,15 +121,15 @@ class FormProcessor {
             'segundo_apellido' => $_REQUEST['segundo_apellido'],
             'tipo_documento' => $_REQUEST['tipo_documento'],
             'numero_identificacion' => $_REQUEST['numero_identificacion'],
-            'fecha_expedicion' => $_REQUEST['fecha_expedicion'],
+            'fecha_expedicion' => " ",
             'direccion_domicilio' => $_REQUEST['direccion_domicilio'],
             'direccion_instalacion' => '',
             'departamento' => $_REQUEST['departamento'],
             'municipio' => $_REQUEST['municipio'],
             'urbanizacion' => $_REQUEST['urbanizacion'],
-            'estrato' => $_REQUEST['tipo'],
+            'estrato' => $_REQUEST['tipo_beneficiario'],
             'estrato_socioeconomico' => $_REQUEST['estrato_economico'],
-            'barrio' => $_REQUEST['barrio'],
+            'barrio' => "",
             'telefono' => $_REQUEST['telefono'],
             'celular' => $_REQUEST['celular'],
             'correo' => $_REQUEST['correo'],
@@ -150,6 +150,8 @@ class FormProcessor {
             'bloque' => $_REQUEST['num_bloque'],
             'torre' => $_REQUEST['num_torre'],
             'casa_apartamento' => $_REQUEST['tipo_tecnologia'],
+            'interior' => $_REQUEST['interior'],
+            'lote' => $_REQUEST['lote'],
             'tipo_tecnologia' => $_REQUEST['tipo_tecnologia'],
             'valor_tarificacion' => $valor_tarificacion,
             'medio_pago' => $_REQUEST['medio_pago'],
