@@ -65,23 +65,25 @@ class GenerarDocumento {
 
         $this->crearPDF();
 
-        $arreglo = array(
-            'nombre_contrato' => $this->nombreDocumento,
-            'ruta_contrato' => $this->rutaURL . $this->nombreDocumento);
+        if ($_REQUEST['opcion'] != 'edicionInformacion') {
 
-        $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentoCertificado', $arreglo);
+            $arreglo = array(
+                'nombre_contrato' => $this->nombreDocumento,
+                'ruta_contrato' => $this->rutaURL . $this->nombreDocumento);
 
-        $this->registro_certificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentoCertificado', $arreglo);
 
-        $arreglo = array(
-            'id_beneficiario' => $_REQUEST['id_beneficiario'],
-            'tipologia' => "124",
-            'nombre_documento' => $this->nombreDocumento,
-            'ruta_relativa' => $this->rutaURL . $this->nombreDocumento,
-        );
+            $this->registro_certificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            $arreglo = array(
+                'id_beneficiario' => $_REQUEST['id_beneficiario'],
+                'tipologia' => "124",
+                'nombre_documento' => $this->nombreDocumento,
+                'ruta_relativa' => $this->rutaURL . $this->nombreDocumento,
+            );
 
-        $cadenaSql = $this->miSql->getCadenaSql('registrarRequisito', $arreglo);
-        $this->registroRequisito = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            $cadenaSql = $this->miSql->getCadenaSql('registrarRequisito', $arreglo);
+            $this->registroRequisito = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        }
 
     }
 
