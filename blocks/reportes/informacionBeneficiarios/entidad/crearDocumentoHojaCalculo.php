@@ -68,7 +68,7 @@ class GenerarReporteExcelInstalaciones {
 
             $this->objCal->getActiveSheet()->getRowDimension($i)->setRowHeight(100);
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('A' . $i, 'Politécnica')
+                 ->setCellValue('A' . $i, 'Corporación Politécnica Nacional')
                  ->getStyle("A" . $i)->applyFromArray($styleCentrado);
 
             /*
@@ -105,8 +105,34 @@ class GenerarReporteExcelInstalaciones {
                  ->setCellValue('H' . $i, $value['id_beneficiario'])
                  ->getStyle('H' . $i)->applyFromArray($styleCentradoVertical);
 
+            $anexo_dir = '';
+
+            if ($value['manzana'] != 0) {
+                $anexo_dir .= " Manzana  #" . $value['manzana'] . " - ";
+            }
+
+            if ($value['bloque'] != 0) {
+                $anexo_dir .= " Bloque #" . $value['bloque'] . " - ";
+            }
+
+            if ($value['torre'] != 0) {
+                $anexo_dir .= " Torre #" . $value['torre'] . " - ";
+            }
+
+            if ($value['casa_apartamento'] != 0) {
+                $anexo_dir .= " Casa/Apartamento #" . $value['casa_apartamento'];
+            }
+
+            if ($value['interior'] != 0) {
+                $anexo_dir .= " Interior #" . $value['interior'];
+            }
+
+            if ($value['lote'] != 0) {
+                $anexo_dir .= " Lote #" . $value['lote'];
+            }
+
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('I' . $i, $value['direccion_instalacion'])
+                 ->setCellValue('I' . $i, $value['direccion_instalacion'] . " " . $anexo_dir)
                  ->getStyle('I' . $i)->applyFromArray($styleCentradoVertical);
 
             /*
