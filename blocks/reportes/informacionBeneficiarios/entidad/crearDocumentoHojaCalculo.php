@@ -119,7 +119,7 @@ class GenerarReporteExcelInstalaciones {
         // Add some data
 
         $this->objCal->getActiveSheet()->getRowDimension('1')->setRowHeight(30);
-        $this->objCal->getActiveSheet()->getRowDimension('2')->setRowHeight(50);
+        $this->objCal->getActiveSheet()->getRowDimension('2')->setRowHeight(60);
 
         $this->objCal->setActiveSheetIndex(0)->mergeCells('A1:G1');
         $this->objCal->setActiveSheetIndex(0)
@@ -409,6 +409,121 @@ class GenerarReporteExcelInstalaciones {
             $this->objCal->getActiveSheet()->getColumnDimension('AT')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('AU')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('AV')->setWidth(20);
+
+        }
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('AW1:BH1');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('AO1', 'FOR-1264-TEC-016-REV-00 INFORMACIÓN TÉCNICA DE LA INSTALACIÓN (Aplica solo para tecnología INALÁMBRICA, si es diferente rellene con N/A)')
+             ->getStyle('AO1')->applyFromArray($styleCentrado);
+        {
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AO2', 'IP CELDA')
+                 ->getStyle('AO2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AP2', 'MAC_CELDA')
+                 ->getStyle('AP2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AQ2', 'Nombre del Nodo')
+                 ->getStyle('AQ2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AR2', 'Nombre del Sectorial  (Sectorial 1,2,3…n)')
+                 ->getStyle('AR2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AS2', 'IP Switch')
+                 ->getStyle('AS2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AT2', 'IP SM')
+                 ->getStyle('AT2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AU2', 'MAC SM')
+                 ->getStyle('AU2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AV2', 'MAC-CPE')
+                 ->getStyle('AV2')->applyFromArray($styleCentrado);
+
+            $this->objCal->getActiveSheet()->getColumnDimension('AO')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('AP')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('AQ')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('AR')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('AT')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('AU')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('AV')->setWidth(20);
+
+        }
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('AW1:BH1');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('AW1', 'FOR-1264-TEC-016-REV-00 INFORMACIÓN TÉCNICA DE LA INSTALACIÓN (Aplica solo para tecnología HFC, si es diferente rellene con N/A)')
+             ->getStyle('AW1')->applyFromArray($styleCentrado);
+        {
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AW2', 'IP OLT')
+                 ->getStyle('AW2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AX2', 'MAC_OLT')
+                 ->getStyle('AX2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AY2', 'PORT OLT')
+                 ->getStyle('AY2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AZ2', 'NOMBRE OLT')
+                 ->getStyle('AZ2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BA2', 'PUERTO_OLT')
+                 ->getStyle('BA2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BB2', 'MAC del Master EOC')
+                 ->getStyle('BB2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BC2', 'IP del Master EOC')
+                 ->getStyle('BC2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BD2', 'IP ONU')
+                 ->getStyle('BD2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BE2', 'MAC ONU')
+                 ->getStyle('BE2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BF2', 'IP HUB')
+                 ->getStyle('BF2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BG2', 'MAC HUB')
+                 ->getStyle('BG2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('BH2', 'MAC-CPE')
+                 ->getStyle('BH2')->applyFromArray($styleCentrado);
+
+            $this->objCal->getActiveSheet()->getColumnDimension('AW')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('AX')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('AY')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('AZ')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('BA')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('BB')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('BC')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('BD')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('BE')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('BF')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('BG')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('BH')->setWidth(20);
 
         }
 
