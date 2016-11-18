@@ -28,10 +28,12 @@ class Sql extends \Sql {
              */
 
             case 'consultaInformacionBeneficiario':
-                $cadenaSql = " SELECT cn.*";
-                $cadenaSql .= " FROM interoperacion.contrato AS cn";
-                $cadenaSql .= " FROM interoperacion.contrato AS cn";
-                $cadenaSql .= " WHERE cn.estado_registro='TRUE';";
+                $cadenaSql = " SELECT cn.* , pm.descripcion_metas";
+                $cadenaSql .= " FROM interoperacion.contrato AS cn ";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario";
+                $cadenaSql .= " JOIN parametros.proyectos_metas AS pm ON pm.id_proyecto =bn.id_proyecto";
+                $cadenaSql .= " WHERE cn.estado_registro='TRUE' ";
+                $cadenaSql .= " ORDER BY cn.numero_contrato;";
                 break;
         }
 

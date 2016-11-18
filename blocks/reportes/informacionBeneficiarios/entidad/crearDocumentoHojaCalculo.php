@@ -15,13 +15,14 @@ class GenerarReporteExcelInstalaciones {
     public $conexion;
     public $proyectos;
     public $objCal;
+    public $beneficiarios;
 
-    public function __construct($sql, $proyectos) {
+    public function __construct($sql, $beneficiarios) {
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
-        $this->proyectos = $proyectos;
+        $this->beneficiarios = $beneficiarios;
 
         /**
          * 1. Configuración Propiedades Documento
@@ -34,9 +35,110 @@ class GenerarReporteExcelInstalaciones {
         $this->generarEsquemaDocumento();
 
         /**
-         * XX. Retornar Documento Reporte
+         * 3. Estruturamiento Esquema Reporte
+         **/
+        $this->estructurarInformacion();
+
+        /**
+         *4. Retornar Documento Reporte
          **/
         $this->retornarDocumento();
+
+    }
+
+    public function estructurarInformacion() {
+
+        // Estilos Celdas
+        {
+            $styleCentrado = array(
+                'alignment' => array(
+                    'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                    'vertical' => \PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                ),
+            );
+            $styleCentradoVertical = array(
+                'alignment' => array(
+                    'vertical' => \PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                ),
+            );
+        }
+        $i = 3;
+
+        foreach ($this->beneficiarios as $key => $value) {
+
+            $this->objCal->getActiveSheet()->getRowDimension($i)->setRowHeight(100);
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('A' . $i, 'Politécnica')
+                 ->getStyle("A" . $i)->applyFromArray($styleCentrado);
+
+            /*
+            $this->objCal->setActiveSheetIndex(0)
+            ->setCellValue('B' . $i, (($contenido_CentroGestion != false) ? $contenido_CentroGestion : ""))
+            ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
+             */
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('C' . $i, $value['departamento'])
+                 ->getStyle('C' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('D' . $i, $value['municipio'])
+                 ->getStyle('D' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('E' . $i, $value['urbanizacion'])
+                 ->getStyle('E' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('F' . $i, (($value['estrato'] == '1') ? "X" : ""))
+                 ->getStyle('F' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('G' . $i, $value['descripcion_metas'])
+                 ->getStyle('G' . $i)->applyFromArray($styleCentrado);
+
+            /**
+             * Datos Beneficiarios
+             */
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('H' . $i, $value['id_beneficiario'])
+                 ->getStyle('H' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('I' . $i, $value['direccion_instalacion'])
+                 ->getStyle('I' . $i)->applyFromArray($styleCentradoVertical);
+
+            /*
+            $this->objCal->setActiveSheetIndex(0)
+            ->setCellValue('J' . $i, "")
+            ->getStyle('J' . $i)->applyFromArray($styleCentradoVertical);
+             */
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('K' . $i, $value['numero_identificacion'])
+                 ->getStyle('K' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('L' . $i, $value['nombres'] . " " . $value['primer_apellido'] . " " . $value['segundo_apellido'])
+                 ->getStyle('L' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('M' . $i, (($value['celular'] == 0) ? " " : $value['celular']))
+                 ->getStyle('M' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('N' . $i, $value['correo'])
+                 ->getStyle('N' . $i)->applyFromArray($styleCentradoVertical);
+
+            //Pendiente Ajuste adicion si casa o Apto
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('O' . $i, "APARTAMENTO")
+                 ->getStyle('O' . $i)->applyFromArray($styleCentradoVertical);
+
+            $i++;
+
+        }
 
     }
 
@@ -536,9 +638,9 @@ class GenerarReporteExcelInstalaciones {
         // Set document properties
         $this->objCal->getProperties()->setCreator("OpenKyOS")
              ->setLastModifiedBy("OpenKyOS")
-             ->setTitle("Reporte de Instalaciones (" . $_REQUEST['fecha_inicio'] . ")-(" . $_REQUEST['fecha_final'] . ")")
-             ->setSubject("Reporte Instalaciones")
-             ->setDescription("Reporte de Instalaciones en un determinado periodo de tiempo")
+             ->setTitle("Reporte de Beneficiarios (" . date('Y-m-d') . ")")
+             ->setSubject("Reporte Beneficiarios")
+             ->setDescription("Reporte de Información Beneficiarios")
              ->setCategory("Reporte");
 
     }
@@ -567,7 +669,7 @@ class GenerarReporteExcelInstalaciones {
 
 }
 
-$miProcesador = new GenerarReporteExcelInstalaciones($this->miSql, $this->proyectos);
+$miProcesador = new GenerarReporteExcelInstalaciones($this->miSql, $this->beneficiarios);
 
 ?>
 

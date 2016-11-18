@@ -39,7 +39,8 @@ class GenerarReporteInstalaciones {
     public function estruturarProyectos() {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
-        $this->registroRequisito = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
     }
 
     public function crearHojaCalculo() {
