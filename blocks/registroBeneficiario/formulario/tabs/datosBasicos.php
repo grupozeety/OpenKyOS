@@ -107,10 +107,12 @@ class Formulario {
 
         $deshabilitado = false;
 
+       
         if (isset($_REQUEST['id'])) {
             $cadena_sql = $this->miSql->getCadenaSql("cargarBeneficiarioPotencial");
             $cargueDatos = $esteRecursoDB->ejecutarAcceso($cadena_sql, "busqueda");
-
+  
+            
             if (count($cargueDatos) > 1) {
 
                 $documentos = "";
@@ -132,6 +134,15 @@ class Formulario {
                 redireccion::redireccionar("noExisteBeneficiario");
                 exit();
             } else {
+            	
+            	$data=array(
+            			'id'=>$_REQUEST['id'],
+            			'documento'=>$cargueDatos['identificacion_beneficiario'],
+            	);
+            	//Aquí sincronizar el menú de acceso rápido
+            	$cadena_sql = $this->miSql->getCadenaSql("sincronizarRapido",$data);
+            	$accesoRapido = $esteRecursoDB->ejecutarAcceso($cadena_sql, "registro");
+            	
                 $cadenaSql = $this->miSql->getCadenaSql('estadoAlfresco', $_REQUEST['id']);
                 $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 

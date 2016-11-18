@@ -69,6 +69,14 @@ class Sql extends \Sql {
                 $cadenaSql .= " ;";
 
                 break;
+                
+            case "accesoRapido":
+            	$cadenaSql = "SELECT documento, beneficiario ";
+            	$cadenaSql .= " FROM";
+            	$cadenaSql .= " parametros.usuario_beneficiario";
+            	$cadenaSql .= " WHERE";
+            	$cadenaSql .= " usuario='".$variable."'";
+            	break;
         }
 
         return $cadenaSql;

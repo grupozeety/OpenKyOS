@@ -14,6 +14,7 @@ class FormularioMenu {
 	public $miFormulario;
 	public $miSql;
 	public $atributosMenu;
+	public $usuarioRapido;
 	public $miSesionSso;
 	public $_rutaBloque;
 	public function __construct($lenguaje, $formulario, $sql) {
@@ -125,11 +126,18 @@ class FormularioMenu {
 		}
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( "consultarDatosMenu", $respuesta ['rol'] );
-		
 		$this->atributosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		// revisar último Beneficiario consultado
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( "accesoRapido", $respuesta ['mail'] [0] );
+		$this->usuarioRapido = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		$this->ConstruirMenu ( $rutaBloque );
 		
+		
+		
+
 		// En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
 		
 		// Paso 1: crear el listado de variables
@@ -203,11 +211,15 @@ class FormularioMenu {
 			$i ++;
 		}
 		
-		foreach ( $arreglo as $valor => $key ) {
-			if (isset ( $key [$i] ['rapido'] ) == true) {
-				$menuRapido .= $this->ConstruirGrupoGeneralMenuRapido ( $key, $valor );
+
+		if ($this->usuarioRapido!=false) {
+			
+			foreach ( $arreglo as $valor => $key ) {
+				if (isset ( $key [$i] ['rapido'] ) == true) {
+					$menuRapido .= $this->ConstruirGrupoGeneralMenuRapido ( $key, $valor );
+				}
+				$i ++;
 			}
-			$i ++;
 		}
 		
 		$cadenaHTML = '<div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -299,7 +311,6 @@ class FormularioMenu {
 				
 				if (isset ( $valor ['clase_enlace'] ) && $valor ['clase_enlace'] == "normal") {
 					
-					
 					$enlace = $valor ['id_enlace'];
 					
 					$submenu .= ' <li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $valor ['titulo_enlace'] . '</a>
@@ -308,10 +319,9 @@ class FormularioMenu {
 					
 					foreach ( $ArrayAtributos as $valor ) {
 						
-						
 						if ($valor ['submenu'] == $enlace) {
-							$valor['parametros'] = "id=R2157";
-			
+							$valor ['parametros'] .= "&id=".$this->usuarioRapido[0][1];
+							
 							$submenu .= '<li><a href="' . $this->CrearUrl ( $valor ) . '">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&#9672 ' . $valor ['titulo_enlace'] . '</a></li>';
 						}
 					}
@@ -320,10 +330,10 @@ class FormularioMenu {
                             </ul>
                         </li>';
 				} else if ($valor ['submenu'] == null) {
-					$valor['parametros'] = "id=R2157";
+				$valor ['parametros'] .= "&id=".$this->usuarioRapido[0][1];
 					
-					if($valor ['id_enlace']==25){
-						$valor ['titulo_enlace']='Perfil Abonado';
+					if ($valor ['id_enlace'] == 25) {
+						$valor ['titulo_enlace'] = 'Perfil Abonado';
 					}
 					$submenu .= '<li><a href="' . $this->CrearUrl ( $valor ) . '">' . $valor ['titulo_enlace'] . '</a></li>';
 				}
@@ -334,7 +344,7 @@ class FormularioMenu {
 		
 		if ($submenu != '') {
 			$cadena .= '<li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">1024<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$this->usuarioRapido[0][0].'<b class="caret"></b></a>
                     <ul class="dropdown-menu multi-level">';
 			$cadena .= $submenu;
 			
@@ -364,8 +374,6 @@ class FormularioMenu {
 		return $cadena;
 	}
 	public function CrearUrl($atributos) {
-
-
 		if ($atributos ['tipo_enlace'] == 'interno' && ! is_null ( $atributos ['enlace'] )) {
 			
 			$url = $this->miConfigurador->configuracion ['host'] . $this->miConfigurador->configuracion ['site'] . '/index.php?';
