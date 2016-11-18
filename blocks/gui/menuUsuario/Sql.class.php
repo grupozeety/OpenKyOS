@@ -32,7 +32,7 @@ class Sql extends \Sql {
 			 * Clausulas Menú.
 			 * Mediante estas sentencias se generan los diferentes menus del aplicativo
 			 */
-			
+		
 			case "consultarDatosMenu" :
 				$cadenaSql = " SELECT DISTINCT";
 				$cadenaSql .= " enl.id_menu AS menu,";
@@ -43,7 +43,8 @@ class Sql extends \Sql {
 				$cadenaSql .= " ten.nombre AS tipo_enlace,";
 				$cadenaSql .= " cen.nombre AS clase_enlace,";
 				$cadenaSql .= " enl.enlace AS enlace,";
-				$cadenaSql .= " enl.parametros AS parametros";
+				$cadenaSql .= " enl.parametros AS parametros,";
+				$cadenaSql .= " enl.acceso_rapido AS rapido";
 				$cadenaSql .= " FROM gestion_menu.menu_rol_enlace as rol_enlace";
 				$cadenaSql .= " INNER JOIN gestion_menu.menu_enlace AS enl ON enl.id_enlace = rol_enlace.id_enlace";
 				$cadenaSql .= " INNER JOIN gestion_menu.menu_tipo_enlace AS ten ON ten.id_tipo_enlace = enl.id_tipo_enlace";

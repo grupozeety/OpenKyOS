@@ -65,6 +65,10 @@ class Frontera {
             }
 
         } else {
+        	if(isset($_REQUEST['id'])){
+        			include_once $this->ruta . "frontera/informacionCertficado.php";
+        			break;
+        	}
             include_once $this->ruta . "frontera/consultarBeneficiario.php";
         }
 
