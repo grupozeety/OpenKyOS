@@ -443,7 +443,9 @@ class GenerarReporteExcelInstalaciones {
                 $i++;
             }
         }
-
+        
+        var_dump($this->informacion);
+ 
     }
 
     public function registrarAlmacenDatos() {
