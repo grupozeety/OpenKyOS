@@ -318,12 +318,12 @@ class FormularioMenu {
                                 ';
 					
 					foreach ( $ArrayAtributos as $valor ) {
-						
+									if ($valor ['rapido'] == 't') {
 						if ($valor ['submenu'] == $enlace) {
 							$valor ['parametros'] .= "&id=".$this->usuarioRapido[0][1];
 							
 							$submenu .= '<li><a href="' . $this->CrearUrl ( $valor ) . '">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&#9672 ' . $valor ['titulo_enlace'] . '</a></li>';
-						}
+						}}
 					}
 					
 					$submenu .= '
