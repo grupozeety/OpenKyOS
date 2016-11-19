@@ -82,7 +82,7 @@ class Sincronizar {
 		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
 
 		$status = json_decode ( $json_decode, true );
-		
+
 		if ($status ['status'] ['code'] == 200) {
 			
 			$estado = array (
