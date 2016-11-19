@@ -333,7 +333,7 @@ class FormularioMenu {
 				$valor ['parametros'] .= "&id=".$this->usuarioRapido[0][1];
 					
 					if ($valor ['id_enlace'] == 25) {
-						$valor ['titulo_enlace'] = 'Perfil Abonado';
+						$valor ['titulo_enlace'] = 'Consultar Abonado';
 					}
 					$submenu .= '<li><a href="' . $this->CrearUrl ( $valor ) . '">' . $valor ['titulo_enlace'] . '</a></li>';
 				}
