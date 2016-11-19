@@ -27,10 +27,10 @@ class GenerarReporteInstalaciones {
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        $conexion = "openproject";
-        $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+//         $conexion = "openproject";
+//         $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        $conexion = "almacenDatos";
+        $conexion = "almacendatos";
         $this->esteRecursoAD = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $_REQUEST['tiempo'] = time();
@@ -38,7 +38,7 @@ class GenerarReporteInstalaciones {
         /**
          * -1. Consultar Parametrización
          **/
-        $this->consultarParametrizacion();
+//         $this->consultarParametrizacion();
 
         /**
          * 0. Estrucurar Desatelles Proyecto
@@ -58,12 +58,12 @@ class GenerarReporteInstalaciones {
         /**
          * 3. Obtener Paquetes de Trabajo
          **/
-        $this->obtenerPaquetesTrabajo();
+//         $this->obtenerPaquetesTrabajo();
 
         /**
          * 4. Obtener Actividades Paquetes de Trabajo
          **/
-        $this->obtenerActividades();
+//         $this->obtenerActividades();
 
         /**
          * 5. Filtrar Actividades Paquetes de Trabajo
@@ -88,7 +88,6 @@ class GenerarReporteInstalaciones {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionReporte');
         $this->info_proyectos = $this->esteRecursoAD->ejecutarAcceso($cadenaSql, "busqueda");
-        var_dump($this->proyectos);
 
     }
 
