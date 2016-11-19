@@ -444,8 +444,6 @@ class GenerarReporteExcelInstalaciones {
             }
         }
         
-        var_dump($this->informacion);
- 
     }
 
     public function registrarAlmacenDatos() {
@@ -455,7 +453,7 @@ class GenerarReporteExcelInstalaciones {
         ksort($this->informacion);
 
         $cadenaSql = $this->miSql->getCadenaSql('actualizarProyectosAlmacen', $this->informacion);
-        //echo $cadenaSql;
+        echo $cadenaSql;
         $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "actualizar");
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarProyectosAlmacen', $this->informacion);
