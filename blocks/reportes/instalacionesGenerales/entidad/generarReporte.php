@@ -10,29 +10,50 @@ class GenerarReporteInstalaciones {
     public $conexion;
     public $proyectos;
     public $proyectos_general;
+    public $informacion_proyecto_core;
 
+    //_______________________________
+    public $esteRecursoDB;
+    public $esteRecursoOP;
+    public $esteRecursoAD;
+    public $info_proyectos;
+    //________________________________
     public function __construct($sql) {
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
 
+        $conexion = "interoperacion";
+        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
+        $conexion = "openproject";
+        $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
+        $conexion = "almacenDatos";
+        $this->esteRecursoAD = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
         $_REQUEST['tiempo'] = time();
+
+        /**
+         * -1. Consultar Parametrización
+         **/
+        $this->consultarParametrizacion();
 
         /**
          * 0. Estrucurar Desatelles Proyecto
          **/
-        $this->estruturarProyectos();
+        // $this->estruturarProyectos();
 
         /**
          * 1. Filtrar Proyectos a Reportear
          **/
-        $this->filtrarProyectos();
+        //$this->filtrarProyectos();
 
         /**
          * 2. Filtrar Actividades Paquetes de Trabajo
          **/
-        $this->detallarCamposPersonalizadosProyecto();
+        // $this->detallarCamposPersonalizadosProyecto();
 
         /**
          * 3. Obtener Paquetes de Trabajo
@@ -47,13 +68,64 @@ class GenerarReporteInstalaciones {
         /**
          * 5. Filtrar Actividades Paquetes de Trabajo
          **/
-        $this->filtrarActividades();
+        //$this->filtrarActividades();
+
+        /**
+         * XX. Consultar Informacion(Reporte)
+         **/
+
+        $this->consultarInformacion();
 
         /**
          * 6. Crear Documento Hoja de Calculo(Reporte)
          **/
 
         $this->crearHojaCalculo();
+
+    }
+
+    public function consultarInformacion() {
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionReporte');
+        $this->info_proyectos = $this->esteRecursoAD->ejecutarAcceso($cadenaSql, "busqueda");
+        var_dump($this->proyectos);
+
+    }
+
+    public function consultarParametrizacion() {
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarProyectosParametrizados');
+        $proyectos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $this->proyectos = $proyectos;
+
+        foreach ($this->proyectos as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarCamposParametrizados', $value['id_proyecto']);
+            $campos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+            $this->proyectos[$key]['campos_parametrizados'] = $campos;
+
+        }
+
+        $this->obtenerDetalleProyectos();
+
+    }
+
+    public function obtenerDetalleProyectos() {
+
+        foreach ($this->proyectos as $key => $value) {
+
+            $urlDetalle = $this->crearUrlDetalleProyectos($value['id_proyecto']);
+
+            $detalle = file_get_contents($urlDetalle);
+
+            $detalle = json_decode($detalle, true);
+
+            $this->proyectos[$key]["info"] = $detalle;
+            //echo base64_encode(json_encode($detalle)) . "<br>";
+        }
+
+//        var_dump($this->proyectos);exit;
 
     }
 
@@ -68,22 +140,6 @@ class GenerarReporteInstalaciones {
         $this->proyectos = $proyectos;
 
         $this->proyectos_general = $this->proyectos;
-
-    }
-
-    public function obtenerDetalleProyectos() {
-
-        foreach ($this->proyectos as $key => $value) {
-
-            $urlDetalle = $this->crearUrlDetalleProyectos($value['id']);
-
-            $detalle = file_get_contents($urlDetalle);
-
-            $detalle = json_decode($detalle, true);
-
-            $this->proyectos[$key]['custom_fields'] = $detalle['custom_fields'];
-
-        }
 
     }
 
@@ -207,112 +263,87 @@ class GenerarReporteInstalaciones {
         }
 
     }
+
+    public function obtenerProyectoCore() {
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionCore');
+        $info_core = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $info_core = $info_core[0];
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarCamposParametrizados', $info_core['id_proyecto']);
+        $campos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        $info_core['campos_parametrizados'] = $campos;
+
+        $urlDetalle = $this->crearUrlDetalleProyectos($info_core['id_proyecto']);
+
+        $detalle = file_get_contents($urlDetalle);
+
+        $detalle = json_decode($detalle, true);
+
+        $info_core['info'] = $detalle;
+
+        $urlPaquetes = $this->crearUrlPaquetesTrabajo($info_core['id_proyecto']);
+
+        $paquetesTrabajo = file_get_contents($urlPaquetes);
+
+        $paquetesTrabajo = json_decode($paquetesTrabajo, true);
+
+        $info_core['paquetesTrabajo'] = $paquetesTrabajo;
+
+        $this->informacion_proyecto_core = $info_core;
+
+    }
+
     public function obtenerActividades() {
-        //var_dump($this->proyectos[2]['paquetesTrabajo']);exit;
+
+        $this->obtenerProyectoCore();
+
+        //var_dump($this->informacion_proyecto_core);exit;
+
+        foreach ($this->informacion_proyecto_core['campos_parametrizados'] as $key => $valor) {
+
+            if ($valor['sub_tipo'] === 'Mesa  de Ayuda') {
+
+                $urlActividades = $this->crearUrlActividades($valor['valor_actividad']);
+
+                $actividades = file_get_contents($urlActividades);
+
+                $actividad = json_decode($actividades, true);
+                var_dump($actividad);exit;
+
+                foreach ($actividad as $avance) {
+
+                    $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+                }
+
+                foreach ($valor['child_ids'] as $llave_a => $contenido) {
+
+                    $urlActividades = $this->crearUrlActividades($contenido);
+
+                    $actividades = file_get_contents($urlActividades);
+
+                    $actividad = json_decode($actividades, true);
+
+                    foreach ($actividad as $avance) {
+
+                        $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
+                    }
+
+                    $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
+
+                    //unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
+                }
+
+            }
+
+        }
+
         foreach ($this->proyectos as $key => $value) {
 
             foreach ($value['paquetesTrabajo'] as $llave => $valor) {
 
                 //Avance y  estado instalación NOC
-
-                if ($valor['subject'] === 'Mesa de ayuda') {
-
-                    $urlActividades = $this->crearUrlActividades($valor['id']);
-
-                    $actividades = file_get_contents($urlActividades);
-
-                    $actividad = json_decode($actividades, true);
-
-                    foreach ($actividad as $avance) {
-
-                        $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
-                    }
-
-                    foreach ($valor['child_ids'] as $llave_a => $contenido) {
-
-                        $urlActividades = $this->crearUrlActividades($contenido);
-
-                        $actividades = file_get_contents($urlActividades);
-
-                        $actividad = json_decode($actividades, true);
-
-                        foreach ($actividad as $avance) {
-
-                            $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
-                        }
-
-                        $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
-
-                        //unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
-                    }
-
-                }
-
-                if ($valor['subject'] === 'Centro de gestión') {
-
-                    $urlActividades = $this->crearUrlActividades($valor['id']);
-
-                    $actividades = file_get_contents($urlActividades);
-
-                    $actividad = json_decode($actividades, true);
-
-                    foreach ($actividad as $avance) {
-
-                        $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
-                    }
-
-                    foreach ($valor['child_ids'] as $llave_a => $contenido) {
-
-                        $urlActividades = $this->crearUrlActividades($contenido);
-
-                        $actividades = file_get_contents($urlActividades);
-
-                        $actividad = json_decode($actividades, true);
-
-                        foreach ($actividad as $avance) {
-
-                            $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
-                        }
-
-                        $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
-
-                        //unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
-                    }
-
-                }
-
-                if ($valor['subject'] === 'Otros equipos o sistemas en el NOC') {
-
-                    $urlActividades = $this->crearUrlActividades($valor['id']);
-
-                    $actividades = file_get_contents($urlActividades);
-
-                    $actividad = json_decode($actividades, true);
-
-                    foreach ($actividad as $avance) {
-
-                        $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
-                    }
-                    foreach ($valor['child_ids'] as $llave_a => $contenido) {
-
-                        $urlActividades = $this->crearUrlActividades($contenido);
-
-                        $actividades = file_get_contents($urlActividades);
-
-                        $actividad = json_decode($actividades, true);
-
-                        foreach ($actividad as $avance) {
-
-                            $this->proyectos[$key]['paquetesTrabajo'][$llave]['actividades'][] = $avance;
-                        }
-
-                        $clave = array_search($contenido, array_column($this->proyectos[$key]['paquetesTrabajo'], 'id'), true);
-
-                        //unset($this->proyectos[$key]['paquetesTrabajo'][$clave]);
-
-                    }
-
-                }
 
                 if ($valor['subject'] === 'Infraestructura nodos') {
 
@@ -840,7 +871,7 @@ $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
 
         foreach ($this->proyectos as $key => $value) {
 
-            $urlPaquetes = $this->crearUrlPaquetesTrabajo($value['id']);
+            $urlPaquetes = $this->crearUrlPaquetesTrabajo($value['id_proyecto']);
 
             $paquetesTrabajo = file_get_contents($urlPaquetes);
 
@@ -878,58 +909,58 @@ $this->obtenerHijosPaquetesTrabajo($contenido, $key, $llave, $variable);
         return $urlApi;
     }
     public function filtrarProyectos() {
+/*
+foreach ($this->proyectos as $key => $value) {
 
-        foreach ($this->proyectos as $key => $value) {
+$this->proyectos[$key]['name'] = str_replace('?', ' ', utf8_decode($value['name']));
 
-            $this->proyectos[$key]['name'] = str_replace('?', ' ', utf8_decode($value['name']));
+}
 
-        }
+$cantidadProyectos = count($this->proyectos);
 
-        $cantidadProyectos = count($this->proyectos);
+for ($i = 1; $i < $cantidadProyectos; $i++) {
 
-        for ($i = 1; $i < $cantidadProyectos; $i++) {
+if (isset($_REQUEST['item' . $i])) {
 
-            if (isset($_REQUEST['item' . $i])) {
+$ident_proyectos[] = $_REQUEST['item' . $i];
 
-                $ident_proyectos[] = $_REQUEST['item' . $i];
+}
 
-            }
+}
 
-        }
+$this->obtenerDetalleProyectos();
 
-        $this->obtenerDetalleProyectos();
+if (isset($ident_proyectos)) {
 
-        if (isset($ident_proyectos)) {
+foreach ($this->proyectos as $key => $value) {
 
-            foreach ($this->proyectos as $key => $value) {
+foreach ($ident_proyectos as $valor) {
 
-                foreach ($ident_proyectos as $valor) {
+if ($value['id'] == $valor) {
 
-                    if ($value['id'] == $valor) {
+$proyectos[] = $value;
 
-                        $proyectos[] = $value;
+$llave = array_search($value['custom_fields'][3]['value'], array_column($this->proyectos, 'name'), true);
 
-                        $llave = array_search($value['custom_fields'][3]['value'], array_column($this->proyectos, 'name'), true);
+if (!is_bool($llave)) {
+$proyectos[] = $this->proyectos[$llave];
+}
 
-                        if (!is_bool($llave)) {
-                            $proyectos[] = $this->proyectos[$llave];
-                        }
+$llave = array_search('ins', array_column($this->proyectos, 'identifier'), true);
 
-                        $llave = array_search('ins', array_column($this->proyectos, 'identifier'), true);
+if (!is_bool($llave)) {
+$proyectos[] = $this->proyectos[$llave];
+}
 
-                        if (!is_bool($llave)) {
-                            $proyectos[] = $this->proyectos[$llave];
-                        }
+}
 
-                    }
+}
 
-                }
+}
 
-            }
+$this->proyectos = $proyectos;
 
-            $this->proyectos = $proyectos;
-
-        }
+}*/
 
     }
 
