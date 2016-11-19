@@ -10,7 +10,7 @@ if (!isset($GLOBALS["autorizado"])) {
  * Por tanto en el archivo ready.php se declaran algunas funciones js
  * que lo complementan.
  */
-class Registrador {
+class Consultar {
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
@@ -235,7 +235,7 @@ class Registrador {
     }
 }
 
-$miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario);
+$miSeleccionador = new Consultar($this->lenguaje, $this->miFormulario);
 
 $miSeleccionador->mensaje();
 

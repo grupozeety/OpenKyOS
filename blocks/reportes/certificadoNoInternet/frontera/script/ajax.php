@@ -78,6 +78,8 @@ $("#guardarBn").css("display","none");
 	});
 
 
+      $("#mensaje").modal("show");
+
 
 </script>
 

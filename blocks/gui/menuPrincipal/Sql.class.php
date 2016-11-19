@@ -45,7 +45,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " ten.nombre AS tipo_enlace,";
                 $cadenaSql .= " cen.nombre AS clase_enlace,";
                 $cadenaSql .= " enl.enlace AS enlace,";
-                $cadenaSql .= " enl.parametros AS parametros";
+                $cadenaSql .= " enl.parametros AS parametros,";
+                $cadenaSql .= " enl.acceso_rapido AS rapido";
                 $cadenaSql .= " FROM gestion_menu.menu_rol_enlace as rol_enlace";
                 $cadenaSql .= " INNER JOIN gestion_menu.menu_enlace AS enl ON enl.id_enlace = rol_enlace.id_enlace";
                 $cadenaSql .= " INNER JOIN gestion_menu.menu_tipo_enlace AS ten ON ten.id_tipo_enlace = enl.id_tipo_enlace";
@@ -63,11 +64,19 @@ class Sql extends \Sql {
                         $i++;
                     }
                 }
-                $cadenaSql .= " AND enl.estado='TRUE' ";
+                $cadenaSql .= " AND enl.estado='TRUE' AND  men.estado='TRUE' ";
                 $cadenaSql .= " ORDER BY enl.id_menu, enl.columna, enl.orden";
                 $cadenaSql .= " ;";
 
                 break;
+                
+            case "accesoRapido":
+            	$cadenaSql = "SELECT documento, beneficiario ";
+            	$cadenaSql .= " FROM";
+            	$cadenaSql .= " parametros.usuario_beneficiario";
+            	$cadenaSql .= " WHERE";
+            	$cadenaSql .= " usuario='".$variable."'";
+            	break;
         }
 
         return $cadenaSql;

@@ -18,11 +18,10 @@ class Sql extends \Sql {
 	public function __construct() {
 		$this->miConfigurador = \Configurador::singleton ();
 		
-		// $this->miSesionSso = \SesionSso::singleton();
+		$this->miSesionSso = \SesionSso::singleton ();
 	}
 	public function getCadenaSql($tipo, $variable = "") {
-		
-		// $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
+		$info_usuario = $this->miSesionSso->getParametrosSesionAbierta ();
 		
 		// foreach ($info_usuario['description'] as $key => $rol) {
 		
@@ -754,6 +753,11 @@ class Sql extends \Sql {
 				$cadenaSql .= "AND substr(id_beneficiario, length(id_beneficiario)-" . $variable ['longitud'];
 				$cadenaSql .= ", 1) ~ '^[0-9]'";
 				$cadenaSql .= "ORDER BY id_beneficiario DESC LIMIT 1";
+				break;
+			
+			case 'sincronizarRapido' :
+				$cadenaSql = " DELETE FROM parametros.usuario_beneficiario WHERE usuario='".$info_usuario['mail'][0]."';";
+				$cadenaSql.= " INSERT INTO parametros.usuario_beneficiario VALUES ('".$info_usuario['mail'][0]."','".$variable['id']."','".$variable['documento']."');";
 				break;
 		}
 		
