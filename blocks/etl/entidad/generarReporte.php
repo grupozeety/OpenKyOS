@@ -140,9 +140,9 @@ class GenerarReporteInstalaciones {
                             $fecha_actividad = strtotime($fecha_actividad);
                             $fecha_inicio = strtotime(date("Y - m - d "));
 
-                            /*if ($fecha_actividad != $fecha_inicio) {
-                        unset($this->proyectos[$key]['campos_parametrizados'][$llave]['paquetesTrabajo']['actividades'][$llave2]);
-                        }*/
+                            if ($fecha_actividad != $fecha_inicio) {
+                                unset($this->proyectos[$key]['campos_parametrizados'][$llave]['paquetesTrabajo']['actividades'][$llave2]);
+                            }
                         }
                     }
                 }

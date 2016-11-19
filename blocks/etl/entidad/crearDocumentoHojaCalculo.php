@@ -33,7 +33,6 @@ class GenerarReporteExcelInstalaciones {
          */
         $this->registrarAlmacenDatos();
 
-        echo "POR FIN !!!!!";die();
     }
 
     public function ajustarComentarios($actividades) {
@@ -458,7 +457,7 @@ class GenerarReporteExcelInstalaciones {
         $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "actualizar");
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarProyectosAlmacen', $this->informacion);
-        echo $cadenaSql;exit;
+
         $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
     }
 
