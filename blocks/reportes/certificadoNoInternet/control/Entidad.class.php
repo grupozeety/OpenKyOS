@@ -47,6 +47,10 @@ class Entidad {
     public function guardarInformacion() {
         include_once $this->ruta . "entidad/guardarCertificacion.php";
     }
+
+    public function edicionInformacion() {
+        include_once $this->ruta . "entidad/edicionCertificacion.php";
+    }
     public function action() {
         $resultado = true;
 
@@ -72,6 +76,12 @@ class Entidad {
                 case 'guardarInformacion':
 
                     $this->guardarInformacion();
+
+                    break;
+
+                case 'edicionInformacion':
+
+                    $this->edicionInformacion();
 
                     break;
 

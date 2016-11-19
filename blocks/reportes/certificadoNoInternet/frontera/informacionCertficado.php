@@ -45,11 +45,14 @@ class Certificado {
         $conexion = "openproject";
         $esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        $_REQUEST['id_beneficiario'] = $_REQUEST['id'];
+        if (isset($_REQUEST['id'])) {
+            $_REQUEST['id_beneficiario'] = $_REQUEST['id'];
+        }
+
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
         $infoCertificado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        if ($infoCertificado) {
+        if ($infoCertificado && $_REQUEST['opcion'] != 'editarInformacionCertificacion') {
 
             $variable = 'pagina=certificadoNoInternet';
             $variable .= '&opcion=resultadoCertificado';
@@ -68,35 +71,55 @@ class Certificado {
         }
         //Consulta información
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
-        $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        $infoBeneficiario = $infoBeneficiario[0];
-        //var_dump($infoBeneficiario);
+        if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'editarInformacionCertificacion') {
 
-        {
+            $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionCertificadoParticular');
+            $informacionCertificado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             $arreglo = array(
-                'nombres' => $infoBeneficiario['nombre'],
-                'primer_apellido' => $infoBeneficiario['primer_apellido'],
-                'segundo_apellido' => $infoBeneficiario['segundo_apellido'],
-                'tipo_documento' => $infoBeneficiario['tipo_documento'],
-                'numero_identificacion' => $infoBeneficiario['identificacion'],
-                'direccion_domicilio' => $infoBeneficiario['direccion'],
-                'departamento' => $infoBeneficiario['departamento'],
-                'municipio' => $infoBeneficiario['municipio'],
-                'urbanizacion' => $infoBeneficiario['id_proyecto'],
-                'estrato' => $infoBeneficiario['tipo_beneficiario'],
-                'telefono' => $infoBeneficiario['telefono'],
-                'celular' => $infoBeneficiario['celular'],
-                'correo' => $infoBeneficiario['correo'],
+                'nombres' => $informacionCertificado['nombre'],
+                'primer_apellido' => $informacionCertificado['primer_apellido'],
+                'segundo_apellido' => $informacionCertificado['segundo_apellido'],
+                'numero_identificacion' => $informacionCertificado['identificacion'],
+                'celular' => $informacionCertificado['celular'],
+                'ciudad' => $informacionCertificado['ciudad_expedicion_identificacion'],
+                'ciudad_firma' => $informacionCertificado['ciudad_firma'],
                 // 'clausulas' => '',
 
             );
 
             $_REQUEST = array_merge($_REQUEST, $arreglo);
 
-        }
+        } else {
+            $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
+            $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            $infoBeneficiario = $infoBeneficiario[0];
+            //var_dump($infoBeneficiario);
 
+            {
+
+                $arreglo = array(
+                    'nombres' => $infoBeneficiario['nombre'],
+                    'primer_apellido' => $infoBeneficiario['primer_apellido'],
+                    'segundo_apellido' => $infoBeneficiario['segundo_apellido'],
+                    'tipo_documento' => $infoBeneficiario['tipo_documento'],
+                    'numero_identificacion' => $infoBeneficiario['identificacion'],
+                    'direccion_domicilio' => $infoBeneficiario['direccion'],
+                    'departamento' => $infoBeneficiario['departamento'],
+                    'municipio' => $infoBeneficiario['municipio'],
+                    'urbanizacion' => $infoBeneficiario['id_proyecto'],
+                    'estrato' => $infoBeneficiario['tipo_beneficiario'],
+                    'telefono' => $infoBeneficiario['telefono'],
+                    'celular' => $infoBeneficiario['celular'],
+                    'correo' => $infoBeneficiario['correo'],
+                    // 'clausulas' => '',
+
+                );
+
+                $_REQUEST = array_merge($_REQUEST, $arreglo);
+
+            }
+        }
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 
@@ -133,7 +156,13 @@ class Certificado {
 
                 $esteCampo = 'Agrupacion';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "<b>Certificado de No Internet</b>";
+
+                if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'editarInformacionCertificacion') {
+                    $atributos['leyenda'] = "<b>Certificado de No Internet (Edición de Información)</b>";
+                } else {
+                    $atributos['leyenda'] = "<b>Certificado de No Internet</b>";
+
+                }
 
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
@@ -398,7 +427,7 @@ class Certificado {
                         $atributos['readonly'] = false;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
-                        $atributos['placeholder'] = "Ingrese Ciudad de Expedición de la Identificación";
+                        $atributos['placeholder'] = "Ingrese Ciudad de Firma del Certificado";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
@@ -518,9 +547,12 @@ class Certificado {
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-//                $valorCodificado .= "&opcion=generarCertificacion";
-                $valorCodificado .= "&opcion=guardarInformacion";
-                $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id'];
+                if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'editarInformacionCertificacion') {
+                    $valorCodificado .= "&opcion=edicionInformacion";
+                } else {
+                    $valorCodificado .= "&opcion=guardarInformacion";
+                }
+                $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.
