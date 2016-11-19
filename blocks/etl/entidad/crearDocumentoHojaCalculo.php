@@ -456,7 +456,6 @@ class GenerarReporteExcelInstalaciones {
         $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "actualizar");
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarProyectosAlmacen', $this->informacion);
-        echo $cadenaSql;
         $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
     }
 
