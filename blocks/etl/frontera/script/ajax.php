@@ -30,6 +30,7 @@ $urlConsultarProyectos = $url . $cadena;
 /**
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
  */
+ console.log('<?php echo $urlConsultarProyectos ?>');
 
   $(document).ready(function() {
             $('#<?php echo $this->campoSeguro("fecha_inicio");?>').datetimepicker({
