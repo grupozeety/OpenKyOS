@@ -51,6 +51,10 @@ class Frontera {
                     include_once $this->ruta . "frontera/informacionCertficado.php";
                     break;
 
+                case 'editarInformacionCertificacion':
+                    include_once $this->ruta . "frontera/informacionCertficado.php";
+                    break;
+
                 case 'resultadoCertificado':
                     include_once $this->ruta . "frontera/gestionCertificado.php";
                     break;
@@ -61,6 +65,10 @@ class Frontera {
             }
 
         } else {
+        	if(isset($_REQUEST['id'])){
+        			include_once $this->ruta . "frontera/informacionCertficado.php";
+        			break;
+        	}
             include_once $this->ruta . "frontera/consultarBeneficiario.php";
         }
 

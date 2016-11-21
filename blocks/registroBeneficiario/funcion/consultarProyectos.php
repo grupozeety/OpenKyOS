@@ -94,21 +94,16 @@ class FormProcessor {
         $tab = 1;
         $i = 1;
         foreach ($this->proyectos as $key => $value) {
-
             $resultadoFinal[] = array(
 
                 'id' => $value['id'],
-                'urbanizacion' => $value['name'] . " - " . $value['custom_fields']['2']['value'],
+                'urbanizacion' =>$value['custom_fields']['2']['value'],
             	'departamento' => $value['custom_fields']['0']['value'],
             	'municipio' => $value['custom_fields']['1']['value'],
-
             );
             $i++;
         }
-
-
         $this->Respuesta = json_encode($resultadoFinal);
-
     }
 
     public function obtenerDetalleProyectos() {

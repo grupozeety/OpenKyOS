@@ -29,6 +29,9 @@ class GestionarContrato {
 
         $this->miSql = $sql;
 
+        $conexion = "interoperacion";
+        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
         $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
 
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
@@ -42,6 +45,19 @@ class GestionarContrato {
             $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
         }
     }
+
+    public function registrarContratoBorrador() {
+
+        $cadenaSql = $this->miSql->getCadenaSql('registrarContrato');
+        $registro_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        $this->datos_contrato = $registro_contrato;
+
+        $cadenaSql = $this->miSql->getCadenaSql('registrarServicio', $registro_contrato[0][0]);
+        $registro_servicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+    }
+
     public function formulario() {
 
         if (isset($_REQUEST['mensaje'])) {
@@ -58,14 +74,21 @@ class GestionarContrato {
 
         // Consulta información
 
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
+        $infoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        if (!$infoContrato) {
+
+            $this->registrarContratoBorrador();
+            $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
+            $infoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        }
+
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
         $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $infoBeneficiario = $infoBeneficiario[0];
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
-        $infoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        $infoContrato = $infoContrato[0];
-        //var_dump($infoContrato);
         if ($infoContrato['numero_identificacion'] != NULL) {
 
             $_REQUEST['mensaje'] = 'insertoInformacionContrato';
@@ -94,16 +117,16 @@ class GestionarContrato {
         $cadenaSql = $this->miSql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
         $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        if ($requisitos) {
-            foreach ($requisitos as $key => $value) {
+        /*  if ($requisitos) {
+        foreach ($requisitos as $key => $value) {
 
-                if ($value['obligatoriedad'] == '1' && is_null($value['nombre_documento'])) {
-                    $requisitosFaltantesObligatorios = true;
+        if ($value['obligatoriedad'] == '1' && is_null($value['nombre_documento'])) {
+        $requisitosFaltantesObligatorios = true;
 
-                }
-
-            }
         }
+
+        }
+        }*/
 
         // Rescatar los datos de este bloque
 
@@ -176,22 +199,26 @@ class GestionarContrato {
                     echo $this->miFormulario->campoTexto($atributos);
                     unset($atributos);
 
-                    if (isset($requisitosFaltantesObligatorios) && $requisitosFaltantesObligatorios && $infoContrato != NULL) {
+                    /*                   if (isset($requisitosFaltantesObligatorios) && $requisitosFaltantesObligatorios && $infoContrato != NULL) {
 
-                        $_REQUEST['mensaje'] = 'requisitosFaltantes';
-                        $this->mensaje();
+                    $_REQUEST['mensaje'] = 'requisitosFaltantes';
+                    $this->mensaje();
 
                     } elseif (is_null($infoContrato)) {
 
-                        $_REQUEST['mensaje'] = 'minimoRequisitos';
-                        $this->mensaje();
+                    $_REQUEST['mensaje'] = 'minimoRequisitos';
+                    $this->mensaje();
 
                     } else {
 
-                        $_REQUEST['mensaje'] = 'requisitosCompletos';
-                        $this->mensaje();
+                    $_REQUEST['mensaje'] = 'requisitosCompletos';
+                    $this->mensaje();
 
                     }
+                     */
+
+                    $_REQUEST['mensaje'] = 'Pregunta';
+                    $this->mensaje();
 
                     // ------------------Division para los botones-------------------------
                     $atributos["id"] = "botones";
@@ -233,7 +260,7 @@ class GestionarContrato {
                         $url .= "/index.php?";
 
                         // ------------------Division para los botones-------------------------
-                        $atributos["id"] = "botones_sin";
+                        $atributos["id"] = "botones";
                         $atributos["estilo"] = "marcoBotones";
                         $atributos["estiloEnLinea"] = "display:block;";
                         echo $this->miFormulario->division("inicio", $atributos);
@@ -272,41 +299,9 @@ class GestionarContrato {
 
                         $urlpdfNoFirmas = $url . $cadena;
 
-                        echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Documento Contrato Sin Firmas</a></b>";
-
-                        // -----------------CONTROL: Botón ----------------------------------------------------------------
-                        $esteCampo = 'botonGenerarPdfNoFirmas';
-                        $atributos["id"] = $esteCampo;
-                        $atributos["tabIndex"] = $tab;
-                        $atributos["tipo"] = 'boton';
-                        // submit: no se coloca si se desea un tipo button genérico
-                        $atributos['submit'] = true;
-                        $atributos["simple"] = true;
-                        $atributos["estiloMarco"] = '';
-                        $atributos["estiloBoton"] = 'jqueryui';
-                        $atributos["block"] = false;
-                        // verificar: true para verificar el formulario antes de pasarlo al servidor.
-                        $atributos["verificar"] = '';
-                        $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-                        $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
-                        $atributos['nombreFormulario'] = $esteBloque['nombre'];
-                        $tab++;
-
-                        // Aplica atributos globales al control
-                        $atributos = array_merge($atributos, $atributosGlobales);
-                        //echo $this->miFormulario->campoBoton($atributos);
-                        unset($atributos);
-
-                        //echo $this->miFormulario->division("fin");
-                        unset($atributos);
+                        echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Documento Contrato Sin Firmas</a></b><br><br>";
 
                         // ------------------Division para los botones-------------------------
-                        $atributos["id"] = "botones_pdf";
-                        $atributos["estilo"] = "marcoBotones";
-                        $atributos["estiloEnLinea"] = "display:block;";
-                        echo $this->miFormulario->division("inicio", $atributos);
-                        unset($atributos);
-
                         {
 
                             if ($infoContrato['numero_identificacion'] != NULL) {
@@ -340,33 +335,37 @@ class GestionarContrato {
 
                         $urlpdfFirmas = $url . $cadena;
 
-                        echo "<b><a id='link_a' target='_blank' href='" . $infoContrato['ruta_documento_contrato'] . "'>Documento Contrato Con Firmas</a></b>";
-                        // -----------------CONTROL: Botón ----------------------------------------------------------------
-                        $esteCampo = 'botonGenerarPdf';
-                        $atributos["id"] = $esteCampo;
-                        $atributos["tabIndex"] = $tab;
-                        $atributos["tipo"] = 'boton';
-                        // submit: no se coloca si se desea un tipo button genérico
-                        $atributos['submit'] = true;
-                        $atributos["simple"] = true;
-                        $atributos["estiloMarco"] = '';
-                        $atributos["estiloBoton"] = 'jqueryui';
-                        $atributos["block"] = false;
-                        // verificar: true para verificar el formulario antes de pasarlo al servidor.
-                        $atributos["verificar"] = '';
-                        $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-                        $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
-                        $atributos['nombreFormulario'] = $esteBloque['nombre'];
-                        $tab++;
+                        echo "<b><a id='link_a' target='_blank' href='" . $infoContrato['ruta_documento_contrato'] . "'>Documento Contrato Con Firmas</a></b><br><br>";
 
-                        // Aplica atributos globales al control
-                        $atributos = array_merge($atributos, $atributosGlobales);
-                        //echo $this->miFormulario->campoBoton($atributos);
-                        unset($atributos);
+                        {
+
+                            $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&actionBloque=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                            $valorCodificado .= "&botonGenerarPdfNoFirmas=false";
+                            $valorCodificado .= "&botonGenerarPdf=true";
+                            $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
+                            $valorCodificado .= "&opcion=editarContrato";
+                            $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo_beneficiario'];
+                            $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+                            if (is_null($infoBeneficiario['id_contrato']) != true) {
+                                $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
+                            }
+
+                        }
+
+                        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+                        $urlEdicionContrato = $url . $cadena;
+
+                        echo "<b><a id='link_a' href='" . $urlEdicionContrato . "'>Editar Información Contrato</a></b>";
 
                         echo $this->miFormulario->division("fin");
                         unset($atributos);
                         // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+
                     }
 
                     // ------------------Fin Division para los botones-------------------------
@@ -411,7 +410,7 @@ class GestionarContrato {
                     $valorCodificado .= (is_null($infoBeneficiario['id_contrato']) != true) ? "&opcion=mostrarContrato" : "&opcion=cargarRequisitos";
                 }
 
-                $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo_beneficiario'];
+                $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
                 $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
                 if (is_null($infoBeneficiario['id_contrato']) != true) {
                     $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
@@ -463,6 +462,11 @@ class GestionarContrato {
                 $atributos["mensaje"] = '<b>Oh No!!!! <br>Cargue mínimo el documento de identidad para generar contrato<b>';
                 break;
 
+            case 'Pregunta':
+                $estilo_mensaje = 'success';     // information,warning,error,validation
+                $atributos["mensaje"] = '<b>¿Desea Generar el Contrato?<b>';
+                break;
+
             default:
                 // code...
                 break;
@@ -493,6 +497,11 @@ class GestionarContrato {
 
             case 'insertoInformacionContrato':
                 $mensaje = "Exito en el registro información del contrato";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
+            case 'ActualizoinformacionContrato':
+                $mensaje = "Exito en la Actualización información del contrato";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
             case 'errorGenerarArchivo':

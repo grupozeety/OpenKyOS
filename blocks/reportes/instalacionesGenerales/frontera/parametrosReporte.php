@@ -139,24 +139,24 @@ class Registrador {
                            </tr>
                           </table>";
             }
-            {
-                echo '<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>N#</th>
-                            <th>Nombre Proyecto</th>
-                            <th>Opcion</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>N#</th>
-                            <th>Nombre Proyecto</th>
-                            <th>Opcion</th>
-                        </tr>
-                    </tfoot>
-                  </table>';
-            }
+            /*   {
+            echo '<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+            <th>N#</th>
+            <th>Nombre Proyecto</th>
+            <th>Opcion</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+            <th>N#</th>
+            <th>Nombre Proyecto</th>
+            <th>Opcion</th>
+            </tr>
+            </tfoot>
+            </table>';
+            }*/
 
             // ------------------Division para los botones-------------------------
             $atributos["id"] = "botones";

@@ -18,11 +18,10 @@ class Sql extends \Sql {
 	public function __construct() {
 		$this->miConfigurador = \Configurador::singleton ();
 		
-		// $this->miSesionSso = \SesionSso::singleton();
+		$this->miSesionSso = \SesionSso::singleton ();
 	}
 	public function getCadenaSql($tipo, $variable = "") {
-		
-		// $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
+		$info_usuario = $this->miSesionSso->getParametrosSesionAbierta ();
 		
 		// foreach ($info_usuario['description'] as $key => $rol) {
 		
@@ -126,9 +125,11 @@ class Sql extends \Sql {
 				$cadenaSql .= "direccion AS direccion,";
 				$cadenaSql .= "tipo_vivienda AS tipo_vivienda,";
 				$cadenaSql .= "manzana AS manzana,";
+				$cadenaSql .= "interior AS interior,";
 				$cadenaSql .= "bloque AS bloque,";
 				$cadenaSql .= "torre AS torre,";
 				$cadenaSql .= "apartamento AS apartamento,";
+				$cadenaSql .= "lote AS lote,";
 				$cadenaSql .= "telefono AS telefono,";
 				$cadenaSql .= "celular AS celular,";
 				$cadenaSql .= "whatsapp AS whatsapp,";
@@ -196,7 +197,6 @@ class Sql extends \Sql {
 				break;
 			
 			case "cargarFamiliares" :
-				
 				$cadenaSql = "SELECT ";
 				$cadenaSql .= "id_beneficiario,";
 				$cadenaSql .= "tipo_documento AS tipo_documento_familiar,";
@@ -223,7 +223,6 @@ class Sql extends \Sql {
 				break;
 			
 			case "actualizarBeneficiario" :
-				
 				$cadenaSql = "UPDATE interoperacion.beneficiario_potencial ";
 				$cadenaSql .= "SET ";
 				$cadenaSql .= "estado_registro=FALSE ";
@@ -233,7 +232,6 @@ class Sql extends \Sql {
 				break;
 			
 			case "actualizarFamiliarBeneficiario" :
-				
 				$cadenaSql = "UPDATE interoperacion.familiar_beneficiario_potencial ";
 				$cadenaSql .= "SET ";
 				$cadenaSql .= "estado_registro=FALSE ";
@@ -262,9 +260,11 @@ class Sql extends \Sql {
 				$cadenaSql .= "direccion,";
 				$cadenaSql .= "tipo_vivienda,";
 				$cadenaSql .= "manzana,";
+				$cadenaSql .= "interior,";
 				$cadenaSql .= "bloque,";
 				$cadenaSql .= "torre,";
 				$cadenaSql .= "apartamento,";
+				$cadenaSql .= "lote,";
 				$cadenaSql .= "telefono,";
 				$cadenaSql .= "celular,";
 				$cadenaSql .= "whatsapp,";
@@ -300,9 +300,11 @@ class Sql extends \Sql {
 				$cadenaSql .= "'" . $variable ['direccion'] . "',";
 				$cadenaSql .= "'" . $variable ['tipo_vivienda'] . "',";
 				$cadenaSql .= "'" . $variable ['manzana'] . "',";
+				$cadenaSql .= "'" . $variable ['interior'] . "',";
 				$cadenaSql .= "'" . $variable ['bloque'] . "',";
 				$cadenaSql .= "'" . $variable ['torre'] . "',";
 				$cadenaSql .= "'" . $variable ['apartamento'] . "',";
+				$cadenaSql .= "'" . $variable ['lote'] . "',";
 				$cadenaSql .= "'" . $variable ['telefono'] . "',";
 				$cadenaSql .= "'" . $variable ['celular'] . "',";
 				$cadenaSql .= "'" . $variable ['whatsapp'] . "',";
@@ -341,9 +343,11 @@ class Sql extends \Sql {
 				$cadenaSql .= "direccion=" . "'" . $variable ['direccion'] . "',";
 				$cadenaSql .= "tipo_vivienda=" . "'" . $variable ['tipo_vivienda'] . "',";
 				$cadenaSql .= "manzana=" . "'" . $variable ['manzana'] . "',";
+				$cadenaSql .= "interior=" . "'" . $variable ['interior'] . "',";
 				$cadenaSql .= "bloque=" . "'" . $variable ['bloque'] . "',";
 				$cadenaSql .= "torre=" . "'" . $variable ['torre'] . "',";
 				$cadenaSql .= "apartamento=" . "'" . $variable ['apartamento'] . "',";
+				$cadenaSql .= "lote=" . "'" . $variable ['lote'] . "',";
 				$cadenaSql .= "telefono=" . "'" . $variable ['telefono'] . "',";
 				$cadenaSql .= "celular=" . "'" . $variable ['celular'] . "',";
 				$cadenaSql .= "whatsapp=" . "'" . $variable ['whatsapp'] . "',";
@@ -399,8 +403,8 @@ class Sql extends \Sql {
 					$cadenaSql .= "'" . $valor ['nivel_estudio'] . "',";
 					$cadenaSql .= "'" . $valor ['correo'] . "',";
 					$cadenaSql .= "'" . $valor ['grado'] . "',";
-					$cadenaSql .= "'" . $valor ['institucion_educativa'] . "',";
 					$cadenaSql .= "'" . $valor ['pertenencia_etnica'] . "',";
+					$cadenaSql .= "'" . $valor ['institucion_educativa'] . "',";
 					$cadenaSql .= "'" . $valor ['ocupacion'] . "'";
 					$cadenaSql .= "),";
 				}
@@ -623,6 +627,9 @@ class Sql extends \Sql {
 				if (is_numeric ( strpos ( $campo, 'manzana' ) )) {
 					$cadenaSql .= "manzana ='" . $variable ['valor'] . "' ";
 				}
+				if (is_numeric ( strpos ( $campo, 'interior' ) )) {
+					$cadenaSql .= "interior ='" . $variable ['valor'] . "' ";
+				}
 				if (is_numeric ( strpos ( $campo, 'torre' ) )) {
 					$cadenaSql .= "torre='" . $variable ['valor'] . "' ";
 				}
@@ -631,6 +638,9 @@ class Sql extends \Sql {
 				}
 				if (is_numeric ( strpos ( $campo, 'apartamento' ) )) {
 					$cadenaSql .= "apartamento='" . $variable ['valor'] . "' ";
+				}
+				if (is_numeric ( strpos ( $campo, 'lote' ) )) {
+					$cadenaSql .= "lote='" . $variable ['valor'] . "' ";
 				}
 				if (is_numeric ( strpos ( $campo, 'telefono' ) )) {
 					$cadenaSql .= "telefono='" . $variable ['valor'] . "' ";
@@ -687,6 +697,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "departamento ='" . explode ( " ", $variable ['depa'] ) [0] . "', ";
 				$cadenaSql .= "municipio ='" . explode ( " ", $variable ['muni'] ) [0] . "' ";
 				$cadenaSql .= "WHERE id_beneficiario='" . $variable ['id'] . "' ";
+				exit ();
 				break;
 			
 			case "estadoAlfresco" :
@@ -738,10 +749,15 @@ class Sql extends \Sql {
 				$cadenaSql = " select id_beneficiario ";
 				$cadenaSql .= "FROM interoperacion.beneficiario_potencial ";
 				$cadenaSql .= "WHERE id_beneficiario ";
-				$cadenaSql .= "ILIKE '" . $variable['string'] . "%' "; 
-				$cadenaSql .= "AND substr(id_beneficiario, length(id_beneficiario)-" . $variable['longitud'];
+				$cadenaSql .= "ILIKE '" . $variable ['string'] . "%' ";
+				$cadenaSql .= "AND substr(id_beneficiario, length(id_beneficiario)-" . $variable ['longitud'];
 				$cadenaSql .= ", 1) ~ '^[0-9]'";
 				$cadenaSql .= "ORDER BY id_beneficiario DESC LIMIT 1";
+				break;
+			
+			case 'sincronizarRapido' :
+				$cadenaSql = " DELETE FROM parametros.usuario_beneficiario WHERE usuario='".$info_usuario['mail'][0]."';";
+				$cadenaSql.= " INSERT INTO parametros.usuario_beneficiario VALUES ('".$info_usuario['mail'][0]."','".$variable['id']."','".$variable['documento']."');";
 				break;
 		}
 		

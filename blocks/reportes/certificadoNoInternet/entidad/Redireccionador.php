@@ -18,6 +18,14 @@ class Redireccionador {
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
                 break;
 
+            case "ActualizoInformacionCertificado":
+                $variable = 'pagina=certificadoNoInternet';
+                $variable .= '&opcion=resultadoCertificado';
+                $variable .= '&mensaje=insertoInformacionCertificado';
+                $variable .= '&mensaje_modal=actualizoInformacionCertificado';
+                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+                break;
+
             case "NoInsertoInformacionCertificado":
                 $variable = 'pagina=certificadoNoInternet';
                 $variable .= '&opcion=resultadoCertificado';

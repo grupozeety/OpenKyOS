@@ -149,6 +149,8 @@ class Registrar {
         $beneficiarioPotencial['manzana'] = $_REQUEST['manzana'];
 		$beneficiarioPotencial['torre'] = $_REQUEST['torre'];
 		$beneficiarioPotencial['bloque'] = $_REQUEST['bloque'];
+		$beneficiarioPotencial['interior'] = $_REQUEST['interior'];
+		$beneficiarioPotencial['lote'] = $_REQUEST['lote'];
         //$beneficiarioPotencial['torre'] = '';
         //$beneficiarioPotencial['bloque'] = '';
         $beneficiarioPotencial['apartamento'] = $_REQUEST['apartamento'];
@@ -199,7 +201,6 @@ class Registrar {
         }
         
         $beneficiarioPotencial['familiar'] = $familiar;
-
         $cadenaSql = "";
         $resultado = "";
 
@@ -240,16 +241,16 @@ class Registrar {
         if ($resultado) {
 
         	if(isset($_REQUEST['actualizar'])){
-        		redireccion::redireccionar('actualizo');
+        		redireccion::redireccionar('actualizo', $beneficiarioPotencial['id_beneficiario']);
         	}else{
-        		redireccion::redireccionar('inserto');
+        		redireccion::redireccionar('inserto', $beneficiarioPotencial['id_beneficiario']);
         	}
             exit();
         } else {
         	if(isset($_REQUEST['actualizar'])){
-            	redireccion::redireccionar('noActualizo');
+            	redireccion::redireccionar('noActualizo', $beneficiarioPotencial['id_beneficiario']);
         	}else{
-            	redireccion::redireccionar('noInserto');
+            	redireccion::redireccionar('noInserto', $beneficiarioPotencial['id_beneficiario']);
             }
             exit();
         }

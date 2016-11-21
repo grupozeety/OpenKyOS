@@ -65,23 +65,25 @@ class GenerarDocumento {
 
         $this->crearPDF();
 
-        $arreglo = array(
-            'nombre_contrato' => $this->nombreDocumento,
-            'ruta_contrato' => $this->rutaURL . $this->nombreDocumento);
+        if ($_REQUEST['opcion'] != 'edicionInformacion') {
 
-        $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentoCertificado', $arreglo);
+            $arreglo = array(
+                'nombre_contrato' => $this->nombreDocumento,
+                'ruta_contrato' => $this->rutaURL . $this->nombreDocumento);
 
-        $this->registro_certificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentoCertificado', $arreglo);
 
-        $arreglo = array(
-            'id_beneficiario' => $_REQUEST['id_beneficiario'],
-            'tipologia' => "124",
-            'nombre_documento' => $this->nombreDocumento,
-            'ruta_relativa' => $this->rutaURL . $this->nombreDocumento,
-        );
+            $this->registro_certificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            $arreglo = array(
+                'id_beneficiario' => $_REQUEST['id_beneficiario'],
+                'tipologia' => "124",
+                'nombre_documento' => $this->nombreDocumento,
+                'ruta_relativa' => $this->rutaURL . $this->nombreDocumento,
+            );
 
-        $cadenaSql = $this->miSql->getCadenaSql('registrarRequisito', $arreglo);
-        $this->registroRequisito = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            $cadenaSql = $this->miSql->getCadenaSql('registrarRequisito', $arreglo);
+            $this->registroRequisito = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        }
 
     }
 
@@ -153,8 +155,39 @@ $urbanizacion = $urbanizacion[0];
         }
 
         //var_dump($_REQUEST);exit;
-
+        //var_dump($_REQUEST);exit;
         $firma_beneficiario = (isset($archivo_datos['ruta_archivo'])) ? "<img src='" . $archivo_datos['ruta_archivo'] . "'  width='125' height='40'>" : " ";
+
+        {
+
+            {
+                $firmaBeneficiario = base64_decode($_REQUEST['firmaBeneficiario']);
+                $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
+
+                $firmaBeneficiario = str_replace("height", 'height="40" pasos2', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("width", 'width="125" pasos1', $firmaBeneficiario);
+            }
+
+            $cadena = $_SERVER['HTTP_USER_AGENT'];
+            $resultado = stristr($cadena, "Android");
+
+            if ($resultado) {
+                $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+            } else {
+
+                $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.09,0.09)"><path', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+
+            }
+
+            ini_set('xdebug.var_display_max_depth', 20000);
+            ini_set('xdebug.var_display_max_children', 20000);
+            ini_set('xdebug.var_display_max_data', 20000);
+
+        }
 
         setlocale(LC_ALL, "es_CO.UTF-8");
         $contenidoPagina = "
@@ -259,7 +292,7 @@ $urbanizacion = $urbanizacion[0];
                                     <br>
                                     <br>
                                     <br>
-                                    <br>" . $firma_beneficiario . "<br>
+                                    <br>" . $firmaBeneficiario . "<br>
                                     ____________________________<br>
                                     Firma Propietario<br>
                                     <table style='width:100%;border:none'>

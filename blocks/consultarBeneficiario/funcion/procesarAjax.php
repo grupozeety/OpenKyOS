@@ -1,12 +1,35 @@
 <?php
 
+include_once "core/auth/SesionSso.class.php";
+
 $conexion = "interoperacion";
 $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
+$sesion = \SesionSso::singleton ();
+$respuesta = $sesion->getParametrosSesionAbierta ();
+
+$rol = $respuesta ['description'] [0];
+$idusuario = $respuesta ['mail'] [0];
+
+if ($rol == 'Comisionador') {
+	$comisionador = true;
+} else {
+	$comisionador = false;
+}
+
+
 if ($_REQUEST['funcion'] == "consultarBeneficiarios") {
 
-    $cadenaSql = $this->sql->getCadenaSql('consultarBeneficiario');
+	$cadena='';
+	
+	if($comisionador==true){
+		$cadena="AND id_comisionador='".$idusuario."'";
+	}
+	
+    $cadenaSql = $this->sql->getCadenaSql('consultarBeneficiario', $cadena);
     $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
+    
     for ($i = 0; $i < count($resultado); $i++) {
 
         $resultadoFinal[] = array(
@@ -59,7 +82,14 @@ if ($_REQUEST['funcion'] == "consultarBeneficiarios") {
     echo json_encode($enlace);
 
 } else if ($_REQUEST['funcion'] == "consultaBeneficiarios") {
-    $cadenaSql = $this->sql->getCadenaSql('consultarBeneficiariosPotenciales');
+	
+	$cadena='';
+	if($comisionador==true){
+		$cadena="AND id_comisionador='".$idusuario."'";
+	}
+	
+	
+    $cadenaSql = $this->sql->getCadenaSql('consultarBeneficiariosPotenciales', $cadena);
 
     $resultadoItems = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 

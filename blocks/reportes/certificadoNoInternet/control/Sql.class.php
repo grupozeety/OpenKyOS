@@ -1,5 +1,7 @@
 <?php
+
 namespace reportes\certificadoNoInternet;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -49,19 +51,23 @@ class Sql extends \Sql {
                 $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id_beneficiario AND cn.estado_registro=TRUE ";
                 $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
                 $cadenaSql .= " AND pr.estado_registro = TRUE ";
-                $cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST['id'] . "';";
+                $cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST['id_beneficiario'] . "';";
                 break;
 
             case 'consultarBeneficiariosPotenciales':
-                $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
-                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
-                $cadenaSql .= "WHERE estado_registro=TRUE ";
-                $cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR nombre ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql = " SELECT value , data ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bp.id_beneficiario=ba.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND ba.estado_registro=TRUE ";
+                $cadenaSql .= " AND ba.carpeta_creada=TRUE ";
+                $cadenaSql .= $variable;
+                $cadenaSql .= "     ) datos ";
+                $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "LIMIT 10; ";
-
                 break;
 
             case 'registrarCertificacion':
@@ -126,6 +132,28 @@ class Sql extends \Sql {
                 $cadenaSql .= " '" . $variable['nombre_documento'] . "',";
                 $cadenaSql .= " '" . $variable['ruta_relativa'] . "',";
                 $cadenaSql .= " '" . $info_usuario['uid'][0] . "');";
+
+                break;
+
+            case 'consultarInformacionCertificadoParticular':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM interoperacion.certificacion_no_internet";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $_REQUEST['id_beneficiario'] . "'";
+                break;
+
+            case 'actualizarCertificacion':
+                $cadenaSql = " UPDATE interoperacion.certificacion_no_internet";
+                $cadenaSql .= " SET nombre='" . $variable['nombres'] . "',";
+                $cadenaSql .= " primer_apellido='" . $variable['primer_apellido'] . "', ";
+                $cadenaSql .= " segundo_apellido='" . $variable['segundo_apellido'] . "', ";
+                $cadenaSql .= " identificacion='" . $variable['identificacion'] . "',";
+                $cadenaSql .= " celular='" . $variable['celular'] . "', ";
+                $cadenaSql .= " ciudad_expedicion_identificacion='" . $variable['ciudad_expedicion_identificacion'] . "', ";
+                $cadenaSql .= " ciudad_firma='" . $variable['ciudad_firma'] . "',";
+                $cadenaSql .= " ruta_firma='" . $variable['ruta_firma'] . "' ";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable['id_beneficiario'] . "';";
 
                 break;
         }

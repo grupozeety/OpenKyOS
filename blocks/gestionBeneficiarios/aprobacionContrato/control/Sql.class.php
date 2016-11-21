@@ -31,16 +31,18 @@ class Sql extends \Sql {
              */
             case 'consultarContratos':
                 $cadenaSql = " SELECT cn.id identificador_contrato, cn.numero_contrato, bn.nombre||' '||bn.primer_apellido||' '||bn.segundo_apellido nombre_beneficiario,";
-                $cadenaSql .= " bn.id_beneficiario identificador_beneficiario, bn.identificacion, bn.proyecto,pm.descripcion estado_contrato, bn.tipo_beneficiario, ";
+                $cadenaSql .= " bn.id_beneficiario identificador_beneficiario, bn.identificacion, bn.proyecto,pm.descripcion estado_contrato, bn.tipo_beneficiario,bn.id_beneficiario, bn.minvi, ";
                 $cadenaSql .= " cn.nombre_documento_contrato , cn.ruta_documento_contrato ";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN parametros.parametros pm ON pm.id_parametro=cn.estado_contrato AND pm.estado_registro=TRUE";
                 $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND rl.descripcion='Estado Contrato' AND rl.estado_registro=TRUE";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.id_beneficiario=cn.id_beneficiario";
-                $cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bn.id_beneficiario=ba.id_beneficiario ";
-                $cadenaSql .= " WHERE cn.estado_registro=TRUE";
+                //$cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bn.id_beneficiario=ba.id_beneficiario ";
+                $cadenaSql .= " LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bn.id_beneficiario ";
+                $cadenaSql .= " WHERE cn.estado_registro=TRUE ";
+                $cadenaSql .= $variable;
                 $cadenaSql .= " AND bn.estado_registro=TRUE";
-                $cadenaSql .= " AND ba.carpeta_creada=TRUE";
+                //$cadenaSql .= " AND ba.carpeta_creada=TRUE";
                 break;
 
             case 'consultarContratoEspecifico':
@@ -184,7 +186,7 @@ class Sql extends \Sql {
 
             case 'consultarValidacionRequisitos':
                 $cadenaSql = " SELECT dr.perfil, dr.tipologia_documento, dr.obligatoriedad, dr.proceso, ";
-                $cadenaSql .= " dc.nombre_documento, pr.descripcion nombre_requisitos, dc.comisionador , dc.supervisor, dc.analista ";
+                $cadenaSql .= " dc.nombre_documento, pr.descripcion nombre_requisitos, dc.comisionador , dc.supervisor, dc.analista, dc.id_beneficiario ";
                 $cadenaSql .= " FROM interoperacion.documentos_requisitos AS dr";
                 $cadenaSql .= " JOIN  parametros.parametros AS pr ON pr.id_parametro= dr.tipologia_documento ";
                 $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato AS dc ON dc.tipologia_documento= dr.tipologia_documento AND dc.id_beneficiario='" . $variable['id_beneficiario'] . "'";
@@ -194,10 +196,27 @@ class Sql extends \Sql {
 
                 break;
 
+            case 'consultaInformacionBeneficiario':
+                $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato  ";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
+                $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
+                $cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
+                $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id_beneficiario AND cn.estado_registro=TRUE ";
+                $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
+                $cadenaSql .= " AND pr.estado_registro = TRUE ";
+                $cadenaSql .= " AND bn.id_beneficiario= '" . $variable . "';";
+                break;
+
+            case 'consultaContratoInfo':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM interoperacion.contrato";
+                $cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND estado_registro='TRUE'";
+                break;
+
         }
 
         return $cadenaSql;
     }
 }
 ?>
-

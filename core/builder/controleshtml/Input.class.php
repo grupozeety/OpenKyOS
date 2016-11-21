@@ -136,14 +136,14 @@ class Input extends HtmlBase {
             $cadena .= "id='" . $this->atributos[self::ID] . "' ";
             $cadena .= "class='filestyle'  ";
 
-            if (isset($this->atributos[self::ETIQUETA_BOTON]) && $this->atributos[self::ETIQUETA_BOTON] != "") {
-                $cadena .= "data-buttonText='" . $this->atributos[self::ETIQUETA_BOTON] . "' ";
-            } else {
-                $cadena .= "data-buttonText='Seleccionar' ";
-
-            }
-
-            $cadena .= "data-icon='false'";
+   	if (isset ( $this->atributos [self::ETIQUETA_BOTON] ) && $this->atributos [self::ETIQUETA_BOTON] != "") {
+				$cadena .= "data-icon='true'";
+				$cadena .= "data-buttonText='' ";
+			} else {
+				$cadena .= "data-buttonText='Seleccionar' ";
+				$cadena .= "data-icon='false'";
+			}
+            
             if (isset($this->atributos[self::TAMANNO])) {
                 $cadena .= "size = '" . $this->atributos[self::TAMANNO] . "'";
             }

@@ -53,6 +53,32 @@ $urlConsultarBeneficiarios = $url . $cadena;
 
 		   });
 
+var $sigdiv2 =$("#firma_digital_beneficiario").jSignature();
+
+
+$('#limpiarBn').bind('click', function(e){
+		$sigdiv2.jSignature('reset');
+
+		$("#<?php echo $this->campoSeguro('firmaBeneficiario');?>").val('');
+		$("#firma_digital_beneficiario").css("display","block");
+		$("#mensaje_firma_bn").css("display","none");
+		$("#guardarBn").css("display","block");
+	});
+
+
+
+$('#guardarBn').bind('click', function(e){
+
+ $("#<?php echo $this->campoSeguro('firmaBeneficiario');?>").val(btoa($sigdiv2.jSignature("getData", "svg")));
+
+$("#firma_digital_beneficiario").css("display","none");
+$("#mensaje_firma_bn").css("display","block");
+$("#guardarBn").css("display","none");
+
+	});
+
+
+      $("#mensaje").modal("show");
 
 
 </script>

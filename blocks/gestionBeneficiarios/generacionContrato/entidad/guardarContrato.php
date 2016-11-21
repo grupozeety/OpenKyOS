@@ -47,7 +47,7 @@ class FormProcessor {
 
         $_REQUEST['tiempo'] = time();
 
-        $this->cargarClausula();
+        //$this->cargarClausula();
 
         /**
          *  1. CargarArchivos en el Directorio
@@ -61,7 +61,7 @@ class FormProcessor {
 
         $this->procesarInformacion();
 
-        if ($this->archivos_datos != '') {
+        if ($_REQUEST['firmaBeneficiario'] != '') {
 
             include_once "guardarDocumentoPDF.php";
 
@@ -78,23 +78,23 @@ class FormProcessor {
     public function procesarInformacion() {
 
         if ($this->archivos_datos === '') {
-            $url_firma_beneficiario = '';
-            //$url_firma_contratista = '';
+            $soporte = '';
 
         } else {
-
-            $url_firma_beneficiario = $this->archivos_datos[0]['ruta_archivo'];
-
-            //$url_firma_contratista = $this->archivos_datos[0]['ruta_archivo'];
+            $soporte = $this->archivos_datos[0]['ruta_archivo'];
 
         }
 
+        $url_firma_beneficiario = $_REQUEST['firmaBeneficiario'];
+
+        //$url_firma_contratista = $_REQUEST['firmaInstalador'];
+
         $clausulas = $this->clausulas;
 
-        switch ($_REQUEST['tipo']) {
+        switch ($_REQUEST['tipo_beneficiario']) {
 
             case '1':
-                $valor_tarificacion = '6400';
+                $valor_tarificacion = '6500';
                 break;
 
             case '2':
@@ -121,37 +121,42 @@ class FormProcessor {
             'segundo_apellido' => $_REQUEST['segundo_apellido'],
             'tipo_documento' => $_REQUEST['tipo_documento'],
             'numero_identificacion' => $_REQUEST['numero_identificacion'],
-            'fecha_expedicion' => $_REQUEST['fecha_expedicion'],
+            'fecha_expedicion' => " ",
             'direccion_domicilio' => $_REQUEST['direccion_domicilio'],
             'direccion_instalacion' => '',
             'departamento' => $_REQUEST['departamento'],
             'municipio' => $_REQUEST['municipio'],
             'urbanizacion' => $_REQUEST['urbanizacion'],
-            'estrato' => $_REQUEST['estrato'],
-            'barrio' => ' ',
+            'estrato' => $_REQUEST['tipo_beneficiario'],
+            'estrato_socioeconomico' => $_REQUEST['estrato_economico'],
+            'barrio' => "",
             'telefono' => $_REQUEST['telefono'],
             'celular' => $_REQUEST['celular'],
             'correo' => $_REQUEST['correo'],
             'cuenta_suscriptor' => ' ',
-            'velocidad_internet' => ' ',
-            'fecha_inicio_vigencia_servicio' => ' ',
-            'fecha_fin_vigencia_servicio' => ' ',
-            'valor_mensual' => ' ',
+            'velocidad_internet' => $_REQUEST['velocidad_internet'],
+            'fecha_inicio_vigencia_servicio' => '',
+            'fecha_fin_vigencia_servicio' => '',
+            'valor_mensual' => $valor_tarificacion,
             'marca' => ' ',
             'modelo' => ' ',
             'serial' => ' ',
             'tecnologia' => ' ',
             'estado' => ' ',
-            'clausulas' => $clausulas,
-            //'url_firma_contratista' => $url_firma_contratista,
+            'clausulas' => '',
+            'url_firma_contratista' => '',
             'url_firma_beneficiario' => $url_firma_beneficiario,
             'manzana' => $_REQUEST['num_manzana'],
             'bloque' => $_REQUEST['num_bloque'],
             'torre' => $_REQUEST['num_torre'],
             'casa_apartamento' => $_REQUEST['tipo_tecnologia'],
+            'interior' => $_REQUEST['interior'],
+            'lote' => $_REQUEST['lote'],
             'tipo_tecnologia' => $_REQUEST['tipo_tecnologia'],
             'valor_tarificacion' => $valor_tarificacion,
             'medio_pago' => $_REQUEST['medio_pago'],
+            'tipo_pago' => $_REQUEST['tipo_pago'],
+            'soporte' => $soporte,
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarInformacionContrato', $arreglo);

@@ -78,11 +78,50 @@ class Registrador {
 		$atributos ['tipoEtiqueta'] = 'inicio';
 		echo $this->miFormulario->formulario ( $atributos );
 		{
-			
+		
+		
 			$esteCampo = 'Agrupacion';
 			$atributos ['id'] = $esteCampo;
-			$atributos ['leyenda'] = "Detalles del Archivo";
+			$atributos ['leyenda'] = "Detalles del Archivo Beneficiario ".$_REQUEST ['id_beneficiario'];
 			echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
+			unset ( $atributos );
+		
+					// ------------------Division para los botones-------------------------
+			$atributos ["id"] = "botones";
+			$atributos ["estilo"] = "marcoBotones";
+			$atributos ["estiloEnLinea"] = "display:block;";
+			echo $this->miFormulario->division ( "inicio", $atributos );
+			unset ( $atributos );
+			{
+		
+			  		
+				// -----------------CONTROL: Botón ----------------------------------------------------------------
+				$esteCampo = 'verificar';
+				$atributos ["id"] = $esteCampo;
+				$atributos ["tabIndex"] = $tab;
+				$atributos ["tipo"] = 'boton';
+				// submit: no se coloca si se desea un tipo button genérico
+				$atributos ['submit'] = true;
+				$atributos ["simple"] = true;
+				$atributos ["columnas"] = 1;
+				$atributos ["estiloMarco"] = '';
+				$atributos ["estiloBoton"] = 'jqueryui';
+				$atributos ["block"] = false;
+				// verificar: true para verificar el formulario antes de pasarlo al servidor.
+				$atributos ["verificar"] = '';
+				$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+				$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+				$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+				$tab ++;
+				
+				// Aplica atributos globales al control
+				$atributos = array_merge ( $atributos, $atributosGlobales );
+				echo $this->miFormulario->campoBoton ( $atributos );
+				unset ( $atributos );
+				// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+			}
+			// ------------------Fin Division para los botones-------------------------
+			echo $this->miFormulario->division ( "fin" );
 			unset ( $atributos );
 			
 			{
@@ -116,41 +155,7 @@ class Registrador {
 			unset ( $atributos );
 			
 			// ----------------INICIO CONTROL: Archivo---------------------------
-			// ------------------Division para los botones-------------------------
-			$atributos ["id"] = "botones";
-			$atributos ["estilo"] = "marcoBotones";
-			$atributos ["estiloEnLinea"] = "display:block;";
-			echo $this->miFormulario->division ( "inicio", $atributos );
-			unset ( $atributos );
-			{
-				// -----------------CONTROL: Botón ----------------------------------------------------------------
-				$esteCampo = 'verificar';
-				$atributos ["id"] = $esteCampo;
-				$atributos ["tabIndex"] = $tab;
-				$atributos ["tipo"] = 'boton';
-				// submit: no se coloca si se desea un tipo button genérico
-				$atributos ['submit'] = true;
-				$atributos ["simple"] = true;
-				$atributos ["columnas"] = 1;
-				$atributos ["estiloMarco"] = '';
-				$atributos ["estiloBoton"] = 'jqueryui';
-				$atributos ["block"] = false;
-				// verificar: true para verificar el formulario antes de pasarlo al servidor.
-				$atributos ["verificar"] = '';
-				$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-				$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-				$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-				$tab ++;
-				
-				// Aplica atributos globales al control
-				$atributos = array_merge ( $atributos, $atributosGlobales );
-				echo $this->miFormulario->campoBoton ( $atributos );
-				unset ( $atributos );
-				// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-			}
-			// ------------------Fin Division para los botones-------------------------
-			echo $this->miFormulario->division ( "fin" );
-			unset ( $atributos );
+
 			
 			$atributos ["id"] = "botones";
 			$atributos ["estilo"] = "marcoBotones";
