@@ -1,5 +1,5 @@
 <?php
-namespace reportes\instalacionesGenerales\frontera;
+namespace reportes\informacionBeneficiarios\frontera;
 /**
  * IMPORTANTE: Este formulario está utilizando jquery.
  * Por tanto en el archivo ready.php se declaran algunas funciones js
@@ -56,107 +56,32 @@ class Registrador {
 
             $esteCampo = 'Agrupacion';
             $atributos['id'] = $esteCampo;
-            $atributos['leyenda'] = "<b>Reporte Instalaciones Generales</b>";
+            $atributos['leyenda'] = "<b>Reporte Información Beneficiarios</b>";
             echo $this->miFormulario->agrupacion('inicio', $atributos);
-            unset($atributos);
-
-            $esteCampo = 'fecha_inicio';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "text";
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['evento'] = '';
-            $atributos['deshabilitado'] = false;
-            $atributos['readonly'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['placeholder'] = "Seleccione Fecha Inicio";
-            $atributos['valor'] = "";
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
-            $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
-            // Aplica atributos globales al control
-            $atributos = array_merge($atributos, $atributosGlobales);
-            $fecha_inicio = $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-            unset($atributos);
-
-            $esteCampo = 'fecha_final';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "text";
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['evento'] = '';
-            $atributos['deshabilitado'] = false;
-            $atributos['readonly'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['placeholder'] = "Seleccione Fecha Final";
-            $atributos['valor'] = "";
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
-            $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
-            // Aplica atributos globales al control
-            $atributos = array_merge($atributos, $atributosGlobales);
-            $fecha_final = $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-            unset($atributos);
-
-            $esteCampo = 'info_proyectos';
-            $atributos["id"] = $esteCampo; // No cambiar este nombre
-            $atributos["tipo"] = "hidden";
-            $atributos['estilo'] = '';
-            $atributos["obligatorio"] = false;
-            $atributos['marco'] = true;
-            $atributos["etiqueta"] = "";
-            if (isset($_REQUEST[$esteCampo])) {
-                $atributos['valor'] = $_REQUEST[$esteCampo];
-            } else {
-                $atributos['valor'] = '';
-            }
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroTexto($atributos);
             unset($atributos);
 
             {
 
-                echo "<table id='contenido' class='table  table-hover'>
-                           <tr>
-                              <td>" . $fecha_inicio . "</td>
-                              <td>" . $fecha_final . "</td>
-                           </tr>
-                          </table>";
+                $atributos['id'] = 'divMensaje';
+                $atributos['estilo'] = 'marcoBotones';
+                echo $this->miFormulario->division("inicio", $atributos);
+                unset($atributos);
+                // -------------Control texto-----------------------
+                $esteCampo = 'mostrarMensaje';
+                $atributos["tamanno"] = '';
+                $estilo_mensaje = 'success'; // information,warning,error,validation
+                $atributos["mensaje"] = '<b>¿Desea Generar Con la Información Actual de los Beneficiarios?<b>';
+                $atributos["etiqueta"] = '';
+                $atributos["estilo"] = $estilo_mensaje;
+                $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+                echo $this->miFormulario->campoMensaje($atributos);
+                unset($atributos);
+
+                // ------------------Fin Division para los botones-------------------------
+                echo $this->miFormulario->division("fin");
+                unset($atributos);
+
             }
-            /*   {
-            echo '<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
-            <thead>
-            <tr>
-            <th>N#</th>
-            <th>Nombre Proyecto</th>
-            <th>Opcion</th>
-            </tr>
-            </thead>
-            <tfoot>
-            <tr>
-            <th>N#</th>
-            <th>Nombre Proyecto</th>
-            <th>Opcion</th>
-            </tr>
-            </tfoot>
-            </table>';
-            }*/
 
             // ------------------Division para los botones-------------------------
             $atributos["id"] = "botones";
@@ -250,7 +175,7 @@ class Registrador {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensaje($tab = '', $nombreBloque = '') {
+    public function mensajeModal($tab = '', $nombreBloque = '') {
 
         switch ($_REQUEST['mensaje']) {
             case 'inserto':

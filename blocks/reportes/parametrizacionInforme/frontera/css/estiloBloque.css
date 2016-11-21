@@ -1,0 +1,10 @@
+/*
+Código css correspondiente al Bloque.
+*/
+.col-xs-2 {
+    text-align: left;
+}
+
+#botonConsultaA{
+    float: right;
+}
