@@ -19,8 +19,8 @@ class GenerarReporteInstalaciones {
 
         $_REQUEST['tiempo'] = time();
 
-        //$conexion = "interoperacion";
-        $conexion = "produccion";
+        $conexion = "interoperacion";
+
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         /**
