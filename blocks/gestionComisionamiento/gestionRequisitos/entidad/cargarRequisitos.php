@@ -87,7 +87,39 @@ class cargueRequisitos {
             $this->registro_documentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
         }
+
+        $this->verificarEstadoComisionamiento();
+
     }
+
+    public function verificarEstadoComisionamiento() {
+        {
+
+            //Consulta Agendamiento
+            $cadenaSql = $this->miSql->getCadenaSql('consultaAgendamiento');
+            $agendamiento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            //var_dump($agendamiento);exit;
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarEstadoComisionamiento', "No Iniciado");
+            $estadoComisionamiento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if ($agendamiento['estado_comisionamiento'] === $estadoComisionamiento['id_parametro']) {
+
+                //Consulta Agendamiento
+
+                $cadenaSql = $this->miSql->getCadenaSql('consultarEstadoComisionamiento', "En Proceso");
+                $estadoComisionamiento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                $cadenaSql = $this->miSql->getCadenaSql('actualizarEstadoComisionamiento', $estadoComisionamiento['id_parametro']);
+                $actualizacionComisionamiento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+            }
+
+        }
+
+    }
+
     public function asosicarCodigoDocumento() {
 
         foreach ($_FILES as $key => $value) {

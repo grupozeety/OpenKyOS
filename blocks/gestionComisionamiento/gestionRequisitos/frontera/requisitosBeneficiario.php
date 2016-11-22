@@ -49,63 +49,77 @@ class Registrador {
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        // Consulta información
-        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
-        $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        $infoBeneficiario = $infoBeneficiario[0];
+        {
+            //Consulta Agendamiento
+            $cadenaSql = $this->miSql->getCadenaSql('consultaAgendamiento');
+            $agendamiento = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionAprobacion');
-        $estadoAprobacion = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            if (is_null($agendamiento['estado_comisionamiento'])) {
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionAprobacionContrato');
-        $estadoAprobacionContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                //Consulta Agendamiento
+                $cadenaSql = $this->miSql->getCadenaSql('consultarEstadoComisionamiento', "No Iniciado");
+                $estadoComisionamiento = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        if ($estadoAprobacion != false) {
+                $cadenaSql = $this->miSql->getCadenaSql('actualizarEstadoComisionamiento', $estadoComisionamiento['id_parametro']);
+                $actualizacionComisionamiento = $esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
-            if ($estadoAprobacionContrato != false) {
-                $estadoAprobacion = array_merge($estadoAprobacion, $estadoAprobacionContrato);
             }
 
-            foreach ($estadoAprobacion as $key => $values) {
-                if ($estadoAprobacion[$key]['ruta_relativa'] != NULL) {
+        }
 
-                    $variable = "pagina=" . $miPaginaActual;
-                    $variable .= "&opcion=verArchivo";
-                    $variable .= "&mensaje=confirma";
-                    $variable .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
-                    $variable .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
-                    $variable .= "&ruta=" . $estadoAprobacion[$key]['ruta_relativa'];
-                    $variable .= "&archivo=" . $estadoAprobacion[$key]['id'];
-                    $variable .= "&tipologia=" . $estadoAprobacion[$key]['tipologia_documento'];
-                    $url = $this->miConfigurador->configuracion["host"] . $this->miConfigurador->configuracion["site"] . "/index.php?";
-                    $enlace = $this->miConfigurador->configuracion['enlace'];
-                    $variable = $this->miConfigurador->fabricaConexiones->crypto->codificar($variable);
-                    $_REQUEST[$enlace] = $enlace . '=' . $variable;
-                    $redireccion[$estadoAprobacion[$key]['codigo_requisito']] = $url . $_REQUEST[$enlace];
+        {
+            // Consulta información
+            $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
+            $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            $infoBeneficiario = $infoBeneficiario[0];
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionAprobacion');
+            $estadoAprobacion = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionAprobacionContrato');
+            $estadoAprobacionContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+            if ($estadoAprobacion != false) {
+
+                if ($estadoAprobacionContrato != false) {
+                    $estadoAprobacion = array_merge($estadoAprobacion, $estadoAprobacionContrato);
+                }
+
+                foreach ($estadoAprobacion as $key => $values) {
+                    if ($estadoAprobacion[$key]['ruta_relativa'] != NULL) {
+
+                        $variable = "pagina=" . $miPaginaActual;
+                        $variable .= "&opcion=verArchivo";
+                        $variable .= "&mensaje=confirma";
+                        $variable .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+                        $variable .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
+                        $variable .= "&ruta=" . $estadoAprobacion[$key]['ruta_relativa'];
+                        $variable .= "&archivo=" . $estadoAprobacion[$key]['id'];
+                        $variable .= "&tipologia=" . $estadoAprobacion[$key]['tipologia_documento'];
+                        $url = $this->miConfigurador->configuracion["host"] . $this->miConfigurador->configuracion["site"] . "/index.php?";
+                        $enlace = $this->miConfigurador->configuracion['enlace'];
+                        $variable = $this->miConfigurador->fabricaConexiones->crypto->codificar($variable);
+                        $_REQUEST[$enlace] = $enlace . '=' . $variable;
+                        $redireccion[$estadoAprobacion[$key]['codigo_requisito']] = $url . $_REQUEST[$enlace];
+                    }
                 }
             }
-        }
 
-        // Para revisar los requisitos según el perfil
-        $a = 0;
+            // Para revisar los requisitos según el perfil
+            $a = 0;
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitos', $infoBeneficiario['tipo_beneficiario']);
-        $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitos', $infoBeneficiario['tipo_beneficiario']);
+            $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosContrato');
-        $requisitosContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosContrato');
+            $requisitosContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        // Cuando Existe Registrado un borrador del contrato
-        //if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
-        $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosVerificados');
-        $infoArchivo = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            // Cuando Existe Registrado un borrador del contrato
+            //if (is_null ( $infoBeneficiario ['id_contrato'] ) != true) {
+            $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosVerificados');
+            $infoArchivo = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        if ($requisitosContrato != FALSE) {
-            //   $requisitos = array_merge($requisitos, $requisitosContrato);
-        }
-        //}
-
-        // Rescatar los datos de este bloque
+        } // Rescatar los datos de este bloque
 
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 
@@ -142,11 +156,7 @@ class Registrador {
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
                 {
-                    if (is_null($infoBeneficiario['id_contrato']) != true && !isset($_REQUEST['mensaje'])) {
-                        $_REQUEST['mensaje'] = 'inserto';
-                        $this->mensaje();
-                        unset($atributos);
-                    } elseif (isset($_REQUEST['mensaje'])) {
+                    if (isset($_REQUEST['mensaje'])) {
 
                         $this->mensaje();
                         unset($atributos);

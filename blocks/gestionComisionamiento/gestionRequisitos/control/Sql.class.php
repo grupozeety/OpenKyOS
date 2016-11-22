@@ -583,8 +583,32 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND numero_contrato='" . $_REQUEST['numero_contrato'] . "' ";
                 $cadenaSql .= " AND estado_registro=TRUE ";
                 $cadenaSql .= " RETURNING id ;";
+                break;
+
+            //-------------------Estado Comisionamiento---------------------------------------
+            case 'consultaAgendamiento':
+                $cadenaSql = " SELECT * ";
+                $cadenaSql .= " FROM interoperacion.agendamiento_comisionamiento";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $_REQUEST['id_beneficiario'] . "';";
+                break;
+
+            case 'consultarEstadoComisionamiento':
+                $cadenaSql = " SELECT pm.id_parametro, pm.descripcion ";
+                $cadenaSql .= " FROM parametros.parametros pm";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND pm.estado_registro=TRUE AND rl.descripcion='Estado Comisionamiento'";
+                $cadenaSql .= " WHERE pm.estado_registro=TRUE ";
+                $cadenaSql .= " AND pm.descripcion='" . $variable . "';";
+                break;
+
+            case 'actualizarEstadoComisionamiento':
+                $cadenaSql = " UPDATE interoperacion.agendamiento_comisionamiento";
+                $cadenaSql .= " SET estado_comisionamiento='" . $variable . "'";
+                $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "'";
+                $cadenaSql .= " AND estado_registro='TRUE';";
 
                 break;
+
         }
 
         return $cadenaSql;

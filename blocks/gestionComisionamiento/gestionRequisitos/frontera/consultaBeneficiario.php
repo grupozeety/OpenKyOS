@@ -59,9 +59,24 @@ class Registrador {
 
             {
 
+                {
+                    switch ($_REQUEST['proceso']) {
+                        case 'cargueRequisitos':
+                            $titulo = '<b>(Cargue de Requisitos)<br>Gestión Comisionamiento</b>';
+                            break;
+                        case 'verificarRequisitos':
+                            $titulo = '<b>(Verificación de Requisitos)<br>Gestión Comisionamiento</b>';
+                            break;
+                        default:
+                            $titulo = '';
+                            break;
+                    }
+
+                }
+
                 $esteCampo = 'Agrupacion';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "Consultar Beneficiario para Gestión Contrato";
+                $atributos['leyenda'] = "<b>Consultar Beneficiario</b> " . $titulo;
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
 

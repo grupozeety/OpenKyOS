@@ -97,7 +97,7 @@ class Registrador {
         $a = 0;
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitos', $infoBeneficiario['tipo_beneficiario']);
-        echo $cadenaSql;
+
         $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosContrato');
@@ -108,16 +108,6 @@ class Registrador {
             $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosVerificados');
             $infoArchivo = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-            $cadenaSql = $this->miSql->getCadenaSql('consultarContratoExistente');
-            $infoArchivoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-            if ($infoArchivoContrato != FALSE) {
-                $infoArchivo = array_merge($infoArchivo, $infoArchivoContrato);
-            }
-
-            if ($requisitosContrato != FALSE) {
-                $requisitos = array_merge($requisitos, $requisitosContrato);
-            }
         }
 
         // Rescatar los datos de este bloque
@@ -152,7 +142,7 @@ class Registrador {
             {
                 $esteCampo = 'Agrupacion';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "Verificar Requisitos Tipo de Beneficiario: " . $infoBeneficiario['descripcion_tipo'];
+                $atributos['leyenda'] = "<b>Verificar Requisitos<br>Gestión Comisionamiento</b>";
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
                 {
