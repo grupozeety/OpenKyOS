@@ -48,12 +48,8 @@ class Registrador {
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosEspecificos', $data);
-        $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        if ($_REQUEST['tipologia'] == '128') {
-            $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosContrato');
-            $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        }
+        $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
         // -------------------------------------------------------------------------------------------------
 

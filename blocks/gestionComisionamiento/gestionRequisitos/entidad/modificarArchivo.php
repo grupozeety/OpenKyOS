@@ -85,7 +85,7 @@ class Alfresco {
             }
         }
 
-        $this->actualizarEstadoContrato();
+        $this->actualizarEstadoComisionamiento();
 
         if ($this->verificacion) {
             Redireccionador::redireccionar("verifico", $_REQUEST['id_beneficiario']);
@@ -94,23 +94,19 @@ class Alfresco {
         }
     }
 
-    public function actualizarEstadoContrato() {
+    public function actualizarEstadoComisionamiento() {
 
         $arreglo = array(
             'perfil_beneficiario' => $_REQUEST['tipo_beneficiario'],
             'id_beneficiario' => $_REQUEST['id_beneficiario'],
 
         );
-        $cadenaSql = $this->miSql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
+        $cadenaSql = $this->miSql->getCadenaSql('consultarValidacionRequisitosComiosionamiento', $arreglo);
         $requisitos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
         $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaContratoInfo');
-        $contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-
-        $_REQUEST['numero_contrato'] = $contrato['numero_contrato'];
         if ($requisitos) {
             foreach ($requisitos as $key => $value) {
 
@@ -120,66 +116,23 @@ class Alfresco {
 
                 $resultado = $value['comisionador'] * $value['supervisor'] * $value['analista'];
 
-                if ($beneficiario['minvi'] == 't' && $resultado && !is_null($value['nombre_documento'])) {
-                    switch ($value['nombre_requisitos']) {
-                        case 'Cedula Beneficiario':
-                            $cambiarEstadoCB = true;
-                            break;
-
-                        case 'Certificado No Internet ultimos 6 meses':
-                            $cambiarEstadoCNI = true;
-                            break;
-
-                        default:
-
-                            $contrato['comisionador'] = ($contrato['comisionador'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
-
-                            $contrato['supervisor'] = ($contrato['supervisor'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
-
-                            $contrato['analista'] = ($contrato['analista'] == 't') ? 1 : (($contrato['analista'] == 'f') ? 0 : NULL);
-
-                            $resultadoContrato = $contrato['comisionador'] * $contrato['supervisor'] * $contrato['analista'];
-                            if ($resultadoContrato) {
-
-                                $cambiarEstadoCN = true;
-                            }
-
-                            break;
-
-                    }
-
-                }
-
-                if ($beneficiario['minvi'] == 'f' && $resultado && !is_null($value['nombre_documento'])) {
+                if ($resultado && !is_null($value['nombre_documento'])) {
                     $cambiarEstado = true;
 
                 } else {
-                    $cambiarEstado = false;
+                    $noActualizar = true;
                 }
 
             }
 
-            if (isset($cambiarEstadoCB) && isset($cambiarEstadoCNI) && isset($cambiarEstadoCN)) {
+            if (!isset($noActualizar)) {
 
-                $cadenaSql = $this->miSql->getCadenaSql('actualizarEstadoContrato');
+                //Consulta Agendamiento
+                $cadenaSql = $this->miSql->getCadenaSql('consultarEstadoComisionamiento', "Finalizado");
+                $estadoComisionamiento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-                $this->actualizarContrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-
-                $cadenaSql = $this->miSql->getCadenaSql('actualizarServicio', $this->actualizarContrato['id']);
-
-                $this->actualizarServicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-
-            }
-
-            if (isset($cambiarEstado) && $cambiarEstado != false) {
-
-                $cadenaSql = $this->miSql->getCadenaSql('actualizarEstadoContrato');
-
-                $this->actualizarContrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-
-                $cadenaSql = $this->miSql->getCadenaSql('actualizarServicio', $this->actualizarContrato['id']);
-
-                $this->actualizarServicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+                $cadenaSql = $this->miSql->getCadenaSql('actualizarEstadoComisionamiento', $estadoComisionamiento['id_parametro']);
+                $actualizacionComisionamiento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
             }
 
