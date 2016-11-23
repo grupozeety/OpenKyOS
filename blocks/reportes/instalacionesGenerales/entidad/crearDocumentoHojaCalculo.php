@@ -168,7 +168,7 @@ class GenerarReporteExcelInstalaciones {
                 //$paquete_avance_instalacion_noc = $this->consultarPaqueteTrabajo($this->proyectos[$llave_Ins], "Avance y  estado instalación NOC");
 
                 $this->objCal->setActiveSheetIndex(0)
-                     ->setCellValue('Q' . $i, "% " . $value['q_'])
+                     ->setCellValue('Q' . $i, $value['q_'] .  "% ")
                      ->getStyle('Q' . $i)->applyFromArray($styleCentrado);
 
                 $this->objCal->setActiveSheetIndex(0)
