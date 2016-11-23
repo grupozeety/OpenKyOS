@@ -221,7 +221,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN parametros.parametros ON id_parametro=tipologia_documento ";
                 $cadenaSql .= " WHERE perfil=" . $variable['tipo'] . "";
                 $cadenaSql .= " AND documentos_requisitos.estado_registro=TRUE";
-                $cadenaSql .= " AND proceso=142";
+                $cadenaSql .= " AND proceso=143";
                 $cadenaSql .= " AND tipologia_documento='" . $variable['codigo'] . "'";
                 break;
 
@@ -500,7 +500,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN parametros.parametros ON id_parametro=tipologia_documento ";
                 $cadenaSql .= " WHERE perfil=" . $variable . "";
                 $cadenaSql .= " AND documentos_requisitos.estado_registro=TRUE";
-                $cadenaSql .= " AND proceso=142";
+                $cadenaSql .= " AND proceso=143";
                 break;
 
             case "consultaRequisitosEspecificos":
@@ -509,7 +509,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN parametros.parametros ON id_parametro=tipologia_documento ";
                 $cadenaSql .= " WHERE perfil=" . $variable['tipo'] . "";
                 $cadenaSql .= " AND documentos_requisitos.estado_registro=TRUE";
-                $cadenaSql .= " AND proceso=142";
+                $cadenaSql .= " AND proceso=143";
                 $cadenaSql .= " AND tipologia_documento='" . $variable['codigo'] . "'";
                 break;
 
@@ -616,9 +616,17 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN  parametros.parametros AS pr ON pr.id_parametro= dr.tipologia_documento ";
                 $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato AS dc ON dc.tipologia_documento= dr.tipologia_documento AND dc.id_beneficiario='" . $variable['id_beneficiario'] . "'";
                 $cadenaSql .= " WHERE dr.estado_registro='TRUE'";
-                $cadenaSql .= " AND dr.proceso='142'";
+                $cadenaSql .= " AND dr.proceso='143'";
                 $cadenaSql .= " AND dr.perfil='" . $variable['perfil_beneficiario'] . "';";
-                var_dump($cadenaSql);
+
+                break;
+
+            case 'consultarProcesoComisionamiento':
+                $cadenaSql = " SELECT pm.id_parametro, pm.descripcion ";
+                $cadenaSql .= " FROM parametros.parametros pm";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND pm.estado_registro=TRUE AND rl.descripcion='Estado Comisionamiento'";
+                $cadenaSql .= " WHERE pm.estado_registro=TRUE ";
+                $cadenaSql .= " AND pm.descripcion='" . $variable . "';";
                 break;
 
         }
