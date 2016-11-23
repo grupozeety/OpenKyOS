@@ -146,11 +146,7 @@ class Registrador {
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
                 {
-                    if (is_null($infoBeneficiario['id_contrato']) != true && !isset($_REQUEST['mensaje'])) {
-                        $_REQUEST['mensaje'] = 'inserto';
-                        $this->mensaje();
-                        unset($atributos);
-                    } elseif (isset($_REQUEST['mensaje'])) {
+                    if (isset($_REQUEST['mensaje'])) {
 
                         $this->mensaje();
                         unset($atributos);
