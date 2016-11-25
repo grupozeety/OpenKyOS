@@ -88,12 +88,11 @@ class GenerarReporteExcelInstalaciones {
                             break;
                         case 'Centro de Gestión-Fecha Inicio instalación Adecuaciones':
 
-                            $this->informacion[$key]['c_'] = (!is_null($value_c['paquetesTrabajo']['cf_12'])) ? $value_c['paquetesTrabajo']['cf_12'] : "";
+                        	$this->informacion[$key]['c_'] = (isset($value_c['paquetesTrabajo']['cf_12']) && $value_c['paquetesTrabajo']['cf_12'] != '') ? $value_c['paquetesTrabajo']['cf_12'] : "";
                             break;
                         case 'Centro de Gestión-Fecha Terminación instalación Adecuaciones':
 
-                            $this->informacion[$key]['d_'] = (!is_null($value_c['paquetesTrabajo']['cf_13'])) ? $value_c['paquetesTrabajo']['cf_13'] : "";
-
+                        	$this->informacion[$key]['d_'] = (isset($value_c['paquetesTrabajo']['cf_13']) && $value_c['paquetesTrabajo']['cf_13'] != '') ? $value_c['paquetesTrabajo']['cf_13'] : "";
                             break;
                         case 'Centro de Gestión-Fecha Prevista PI&PS Inicio':
 
@@ -112,12 +111,11 @@ class GenerarReporteExcelInstalaciones {
                             break;
                         case 'Mesa  de Ayuda-Feha Inicio instalación Adecuaciones':
 
-                            $this->informacion[$key]['h_'] = (!is_null($value_c['paquetesTrabajo']['cf_12'])) ? $value_c['paquetesTrabajo']['cf_12'] : "";
+                        	$this->informacion[$key]['h_'] = (isset($value_c['paquetesTrabajo']['cf_12']) && $value_c['paquetesTrabajo']['cf_12'] != '') ? $value_c['paquetesTrabajo']['cf_12'] : "";
                             break;
                         case 'Mesa  de Ayuda-Fecha Terminación instalación Adecuaciones':
 
-                            $this->informacion[$key]['i_'] = (!is_null($value_c['paquetesTrabajo']['cf_13'])) ? $value_c['paquetesTrabajo']['cf_13'] : "";
-
+                        	$this->informacion[$key]['i_'] = (isset($value_c['paquetesTrabajo']['cf_13']) && $value_c['paquetesTrabajo']['cf_13'] != '') ? $value_c['paquetesTrabajo']['cf_13'] : "";
                             break;
                         case 'Mesa  de Ayuda-Fecha Prevista PI&PS Inicio':
 
@@ -131,17 +129,18 @@ class GenerarReporteExcelInstalaciones {
                         case 'Otros Equipos o Sistemas en el NOC-Descripcion Actividades':
 
                             $this->informacion[$key]['l_'] = (isset($value_c['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_c['paquetesTrabajo']['actividades']) : " ";
-
                             break;
+                            
                         case 'Otros Equipos o Sistemas en el NOC-Feha Inicio instalación Adecuaciones':
 
-                            $this->informacion[$key]['m_'] = (!is_null($value_c['paquetesTrabajo']['cf_12'])) ? $value_c['paquetesTrabajo']['cf_12'] : "";
-
+                        	$this->informacion[$key]['m_'] = (isset($value_c['paquetesTrabajo']['cf_12']) && $value_c['paquetesTrabajo']['cf_12'] != '') ? $value_c['paquetesTrabajo']['cf_12'] : "";
                             break;
+                            
                         case 'Otros Equipos o Sistemas en el NOC-Fecha Terminación instalación Adecuaciones':
-                            $this->informacion[$key]['n_'] = (!is_null($value_c['paquetesTrabajo']['cf_13'])) ? $value_c['paquetesTrabajo']['cf_13'] : "";
 
+                        	$this->informacion[$key]['n_'] = (isset($value_c['paquetesTrabajo']['cf_13']) && $value_c['paquetesTrabajo']['cf_13'] != '') ? $value_c['paquetesTrabajo']['cf_13'] : "";
                             break;
+                            
                         case 'Otros Equipos o Sistemas en el NOC-Fecha Prevista PI&PS Inicio':
 
                             $this->informacion[$key]['o_'] = (isset($value_c['paquetesTrabajo']['start_date']) && $value_c['paquetesTrabajo']['start_date'] != '') ? $value_c['paquetesTrabajo']['start_date'] : "";
@@ -158,7 +157,7 @@ class GenerarReporteExcelInstalaciones {
                             break;
                         case 'general-Fecha Prevista Verificación Interventoría':
 
-                            $this->informacion[$key]['r_'] = (!is_null($value_c['paquetesTrabajo']['cf_15'])) ? $value_c['paquetesTrabajo']['cf_15'] : "";
+                        	$this->informacion[$key]['r_'] = (isset($value_c['paquetesTrabajo']['cf_15']) && $value_c['paquetesTrabajo']['cf_15'] != '') ? $value_c['paquetesTrabajo']['cf_15'] : "";
                             break;
 
                     }
@@ -205,86 +204,104 @@ class GenerarReporteExcelInstalaciones {
                         }
 
                     }
-                    foreach ($cabecera['campos_parametrizados'] as $key_cb => $value_cb) {
+                    
+                    if(isset($cabecera)){
+                    	
+	                    foreach ($cabecera['campos_parametrizados'] as $key_cb => $value_cb) {
+	
+	                        switch ($value_cb['sub_tipo'] . "-" . $value_cb['nombre_formulario']) {
+	                            // Cabecera
+	                            case "Infraestructura Nodos-Descripcion Actividades":
+	
+	                                $this->informacion[$key]['w_'] = (isset($value_cb['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_cb['paquetesTrabajo']['actividades']) : "";
+	                                break;
+	                            case "Infraestructura Nodos-Estado Avance":
+	                                $this->informacion[$key]['x_'] = (isset($value_cb['paquetesTrabajo']['cf_14']) && !is_null($value_cb['paquetesTrabajo']['cf_14'])) ? $value_cb['paquetesTrabajo']['cf_14'] : "";
+	
+	                                break;
+	                            case "Infraestructura Nodos-Fecha Prevista Terminación":
+	
+	                                $this->informacion[$key]['y_'] = (isset($value_cb['paquetesTrabajo']['due_date']) && $value_cb['paquetesTrabajo']['due_date'] != '') ? $value_cb['paquetesTrabajo']['due_date'] : "";
+	
+	                                break;
+	                            case "Instalación Red troncal o interconexión ISP-Descripcion Actividades":
+	
+	                                $this->informacion[$key]['z_'] = (isset($value_cb['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_cb['paquetesTrabajo']['actividades']) : "";
+	
+	                                break;
+	                            case "Instalación Red troncal o interconexión ISP-Estado Avance":
+	
+	                                $this->informacion[$key]['a_a'] = (isset($value_cb['paquetesTrabajo']['cf_14']) && !is_null($value_cb['paquetesTrabajo']['cf_14'])) ? $value_cb['paquetesTrabajo']['cf_14'] : "";
+	
+	                                break;
+	                            case "Instalación Red troncal o interconexión ISP-Fecha Funcionamiento":
+	
+	                                $this->informacion[$key]['a_b'] = (isset($value_cb['paquetesTrabajo']['cf_16']) && !is_null($value_cb['paquetesTrabajo']['cf_16'])) ? $value_cb['paquetesTrabajo']['cf_16'] : "";
+	
+	                                break;
+	                            case "Instalación Red troncal o interconexión ISP-Fecha Prevista PI&PS Instalación":
+	
+	                                $this->informacion[$key]['a_c'] = (isset($value_cb['paquetesTrabajo']['cf_17']) && !is_null($value_cb['paquetesTrabajo']['cf_17'])) ? $value_cb['paquetesTrabajo']['cf_17'] : "";
+	
+	                                break;
+	                            case "Instalación y Puesta en Funcionamiento Equipos-Estado OTLs":
+	
+	                                $this->informacion[$key]['a_d'] = (isset($value_cb['paquetesTrabajo']['cf_45']) && !is_null($value_cb['paquetesTrabajo']['cf_45'])) ? $value_cb['paquetesTrabajo']['cf_45'] : "";
+	
+	                                break;
+	                            case "Instalación y Puesta en Funcionamiento Equipos-Estado Equipos Networking":
+	
+	                                $this->informacion[$key]['a_e'] = (isset($value_cb['paquetesTrabajo']['cf_46']) && !is_null($value_cb['paquetesTrabajo']['cf_46'])) ? $value_cb['paquetesTrabajo']['cf_46'] : "";
+	
+	                                break;
+	                            case "Instalación y Puesta en Funcionamiento Equipos-Estado Equipos Energia":
+	
+	                                $this->informacion[$key]['a_f'] = (isset($value_cb['paquetesTrabajo']['cf_47']) && !is_null($value_cb['paquetesTrabajo']['cf_47'])) ? $value_cb['paquetesTrabajo']['cf_47'] : "";
+	
+	                                break;
+	                            case "Instalación y Puesta en Funcionamiento Equipos-Fecha Funcionamiento":
+	
+	                                $this->informacion[$key]['a_g'] = (isset($value_cb['paquetesTrabajo']['cf_16']) && !is_null($value_cb['paquetesTrabajo']['cf_16'])) ? $value_cb['paquetesTrabajo']['cf_16'] : "";
+	
+	                                break;
+	                            case "Instalación y Puesta en Funcionamiento Equipos-Fecha Prevista PI&PS Instalación":
+	
+	                                $this->informacion[$key]['a_h'] = (isset($value_cb['paquetesTrabajo']['cf_17']) && !is_null($value_cb['paquetesTrabajo']['cf_17'])) ? $value_cb['paquetesTrabajo']['cf_17'] : "";
+	                                break;
+	
+	                            case 'general-Fecha prevista en el PI&PS Funcionamiento':
+	                            	$this->informacion[$key]['c_b'] = (isset($value_cb['paquetesTrabajo']['start_date']) && !is_null($value_cb['paquetesTrabajo']['start_date'])) ? $value_cb['paquetesTrabajo']['start_date'] : "";
+	                                break;
+	
+	                            case "general-Porcentaje Avance":
+	                                $this->informacion[$key]['a_j'] = (isset($value_cb['paquetesTrabajo']['done_ratio']) && !is_null($value_cb['paquetesTrabajo']['done_ratio'])) ? $value_cb['paquetesTrabajo']['done_ratio'] : "";
+	                                break;
+	                                
+	                           	case "Insfraestructura Nodos-Porcentaje Avance":
+	                           		$this->informacion[$key]['c_a'] = (isset($value_cb['paquetesTrabajo']['done_ratio']) && !is_null($value_cb['paquetesTrabajo']['done_ratio'])) ? $value_cb['paquetesTrabajo']['done_ratio'] : "";
+	                               	break;
+	                               	
+	                             case "Insfraestructura Nodos-Fecha Prevista PI&PS Terminación":
+	                             	$this->informacion[$key]['c_b'] = (isset($value_cb['paquetesTrabajo']['due_date']) && !is_null($value_cb['paquetesTrabajo']['due_date'])) ? $value_cb['paquetesTrabajo']['due_date'] : "";
+	                             	break;
+	                             	
+	                            case "Instalación Red troncal o interconexión ISP-Porcentaje Avance":
+	                            	$this->informacion[$key]['c_c'] = (isset($value_cb['paquetesTrabajo']['done_ratio']) && !is_null($value_cb['paquetesTrabajo']['done_ratio'])) ? $value_cb['paquetesTrabajo']['done_ratio'] : "";
+	                            	break;
+	                            	
+	                        }
+	
+	                    }
+	                    //var_dump($cabecera['info']['custom_fields']);
+	                    $cabecera_key_fecha_funcionamiento = array_search(48, array_column($cabecera['info']['custom_fields'], 'id'), true);
+	                    $fecha_funcionamiento_cabecera = $cabecera['info']['custom_fields'][$cabecera_key_fecha_funcionamiento]['value'];
+	                    $this->informacion[$key]['a_i'] = (!is_null($fecha_funcionamiento_cabecera) && $fecha_funcionamiento_cabecera != '' && $cabecera_key_fecha_funcionamiento != false) ? $fecha_funcionamiento_cabecera : "";
+	
+	                }
+	                
+            	}
 
-                        switch ($value_cb['sub_tipo'] . "-" . $value_cb['nombre_formulario']) {
-                            // Cabecera
-                            case "Infraestructura Nodos-Descripcion Actividades":
-
-                                $this->informacion[$key]['w_'] = (isset($value_cb['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_cb['paquetesTrabajo']['actividades']) : "";
-                                break;
-                            case "Infraestructura Nodos-Estado Avance":
-                                $this->informacion[$key]['x_'] = (isset($value_cb['paquetesTrabajo']['cf_14']) && !is_null($value_cb['paquetesTrabajo']['cf_14'])) ? $value_cb['paquetesTrabajo']['cf_14'] : "";
-
-                                break;
-                            case "Infraestructura Nodos-Fecha Prevista Terminación":
-
-                                $this->informacion[$key]['y_'] = (isset($value_cb['paquetesTrabajo']['due_date']) && $value_cb['paquetesTrabajo']['due_date'] != '') ? $value_cb['paquetesTrabajo']['due_date'] : "";
-
-                                break;
-                            case "Instalación Red troncal o interconexión ISP-Descripcion Actividades":
-
-                                $this->informacion[$key]['z_'] = (isset($value_cb['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_cb['paquetesTrabajo']['actividades']) : "";
-
-                                break;
-                            case "Instalación Red troncal o interconexión ISP-Estado Avance":
-
-                                $this->informacion[$key]['a_a'] = (isset($value_cb['paquetesTrabajo']['cf_14']) && !is_null($value_cb['paquetesTrabajo']['cf_14'])) ? $value_cb['paquetesTrabajo']['cf_14'] : "";
-
-                                break;
-                            case "Instalación Red troncal o interconexión ISP-Fecha Funcionamiento":
-
-                                $this->informacion[$key]['a_b'] = (isset($value_cb['paquetesTrabajo']['cf_16']) && !is_null($value_cb['paquetesTrabajo']['cf_16'])) ? $value_cb['paquetesTrabajo']['cf_16'] : "";
-
-                                break;
-                            case "Instalación Red troncal o interconexión ISP-Fecha Prevista PI&PS Instalación":
-
-                                $this->informacion[$key]['a_c'] = (isset($value_cb['paquetesTrabajo']['cf_17']) && !is_null($value_cb['paquetesTrabajo']['cf_17'])) ? $value_cb['paquetesTrabajo']['cf_17'] : "";
-
-                                break;
-                            case "Instalación y Puesta en Funcionamiento Equipos-Estado OTLs":
-
-                                $this->informacion[$key]['a_d'] = (isset($value_cb['paquetesTrabajo']['cf_45']) && !is_null($value_cb['paquetesTrabajo']['cf_45'])) ? $value_cb['paquetesTrabajo']['cf_45'] : "";
-
-                                break;
-                            case "Instalación y Puesta en Funcionamiento Equipos-Estado Equipos Networking":
-
-                                $this->informacion[$key]['a_e'] = (isset($value_cb['paquetesTrabajo']['cf_46']) && !is_null($value_cb['paquetesTrabajo']['cf_46'])) ? $value_cb['paquetesTrabajo']['cf_46'] : "";
-
-                                break;
-                            case "Instalación y Puesta en Funcionamiento Equipos-Estado Equipos Energia":
-
-                                $this->informacion[$key]['a_f'] = (isset($value_cb['paquetesTrabajo']['cf_47']) && !is_null($value_cb['paquetesTrabajo']['cf_47'])) ? $value_cb['paquetesTrabajo']['cf_47'] : "";
-
-                                break;
-                            case "Instalación y Puesta en Funcionamiento Equipos-Fecha Funcionamiento":
-
-                                $this->informacion[$key]['a_g'] = (isset($value_cb['paquetesTrabajo']['cf_16']) && !is_null($value_cb['paquetesTrabajo']['cf_16'])) ? $value_cb['paquetesTrabajo']['cf_16'] : "";
-
-                                break;
-                            case "Instalación y Puesta en Funcionamiento Equipos-Fecha Prevista PI&PS Instalación":
-
-                                $this->informacion[$key]['a_h'] = (isset($value_cb['paquetesTrabajo']['cf_17']) && !is_null($value_cb['paquetesTrabajo']['cf_17'])) ? $value_cb['paquetesTrabajo']['cf_17'] : "";
-                                break;
-
-                            case 'general-Fecha prevista en el PI&PS Funcionamiento':
-
-                                break;
-
-                            case "general-Porcentaje Avance":
-                                $this->informacion[$key]['a_j'] = $value_cb['paquetesTrabajo']['done_ratio'];
-                                break;
-                        }
-
-                    }
-                    //var_dump($cabecera['info']['custom_fields']);
-                    $cabecera_key_fecha_funcionamiento = array_search(48, array_column($cabecera['info']['custom_fields'], 'id'), true);
-                    $fecha_funcionamiento_cabecera = $cabecera['info']['custom_fields'][$cabecera_key_fecha_funcionamiento]['value'];
-                    $this->informacion[$key]['a_i'] = (!is_null($fecha_funcionamiento_cabecera) && $fecha_funcionamiento_cabecera != '' && $cabecera_key_fecha_funcionamiento != false) ? $fecha_funcionamiento_cabecera : "";
-
-                }
-                //var_dump($this->informacion[$key]);die;
-
+                
                 if ($value['tipo_proyecto'] == 'hfc') {
 
                     // HFC
@@ -363,6 +380,19 @@ class GenerarReporteExcelInstalaciones {
                             case "Tendido y Puesta en Funcionameinto Red Coaxial-Fecha Funcionamiento":
                                 $this->informacion[$key]['b_o'] = (isset($value_hfc['paquetesTrabajo']['start_date']) && $value_hfc['paquetesTrabajo']['start_date'] != '') ? $value_hfc['paquetesTrabajo']['start_date'] : "";
                                 break;
+                               
+                            case "Tendido y Puesta en Funcionamiento Fibra Óptica-Fecha Prevista PI&PS Terminación Red Distribución":
+                                $this->informacion[$key]['c_d'] = (isset($value_cb['paquetesTrabajo']['due_date']) && !is_null($value_cb['paquetesTrabajo']['due_date'])) ? $value_cb['paquetesTrabajo']['due_date'] : "";
+                                break;
+                             
+                            case "Tendido y Puesta en Funcionameinto Red Coaxial-Porcentaje Avance":
+                           		$this->informacion[$key]['c_e'] = (isset($value_hfc['paquetesTrabajo']['done_ratio']) && $value_hfc['paquetesTrabajo']['done_ratio'] != '') ? $value_hfc['paquetesTrabajo']['done_ratio'] : "";
+                               	break;
+                               	
+                            case "Tendido y Puesta en Funcionameinto Red Coaxial-Fecha Prevista PI&PS Terminación":
+                            	$this->informacion[$key]['c_f'] = (isset($value_cb['paquetesTrabajo']['due_date']) && !is_null($value_cb['paquetesTrabajo']['due_date'])) ? $value_cb['paquetesTrabajo']['due_date'] : "";
+                            	break;
+                            
                         }
                     }
 
@@ -412,6 +442,22 @@ class GenerarReporteExcelInstalaciones {
                             case "general-Fecha Terminación instalación Acc Inalámbricos":
                                 $this->informacion[$key]['b_u'] = (isset($value_hfc['paquetesTrabajo']['due_date']) && $value_hfc['paquetesTrabajo']['due_date'] != '') ? $value_hfc['paquetesTrabajo']['due_date'] : "";
                                 break;
+                                
+                            case "Infraestructura Red Acceso-Descripción Actividades":
+                               	if (isset($value_hfc['paquetesTrabajo']['actividades']) && $value_hfc['paquetesTrabajo']['actividades'] != '') {
+                               		$this->informacion[$key]['c_g'] = $this->ajustarComentarios($value_hfc['paquetesTrabajo']['actividades']);
+                               	} else {
+                               		$this->informacion[$key]['c_g'] = '';
+                               	}
+                               	break;
+                               	
+                            case "Infraestructura Red Acceso-Porcentaje Avance":
+                            	$this->informacion[$key]['c_h'] = (isset($value_hfc['paquetesTrabajo']['done_ratio']) && $value_hfc['paquetesTrabajo']['done_ratio'] != '') ? $value_hfc['paquetesTrabajo']['done_ratio'] : "";
+                               	break;
+                               	
+                            case "Infraestructura Red Acceso-Fecha Prevista PI&PS Terminación":
+                               	$this->informacion[$key]['c_i'] = (isset($value_cb['paquetesTrabajo']['due_date']) && !is_null($value_cb['paquetesTrabajo']['due_date'])) ? $value_cb['paquetesTrabajo']['due_date'] : "";
+                               	break;
                         }
                     }
 
@@ -617,6 +663,18 @@ class GenerarReporteExcelInstalaciones {
         $this->informacion[$key]['b_x'] = '';
         $this->informacion[$key]['b_y'] = '';
         $this->informacion[$key]['b_z'] = '';
+        $this->informacion[$key]['c_a'] = '';
+        $this->informacion[$key]['c_b'] = '';
+        $this->informacion[$key]['c_b'] = '';
+        $this->informacion[$key]['c_d'] = '';
+        $this->informacion[$key]['c_e'] = '';
+        $this->informacion[$key]['c_e'] = '';
+        $this->informacion[$key]['c_f'] = '';
+        $this->informacion[$key]['c_g'] = '';
+        $this->informacion[$key]['c_h'] = '';
+        $this->informacion[$key]['c_i'] = '';
+        
+        
     }
 
 }

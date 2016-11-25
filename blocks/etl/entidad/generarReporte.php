@@ -114,6 +114,7 @@ class GenerarReporteInstalaciones {
         return $urlApi;
     }
     public function filtrarActividades() {
+    	
         foreach ($this->proyectos as $key => $value) {
 
             foreach ($value['campos_parametrizados'] as $llave => $valor) {
@@ -178,6 +179,7 @@ class GenerarReporteInstalaciones {
         $info_core['paquetesTrabajo'] = $paquetesTrabajo;
 
         $this->informacion_proyecto_core = $info_core;
+        
     }
     public function obtenerProyectoCabecera() {
         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionCabecera');
@@ -281,7 +283,6 @@ class GenerarReporteInstalaciones {
         $this->obtenerProyectoCore();
 
         foreach ($this->informacion_proyecto_core['campos_parametrizados'] as $key => $valor) {
-//
 
             if ($valor['sub_tipo'] == 'Centro de Gestión' || $valor['sub_tipo'] == 'Mesa  de Ayuda' || $valor['sub_tipo'] == 'Otros Equipos o Sistemas en el NOC') {
 
@@ -294,27 +295,27 @@ class GenerarReporteInstalaciones {
 
                         $value_paquete['actividades'] = $actividades;
 
-                        //var_dump($value_paquete);
-                        //var_dump($value_paquete['actividades']);
-
                         $this->informacion_proyecto_core['campos_parametrizados'][$key]['paquetesTrabajo'] = $value_paquete;
 
                         if ($valor['info_hijos'] == 't') {
 
-                            $childs = $this->informacion_proyecto_core['campos_parametrizados'][$key]['paquetesTrabajo'];
+                            //$childs = $this->informacion_proyecto_core['campos_parametrizados'][$key]['paquetesTrabajo'];
 
                             foreach ($value_paquete['child_ids'] as $contenido) {
 
                                 $urlActividades = $this->crearUrlActividades($contenido);
                                 $actividades = json_decode(file_get_contents($urlActividades), true);
-
+                                
+                                if($actividades == null){
+                                	$actividades = array();
+                                }
+                                
                                 foreach ($actividades as $actividad) {
                                     $this->informacion_proyecto_core['campos_parametrizados'][$key]['paquetesTrabajo']['actividades'][] = $actividad;
                                 }
                             }
                         }
 
-                        //var_dump($this->informacion_proyecto_core['campos_parametrizados'][$key]['paquetesTrabajo']['actividades']);
                     }
                 }
             } else {
@@ -327,7 +328,7 @@ class GenerarReporteInstalaciones {
                 }
             }
         }
-        //exit;
+        
         $this->proyectos[] = $this->informacion_proyecto_core;
 
         $this->obtenerProyectoCabecera();
@@ -358,6 +359,10 @@ class GenerarReporteInstalaciones {
                                     $urlActividades = $this->crearUrlActividades($contenido);
                                     $actividades = json_decode(file_get_contents($urlActividades), true);
 
+                                    if($actividades == null){
+                                    	$actividades = array();
+                                    }
+                                    
                                     foreach ($actividades as $actividad) {
                                         $this->informacion_proyecto_cabecera['campos_parametrizados'][$key]['paquetesTrabajo']['actividades'][] = $actividad;
                                     }
@@ -408,6 +413,10 @@ class GenerarReporteInstalaciones {
                                     $urlActividades = $this->crearUrlActividades($contenido);
                                     $actividades = json_decode(file_get_contents($urlActividades), true);
 
+                                    if($actividades == null){
+                                    	$actividades = array();
+                                    }
+                                    
                                     foreach ($actividades as $actividad) {
                                         $this->informacion_proyecto_hfc['campos_parametrizados'][$key]['paquetesTrabajo']['actividades'][] = $actividad;
                                     }
@@ -457,6 +466,10 @@ class GenerarReporteInstalaciones {
                                     $urlActividades = $this->crearUrlActividades($contenido);
                                     $actividades = json_decode(file_get_contents($urlActividades), true);
 
+                                    if($actividades == null){
+                                    	$actividades = array();
+                                    }
+                                    
                                     foreach ($actividades as $actividad) {
                                         $this->informacion_proyecto_wman['campos_parametrizados'][$key]['paquetesTrabajo']['actividades'][] = $actividad;
                                     }
