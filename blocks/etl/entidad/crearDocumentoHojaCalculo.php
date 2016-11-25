@@ -493,7 +493,6 @@ class GenerarReporteExcelInstalaciones {
     }
 
     public function registrarAlmacenDatos() {
-    	var_dump($this->informacion);die;
         $conexion = "almacendatos";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
@@ -504,6 +503,9 @@ class GenerarReporteExcelInstalaciones {
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarProyectosAlmacen', $this->informacion);
         $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
+        var_dump($esteRecursoDB);
+        var_dump($this->informacion);die;
+        
     }
 
     public function consultarPaqueteTrabajo($proyecto = '', $nombre_paquete = '', $tipo = '') {
