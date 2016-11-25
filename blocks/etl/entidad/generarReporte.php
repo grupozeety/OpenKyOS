@@ -114,6 +114,7 @@ class GenerarReporteInstalaciones {
         return $urlApi;
     }
     public function filtrarActividades() {
+    	
         foreach ($this->proyectos as $key => $value) {
 
             foreach ($value['campos_parametrizados'] as $llave => $valor) {
