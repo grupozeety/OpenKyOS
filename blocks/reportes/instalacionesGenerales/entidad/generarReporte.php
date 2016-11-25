@@ -89,6 +89,9 @@ class GenerarReporteInstalaciones {
         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionReporte');
         $this->info_proyectos = $this->esteRecursoAD->ejecutarAcceso($cadenaSql, "busqueda");
 
+        if($this->info_proyectos == false){
+        	$this->info_proyectos = array();
+        }
     }
 
     public function consultarParametrizacion() {
