@@ -493,6 +493,7 @@ class GenerarReporteExcelInstalaciones {
     }
 
     public function registrarAlmacenDatos() {
+    	var_dump($this->informacion);die;
         $conexion = "almacendatos";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 

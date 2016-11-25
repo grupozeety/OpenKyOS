@@ -24,11 +24,11 @@ class GenerarReporteInstalaciones {
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
 
-        $conexion = "interoperacion";
-        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+        //$conexion = "interoperacion";
+        //$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-//         $conexion = "openproject";
-//         $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+		//$conexion = "openproject";
+	    //$this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $conexion = "almacendatos";
         $this->esteRecursoAD = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
