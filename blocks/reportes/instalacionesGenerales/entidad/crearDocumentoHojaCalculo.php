@@ -1518,7 +1518,7 @@ class GenerarReporteExcelInstalaciones {
              
              {
              	// Estilos Columnas
-             	$this->objCal->getActiveSheet()->getColumnDimension('BN')->setWidth(15);
+             	$this->objCal->getActiveSheet()->getColumnDimension('BN')->setWidth(50);
              	$this->objCal->getActiveSheet()->getColumnDimension('BO')->setWidth(15);
              	$this->objCal->getActiveSheet()->getColumnDimension('BP')->setWidth(15);
              	$this->objCal->getActiveSheet()->getColumnDimension('BQ')->setWidth(15);

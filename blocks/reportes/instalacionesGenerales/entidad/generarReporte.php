@@ -105,11 +105,11 @@ class GenerarReporteInstalaciones {
 	        				
 	        				if(isset($this->reporteFinal[$id][$key_campo])){
 	        					if($campo != ""){
-	        						$this->reporteFinal[$id][$key_campo] .= $campo . "\n";
+	        						$this->reporteFinal[$id][$key_campo] .= trim($campo) . "\n";
 	        					}        					
 	        				}else{
 	        					if($campo != ""){
-	        						$this->reporteFinal[$id][$key_campo] = $campo . "\n";
+	        						$this->reporteFinal[$id][$key_campo] = trim($campo) . "\n";
 	        					}else{
 	        						$this->reporteFinal[$id][$key_campo] = '';
 	        					}
