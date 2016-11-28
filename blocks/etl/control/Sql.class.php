@@ -14,7 +14,7 @@ include_once ("core/connection/Sql.class.php");
 // en camel case precedida por la palabra sql
 class Sql extends \Sql {
 	var $miConfigurador;
-	function getCadenaSql($tipo, $variable = '') {
+	function getCadenaSql($tipo, $variable = '', $fecha='') {
 		
 		/**
 		 * 1.
@@ -79,6 +79,43 @@ class Sql extends \Sql {
 					}
 					
 					$cadenaSql = substr ( $cadenaSql, 0, (strlen ( $cadenaSql ) - 1) );
+					
+					$cadenaSql .= "),";
+					
+					$cont ++;
+				}
+				
+				$cadenaSql = substr ( $cadenaSql, 0, (strlen ( $cadenaSql ) - 1) );
+				
+				break;
+			
+			case 'registrarProyectosAlmacenMasivo' :
+				
+				$cadenaSql = "";
+				$cont = 0;
+				
+				foreach ( $variable as $valor ) {
+					
+					if ($cont == 0) {
+						
+						$cadenaSql = "INSERT INTO public.reporte_semanal(";
+						
+						foreach ( $valor as $key => $value ) {
+							$cadenaSql .= "" . $key . ",";
+						}
+						
+						$cadenaSql .= "fecha_registro";
+						
+						$cadenaSql .= ") VALUES ";
+					}
+					
+					$cadenaSql .= "(";
+					
+					foreach ( $valor as $key => $value ) {
+						$cadenaSql .= "'" . $value . "',";
+					}
+					
+					$cadenaSql .= "'" . $fecha . " 00:00:00" . "'";
 					
 					$cadenaSql .= "),";
 					

@@ -9,6 +9,7 @@ class GenerarReporteInstalaciones {
     public $miSql;
     public $conexion;
     public $proyectos;
+    public $reporteFinal;
     public $proyectos_general;
     public $informacion_proyecto_core;
 
@@ -86,12 +87,44 @@ class GenerarReporteInstalaciones {
 
     public function consultarInformacion() {
 
+    	$descripcion = array('b_','g_','l_','w_','z_','a_k','a_n','a_r','b_a','b_m','c_g');
+		
         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionReporte');
         $this->info_proyectos = $this->esteRecursoAD->ejecutarAcceso($cadenaSql, "busqueda");
 
         if($this->info_proyectos == false){
         	$this->info_proyectos = array();
+        }else{
+        	foreach ($this->info_proyectos as $proyecto){
+        		
+        		$id = $proyecto['a_0'];
+        		
+        		foreach ($proyecto as $key_campo => $campo){
+        			if($key_campo != "id" && $key_campo != "0"){
+	        			if (in_array($key_campo, $descripcion)) {
+	        				
+	        				if(isset($this->reporteFinal[$id][$key_campo])){
+	        					if($campo != ""){
+	        						$this->reporteFinal[$id][$key_campo] .= trim($campo) . "\n";
+	        					}        					
+	        				}else{
+	        					if($campo != ""){
+	        						$this->reporteFinal[$id][$key_campo] = trim($campo) . "\n";
+	        					}else{
+	        						$this->reporteFinal[$id][$key_campo] = '';
+	        					}
+	        				}
+	        			}else{
+	        				$this->reporteFinal[$id][$key_campo] = $campo;
+	        			}
+	        		}
+        		}
+        	}
+        	
+        	$this->info_proyectos = $this->reporteFinal;
         }
+        
+        
     }
 
     public function consultarParametrizacion() {

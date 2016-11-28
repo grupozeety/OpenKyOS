@@ -48,17 +48,17 @@ class GenerarReporteExcelInstalaciones {
     public function asignarValoresCampos($informacion){
     	
     	$this->A = $informacion['a_'];
-    	$this->B = $informacion['b_'];
+    	$this->B = $informacion['b_']; //Descripción
     	$this->C = $informacion['c_'];
     	$this->D = $informacion['d_'];
     	$this->E = $informacion['e_'];
     	$this->F = $informacion['f_'];
-    	$this->G = $informacion['g_'];
+    	$this->G = $informacion['g_']; //Descripción
     	$this->H = $informacion['h_'];
     	$this->I = $informacion['i_'];
     	$this->J = $informacion['j_'];
     	$this->K = $informacion['k_'];
-    	$this->L = $informacion['l_'];
+    	$this->L = $informacion['l_']; //Descripción
     	$this->M = $informacion['m_'];
     	$this->N = $informacion['n_'];
     	$this->O = $informacion['o_'];
@@ -69,7 +69,7 @@ class GenerarReporteExcelInstalaciones {
     	$this->T = $informacion['t_'];
     	$this->U = $informacion['u_'];
     	$this->V = $informacion['v_'];
-    	$this->W = $informacion['w_'];
+    	$this->W = $informacion['w_']; //Descripción
     	$this->X = $informacion['x_'];
     	
     	$this->Y = $informacion['c_a']; //Nuevos Campos
@@ -78,7 +78,7 @@ class GenerarReporteExcelInstalaciones {
     	
     	$this->AA = $informacion['c_b']; //Nuevos Campos
     	
-    	$this->AB = $informacion['z_'];
+    	$this->AB = $informacion['z_']; //Descripción
     	$this->AC = $informacion['a_a'];
     	
     	$this->AD = $informacion['c_c']; //Nuevos Campos
@@ -97,11 +97,11 @@ class GenerarReporteExcelInstalaciones {
     	
     	$this->AM = $informacion['a_i'];
     	
-    	$this->AN = $informacion['a_k'];
+    	$this->AN = $informacion['a_k']; //Descripción
     	$this->AO = $informacion['a_l'];
     	$this->AP = $informacion['a_m'];
     	
-    	$this->AQ = $informacion['a_n'];
+    	$this->AQ = $informacion['a_n']; //Descripción
     	
     	$this->AR = $informacion['a_o'];
     	
@@ -111,7 +111,7 @@ class GenerarReporteExcelInstalaciones {
     	
     	$this->AU = $informacion['a_q'];
     	
-    	$this->AV = $informacion['a_r'];
+    	$this->AV = $informacion['a_r']; //Descripción
     	$this->AW = $informacion['a_s'];
     	$this->AX = $informacion['a_t'];
     	
@@ -122,7 +122,7 @@ class GenerarReporteExcelInstalaciones {
     	$this->BC = $informacion['a_y'];
     	$this->BD = $informacion['a_z'];
     	
-    	$this->BE = $informacion['b_a'];
+    	$this->BE = $informacion['b_a']; //Descripción
     	$this->BF = $informacion['b_b'];
     	$this->BG = $informacion['b_c'];
     	
@@ -134,7 +134,7 @@ class GenerarReporteExcelInstalaciones {
     	
     	$this->BM = $informacion['b_i'];
     	
-    	$this->BN = $informacion['b_m'];
+    	$this->BN = $informacion['b_m']; //Descripción
     	$this->BO = $informacion['b_n'];
     	
     	$this->BP = $informacion['c_e']; //Nuevos Campos
@@ -152,7 +152,7 @@ class GenerarReporteExcelInstalaciones {
     	
     	$this->BX = $informacion['b_r'];
     	
-    	$this->BY = $informacion['c_g']; //Nuevos Campos
+    	$this->BY = $informacion['c_g']; //Nuevos Campos //Descripción
     	$this->BZ = $informacion['c_h']; //Nuevos Campos
     	$this->CA = $informacion['c_i']; //Nuevos Campos
     	
@@ -356,8 +356,8 @@ class GenerarReporteExcelInstalaciones {
                          ->getStyle('X' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('Y' . $i, $this->Y)
-                         ->getStyle('Y' . $i)->applyFromArray($styleCentradoVertical);
+                         ->setCellValue('Y' . $i, $this->Y .  "% ")
+                         ->getStyle('Y' . $i)->applyFromArray($styleCentrado);
 
                 }
                 {
@@ -389,8 +389,8 @@ class GenerarReporteExcelInstalaciones {
                     //  $paquete_InstFuncEquiNodoCab = $this->consultarPaqueteTrabajo($cabecera, "Instalación y puesta en funcionamiento equipos");
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AD' . $i, $this->AD)
-                         ->getStyle('AD' . $i)->applyFromArray($styleCentradoVertical);
+                         ->setCellValue('AD' . $i, $this->AD .  "% ")
+                         ->getStyle('AD' . $i)->applyFromArray($styleCentrado);
 
                     $this->objCal->setActiveSheetIndex(0)
                          ->setCellValue('AE' . $i, $this->AE)
@@ -479,7 +479,7 @@ class GenerarReporteExcelInstalaciones {
 
                     $this->objCal->setActiveSheetIndex(0)
                          ->setCellValue('AQ' . $i, $this->AQ )
-                         ->getStyle('AQ' . $i)->applyFromArray($styleCentrado);
+                         ->getStyle('AQ' . $i)->applyFromArray($styleCentradoVertical);
 
                 }
 
@@ -657,8 +657,8 @@ class GenerarReporteExcelInstalaciones {
                     //$llaveAccVIP = array_search(37, array_column($value['campos_personalizados'], 'id'), true);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BP' . $i, $this->BP)
-                         ->getStyle('BP' . $i)->applyFromArray($styleCentradoVertical);
+                         ->setCellValue('BP' . $i, $this->BP .  "% ")
+                         ->getStyle('BP' . $i)->applyFromArray($styleCentrado);
 
                     $this->objCal->setActiveSheetIndex(0)
                          ->setCellValue('BQ' . $i, $this->BQ)
@@ -735,6 +735,46 @@ class GenerarReporteExcelInstalaciones {
                 $this->objCal->setActiveSheetIndex(0)
                      ->setCellValue('BY' . $i, $this->BY)
                      ->getStyle('BY' . $i)->applyFromArray($styleCentradoVertical);
+                
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BZ' . $i, $this->BZ  .  "% ")
+                     ->getStyle('BZ' . $i)->applyFromArray($styleCentrado);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CA' . $i, $this->CA)
+                     ->getStyle('CA' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CB' . $i, $this->CB)
+                     ->getStyle('CB' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CC' . $i, $this->CC)
+                     ->getStyle('CC' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CD' . $i, $this->CD)
+                     ->getStyle('CD' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CE' . $i, $this->CE)
+                     ->getStyle('CE' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CF' . $i, $this->CF)
+                     ->getStyle('CF' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CG' . $i, $this->CG)
+                     ->getStyle('CG' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CH' . $i, $this->CH)
+                     ->getStyle('CH' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CI' . $i, $this->CI)
+                     ->getStyle('CI' . $i)->applyFromArray($styleCentradoVertical);
 
             }
 
@@ -1502,7 +1542,7 @@ class GenerarReporteExcelInstalaciones {
         }
 
         $this->objCal->getActiveSheet()->getStyle('BM')->getAlignment()->setWrapText(true);
-        $this->objCal->getActiveSheet()->getColumnDimension('BM')->setWidth(30);
+        $this->objCal->getActiveSheet()->getColumnDimension('BM')->setWidth(15);
         $this->objCal->setActiveSheetIndex(0)->mergeCells('BM1:BM3');
         $this->objCal->setActiveSheetIndex(0)
              ->setCellValue('BM1', 'Fecha Prevista para Verificación por la Interventoría del Nodo de Cabecera, Nodo EOC, Nodo Inalámbrico y Red de Distribución')
@@ -1518,7 +1558,7 @@ class GenerarReporteExcelInstalaciones {
              
              {
              	// Estilos Columnas
-             	$this->objCal->getActiveSheet()->getColumnDimension('BN')->setWidth(15);
+             	$this->objCal->getActiveSheet()->getColumnDimension('BN')->setWidth(50);
              	$this->objCal->getActiveSheet()->getColumnDimension('BO')->setWidth(15);
              	$this->objCal->getActiveSheet()->getColumnDimension('BP')->setWidth(15);
              	$this->objCal->getActiveSheet()->getColumnDimension('BQ')->setWidth(15);
