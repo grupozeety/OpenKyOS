@@ -356,8 +356,8 @@ class GenerarReporteExcelInstalaciones {
                          ->getStyle('X' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('Y' . $i, $this->Y)
-                         ->getStyle('Y' . $i)->applyFromArray($styleCentradoVertical);
+                         ->setCellValue('Y' . $i, $this->Y .  "% ")
+                         ->getStyle('Y' . $i)->applyFromArray($styleCentrado);
 
                 }
                 {
@@ -389,8 +389,8 @@ class GenerarReporteExcelInstalaciones {
                     //  $paquete_InstFuncEquiNodoCab = $this->consultarPaqueteTrabajo($cabecera, "Instalación y puesta en funcionamiento equipos");
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AD' . $i, $this->AD)
-                         ->getStyle('AD' . $i)->applyFromArray($styleCentradoVertical);
+                         ->setCellValue('AD' . $i, $this->AD .  "% ")
+                         ->getStyle('AD' . $i)->applyFromArray($styleCentrado);
 
                     $this->objCal->setActiveSheetIndex(0)
                          ->setCellValue('AE' . $i, $this->AE)
@@ -479,7 +479,7 @@ class GenerarReporteExcelInstalaciones {
 
                     $this->objCal->setActiveSheetIndex(0)
                          ->setCellValue('AQ' . $i, $this->AQ )
-                         ->getStyle('AQ' . $i)->applyFromArray($styleCentrado);
+                         ->getStyle('AQ' . $i)->applyFromArray($styleCentradoVertical);
 
                 }
 
@@ -657,8 +657,8 @@ class GenerarReporteExcelInstalaciones {
                     //$llaveAccVIP = array_search(37, array_column($value['campos_personalizados'], 'id'), true);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BP' . $i, $this->BP)
-                         ->getStyle('BP' . $i)->applyFromArray($styleCentradoVertical);
+                         ->setCellValue('BP' . $i, $this->BP .  "% ")
+                         ->getStyle('BP' . $i)->applyFromArray($styleCentrado);
 
                     $this->objCal->setActiveSheetIndex(0)
                          ->setCellValue('BQ' . $i, $this->BQ)
@@ -735,6 +735,46 @@ class GenerarReporteExcelInstalaciones {
                 $this->objCal->setActiveSheetIndex(0)
                      ->setCellValue('BY' . $i, $this->BY)
                      ->getStyle('BY' . $i)->applyFromArray($styleCentradoVertical);
+                
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('BZ' . $i, $this->BZ  .  "% ")
+                     ->getStyle('BZ' . $i)->applyFromArray($styleCentrado);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CA' . $i, $this->CA)
+                     ->getStyle('CA' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CB' . $i, $this->CB)
+                     ->getStyle('CB' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CC' . $i, $this->CC)
+                     ->getStyle('CC' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CD' . $i, $this->CD)
+                     ->getStyle('CD' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CE' . $i, $this->CE)
+                     ->getStyle('CE' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CF' . $i, $this->CF)
+                     ->getStyle('CF' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CG' . $i, $this->CG)
+                     ->getStyle('CG' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CH' . $i, $this->CH)
+                     ->getStyle('CH' . $i)->applyFromArray($styleCentradoVertical);
+                     
+                     $this->objCal->setActiveSheetIndex(0)
+                     ->setCellValue('CI' . $i, $this->CI)
+                     ->getStyle('CI' . $i)->applyFromArray($styleCentradoVertical);
 
             }
 
@@ -1502,7 +1542,7 @@ class GenerarReporteExcelInstalaciones {
         }
 
         $this->objCal->getActiveSheet()->getStyle('BM')->getAlignment()->setWrapText(true);
-        $this->objCal->getActiveSheet()->getColumnDimension('BM')->setWidth(30);
+        $this->objCal->getActiveSheet()->getColumnDimension('BM')->setWidth(15);
         $this->objCal->setActiveSheetIndex(0)->mergeCells('BM1:BM3');
         $this->objCal->setActiveSheetIndex(0)
              ->setCellValue('BM1', 'Fecha Prevista para Verificación por la Interventoría del Nodo de Cabecera, Nodo EOC, Nodo Inalámbrico y Red de Distribución')
