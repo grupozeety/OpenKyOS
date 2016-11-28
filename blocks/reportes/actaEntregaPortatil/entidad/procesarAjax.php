@@ -29,10 +29,10 @@ class procesarAjax {
                 }
                 echo '{"suggestions":' . json_encode($resultado) . '}';
                 break;
-                
+
             case 'consultarProyectos':
-               	include_once "consultarProyectos.php";
-                break;	
+                //include_once "consultarProyectos.php";
+                break;
         }
     }
 }
