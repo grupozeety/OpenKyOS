@@ -77,8 +77,13 @@ class GenerarReporteExcelInstalaciones {
             if ($value['tipo_proyecto'] === "core") {
                 $llave_Ins = $key;
             }
-
+            
             $this->informacion[$key]['a_'] = 'Politécnica';
+            
+            $this->informacion[$key]['a_0'] = $value['info']['id'];
+            $this->informacion[$key]['a_1'] = '';
+            $this->informacion[$key]['a_2'] = json_encode($value['info']);
+            
 
             {
                 // Core

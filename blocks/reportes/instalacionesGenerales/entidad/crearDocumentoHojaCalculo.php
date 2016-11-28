@@ -48,17 +48,17 @@ class GenerarReporteExcelInstalaciones {
     public function asignarValoresCampos($informacion){
     	
     	$this->A = $informacion['a_'];
-    	$this->B = $informacion['b_'];
+    	$this->B = $informacion['b_']; //Descripción
     	$this->C = $informacion['c_'];
     	$this->D = $informacion['d_'];
     	$this->E = $informacion['e_'];
     	$this->F = $informacion['f_'];
-    	$this->G = $informacion['g_'];
+    	$this->G = $informacion['g_']; //Descripción
     	$this->H = $informacion['h_'];
     	$this->I = $informacion['i_'];
     	$this->J = $informacion['j_'];
     	$this->K = $informacion['k_'];
-    	$this->L = $informacion['l_'];
+    	$this->L = $informacion['l_']; //Descripción
     	$this->M = $informacion['m_'];
     	$this->N = $informacion['n_'];
     	$this->O = $informacion['o_'];
@@ -69,7 +69,7 @@ class GenerarReporteExcelInstalaciones {
     	$this->T = $informacion['t_'];
     	$this->U = $informacion['u_'];
     	$this->V = $informacion['v_'];
-    	$this->W = $informacion['w_'];
+    	$this->W = $informacion['w_']; //Descripción
     	$this->X = $informacion['x_'];
     	
     	$this->Y = $informacion['c_a']; //Nuevos Campos
@@ -78,7 +78,7 @@ class GenerarReporteExcelInstalaciones {
     	
     	$this->AA = $informacion['c_b']; //Nuevos Campos
     	
-    	$this->AB = $informacion['z_'];
+    	$this->AB = $informacion['z_']; //Descripción
     	$this->AC = $informacion['a_a'];
     	
     	$this->AD = $informacion['c_c']; //Nuevos Campos
@@ -97,11 +97,11 @@ class GenerarReporteExcelInstalaciones {
     	
     	$this->AM = $informacion['a_i'];
     	
-    	$this->AN = $informacion['a_k'];
+    	$this->AN = $informacion['a_k']; //Descripción
     	$this->AO = $informacion['a_l'];
     	$this->AP = $informacion['a_m'];
     	
-    	$this->AQ = $informacion['a_n'];
+    	$this->AQ = $informacion['a_n']; //Descripción
     	
     	$this->AR = $informacion['a_o'];
     	
@@ -111,7 +111,7 @@ class GenerarReporteExcelInstalaciones {
     	
     	$this->AU = $informacion['a_q'];
     	
-    	$this->AV = $informacion['a_r'];
+    	$this->AV = $informacion['a_r']; //Descripción
     	$this->AW = $informacion['a_s'];
     	$this->AX = $informacion['a_t'];
     	
@@ -122,7 +122,7 @@ class GenerarReporteExcelInstalaciones {
     	$this->BC = $informacion['a_y'];
     	$this->BD = $informacion['a_z'];
     	
-    	$this->BE = $informacion['b_a'];
+    	$this->BE = $informacion['b_a']; //Descripción
     	$this->BF = $informacion['b_b'];
     	$this->BG = $informacion['b_c'];
     	
@@ -134,7 +134,7 @@ class GenerarReporteExcelInstalaciones {
     	
     	$this->BM = $informacion['b_i'];
     	
-    	$this->BN = $informacion['b_m'];
+    	$this->BN = $informacion['b_m']; //Descripción
     	$this->BO = $informacion['b_n'];
     	
     	$this->BP = $informacion['c_e']; //Nuevos Campos
@@ -152,7 +152,7 @@ class GenerarReporteExcelInstalaciones {
     	
     	$this->BX = $informacion['b_r'];
     	
-    	$this->BY = $informacion['c_g']; //Nuevos Campos
+    	$this->BY = $informacion['c_g']; //Nuevos Campos //Descripción
     	$this->BZ = $informacion['c_h']; //Nuevos Campos
     	$this->CA = $informacion['c_i']; //Nuevos Campos
     	
