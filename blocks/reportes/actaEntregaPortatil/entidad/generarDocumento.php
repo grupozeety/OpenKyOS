@@ -2,112 +2,113 @@
 
 namespace reportes\actaEntregaPortatil\entidad;
 
-if (! isset ( $GLOBALS ["autorizado"] )) {
-	include "../index.php";
-	exit ();
+if (!isset($GLOBALS["autorizado"])) {
+    include "../index.php";
+    exit();
 }
 
-$ruta = $this->miConfigurador->getVariableConfiguracion ( "raizDocumento" );
-$host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/plugin/html2pfd/";
+$ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+$host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
 include $ruta . "/plugin/html2pdf/html2pdf.class.php";
 class GenerarDocumento {
-	public $miConfigurador;
-	public $elementos;
-	public $miSql;
-	public $conexion;
-	public $contenidoPagina;
-	public $rutaURL;
-	public $esteRecursoDB;
-	public $clausulas;
-	public $beneficiario;
-	public $esteRecursoOP;
-	public $rutaAbsoluta;
-	public function __construct($sql) {
-		$this->miConfigurador = \Configurador::singleton ();
-		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
-		$this->miSql = $sql;
-		$this->rutaURL = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" );
-		
-		// Conexion a Base de Datos
-		$conexion = "interoperacion";
-		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-		
-		$conexion = "openproject";
-		$this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-		
-		$this->rutaURL = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" );
-		$this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion ( "raizDocumento" );
-		
-		if (! isset ( $_REQUEST ["bloqueGrupo"] ) || $_REQUEST ["bloqueGrupo"] == "") {
-			$this->rutaURL .= "/blocks/" . $_REQUEST ["bloque"] . "/";
-			$this->rutaAbsoluta .= "/blocks/" . $_REQUEST ["bloque"] . "/";
-		} else {
-			$this->rutaURL .= "/blocks/" . $_REQUEST ["bloqueGrupo"] . "/" . $_REQUEST ["bloque"] . "/";
-			$this->rutaAbsoluta .= "/blocks/" . $_REQUEST ["bloqueGrupo"] . "/" . $_REQUEST ["bloque"] . "/";
-		}
-		
-		/**
-		 * 1.
-		 * Estruturar Documento
-		 */
-		
-		$this->estruturaDocumento ();
-		
-		/**
-		 * 2.
-		 * Crear PDF
-		 */
-		
-		$this->crearPDF ();
-	}
-	public function crearPDF() {
-		ob_start ();
-		$html2pdf = new \HTML2PDF ( 'P', 'LETTER', 'es', true, 'UTF-8', array (
-				2,
-				2,
-				2,
-				10 
-		) );
-		$html2pdf->pdf->SetDisplayMode ( 'fullpage' );
-		$html2pdf->WriteHTML ( $this->contenidoPagina );
-		$html2pdf->Output ( 'Acta_Entrega_servicio_CC_' . $this->infoCertificado ['identificacion'] . '_' . date ( 'Y-m-d' ) . '.pdf', 'D' );
-	}
-	public function estruturaDocumento() {
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionCertificado' );
-		$infoCertificado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
-		$this->infoCertificado = $infoCertificado;
-		
-		$fecha = explode("-",$this->infoCertificado['fecha_entrega']);
-		
-		$dia = $fecha[0];
-		$mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-		$mes = $mes[$fecha[1]];
-		$anno = $fecha[2];
-		
-		$vip = "";
-		$est1 = "";
-		$est2 = "";
-		
-		if($this->infoCertificado['tipo_beneficiario'] == 1){
-			$vip = "X";
-		}else if($this->infoCertificado['tipo_beneficiario'] == 2){
-			$est1 = "X";
-		}else if($this->infoCertificado['tipo_beneficiario'] == 3){
-			$est2 = "X";
-		}
-		
-		$cc = "";
-		$ce = "";
-		
-		if($this->infoCertificado['tipo_documento'] == 1){
-			$cc = "X";
-		}else if($this->infoCertificado['tipo_documento'] == 2){
-			$ce = "X";
-		}
-		
-		setlocale ( LC_ALL, "es_CO.UTF-8" );
-		$contenidoPagina = "
+    public $miConfigurador;
+    public $elementos;
+    public $miSql;
+    public $conexion;
+    public $contenidoPagina;
+    public $rutaURL;
+    public $esteRecursoDB;
+    public $clausulas;
+    public $beneficiario;
+    public $esteRecursoOP;
+    public $rutaAbsoluta;
+    public function __construct($sql) {
+        $this->miConfigurador = \Configurador::singleton();
+        $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
+        $this->miSql = $sql;
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+
+        // Conexion a Base de Datos
+        $conexion = "interoperacion";
+        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
+        $conexion = "openproject";
+        $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+
+        if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
+            $this->rutaURL .= "/blocks/" . $_REQUEST["bloque"] . "/";
+            $this->rutaAbsoluta .= "/blocks/" . $_REQUEST["bloque"] . "/";
+        } else {
+            $this->rutaURL .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
+            $this->rutaAbsoluta .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
+        }
+
+        /**
+         * 1.
+         * Estruturar Documento
+         */
+
+        $this->estruturaDocumento();
+
+        /**
+         * 2.
+         * Crear PDF
+         */
+
+        $this->crearPDF();
+    }
+    public function crearPDF() {
+        ob_start();
+        $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
+            2,
+            2,
+            2,
+            10,
+        ));
+        $html2pdf->pdf->SetDisplayMode('fullpage');
+        $html2pdf->WriteHTML($this->contenidoPagina);
+        $html2pdf->Output('Acta_Entrega_servicio_CC_' . $this->infoCertificado['identificacion'] . '_' . date('Y-m-d') . '.pdf', 'D');
+    }
+    public function estruturaDocumento() {
+        var_dump($_REQUEST);exit;
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
+        $infoCertificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+        $this->infoCertificado = $infoCertificado;
+
+        $fecha = explode("-", $this->infoCertificado['fecha_entrega']);
+
+        $dia = $fecha[0];
+        $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        $mes = $mes[$fecha[1]];
+        $anno = $fecha[2];
+
+        $vip = "";
+        $est1 = "";
+        $est2 = "";
+
+        if ($this->infoCertificado['tipo_beneficiario'] == 1) {
+            $vip = "X";
+        } else if ($this->infoCertificado['tipo_beneficiario'] == 2) {
+            $est1 = "X";
+        } else if ($this->infoCertificado['tipo_beneficiario'] == 3) {
+            $est2 = "X";
+        }
+
+        $cc = "";
+        $ce = "";
+
+        if ($this->infoCertificado['tipo_documento'] == 1) {
+            $cc = "X";
+        } else if ($this->infoCertificado['tipo_documento'] == 2) {
+            $ce = "X";
+        }
+
+        setlocale(LC_ALL, "es_CO.UTF-8");
+        $contenidoPagina = "
                             <style type=\"text/css\">
                                 table {
 
@@ -155,7 +156,7 @@ class GenerarDocumento {
                                     </table>
 
                         </page_header>
-                                            		
+
                         <page_footer>
 							<table  style='width:100%;' >
 								<tr>
@@ -165,12 +166,11 @@ class GenerarDocumento {
 								</tr>
 							</table>
    					 	</page_footer>";
-		
-		
-						$contenidoPagina .= "
-							
+
+        $contenidoPagina .= "
+
 							<br><br>
-							
+
 							<table width:100%;>
 								<tr>
 									<td style='vertical-align:top;border:none;width:20%;'>
@@ -190,9 +190,9 @@ class GenerarDocumento {
 									</td>
 								</tr>
 							</table>
-							
+
 							<br>
-							
+
 							<table width:100%;>
 								<tr>
 									<td style='vertical-align:top;border:none;width:20%;'>
@@ -210,9 +210,9 @@ class GenerarDocumento {
 									</td>
 								</tr>
 							</table>
-							
+
 							<br>
-							
+
 							<table width:100%;>
 								<tr>
 									<td style='vertical-align:top;border:none;width:20%;'>
@@ -227,9 +227,9 @@ class GenerarDocumento {
 									</td>
 								</tr>
 							</table>
-							
+
 							<br>
-							
+
 							<table width:100%;>
 								<tr>
 									<td style='vertical-align:top;border:none;width:20%;'>
@@ -240,7 +240,7 @@ class GenerarDocumento {
 											<tr>
 												<td align='center' style='width:25%;'>" . $vip . "</td>
 												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:75%;'>Proyecto de Vivienda de Interés Prioritario (VIP)</td>
-												
+
 											</tr>
 											<tr>
 												<td align='center' style='width:25%;'>" . $est1 . "</td>
@@ -254,9 +254,9 @@ class GenerarDocumento {
 									</td>
 								</tr>
 							</table>
-								
+
 							<br>
-							
+
 							<table width:100%;>
 								<tr>
 									<td align='center' style='width:100%;border:none;'>
@@ -264,7 +264,7 @@ class GenerarDocumento {
 									</td>
 								</tr>
 							</table>
-														
+
 							<ol>
 
 								<li value='1'>Que recibo un computador NUEVO y EN ÓPTIMAS CONDICIONES, con las siguientes características:
@@ -312,24 +312,24 @@ class GenerarDocumento {
 								<li>Que me comprometo a mantener posesión y dominio de este equipo, para darle un adecuado uso permitiendo el acceso a Internet a los miembros de mi núcleo familiar.</li>
 								<li>Que el mediante el presente documento manifiesto mi interés en participar en las capacitaciones que hacen parte del componente de apropiación social del contrato.</li>
 							</ol>
-						
+
 								<br>Para constancia de lo anterior, firmo con copia de mi documento de identidad bajo gravedad de juramento:
 								<br><br>
-							
+
 								<table width:100%;>
 									<tr>
 										<td bgcolor='#e2e0e0' align='rigth' style='padding: 5px 5px 5px 5px;width:10%;'>Fecha</td>
 										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:15%;'>Día</td>
-										<td align='center' style='width:15%;'>". $dia . "</td>
+										<td align='center' style='width:15%;'>" . $dia . "</td>
 										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:15%;'>Mes</td>
-										<td align='center' style='width:15%;'>". $mes . "</td>
+										<td align='center' style='width:15%;'>" . $mes . "</td>
 										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:15%;'>Año</td>
-										<td align='center' style='width:15%;'>". $anno . "</td>
+										<td align='center' style='width:15%;'>" . $anno . "</td>
 									</tr>
 								</table>
-							
+
 								<br>
-							
+
 								<table width:100%;>
 									<tr>
 										<td bgcolor='#e2e0e0' align='rigth' style='padding: 5px 5px 5px 5px;width:10%;'>Lugar</td>
@@ -339,9 +339,9 @@ class GenerarDocumento {
 										<td align='center' style='width:25%;'>" . $this->infoCertificado['municipio'] . "</td>
 									</tr>
 								</table>
-							
+
 								<br>
-												
+
 								<table style='width:100%;'>
 									<tr>
 										<td bgcolor='#FFFFFF' rowspan='2' align='rigth' style='vertical-align:top;padding: 5px 5px 5px 5px;width:40%;'>Firma</td>
@@ -353,9 +353,9 @@ class GenerarDocumento {
 										<td bgcolor='#FFFFFF' align='rigth' style='width:40%;'>" . $this->infoCertificado['identificacion'] . "</td>
 									</tr>
 								</table>
-							
+
 								<br>
-												
+
 								<table style='width:100%;'>
 									<tr>
 										<td bgcolor='#f4f4f4'>
@@ -389,9 +389,9 @@ class GenerarDocumento {
 										</td>
 									</tr>
 								</table>
-							
+
 								<br>
-							
+
 								<table width:100%;>
 									<tr>
 										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:100%;'>
@@ -401,14 +401,14 @@ class GenerarDocumento {
 										</td>
 									</tr>
 								</table>
-							
+
 					";
-						
-						if ($this->infoCertificado['soporte'] != '') {
-						
-							$contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
+
+        if ($this->infoCertificado['soporte'] != '') {
+
+            $contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
                                          <P style='text-align:center'><b>Soporte</b></P><br><br>";
-							$contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
+            $contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
                                             <tr>
                                                 <td style='text-align:center;border:none;width:100%'>
                                                     <img src='" . $this->infoCertificado['soporte'] . "'  width='500' height='500'>
@@ -416,15 +416,15 @@ class GenerarDocumento {
                                             </tr>
                                         </table>
                                      ";
-						}
-						
-						$contenidoPagina .= "";
-						
-		$contenidoPagina .= "</page>";
-		
-		$this->contenidoPagina = $contenidoPagina;
-	}
+        }
+
+        $contenidoPagina .= "";
+
+        $contenidoPagina .= "</page>";
+
+        $this->contenidoPagina = $contenidoPagina;
+    }
 }
-$miDocumento = new GenerarDocumento ( $this->sql );
+$miDocumento = new GenerarDocumento($this->sql);
 
 ?>

@@ -1277,6 +1277,7 @@ class Certificado {
                 $valorCodificado .= "&opcion=guardarInformacion";
                 $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id'];
                 $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
+                $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.
