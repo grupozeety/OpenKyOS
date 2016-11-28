@@ -9,7 +9,8 @@ class GenerarReporteInstalaciones {
     public $miSql;
     public $conexion;
     public $proyectos;
-    public $proyectos_general;
+	public $fecha;
+	
     public function __construct($sql) {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -20,21 +21,122 @@ class GenerarReporteInstalaciones {
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        /**
-         * Obtener Actividades Paquetes de Trabajo
-         */
-        $this->obtenerActividades();
-
-        /**
-         * Filtrar Actividades Paquetes de Trabajo
-         */
-        $this->filtrarActividades();
-
-        /**
-         * Crear Documento Hoja de Calculo(Reporte)
-         */
-
-        $this->crearHojaCalculo();
+        //Formato fechas de inicio y fin Año-Mes-Día example: 2016-8-15
+        //Cuando se quiere especificar un día puntual, la fecha de inicio y de fin deben ser iguales.
+        
+        //$_REQUEST['fechaInicio'] = "2016-8-20";
+        //$_REQUEST['fechaFin']= "2016-8-25";
+        
+        if(isset($_REQUEST['fechaInicio']) && isset($_REQUEST['fechaFin'])){
+        	
+        	$valoresPrimera = explode ("-", $_REQUEST['fechaInicio']);   
+		  	$valoresSegunda = explode ("-", $_REQUEST['fechaFin']); 
+		  	$diaPrimera    = $valoresPrimera[2];  
+		  	$mesPrimera  = $valoresPrimera[1];  
+		  	$anyoPrimera   = $valoresPrimera[0]; 
+		  	$diaSegunda   = $valoresSegunda[2];  
+		  	$mesSegunda = $valoresSegunda[1];  
+		  	$anyoSegunda  = $valoresSegunda[0];
+		  	$diasPrimeraJuliano = gregoriantojd($mesPrimera, $diaPrimera, $anyoPrimera);  
+		  	$diasSegundaJuliano = gregoriantojd($mesSegunda, $diaSegunda, $anyoSegunda); 
+		  	
+		  	$diasA = array(0, 31,28,31,30,31,30,31,31,30,31,30,31);
+		  	$diasB = array(0, 31,29,31,30,31,30,31,31,30,31,30,31);
+		  	
+        	if($diasPrimeraJuliano < $diasSegundaJuliano){
+        		
+        		/**
+        		 * Obtener Actividades Paquetes de Trabajo
+        		 */
+        		$this->obtenerActividades();
+        		
+        		$copiaProyectos = $this->proyectos;
+        		
+        		for($i = $anyoPrimera; $i <= $anyoSegunda; $i++){
+        			
+        			if(($i % 4 == 0) && (($i % 100 != 0) || ($i % 400 == 0))){
+        				$dias =  $diasB;
+        			}else{
+        				$dias =  $diasA;
+        			}
+        			
+        			if($i == $anyoSegunda){
+        				$mes = $mesSegunda;
+        			}else if($anyoPrimera < $anyoSegunda){
+        				$mes = 12;
+        			}
+        			for($j = $mesPrimera; $j <= $mes ; $j++){
+        				
+        				if($i == $anyoSegunda && $j == $mesSegunda){
+        					$dia = $diaSegunda;
+        				}else{
+        					$dia = $dias[$j];
+        				}
+        				for($k = $diaPrimera; $k <= $dia; $k++){
+        					
+        					$fecha = $i . "-" . $j . "-" . $k;
+        					
+        					$this->fecha = $fecha;
+        					
+        					$this->proyectos = $copiaProyectos;
+        					
+        					/**
+        					 * Filtrar Actividades Paquetes de Trabajo
+        					 */
+        					$this->filtrarActividades($fecha);
+        					
+        					/**
+        					 * Crear Documento Hoja de Calculo(Reporte)
+        					 */
+        					
+        					$this->crearHojaCalculo();
+        				}
+        				
+        				$diaPrimera = 1;
+        			}
+        			
+        			$mesPrimera = 1;
+        		}
+        		
+        	}else if($diasPrimeraJuliano == $diasSegundaJuliano){
+        		
+        		$fecha = $_REQUEST['fechaInicio'];
+	        	/**
+	        	 * Obtener Actividades Paquetes de Trabajo
+	        	 */
+	        	$this->obtenerActividades();
+	        	
+	        	/**
+	        	 * Filtrar Actividades Paquetes de Trabajo
+	        	 */
+	        	$this->filtrarActividades($fecha);
+	        	
+	        	/**
+	        	 * Crear Documento Hoja de Calculo(Reporte)
+	        	 */
+	        	
+	        	$this->crearHojaCalculo();
+        	}else{
+        		exit();
+        	}
+        }else{
+        	$fecha = date("Y-m-d ");
+        	/**
+        	 * Obtener Actividades Paquetes de Trabajo
+        	 */
+        	$this->obtenerActividades();
+        	
+        	/**
+        	 * Filtrar Actividades Paquetes de Trabajo
+        	 */
+        	$this->filtrarActividades($fecha);
+        	
+        	/**
+        	 * Crear Documento Hoja de Calculo(Reporte)
+        	 */
+        	
+        	$this->crearHojaCalculo();
+        }
     }
     public function obtenerDetalleProyectos() {
         foreach ($this->proyectos as $key => $value) {
@@ -75,6 +177,9 @@ class GenerarReporteInstalaciones {
     }
     public function crearHojaCalculo() {
         include_once "crearDocumentoHojaCalculo.php";
+        $miProcesador = new GenerarReporteExcelInstalaciones();
+        $miProcesador->iniciar($this->miSql, $this->proyectos, $this->fecha);
+        
     }
     public function detallarCamposPersonalizadosProyecto() {
         foreach ($this->proyectos as $key => $value) {
@@ -113,7 +218,8 @@ class GenerarReporteInstalaciones {
 
         return $urlApi;
     }
-    public function filtrarActividades() {
+  
+    public function filtrarActividades($fecha) {
     	
         foreach ($this->proyectos as $key => $value) {
 
@@ -128,27 +234,28 @@ class GenerarReporteInstalaciones {
                             if ($actividad['_type'] != 'Activity::Comment') {
                                 unset($this->proyectos[$key]['campos_parametrizados'][$llave]['paquetesTrabajo']['actividades'][$llave2]);
                             } else {
-
-                                $val = (strpos($actividad['comment']['raw'], 'automáticamente cambiando'));
-
+                                
+								$val = (strpos($actividad['comment']['raw'], 'automáticamente cambiando'));
+								
                                 if (is_numeric($val)) {
-
-                                    unset($this->proyectos[$key]['campos_parametrizados'][$llave]['paquetesTrabajo']['actividades'][$llave2]);
+                                	unset($this->proyectos[$key]['campos_parametrizados'][$llave]['paquetesTrabajo']['actividades'][$llave2]);
                                 }
                             }
 
                             $fecha_actividad = substr($actividad['createdAt'], 0, 10);
                             $fecha_actividad = strtotime($fecha_actividad);
-                            $fecha_inicio = strtotime(date("Y - m - d "));
+                            $fecha_inicio = strtotime($fecha);
 
                             if ($fecha_actividad != $fecha_inicio) {
-                                unset($this->proyectos[$key]['campos_parametrizados'][$llave]['paquetesTrabajo']['actividades'][$llave2]);
+                               unset($this->proyectos[$key]['campos_parametrizados'][$llave]['paquetesTrabajo']['actividades'][$llave2]);
                             }
                         }
+                        
                     }
                 }
             }
         }
+        
     }
 
     public function obtenerProyectoCore() {

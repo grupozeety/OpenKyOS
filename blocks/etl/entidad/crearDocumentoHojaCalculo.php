@@ -5,7 +5,6 @@ namespace reportes\instalacionesGenerales\entidad;
 $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
-require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel.php";
 class GenerarReporteExcelInstalaciones {
     public $miConfigurador;
     public $lenguaje;
@@ -15,13 +14,16 @@ class GenerarReporteExcelInstalaciones {
     public $proyectos;
     public $objCal;
     public $informacion;
-    public function __construct($sql, $proyectos) {
+    public $fecha;
+    
+    public function iniciar($sql, $proyectos, $fecha='') {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
         $this->proyectos = $proyectos;
+		$this->fecha = $fecha;
 
-        /**
+		/**
          * 1.
          * Estruturamiento Información OpenProject
          */
@@ -37,14 +39,17 @@ class GenerarReporteExcelInstalaciones {
 
     public function ajustarComentarios($actividades) {
 
+    	
         $contenido = '';
 
         foreach ($actividades as $key => $value) {
-
-            $fecha_actividad = substr($value['createdAt'], 0, 10);
-
-            $contenido .= "(" . $fecha_actividad . ") " . $value['comment']['raw'] . "\n";
-
+        	
+        	$val = (strpos($value['comment']['raw'], 'automáticamente cambiando'));
+        	
+        	if (!is_numeric($val) && $value['comment']['raw'] != "") {
+        		$fecha_actividad = substr($value['createdAt'], 0, 10);
+        		$contenido .= "(" . $fecha_actividad . ") " . $value['comment']['raw'] . "\n";
+        	}
         }
 
         if ($contenido == '') {
@@ -83,8 +88,7 @@ class GenerarReporteExcelInstalaciones {
 
                         case 'Centro de Gestión-Descripcion Actividades':
 
-                            $this->informacion[$key]['b_'] = (isset($value_c['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_c['paquetesTrabajo']['actividades']) : " ";
-
+                        	$this->informacion[$key]['b_'] = (isset($value_c['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_c['paquetesTrabajo']['actividades']) : " ";
                             break;
                         case 'Centro de Gestión-Fecha Inicio instalación Adecuaciones':
 
@@ -498,13 +502,18 @@ class GenerarReporteExcelInstalaciones {
 
         ksort($this->informacion);
 
-        $cadenaSql = $this->miSql->getCadenaSql('actualizarProyectosAlmacen', $this->informacion);
-        $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "actualizar");
-
-        $cadenaSql = $this->miSql->getCadenaSql('registrarProyectosAlmacen', $this->informacion);
-        $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
-        var_dump($esteRecursoDB);
-        var_dump($this->informacion);die;
+        if($this->fecha == ""){
+        	$cadenaSql = $this->miSql->getCadenaSql('actualizarProyectosAlmacen', $this->informacion);
+        	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "actualizar");
+        	
+        	$cadenaSql = $this->miSql->getCadenaSql('registrarProyectosAlmacen', $this->informacion);
+        	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
+        }else{
+        	$cadenaSql = $this->miSql->getCadenaSql('registrarProyectosAlmacenMasivo', $this->informacion, $this->fecha);
+        	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
+        }
+        
+        
         
     }
 
@@ -681,7 +690,6 @@ class GenerarReporteExcelInstalaciones {
     }
 
 }
-$miProcesador = new GenerarReporteExcelInstalaciones($this->miSql, $this->proyectos);
 
 ?>
 
