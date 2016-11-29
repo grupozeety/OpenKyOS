@@ -116,6 +116,7 @@ class FormProcessor {
             'pantalla' => $_REQUEST['pantalla'],
             'web_soporte' => $_REQUEST['web_soporte'],
             'telefono_soporte' => $_REQUEST['telefono_soporte'],
+            'direccion' => $_REQUEST['direccion'],
             //'perifericos' => $_REQUEST['perifericos'],
             //'nombre_ins' => $_REQUEST['nombre_ins'],
             //'identificacion_ins' => $_REQUEST['identificacion_ins'],
@@ -125,6 +126,7 @@ class FormProcessor {
             //'soporte' => $soporte,
         );
         $cadenaSql = $this->miSql->getCadenaSql('registrarActaEntrega', $arreglo);
+
         $cadenaSql = str_replace("''", 'null', $cadenaSql);
         $this->registroActa = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 

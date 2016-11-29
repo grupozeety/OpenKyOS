@@ -89,6 +89,35 @@ class Certificado {
 
             $_REQUEST = array_merge($_REQUEST, $arreglo);
         }
+        {
+
+            $anexo_dir = '';
+
+            if ($infoBeneficiario['manzana_contrato'] != 0) {
+                $anexo_dir .= " Manzana  #" . $infoBeneficiario['manzana_contrato'] . " - ";
+            }
+
+            if ($infoBeneficiario['bloque_contrato'] != 0) {
+                $anexo_dir .= " Bloque #" . $infoBeneficiario['bloque_contrato'] . " - ";
+            }
+
+            if ($infoBeneficiario['torre_contrato'] != 0) {
+                $anexo_dir .= " Torre #" . $infoBeneficiario['torre_contrato'] . " - ";
+            }
+
+            if ($infoBeneficiario['casa_apto_contrato'] != 0) {
+                $anexo_dir .= " Casa/Apartamento #" . $infoBeneficiario['casa_apto_contrato'];
+            }
+
+            if ($infoBeneficiario['interior_contrato'] != 0) {
+                $anexo_dir .= " Interior #" . $infoBeneficiario['interior_contrato'];
+            }
+
+            if ($infoBeneficiario['lote_contrato'] != 0) {
+                $anexo_dir .= " Lote #" . $infoBeneficiario['lote_contrato'];
+            }
+
+        }
 
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
@@ -1278,6 +1307,8 @@ class Certificado {
                 $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id'];
                 $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
                 $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
+                $valorCodificado .= "&direccion=" . $infoBeneficiario['direccion_domicilio'] . " " . $anexo_dir;
+                $valorCodificado .= "&estrato_socioeconomico=" . $infoBeneficiario['estrato_socioeconomico'];
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.

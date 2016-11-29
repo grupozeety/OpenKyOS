@@ -63,7 +63,7 @@ class GenerarDocumento {
         $this->asosicarCodigoDocumento();
 
         $this->crearPDF();
-        exit;
+
         $arreglo = array(
             'nombre_contrato' => $this->nombreDocumento,
             'ruta_contrato' => $this->rutaURL . $this->nombreDocumento,
@@ -94,16 +94,16 @@ class GenerarDocumento {
         ));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
-        $html2pdf->Output($this->rutaAbsoluta . $this->nombreDocumento, 'D');
+        $html2pdf->Output($this->rutaAbsoluta . $this->nombreDocumento, 'F');
     }
     public function asosicarCodigoDocumento() {
         $this->prefijo = substr(md5(uniqid(time())), 0, 6);
-        $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', '900');
+        $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', '008');
         $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
         $tipo_documento = $id_parametro['id_parametro'];
         $descripcion_documento = $id_parametro['id_parametro'] . '_' . $id_parametro['descripcion'];
-        $nombre_archivo = "AEP";
-        $this->nombreDocumento = $_REQUEST['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.pdf';
+        //$nombre_archivo = "AEP";
+        $this->nombreDocumento = $_REQUEST['id_beneficiario'] . "_" . $descripcion_documento . "_" . $this->prefijo . '.pdf';
     }
     public function estruturaDocumento() {
 
@@ -235,7 +235,15 @@ class GenerarDocumento {
             $ce = "X";
         }
 
+        {
+
+            $tipo_vip = ($_REQUEST['tipo_beneficiario'] == "1") ? "<b>X</b>" : "";
+            $tipo_residencial_1 = ($_REQUEST['tipo_beneficiario'] == "2") ? (($_REQUEST['estrato_socioeconomico'] == "1") ? "<b>X</b>" : "") : "";
+            $tipo_residencial_2 = ($_REQUEST['tipo_beneficiario'] == "2") ? (($_REQUEST['estrato_socioeconomico'] == "2") ? "<b>X</b>" : "") : "";
+        }
+
         setlocale(LC_ALL, "es_CO.UTF-8");
+
         $contenidoPagina = "
                             <style type=\"text/css\">
                                 table {
@@ -264,7 +272,7 @@ class GenerarDocumento {
 
 
 
-                        <page backtop='35mm' backbottom='30mm' backleft='10mm' backright='10mm' footer='page'>
+                        <page backtop='25mm' backbottom='10mm' backleft='10mm' backright='10mm' footer='page'>
                             <page_header>
                                  <table  style='width:100%;' >
                                           <tr>
@@ -283,11 +291,13 @@ class GenerarDocumento {
 
                         </page_header>
                        ";
-
+//var_dump($_REQUEST);exit;
         $contenidoPagina .= "
-
-							<br>
+        					<br>
+        					<br>
 							El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:
+							<br>
+							<br>
 							<table width:100%;>
 								<tr>
 									<td style='width:25%;'><b>Contrato de Servicio</b></td>
@@ -299,20 +309,20 @@ class GenerarDocumento {
 								</tr>
 								<tr>
 									<td style='width:25%;'>No de Identificación</td>
-									<td colspan='3' style='width:75%;text-align:center;'><b>" . $_REQUEST['numero_identificacion'] . "</b></td>
+									<td colspan='3' style='width:75%;text-align:center;'><b>" . number_format($_REQUEST['numero_identificacion'], 0, '', '.') . "</b></td>
 								</tr>
 								<tr>
 									<td colspan='4'><b>Datos de Vivienda</b></td>
 								</tr>
 								<tr>
 									<td style='width:25%;'>Tipo</td>
-									<td style='width:25%;text-align:center;'>VIP ( )</td>
-									<td style='width:25%;text-align:center;'>Estrato 1 (  )</td>
-									<td style='width:25%;text-align:center;'>Estrato 2 (  )</td>
+									<td style='width:25%;text-align:center;'>VIP (" . $tipo_vip . ")</td>
+									<td style='width:25%;text-align:center;'>Estrato 1 (" . $tipo_residencial_1 . ")</td>
+									<td style='width:25%;text-align:center;'>Estrato 2 (" . $tipo_residencial_2 . ")</td>
 								</tr>
 								<tr>
 									<td style='width:25%;'>Dirección</td>
-									<td colspan='3' style='width:75%;text-align:center;'> </td>
+									<td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['direccion'] . "</td>
 								</tr>
 								<tr>
 									<td style='width:25%;'>Departamento</td>
@@ -380,11 +390,11 @@ class GenerarDocumento {
 										</tr>
 										<tr>
 											<td align='rigth'  style=' width:20%;'><b>Sitio web de soporte</b></td>
-											<td align='rigth' colspan='3' style='width:80%;'> </td>
+											<td align='rigth' colspan='3' style='width:80%;'>" . $_REQUEST['web_soporte'] . "</td>
 										</tr>
 										<tr>
 											<td align='rigth'  style=' width:20%;'><b>Teléfono de soporte</b></td>
-											<td align='rigth' colspan='3' style='width:80%;'> </td>
+											<td align='rigth' colspan='3' style='width:80%;'>" . $_REQUEST['telefono_soporte'] . "</td>
 										</tr>
 									</table>
 									<br>
@@ -394,16 +404,19 @@ class GenerarDocumento {
 								<br>
 							5. Que se compromete a participar en por lo menos 20 horas de  capacitación sobre el manejo del equipo y/o aplicativos de uso productivo de esta herramienta como parte del proceso de apropiación social contemplado en el Anexo Técnico del proyecto Conexiones Digitales II<br><br><br>
 
-							Para constancia de lo anterior, firma en la ciudad de SINCELEJO, municipio de SINCELEJO, departamento de SUCRE, el día 28 DE NOVIEMBRE DE 2016;
+							Para constancia de lo anterior, firma en la ciudad de " . $_REQUEST['municipio'] . ", municipio de " . $_REQUEST['municipio'] . ", departamento de " . $_REQUEST['departamento'] . ", el día " . $dia . " de " . $mes . " de " . $anno . ".
 							<br>
 							<br>
+							<br>
+							<br>
+
 							<table width:100%;>
 								<tr>
 									<td rowspan='2' style='width:50%;'>Firma:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $firmaBeneficiario . "</td>
 									<td style='width:50%;text-align:center;'><b>" . $_REQUEST['nombres'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b></td>
 								</tr>
 								<tr>
-									<td style='width:50%;text-align:center;'><b>" . $_REQUEST['numero_identificacion'] . "</b></td>
+									<td style='width:50%;text-align:center;'><b>" . number_format($_REQUEST['numero_identificacion'], 0, '', '.') . "</b></td>
 								</tr>
 							</table>
 

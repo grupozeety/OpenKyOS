@@ -42,7 +42,8 @@ class Sql extends \Sql {
              */
 
             case 'consultaInformacionBeneficiario':
-                $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ,cn.urbanizacion as nombre_urbanizacion, cn.departamento as nombre_departamento, cn.municipio as nombre_municipio  ";
+                $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ,cn.urbanizacion as nombre_urbanizacion, cn.departamento as nombre_departamento, cn.municipio as nombre_municipio,cn.direccion_domicilio, cn.manzana as manzana_contrato, cn.bloque as bloque_contrato,
+                cn.torre as torre_contrato,cn.casa_apartamento as casa_apto_contrato,cn.interior as interior_contrato,cn.lote as lote_contrato, cn.estrato_socioeconomico "    ;
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
                 $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
                 $cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
@@ -103,6 +104,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " pantalla,";
                 $cadenaSql .= " web_soporte,";
                 $cadenaSql .= " telefono_soporte,";
+                $cadenaSql .= " direccion_general,";
                 //$cadenaSql .= " perifericos,";
                 //$cadenaSql .= " nombre_ins,";
                 //$cadenaSql .= " identificacion_ins,";
@@ -138,6 +140,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " '" . $variable['pantalla'] . "', ";
                 $cadenaSql .= " '" . $variable['web_soporte'] . "', ";
                 $cadenaSql .= " '" . $variable['telefono_soporte'] . "', ";
+                $cadenaSql .= " '" . $variable['direccion'] . "', ";
                 //$cadenaSql .= " '" . $variable['perifericos'] . "', ";
                 //$cadenaSql .= " '" . $variable['nombre_ins'] . "', ";
                 //$cadenaSql .= " '" . $variable['identificacion_ins'] . "', ";
