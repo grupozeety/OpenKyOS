@@ -51,6 +51,40 @@ class GestionarContrato {
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
         $infoCertificado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
+        $_REQUEST['id'] = $_REQUEST['id_beneficiario'];
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
+        $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        {
+
+            $anexo_dir = '';
+
+            if ($infoBeneficiario['manzana_contrato'] != 0) {
+                $anexo_dir .= " Manzana  #" . $infoBeneficiario['manzana_contrato'] . " - ";
+            }
+
+            if ($infoBeneficiario['bloque_contrato'] != 0) {
+                $anexo_dir .= " Bloque #" . $infoBeneficiario['bloque_contrato'] . " - ";
+            }
+
+            if ($infoBeneficiario['torre_contrato'] != 0) {
+                $anexo_dir .= " Torre #" . $infoBeneficiario['torre_contrato'] . " - ";
+            }
+
+            if ($infoBeneficiario['casa_apto_contrato'] != 0) {
+                $anexo_dir .= " Casa/Apartamento #" . $infoBeneficiario['casa_apto_contrato'];
+            }
+
+            if ($infoBeneficiario['interior_contrato'] != 0) {
+                $anexo_dir .= " Interior #" . $infoBeneficiario['interior_contrato'];
+            }
+
+            if ($infoBeneficiario['lote_contrato'] != 0) {
+                $anexo_dir .= " Lote #" . $infoBeneficiario['lote_contrato'];
+            }
+
+        }
+
         // Rescatar los datos de este bloque
 
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
@@ -125,6 +159,9 @@ class GestionarContrato {
                             $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
                             $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
                             $valorCodificado .= "&opcion=generarCertificacion";
+                            $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
+                            $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
+                            $valorCodificado .= "&estrato_socioeconomico=" . $infoBeneficiario['estrato_socioeconomico'];
 
                             $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
                             $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);

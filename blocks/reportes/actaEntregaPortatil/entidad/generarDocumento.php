@@ -74,10 +74,12 @@ class GenerarDocumento {
         $html2pdf->Output('Acta_Entrega_servicio_CC_' . $this->infoCertificado['identificacion'] . '_' . date('Y-m-d') . '.pdf', 'D');
     }
     public function estruturaDocumento() {
-        var_dump($_REQUEST);exit;
+
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
         $infoCertificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
         $this->infoCertificado = $infoCertificado;
+
+        $_REQUEST = array_merge($_REQUEST, $infoCertificado);
 
         $fecha = explode("-", $this->infoCertificado['fecha_entrega']);
 
@@ -85,29 +87,15 @@ class GenerarDocumento {
         $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
         $mes = $mes[$fecha[1]];
         $anno = $fecha[2];
+        {
 
-        $vip = "";
-        $est1 = "";
-        $est2 = "";
-
-        if ($this->infoCertificado['tipo_beneficiario'] == 1) {
-            $vip = "X";
-        } else if ($this->infoCertificado['tipo_beneficiario'] == 2) {
-            $est1 = "X";
-        } else if ($this->infoCertificado['tipo_beneficiario'] == 3) {
-            $est2 = "X";
-        }
-
-        $cc = "";
-        $ce = "";
-
-        if ($this->infoCertificado['tipo_documento'] == 1) {
-            $cc = "X";
-        } else if ($this->infoCertificado['tipo_documento'] == 2) {
-            $ce = "X";
+            $tipo_vip = ($_REQUEST['tipo_beneficiario'] == "1") ? "<b>X</b>" : "";
+            $tipo_residencial_1 = ($_REQUEST['tipo_beneficiario'] == "2") ? (($_REQUEST['estrato_socioeconomico'] == "1") ? "<b>X</b>" : "") : "";
+            $tipo_residencial_2 = ($_REQUEST['tipo_beneficiario'] == "2") ? (($_REQUEST['estrato_socioeconomico'] == "2") ? "<b>X</b>" : "") : "";
         }
 
         setlocale(LC_ALL, "es_CO.UTF-8");
+
         $contenidoPagina = "
                             <style type=\"text/css\">
                                 table {
@@ -136,289 +124,156 @@ class GenerarDocumento {
 
 
 
-                        <page backtop='35mm' backbottom='30mm' backleft='10mm' backright='10mm' footer='page'>
+                        <page backtop='25mm' backbottom='10mm' backleft='10mm' backright='10mm' footer='page'>
                             <page_header>
-                             <br>
-                            <br>
-                                    <table  style='width:100%;' >
-                                        <tr>
-                                            <td rowspan='3' style='width:33.3%;text-align=center;'><img src='" . $this->rutaURL . "frontera/css/imagen/politecnica.png'  width='125' height='40'></td>
-                                            <td rowspan='3' style='width:33.3%;text-align=center;'><b>ACTA DE ENTREGA DE SERVICIO DE BANDA ANCHA AL USUARIO</b></td>
-                                            <td align='center' style='width:33.3%;'>CODIGO: CPN-FO-CDII-60</td>
-                                        </tr>
+                                 <table  style='width:100%;' >
+                                          <tr>
+                                                <td align='center' style='width:100%;border=none;' >
+                                                <img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='45'>
+                                                </td>
+                                                <tr>
+                                                <td style='width:100%;border:none;text-align:center;font-size:9px;'><b>008 - ACTA DE ENTREGA DE COMPUTADOR PORTÁTIL</b></td>
+                                                </tr>
+                                                <tr>
+                                                <td style='width:100%;border:none;text-align:center;'><br><br><b>008 - ACTA DE ENTREGA DE COMPUTADOR PORTÁTIL</b></td>
+                                                </tr>
 
-                                        <tr>
-                                             <td align='center' style='width:33.3%;'>VERSIÓN: 01</td>
-                                        </tr>
-                                        <tr>
-                                             <td align='center' style='width:33.3%;'>FECHA: 2016-07-06</td>
                                         </tr>
                                     </table>
 
                         </page_header>
-
-                        <page_footer>
-							<table  style='width:100%;' >
-								<tr>
-									<td align='center' style='width:100%;border=none;' >
-										<img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='35'>
-									</td>
-								</tr>
-							</table>
-   					 	</page_footer>";
-
+                       ";
+//var_dump($_REQUEST);exit;
         $contenidoPagina .= "
+                            <br>
+                            <br>
+                            El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:
+                            <br>
+                            <br>
+                            <table width:100%;>
+                                <tr>
+                                    <td style='width:25%;'><b>Contrato de Servicio</b></td>
+                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . $_REQUEST['numero_contrato'] . "</b></td>
+                                </tr>
+                                <tr>
+                                    <td style='width:25%;'>Beneficiario</td>
+                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . $_REQUEST['nombre'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b></td>
+                                </tr>
+                                <tr>
+                                    <td style='width:25%;'>No de Identificación</td>
+                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . number_format($_REQUEST['identificacion'], 0, '', '.') . "</b></td>
+                                </tr>
+                                <tr>
+                                    <td colspan='4'><b>Datos de Vivienda</b></td>
+                                </tr>
+                                <tr>
+                                    <td style='width:25%;'>Tipo</td>
+                                    <td style='width:25%;text-align:center;'>VIP (" . $tipo_vip . ")</td>
+                                    <td style='width:25%;text-align:center;'>Estrato 1 (" . $tipo_residencial_1 . ")</td>
+                                    <td style='width:25%;text-align:center;'>Estrato 2 (" . $tipo_residencial_2 . ")</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:25%;'>Dirección</td>
+                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['direccion_general'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:25%;'>Departamento</td>
+                                    <td style='width:25%;text-align:center;'>" . $_REQUEST['departamento'] . "</td>
+                                    <td style='width:25%;'>Municipio</td>
+                                    <td style='width:25%;text-align:center;'>" . $_REQUEST['municipio'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:25%;'>Urbanización</td>
+                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['urbanizacion'] . "</td>
+                                </tr>
+                            </table>
+                            <br>
+                            <table  style='width:100%;' >
+                                          <tr>
+                                                <td align='center' style='width:100%;border=none;' ><b>CERTIFICA BAJO GRAVEDAD DE JURAMENTO</b></td>
 
-							<br><br>
+                                        </tr>
+                            </table>
+                             <br>
+                            1. Que recibe un computador portátil NUEVO, sin uso, original de fábrica y en perfecto estado de funcionamiento, con las siguientes características:<br>
+                            <br>
+                                    <table width:100%;>
+                                        <tr>
+                                            <td align='rigth'  style=' width:20%;'><b>Marca</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['marca'] . "</td>
+                                            <td align='rigth' style=' width:20%;'><b>Modelo</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['modelo'] . "</td>
+                                        </tr>
+                                        <tr>
+                                            <td align='rigth' style=' width:20%;'><b>Serial</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['serial'] . "</td>
+                                            <td align='rigth' style=' width:20%;'>Procesador</td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['procesador'] . "</td>
+                                        </tr>
+                                        <tr>
+                                            <td align='rigth' style=' width:20%;'><b>Memoria RAM</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['memoria_ram'] . "</td>
+                                            <td align='rigth' style=' width:20%;'><b>Disco Duro</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['disco_duro'] . "</td>
+                                        </tr>
+                                        <tr>
+                                            <td align='rigth' style=' width:20%;'><b>Sistema Operativo</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['sistema_operativo'] . "</td>
+                                            <td align='rigth' style=' width:20%;'><b>Cámara</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['camara'] . "</td>
+                                        </tr>
+                                        <tr>
+                                            <td align='rigth' style=' width:20%;'><b>Audio</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['audio'] . "</td>
+                                            <td align='rigth' style=' width:20%;'><b>Batería</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['bateria'] . "</td>
+                                        </tr>
+                                        <tr>
+                                            <td align='rigth' style=' width:20%;'><b>Tarjeta de Red (Alámbrica)</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['targeta_red_alambrica'] . "</td>
+                                            <td align='rigth' style=' width:20%;'><b>Tarjeta de Red (Inalámbrica)</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['targeta_red_inalambrica'] . "</td>
+                                        </tr>
+                                        <tr>
+                                            <td align='rigth' style=' width:20%;'><b>Cargador</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['cargador'] . "</td>
+                                            <td align='rigth' style=' width:20%;'><b>Pantalla</b></td>
+                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['pantalla'] . "</td>
+                                        </tr>
+                                        <tr>
+                                            <td align='rigth'  style=' width:20%;'><b>Sitio web de soporte</b></td>
+                                            <td align='rigth' colspan='3' style='width:80%;'>" . $_REQUEST['web_soporte'] . "</td>
+                                        </tr>
+                                        <tr>
+                                            <td align='rigth'  style=' width:20%;'><b>Teléfono de soporte</b></td>
+                                            <td align='rigth' colspan='3' style='width:80%;'>" . $_REQUEST['telefono_soporte'] . "</td>
+                                        </tr>
+                                    </table>
+                                    <br>
+                            2. Que el computador recibido no presenta rayones, roturas, hendiduras o elementos sueltos.<br><br>
+                            3. Que entiende que el computador recibido no tiene costo adicional y se encuentra incorporado al contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br><br>
+                            4. Que se compromete a velar por la seguridad del equipo y a cuidarlo para mantener su capacidad de uso y goce en el marco del contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br>
+                                <br>
+                            5. Que se compromete a participar en por lo menos 20 horas de  capacitación sobre el manejo del equipo y/o aplicativos de uso productivo de esta herramienta como parte del proceso de apropiación social contemplado en el Anexo Técnico del proyecto Conexiones Digitales II<br><br><br>
 
-							<table width:100%;>
-								<tr>
-									<td style='vertical-align:top;border:none;width:20%;'>
-										Yo:
-									</td>
-									<td style='border:none;width:80%;'>
-										<table width:100%;>
-											<tr>
-												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Apellidos</td>
-												<td align='rigth' style='padding-rigth: 5px;width:75%;'>" . $this->infoCertificado['primer_apellido'] . "&nbsp;" . $this->infoCertificado['segundo_apellido'] . "</td>
-											</tr>
-											<tr>
-												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Nombres</td>
-												<td align='rigth' style='width:75%;'>" . $this->infoCertificado['nombre'] . "</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</table>
+                            Para constancia de lo anterior, firma en la ciudad de " . $_REQUEST['municipio'] . ", municipio de " . $_REQUEST['municipio'] . ", departamento de " . $_REQUEST['departamento'] . ", el día " . $dia . " de " . $mes . " de " . $anno . ".
+                            <br>
+                            <br>
+                            <br>
+                            <br>
 
-							<br>
+                            <table width:100%;>
+                                <tr>
+                                    <td rowspan='2' style='width:50%;'>Firma: </td>
+                                    <td style='width:50%;text-align:center;'><b>" . $_REQUEST['nombre'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b></td>
+                                </tr>
+                                <tr>
+                                    <td style='width:50%;text-align:center;'><b>" . number_format($_REQUEST['identificacion'], 0, '', '.') . "</b></td>
+                                </tr>
+                            </table>
 
-							<table width:100%;>
-								<tr>
-									<td style='vertical-align:top;border:none;width:20%;'>
-										Identificado con:
-									</td>
-									<td style='border:none;width:80%;'>
-										<table width:100%;>
-											<tr>
-												<td align='center' style='width:10%;'>" . $cc . "</td>
-												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:40%;'>Cédula de Ciudadanía</td>
-												<td align='center' style='width:10%;'>" . $ce . "</td>
-												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:40%;'>Cédula de Extranjería</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</table>
 
-							<br>
-
-							<table width:100%;>
-								<tr>
-									<td style='vertical-align:top;border:none;width:20%;'>
-										Número:
-									</td>
-									<td style='border:none;width:80%;'>
-										<table width:100%;>
-											<tr>
-												<td align='rigth' style='padding: 5px 5px 5px 5px;width:100%;'>" . $this->infoCertificado['identificacion'] . "</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</table>
-
-							<br>
-
-							<table width:100%;>
-								<tr>
-									<td style='vertical-align:top;border:none;width:20%;'>
-										Habitante de:
-									</td>
-									<td style='border:none;width:80%;'>
-										<table width:100%;>
-											<tr>
-												<td align='center' style='width:25%;'>" . $vip . "</td>
-												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:75%;'>Proyecto de Vivienda de Interés Prioritario (VIP)</td>
-
-											</tr>
-											<tr>
-												<td align='center' style='width:25%;'>" . $est1 . "</td>
-												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:75%;'>Vivienda de Estrato Uno de uso residencial</td>
-											</tr>
-											<tr>
-												<td align='center' style='width:25%;'>" . $est2 . "</td>
-												<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:75%;'>Vivienda de Estrato Dos de uso residencial</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</table>
-
-							<br>
-
-							<table width:100%;>
-								<tr>
-									<td align='center' style='width:100%;border:none;'>
-										<b>CERTIFICO BAJO GRAVEDAD JURAMENTADA:</b>
-									</td>
-								</tr>
-							</table>
-
-							<ol>
-
-								<li value='1'>Que recibo un computador NUEVO y EN ÓPTIMAS CONDICIONES, con las siguientes características:
-									<br>
-									<br>
-									<table width:100%;>
-										<tr>
-											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Marca</td>
-											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['marca'] . "</td>
-										</tr>
-										<tr>
-											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Modelo</td>
-											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['modelo'] . "</td>
-										</tr>
-										<tr>
-											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Serial</td>
-											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['serial'] . "</td>
-										</tr>
-										<tr>
-											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Procesador</td>
-											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['procesador'] . "</td>
-										</tr>
-										<tr>
-											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Memoria RAM</td>
-											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['memoria_ram'] . "</td>
-										</tr>
-										<tr>
-											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Disco Duro</td>
-											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['disco_duro'] . "</td>
-										</tr>
-										<tr>
-											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Sistema Operativo</td>
-											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['sistema_operativo'] . "</td>
-										</tr>
-										<tr>
-											<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:25%;'>Periféricos</td>
-											<td align='rigth' style='width:75%;'>" . $this->infoCertificado['perifericos'] . "</td>
-										</tr>
-									</table>
-									<br>
-								</li>
-								<li>Que entiendo que dicho terminal no tiene ningún costo adicional y se encuentra incluido con el
-									servicio de internet al cual me suscribo con el proveedor.</li>
-								<li>Que este computador portátil cuenta con el servicio de internet adquirido por el suscrito.</li>
-								<li>Que me comprometo a mantener posesión y dominio de este equipo, para darle un adecuado uso permitiendo el acceso a Internet a los miembros de mi núcleo familiar.</li>
-								<li>Que el mediante el presente documento manifiesto mi interés en participar en las capacitaciones que hacen parte del componente de apropiación social del contrato.</li>
-							</ol>
-
-								<br>Para constancia de lo anterior, firmo con copia de mi documento de identidad bajo gravedad de juramento:
-								<br><br>
-
-								<table width:100%;>
-									<tr>
-										<td bgcolor='#e2e0e0' align='rigth' style='padding: 5px 5px 5px 5px;width:10%;'>Fecha</td>
-										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:15%;'>Día</td>
-										<td align='center' style='width:15%;'>" . $dia . "</td>
-										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:15%;'>Mes</td>
-										<td align='center' style='width:15%;'>" . $mes . "</td>
-										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:15%;'>Año</td>
-										<td align='center' style='width:15%;'>" . $anno . "</td>
-									</tr>
-								</table>
-
-								<br>
-
-								<table width:100%;>
-									<tr>
-										<td bgcolor='#e2e0e0' align='rigth' style='padding: 5px 5px 5px 5px;width:10%;'>Lugar</td>
-										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>Departamento</td>
-										<td align='center' style='width:25%;'>" . $this->infoCertificado['departamento'] . "</td>
-										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>Municipio</td>
-										<td align='center' style='width:25%;'>" . $this->infoCertificado['municipio'] . "</td>
-									</tr>
-								</table>
-
-								<br>
-
-								<table style='width:100%;'>
-									<tr>
-										<td bgcolor='#FFFFFF' rowspan='2' align='rigth' style='vertical-align:top;padding: 5px 5px 5px 5px;width:40%;'>Firma</td>
-										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>Nombre</td>
-										<td  bgcolor='#FFFFFF' align='rigth' style='width:40%;'>" . $this->infoCertificado['nombre'] . "&nbsp;" . $this->infoCertificado['primer_apellido'] . "&nbsp;" . $this->infoCertificado['segundo_apellido'] . "</td>
-									</tr>
-									<tr>
-										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>No. Identificación</td>
-										<td bgcolor='#FFFFFF' align='rigth' style='width:40%;'>" . $this->infoCertificado['identificacion'] . "</td>
-									</tr>
-								</table>
-
-								<br>
-
-								<table style='width:100%;'>
-									<tr>
-										<td bgcolor='#f4f4f4'>
-											<table style='width:100%;'>
-												<tr>
-													<td style='padding: 5px 5px 5px 5px;border:none;'>
-														Para uso exclusivo de Corporación Politécnica
-														<br><br>Funcionario que entrega
-														<br><br>
-													</td>
-												</tr>
-											</table>
-											<table style='width:100%;'>
-												<tr>
-													<td style='padding: 5px 5px 5px 5px;border:none;width:100%;'>
-														<table style='width:100%;'>
-															<tr>
-																<td bgcolor='#FFFFFF' rowspan='2' align='rigth' style='vertical-align:top;padding: 5px 5px 5px 5px;width:40%;'>Firma</td>
-																<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>Nombre</td>
-																<td  bgcolor='#FFFFFF' align='rigth' style='width:40%;'>" . $this->infoCertificado['nombre_ins'] . "</td>
-															</tr>
-															<tr>
-																<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:20%;'>No. Identificación</td>
-																<td bgcolor='#FFFFFF' align='rigth' style='width:40%;'>" . $this->infoCertificado['identificacion_ins'] . "</td>
-															</tr>
-														</table>
-													</td>
-												</tr>
-											</table>
-											<br><br>
-										</td>
-									</tr>
-								</table>
-
-								<br>
-
-								<table width:100%;>
-									<tr>
-										<td bgcolor='#f4f4f4' align='rigth' style='padding: 5px 5px 5px 5px;width:100%;'>
-											<b>Datos de Contacto del Fabricante</b>
-											<br><br>Sitio web de soporte: http://www.hp.com/latam/co/soporte/cas/
-											<br><br>Teléfono: 01-8000-51-474-68368 desde cualquier lugar del país.
-										</td>
-									</tr>
-								</table>
-
-					";
-
-        if ($this->infoCertificado['soporte'] != '') {
-
-            $contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
-                                         <P style='text-align:center'><b>Soporte</b></P><br><br>";
-            $contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
-                                            <tr>
-                                                <td style='text-align:center;border:none;width:100%'>
-                                                    <img src='" . $this->infoCertificado['soporte'] . "'  width='500' height='500'>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                     ";
-        }
-
-        $contenidoPagina .= "";
+                    ";
 
         $contenidoPagina .= "</page>";
 
