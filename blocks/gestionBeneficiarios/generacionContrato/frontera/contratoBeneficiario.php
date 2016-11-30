@@ -1067,7 +1067,7 @@ class Contrato {
                         $atributos['limitar'] = false;
                         $atributos['anchoCaja'] = 10;
                         $atributos['miEvento'] = '';
-                        $atributos['validar'] = 'required';
+                        //$atributos['validar'] = '';
                         $cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
                         $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
                         $atributos['matrizItems'] = $resultado;
@@ -1099,7 +1099,7 @@ class Contrato {
                         $atributos['limitar'] = false;
                         $atributos['anchoCaja'] = 10;
                         $atributos['miEvento'] = '';
-                        $atributos['validar'] = 'required';
+                        //$atributos['validar'] = '';
                         $cadenaSql = $this->miSql->getCadenaSql('consultarTipoPago');
                         $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
