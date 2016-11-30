@@ -82,6 +82,7 @@ class Contrato {
                 'medio_pago' => $contratoInfo['medio_pago'],
                 'tipo_pago' => $contratoInfo['tipo_pago'],
                 'estrato_economico' => $contratoInfo['estrato_socioeconomico'],
+                'nombre_comisionador' => $contratoInfo['nombre_comisionador'],
                 // 'clausulas' => '',
 
             );
@@ -1518,6 +1519,37 @@ class Contrato {
                     }
 
                     echo $this->miFormulario->agrupacion('fin');
+                    unset($atributos);
+
+                    $esteCampo = 'nombre_comisionador';
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['tipo'] = "text";
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    $atributos['anchoEtiqueta'] = 2;
+                    $atributos['estilo'] = "bootstrap";
+                    $atributos['evento'] = '';
+                    $atributos['deshabilitado'] = false;
+                    $atributos['readonly'] = false;
+                    $atributos['columnas'] = 1;
+                    $atributos['tamanno'] = 1;
+                    $atributos['placeholder'] = "Ingrese Nombre Comisionador";
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['valor'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['valor'] = '';
+                    }
+                    $atributos['ajax_function'] = "";
+                    $atributos['ajax_control'] = $esteCampo;
+                    $atributos['limitar'] = false;
+                    $atributos['anchoCaja'] = 10;
+                    $atributos['miEvento'] = '';
+                    //$atributos['validar'] = 'required';
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
                     unset($atributos);
 
                     $esteCampo = "foto_soporte";

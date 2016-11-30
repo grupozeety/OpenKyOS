@@ -153,6 +153,7 @@ class FormProcessor {
             'medio_pago' => $_REQUEST['medio_pago'],
             'tipo_pago' => $_REQUEST['tipo_pago'],
             'soporte' => $soporte,
+            'nombre_comisionador' => $_REQUEST['nombre_comisionador'],
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('actualizarInformacionContrato', $arreglo);
