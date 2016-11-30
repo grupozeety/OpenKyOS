@@ -626,7 +626,7 @@ class Contrato {
                         $atributos['limitar'] = false;
                         $atributos['anchoCaja'] = 10;
                         $atributos['miEvento'] = '';
-                        $atributos['validar'] = 'required';
+                        //$atributos['validar'] = 'required';
                         $atributos['cadena_sql'] = 'required';
                         //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
                         //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -942,7 +942,7 @@ class Contrato {
                         $atributos['limitar'] = false;
                         $atributos['anchoCaja'] = 10;
                         $atributos['miEvento'] = '';
-                        $atributos['validar'] = 'required';
+                        //$atributos['validar'] = 'required';
                         // Aplica atributos globales al control
                         $atributos = array_merge($atributos, $atributosGlobales);
                         echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
