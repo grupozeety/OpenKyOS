@@ -1,69 +1,130 @@
-	
-	<?php
-	/**
-	 * Código Correspondiente a las Url de la peticiones Ajax.
-	 */
-	
-	// URL base
-	$url = $this->miConfigurador->getVariableConfiguracion("host");
-	$url .= $this->miConfigurador->getVariableConfiguracion("site");
-	$url .= "/index.php?";
-	
-	// Variables para Con
-	$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
-	$cadenaACodificar .= "&procesarAjax=true";
-	$cadenaACodificar .= "&action=index.php";
-	$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
-	$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-	$cadenaACodificar .= "&funcion=consultaBeneficiarios";
-	
-	// Codificar las variables
-	$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-	$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
-	
-	// URL Consultar Proyectos
-	$urlConsultarBeneficiarios = $url . $cadena;
-	
-	?>
-	
-	<?php
-	
-	/**
-	 * Código Correspondiente a las Url de la peticiones Ajax.
-	 */
-	
-	// URL base
-	$url = $this->miConfigurador->getVariableConfiguracion("host");
-	$url .= $this->miConfigurador->getVariableConfiguracion("site");
-	$url .= "/index.php?";
-	
-	// Variables para Consultar Proyectos
-	$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
-	$cadenaACodificar .= "&procesarAjax=true";
-	$cadenaACodificar .= "&action=index.php";
-	$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
-	$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-	$cadenaACodificar .= "&funcion=consultarProyectos";
-	
-	// Codificar las variables
-	$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-	$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
-	
-	// URL Consultar Proyectos
-	$urlConsultarProyectos = $url . $cadena;
-	
-	?>
+<?php
+/**
+ * Código Correspondiente a las Url de la peticiones Ajax.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion("host");
+$url .= $this->miConfigurador->getVariableConfiguracion("site");
+$url .= "/index.php?";
+
+// Variables para Con
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultaBeneficiarios";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarBeneficiarios = $url . $cadena;
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion("host");
+$url .= $this->miConfigurador->getVariableConfiguracion("site");
+$url .= "/index.php?";
+
+// Variables para Consultar Proyectos
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultaPortatiles";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarPortatiles = $url . $cadena;
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion("host");
+$url .= $this->miConfigurador->getVariableConfiguracion("site");
+$url .= "/index.php?";
+
+// Variables para Consultar Proyectos
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultaInformacionPortatiles";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarInformacionPortatiles = $url . $cadena;
+
+?>
 <script type='text/javascript'>
+
+
+
+function informacionPortatil(elem, request, response){
+	  $.ajax({
+	    url: "<?php echo $urlConsultarInformacionPortatiles;?>",
+	    dataType: "json",
+	    data: { valor:$("#<?php echo $this->campoSeguro('id_serial');?>").val()},
+	    success: function(data){
+	    	 if(data!=" "){
+
+				$("#<?php echo $this->campoSeguro('marca');?>").val(data.marca);
+				$("#<?php echo $this->campoSeguro('modelo');?>").val(data.modelo);
+				$("#<?php echo $this->campoSeguro('procesador');?>").val(data.procesador);
+				$("#<?php echo $this->campoSeguro('memoria_ram');?>").val(data.memoria_ram);
+				$("#<?php echo $this->campoSeguro('disco_duro');?>").val(data.disco_duro);
+				$("#<?php echo $this->campoSeguro('sistema_operativo');?>").val(data.sistema_operativo);
+				$("#<?php echo $this->campoSeguro('camara');?>").val(data.camara);
+				$("#<?php echo $this->campoSeguro('audio');?>").val(data.audio);
+				$("#<?php echo $this->campoSeguro('bateria');?>").val(data.bateria);
+				$("#<?php echo $this->campoSeguro('targeta_red_alambrica');?>").val(data.red_alamnbrica);
+				$("#<?php echo $this->campoSeguro('targeta_red_inalambrica');?>").val(data.red_inalambrica);
+				$("#<?php echo $this->campoSeguro('cargador');?>").val(data.cargador);
+				$("#<?php echo $this->campoSeguro('pantalla');?>").val(data.pantalla);
+
+		      }
+
+
+	    }
+
+	   });
+	};
+
+
+
+ 	$("#<?php echo $this->campoSeguro('serial');?>").autocomplete({
+	   	minChars: 2,
+	   	serviceUrl: '<?php echo $urlConsultarPortatiles;?>',
+	   	onSelect: function (suggestion) {
+			$("#<?php echo $this->campoSeguro('id_serial');?>").val(suggestion.data);
+
+			informacionPortatil();
+
+		}
+	});
+
+
+
+
+
 
 /**
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
  */
 
- 	$("#<?php echo $this->campoSeguro('tipo_documento')?>").select2({width:'100%'});
-	$("#<?php echo $this->campoSeguro('tipo_beneficiario')?>").select2({width:'100%'});
-	$("#<?php echo $this->campoSeguro('estrato')?>").select2({width:'100%'});
-	$("#<?php echo $this->campoSeguro('urbanizacion')?>").select2({width:'100%'});
-	$("#<?php echo $this->campoSeguro('tipo_tecnologia')?>").select2({width:'100%'});
+ 	$("#<?php echo $this->campoSeguro('tipo_documento');?>").select2({width:'100%'});
+
+
+
+
 
  	$("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
 	   	minChars: 3,
@@ -97,48 +158,11 @@
 
 	$('#<?php echo $this->campoSeguro("fecha_entrega");?>').val(strDate);
 
-	var urbanizacion;
 
-	function urbanizacion(){
-		$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
-		$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
-				
-		$.ajax({
-			url: "<?php echo $urlConsultarProyectos; ?>",
-			dataType: "json",
-			data: { metodo:''},
-			success: function(data){
-				urbanizacion = data;
-				$.each(data , function(indice,valor){
-					$("<option value='"+data[ indice ].id+"'>" + data[ indice ].urbanizacion + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
-				});
-				$("#<?php echo $this->campoSeguro('urbanizacion')?>").val($("#<?php echo $this->campoSeguro('id_urbanizacion')?>").val()).change();
-			}
-		});
-	};
-	
-	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
-		$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val($("#<?php echo $this->campoSeguro('urbanizacion');?> option:selected").text());
-	});
-	
-	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
-		if($("#<?php echo $this->campoSeguro('urbanizacion');?>").val() != ""){
-			$.each(urbanizacion , function(indice,valor){
-				if(urbanizacion[indice].id == $("#<?php echo $this->campoSeguro('urbanizacion');?>").val()){
-					var departamento = urbanizacion[indice].departamento.split(" - ");
-					var municipio = urbanizacion[indice].municipio.split(" - ");
-					$("#<?php echo $this->campoSeguro('departamento');?>").val(departamento[1]);
-					$("#<?php echo $this->campoSeguro('municipio');?>").val(municipio[1]);
-					$("#<?php echo $this->campoSeguro('codigo_dane');?>").val(departamento[0]);
-				}
-			});
-		}
-	});
-	 
-	urbanizacion();
+
 
 	$("#div1").hide();
-	
+
 	$("#<?php echo $this->campoSeguro('tipo_beneficiario');?>").change(function() {
 		if($("#<?php echo $this->campoSeguro('tipo_beneficiario');?>").val() == 2){
 			$("#div1").show();
@@ -182,7 +206,10 @@
 		$("#mensaje_firma_ins").css("display","block");
 		$("#guardarIns").css("display","none");
 	});
-		
-	
+
+
+
+
+
 </script>
 

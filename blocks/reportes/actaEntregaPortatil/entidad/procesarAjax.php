@@ -29,14 +29,44 @@ class procesarAjax {
                 }
                 echo '{"suggestions":' . json_encode($resultado) . '}';
                 break;
-                
-            case 'consultarProyectos':
-               	include_once "consultarProyectos.php";
-                break;	
+
+            case 'consultaPortatiles':
+
+                $cadenaSql = $this->sql->getCadenaSql('consultarEquipo', $_REQUEST['query']);
+
+                $resultadoItems = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                foreach ($resultadoItems as $key => $values) {
+                    $keys = array(
+                        'value',
+                        'data',
+                    );
+                    $resultado[$key] = array_intersect_key($resultadoItems[$key], array_flip($keys));
+                }
+                echo '{"suggestions":' . json_encode($resultado) . '}';
+                break;
+
+            case 'consultaInformacionPortatiles':
+                $cadenaSql = $this->sql->getCadenaSql('consultarInformacionEquipo', $_REQUEST['valor']);
+
+                $informacionEquipo = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                foreach ($informacionEquipo as $key => $value) {
+
+                    $equipo[$key] = trim($value);
+
+                }
+
+                echo json_encode($equipo);
+
+                break;
+
         }
     }
 }
 
 $miProcesarAjax = new procesarAjax($this->sql);
+
+exit;
 
 ?>

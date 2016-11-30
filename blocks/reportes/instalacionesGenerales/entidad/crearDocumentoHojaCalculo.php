@@ -1551,7 +1551,7 @@ class GenerarReporteExcelInstalaciones {
              
        $this->objCal->setActiveSheetIndex(0)->mergeCells('BN2:BR2');
             $this->objCal->setActiveSheetIndex(0)
-            ->setCellValue('BN2', 'Tendido y puesta en funcionameinto Red Coaxial')
+            ->setCellValue('BN2', 'Tendido y puesta en funcionamiento Red Coaxial')
             ->getStyle("BN2")->applyFromArray($styleCentrado);
              
             {
@@ -1833,9 +1833,12 @@ class GenerarReporteExcelInstalaciones {
 
     public function retornarDocumento() {
 
+    	$fecha_inicio = $_REQUEST['fecha_inicio'];
+    	$fecha_fin = $_REQUEST['fecha_final'];
+    	
         // Redirect output to a client’s web browser (Excel2007)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="ReporteInstalaciones' . time() . '.xlsx"');
+        header('Content-Disposition: attachment;filename="ReporteSemanal(' . $fecha_inicio . ")-(" . $fecha_fin . ")" . time() . '.xlsx"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');

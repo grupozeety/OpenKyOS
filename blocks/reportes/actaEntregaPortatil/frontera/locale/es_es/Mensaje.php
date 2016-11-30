@@ -81,4 +81,26 @@ $this->idioma['celular'] = 'Celular';
 
 $this->idioma['botonGuardar'] = 'Generar Certificación';
 
+$this->idioma['fecha_entrega'] = 'Fecha Entrega';
+
+//Perifericos
+
+$this->idioma['camara'] = 'Cámara';
+
+$this->idioma['audio'] = 'Audio';
+
+$this->idioma['bateria'] = 'Batería';
+
+$this->idioma['targeta_red_alambrica'] = 'Tarjeta de Red (Alámbrica)';
+
+$this->idioma['targeta_red_inalambrica'] = 'Tarjeta de Red (Inalámbrica)';
+
+$this->idioma['cargador'] = 'Cargador';
+
+$this->idioma['pantalla'] = 'Pantalla';
+
+$this->idioma['web_soporte'] = 'Sitio Web de Soporte';
+
+$this->idioma['telefono_soporte'] = 'Teléfono  de Soporte';
+
 ?>

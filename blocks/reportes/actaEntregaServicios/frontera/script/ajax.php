@@ -153,7 +153,7 @@
  	$("#<?php echo $this->campoSeguro('tipo_documento')?>").select2({width:'100%'});
 	$("#<?php echo $this->campoSeguro('tipo_beneficiario')?>").select2({width:'100%'});
 	$("#<?php echo $this->campoSeguro('estrato')?>").select2({width:'100%'});
-	$("#<?php echo $this->campoSeguro('urbanizacion')?>").select2({width:'100%'});
+	/* $("#<?php echo $this->campoSeguro('urbanizacion')?>").select2({width:'100%'}); */
 	$("#<?php echo $this->campoSeguro('tipo_tecnologia')?>").select2({width:'100%'});
 
  	$("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
@@ -192,6 +192,8 @@
 		var urbanizacion;
 	}
 
+/*
+	
 	function urbanizacion(){
 		$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
 		$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
@@ -229,6 +231,7 @@
 	});
 	 
 	urbanizacion();
+*/
 
 	$("#div1").hide();
 	
@@ -258,6 +261,7 @@
 		$("#guardarBn").css("display","none");
 	});
 
+/*
 	var $sigdiv1 =$("#firma_digital_instalador").jSignature();
 
 	$('#limpiarIns').bind('click', function(e){
@@ -275,7 +279,11 @@
 		$("#guardarIns").css("display","none");
 	});
 
+*/
+
  });
+
+
 	
 </script>
 
