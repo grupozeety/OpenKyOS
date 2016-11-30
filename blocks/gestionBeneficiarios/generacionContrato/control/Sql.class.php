@@ -341,7 +341,11 @@ class Sql extends \Sql {
                 //$cadenaSql .= " barrio='" . $variable['barrio'] . "', ";
                 $cadenaSql .= " telefono='" . $variable['telefono'] . "',";
                 $cadenaSql .= " celular='" . $variable['celular'] . "',";
-                $cadenaSql .= " correo='" . $variable['correo'] . "',";
+
+                if ($variable['correo'] != '') {
+                    $cadenaSql .= " correo='" . $variable['correo'] . "',";
+                }
+
                 $cadenaSql .= " manzana='" . $variable['manzana'] . "',";
                 $cadenaSql .= " bloque='" . $variable['bloque'] . "',";
                 $cadenaSql .= " torre='" . $variable['torre'] . "',";
@@ -358,7 +362,9 @@ class Sql extends \Sql {
                     $cadenaSql .= " tipo_pago='" . $variable['tipo_pago'] . "', ";
                 }
 
-                $cadenaSql .= " estrato_socioeconomico='" . $variable['estrato_socioeconomico'] . "',";
+                if ($variable['estrato_socioeconomico'] != '') {
+                    $cadenaSql .= " estrato_socioeconomico='" . $variable['estrato_socioeconomico'] . "',";
+                }
 
                 // $cadenaSql .= " cuenta_suscriptor='" . $variable ['cuenta_suscriptor'] . "', ";
                 $cadenaSql .= " velocidad_internet='" . $variable['velocidad_internet'] . "', ";
@@ -636,7 +642,9 @@ class Sql extends \Sql {
                 $cadenaSql .= " urbanizacion='" . $variable['urbanizacion'] . "', ";
                 $cadenaSql .= " telefono='" . $variable['telefono'] . "',";
                 $cadenaSql .= " celular='" . $variable['celular'] . "', ";
-                $cadenaSql .= " correo='" . $variable['correo'] . "', ";
+                if ($variable['correo'] != '') {
+                    $cadenaSql .= " correo='" . $variable['correo'] . "', ";
+                }
                 $cadenaSql .= " velocidad_internet='" . $variable['velocidad_internet'] . "',";
                 $cadenaSql .= " valor_mensual='" . $variable['valor_mensual'] . "', ";
                 $cadenaSql .= " url_firma_beneficiarios='" . $variable['url_firma_beneficiario'] . "', ";
@@ -646,7 +654,6 @@ class Sql extends \Sql {
                 $cadenaSql .= " casa_apartamento='" . $variable['casa_apartamento'] . "',";
                 $cadenaSql .= " tipo_tecnologia='" . $variable['tipo_tecnologia'] . "',";
                 $cadenaSql .= " valor_tarificacion='" . $variable['valor_tarificacion'] . "',";
-
                 if ($variable['medio_pago'] != '') {
                     $cadenaSql .= " medio_pago='" . $variable['medio_pago'] . "', ";
                 }
@@ -654,7 +661,9 @@ class Sql extends \Sql {
                     $cadenaSql .= " tipo_pago='" . $variable['tipo_pago'] . "', ";
                 }
                 $cadenaSql .= " soporte='" . $variable['soporte'] . "',";
-                $cadenaSql .= " estrato_socioeconomico='" . $variable['estrato_socioeconomico'] . "',";
+                if ($variable['estrato_socioeconomico'] != '') {
+                    $cadenaSql .= " estrato_socioeconomico='" . $variable['estrato_socioeconomico'] . "',";
+                }
                 $cadenaSql .= " interior='" . $variable['interior'] . "',";
                 $cadenaSql .= " lote='" . $variable['lote'] . "'";
                 $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "'";
