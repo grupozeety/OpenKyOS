@@ -239,19 +239,11 @@ class GenerarDocumento {
                        	</tr>
                         <tr>
                         	<td align='center'style='width:16%;'>ESCLAVO</td>
-                            <td align='center'style='width:18%;'>".  $_REQUEST['mac_esc'] . " </td>
+                            <td align='center'style='width:18%;'>".  $_REQUEST['mac_esc'] . "<br>" . $_REQUEST['mac2_esc'] . " </td>
                             <td align='center'style='width:18%;'>".  $_REQUEST['serial_esc'] . " </td>
                             <td align='center'style='width:16%;'>".  $_REQUEST['marca_esc'] . " </td>
 				 			<td align='center'style='width:16%;'>".  $_REQUEST['cant_esc'] . " </td>
 							<td align='center'style='width:16%;'>".  $_REQUEST['ip_esc'] . " </td>
-                        </tr>
-						<tr>
-                        	<td align='center'style='width:16%;'>COMPUTADOR</td>
-                            <td align='center'style='width:18%;'>".  $_REQUEST['mac_comp'] . " </td>
-                            <td align='center'style='width:18%;'>".  $_REQUEST['serial_comp'] . " </td>
-                            <td align='center'style='width:16%;'>".  $_REQUEST['marca_comp'] . " </td>
-				 			<td align='center'style='width:16%;'>".  $_REQUEST['cant_comp'] . " </td>
-							<td align='center'style='width:16%;'>".  $_REQUEST['ip_comp'] . " </td>
                         </tr>
                     </table>
 					<br>
