@@ -335,8 +335,9 @@ class GestionarContrato {
 
                         $urlpdfFirmas = $url . $cadena;
 
-                        echo "<b><a id='link_a' target='_blank' href='" . $infoContrato['ruta_documento_contrato'] . "'>Documento Contrato Con Firmas</a></b><br><br>";
-
+                        if (isset($infoContrato['ruta_documento_contrato']) && $infoContrato['ruta_documento_contrato'] != '') {
+                            echo "<b><a id='link_a' target='_blank' href='" . $infoContrato['ruta_documento_contrato'] . "'>Documento Contrato Con Firmas</a></b><br><br>";
+                        }
                         {
 
                             $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');

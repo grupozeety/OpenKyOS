@@ -132,10 +132,6 @@ class GenerarDocumento {
             $anexo_dir .= " Lote #" . $this->beneficiario['lote'];
         }
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->beneficiario['urbanizacion']);
-        $urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
-        $urbanizacion = $urbanizacion[0];
-
         $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Cédula de Ciudadanía");
         $CodigoCedula = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $CodigoCedula = $CodigoCedula[0];
