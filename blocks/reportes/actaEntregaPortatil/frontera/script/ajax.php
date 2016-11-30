@@ -1,5 +1,4 @@
-
-	<?php
+<?php
 /**
  * Código Correspondiente a las Url de la peticiones Ajax.
  */
@@ -24,13 +23,25 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($caden
 // URL Consultar Proyectos
 $urlConsultarBeneficiarios = $url . $cadena;
 
-?>
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion("host");
+$url .= $this->miConfigurador->getVariableConfiguracion("site");
+$url .= "/index.php?";
 
-	<?php
+// Variables para Consultar Proyectos
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultaPortatiles";
 
-/**
- * Código Correspondiente a las Url de la peticiones Ajax.
- */
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarPortatiles = $url . $cadena;
 
 // URL base
 $url = $this->miConfigurador->getVariableConfiguracion("host");
@@ -43,17 +54,67 @@ $cadenaACodificar .= "&procesarAjax=true";
 $cadenaACodificar .= "&action=index.php";
 $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
 $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-$cadenaACodificar .= "&funcion=consultarProyectos";
+$cadenaACodificar .= "&funcion=consultaInformacionPortatiles";
 
 // Codificar las variables
 $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
 $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
 
 // URL Consultar Proyectos
-$urlConsultarProyectos = $url . $cadena;
+$urlConsultarInformacionPortatiles = $url . $cadena;
 
 ?>
 <script type='text/javascript'>
+
+
+
+function informacionPortatil(elem, request, response){
+	  $.ajax({
+	    url: "<?php echo $urlConsultarInformacionPortatiles;?>",
+	    dataType: "json",
+	    data: { valor:$("#<?php echo $this->campoSeguro('id_serial');?>").val()},
+	    success: function(data){
+	    	 if(data!=" "){
+
+				$("#<?php echo $this->campoSeguro('marca');?>").val(data.marca);
+				$("#<?php echo $this->campoSeguro('modelo');?>").val(data.modelo);
+				$("#<?php echo $this->campoSeguro('procesador');?>").val(data.procesador);
+				$("#<?php echo $this->campoSeguro('memoria_ram');?>").val(data.memoria_ram);
+				$("#<?php echo $this->campoSeguro('disco_duro');?>").val(data.disco_duro);
+				$("#<?php echo $this->campoSeguro('sistema_operativo');?>").val(data.sistema_operativo);
+				$("#<?php echo $this->campoSeguro('camara');?>").val(data.camara);
+				$("#<?php echo $this->campoSeguro('audio');?>").val(data.audio);
+				$("#<?php echo $this->campoSeguro('bateria');?>").val(data.bateria);
+				$("#<?php echo $this->campoSeguro('targeta_red_alambrica');?>").val(data.red_alamnbrica);
+				$("#<?php echo $this->campoSeguro('targeta_red_inalambrica');?>").val(data.red_inalambrica);
+				$("#<?php echo $this->campoSeguro('cargador');?>").val(data.cargador);
+				$("#<?php echo $this->campoSeguro('pantalla');?>").val(data.pantalla);
+
+		      }
+
+
+	    }
+
+	   });
+	};
+
+
+
+ 	$("#<?php echo $this->campoSeguro('serial');?>").autocomplete({
+	   	minChars: 2,
+	   	serviceUrl: '<?php echo $urlConsultarPortatiles;?>',
+	   	onSelect: function (suggestion) {
+			$("#<?php echo $this->campoSeguro('id_serial');?>").val(suggestion.data);
+
+			informacionPortatil();
+
+		}
+	});
+
+
+
+
+
 
 /**
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
@@ -145,6 +206,9 @@ $urlConsultarProyectos = $url . $cadena;
 		$("#mensaje_firma_ins").css("display","block");
 		$("#guardarIns").css("display","none");
 	});
+
+
+
 
 
 </script>
