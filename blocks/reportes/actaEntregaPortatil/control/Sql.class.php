@@ -260,6 +260,29 @@ class Sql extends \Sql {
                 $cadenaSql .= "WHERE ";
                 $cadenaSql .= "rparam.descripcion = 'Tipo de Tecnología' ";
                 break;
+
+            case 'consultarEquipo':
+                $cadenaSql = " SELECT id_equipo as data , serial  as value";
+                $cadenaSql .= " FROM interoperacion.politecnica_portatil";
+                $cadenaSql .= " WHERE serial ILIKE '%" . $variable . "%'";
+                $cadenaSql .= " LIMIT 10;";
+                break;
+
+            case 'consultarInformacionEquipo':
+                $cadenaSql = " SELECT marca, modelo, cpu_version as procesador,";
+                $cadenaSql .= " memoria_tipo ||' '||memoria_capacidad as memoria_ram,";
+                $cadenaSql .= " disco_capacidad ||' - '||disco_serial as disco_duro,";
+                $cadenaSql .= " sistema_operativo,";
+                $cadenaSql .= " camara_tipo ||' '||camara_formato as camara,";
+                $cadenaSql .= " parlantes_tipo||' '||audio_tipo as audio,";
+                $cadenaSql .= " bateria_autonomia||' '||bateria_serial as bateria, ";
+                $cadenaSql .= " red_serial as red_alamnbrica,";
+                $cadenaSql .= " wifi_serial as red_inalambrica,";
+                $cadenaSql .= " alimentacion_dispositivo||' '||alimentacion_voltaje as cargador, ";
+                $cadenaSql .= " pantalla_tipo||' '|| pantalla_tamanno as pantalla";
+                $cadenaSql .= " FROM interoperacion.politecnica_portatil";
+                $cadenaSql .= " WHERE id_equipo='" . $variable . "';";
+                break;
         }
 
         return $cadenaSql;
