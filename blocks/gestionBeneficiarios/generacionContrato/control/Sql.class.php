@@ -350,8 +350,14 @@ class Sql extends \Sql {
                 $cadenaSql .= " interior='" . $variable['interior'] . "',";
                 $cadenaSql .= " tipo_tecnologia='" . $variable['tipo_tecnologia'] . "',";
                 $cadenaSql .= " valor_tarificacion='" . $variable['valor_tarificacion'] . "',";
-                $cadenaSql .= " medio_pago='" . $variable['medio_pago'] . "',";
-                $cadenaSql .= " tipo_pago='" . $variable['tipo_pago'] . "',";
+
+                if ($variable['medio_pago'] != '') {
+                    $cadenaSql .= " medio_pago='" . $variable['medio_pago'] . "', ";
+                }
+                if ($variable['tipo_pago'] != '') {
+                    $cadenaSql .= " tipo_pago='" . $variable['tipo_pago'] . "', ";
+                }
+
                 $cadenaSql .= " estrato_socioeconomico='" . $variable['estrato_socioeconomico'] . "',";
 
                 // $cadenaSql .= " cuenta_suscriptor='" . $variable ['cuenta_suscriptor'] . "', ";
@@ -640,8 +646,13 @@ class Sql extends \Sql {
                 $cadenaSql .= " casa_apartamento='" . $variable['casa_apartamento'] . "',";
                 $cadenaSql .= " tipo_tecnologia='" . $variable['tipo_tecnologia'] . "',";
                 $cadenaSql .= " valor_tarificacion='" . $variable['valor_tarificacion'] . "',";
-                $cadenaSql .= " medio_pago='" . $variable['medio_pago'] . "', ";
-                $cadenaSql .= " tipo_pago='" . $variable['tipo_pago'] . "', ";
+
+                if ($variable['medio_pago'] != '') {
+                    $cadenaSql .= " medio_pago='" . $variable['medio_pago'] . "', ";
+                }
+                if ($variable['tipo_pago'] != '') {
+                    $cadenaSql .= " tipo_pago='" . $variable['tipo_pago'] . "', ";
+                }
                 $cadenaSql .= " soporte='" . $variable['soporte'] . "',";
                 $cadenaSql .= " estrato_socioeconomico='" . $variable['estrato_socioeconomico'] . "',";
                 $cadenaSql .= " interior='" . $variable['interior'] . "',";
