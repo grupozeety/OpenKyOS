@@ -73,100 +73,92 @@ class GenerarReporteExcelInstalaciones {
 
         foreach ($this->proyectos as $key => $value) {
 
-            $this->camposBlancos($key);
             if ($value['tipo_proyecto'] === "core") {
                 $llave_Ins = $key;
             }
             
-            $this->informacion[$key]['a_'] = 'Politécnica';
-            
-            $this->informacion[$key]['a_0'] = $value['info']['id'];
-            $this->informacion[$key]['a_1'] = '';
-            $this->informacion[$key]['a_2'] = json_encode($value['info']);
-            
-
             {
-                // Core
+                // Core y Cabeceras 
                 foreach ($this->proyectos[$llave_Ins]['campos_parametrizados'] as $key_c => $value_c) {
 
                     switch ($value_c['sub_tipo'] . "-" . $value_c['nombre_formulario']) {
 
                         case 'Centro de Gestión-Descripcion Actividades':
 
-                        	$this->informacion[$key]['b_'] = (isset($value_c['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_c['paquetesTrabajo']['actividades']) : " ";
+                        	$this->informacionCorCab['b_'] = (isset($value_c['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_c['paquetesTrabajo']['actividades']) : " ";
                             break;
                         case 'Centro de Gestión-Fecha Inicio instalación Adecuaciones':
 
-                        	$this->informacion[$key]['c_'] = (isset($value_c['paquetesTrabajo']['cf_12']) && $value_c['paquetesTrabajo']['cf_12'] != '') ? $value_c['paquetesTrabajo']['cf_12'] : "";
+                        	$this->informacionCorCab['c_'] = (isset($value_c['paquetesTrabajo']['cf_12']) && $value_c['paquetesTrabajo']['cf_12'] != '') ? $value_c['paquetesTrabajo']['cf_12'] : "";
                             break;
                         case 'Centro de Gestión-Fecha Terminación instalación Adecuaciones':
 
-                        	$this->informacion[$key]['d_'] = (isset($value_c['paquetesTrabajo']['cf_13']) && $value_c['paquetesTrabajo']['cf_13'] != '') ? $value_c['paquetesTrabajo']['cf_13'] : "";
+                        	$this->informacionCorCab['d_'] = (isset($value_c['paquetesTrabajo']['cf_13']) && $value_c['paquetesTrabajo']['cf_13'] != '') ? $value_c['paquetesTrabajo']['cf_13'] : "";
                             break;
                         case 'Centro de Gestión-Fecha Prevista PI&PS Inicio':
 
-                            $this->informacion[$key]['e_'] = (isset($value_c['paquetesTrabajo']['start_date']) && $value_c['paquetesTrabajo']['start_date'] != '') ? $value_c['paquetesTrabajo']['start_date'] : "";
+                            $this->informacionCorCab['e_'] = (isset($value_c['paquetesTrabajo']['start_date']) && $value_c['paquetesTrabajo']['start_date'] != '') ? $value_c['paquetesTrabajo']['start_date'] : "";
 
                             break;
                         case 'Centro de Gestión-Fecha Prevista PI&PS Terminación':
 
-                            $this->informacion[$key]['f_'] = (isset($value_c['paquetesTrabajo']['due_date']) && $value_c['paquetesTrabajo']['due_date'] != '') ? $value_c['paquetesTrabajo']['due_date'] : "";
+                            $this->informacionCorCab['f_'] = (isset($value_c['paquetesTrabajo']['due_date']) && $value_c['paquetesTrabajo']['due_date'] != '') ? $value_c['paquetesTrabajo']['due_date'] : "";
 
                             break;
                         case 'Mesa  de Ayuda-Descripcion Actividades':
 
-                            $this->informacion[$key]['g_'] = (isset($value_c['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_c['paquetesTrabajo']['actividades']) : "";
+                            $this->informacionCorCab['g_'] = (isset($value_c['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_c['paquetesTrabajo']['actividades']) : "";
 
                             break;
                         case 'Mesa  de Ayuda-Feha Inicio instalación Adecuaciones':
 
-                        	$this->informacion[$key]['h_'] = (isset($value_c['paquetesTrabajo']['cf_12']) && $value_c['paquetesTrabajo']['cf_12'] != '') ? $value_c['paquetesTrabajo']['cf_12'] : "";
+                        	$this->informacionCorCab['h_'] = (isset($value_c['paquetesTrabajo']['cf_12']) && $value_c['paquetesTrabajo']['cf_12'] != '') ? $value_c['paquetesTrabajo']['cf_12'] : "";
                             break;
                         case 'Mesa  de Ayuda-Fecha Terminación instalación Adecuaciones':
 
-                        	$this->informacion[$key]['i_'] = (isset($value_c['paquetesTrabajo']['cf_13']) && $value_c['paquetesTrabajo']['cf_13'] != '') ? $value_c['paquetesTrabajo']['cf_13'] : "";
+                        	$this->informacionCorCab['i_'] = (isset($value_c['paquetesTrabajo']['cf_13']) && $value_c['paquetesTrabajo']['cf_13'] != '') ? $value_c['paquetesTrabajo']['cf_13'] : "";
                             break;
                         case 'Mesa  de Ayuda-Fecha Prevista PI&PS Inicio':
 
-                            $this->informacion[$key]['j_'] = (isset($value_c['paquetesTrabajo']['start_date']) && $value_c['paquetesTrabajo']['start_date'] != '') ? $value_c['paquetesTrabajo']['start_date'] : "";
+                            $this->informacionCorCab['j_'] = (isset($value_c['paquetesTrabajo']['start_date']) && $value_c['paquetesTrabajo']['start_date'] != '') ? $value_c['paquetesTrabajo']['start_date'] : "";
                             break;
                         case 'Mesa  de Ayuda-Fecha Prevista PI&PS Terminación':
 
-                            $this->informacion[$key]['k_'] = (isset($value_c['paquetesTrabajo']['due_date']) && $value_c['paquetesTrabajo']['due_date'] != '') ? $value_c['paquetesTrabajo']['due_date'] : "";
+                            $this->informacionCorCab['k_'] = (isset($value_c['paquetesTrabajo']['due_date']) && $value_c['paquetesTrabajo']['due_date'] != '') ? $value_c['paquetesTrabajo']['due_date'] : "";
 
                             break;
                         case 'Otros Equipos o Sistemas en el NOC-Descripcion Actividades':
 
-                            $this->informacion[$key]['l_'] = (isset($value_c['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_c['paquetesTrabajo']['actividades']) : " ";
+                            $this->informacionCorCab['l_'] = (isset($value_c['paquetesTrabajo']['actividades'])) ? $this->ajustarComentarios($value_c['paquetesTrabajo']['actividades']) : " ";
                             break;
                             
                         case 'Otros Equipos o Sistemas en el NOC-Feha Inicio instalación Adecuaciones':
 
-                        	$this->informacion[$key]['m_'] = (isset($value_c['paquetesTrabajo']['cf_12']) && $value_c['paquetesTrabajo']['cf_12'] != '') ? $value_c['paquetesTrabajo']['cf_12'] : "";
+                        	$this->informacionCorCab['m_'] = (isset($value_c['paquetesTrabajo']['cf_12']) && $value_c['paquetesTrabajo']['cf_12'] != '') ? $value_c['paquetesTrabajo']['cf_12'] : "";
                             break;
                             
                         case 'Otros Equipos o Sistemas en el NOC-Fecha Terminación instalación Adecuaciones':
 
-                        	$this->informacion[$key]['n_'] = (isset($value_c['paquetesTrabajo']['cf_13']) && $value_c['paquetesTrabajo']['cf_13'] != '') ? $value_c['paquetesTrabajo']['cf_13'] : "";
+                        	$this->informacionCorCab['n_'] = (isset($value_c['paquetesTrabajo']['cf_13']) && $value_c['paquetesTrabajo']['cf_13'] != '') ? $value_c['paquetesTrabajo']['cf_13'] : "";
                             break;
                             
                         case 'Otros Equipos o Sistemas en el NOC-Fecha Prevista PI&PS Inicio':
 
-                            $this->informacion[$key]['o_'] = (isset($value_c['paquetesTrabajo']['start_date']) && $value_c['paquetesTrabajo']['start_date'] != '') ? $value_c['paquetesTrabajo']['start_date'] : "";
+                            $this->informacionCorCab['o_'] = (isset($value_c['paquetesTrabajo']['start_date']) && $value_c['paquetesTrabajo']['start_date'] != '') ? $value_c['paquetesTrabajo']['start_date'] : "";
 
                             break;
                         case 'Otros Equipos o Sistemas en el NOC-Fecha Prevista PI&PS Terminación':
 
-                            $this->informacion[$key]['p_'] = (isset($value_c['paquetesTrabajo']['due_date']) && $value_c['paquetesTrabajo']['due_date'] != '') ? $value_c['paquetesTrabajo']['due_date'] : "";
+                            $this->informacionCorCab['p_'] = (isset($value_c['paquetesTrabajo']['due_date']) && $value_c['paquetesTrabajo']['due_date'] != '') ? $value_c['paquetesTrabajo']['due_date'] : "";
 
                             break;
                         case 'general-Porcentaje Avance':
 
-                            $this->informacion[$key]['q_'] = $value_c['paquetesTrabajo']['done_ratio'];
+                            $this->informacionCorCab['q_'] = $value_c['paquetesTrabajo']['done_ratio'];
                             break;
                         case 'general-Fecha Prevista Verificación Interventoría':
 
-                        	$this->informacion[$key]['r_'] = (isset($value_c['paquetesTrabajo']['cf_15']) && $value_c['paquetesTrabajo']['cf_15'] != '') ? $value_c['paquetesTrabajo']['cf_15'] : "";
+                        	$this->informacionCorCab['r_'] = (isset($value_c['paquetesTrabajo']['cf_15']) && $value_c['paquetesTrabajo']['cf_15'] != '') ? $value_c['paquetesTrabajo']['cf_15'] : "";
                             break;
 
                     }
@@ -175,10 +167,21 @@ class GenerarReporteExcelInstalaciones {
 
             }
 
-            //$var = strpos($value['info']['identifier'], 'becera');
 
             if ($value['tipo_proyecto'] != "core" && $value['tipo_proyecto'] != "cabecera") {
 
+            	$this->camposBlancos($key);
+            	
+            	foreach ( $this->informacionCorCab as $key_corecab => $corecab){
+            		$this->informacion[$key][$key_corecab] = $corecab;
+            	}
+            	
+            	$this->informacion[$key]['a_'] = 'Politécnica';
+            	
+            	$this->informacion[$key]['a_0'] = $value['info']['id'];
+            	$this->informacion[$key]['a_1'] = '';
+            	$this->informacion[$key]['a_2'] = json_encode($value['info']);
+            	
                 $value['campos_personalizados'] = $value['info']['custom_fields'];
 
                 $clave_departamento = array_search(1, array_column($value['campos_personalizados'], 'id'), true);
@@ -498,7 +501,6 @@ class GenerarReporteExcelInstalaciones {
                 $i++;
             }
         }
-        
     }
 
     public function registrarAlmacenDatos() {
@@ -517,9 +519,6 @@ class GenerarReporteExcelInstalaciones {
         	$cadenaSql = $this->miSql->getCadenaSql('registrarProyectosAlmacenMasivo', $this->informacion, $this->fecha);
         	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
         }
-        
-        
-        
     }
 
     public function consultarPaqueteTrabajo($proyecto = '', $nombre_paquete = '', $tipo = '') {

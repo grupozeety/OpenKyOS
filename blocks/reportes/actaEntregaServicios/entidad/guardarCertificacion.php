@@ -72,17 +72,18 @@ class FormProcessor {
 		}
 	}
 	public function procesarInformacion() {
-		if ($this->archivos_datos === '') {
-			$soporte = '';
-		} else {
-			$soporte = $this->archivos_datos [0] ['ruta_archivo'];
-		}
+
+// 		if ($this->archivos_datos === '') {
+// 			$soporte = '';
+// 		} else {
+// 			$soporte = $this->archivos_datos [0] ['ruta_archivo'];
+// 		}
 		
-		$_REQUEST['soporte'] = $soporte;
+// 		$_REQUEST['soporte'] = $soporte;
 		
 		$url_firma_beneficiario = $_REQUEST ['firmaBeneficiario'];
 		
-		$url_firma_contratista = $_REQUEST ['firmaInstalador'];
+// 		$url_firma_contratista = $_REQUEST ['firmaInstalador'];
 		
 		$arreglo = array (
 				'id_beneficiario' => $_REQUEST ['id_beneficiario'],
@@ -91,30 +92,30 @@ class FormProcessor {
 				'segundo_apellido' => $_REQUEST ['segundo_apellido'],
 				'identificacion' => $_REQUEST ['numero_identificacion'],
 				'tipo_documento' => $_REQUEST ['tipo_documento'],
-				'correo' => $_REQUEST ['correo'],
+// 				'correo' => $_REQUEST ['correo'],
 				'fecha_instalacion' => $_REQUEST ['fecha_instalacion'],
 				'tipo_beneficiario' => $_REQUEST ['tipo_beneficiario'],
 				'estrato' => $_REQUEST ['estrato'],
 				'direccion' => $_REQUEST ['direccion'],
 				'urbanizacion' => $_REQUEST ['urbanizacion'],
-				'id_urbanizacion' => $_REQUEST ['id_urbanizacion'],
+// 				'id_urbanizacion' => $_REQUEST ['id_urbanizacion'],
 				'departamento' => $_REQUEST ['departamento'],
 				'municipio' => $_REQUEST ['municipio'],
-				'codigo_dane' => $_REQUEST ['codigo_dane'],
-				'contacto' => $_REQUEST ['contacto'],
-				'identificacion_cont' => $_REQUEST ['numero_identificacion_cont'],
-				'telefono' => $_REQUEST ['telefono'],
-				'celular' => $_REQUEST ['celular'],
+// 				'codigo_dane' => $_REQUEST ['codigo_dane'],
+// 				'contacto' => $_REQUEST ['contacto'],
+// 				'identificacion_cont' => $_REQUEST ['numero_identificacion_cont'],
+// 				'telefono' => $_REQUEST ['telefono'],
+// 				'celular' => $_REQUEST ['celular'],
 				'geolocalizacion' => $_REQUEST ['geolocalizacion'],
-				'producto' => $_REQUEST ['producto'],
+// 				'producto' => $_REQUEST ['producto'],
 				'tipo_tecnologia' => $_REQUEST ['tipo_tecnologia'],
-				'numero_act_esc' => $_REQUEST ['numero_act_esc'],
+// 				'numero_act_esc' => $_REQUEST ['numero_act_esc'],
 				'mac_esc' => $_REQUEST ['mac_esc'],
 				'serial_esc' => $_REQUEST ['serial_esc'],
 				'marca_esc' => $_REQUEST ['marca_esc'],
 				'cant_esc' => $_REQUEST ['cant_esc'],
 				'ip_esc' => $_REQUEST ['ip_esc'],
-				'numero_act_comp' => $_REQUEST ['numero_act_comp'],
+// 				'numero_act_comp' => $_REQUEST ['numero_act_comp'],
 				'mac_comp' => $_REQUEST ['mac_comp'],
 				'serial_comp' => $_REQUEST ['serial_comp'],
 				'marca_comp' => $_REQUEST ['marca_comp'],
@@ -148,14 +149,14 @@ class FormProcessor {
 				'resultado_tr2' => $_REQUEST ['resultado_tr2'],
 				'unidad_tr2' => $_REQUEST ['unidad_tr2'],
 				'observaciones_tr2' => $_REQUEST ['observaciones_tr2'],
-				'ciudad_expedicion_identificacion' => $_REQUEST ['ciudad'],
-				'ciudad_firma' => $_REQUEST ['ciudad_firma'],
-				'nombre_ins' => $_REQUEST ['nombre_ins'],
-				'identificacion_ins' => $_REQUEST ['identificacion_ins'],
-				'celular_ins' => $_REQUEST ['celular_ins'],
-				'url_firma_contratista' => $url_firma_contratista,
-				'url_firma_beneficiario' => $url_firma_beneficiario,
-				'soporte' => $soporte 
+// 				'ciudad_expedicion_identificacion' => $_REQUEST ['ciudad'],
+// 				'ciudad_firma' => $_REQUEST ['ciudad_firma'],
+// 				'nombre_ins' => $_REQUEST ['nombre_ins'],
+// 				'identificacion_ins' => $_REQUEST ['identificacion_ins'],
+// 				'celular_ins' => $_REQUEST ['celular_ins'],
+// 				'url_firma_contratista' => $url_firma_contratista,
+				'url_firma_beneficiario' => $url_firma_beneficiario
+// 				'soporte' => $soporte 
 		);
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
