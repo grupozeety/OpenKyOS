@@ -172,7 +172,9 @@ class GenerarReporteExcelInstalaciones {
 
             	$this->camposBlancos($key);
             	
-            	$this->informacion[$key] = $this->informacionCorCab;
+            	foreach ( $this->informacionCorCab as $key_corecab => $corecab){
+            		$this->informacion[$key][$key_corecab] = $corecab;
+            	}
             	
             	$this->informacion[$key]['a_'] = 'Politécnica';
             	
@@ -517,9 +519,6 @@ class GenerarReporteExcelInstalaciones {
         	$cadenaSql = $this->miSql->getCadenaSql('registrarProyectosAlmacenMasivo', $this->informacion, $this->fecha);
         	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
         }
-        
-        
-        
     }
 
     public function consultarPaqueteTrabajo($proyecto = '', $nombre_paquete = '', $tipo = '') {
