@@ -111,16 +111,17 @@ class FormProcessor {
 				'tipo_tecnologia' => $_REQUEST ['tipo_tecnologia'],
 // 				'numero_act_esc' => $_REQUEST ['numero_act_esc'],
 				'mac_esc' => $_REQUEST ['mac_esc'],
+				'mac2_esc' => $_REQUEST ['mac2_esc'],
 				'serial_esc' => $_REQUEST ['serial_esc'],
 				'marca_esc' => $_REQUEST ['marca_esc'],
 				'cant_esc' => $_REQUEST ['cant_esc'],
 				'ip_esc' => $_REQUEST ['ip_esc'],
 // 				'numero_act_comp' => $_REQUEST ['numero_act_comp'],
-				'mac_comp' => $_REQUEST ['mac_comp'],
-				'serial_comp' => $_REQUEST ['serial_comp'],
-				'marca_comp' => $_REQUEST ['marca_comp'],
-				'cant_comp' => $_REQUEST ['cant_comp'],
-				'ip_comp' => $_REQUEST ['ip_comp'],
+// 				'mac_comp' => $_REQUEST ['mac_comp'],
+// 				'serial_comp' => $_REQUEST ['serial_comp'],
+// 				'marca_comp' => $_REQUEST ['marca_comp'],
+// 				'cant_comp' => $_REQUEST ['cant_comp'],
+// 				'ip_comp' => $_REQUEST ['ip_comp'],
 				'hora_prueba_vs' => $_REQUEST ['hora_prueba_vs'],
 				'resultado_vs' => $_REQUEST ['resultado_vs'],
 				'unidad_vs' => $_REQUEST ['unidad_vs'],
@@ -162,7 +163,6 @@ class FormProcessor {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
 		$cadenaSql = str_replace ( "''", 'null', $cadenaSql );
 		$this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
-		
 	}
 	public function cargarArchivos() {
 		$archivo_datos = '';
