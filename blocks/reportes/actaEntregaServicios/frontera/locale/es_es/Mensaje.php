@@ -65,8 +65,11 @@ $this->idioma['valor_tarificacion'] = 'Valor Tarificación';
 
 $this->idioma['botonGuardar'] = 'Generar Certificación';
 
+$this->idioma['botonAgregarLocalizacion'] = 'Agregar';
+
 $this->idioma['numero_act_esc'] = 'No. ACTIVO FIJO';
-$this->idioma['mac_esc'] = 'MAC';
+$this->idioma['mac_esc'] = 'MAC 1';
+$this->idioma['mac2_esc'] = 'MAC 2';
 $this->idioma['serial_esc'] = 'SERIAL';
 $this->idioma['marca_esc'] = 'MARCA';
 $this->idioma['cant_esc'] = 'CANTIDAD';
