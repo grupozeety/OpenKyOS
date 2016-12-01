@@ -108,29 +108,32 @@ class GenerarDocumento {
 
         $anexo_dir = '';
 
-        if ($this->beneficiario['manzana'] != 0) {
+        if ($this->beneficiario['manzana'] != '0' && $this->beneficiario['manzana'] != '') {
             $anexo_dir .= " Manzana  #" . $this->beneficiario['manzana'] . " - ";
         }
 
-        if ($this->beneficiario['bloque'] != 0) {
+        if ($this->beneficiario['bloque'] != '0' && $this->beneficiario['bloque'] != '') {
             $anexo_dir .= " Bloque #" . $this->beneficiario['bloque'] . " - ";
         }
 
-        if ($this->beneficiario['torre'] != 0) {
+        if ($this->beneficiario['torre'] != '0' && $this->beneficiario['torre'] != '') {
             $anexo_dir .= " Torre #" . $this->beneficiario['torre'] . " - ";
         }
 
-        if ($this->beneficiario['casa_apartamento'] != 0) {
+        if ($this->beneficiario['casa_apartamento'] != '0' && $this->beneficiario['casa_apartamento'] != '') {
             $anexo_dir .= " Casa/Apartamento #" . $this->beneficiario['casa_apartamento'];
         }
 
-        if ($this->beneficiario['interior'] != 0) {
+        if ($this->beneficiario['interior'] != '0' && $this->beneficiario['interior'] != '') {
             $anexo_dir .= " Interior #" . $this->beneficiario['interior'];
         }
 
-        if ($this->beneficiario['lote'] != 0) {
+        if ($this->beneficiario['lote'] != '0' && $this->beneficiario['lote'] != '') {
             $anexo_dir .= " Lote #" . $this->beneficiario['lote'];
         }
+        echo $anexo_dir;
+        var_dump($this->beneficiario);
+        exit();
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Cédula de Ciudadanía");
         $CodigoCedula = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
