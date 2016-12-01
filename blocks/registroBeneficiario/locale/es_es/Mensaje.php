@@ -21,7 +21,6 @@ $this->idioma["regresarConsultar"] = "Aceptar";
 $this->idioma["errorAct"] = "No se ha podido actualizar el Beneficiario/Cliente Potencial.";
 $this->idioma["confirmaAct"] = "Se ha actualizado correctamente el Beneficiario/Cliente Potencial. Carpeta sincronizada en el Gestor Documental";
 
-
 $this->idioma["id_beneficiario"] = "Id Beneficiario";
 $this->idioma["tipo_beneficiario"] = "Tipo de Beneficiario/Cliente";
 $this->idioma["identificacion_beneficiario"] = "Número de Documento Beneficiario";
@@ -50,8 +49,8 @@ $this->idioma["pertenencia_etnica"] = "Pertenencia Étnica";
 $this->idioma["ocupacion"] = "Ocupación";
 $this->idioma["foto"] = "Foto";
 $this->idioma["manzana"] = "Número de Manzana";
-$this->idioma["bloque"] = "Número de Torre";
-$this->idioma["torre"] = "Número de Bloque";
+$this->idioma["bloque"] = "Número de Bloque";
+$this->idioma["torre"] = "Número de Torre";
 $this->idioma["interior"] = "Número de Interior";
 $this->idioma["lote"] = "Número de Lote";
 $this->idioma["apartamento"] = "Número de Casa/Apartamento";
