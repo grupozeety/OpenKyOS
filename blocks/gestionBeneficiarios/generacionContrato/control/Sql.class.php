@@ -366,6 +366,10 @@ class Sql extends \Sql {
                     $cadenaSql .= " estrato_socioeconomico='" . $variable['estrato_socioeconomico'] . "',";
                 }
 
+                if ($variable['nombre_comisionador'] != '') {
+                    $cadenaSql .= " nombre_comisionador='" . $variable['nombre_comisionador'] . "',";
+                }
+
                 // $cadenaSql .= " cuenta_suscriptor='" . $variable ['cuenta_suscriptor'] . "', ";
                 $cadenaSql .= " velocidad_internet='" . $variable['velocidad_internet'] . "', ";
                 //$cadenaSql .= " fecha_inicio_vigencia_servicio='" . $variable['fecha_inicio_vigencia_servicio'] . "',";
@@ -663,6 +667,10 @@ class Sql extends \Sql {
                 $cadenaSql .= " soporte='" . $variable['soporte'] . "',";
                 if ($variable['estrato_socioeconomico'] != '') {
                     $cadenaSql .= " estrato_socioeconomico='" . $variable['estrato_socioeconomico'] . "',";
+                }
+
+                if ($variable['nombre_comisionador'] != '') {
+                    $cadenaSql .= " nombre_comisionador='" . $variable['nombre_comisionador'] . "',";
                 }
                 $cadenaSql .= " interior='" . $variable['interior'] . "',";
                 $cadenaSql .= " lote='" . $variable['lote'] . "'";
