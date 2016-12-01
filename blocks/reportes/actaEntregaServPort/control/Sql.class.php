@@ -259,16 +259,19 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarDocumentoCertificado' :
-				$cadenaSql = " UPDATE interoperacion.acta_entrega_servicios";
-				$cadenaSql .= " SET nombre_documento='" . $variable ['nombre_contrato'] . "', ruta_documento='" . $variable ['ruta_contrato'] . "' ";
+				$cadenaSql = " UPDATE interoperacion.acta_entrega_portatil";
+				$cadenaSql .= " SET nombre_documento_ps='" . $variable ['nombre_contrato'] . "', ruta_documento_ps='" . $variable ['ruta_contrato'] . "' ";
 				$cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST ['id_beneficiario'] . "' AND estado_registro='TRUE';";
 				break;
 			
 			case 'consultaInformacionCertificado' :
-				$cadenaSql = " SELECT *";
-				$cadenaSql .= " FROM interoperacion.acta_entrega_servicios";
-				$cadenaSql .= " WHERE id_beneficiario ='" . $_REQUEST ['id_beneficiario'] . "'";
-				$cadenaSql .= " AND estado_registro='TRUE';";
+				$cadenaSql = " SELECT aep.ruta_documento_ps, aep.nombre_documento_ps, aep.id, aep.id_beneficiario, aep.nombre, aep.primer_apellido, aep.segundo_apellido, aep.tipo_documento, aep.identificacion, aep.fecha_entrega, aep.tipo_beneficiario, aep.urbanizacion, aep.id_urbanizacion, aep.departamento, aep.municipio, aep.celular, aep.marca, aep.modelo, aep.serial, aep.procesador, aep.memoria_ram, aep.disco_duro, aep.sistema_operativo, aep.perifericos, aep.nombre_ins, aep.identificacion_ins, aep.celular_ins, aep.nombre_documento, aep.ruta_documento, aep.firmainstalador, aep.firmabeneficiario, aep.soporte, aep.fecha_registro, aep.camara, aep.audio, aep.bateria, aep.targeta_red_alambrica, aep.targeta_red_inalambrica, aep.cargador, aep.pantalla, aep.web_soporte, aep.direccion_general, aep.telefono_soporte,";
+				$cadenaSql .= " aes.tipo_tecnologia, aes.fecha_instalacion, aes.estrato, aes.geolocalizacion, aes.producto, aes.mac_esc, aes.serial_esc, aes.marca_esc, aes.cant_esc, aes.ip_esc, aes.hora_prueba_vs, aes.resultado_vs, aes.unidad_vs, aes.observaciones_vs, aes.hora_prueba_vb, aes.resultado_vb, aes.unidad_vb, aes.observaciones_vb, aes.hora_prueba_p1, aes.resultado_p1, aes.unidad_p1, aes.observaciones_p1, aes.hora_prueba_p2, aes.resultado_p2, aes.unidad_p2, aes.observaciones_p2, aes.hora_prueba_p3, aes.resultado_p3, aes.unidad_p3, aes.observaciones_p3, aes.hora_prueba_tr1, aes.resultado_tr1, aes.unidad_tr1, aes.observaciones_tr1, aes.hora_prueba_tr2, aes.resultado_tr2, aes.unidad_tr2, aes.observaciones_tr2, aes.firmabeneficiario as firmabeneficiario_aes, aes.mac2_esc";
+				$cadenaSql .= " FROM interoperacion.acta_entrega_servicios AS aes";
+				$cadenaSql .= " JOIN interoperacion.acta_entrega_portatil AS aep";
+				$cadenaSql .= " ON aes.id_beneficiario=aep.id_beneficiario";
+				$cadenaSql .= " AND aep.id_beneficiario='" . $_REQUEST ['id_beneficiario'] . "'";
+				$cadenaSql .= " AND aep.estado_registro='TRUE' AND aes.estado_registro='TRUE';";
 				break;
 			
 			case 'registrarRequisito' :

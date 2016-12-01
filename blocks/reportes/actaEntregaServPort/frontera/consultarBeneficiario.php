@@ -170,7 +170,7 @@ class Registrador {
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                $valorCodificado .= "&opcion=editarCertificacion";
+                $valorCodificado .= "&opcion=resultadoActa";
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.

@@ -124,23 +124,6 @@ class GenerarDocumento {
         
         $longitud_segundos = (($longitud_minutos_dc - $longitud_minutos) * 60 < 0) ? ($longitud_minutos_dc - $longitud_minutos) * 60 * -1 : ($longitud_minutos_dc - $longitud_minutos) * 60;
         
-      	$_REQUEST['telefono_soporte'] = '';
-		$_REQUEST['web_soporte'] = '';
-		$_REQUEST['pantalla'] = '';
-		$_REQUEST['cargador'] = '';
-		$_REQUEST['targeta_red_inalambrica'] = '';
-		$_REQUEST['targeta_red_alambrica'] = '';
-		$_REQUEST['bateria'] = '';
-		$_REQUEST['audio'] = '';
-		$_REQUEST['disco_duro'] = '';
-		$_REQUEST['memoria_ram'] = '';
-		$_REQUEST['procesador'] = '';
-		$_REQUEST['serial'] = '';
-		$_REQUEST['modelo'] = '';
-		$_REQUEST['marca'] = '';
-		$_REQUEST['sistema_operativo'] ='';
-		$_REQUEST['camara'] = '';
-        
         setlocale(LC_ALL, "es_CO.UTF-8");
 
         $contenidoPagina = "
@@ -176,19 +159,18 @@ class GenerarDocumento {
                                  <table  style='width:100%;' >
                                           <tr>
                                                 <td align='center' style='width:100%;border=none;' >
-                                                <img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='45'>
+                                                <img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='40'>
                                                 </td>
-                                                <tr>
-                                                <td style='width:100%;border:none;text-align:center;font-size:9px;'></td>
-                                                </tr>
-                                                <tr>
-                                                <td style='width:100%;border:none;text-align:center;'><br><br><b>004/008/009 - ACTA DE ENTREGA COMPUTADOR PORTÁTIL Y ACCESO SERVICIO DE BANDA ANCHA</b></td>
-                                                </tr>
-
                                         </tr>
                                     </table>
 
                         </page_header>
+                                                		
+                        <table  style='width:100%;' >
+                                          <tr>
+                                          		<td style='width:100%;border:none;text-align:center;'><br><br><b>004/008/009 - ACTA DE ENTREGA COMPUTADOR PORTÁTIL Y ACCESO <br>SERVICIO DE BANDA ANCHA</b></td>
+                                       	 </tr>
+                                    </table>
                        ";
 
         $contenidoPagina .= "
@@ -220,7 +202,7 @@ class GenerarDocumento {
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>Dirección</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['direccion'] . "</td>
+                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['direccion_general'] . "</td>
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>Departamento</td>
@@ -251,7 +233,8 @@ class GenerarDocumento {
                                     		
                             <b>COMPUTADOR PORTATIL</b><br><br>
                                     		
-                            1. Que recibe un computador portátil NUEVO, sin uso, original de fábrica y en perfecto estado de funcionamiento, con las siguientes características:<br>
+                            1. Que recibe un computador portátil NUEVO, sin uso, original de fábrica y en perfecto estado de funcionamiento, con las siguientes características:
+                                    		<br>
                             <br>
                                     <table width:100%;>
                                         <tr>
@@ -308,13 +291,15 @@ class GenerarDocumento {
                                     <br>
                             2. Que el computador recibido no presenta rayones, roturas, hendiduras o elementos sueltos.<br><br>
                             3. Que entiende que el computador recibido no tiene costo adicional y se encuentra incorporado al contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br><br>
-                            4. Que se compromete a velar por la seguridad del equipo y a cuidarlo para mantener su capacidad de uso y goce en el marco del contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br>
+                            4. Que se compromete a velar por la seguridad del equipo y a cuidarlo para mantener su capacidad de uso y goce en el marco del contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.
+                                            		<br>
                                 <br>
-                            5. Que se compromete a participar en por lo menos 20 horas de  capacitación sobre el manejo del equipo y/o aplicativos de uso productivo de esta herramienta como parte del proceso de apropiación social contemplado en el Anexo Técnico del proyecto Conexiones Digitales II<br><br><br>
+                            5. Que se compromete a participar en por lo menos 20 horas de  capacitación sobre el manejo del equipo y/o aplicativos de uso productivo de esta herramienta como parte del proceso de apropiación social contemplado en el Anexo Técnico del proyecto Conexiones Digitales II.<br><br><br>
                              
                             <b>SERVICIO DE BANDA ANCHA</b><br><br>
                                             		
-                            1. Que ha recibido a satisfacción los equipos y el servicio de acceso de banda ancha con las características descritas a continuación:<br>
+                            6. Que ha recibido a satisfacción los equipos y el servicio de acceso de banda ancha con las características descritas a continuación:
+                                            		<br>
                             
                             <br>
                                             		
@@ -401,9 +386,10 @@ class GenerarDocumento {
                         </tr>
                     </table>
                             <br>
-                            2. Que las obras civiles realizadas en el proceso de instalación por parte del contratista fueron culminadas satisfactoriamente, sin afectar la infraestructura y la estética del lugar, cumpliendo con las observaciones realizadas durante la instalación.<br><br>
-                            3. Que acepta y reconoce que a la fecha ha consultado o ha sido informado por la Corporación Politécnica Nacional de Colombia sobre las condiciones mínimas requeridas de los equipos necesarios para hacer uso de los servicios contratados.<br><br>
-                            4. Que se compromete a informar oportunamente a la Corporación Politécnica Nacional de Colombia sobre cualquier daño, pérdida o afectación de los equipos antes mencionados.<br>
+                            7. Que las obras civiles realizadas en el proceso de instalación por parte del contratista fueron culminadas satisfactoriamente, sin afectar la infraestructura y la estética del lugar, cumpliendo con las observaciones realizadas durante la instalación.<br><br>
+                            8. Que acepta y reconoce que a la fecha ha consultado o ha sido informado por la Corporación Politécnica Nacional de Colombia sobre las condiciones mínimas requeridas de los equipos necesarios para hacer uso de los servicios contratados.<br><br>
+                            9. Que se compromete a informar oportunamente a la Corporación Politécnica Nacional de Colombia sobre cualquier daño, pérdida o afectación de los equipos antes mencionados.
+                            		<br>
                                 <br>
                             Para constancia de lo anterior, firma en la ciudad de " . $_REQUEST['municipio'] . ", municipio de " . $_REQUEST['municipio'] . ", departamento de " . $_REQUEST['departamento'] . ", el día " . $dia . " De " . $mes . " De " . $anno . ".
                             <br>
