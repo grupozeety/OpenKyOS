@@ -50,7 +50,7 @@ class Redireccionador {
                 $variable .= '&proceso=gestionarContrato';
                 $variable .= '&mensaje=insertoInformacionContrato';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
-                $variable .= '&tipo=' . $_REQUEST['tipo'];
+                $variable .= '&tipo=' . $_REQUEST['tipo_beneficiario'];
                 break;
 
             case "NoInsertoInformacionContrato":
