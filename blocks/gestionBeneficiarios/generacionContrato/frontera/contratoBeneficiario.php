@@ -83,6 +83,8 @@ class Contrato {
                 'tipo_pago' => $contratoInfo['tipo_pago'],
                 'estrato_economico' => $contratoInfo['estrato_socioeconomico'],
                 'nombre_comisionador' => $contratoInfo['nombre_comisionador'],
+                'lote' => $contratoInfo['lote'],
+                'interior' => $contratoInfo['interior'],
                 // 'clausulas' => '',
 
             );
@@ -113,6 +115,8 @@ class Contrato {
                 'num_bloque' => $infoBeneficiario['bloque'],
                 'num_torre' => $infoBeneficiario['torre'],
                 'num_apto_casa' => $infoBeneficiario['apartamento'],
+                'lote' => $infoBeneficiario['lote'],
+                'interior' => $infoBeneficiario['interior'],
                 // 'clausulas' => '',
 
             );
@@ -695,7 +699,7 @@ class Contrato {
                         $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
-                        $atributos['placeholder'] = "Ingrese Número Casa o Apartamento";
+                        $atributos['placeholder'] = "Departamento";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
@@ -726,7 +730,7 @@ class Contrato {
                         $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
-                        $atributos['placeholder'] = "Ingrese Número Casa o Apartamento";
+                        $atributos['placeholder'] = "Municipio";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
@@ -757,7 +761,7 @@ class Contrato {
                         $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
-                        $atributos['placeholder'] = "Ingrese Número Casa o Apartamento";
+                        $atributos['placeholder'] = "Urbanización";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
