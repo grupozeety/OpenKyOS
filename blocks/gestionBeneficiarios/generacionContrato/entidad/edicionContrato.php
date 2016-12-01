@@ -145,7 +145,7 @@ class FormProcessor {
             'manzana' => $_REQUEST['num_manzana'],
             'bloque' => $_REQUEST['num_bloque'],
             'torre' => $_REQUEST['num_torre'],
-            'casa_apartamento' => $_REQUEST['tipo_tecnologia'],
+            'casa_apartamento' => $_REQUEST['num_apto_casa'],
             'interior' => $_REQUEST['interior'],
             'lote' => $_REQUEST['lote'],
             'tipo_tecnologia' => $_REQUEST['tipo_tecnologia'],
