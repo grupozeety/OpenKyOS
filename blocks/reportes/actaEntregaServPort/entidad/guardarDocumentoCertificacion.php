@@ -23,6 +23,8 @@ class GenerarDocumento {
     public $beneficiario;
     public $esteRecursoOP;
     public $rutaAbsoluta;
+    public $rutaDocumento;
+    
     public function __construct($sql, $ruta) {
 
     	$this->miConfigurador = \Configurador::singleton();
