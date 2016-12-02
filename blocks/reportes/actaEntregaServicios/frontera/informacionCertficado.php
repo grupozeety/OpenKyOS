@@ -78,9 +78,9 @@ class Certificado {
 					'tipo_documento' => $infoBeneficiario ['tipo_documento'],
 					'numero_identificacion' => $infoBeneficiario ['identificacion'],
 					'direccion' => $infoBeneficiario ['direccion'],
-					'departamento' => $infoBeneficiario ['dep'],
-					'municipio' => $infoBeneficiario ['mun'],
-					'urbanizacion' => $infoBeneficiario ['proyecto'],
+					'departamento' => $infoBeneficiario ['nombre_departamento'],
+					'municipio' => $infoBeneficiario ['nombre_municipio'],
+					'urbanizacion' => $infoBeneficiario ['nombre_urbanizacion'],
 					'estrato' => $infoBeneficiario ['estrato'],
 					'tipo_beneficiario' => $infoBeneficiario ['tipo_beneficiario'],
 			);
