@@ -86,6 +86,8 @@ class Certificado {
 			);
 			
 			$_REQUEST = array_merge ( $_REQUEST, $arreglo );
+			
+			var_dump($_REQUEST);
 		}
 		
 		{
@@ -610,7 +612,7 @@ class Certificado {
 					// Aplica atributos globales al control
 					
 					if (isset ( $_REQUEST [$esteCampo] )) {
-						$atributos ['valor'] = rtrim(explode("-",$_REQUEST [$esteCampo])[1]);
+						$atributos ['valor'] = $_REQUEST [$esteCampo];
 					} else {
 						$atributos ['valor'] = '';
 					}
