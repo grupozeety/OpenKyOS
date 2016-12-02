@@ -76,6 +76,11 @@ public function __construct($lenguaje, $formulario, $sql) {
         		include_once $this->ruta . "entidad/guardarDocumentoCertificacion.php";
         	}
         	
+        	$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionCertificado' );
+        	$infoCertificado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
+        	
+        	$_REQUEST = array_merge($_REQUEST, $infoCertificado);
+        	
         	{
         	
         		$anexo_dir = '';
