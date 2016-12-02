@@ -162,7 +162,7 @@ class FormProcessor {
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
 		$cadenaSql = str_replace ( "''", 'null', $cadenaSql );
-		echo $cadenaSql;die;
+
 		$this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 	}
 	public function cargarArchivos() {
