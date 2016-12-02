@@ -70,8 +70,6 @@ class Certificado {
 		$infoBeneficiario = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		$infoBeneficiario = $infoBeneficiario [0];
 		
-		var_dump($infoBeneficiario);
-		var_dump("____________________________");
 		{
 			$arreglo = array (
 					'nombres' => $infoBeneficiario ['nombre'],
@@ -89,7 +87,6 @@ class Certificado {
 			
 			$_REQUEST = array_merge ( $_REQUEST, $arreglo );
 			
-			var_dump($_REQUEST);
 		}
 		
 		{
