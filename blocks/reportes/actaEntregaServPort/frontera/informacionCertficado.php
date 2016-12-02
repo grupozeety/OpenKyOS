@@ -1,6 +1,6 @@
 <?php
 
-namespace reportes\actaEntregaServicios\frontera;
+namespace reportes\actaEntregaServPort\frontera;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "../index.php";
@@ -51,7 +51,7 @@ class Certificado {
 		
 		if ($infoCertificado) {
 			
-			$variable = 'pagina=actaEntregaServicios';
+			$variable = 'pagina=actaEntregaServPort';
 			$variable .= '&opcion=resultadoActa';
 			$variable .= '&mensaje=insertoInformacionCertificado';
 			$variable .= '&id_beneficiario=' . $_REQUEST ['id_beneficiario'];
@@ -78,15 +78,14 @@ class Certificado {
 					'tipo_documento' => $infoBeneficiario ['tipo_documento'],
 					'numero_identificacion' => $infoBeneficiario ['identificacion'],
 					'direccion' => $infoBeneficiario ['direccion'],
-					'departamento' => $infoBeneficiario ['nombre_departamento'],
-					'municipio' => $infoBeneficiario ['nombre_municipio'],
-					'urbanizacion' => $infoBeneficiario ['nombre_urbanizacion'],
+					'departamento' => $infoBeneficiario ['dep'],
+					'municipio' => $infoBeneficiario ['mun'],
+					'urbanizacion' => $infoBeneficiario ['proyecto'],
 					'estrato' => $infoBeneficiario ['estrato'],
 					'tipo_beneficiario' => $infoBeneficiario ['tipo_beneficiario'],
 			);
 			
 			$_REQUEST = array_merge ( $_REQUEST, $arreglo );
-			
 		}
 		
 		{
@@ -611,7 +610,7 @@ class Certificado {
 					// Aplica atributos globales al control
 					
 					if (isset ( $_REQUEST [$esteCampo] )) {
-						$atributos ['valor'] = $_REQUEST [$esteCampo];
+						$atributos ['valor'] = rtrim(explode("-",$_REQUEST [$esteCampo])[1]);
 					} else {
 						$atributos ['valor'] = '';
 					}

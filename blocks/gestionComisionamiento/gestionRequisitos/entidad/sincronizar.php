@@ -19,13 +19,13 @@ class Sincronizar {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->lenguaje = $lenguaje;
-        $this->miSql = $sql;
+        $this->miSql    = $sql;
     }
     public function sincronizarAlfresco($beneficiario, $documento) {
         $_REQUEST['tiempo'] = time();
-        $this->prefijo = substr(md5(uniqid(time())), 0, 6);
-        $ruta_absoluta = $documento['rutaabsoluta'];
-        $ejecutar = 'sudo chmod 755 ' . $ruta_absoluta;
+        $this->prefijo      = substr(md5(uniqid(time())), 0, 6);
+        $ruta_absoluta      = $documento['rutaabsoluta'];
+        $ejecutar           = 'sudo chmod 755 ' . $ruta_absoluta;
         exec($ejecutar);
         chmod($ruta_absoluta, 0755);
 
@@ -33,24 +33,81 @@ class Sincronizar {
         $mimetype = mime_content_type($filename);
         $postname = $documento['nombre_archivo'];
 
-        $conexion = "interoperacion";
+        $conexion      = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "1");
+        $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "1");
         $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        if ($documento['tipo_documento'] == 128) {
-            $cadenaSql = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "5");
-            $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        switch ($documento['tipo_documento']) {
+            case '131':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "1");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
+
+            case '132':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "1");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
+
+            case '135':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
+
+            case '137':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
+
+            case '140':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
+
+            case '141':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "4");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
+
+            case '142':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "4");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
+
+            case '133':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
+
+            case '134':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
+
+            case '138':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
+
+            case '139':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
+
+            case '136':
+                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
+                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                break;
         }
 
-        $cadenaSql = $this->miSql->getCadenaSql('alfrescoDirectorio', '');
+        $cadenaSql  = $this->miSql->getCadenaSql('alfrescoDirectorio', '');
         $directorio = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
         $cadenaSql = $this->miSql->getCadenaSql('alfrescoUser', $beneficiario);
-        $variable = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $variable  = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        $cadenaSql = $this->miSql->getCadenaSql('alfrescoLog', $beneficiario);
+        $cadenaSql     = $this->miSql->getCadenaSql('alfrescoLog', $beneficiario);
         $datosConexion = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
         $url = "http://" . $datosConexion[0]['host'] . "/alfresco/service/api/upload";
@@ -65,20 +122,20 @@ class Sincronizar {
             'é' => '%C3%A9',
             'í' => '%C3%AD',
             'ó' => '%C3%B3',
-            ' ' => '%20',
-            '(' => '%28',
-            ')' => '%29',
+            ' '  => '%20',
+            '('  => '%28',
+            ')'  => '%29',
         );
 
         $archivo = array(
-            'filedata' => $args,
-            'siteid' => $variable[0]['site'],
-            'containerid' => 'documentLibrary',
+            'filedata'        => $args,
+            'siteid'          => $variable[0]['site'],
+            'containerid'     => 'documentLibrary',
             'uploaddirectory' => "/" . $directorio[0][0] . "/" . $variable[0]['padre'] . "/" . $variable[0]['hijo'] . "/" . $beneficiario . "/" . $carpetaDocumentos[0]['descripcion'],
-            'contenttype' => 'cm:content',
+            'contenttype'     => 'cm:content',
         );
 
-        $result = RestClient::post($url, $archivo, $datosConexion[0]['usuario'], $datosConexion[0]['password']);
+        $result      = RestClient::post($url, $archivo, $datosConexion[0]['usuario'], $datosConexion[0]['password']);
         $json_decode = json_decode(json_encode($result->getResponse()), true);
 
         $status = json_decode($json_decode, true);
@@ -86,12 +143,12 @@ class Sincronizar {
         if ($status['status']['code'] == 200) {
 
             $estado = array(
-                'estado' => 0,
+                'estado'  => 0,
                 'mensaje' => "Documento subido exitosamente en el Gestor de Documentos",
             );
         } else {
             $estado = array(
-                'estado' => 1,
+                'estado'  => 1,
                 'mensaje' => "Error en la subida de documento.",
             );
         }

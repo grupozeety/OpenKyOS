@@ -1,6 +1,6 @@
 <?php
 
-namespace reportes\actaEntregaServicios\entidad;
+namespace reportes\actaEntregaServPort\entidad;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "../index.php";
@@ -162,7 +162,6 @@ class FormProcessor {
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
 		$cadenaSql = str_replace ( "''", 'null', $cadenaSql );
-
 		$this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 	}
 	public function cargarArchivos() {
