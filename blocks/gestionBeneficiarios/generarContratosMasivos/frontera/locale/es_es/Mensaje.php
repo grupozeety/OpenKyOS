@@ -15,4 +15,6 @@ $this->idioma['botonCargar'] = 'Cargar y Generar Contratos';
 
 $this->idioma['seleccion_proceso'] = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Proceso';
 
+$this->idioma['generarContratosMasivos'] = 'Generación Masiva de Contratos';
+
 ?>
