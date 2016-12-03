@@ -73,7 +73,6 @@ class Registrador {
         $atributos['marco'] = true;
         $tab = 1;
         // ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
-
         // ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
         $atributos['tipoEtiqueta'] = 'inicio';
         echo $this->miFormulario->formulario($atributos);
@@ -84,6 +83,62 @@ class Registrador {
             echo $this->miFormulario->agrupacion('inicio', $atributos);
             unset($atributos);
             {
+
+                $esteCampo = 'seleccion_proceso';
+                $atributos['nombre'] = $esteCampo;
+                $atributos['id'] = $esteCampo;
+                $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                $atributos["etiquetaObligatorio"] = true;
+                $atributos['tab'] = $tab++;
+                $atributos['anchoEtiqueta'] = 1;
+                $atributos['evento'] = '';
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['seleccion'] = '1';
+                }
+                $atributos['deshabilitado'] = false;
+                $atributos['columnas'] = 1;
+                $atributos['tamanno'] = 1;
+                $atributos['ajax_function'] = "";
+                $atributos['ajax_control'] = $esteCampo;
+                $atributos['estilo'] = "bootstrap";
+                $atributos['limitar'] = false;
+                $atributos['anchoCaja'] = 3;
+                $atributos['miEvento'] = '';
+                $atributos['validar'] = 'required';
+                $atributos['cadena_sql'] = 'required';
+                $matrizItems = array(
+                    array(
+                        '1',
+                        'Validar Formato Información Contrato',
+                    ),
+                    array(
+                        '2',
+                        'Cargar y Crear Contratos',
+                    ),
+                );
+                $atributos['matrizItems'] = $matrizItems;
+                // Aplica atributos globales al control
+                //$atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                unset($atributos);
+
+                $esteCampo = 'proceso';
+                $atributos["id"] = $esteCampo; // No cambiar este nombre
+                $atributos["tipo"] = "hidden";
+                $atributos['estilo'] = '';
+                $atributos["obligatorio"] = false;
+                $atributos['marco'] = true;
+                $atributos["etiqueta"] = "";
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['valor'] = '1';
+                }
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroTexto($atributos);
+                unset($atributos);
 
                 // ------------------Division para los botones-------------------------
                 $atributos["id"] = "validacion";
@@ -99,18 +154,25 @@ class Registrador {
                         $atributos['estilo'] = 'textoIzquierda';
                         echo $this->miFormulario->division("inicio", $atributos);
                         unset($atributos);
-                        // -------------Control texto-----------------------
-                        $esteCampo = 'mostrarMensaje';
-                        $atributos["tamanno"] = '';
-                        $atributos["etiqueta"] = '';
-                        $mensaje = 'Cargar Formato para Validación:<br>
-                        1. No exita contrato generado con la identificaciones cargadas.<br>
-                        2. Exista la información del beneficiario a generar contrato.<br>';
-                        $atributos["mensaje"] = $mensaje;
-                        $atributos["estilo"] = 'information'; // information,warning,error,validation
-                        $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-                        echo $this->miFormulario->campoMensaje($atributos);
-                        unset($atributos);
+                        {
+                            // -------------Control texto-----------------------
+                            $esteCampo = 'mostrarMensaje';
+                            $atributos["tamanno"] = '';
+                            $atributos["etiqueta"] = '';
+                            $mensaje = 'Cargar Formato para Validación:<br>
+                                                1. No exita contrato generado con la identificaciones cargadas.<br>
+                                                2. Exista la información del beneficiario a generar contrato.<br>
+                                                3. Formatos permitidos:<br>
+                                                	&nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95 and above<br>
+                        							&nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
+                        							&nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br>';
+
+                            $atributos["mensaje"] = $mensaje;
+                            $atributos["estilo"] = 'information'; // information,warning,error,validation
+                            $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+                            echo $this->miFormulario->campoMensaje($atributos);
+                            unset($atributos);
+                        }
                         // ------------------Fin Division para los botones-------------------------
                         echo $this->miFormulario->division("fin");
                         unset($atributos);
@@ -172,13 +234,14 @@ class Registrador {
                     unset($atributos);
 
                 }
+                echo "</div>";
                 echo $this->miFormulario->division("fin");
                 unset($atributos);
 
                 // ------------------Division para los botones-------------------------
                 $atributos["id"] = "cargue";
                 $atributos["estilo"] = "marcoBotones";
-                $atributos["estiloEnLinea"] = "display:block;";
+                $atributos["estiloEnLinea"] = "display:none;";
                 echo $this->miFormulario->division("inicio", $atributos);
                 unset($atributos);
                 {
@@ -188,20 +251,21 @@ class Registrador {
                         $atributos['id'] = 'divMensaje';
                         $atributos['estilo'] = 'textoIzquierda';
                         echo $this->miFormulario->division("inicio", $atributos);
-
-                        // -------------Control texto-----------------------
-                        $esteCampo = 'mostrarMensaje';
-                        $atributos["tamanno"] = '';
-                        $atributos["etiqueta"] = '';
-                        $mensaje = 'Cargar Formato Información Contratos:<br>
-                      	Recordar que no se generará ningun contrato si exite algún error de validación en el formato.<br>
-                      	Antes de cargar la información verifique el formato en la sección de Validación.';
-                        $atributos["mensaje"] = $mensaje;
-                        $atributos["estilo"] = 'information'; // information,warning,error,validation
-                        $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-                        echo $this->miFormulario->campoMensaje($atributos);
                         unset($atributos);
-
+                        {
+                            // -------------Control texto-----------------------
+                            $esteCampo = 'mostrarMensaje';
+                            $atributos["tamanno"] = '';
+                            $atributos["etiqueta"] = '';
+                            $mensaje = 'Cargar Formato Información Contratos:<br>
+                                              	Recordar que no se generará ningun contrato si exite algún error de validación en el formato.<br>
+                                              	Antes de cargar la información verifique el formato en la sección de Validación.';
+                            $atributos["mensaje"] = $mensaje;
+                            $atributos["estilo"] = 'information'; // information,warning,error,validation
+                            $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+                            echo $this->miFormulario->campoMensaje($atributos);
+                            unset($atributos);
+                        }
                         // ------------------Fin Division para los botones-------------------------
                         echo $this->miFormulario->division("fin");
                         unset($atributos);
