@@ -124,7 +124,7 @@ class Registrador {
                 );
                 $atributos['matrizItems'] = $matrizItems;
                 // Aplica atributos globales al control
-                //$atributos = array_merge($atributos, $atributosGlobales);
+                $atributos = array_merge($atributos, $atributosGlobales);
                 echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                 unset($atributos);
 
@@ -395,7 +395,7 @@ class Registrador {
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                $valorCodificado .= "&opcion=cargarRequisitos";
+                $valorCodificado .= "&opcion=gestionarContratos";
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.

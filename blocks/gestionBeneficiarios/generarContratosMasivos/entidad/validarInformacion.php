@@ -6,7 +6,13 @@ if (!isset($GLOBALS["autorizado"])) {
     exit();
 }
 
+$ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+$host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
+
+require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel.php";
+
 include_once 'Redireccionador.php';
+
 class FormProcessor {
 
     public $miConfigurador;
@@ -22,7 +28,9 @@ class FormProcessor {
     public $clausulas;
     public $registro_info_contrato;
     public function __construct($lenguaje, $sql) {
-
+        var_dump($_REQUEST);
+        var_dump($_FILES);
+        exit;
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->lenguaje = $lenguaje;
