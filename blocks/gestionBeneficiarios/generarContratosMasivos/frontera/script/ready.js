@@ -14,13 +14,21 @@
 					case '1':
 								$("#validacion").css("display", "block");
 								$("#cargue").css("display", "none");
+								$("#consulta").css("display", "none");
 						break;
 
 					case '2':
 						$("#validacion").css("display", "none");
-								$("#cargue").css("display", "block");
+						$("#cargue").css("display", "block");
+						$("#consulta").css("display", "none");
 						break;
 					
+
+					case '3':
+						$("#validacion").css("display", "none");
+						$("#cargue").css("display", "none");
+						$("#consulta").css("display", "block");
+						break;
 				}
 		   });
 

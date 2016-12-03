@@ -117,6 +117,10 @@ class Registrador {
                         '2',
                         'Cargar y Crear Contratos',
                     ),
+                    array(
+                        '3',
+                        'Consultar Estado Generación Contratos',
+                    ),
                 );
                 $atributos['matrizItems'] = $matrizItems;
                 // Aplica atributos globales al control
@@ -163,7 +167,7 @@ class Registrador {
                                                 1. No exita contrato generado con la identificaciones cargadas.<br>
                                                 2. Exista la información del beneficiario a generar contrato.<br>
                                                 3. Formatos permitidos:<br>
-                                                	&nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95 and above<br>
+                                                	&nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
                         							&nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
                         							&nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br>';
 
@@ -326,8 +330,45 @@ class Registrador {
                     unset($atributos);
 
                 }
+                echo "</div>";
                 echo $this->miFormulario->division("fin");
                 unset($atributos);
+
+                // ------------------Division para los botones-------------------------
+                $atributos["id"] = "consulta";
+                $atributos["estilo"] = "marcoBotones";
+                $atributos["estiloEnLinea"] = "display:none;";
+                echo $this->miFormulario->division("inicio", $atributos);
+                unset($atributos);
+                {
+
+                    {
+                        // ------------------Division para los botones-------------------------
+                        $atributos['id'] = 'divMensaje';
+                        $atributos['estilo'] = 'marcoBotones';
+                        echo $this->miFormulario->division("inicio", $atributos);
+                        unset($atributos);
+                        {
+                            // -------------Control texto-----------------------
+                            $esteCampo = 'mostrarMensaje';
+                            $atributos["tamanno"] = '';
+                            $atributos["etiqueta"] = '';
+                            $mensaje = 'Consulta de Estado Generación de Contratos';
+                            $atributos["mensaje"] = $mensaje;
+                            $atributos["estilo"] = 'information'; // information,warning,error,validation
+                            $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+                            echo $this->miFormulario->campoMensaje($atributos);
+                            unset($atributos);
+                        }
+                        // ------------------Fin Division para los botones-------------------------
+                        echo $this->miFormulario->division("fin");
+                        unset($atributos);
+                    }
+
+                }
+                echo $this->miFormulario->division("fin");
+                unset($atributos);
+
             }
 
             echo $this->miFormulario->agrupacion('fin');
