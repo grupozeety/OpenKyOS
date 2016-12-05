@@ -33,6 +33,8 @@ $this->idioma['interior'] = '# Interior';
 
 $this->idioma['lote'] = '# Lote';
 
+$this->idioma['piso'] = '# Piso';
+
 //----------------------Contrato-------------------------------
 
 $this->idioma['nombres'] = 'Nombres';

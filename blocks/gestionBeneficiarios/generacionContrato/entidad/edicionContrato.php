@@ -148,6 +148,7 @@ class FormProcessor {
             'casa_apartamento' => $_REQUEST['num_apto_casa'],
             'interior' => $_REQUEST['interior'],
             'lote' => $_REQUEST['lote'],
+            'piso' => $_REQUEST['piso'],
             'tipo_tecnologia' => $_REQUEST['tipo_tecnologia'],
             'valor_tarificacion' => $valor_tarificacion,
             'medio_pago' => $_REQUEST['medio_pago'],
