@@ -351,6 +351,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " torre='" . $variable['torre'] . "',";
                 $cadenaSql .= " casa_apartamento='" . $variable['casa_apartamento'] . "',";
                 $cadenaSql .= " lote='" . $variable['lote'] . "',";
+                $cadenaSql .= " piso='" . $variable['piso'] . "',";
                 $cadenaSql .= " interior='" . $variable['interior'] . "',";
                 $cadenaSql .= " tipo_tecnologia='" . $variable['tipo_tecnologia'] . "',";
                 $cadenaSql .= " valor_tarificacion='" . $variable['valor_tarificacion'] . "',";
@@ -673,6 +674,7 @@ class Sql extends \Sql {
                     $cadenaSql .= " nombre_comisionador='" . $variable['nombre_comisionador'] . "',";
                 }
                 $cadenaSql .= " interior='" . $variable['interior'] . "',";
+                $cadenaSql .= " piso='" . $variable['piso'] . "',";
                 $cadenaSql .= " lote='" . $variable['lote'] . "'";
                 $cadenaSql .= " WHERE id_beneficiario='" . $_REQUEST['id_beneficiario'] . "'";
                 $cadenaSql .= " AND numero_contrato= '" . $_REQUEST['numero_contrato'] . "' ";

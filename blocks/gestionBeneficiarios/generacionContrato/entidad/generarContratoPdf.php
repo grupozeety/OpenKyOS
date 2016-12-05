@@ -132,6 +132,10 @@ class GenerarDocumento {
             $anexo_dir .= " Lote #" . $this->beneficiario['lote'];
         }
 
+        if ($this->beneficiario['piso'] != '0' && $this->beneficiario['piso'] != '') {
+            $anexo_dir .= " Piso #" . $this->beneficiario['piso'];
+        }
+
         $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Cédula de Ciudadanía");
         $CodigoCedula = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $CodigoCedula = $CodigoCedula[0];
