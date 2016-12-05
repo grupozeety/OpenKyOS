@@ -178,6 +178,10 @@ class GenerarDocumento {
                 $anexo_dir .= " Lote #" . $this->beneficiario['lote'];
             }
 
+            if ($this->beneficiario['piso'] != '0' && $this->beneficiario['piso'] != '') {
+                $anexo_dir .= " Piso #" . $this->beneficiario['piso'];
+            }
+
         }
         {
             $cedula = ($this->beneficiario['tipo_documento'] == $CodigoCedula['codigo']) ? '<b>(X)</b>' : '';
