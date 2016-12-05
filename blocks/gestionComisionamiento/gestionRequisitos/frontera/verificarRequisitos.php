@@ -58,19 +58,12 @@ class Registrador {
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionAprobacion');
         $estadoAprobacion = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionAprobacionContrato');
-        $estadoAprobacionContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
         // Ruta Imagen
         $rutaWarning = $this->rutaURL . "/frontera/css/imagen/warning.png";
         $rutaCheck = $this->rutaURL . "/frontera/css/imagen/check.png";
         $rutaNone = $this->rutaURL . "/frontera/css/imagen/none.png";
 
         if ($estadoAprobacion != false) {
-
-            if ($estadoAprobacionContrato != false) {
-                $estadoAprobacion = array_merge($estadoAprobacion, $estadoAprobacionContrato);
-            }
 
             foreach ($estadoAprobacion as $key => $values) {
                 $imagenSupervisor[$estadoAprobacion[$key]['codigo_requisito']] = $estadoAprobacion[$key]['supervisor'] == 't' ? $rutaCheck : $rutaWarning;
@@ -90,6 +83,7 @@ class Registrador {
                 $variable = $this->miConfigurador->fabricaConexiones->crypto->codificar($variable);
                 $_REQUEST[$enlace] = $enlace . '=' . $variable;
                 $redireccion[$estadoAprobacion[$key]['codigo_requisito']] = $url . $_REQUEST[$enlace];
+
             }
         }
 
@@ -100,13 +94,16 @@ class Registrador {
 
         $requisitos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosContrato');
-        $requisitosContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        // Cuando Existe Registrado un borrador del contrato
-
         if (is_null($infoBeneficiario['id_contrato']) != true) {
             $cadenaSql = $this->miSql->getCadenaSql('consultaRequisitosVerificados');
             $infoArchivo = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarContratoExistente');
+            $infoArchivoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+            if ($infoArchivoContrato != FALSE) {
+                $infoArchivo = array_merge($infoArchivo, $infoArchivoContrato);
+            }
 
         }
 
@@ -198,6 +195,7 @@ class Registrador {
                     unset($atributos);
 
                     $filasTabla = array();
+
                     foreach ($requisitos as $key => $values) {
                         $esteCampo = $requisitos[$key]['codigo']; // Código documento
                         $atributos["id"] = $esteCampo; // No cambiar este nombre

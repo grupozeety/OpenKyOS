@@ -82,6 +82,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND pr.estado_registro=TRUE";
                 $cadenaSql .= " AND pr.estado_registro=TRUE";
                 $cadenaSql .= " AND cd.id_beneficiario = '" . $_REQUEST['id_beneficiario'] . "'";
+                $cadenaSql .= " AND tipologia_documento IN(131,132,133,134,135,136,137,138,139,140,141,142)";
                 break;
 
             case 'registrarDocumentos':
@@ -153,6 +154,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND pr.estado_registro=TRUE";
                 $cadenaSql .= " AND pr.estado_registro=TRUE";
                 $cadenaSql .= " AND cd.id_beneficiario = '" . $_REQUEST['id_beneficiario'] . "'";
+                $cadenaSql .= " AND tipologia_documento IN(131,132,133,134,135,136,137,138,139,140,141,142)";
                 break;
             /**
              * ********************************************************************************
