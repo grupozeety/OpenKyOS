@@ -637,6 +637,7 @@ class Sql extends \Sql {
             case 'actualizarInformacionContrato':
                 $cadenaSql = " UPDATE interoperacion.contrato";
                 $cadenaSql .= " SET ";
+                $cadenaSql .= " fecha_contrato='" . $variable['fecha_contrato'] . "',";
                 $cadenaSql .= " nombres='" . $variable['nombres'] . "',";
                 $cadenaSql .= " primer_apellido='" . $variable['primer_apellido'] . "', ";
                 $cadenaSql .= " segundo_apellido='" . $variable['segundo_apellido'] . "', ";

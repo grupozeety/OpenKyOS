@@ -274,6 +274,8 @@ class GenerarDocumento {
 
         }
 
+        $fecha = explode("-", $this->beneficiario['fecha_contrato']);
+
         {
 
             $contenidoPagina = "
@@ -358,9 +360,9 @@ class GenerarDocumento {
                                     <table style='width:100%;'>
                                         <tr>
                                             <td style='width:25%;text-align=center;'>Fecha</td>
-                                            <td style='width:25%;text-align=center;'><b>" . date('d') . "</b></td>
-                                            <td style='width:25%;text-align=center;'><b>" . date('m') . "</b></td>
-                                            <td style='width:25%;text-align=center;'><b>" . date('Y') . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . $fecha[2] . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . $fecha[1] . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . $fecha[0] . "</b></td>
                                         </tr>
                                     </table>
                             </td>
