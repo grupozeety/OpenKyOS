@@ -91,7 +91,7 @@ class FormProcessor {
 
     public function validarContratosExistentes() {
         echo "validar contatos Existentes";
-        var_dump($this->informacion);exit;
+        var_dump($this->datos_beneficiario);exit;
 
     }
 
@@ -148,9 +148,11 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['nombre_comisionador'] = $informacion->setActiveSheetIndex()->getCell('M' . $i)->getCalculatedValue();
 
+                $datos_beneficiario[$i]['fecha_contrato'] = $informacion->setActiveSheetIndex()->getCell('N' . $i)->getCalculatedValue();
+
             }
 
-            var_dump($datos_beneficiario);exit;
+            $this->datos_beneficiario = $datos_beneficiario;
 
         } else {
             Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
