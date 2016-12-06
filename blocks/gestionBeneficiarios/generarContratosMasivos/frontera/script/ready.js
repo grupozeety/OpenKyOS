@@ -2,10 +2,9 @@
 		 * Código JavaScript del Bloque
 		 */
 
+	$("#mensajeModal").modal("show");
 
-
-
-		     $("#<?php echo $this->campoSeguro('seleccion_proceso');?>").change(function() {
+	$("#<?php echo $this->campoSeguro('seleccion_proceso');?>").change(function() {
 		     	
 
 		     	$("#<?php echo $this->campoSeguro('proceso');?>").val($("#<?php echo $this->campoSeguro('seleccion_proceso');?>").val());
