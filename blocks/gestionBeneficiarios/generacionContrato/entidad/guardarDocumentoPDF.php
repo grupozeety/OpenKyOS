@@ -46,9 +46,6 @@ class GenerarDocumento {
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        $conexion = "openproject";
-        $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
         if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
 
             $this->rutaURL .= "/blocks/" . $_REQUEST["bloque"] . "/";
@@ -138,10 +135,6 @@ class GenerarDocumento {
         $cadenaSql = $this->miSql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
 
         $requisitos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-        $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->beneficiario['urbanizacion']);
-        $urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
-        $urbanizacion = $urbanizacion[0];
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Cédula de Ciudadanía");
         $CodigoCedula = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -281,6 +274,8 @@ class GenerarDocumento {
 
         }
 
+        $fecha = explode("-", $this->beneficiario['fecha_contrato']);
+
         {
 
             $contenidoPagina = "
@@ -365,9 +360,9 @@ class GenerarDocumento {
                                     <table style='width:100%;'>
                                         <tr>
                                             <td style='width:25%;text-align=center;'>Fecha</td>
-                                            <td style='width:25%;text-align=center;'><b>" . date('d') . "</b></td>
-                                            <td style='width:25%;text-align=center;'><b>" . date('m') . "</b></td>
-                                            <td style='width:25%;text-align=center;'><b>" . date('Y') . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . $fecha[2] . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . $fecha[1] . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . $fecha[0] . "</b></td>
                                         </tr>
                                     </table>
                             </td>

@@ -3,6 +3,8 @@
  * Etiquetas correspondientes a los Formularios
  */
 
+$this->idioma['fecha_contrato'] = 'Fecha Contrato';
+
 $this->idioma['nombre_comisionador'] = 'Nombre Comisionador';
 
 $this->idioma['firma_digital_contratista'] = 'Firma Digital Contratista';

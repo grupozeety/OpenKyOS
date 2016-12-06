@@ -112,6 +112,7 @@ class FormProcessor {
         }
 
         $arreglo = array(
+            'fecha_contrato' => $_REQUEST['fecha_contrato'],
             'nombres' => $_REQUEST['nombres'],
             'primer_apellido' => $_REQUEST['primer_apellido'],
             'segundo_apellido' => $_REQUEST['segundo_apellido'],
