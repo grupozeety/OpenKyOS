@@ -42,6 +42,7 @@ class Registrador {
         }
     }
     public function seleccionarForm() {
+        var_dump($_REQUEST);
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
         $miPaginaActual = $this->miConfigurador->getVariableConfiguracion("pagina");
         // Conexion a Base de Datos
@@ -168,9 +169,9 @@ class Registrador {
                                                 1. No exita contrato generado con la identificaciones cargadas.<br>
                                                 2. Exista la información del beneficiario a generar contrato.<br>
                                                 3. Formatos permitidos:<br>
-                                                	&nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
-                        							&nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
-                        							&nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br>';
+                                                    &nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
+                                                    &nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
+                                                    &nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br>';
 
                             $atributos["mensaje"] = $mensaje;
                             $atributos["estilo"] = 'information'; // information,warning,error,validation
@@ -263,8 +264,8 @@ class Registrador {
                             $atributos["tamanno"] = '';
                             $atributos["etiqueta"] = '';
                             $mensaje = 'Cargar Formato Información Contratos:<br>
-                                              	Recordar que no se generará ningun contrato si exite algún error de validación en el formato.<br>
-                                              	Antes de cargar la información verifique el formato en la sección de Validación.';
+                                                Recordar que no se generará ningun contrato si exite algún error de validación en el formato.<br>
+                                                Antes de cargar la información verifique el formato en la sección de Validación.';
                             $atributos["mensaje"] = $mensaje;
                             $atributos["estilo"] = 'information'; // information,warning,error,validation
                             $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
@@ -416,6 +417,12 @@ class Registrador {
                 $atributos["valor"] = $valorCodificado;
                 echo $this->miFormulario->campoCuadroTexto($atributos);
                 unset($atributos);
+
+                if (isset($_REQUEST['mensajeModal'])) {
+
+                    $this->mensajeModal();
+
+                }
             }
         }
 
@@ -425,6 +432,60 @@ class Registrador {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
+
+    public function mensajeModal() {
+
+        switch ($_REQUEST['mensajeModal']) {
+
+            case 'errorFormatoArchivo':
+                $mensaje = "Error<br>Formato Archivo Invalido";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
+
+            case 'errorArchivoNoValido':
+                $mensaje = "Error<br>Archivo No Valido";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
+
+            case 'errorCargarArchivo':
+                $mensaje = "Error<br>Al Cargar Archivo";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
+
+            case 'errorCargarInformacion':
+                $mensaje = "Error<br>Al Cargar Informacion Hoja de Cálculo";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
+
+        }
+
+        // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+
+        $atributos['tipoEtiqueta'] = 'inicio';
+        $atributos['titulo'] = 'Mensaje';
+        $atributos['id'] = 'mensajeModal';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
+
+        echo '<p><h5>' . $mensaje . '</h5></p>';
+
+        echo '</div>';
+
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+
+        echo '<div style="text-align:center;">';
+
+        echo '</div>';
+
+        $atributos['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+    }
+
     public function mensaje() {
         // var_dump($_REQUEST);
         $atributos["mensaje"] = "";
