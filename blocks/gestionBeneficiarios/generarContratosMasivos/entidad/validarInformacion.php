@@ -90,8 +90,10 @@ class FormProcessor {
     }
 
     public function validarContratosExistentes() {
-        echo "validar contatos Existentes";
-        var_dump($this->datos_beneficiario);exit;
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+            # code...
+        }
 
     }
 
