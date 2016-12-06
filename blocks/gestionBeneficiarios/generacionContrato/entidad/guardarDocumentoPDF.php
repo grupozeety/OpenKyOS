@@ -46,9 +46,6 @@ class GenerarDocumento {
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        $conexion = "openproject";
-        $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
         if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
 
             $this->rutaURL .= "/blocks/" . $_REQUEST["bloque"] . "/";
@@ -138,10 +135,6 @@ class GenerarDocumento {
         $cadenaSql = $this->miSql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
 
         $requisitos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-        $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->beneficiario['urbanizacion']);
-        $urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
-        $urbanizacion = $urbanizacion[0];
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Cédula de Ciudadanía");
         $CodigoCedula = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
