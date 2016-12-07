@@ -22,7 +22,8 @@ class FormProcessor {
     public $clausulas;
     public $registro_info_contrato;
     public function __construct($lenguaje, $sql) {
-
+        var_dump($_FILES);
+        var_dump($_REQUEST);exit;
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->lenguaje = $lenguaje;
