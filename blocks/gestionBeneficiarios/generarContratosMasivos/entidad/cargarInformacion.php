@@ -87,6 +87,12 @@ class FormProcessor {
 
         $this->procesarInformacionBeneficiario();
 
+        /**
+         *  7. Validar Existencia Beneficiarios
+         **/
+
+        $this->crearContrato();
+
         exit;
         if (isset($this->error)) {
             Redireccionador::redireccionar("ErrorInformacionCargar", base64_encode($this->ruta_relativa_log));
@@ -98,9 +104,14 @@ class FormProcessor {
 
     public function crearContrato() {
 
+        $numero_contrato_inicial = null;
+
         foreach ($this->informacion_registrar as $key => $value) {
 
             $cadenaSql = $this->miSql->getCadenaSql('registrarContrato', $value);
+
+            $cadenaSql = str_replace(",)", ")", $cadenaSql);
+            echo $cadenaSql;exit;
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
@@ -127,6 +138,7 @@ class FormProcessor {
                 'direccion_domicilio' => $value['direccion'],
                 'direccion_instalacion' => $value['direccion'],
                 'departamento' => $consulta['nombre_departamento'],
+                'municipio' => $consulta['nombre_municipio'],
                 'urbanizacion' => $consulta['proyecto'],
                 'estrato' => "1",
                 'telefono' => $value['telefono'],
@@ -141,6 +153,8 @@ class FormProcessor {
                 'bloque' => $value['bloque'],
                 'torre' => $value['torre'],
                 'casa_apartamento' => $value['casa_apartamento'],
+                'tipo_tecnologia' => "79",
+                'valor_tarificacion' => "6500",
                 'interior' => $value['interior'],
                 'lote' => $value['lote'],
                 'piso' => $value['piso'],

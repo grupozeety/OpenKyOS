@@ -70,6 +70,58 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN parametros.departamento dp ON dp.codigo_dep=bp.departamento";
                 $cadenaSql .= " WHERE bp.estado_registro='TRUE' ";
                 $cadenaSql .= " AND bp.identificacion='" . $variable . "';";
+
+                break;
+
+            case 'registrarContrato':
+
+                $cadenaSql = " INSERT INTO interoperacion.contrato(";
+                $cadenaSql .= " id_beneficiario,";
+                $cadenaSql .= " estado_contrato, ";
+                $cadenaSql .= " nombres, ";
+                $cadenaSql .= " primer_apellido,";
+                $cadenaSql .= " segundo_apellido,";
+                $cadenaSql .= " tipo_documento,";
+                $cadenaSql .= " numero_identificacion, ";
+                $cadenaSql .= " direccion_domicilio,";
+                $cadenaSql .= " direccion_instalacion, ";
+                $cadenaSql .= " departamento,";
+                $cadenaSql .= " municipio, ";
+                $cadenaSql .= " urbanizacion,";
+                $cadenaSql .= " estrato,";
+                $cadenaSql .= " telefono, ";
+                $cadenaSql .= " celular,";
+                $cadenaSql .= " correo,";
+                $cadenaSql .= " velocidad_internet, ";
+                $cadenaSql .= " valor_mensual, ";
+                $cadenaSql .= " tecnologia,";
+                $cadenaSql .= " estado,";
+                $cadenaSql .= " usuario,";
+                $cadenaSql .= " manzana,";
+                $cadenaSql .= " bloque,";
+                $cadenaSql .= " torre, ";
+                $cadenaSql .= " casa_apartamento,";
+                $cadenaSql .= " tipo_tecnologia, ";
+                $cadenaSql .= " valor_tarificacion, ";
+                $cadenaSql .= " interior,";
+                $cadenaSql .= " lote,";
+                $cadenaSql .= " piso,";
+                $cadenaSql .= " nombre_comisionador,";
+                $cadenaSql .= " fecha_contrato)";
+                $cadenaSql .= " VALUES (";
+                foreach ($variable as $key => $value) {
+
+                    if ($key == 'correo' && $value = 'Sin Correo') {
+                        $cadenaSql .= "NULL,";
+                    } else {
+
+                        $cadenaSql .= "'" . $value . "',";
+
+                    }
+
+                }
+
+                $cadenaSql .= ")RETURNING numero_contrato;";
                 break;
         }
 
