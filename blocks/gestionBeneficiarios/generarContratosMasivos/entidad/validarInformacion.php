@@ -68,10 +68,22 @@ class FormProcessor {
         $this->cargarInformacionHojaCalculo();
 
         /**
-         *  3. Validar Existencia Contratos Beneficiarios
+         *  3. Creación Log
+         **/
+
+        $this->creacion_log();
+
+        /**
+         *  4. Validar Existencia Contratos Beneficiarios
          **/
 
         $this->validarContratosExistentes();
+
+        /**
+         *  5. Validar Existencia Beneficiarios
+         **/
+
+        $this->validarBeneficiariosExistentes();
 
         //$this->procesarInformacion();
 
@@ -89,15 +101,79 @@ class FormProcessor {
 
     }
 
+    public function validarBeneficiariosExistentes() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+            var_dump($value);
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaBeneficiario', $value['identificacion_beneficiario']);
+
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            var_dump($consulta);
+
+            if (is_null($consulta)) {
+
+                $mensaje = " La identificación " . $value['identificacion_beneficiario'] . ", no tiene asociado ningun beneficiario. Sugerencia registrarlo en el Sistema.";
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
+        }
+        exit;
+
+    }
+
     public function validarContratosExistentes() {
 
         foreach ($this->datos_beneficiario as $key => $value) {
-            # code...
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaContrato', $value['identificacion_beneficiario']);
+
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if ($consulta) {
+
+                $mensaje = " El beneficiario con identificación " . $consulta['numero_identificacion'] . " ya tiene un contrato con número #" . $consulta['numero_contrato'] . " asociado con el id_benficiario " . $consulta['id_beneficiario'] . ".";
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
         }
 
     }
 
+    public function escribir_log($mensaje) {
+
+        fwrite($this->log, $mensaje . PHP_EOL);
+
+    }
+
+    public function cerrar_log() {
+
+        fclose($this->log);
+
+    }
+
+    public function creacion_log() {
+
+        $prefijo = substr(md5(uniqid(time())), 0, 6);
+
+        $this->ruta_absoluta_log = $this->rutaAbsoluta . "/entidad/logs/Log_documento_validacion_" . $prefijo;
+
+        $this->ruta_relativa_log = $this->rutaURL . " /entidad/logs/Log_documento_validacion_" . $prefijo;
+
+        $this->log = fopen($this->ruta_absoluta_log, "w");
+    }
+
     public function cargarInformacionHojaCalculo() {
+
+        ini_set('memory_limit', '1024M');
+        ini_set('max_execution_time', 300);
 
         if (file_exists($this->archivo['ruta_archivo'])) {
 
@@ -153,6 +229,7 @@ class FormProcessor {
                 $datos_beneficiario[$i]['fecha_contrato'] = $informacion->setActiveSheetIndex()->getCell('N' . $i)->getCalculatedValue();
 
             }
+            unlink($this->archivo['ruta_archivo']);
 
             $this->datos_beneficiario = $datos_beneficiario;
 
@@ -200,7 +277,7 @@ class FormProcessor {
              */
             $ruta_absoluta = $this->rutaAbsoluta . "/entidad/archivos_validar/" . $this->prefijo . "_" . $nombre_archivo;
 
-            $ruta_relativa = $this->rutaURL . "/entidad/archivos_validar/" . $this->prefijo . "_" . $nombre_archivo;
+            $ruta_relativa = $this->rutaURL . " /entidad/archivos_validar/" . $this->prefijo . "_" . $nombre_archivo;
 
             $archivo['rutaDirectorio'] = $ruta_absoluta;
 
