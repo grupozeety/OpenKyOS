@@ -40,7 +40,11 @@ class Redireccionador {
             case "ExitoInformacion":
                 $variable = 'pagina=generarContratosMasivos';
                 $variable .= '&mensajeModal=exitoInformacion';
+                break;
 
+            case "ErrorCreacionContratos":
+                $variable = 'pagina=generarContratosMasivos';
+                $variable .= '&mensajeModal=errorCreacionContratos';
                 break;
 
             default:

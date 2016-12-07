@@ -6,7 +6,17 @@ if (!isset($GLOBALS["autorizado"])) {
     exit();
 }
 
+$ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+$host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
+
+require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel.php";
+
+//require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel/Reader/Excel2007.php";
+
+require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel/IOFactory.php";
+
 include_once 'Redireccionador.php';
+
 class FormProcessor {
 
     public $miConfigurador;
@@ -22,8 +32,9 @@ class FormProcessor {
     public $clausulas;
     public $registro_info_contrato;
     public function __construct($lenguaje, $sql) {
+        echo "cargar Informacion";
+        var_dump($_REQUEST);
         var_dump($_FILES);
-        var_dump($_REQUEST);exit;
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->lenguaje = $lenguaje;
@@ -46,164 +57,263 @@ class FormProcessor {
 
         $_REQUEST['tiempo'] = time();
 
-        //$this->cargarClausula();
-
         /**
-         *  1. CargarArchivos en el Directorio
+         *  1. Cargar Archivo en el Directorio
          **/
 
         $this->cargarArchivos();
 
         /**
-         *  2. Procesar Informacion Contrato
+         *  2. Cargar Informacion Hoja de Calculo
          **/
 
-        $this->procesarInformacion();
+        $this->cargarInformacionHojaCalculo();
 
-        if ($_REQUEST['firmaBeneficiario'] != '') {
+        /**
+         *  4. Validar Existencia Contratos Beneficiarios
+         **/
 
-            include_once "guardarDocumentoPDF.php";
+        $this->validarContratosExistentes();
 
-        }
+        /**
+         *  5. Validar Existencia Beneficiarios
+         **/
 
-        if ($this->registro_info_contrato) {
-            Redireccionador::redireccionar("InsertoInformacionContrato");
+        $this->validarBeneficiariosExistentes();
+
+        /**
+         *  6. Validar Existencia Beneficiarios
+         **/
+
+        $this->procesarInformacionBeneficiario();
+
+        exit;
+        if (isset($this->error)) {
+            Redireccionador::redireccionar("ErrorInformacionCargar", base64_encode($this->ruta_relativa_log));
         } else {
-            Redireccionador::redireccionar("NoInsertoInformacionContrato");
+            Redireccionador::redireccionar("ExitoInformacion");
         }
 
     }
 
-    public function procesarInformacion() {
+    public function crearContrato() {
 
-        if ($this->archivos_datos === '') {
-            $soporte = '';
+        foreach ($this->informacion_registrar as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('registrarContrato', $value);
+
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        }
+
+    }
+
+    public function procesarInformacionBeneficiario() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionBeneficiario', $value['identificacion_beneficiario']);
+
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            $this->informacion_registrar[] = array(
+                'id_beneficiario' => $consulta['id_beneficiario'],
+                'estado_contrato' => "82",
+                'nombre' => $consulta['nombre'],
+                'primer_apellido' => $consulta['primer_apellido'],
+                'segundo_apellido' => $consulta['segundo_apellido'],
+                'tipo_documento' => "1",
+                'identificacion' => $consulta['identificacion'],
+                'direccion_domicilio' => $value['direccion'],
+                'direccion_instalacion' => $value['direccion'],
+                'departamento' => $consulta['nombre_departamento'],
+                'urbanizacion' => $consulta['proyecto'],
+                'estrato' => "1",
+                'telefono' => $value['telefono'],
+                'celular' => $value['celular'],
+                'correo' => $value['correo'],
+                'velocidad_internet' => "4",
+                'valor_mensual' => "6500",
+                'tecnologia' => "79",
+                'estado' => "TRUE",
+                'usuario' => "administrador",
+                'manzana' => $value['manzana'],
+                'bloque' => $value['bloque'],
+                'torre' => $value['torre'],
+                'casa_apartamento' => $value['casa_apartamento'],
+                'interior' => $value['interior'],
+                'lote' => $value['lote'],
+                'piso' => $value['piso'],
+                'nombre_comisionador' => $value['nombre_comisionador'],
+                'fecha_contrato' => $value['fecha_contrato'],
+
+            );
+
+        }
+
+    }
+
+    public function validarBeneficiariosExistentes() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaBeneficiario', $value['identificacion_beneficiario']);
+
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (is_null($consulta)) {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+
+            }
+
+        }
+
+    }
+
+    public function validarContratosExistentes() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaContrato', $value['identificacion_beneficiario']);
+
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if ($consulta) {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+
+            }
+
+        }
+
+    }
+
+    public function cargarInformacionHojaCalculo() {
+
+        ini_set('memory_limit', '1024M');
+        ini_set('max_execution_time', 300);
+
+        if (file_exists($this->archivo['ruta_archivo'])) {
+
+            //$documento = \PHPExcel_IOFactory::load($this->archivo['ruta_archivo']);
+
+            //$this->informacion = $documento->getActiveSheet()->toArray(null, true, true, true);
+
+            //unset($this->informacion[1]);
+
+            $hojaCalculo = \PHPExcel_IOFactory::createReader($this->tipo_archivo);
+            $informacion = $hojaCalculo->load($this->archivo['ruta_archivo']);
+            //var_dump($informacion);die;
+
+            //$hoja_1 = $informacion->getActiveSheet();
+            //var_dump($hoja_1);
+
+            $informacion_general = $hojaCalculo->listWorksheetInfo($this->archivo['ruta_archivo']);
+
+            {
+
+                $total_filas = $informacion_general[0]['totalRows'];
+
+            }
+
+            for ($i = 2; $i <= $total_filas; $i++) {
+
+                $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['telefono'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['celular'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['correo'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['direccion'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['manzana'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['bloque'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['torre'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['casa_apartamento'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['interior'] = $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['lote'] = $informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['piso'] = $informacion->setActiveSheetIndex()->getCell('L' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['nombre_comisionador'] = $informacion->setActiveSheetIndex()->getCell('M' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['fecha_contrato'] = $informacion->setActiveSheetIndex()->getCell('N' . $i)->getCalculatedValue();
+
+            }
+            unlink($this->archivo['ruta_archivo']);
+
+            $this->datos_beneficiario = $datos_beneficiario;
 
         } else {
-            $soporte = $this->archivos_datos[0]['ruta_archivo'];
+            Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
 
         }
-
-        $url_firma_beneficiario = $_REQUEST['firmaBeneficiario'];
-
-        //$url_firma_contratista = $_REQUEST['firmaInstalador'];
-
-        $clausulas = $this->clausulas;
-
-        switch ($_REQUEST['tipo_beneficiario']) {
-
-            case '1':
-                $valor_tarificacion = '6500';
-                break;
-
-            case '2':
-
-                $valor_tarificacion = '0';
-
-                if ($_REQUEST['estrato_economico'] == '1') {
-                    $valor_tarificacion = '12600';
-                } elseif ($_REQUEST['estrato_economico'] == '2') {
-                    $valor_tarificacion = '17600';
-                }
-
-                break;
-
-            case '3':
-                $valor_tarificacion = $_REQUEST['valor_tarificacion'];
-                break;
-
-        }
-
-        $arreglo = array(
-            'nombres' => $_REQUEST['nombres'],
-            'primer_apellido' => $_REQUEST['primer_apellido'],
-            'segundo_apellido' => $_REQUEST['segundo_apellido'],
-            'tipo_documento' => $_REQUEST['tipo_documento'],
-            'numero_identificacion' => $_REQUEST['numero_identificacion'],
-            'fecha_expedicion' => " ",
-            'direccion_domicilio' => $_REQUEST['direccion_domicilio'],
-            'direccion_instalacion' => '',
-            'departamento' => $_REQUEST['departamento'],
-            'municipio' => $_REQUEST['municipio'],
-            'urbanizacion' => $_REQUEST['urbanizacion'],
-            'estrato' => $_REQUEST['tipo_beneficiario'],
-            'estrato_socioeconomico' => $_REQUEST['estrato_economico'],
-            'barrio' => "",
-            'telefono' => $_REQUEST['telefono'],
-            'celular' => $_REQUEST['celular'],
-            'correo' => $_REQUEST['correo'],
-            'cuenta_suscriptor' => ' ',
-            'velocidad_internet' => $_REQUEST['velocidad_internet'],
-            'fecha_inicio_vigencia_servicio' => '',
-            'fecha_fin_vigencia_servicio' => '',
-            'valor_mensual' => $valor_tarificacion,
-            'marca' => ' ',
-            'modelo' => ' ',
-            'serial' => ' ',
-            'tecnologia' => ' ',
-            'estado' => ' ',
-            'clausulas' => '',
-            'url_firma_contratista' => '',
-            'url_firma_beneficiario' => $url_firma_beneficiario,
-            'manzana' => $_REQUEST['num_manzana'],
-            'bloque' => $_REQUEST['num_bloque'],
-            'torre' => $_REQUEST['num_torre'],
-            'casa_apartamento' => $_REQUEST['num_apto_casa'],
-            'interior' => $_REQUEST['interior'],
-            'lote' => $_REQUEST['lote'],
-            'tipo_tecnologia' => $_REQUEST['tipo_tecnologia'],
-            'valor_tarificacion' => $valor_tarificacion,
-            'medio_pago' => $_REQUEST['medio_pago'],
-            'tipo_pago' => $_REQUEST['tipo_pago'],
-            'soporte' => $soporte,
-            'nombre_comisionador' => $_REQUEST['nombre_comisionador'],
-        );
-
-        $cadenaSql = $this->miSql->getCadenaSql('registrarInformacionContrato', $arreglo);
-
-        $this->registro_info_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
     public function cargarArchivos() {
 
         $archivo_datos = '';
-        foreach ($_FILES as $key => $archivo) {
+        $archivo = $_FILES['archivo_contratos'];
 
-            if ($archivo['error'] == 0) {
+        if ($archivo['error'] == 0) {
 
-                $this->prefijo = substr(md5(uniqid(time())), 0, 6);
-                /*
-                 * obtenemos los datos del Fichero
-                 */
-                $tamano = $archivo['size'];
-                $tipo = $archivo['type'];
-                $nombre_archivo = str_replace(" ", "", $archivo['name']);
-                /*
-                 * guardamos el fichero en el Directorio
-                 */
-                $ruta_absoluta = $this->rutaAbsoluta . "/entidad/firmas/" . $this->prefijo . "_" . $nombre_archivo;
+            switch ($archivo['type']) {
+                case 'application/vnd.oasis.opendocument.spreadsheet':
+                    $this->tipo_archivo = 'OOCalc';
+                    break;
 
-                $ruta_relativa = $this->rutaURL . "/entidad/firmas/" . $this->prefijo . "_" . $nombre_archivo;
+                case 'application/vnd.ms-excel':
+                    $this->tipo_archivo = 'Excel5';
+                    break;
 
-                $archivo['rutaDirectorio'] = $ruta_absoluta;
+                case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                    $this->tipo_archivo = 'Excel2007';
+                    break;
 
-                if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
-                    echo "error";exit;
-                    Redireccionador::redireccionar("ErrorCargarFicheroDirectorio");
-                }
-
-                $archivo_datos[] = array(
-                    'ruta_archivo' => $ruta_relativa,
-                    'nombre_archivo' => $archivo['name'],
-                    'campo' => $key,
-                );
-
+                default:
+                    Redireccionador::redireccionar("ErrorFormatoArchivo");
+                    break;
             }
 
-        }
+            $this->prefijo = substr(md5(uniqid(time())), 0, 6);
+            /*
+             * obtenemos los datos del Fichero
+             */
+            $tamano = $archivo['size'];
+            $tipo = $archivo['type'];
+            $nombre_archivo = str_replace(" ", "_", $archivo['name']);
+            /*
+             * guardamos el fichero en el Directorio
+             */
+            $ruta_absoluta = $this->rutaAbsoluta . "/entidad/archivos_validar/" . $this->prefijo . "_" . $nombre_archivo;
 
-        $this->archivos_datos = $archivo_datos;
+            $ruta_relativa = $this->rutaURL . " /entidad/archivos_validar/" . $this->prefijo . "_" . $nombre_archivo;
+
+            $archivo['rutaDirectorio'] = $ruta_absoluta;
+
+            if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
+
+                Redireccionador::redireccionar("ErrorCargarArchivo");
+            }
+
+            $this->archivo = array(
+                'ruta_archivo' => str_replace("//", "/", $ruta_absoluta),
+                'nombre_archivo' => $archivo['name'],
+
+            );
+
+        } else {
+            Redireccionador::redireccionar("ErrorArchivoNoValido");
+        }
 
     }
 

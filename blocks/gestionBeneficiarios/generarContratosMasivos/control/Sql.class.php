@@ -62,6 +62,15 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
                 $cadenaSql .= " AND identificacion='" . $variable . "';";
                 break;
+
+            case 'consultarInformacionBeneficiario':
+                $cadenaSql = " SELECT bp.* ,mn.municipio as nombre_municipio,dp.departamento as nombre_departamento";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
+                $cadenaSql .= " JOIN parametros.municipio mn ON mn.codigo_mun=bp.municipio";
+                $cadenaSql .= " JOIN parametros.departamento dp ON dp.codigo_dep=bp.departamento";
+                $cadenaSql .= " WHERE bp.estado_registro='TRUE' ";
+                $cadenaSql .= " AND bp.identificacion='" . $variable . "';";
+                break;
         }
 
         return $cadenaSql;
