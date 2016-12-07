@@ -31,6 +31,18 @@ class Redireccionador {
                 $variable .= '&mensajeModal=errorCargarInformacion';
                 break;
 
+            case "ErrorInformacionCargar":
+                $variable = 'pagina=generarContratosMasivos';
+                $variable .= '&mensajeModal=errorInformacionCargar';
+                $variable .= '&log=' . $valor;
+                break;
+
+            case "ExitoInformacion":
+                $variable = 'pagina=generarContratosMasivos';
+                $variable .= '&mensajeModal=exitoInformacion';
+
+                break;
+
             default:
                 $variable = '';
 

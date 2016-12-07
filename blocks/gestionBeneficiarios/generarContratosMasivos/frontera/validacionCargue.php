@@ -457,6 +457,16 @@ class Registrador {
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
                 break;
 
+            case 'errorInformacionCargar':
+                $mensaje = "Error<br>Existen Inconsistencias en la Información a Cargar.<br>Para más Informacion Visualizar Log : <a  target='_blank' href='" . base64_decode($_REQUEST['log']) . "'>Link Log Errores</a>";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
+
+            case 'exitoInformacion':
+                $mensaje = "Exito<br>Información Correctamente Validada y sin Errores.<br>Dirigirse a la Opcion \"Crear y Cargar Contratos\" ";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
         }
 
         // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------

@@ -85,18 +85,16 @@ class FormProcessor {
 
         $this->validarBeneficiariosExistentes();
 
-        //$this->procesarInformacion();
+        /**
+         *  6. Validar Existencia Beneficiarios
+         **/
 
-        if ($_REQUEST['firmaBeneficiario'] != '') {
+        $this->cerrar_log();
 
-            include_once "guardarDocumentoPDF.php";
-
-        }
-        die;
-        if ($this->registro_info_contrato) {
-            Redireccionador::redireccionar("InsertoInformacionContrato");
+        if (isset($this->error)) {
+            Redireccionador::redireccionar("ErrorInformacionCargar", base64_encode($this->ruta_relativa_log));
         } else {
-            Redireccionador::redireccionar("NoInsertoInformacionContrato");
+            Redireccionador::redireccionar("ExitoInformacion");
         }
 
     }
@@ -104,13 +102,10 @@ class FormProcessor {
     public function validarBeneficiariosExistentes() {
 
         foreach ($this->datos_beneficiario as $key => $value) {
-            var_dump($value);
 
             $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaBeneficiario', $value['identificacion_beneficiario']);
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-
-            var_dump($consulta);
 
             if (is_null($consulta)) {
 
@@ -122,7 +117,6 @@ class FormProcessor {
             }
 
         }
-        exit;
 
     }
 
@@ -163,9 +157,9 @@ class FormProcessor {
 
         $prefijo = substr(md5(uniqid(time())), 0, 6);
 
-        $this->ruta_absoluta_log = $this->rutaAbsoluta . "/entidad/logs/Log_documento_validacion_" . $prefijo;
+        $this->ruta_absoluta_log = $this->rutaAbsoluta . "/entidad/logs/Log_documento_validacion_" . $prefijo . ".log";
 
-        $this->ruta_relativa_log = $this->rutaURL . " /entidad/logs/Log_documento_validacion_" . $prefijo;
+        $this->ruta_relativa_log = $this->rutaURL . "/entidad/logs/Log_documento_validacion_" . $prefijo . ".log";
 
         $this->log = fopen($this->ruta_absoluta_log, "w");
     }
