@@ -93,6 +93,12 @@ class FormProcessor {
 
         $this->crearContrato();
 
+        /**
+         *  7. Creacion Nombre Documento
+         **/
+
+        //$this->crearContrato();
+
         exit;
         if (isset($this->error)) {
             Redireccionador::redireccionar("ErrorInformacionCargar", base64_encode($this->ruta_relativa_log));
@@ -104,18 +110,16 @@ class FormProcessor {
 
     public function crearContrato() {
 
-        $numero_contrato_inicial = null;
-
         foreach ($this->informacion_registrar as $key => $value) {
 
             $cadenaSql = $this->miSql->getCadenaSql('registrarContrato', $value);
 
             $cadenaSql = str_replace(",)", ")", $cadenaSql);
-            echo $cadenaSql;exit;
 
-            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+            $this->contrato[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['numero_contrato'];
 
         }
+        var_dump($this->contrato);exit;
 
     }
 
@@ -262,9 +266,24 @@ class FormProcessor {
                 $datos_beneficiario[$i]['fecha_contrato'] = $informacion->setActiveSheetIndex()->getCell('N' . $i)->getCalculatedValue();
 
             }
-            unlink($this->archivo['ruta_archivo']);
 
             $this->datos_beneficiario = $datos_beneficiario;
+
+            /*  {
+            //var_dump($informacion_general);exit;
+
+            $total_filas = $informacion_general[1]['totalRows'];
+
+            }
+
+            for ($i = 2; $i <= $total_filas; $i++) {
+
+            $datos_nombre_documento[$i]['titulo'] = $informacion->setActiveSheetIndex(1)->getCell('A' . $i)->getCalculatedValue();
+
+            }
+            var_dump($datos_nombre_documento);exit;*/
+
+            unlink($this->archivo['ruta_archivo']);
 
         } else {
             Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
