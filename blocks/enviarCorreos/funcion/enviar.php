@@ -45,7 +45,7 @@ class Enviar {
 		// if your network does not support SMTP over IPv6
 		
 		// Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
-		$mail->Port = 25;
+		$mail->Port = 587;
 		
 		// Set the encryption system to use - ssl (deprecated) or tls
 		$mail->SMTPSecure = 'tls';
