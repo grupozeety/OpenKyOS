@@ -84,7 +84,6 @@ class GenerarDocumento {
 				$this->urlApiCorreos = $this->crearUrlEnviarCorreos($mail_addresses[0], $redireccion, $usuario[0]);
 				$this->enviarCorreo();
 				
-				echo($this->estadoCorreo);die;
 				if($this->estadoCorreo != "Message sent!"){
 					Redireccionador::redireccionar("errorCorreo");
 				}
