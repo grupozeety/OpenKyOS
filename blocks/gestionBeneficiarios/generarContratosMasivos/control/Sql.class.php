@@ -113,6 +113,8 @@ class Sql extends \Sql {
 
                     if ($key == 'correo' && $value = 'Sin Correo') {
                         $cadenaSql .= "NULL,";
+                    } else if ($key == 'nombre_comisionador' && $value = 'Sin Comisionador') {
+                        $cadenaSql .= "NULL,";
                     } else {
 
                         $cadenaSql .= "'" . $value . "',";
