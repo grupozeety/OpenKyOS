@@ -72,7 +72,6 @@ class GenerarDocumento {
 		$auth_entry = ldap_first_entry ( $con, $user_search );
 		$mail_addresses = ldap_get_values ( $con, $auth_entry, "mail" );
 		$user = ldap_get_values ( $con, $auth_entry, "uid" );
-		
 		if($mail_addresses){
 			$token = str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".uniqid());
 			$datos = array("usuario" => $user[0], "token" => $token);
@@ -85,6 +84,7 @@ class GenerarDocumento {
 				$this->urlApiCorreos = $this->crearUrlEnviarCorreos($mail_addresses[0], $redireccion, $usuario[0]);
 				$this->enviarCorreo();
 				
+				var_dump($this->estadoCorreo);die;
 				if($this->estadoCorreo != "Message sent!"){
 					Redireccionador::redireccionar("errorCorreo");
 				}
