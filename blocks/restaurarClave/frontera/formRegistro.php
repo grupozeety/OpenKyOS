@@ -37,6 +37,8 @@ class Formulario {
 		// Rescatar los datos de este bloque
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
 		
+		$this->host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" );
+		
 		// ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 		/**
 		 * Atributos que deben ser aplicados a todos los controles de este formulario.
@@ -108,9 +110,26 @@ class Formulario {
 			$this->mensaje ();
 			
 			if ($_REQUEST ['mensaje'] == "sucessCambio") {
+				
+				$home = '<div id="home" align="center">';
+				$home .= ' <a href="';
+				$home .= $this->host;
+				$home .= '">Regresar</a> ';
+				$home .= '</div><br>';
+				
+				echo $home;
+				
 				exit ();
 			}
 		}
+		
+		$home = '<div id="home" align="center">';
+		$home .= ' <a href="';
+		$home .= $this->host;
+		$home .= '">Regresar</a> ';
+		$home .= '</div><br>';
+		
+		echo $home;
 		
 		if ($resultado) {
 			

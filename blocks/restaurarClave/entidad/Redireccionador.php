@@ -32,6 +32,11 @@ class Redireccionador {
 				$variable .= '&mensaje=error';
 				break;
 			
+			case "errorCorreo" :
+				$variable = 'pagina=restaurarClave';
+				$variable .= '&mensaje=errorCorreo';
+				break;
+			
 			case "errorCambio" :
 				$variable = 'pagina=restaurarClave';
 				$variable .= '&opcion=restaurar';

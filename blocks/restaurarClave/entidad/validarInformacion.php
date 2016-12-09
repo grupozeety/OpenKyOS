@@ -71,23 +71,63 @@ class GenerarDocumento {
 		$user_search = ldap_search ( $con, $dn, "(|(uid=$user)(mail=$user))" );
 		$auth_entry = ldap_first_entry ( $con, $user_search );
 		$mail_addresses = ldap_get_values ( $con, $auth_entry, "mail" );
+		$user = ldap_get_values ( $con, $auth_entry, "uid" );
 		
 		if($mail_addresses){
 			$token = str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".uniqid());
-			$datos = array("usuario" => $user, "token" => $token);
+			$datos = array("usuario" => $user[0], "token" => $token);
 			$cadenaSql = $this->miSql->getCadenaSql('registrarRecuperacionClave', $datos);
 			$resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
 			
 			if($resultado){
 				$redireccion = Redireccionador::generarRedireccion("restaurar", $datos);
 				
-				//Aqui se envia el correo
+				$this->urlApiCorreos = $this->crearUrlEnviarCorreos($mail_addresses[0], $redireccion, $usuario[0]);
+				$this->enviarCorreo();
+				
+				if($this->estadoCorreo != "Message sent!"){
+					Redireccionador::redireccionar("errorCorreo");
+				}
+				
 			}
 
 			Redireccionador::redireccionar("sucess", $mail_addresses[0]);
 		}else {
 			Redireccionador::redireccionar("error");
 		}
+	}
+	
+	public function crearUrlEnviarCorreos($var = '', $link='', $usuario='') {
+	
+		// URL base
+		$url = $this->miConfigurador->getVariableConfiguracion("host");
+		$url .= $this->miConfigurador->getVariableConfiguracion("site");
+		$url .= "/index.php?";
+		// Variables
+		$variable = "pagina=enviarCorreos";
+		$variable .= "&procesarAjax=true";
+		$variable .= "&action=index.php";
+		$variable .= "&bloqueNombre=" . "enviarCorreos";
+		$variable .= "&bloqueGrupo=" . "";
+		$variable .= "&tiempo=" . $_REQUEST['tiempo'];
+		$variable .= "&metodo=recuperarClave";
+		$variable .= "&destinatario=" . $var;
+		$variable .= "&destinatario=" . $var;
+		$variable .= "&usuario=" . $usuario;
+		$variable .= "&link=" . $link;
+		// Codificar las variables
+		$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+		$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($variable, $enlace);
+	
+		// URL definitiva
+		$urlApi = $url . $cadena;
+	
+		return $urlApi;
+	}
+	
+	public function enviarCorreo() {
+		$mensaje = file_get_contents($this->urlApiCorreos);
+		$this->estadoCorreo = $mensaje;
 	}
 }
 $miDocumento = new GenerarDocumento ( $this->sql );

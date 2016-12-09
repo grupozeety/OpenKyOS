@@ -35,8 +35,6 @@ class GenerarDocumento {
 		
 		$this->changePassword ( $_REQUEST ['usuario'], $_REQUEST ['contrasena_nueva'], $_REQUEST ['contrasena_nueva_val'] );
 		
-		
-		
 		if(isset($this->message['error']) && $this->message['error'] != ""){
 			$datos = array("mensaje" => $this->message['error'], "usuario" =>  $_REQUEST ['usuario'], "token" =>  $_REQUEST ['token']);
 			Redireccionador::redireccionar("errorCambio", $datos);

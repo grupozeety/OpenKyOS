@@ -2,6 +2,19 @@
 
 namespace cambioClave\formRegistro;
 
+// Fecha en el pasado
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+
+// siempre modificado
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+
+// HTTP/1.1
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+
+// HTTP/1.0
+header("Pragma: no-cache");
+
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
 	exit ();
@@ -11,7 +24,10 @@ class Formulario {
 	var $lenguaje;
 	var $miFormulario;
 	var $miSql;
+	
+	
 	function __construct($lenguaje, $formulario, $sql) {
+		
 		$this->miConfigurador = \Configurador::singleton ();
 		
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
@@ -34,6 +50,8 @@ class Formulario {
 		
 		// Rescatar los datos de este bloque
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
+		
+		$this->host = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" );
 		
 		// ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 		/**
@@ -72,6 +90,7 @@ class Formulario {
 		$atributos ['estilo'] = '';
 		$atributos ['marco'] = true;
 		$tab = 1;
+		
 		// ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
 		
 		// ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
@@ -85,13 +104,22 @@ class Formulario {
 		echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 		unset ( $atributos );
 		
-		if(isset($_REQUEST['mensaje'])){
+		if (isset ( $_REQUEST ['mensaje'] )) {
 			$this->mensaje ();
 		}
 		
+		
+		$home = '<div id="home" align="center">';
+		$home .= ' <a href="';
+		$home .= $this->host;
+		$home .= '">Regresar</a> ';
+		$home .= '</div><br>';
+		
+		echo $home;
+		
 		// ----------------INICIO CONTROL: Campo Texto Cedulas a Generar Acta--------------------------------------------------------
 		
- 		$esteCampo = 'usuario';
+		$esteCampo = 'usuario';
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['tipo'] = "text";
 		$atributos ['id'] = $esteCampo;
@@ -212,17 +240,21 @@ class Formulario {
 		echo $this->miFormulario->formulario ( $atributos );
 	}
 	public function mensaje() {
-		
 		switch ($_REQUEST ['mensaje']) {
 			
 			case 'sucess' :
 				$estilo_mensaje = 'success'; // information,warning,error,validation
-				$atributos ["mensaje"] = "Se ha enviado un enlace de restauración al correo " . $_REQUEST['valor'];
+				$atributos ["mensaje"] = "Se ha enviado un enlace de restauración al correo " . $_REQUEST ['valor'];
 				break;
 			
 			case 'error' :
 				$estilo_mensaje = 'error'; // information,warning,error,validation
 				$atributos ["mensaje"] = "No existe el usuario ingresado o no tiene relacionada una cuenta de correo para enviar la información necesaria para la restauración de la contraseña. <br> Por favor comuniquese con el administrador.";
+				break;
+			
+			case 'errorCorreo' :
+				$estilo_mensaje = 'error'; // information,warning,error,validation
+				$atributos ["mensaje"] = "Se ha presentado un error al tratar de enviar el correo con el link de restauración, por favor intente de nuevo.";
 				break;
 		}
 		// ------------------Division para los botones-------------------------
