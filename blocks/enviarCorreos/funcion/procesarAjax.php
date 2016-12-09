@@ -32,7 +32,7 @@ class Procesador {
             switch ($_REQUEST['metodo']) {
 
                 case 'recuperarClave':
-                    $resultado = $this->enviar->recuperarClave($this->datosConexion, $_REQUEST['destinatario'],$_REQUEST['link'],$_REQUEST['usuario']);
+                    $resultado = $this->enviar->recuperarClave($this->datosConexion, $_REQUEST['destinatario'], $_REQUEST['link'], $_REQUEST['usuario']);
                     break;
             }
         }
