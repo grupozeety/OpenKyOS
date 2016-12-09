@@ -82,29 +82,98 @@ class FormProcessor {
         $this->validarBeneficiariosExistentes();
 
         /**
-         *  6. Validar Existencia Beneficiarios
+         *  6. Procesar Información Beneficiarios
          **/
 
         $this->procesarInformacionBeneficiario();
 
         /**
-         *  7. Validar Existencia Beneficiarios
+         *  7. Crear Contrato
          **/
 
         $this->crearContrato();
 
         /**
-         *  7. Creacion Nombre Documento
+         *  8. Parametrizacion Nombre Contrato
          **/
 
-        //$this->crearContrato();
-
-        exit;
+        $this->parametrizarNombreContratos();
+        die;
         if (isset($this->error)) {
             Redireccionador::redireccionar("ErrorInformacionCargar", base64_encode($this->ruta_relativa_log));
         } else {
             Redireccionador::redireccionar("ExitoInformacion");
         }
+
+    }
+
+    public function parametrizarNombreContratos() {
+        if (isset($this->datos_nombre_documento)) {
+
+            foreach ($this->datos_nombre_documento as $key => $value) {
+
+                switch ($value) {
+                    case 'Numero Contrato':
+                        $arreglo_nombre[] = 'numero_contrato';
+                        break;
+
+                    case 'Indentificación':
+                        $arreglo_nombre[] = 'numero_identificacion';
+                        break;
+
+                    case 'Nombre Beneficiario':
+                        $arreglo_nombre[] = 'nombres-primer_apellido-segundo_apellido';
+                        break;
+
+                    case 'Dirección':
+                        $arreglo_nombre[] = 'direccion_domicilio';
+                        break;
+
+                    case 'Manzana':
+                        $arreglo_nombre[] = 'manzana';
+                        break;
+
+                    case 'Bloque':
+                        $arreglo_nombre[] = 'bloque';
+                        break;
+
+                    case 'Torre':
+                        $arreglo_nombre[] = 'torre';
+                        break;
+
+                    case 'Casa/Apartamento':
+                        $arreglo_nombre[] = 'casa_apartamento';
+                        break;
+
+                    case 'Interior':
+                        $arreglo_nombre[] = 'interior';
+                        break;
+
+                    case 'Lote':
+                        $arreglo_nombre[] = 'lote';
+                        break;
+
+                    case 'Piso':
+                        $arreglo_nombre[] = 'piso';
+                        break;
+
+                    case 'Nombre Comisionador':
+                        $arreglo_nombre[] = 'nombre_comisionador';
+                        break;
+
+                }
+
+            }
+
+        } else {
+
+            $arreglo_nombre[] = 'numero_contrato';
+            $arreglo_nombre[] = 'numero_identificacion';
+            $arreglo_nombre[] = 'nombres-primer_apellido-segundo_apellido';
+
+        }
+
+        $this->arreglo_nombre = base64_encode(implode("-", $arreglo_nombre));
 
     }
 
@@ -116,10 +185,9 @@ class FormProcessor {
 
             $cadenaSql = str_replace(",)", ")", $cadenaSql);
 
-            $this->contrato[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['numero_contrato'];
+            //$this->contrato[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['numero_contrato'];
 
         }
-        var_dump($this->contrato);exit;
 
     }
 
@@ -269,19 +337,21 @@ class FormProcessor {
 
             $this->datos_beneficiario = $datos_beneficiario;
 
-            /*  {
-            //var_dump($informacion_general);exit;
+            if (isset($informacion_general[1]) && $informacion_general['1']['worksheetName'] == 'Parametrización Nombre Contrato') {
+                {
+                    //var_dump($informacion_general);exit;
 
-            $total_filas = $informacion_general[1]['totalRows'];
+                    $total_filas = $informacion_general[1]['totalRows'];
 
+                }
+
+                for ($i = 2; $i <= $total_filas; $i++) {
+
+                    $datos_nombre_documento[$i] = $informacion->setActiveSheetIndex(1)->getCell('A' . $i)->getCalculatedValue();
+
+                }
+                $this->datos_nombre_documento = $datos_nombre_documento;
             }
-
-            for ($i = 2; $i <= $total_filas; $i++) {
-
-            $datos_nombre_documento[$i]['titulo'] = $informacion->setActiveSheetIndex(1)->getCell('A' . $i)->getCalculatedValue();
-
-            }
-            var_dump($datos_nombre_documento);exit;*/
 
             unlink($this->archivo['ruta_archivo']);
 
