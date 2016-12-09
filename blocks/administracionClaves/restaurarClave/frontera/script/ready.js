@@ -1,3 +1,0 @@
-		/**
-		 * Código JavaScript del Bloque
-		 */
