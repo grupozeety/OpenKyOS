@@ -13,13 +13,13 @@ class Redireccionador {
 		switch ($opcion) {
 			
 			case "sucess" :
-				$variable = 'pagina=administracionClaves';
+				$variable = 'pagina=cambiarClaves';
 				$variable .= '&mensaje=sucess';
 				$variable .= '&valor=' . $valor;
 				break;
 			
 			case "error" :
-				$variable = 'pagina=administracionClaves';
+				$variable = 'pagina=cambiarClaves';
 				$variable .= '&mensaje=error';
 				$variable .= '&valor=' . $valor;
 				break;
