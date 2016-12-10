@@ -11,8 +11,6 @@ $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfi
 
 include $ruta . "/plugin/html2pdf/html2pdf.class.php";
 
-include_once "core/auth/SesionSso.class.php";
-
 class GenerarDocumento {
     public $miConfigurador;
     public $elementos;
@@ -36,12 +34,6 @@ class GenerarDocumento {
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
-        $this->info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
-
-        foreach ($this->info_usuario['description'] as $key => $rol) {
-
-            $this->info_usuario['rol'][] = $rol;
-        }
 
         //Conexion a Base de Datos
         $conexion = "interoperacion";
@@ -50,53 +42,6 @@ class GenerarDocumento {
         //Conexion a Base de Datos
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
-        $conexion = "openproject";
-        $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
-        if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
-
-            $this->rutaURL .= "/blocks/" . $_REQUEST["bloque"] . "/";
-        } else {
-            $this->rutaURL .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
-        }
-
-        $_REQUEST['tipo_beneficiario'] = $_REQUEST['tipo'];
-
-        /**
-         *  2. Información de Beneficiario
-         **/
-
-        $this->obtenerInformacionBeneficiario();
-
-        foreach ($this->beneficiario as $key => $value) {
-
-            $this->estruturaDocumento($value);
-
-            /**
-             *  4. Crear PDF
-             **/
-
-            $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
-            $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
-            $this->rutaURL .= '/archivos/contratos/Contratos_Comisionamientos/ElRecuerdo/';
-            $this->rutaAbsoluta .= '/archivos/contratos/Contratos_Comisionamientos/ElRecuerdo/';
-            $this->asosicarCodigoDocumento($value);
-            $this->crearPDF();
-
-            $arreglo = array(
-                'nombre_contrato' => $this->nombreContrato,
-                'ruta_contrato' => $this->rutaURL . $this->nombreContrato);
-
-            $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentoContrato', $arreglo);
-
-            $this->registro_info_contrato = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda")[0];
-
-        }
-        echo "Termine";exit;
-        //$cadenaSql = $this->miSql->getCadenaSql('actualizarServicio', $this->registro_info_contrato['id']);
-
-        //$this->actualizarServicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
@@ -133,10 +78,6 @@ class GenerarDocumento {
 
     }
     public function estruturaDocumento($beneficiario) {
-
-        $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $beneficiario['urbanizacion']);
-        $urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
-        $urbanizacion = $urbanizacion[0];
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Cédula de Ciudadanía");
         $CodigoCedula = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda");

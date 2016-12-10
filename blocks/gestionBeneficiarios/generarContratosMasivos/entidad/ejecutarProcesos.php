@@ -54,17 +54,24 @@ class FormProcessor {
         $this->crearDirectorio();
 
         /**
-         *  5. Creación Documentos
+         *  4. Creación Documentos
          **/
 
         $this->creacionDocumentos();
-        exit;
 
         /**
-         *  5. Validar Existencia Beneficiarios
+         *  5. Generar Comprimido
          **/
 
-        $this->validarBeneficiariosExistentes();
+        $this->generarComprimido();
+
+        /**
+         *  6. Limpiar Directorio
+         **/
+
+        $this->limpiarDirectorio();
+
+        exit;
 
         /**
          *  6. Validar Existencia Beneficiarios
@@ -79,12 +86,63 @@ class FormProcessor {
         }
 
     }
+    public function limpiarDirectorio() {
+        var_dump($this->rutaAbsoluta_archivos);
+        //$this->eliminarDirectorioContenido($this->rutaAbsoluta_archivos);
+        exit;
+    }
+
+    public function eliminarDirectorioContenido($rutaAnalizar) {
+        foreach (glob($rutaAnalizar . "/*") as $archivos_carpeta) {
+            if (is_dir($archivos_carpeta)) {
+
+                $valorContenido = @scandir($archivos_carpeta);
+
+                if (count($valorContenido) == 2) {
+
+                    rmdir($archivos_carpeta);
+                } else {
+
+                    $this->eliminarDirectorioContenido($archivos_carpeta);
+                }
+            } else {
+                unlink($archivos_carpeta);
+            }
+        }
+        rmdir($rutaAnalizar);
+    }
+
+    public function generarComprimido() {
+
+        $this->nombre_archivo_zip = $this->comprimir($this->rutaAbsoluta, "Proceso_" . $this->proceso['id_proceso'], "Proceso_" . $this->proceso['id_proceso']);
+
+        $this->ruta_url_archivo = $this->rutaURL . $this->nombre_archivo_zip;
+
+    }
+
+    public function comprimir($rutaObjetivoContenido, $nombreComprimido, $nombreDirectorioComprimir, $rutaSalidaComprimido = '') {
+
+        $ruta_actual = getcwd();
+
+        chdir($rutaObjetivoContenido);
+
+        $nombre_archivo = $nombreComprimido . "_" . time() . ".zip";
+
+        $cadena = "zip " . $rutaSalidaComprimido . $nombre_archivo . " " . $nombreDirectorioComprimir . "/*";
+
+        $queries = exec($cadena);
+
+        chdir($ruta_actual);
+
+        return $nombre_archivo;
+
+    }
 
     public function creacionDocumentos() {
 
         switch ($this->proceso['descripcion']) {
             case 'Contratos':
-
+                include_once "generacionContratos.php";
                 break;
 
         }
@@ -95,9 +153,11 @@ class FormProcessor {
         $this->rutaURL_archivos = $this->rutaURL . "Proceso_" . $this->proceso['id_proceso'];
         $this->rutaAbsoluta_archivos = $this->rutaAbsoluta . "Proceso_" . $this->proceso['id_proceso'];
 
-        mkdir($this->rutaAbsoluta_archivos, 0777, true);
-        chmod($this->rutaAbsoluta_archivos, 0777);
+        if (!file_exists($this->rutaAbsoluta_archivos)) {
 
+            mkdir($this->rutaAbsoluta_archivos, 0777, true);
+            chmod($this->rutaAbsoluta_archivos, 0777);
+        }
     }
 
     public function actualizarEstadoProceso() {
