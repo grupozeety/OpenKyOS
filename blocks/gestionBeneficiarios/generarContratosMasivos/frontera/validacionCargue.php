@@ -57,7 +57,31 @@ class Registrador {
 
         $_REQUEST['tiempo'] = time();
         // -------------------------------------------------------------------------------------------------
+        {
 
+            // URL base
+            $url = $this->miConfigurador->getVariableConfiguracion("host");
+            $url .= $this->miConfigurador->getVariableConfiguracion("site");
+            $url .= "/index.php?";
+
+            // Variables para Con
+            $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+            $cadenaACodificar .= "&procesarAjax=true";
+            $cadenaACodificar .= "&action=index.php";
+            $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+            $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+            $cadenaACodificar .= "&funcion=ejecutarProcesos";
+
+            // Codificar las variables
+            $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+            $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+            // URL Consultar Proyectos
+            $urlEjecutarProceso = $url . $cadena;
+
+            //echo $urlEjecutarProceso;exit;
+
+        }
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
         $esteCampo = $esteBloque['nombre'];
         $atributos['id'] = $esteCampo;

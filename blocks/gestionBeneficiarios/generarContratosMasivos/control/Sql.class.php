@@ -148,6 +148,23 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE descripcion='Contratos'";
                 $cadenaSql .= " ORDER BY id_proceso DESC;";
                 break;
+
+            case 'consultarProceso':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM parametros.procesos_masivos";
+                $cadenaSql .= " WHERE id_proceso=(";
+                $cadenaSql .= " SELECT MIN(id_proceso) ";
+                $cadenaSql .= " FROM parametros.procesos_masivos";
+                $cadenaSql .= " WHERE estado_registro='TRUE' ";
+                $cadenaSql .= " AND estado='No Iniciado'";
+                $cadenaSql .= " );";
+                break;
+
+            case 'actualizarProceso':
+                $cadenaSql = " UPDATE parametros.procesos_masivos";
+                $cadenaSql .= " SET estado='En Proceso'";
+                $cadenaSql .= " WHERE id_proceso='" . $variable . "';";
+                break;
         }
 
         return $cadenaSql;

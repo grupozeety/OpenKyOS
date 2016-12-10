@@ -12,7 +12,6 @@ class procesarAjax {
         //Conexion a Base de Datos
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
         switch ($_REQUEST['funcion']) {
 
             case 'consultarProcesos':
@@ -51,6 +50,10 @@ class procesarAjax {
                 }
                 echo $resultado;
 
+                break;
+
+            case 'ejecutarProcesos':
+                include_once "ejecutarProcesos.php";
                 break;
 
         }
