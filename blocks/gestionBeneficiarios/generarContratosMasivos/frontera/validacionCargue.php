@@ -361,6 +361,30 @@ class Registrador {
                             $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
                             echo $this->miFormulario->campoMensaje($atributos);
                             unset($atributos);
+                            {
+
+                                echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th><center>Proceso<center></th>
+                                            <th><center>Estado<center></th>
+                                            <th><center>Numéro de Contrato Inicial<center></th>
+                                            <th><center>Numéro de Contrato Final<center></th>
+                                            <th><center>Archivo Descarga<center></th>
+                                        </tr>
+                                    </thead>
+                                           <tfoot>
+                                        <tr>
+                                            <th><center>Proceso<center></th>
+                                            <th><center>Estado<center></th>
+                                            <th><center>Numéro de Contrato Inicial<center></th>
+                                            <th><center>Numéro de Contrato Final<center></th>
+                                            <th><center>Archivo Descarga<center></th>
+                                        </tr>
+                                    </tfoot>
+                                  </table>';
+                            }
+
                         }
                         // ------------------Fin Division para los botones-------------------------
                         echo $this->miFormulario->division("fin");
@@ -472,6 +496,17 @@ class Registrador {
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
                 break;
 
+            case 'exitoRegistroProceso':
+                $mensaje = "Exito<br>Se ha Registrado con exito el <b>Proceso # " . $_REQUEST['proceso'] . "</b>.<br>Para más Informacion consulte la Opción \"Consulta Estado de Generación Contratos\"";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
+            case 'errorRegistroProceso':
+
+                $mensaje = "Error<br>Error en el Registro del Proceso";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
+                break;
         }
 
         // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------

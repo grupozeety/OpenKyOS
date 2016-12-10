@@ -47,8 +47,16 @@ class Redireccionador {
                 $variable .= '&mensajeModal=errorCreacionContratos';
                 break;
 
-            default:
-                $variable = '';
+            case "ExitoRegistroProceso":
+                $variable = 'pagina=generarContratosMasivos';
+                $variable .= '&mensajeModal=exitoRegistroProceso';
+                $variable .= '&proceso=' . $valor;
+                break;
+
+            case "ErrorRegistroProceso":
+                $variable = 'pagina=generarContratosMasivos';
+                $variable .= '&mensajeModal=errorRegistroProceso';
+                break;
 
         }
         foreach ($_REQUEST as $clave => $valor) {

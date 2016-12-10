@@ -32,9 +32,7 @@ class FormProcessor {
     public $clausulas;
     public $registro_info_contrato;
     public function __construct($lenguaje, $sql) {
-        echo "cargar Informacion";
-        var_dump($_REQUEST);
-        var_dump($_FILES);
+
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->lenguaje = $lenguaje;
@@ -98,12 +96,31 @@ class FormProcessor {
          **/
 
         $this->parametrizarNombreContratos();
-        die;
-        if (isset($this->error)) {
-            Redireccionador::redireccionar("ErrorInformacionCargar", base64_encode($this->ruta_relativa_log));
+
+        /**
+         *  9. Registrar Tarea o Proceso de Generación Pdf Contratos
+         **/
+
+        $this->registroProceso();
+
+        if (isset($this->proceso) && $this->proceso != null) {
+            Redireccionador::redireccionar("ExitoRegistroProceso", $this->proceso);
         } else {
-            Redireccionador::redireccionar("ExitoInformacion");
+            Redireccionador::redireccionar("ErrorRegistroProceso");
         }
+
+    }
+
+    public function registroProceso() {
+        $arreglo_registro = array(
+            'nombre_contrato' => $this->arreglo_nombre,
+            'contrato_inicio' => $this->contrato[0],
+            'contrato_final' => end($this->contrato),
+        );
+
+        $cadenaSql = $this->miSql->getCadenaSql('registrarProceso', $arreglo_registro);
+
+        $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_proceso'];
 
     }
 
@@ -185,7 +202,7 @@ class FormProcessor {
 
             $cadenaSql = str_replace(",)", ")", $cadenaSql);
 
-            //$this->contrato[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['numero_contrato'];
+            $this->contrato[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['numero_contrato'];
 
         }
 

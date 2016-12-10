@@ -125,6 +125,22 @@ class Sql extends \Sql {
 
                 $cadenaSql .= ")RETURNING numero_contrato;";
                 break;
+
+            case 'registrarProceso':
+                $cadenaSql = " INSERT INTO parametros.procesos_masivos(";
+                $cadenaSql .= " descripcion,";
+                $cadenaSql .= " estado,";
+                $cadenaSql .= " nombre_archivo,";
+                $cadenaSql .= " parametro_inicio,";
+                $cadenaSql .= " parametro_fin)";
+                $cadenaSql .= " VALUES (";
+                $cadenaSql .= " 'Contratos',";
+                $cadenaSql .= " 'No Iniciado',";
+                $cadenaSql .= " '" . $variable['nombre_contrato'] . "',";
+                $cadenaSql .= " '" . $variable['contrato_inicio'] . "',";
+                $cadenaSql .= " '" . $variable['contrato_final'] . "'";
+                $cadenaSql .= " )RETURNING id_proceso;";
+                break;
         }
 
         return $cadenaSql;
