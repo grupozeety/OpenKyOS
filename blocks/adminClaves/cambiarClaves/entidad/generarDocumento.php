@@ -172,7 +172,7 @@ class GenerarDocumento {
 				$message ['error'] .= "$errno - $error";
 			} else {
 				$message_css = "yes";
-				$message ['sucess'] = "La contraseña para $user_id ha sido cambiada. \n Su nueva contraseña está completamente activa.\n";
+				$message ['sucess'] = "La contraseña para el usuario $user_id ha sido cambiada. \n Su nueva contraseña está completamente activa.\n";
 			}
 		}
 		
