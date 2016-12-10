@@ -26,8 +26,8 @@ class FormProcessor {
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
 
-        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
-        $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/archivos/generacionMasiva/";
+        $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento") . "/archivos/generacionMasiva/";
 
         //Conexion a Base de Datos
         $conexion = "interoperacion";
@@ -52,13 +52,13 @@ class FormProcessor {
          **/
 
         $this->crearDirectorio();
-        exit;
 
         /**
-         *  4. Validar Existencia Contratos Beneficiarios
+         *  5. Creación Documentos
          **/
 
-        $this->validarContratosExistentes();
+        $this->creacionDocumentos();
+        exit;
 
         /**
          *  5. Validar Existencia Beneficiarios
@@ -80,10 +80,24 @@ class FormProcessor {
 
     }
 
+    public function creacionDocumentos() {
+
+        switch ($this->proceso['descripcion']) {
+            case 'Contratos':
+
+                break;
+
+        }
+    }
+
     public function crearDirectorio() {
-        var_dump($this->rutaURL);
-        var_dump($this->rutaAbsoluta);
-        exit;
+
+        $this->rutaURL_archivos = $this->rutaURL . "Proceso_" . $this->proceso['id_proceso'];
+        $this->rutaAbsoluta_archivos = $this->rutaAbsoluta . "Proceso_" . $this->proceso['id_proceso'];
+
+        mkdir($this->rutaAbsoluta_archivos, 0777, true);
+        chmod($this->rutaAbsoluta_archivos, 0777);
+
     }
 
     public function actualizarEstadoProceso() {
