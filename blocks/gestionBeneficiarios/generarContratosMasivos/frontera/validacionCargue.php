@@ -42,7 +42,7 @@ class Registrador {
         }
     }
     public function seleccionarForm() {
-        var_dump($_REQUEST);
+        //var_dump($_REQUEST);
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
         $miPaginaActual = $this->miConfigurador->getVariableConfiguracion("pagina");
         // Conexion a Base de Datos
@@ -368,18 +368,18 @@ class Registrador {
                                         <tr>
                                             <th><center>Proceso<center></th>
                                             <th><center>Estado<center></th>
+                                            <th><center>Archivo Descarga<center></th>
                                             <th><center>Numéro de Contrato Inicial<center></th>
                                             <th><center>Numéro de Contrato Final<center></th>
-                                            <th><center>Archivo Descarga<center></th>
                                         </tr>
                                     </thead>
                                            <tfoot>
                                         <tr>
                                             <th><center>Proceso<center></th>
                                             <th><center>Estado<center></th>
+                                            <th><center>Archivo Descarga<center></th>
                                             <th><center>Numéro de Contrato Inicial<center></th>
                                             <th><center>Numéro de Contrato Final<center></th>
-                                            <th><center>Archivo Descarga<center></th>
                                         </tr>
                                     </tfoot>
                                   </table>';

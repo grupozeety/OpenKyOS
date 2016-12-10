@@ -141,6 +141,13 @@ class Sql extends \Sql {
                 $cadenaSql .= " '" . $variable['contrato_final'] . "'";
                 $cadenaSql .= " )RETURNING id_proceso;";
                 break;
+
+            case 'consultarProceso':
+                $cadenaSql = " SELECT * ";
+                $cadenaSql .= " FROM parametros.procesos_masivos";
+                $cadenaSql .= " WHERE descripcion='Contratos'";
+                $cadenaSql .= " ORDER BY id_proceso DESC;";
+                break;
         }
 
         return $cadenaSql;

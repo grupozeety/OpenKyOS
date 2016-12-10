@@ -11,6 +11,9 @@ $indice = 0;
  */
 
 //$funcion [$indice ++] = " ";
+$funcion[$indice++] = "jquery.dataTables.min.js";
+$funcion[$indice++] = "dataTables.bootstrap.min.js";
+$funcion[$indice++] = "dataTables.responsive.min.js";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");

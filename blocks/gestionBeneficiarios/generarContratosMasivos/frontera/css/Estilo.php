@@ -6,6 +6,7 @@ $indice = 0;
  */
 
 $estilo[$indice++] = "estiloBloque.css";
+$estilo[$indice++] = "responsive.bootstrap.min.css";
 
 $indice++;
 

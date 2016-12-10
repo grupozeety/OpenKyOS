@@ -28,5 +28,21 @@ Código css correspondiente al Bloque.
     text-align: left;
 }
 
+
+div.dataTables_filter label {
+    float: right;
+}
+
+
+@media (max-height: 720px) {
+.marca{
+display: none;
+}
+
+#example_paginate{
+text-align: center;
+}
+}
+
 	
 	
