@@ -37,6 +37,12 @@ $this->idioma['lote'] = '# Lote';
 
 $this->idioma['piso'] = '# Piso';
 
+$this->idioma['foto_pag1'] = 'Fotografía Página #1';
+
+$this->idioma['foto_pag2'] = 'Fotografía Página #2';
+
+$this->idioma['botonGuardarCargar'] = 'Guardar';
+
 //----------------------Contrato-------------------------------
 
 $this->idioma['nombres'] = 'Nombres';
