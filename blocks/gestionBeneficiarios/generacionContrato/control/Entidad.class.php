@@ -56,6 +56,10 @@ class Entidad {
     public function edicionContrato() {
         include_once $this->ruta . "entidad/edicionContrato.php";
     }
+
+    public function guardarSoporteContrato() {
+        include_once $this->ruta . "entidad/cargarImagenesContrato.php";
+    }
     public function action() {
         $resultado = true;
 
@@ -82,6 +86,9 @@ class Entidad {
 
             case 'modificarArchivo':
                 $this->modificarArchivo();
+                break;
+            case 'guardarSoporteContrato':
+                $this->guardarSoporteContrato();
                 break;
         }
 

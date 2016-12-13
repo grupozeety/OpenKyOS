@@ -365,6 +365,36 @@ class GestionarContrato {
 
                         echo $this->miFormulario->division("fin");
                         unset($atributos);
+
+                        {
+
+                            $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&actionBloque=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                            $valorCodificado .= "&botonGenerarPdfNoFirmas=false";
+                            $valorCodificado .= "&botonGenerarPdf=true";
+                            $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
+                            $valorCodificado .= "&opcion=cargarFotografiasContrato";
+                            $valorCodificado .= "&tipo=" . $infoBeneficiario['tipo_beneficiario'];
+                            $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+                            if (is_null($infoBeneficiario['id_contrato']) != true) {
+                                $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
+                            }
+
+                        }
+
+                        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+                        $urlEdicionContrato = $url . $cadena;
+
+                        echo "<b><a id='link_a' href='" . $urlEdicionContrato . "'>Cargar Fotografías Contrato</a></b>";
+
+                        echo $this->miFormulario->division("fin");
+                        unset($atributos);
+                        // ---------------
+
                         // -----------------FIN CONTROL: Botón -----------------------------------------------------------
 
                     }
@@ -507,6 +537,28 @@ class GestionarContrato {
                 break;
             case 'errorGenerarArchivo':
                 $mensaje = "Error en el registro de información del Contrato";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
+                break;
+
+            case 'registroSoporteContrato':
+                $mensaje = "Exito en el registro de Soporte Contrato";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+            case 'errorRegistroSoporteContrato':
+                $mensaje = "Error en el registro de soporte de Contrato";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
+                break;
+
+            case 'errorTipoSoporteContrato':
+                $mensaje = "Error en el Tipo de Archivo soporte de Contrato.<br>Recordar que los Archivos soposrtados para imagenes son : <b>jpeg y png</b>";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
+                break;
+
+            case 'errorArchivo':
+                $mensaje = "Error en algun(os) Archivo(s).<br>Verifique los Archivos";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
 
                 break;
