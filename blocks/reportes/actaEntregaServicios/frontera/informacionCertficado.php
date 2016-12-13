@@ -494,7 +494,7 @@ class Certificado {
 					$atributos ['limitar'] = false;
 					$atributos ['anchoCaja'] = 10;
 					$atributos ['miEvento'] = '';
-					$atributos['validar'] = '';
+					//$atributos['validar'] = '';
 					$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "parametroEstrato" );
 					$matrizItems = array (
 							array (
