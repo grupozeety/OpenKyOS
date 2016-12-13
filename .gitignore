@@ -2,4 +2,7 @@ archivos/*
 blocks/reportes/certificadoNoInternet/entidad/firmas/*
 blocks/gestionComisionamiento/generacionActas/entidad/directorio_actas/*
 blocks/gestionBeneficiarios/generacionContrato/entidad/imagenes/*
+blocks/gestionBeneficiarios/generacionContrato/entidad/firmas/*
+blocks/gestionBeneficiarios/generarContratosMasivos/entidad/archivos_validar/*
+blocks/gestionBeneficiarios/generarContratosMasivos/entidad/logs/*
 config/config.inc.php
