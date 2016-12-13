@@ -173,14 +173,31 @@ class Sql extends \Sql {
                 $cadenaSql .= " nombre_ruta_archivo='" . $variable['nombre_archivo'] . "'";
                 $cadenaSql .= " WHERE id_proceso='" . $variable['id_proceso'] . "';";
                 break;
-
+            // Crear Documenntos Contrato
             case 'ConsultaBeneficiarios':
                 $cadenaSql = " SELECT *";
                 $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE numero_contrato >=4942";
-                $cadenaSql .= " AND numero_contrato<=5202 ";
+                $cadenaSql .= " WHERE numero_contrato >=" . $variable['Inicio'] . " ";
+                $cadenaSql .= " AND numero_contrato<=" . $variable['Fin'] . " ";
                 $cadenaSql .= " ORDER BY numero_contrato ;";
+                break;
 
+            case 'consultarTipoDocumento':
+                $cadenaSql = " SELECT pr.id_parametro,pr.codigo, pr.descripcion ";
+                $cadenaSql .= " FROM parametros.parametros pr";
+                $cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+                $cadenaSql .= " WHERE ";
+                $cadenaSql .= " pr.estado_registro=TRUE ";
+                $cadenaSql .= " AND rl.descripcion='Tipo de Documento'";
+                $cadenaSql .= " AND pr.descripcion='" . $variable . "' ";
+                $cadenaSql .= " AND rl.estado_registro=TRUE ";
+                break;
+
+            case 'consultarParametroParticular':
+                $cadenaSql = " SELECT descripcion ";
+                $cadenaSql .= " FROM parametros.parametros";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_parametro='" . $variable . "';";
                 break;
 
         }

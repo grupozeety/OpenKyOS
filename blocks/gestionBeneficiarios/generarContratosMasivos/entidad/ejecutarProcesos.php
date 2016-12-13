@@ -22,6 +22,8 @@ class FormProcessor {
     public $registro_info_contrato;
     public function __construct($sql) {
 
+        ini_set('memory_limit', '2048M');
+        ini_set('max_execution_time', 10000);
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
@@ -89,8 +91,6 @@ class FormProcessor {
 
         $this->crearTrabajosCrontab();
 
-        echo "Listo";exit;
-
     }
 
     public function registrarComprimido() {
@@ -101,17 +101,16 @@ class FormProcessor {
             'nombre_archivo' => $this->nombre_archivo_zip,
 
         );
-        //$this->eliminarDirectorioContenido($this->rutaAbsoluta_archivos);
 
         $cadenaSql = $this->miSql->getCadenaSql('finalizarProceso', $arreglo);
 
-        //$this->finalizacion_proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        $this->finalizacion_proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
     public function limpiarDirectorio() {
 
-        //$this->eliminarDirectorioContenido($this->rutaAbsoluta_archivos);
+        $this->eliminarDirectorioContenido($this->rutaAbsoluta_archivos);
 
     }
 
@@ -186,7 +185,7 @@ class FormProcessor {
     public function actualizarEstadoProceso() {
 
         $cadenaSql = $this->miSql->getCadenaSql('actualizarProceso', $this->proceso['id_proceso']);
-        //$actualizacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        $actualizacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
@@ -207,7 +206,7 @@ class FormProcessor {
      * Metodos Correspondientes al Trabajos del Crontab
      **/
     public function crearTrabajosCrontab() {
-        shell_exec('echo "*/3 * * * * ' . $this->Url_ejecucion . '" | crontab -');
+        shell_exec('echo "* * * * * ' . $this->Url_ejecucion . '" | crontab -');
     }
 
     public function eliminarTrabajoCrontab() {

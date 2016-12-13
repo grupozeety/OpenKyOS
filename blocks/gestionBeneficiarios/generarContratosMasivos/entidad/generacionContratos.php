@@ -28,40 +28,77 @@ class GenerarDocumento {
     public $miSesionSso;
     public $info_usuario;
     public $nombre_contrato;
-    public function __construct($sql) {
+    public $miProceso;
+    public $ruta_archivos;
+    public function __construct($sql, $proceso, $ruta_archivos) {
         $this->miConfigurador = \Configurador::singleton();
         $this->miSesionSso = \SesionSso::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $this->miProceso = $proceso;
+        $this->ruta_archivos = $ruta_archivos;
+
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
+
+        if (!isset($esteBloque["grupo"]) || $esteBloque["grupo"] == "") {
+
+            $this->rutaURL .= "/blocks/" . $esteBloque["nombre"] . "/";
+        } else {
+            $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
+        }
 
         //Conexion a Base de Datos
         $conexion = "interoperacion";
         $this->esteRecursoDBPR = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        //Conexion a Base de Datos
-        $conexion = "interoperacion";
-        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+        $this->nombre = base64_decode($this->miProceso['nombre_archivo']);
+
+        $this->nombre = explode("-", $this->nombre);
+
+        /**
+         *  1. Información de Beneficiario
+         **/
+
+        $this->obtenerInformacionBeneficiario();
+
+        /**
+         *  2. Estructuración Documentos
+         **/
+
+        foreach ($this->beneficiario as $key => $value) {
+
+            $this->estruturaDocumento($value);
+            $this->asosicarNombreArchivo($value);
+            $this->crearPDF();
+
+        }
 
     }
 
-    public function asosicarCodigoDocumento($beneficiario) {
+    public function asosicarNombreArchivo($beneficiario) {
+        $this->nombreContrato = '';
+        foreach ($this->nombre as $key => $value) {
 
-        $this->prefijo = substr(md5(uniqid(time())), 0, 6);
-        $nombre_beneficiario = $beneficiario['nombres'] . " " . $beneficiario['primer_apellido'] . " " .
-        $beneficiario['segundo_apellido'];
-        //$beneficiario['nombre_comisionador']
-        //$this->nombreContrato = $beneficiario['numero_contrato'] . "_" . $nombre_beneficiario . "_" . $beneficiario['numero_identificacion'] . "_" . $this->prefijo . '.pdf';
+            $this->nombreContrato .= $beneficiario[$value] . "_";
 
-        $this->nombreContrato = $beneficiario['manzana'] . $beneficiario['bloque'] . "." . $beneficiario['numero_identificacion'] . "." . $nombre_beneficiario . "." . $beneficiario['casa_apartamento'] . $this->prefijo . '.pdf';
+        }
+
+        $prefijo = substr(md5(uniqid(time())), 0, 6);
+        $this->nombreContrato .= $prefijo . ".pdf";
 
     }
 
     public function obtenerInformacionBeneficiario() {
+        $arreglo = array(
+            'Inicio' => $this->miProceso['parametro_inicio'],
+            'Fin' => $this->miProceso['parametro_fin'],
+        );
 
-        $cadenaSql = $this->miSql->getCadenaSql('ConsultaProduccionBeneficiarios');
+        $cadenaSql = $this->miSql->getCadenaSql('ConsultaBeneficiarios', $arreglo);
         $this->beneficiario = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda");
-        //var_dump($this->beneficiario);exit;
+
     }
 
     public function crearPDF() {
@@ -74,7 +111,7 @@ class GenerarDocumento {
         ));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
-        $html2pdf->Output($this->rutaAbsoluta . $this->nombreContrato, 'F');
+        $html2pdf->Output($this->ruta_archivos . "/" . $this->nombreContrato, 'F');
 
     }
     public function estruturaDocumento($beneficiario) {
@@ -139,12 +176,21 @@ class GenerarDocumento {
 
         }
 
+        $telefono = ($beneficiario['telefono'] != '0') ? $beneficiario['telefono'] : " ";
+
         {
 
-            $comisionador = (isset($this->info_usuario['uid'][1])) ? $this->info_usuario['uid'][1] : " ";
+            $tipo_vip = ($beneficiario['estrato'] == 1) ? "<b>X</b>" : "";
+            $tipo_residencial_1 = ($beneficiario['estrato'] == 2) ? (($beneficiario['estrato_socioeconomico'] == 1) ? "<b>X</b>" : "") : "";
+            $tipo_residencial_2 = ($beneficiario['estrato'] == 2) ? (($beneficiario['estrato_socioeconomico'] == 2) ? "<b>X</b>" : "") : "";
 
         }
-        $telefono = ($beneficiario['telefono'] != '0') ? $beneficiario['telefono'] : " ";
+
+        {
+
+            $fecha = explode("-", $beneficiario['fecha_contrato']);
+
+        }
 
         {
 
@@ -189,7 +235,7 @@ class GenerarDocumento {
                                     <table  style='width:100%;' >
                                         <tr>
                                                 <td align='center' style='width:100%;border=none;' >
-                                                <img src='http://192.168.0.7/OpenKyOS/blocks/gestionBeneficiarios///generacionContrato/frontera/css/imagen/logos_contrato.png'  width='500' height='35'>
+                                                <img<img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='35'>
                                                 </td>
                                                 <tr>
                                                 <td style='width:100%;border:none;text-align:center;font-size:9px;'>><b>CONTRATO DE APORTE N° 0681 DE 2015<br>CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA</b></td>
@@ -229,9 +275,9 @@ class GenerarDocumento {
                                     <table style='width:100%;'>
                                         <tr>
                                             <td style='width:25%;text-align=center;'>Fecha</td>
-                                            <td style='width:25%;text-align=center;'><b>28</b></td>
-                                            <td style='width:25%;text-align=center;'><b>11</b></td>
-                                            <td style='width:25%;text-align=center;'><b>2016</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . $fecha[2] . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . $fecha[1] . "</b></td>
+                                            <td style='width:25%;text-align=center;'><b>" . $fecha[0] . "</b></td>
                                         </tr>
                                     </table>
                             </td>
@@ -276,9 +322,9 @@ class GenerarDocumento {
                         </tr>
                         <tr>
                             <td style='width:15%;text-align=center;'><b>Estrato</b></td>
-                            <td style='text-align=center;'>VIP(<b>X</b>)</td>
-                            <td style='text-align=center;'>1 Residencial</td>
-                            <td style='text-align=center;'>2 Residencial</td>
+                            <td style='text-align=center;'>VIP (" . $tipo_vip . ")</td>
+                            <td style='text-align=center;'>1 Residencial (" . $tipo_residencial_1 . ")</td>
+                            <td style='text-align=center;'>2 Residencial (" . $tipo_residencial_2 . ")</td>
                         </tr>
                         <tr>
                            <td style='width:15%;text-align=center;'><b>Barrio</b></td>
@@ -477,6 +523,6 @@ class GenerarDocumento {
 
     }
 }
-$miDocumento = new GenerarDocumento($this->miSql);
+$miDocumento = new GenerarDocumento($this->miSql, $this->proceso, $this->rutaAbsoluta_archivos);
 
 ?>
