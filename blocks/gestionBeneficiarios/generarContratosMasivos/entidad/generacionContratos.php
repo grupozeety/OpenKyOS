@@ -72,6 +72,11 @@ class GenerarDocumento {
             $this->estruturaDocumento($value);
             $this->asosicarNombreArchivo($value);
             $this->crearPDF();
+            unset($this->contenidoPagina);
+            $this->contenidoPagina = NULL;
+            unset($this->nombreContrato);
+            $this->nombreContrato = NULL;
+            $value = NULL;
 
         }
 
@@ -82,6 +87,7 @@ class GenerarDocumento {
         foreach ($this->nombre as $key => $value) {
 
             $this->nombreContrato .= $beneficiario[$value] . "_";
+            $value = NULL;
 
         }
 
@@ -518,9 +524,12 @@ class GenerarDocumento {
             $contenidoPagina .= "</page>";
 
         }
-        //echo $contenidoPagina;exit;
-        $this->contenidoPagina = $contenidoPagina;
 
+        $this->contenidoPagina = $contenidoPagina;
+        unset($contenidoPagina);
+        $contenidoPagina = NULL;
+        unset($beneficiario);
+        $beneficiario = NULL;
     }
 }
 $miDocumento = new GenerarDocumento($this->miSql, $this->proceso, $this->rutaAbsoluta_archivos);
