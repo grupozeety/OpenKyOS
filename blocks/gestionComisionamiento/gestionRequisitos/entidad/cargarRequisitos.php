@@ -24,12 +24,12 @@ class cargueRequisitos {
     public function __construct($lenguaje, $sql) {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
-        $this->lenguaje       = $lenguaje;
-        $this->miSql          = $sql;
+        $this->lenguaje = $lenguaje;
+        $this->miSql = $sql;
         $this->sincronizacion = new Sincronizar($lenguaje, $sql);
 
         // Conexion a Base de Datos
-        $conexion            = "interoperacion";
+        $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $_REQUEST['tiempo'] = time();
@@ -63,7 +63,7 @@ class cargueRequisitos {
 
         foreach ($this->archivos_datos as $key => $values) {
             $resultado[$key] = $this->sincronizacion->sincronizarAlfresco($_REQUEST['id_beneficiario'], $this->archivos_datos[$key]);
-            $total           = $resultado[$key]['estado'] + $total;
+            $total = $resultado[$key]['estado'] + $total;
         }
 
         /**
@@ -83,7 +83,7 @@ class cargueRequisitos {
 
         foreach ($this->archivos_datos as $key => $value) {
 
-            $cadenaSql                 = $this->miSql->getCadenaSql('registrarDocumentos', $value);
+            $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentos', $value);
             $this->registro_documentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
         }
@@ -96,22 +96,22 @@ class cargueRequisitos {
         {
 
             //Consulta Agendamiento
-            $cadenaSql    = $this->miSql->getCadenaSql('consultaAgendamiento');
+            $cadenaSql = $this->miSql->getCadenaSql('consultaAgendamiento');
             $agendamiento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             //var_dump($agendamiento);exit;
 
-            $cadenaSql             = $this->miSql->getCadenaSql('consultarEstadoComisionamiento', "No Iniciado");
+            $cadenaSql = $this->miSql->getCadenaSql('consultarEstadoComisionamiento', "No Iniciado");
             $estadoComisionamiento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if ($agendamiento['estado_comisionamiento'] === $estadoComisionamiento['id_parametro']) {
 
                 //Consulta Agendamiento
 
-                $cadenaSql             = $this->miSql->getCadenaSql('consultarEstadoComisionamiento', "En Proceso");
+                $cadenaSql = $this->miSql->getCadenaSql('consultarEstadoComisionamiento', "En Proceso");
                 $estadoComisionamiento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-                $cadenaSql                    = $this->miSql->getCadenaSql('actualizarEstadoComisionamiento', $estadoComisionamiento['id_parametro']);
+                $cadenaSql = $this->miSql->getCadenaSql('actualizarEstadoComisionamiento', $estadoComisionamiento['id_parametro']);
                 $actualizacionComisionamiento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
             }
@@ -124,10 +124,10 @@ class cargueRequisitos {
 
         foreach ($_FILES as $key => $value) {
 
-            $cadenaSql                             = $this->miSql->getCadenaSql('consultarParametro', $key);
-            $id_parametro                          = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-            $_FILES[$key]['tipo_documento']        = $id_parametro[0]['id_parametro'];
-            $_FILES[$key]['descripcion_documento'] = $id_parametro[0]['codigo'] . '_' . $id_parametro[0]['descripcion'];
+            $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', $key);
+            $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            $_FILES[$key]['tipo_documento'] = $id_parametro[0]['id_parametro'];
+            $_FILES[$key]['descripcion_documento'] = str_replace("\\", "_", $id_parametro[0]['codigo']) . '_' . $id_parametro[0]['descripcion'];
 
         }
 
@@ -139,7 +139,7 @@ class cargueRequisitos {
             if ($_FILES[$key]['size'] != 0 && $_FILES[$key]['error'] == 0) {
 
                 $this->prefijo = substr(md5(uniqid(time())), 0, 6);
-                $exten         = pathinfo($archivo['name']);
+                $exten = pathinfo($archivo['name']);
 
                 $allowed = array(
                     'image/jpeg',
@@ -159,10 +159,10 @@ class cargueRequisitos {
                     $exten['extension'] = 'txt';
                 }
 
-                $tamano         = $archivo['size'];
-                $tipo           = $archivo['type'];
+                $tamano = $archivo['size'];
+                $tipo = $archivo['type'];
                 $nombre_archivo = str_replace(" ", "_", $archivo['descripcion_documento']);
-                $doc            = $_REQUEST['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.' . $exten['extension'];
+                $doc = $_REQUEST['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.' . $exten['extension'];
 
                 /*
                  * guardamos el fichero en el Directorio
@@ -178,10 +178,10 @@ class cargueRequisitos {
                     exit();
                 }
                 $archivo_datos[] = array(
-                    'ruta_archivo'   => $ruta_relativa,
-                    'rutaabsoluta'   => $ruta_absoluta,
+                    'ruta_archivo' => $ruta_relativa,
+                    'rutaabsoluta' => $ruta_absoluta,
                     'nombre_archivo' => $doc,
-                    'campo'          => $key,
+                    'campo' => $key,
                     'tipo_documento' => $archivo['tipo_documento'],
                 );
 
