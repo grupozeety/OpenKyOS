@@ -1,0 +1,1 @@
+$("#cambioclave").addClass("active");

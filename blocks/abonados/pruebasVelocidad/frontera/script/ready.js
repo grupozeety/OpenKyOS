@@ -1,0 +1,1 @@
+$("#pruebasvelocidad").addClass("active");
