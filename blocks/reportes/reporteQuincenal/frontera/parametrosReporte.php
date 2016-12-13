@@ -60,32 +60,32 @@ class Registrador {
             echo $this->miFormulario->agrupacion('inicio', $atributos);
             unset($atributos);
 
-            $esteCampo = 'fecha_inicio';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "text";
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['evento'] = '';
-            $atributos['deshabilitado'] = false;
-            $atributos['readonly'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['placeholder'] = "Seleccione Fecha Inicio";
-            $atributos['valor'] = "";
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
-            $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
-            // Aplica atributos globales al control
-            $atributos = array_merge($atributos, $atributosGlobales);
-            $fecha_inicio = $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-            unset($atributos);
+//             $esteCampo = 'fecha_inicio';
+//             $atributos['nombre'] = $esteCampo;
+//             $atributos['tipo'] = "text";
+//             $atributos['id'] = $esteCampo;
+//             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+//             $atributos["etiquetaObligatorio"] = true;
+//             $atributos['tab'] = $tab++;
+//             $atributos['anchoEtiqueta'] = 2;
+//             $atributos['estilo'] = "bootstrap";
+//             $atributos['evento'] = '';
+//             $atributos['deshabilitado'] = false;
+//             $atributos['readonly'] = false;
+//             $atributos['columnas'] = 1;
+//             $atributos['tamanno'] = 1;
+//             $atributos['placeholder'] = "Seleccione Fecha Inicio";
+//             $atributos['valor'] = "";
+//             $atributos['ajax_function'] = "";
+//             $atributos['ajax_control'] = $esteCampo;
+//             $atributos['limitar'] = false;
+//             $atributos['anchoCaja'] = 10;
+//             $atributos['miEvento'] = '';
+//             $atributos['validar'] = 'required';
+//             // Aplica atributos globales al control
+//             $atributos = array_merge($atributos, $atributosGlobales);
+//             $fecha_inicio = $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+//             unset($atributos);
 
             $esteCampo = 'fecha_final';
             $atributos['nombre'] = $esteCampo;
@@ -94,7 +94,7 @@ class Registrador {
             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
             $atributos["etiquetaObligatorio"] = true;
             $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
+            $atributos['anchoEtiqueta'] = 1;
             $atributos['estilo'] = "bootstrap";
             $atributos['evento'] = '';
             $atributos['deshabilitado'] = false;
@@ -106,39 +106,39 @@ class Registrador {
             $atributos['ajax_function'] = "";
             $atributos['ajax_control'] = $esteCampo;
             $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
+            $atributos['anchoCaja'] = 5;
             $atributos['miEvento'] = '';
             $atributos['validar'] = 'required';
             // Aplica atributos globales al control
             $atributos = array_merge($atributos, $atributosGlobales);
-            $fecha_final = $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
             unset($atributos);
 
-            $esteCampo = 'info_proyectos';
-            $atributos["id"] = $esteCampo; // No cambiar este nombre
-            $atributos["tipo"] = "hidden";
-            $atributos['estilo'] = '';
-            $atributos["obligatorio"] = false;
-            $atributos['marco'] = true;
-            $atributos["etiqueta"] = "";
-            if (isset($_REQUEST[$esteCampo])) {
-                $atributos['valor'] = $_REQUEST[$esteCampo];
-            } else {
-                $atributos['valor'] = '';
-            }
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroTexto($atributos);
-            unset($atributos);
+//             $esteCampo = 'info_proyectos';
+//             $atributos["id"] = $esteCampo; // No cambiar este nombre
+//             $atributos["tipo"] = "hidden";
+//             $atributos['estilo'] = '';
+//             $atributos["obligatorio"] = false;
+//             $atributos['marco'] = true;
+//             $atributos["etiqueta"] = "";
+//             if (isset($_REQUEST[$esteCampo])) {
+//                 $atributos['valor'] = $_REQUEST[$esteCampo];
+//             } else {
+//                 $atributos['valor'] = '';
+//             }
+//             $atributos = array_merge($atributos, $atributosGlobales);
+//             echo $this->miFormulario->campoCuadroTexto($atributos);
+//             unset($atributos);
 
-            {
+//             {
 
-                echo "<table id='contenido' class='table  table-hover'>
-                           <tr>
-                              <td>" . $fecha_inicio . "</td>
-                              <td>" . $fecha_final . "</td>
-                           </tr>
-                          </table>";
-            }
+//                 echo "<table id='contenido' class='table  table-hover'>
+//                            <tr>
+//                               <td>" . $fecha_inicio . "</td>
+//                               <td>" . $fecha_final . "</td>
+//                            </tr>
+//                           </table>";
+//           //  }
             /*   {
             echo '<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>

@@ -15,6 +15,9 @@ class GenerarReporteExcelInstalaciones {
 	public $informacion;
 	public $objCal;
 	public function __construct($sql, $informacion) {
+		
+		date_default_timezone_set ( 'America/Bogota' );
+		
 		$this->miConfigurador = \Configurador::singleton ();
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
 		$this->miSql = $sql;
@@ -75,7 +78,7 @@ class GenerarReporteExcelInstalaciones {
 		$this->AA = $valor ['aa'];
 		$this->AB = $valor ['ab'];
 		$this->AC = $valor ['ac'];
-		$this->AD = $valor ['ad'];
+		$this->AD = '';
 	}
 	
 	public function estruturarInformacion() {
@@ -364,15 +367,16 @@ class GenerarReporteExcelInstalaciones {
 	public function configurarDocumento() {
 		$this->objCal = new \PHPExcel ();
 		// Set document properties
-		$this->objCal->getProperties ()->setCreator ( "OpenKyOS" )->setLastModifiedBy ( "OpenKyOS" )->setTitle ( "Reporte Quincenal (" . $_REQUEST ['fecha_inicio'] . ")-(" . $_REQUEST ['fecha_final'] . ")" )->setSubject ( "Reporte Instalaciones" )->setDescription ( "Reporte de Quincenal en un determinado periodo de tiempo" )->setCategory ( "Reporte" );
+		$this->objCal->getProperties ()->setCreator ( "OpenKyOS" )->setLastModifiedBy ( "OpenKyOS" )->setTitle ( "Reporte Quincenal (" .  $_REQUEST ['fecha_final'] . ")" )->setSubject ( "Reporte Instalaciones" )->setDescription ( "Reporte de Quincenal en un determinado periodo de tiempo" )->setCategory ( "Reporte" );
 	}
 	public function retornarDocumento() {
-		$fecha_inicio = $_REQUEST ['fecha_inicio'];
+		//$fecha_inicio = $_REQUEST ['fecha_inicio'];
 		$fecha_fin = $_REQUEST ['fecha_final'];
 		
 		// Redirect output to a client’s web browser (Excel2007)
 		header ( 'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' );
-		header ( 'Content-Disposition: attachment;filename="ReporteQuincenal(' . $fecha_inicio . ")-(" . $fecha_fin . ")" . time () . '.xlsx"' );
+		//header ( 'Content-Disposition: attachment;filename="ReporteQuincenal(' . $fecha_inicio . ")-(" . $fecha_fin . ")" . time () . '.xlsx"' );
+		header ( 'Content-Disposition: attachment;filename="ReporteQuincenal(' .$fecha_fin . ")" . time () . '.xlsx"' );
 		header ( 'Cache-Control: max-age=0' );
 		// If you're serving to IE 9, then the following may be needed
 		header ( 'Cache-Control: max-age=1' );
