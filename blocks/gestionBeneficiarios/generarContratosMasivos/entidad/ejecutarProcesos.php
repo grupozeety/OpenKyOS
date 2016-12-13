@@ -36,6 +36,12 @@ class FormProcessor {
         $_REQUEST['tiempo'] = time();
 
         /**
+         *  0. Crear Url Procesos
+         **/
+
+        $this->crearUrlProcesos();
+
+        /**
          *  1. Consultar Proceso
          **/
 
@@ -71,25 +77,42 @@ class FormProcessor {
 
         $this->limpiarDirectorio();
 
-        exit;
-
         /**
-         *  6. Validar Existencia Beneficiarios
+         *  6. Regitrar Comprimido
          **/
 
-        $this->cerrar_log();
+        $this->registrarComprimido();
 
-        if (isset($this->error)) {
-            Redireccionador::redireccionar("ErrorInformacionCargar", base64_encode($this->ruta_relativa_log));
-        } else {
-            Redireccionador::redireccionar("ExitoInformacion");
-        }
+        /**
+         *  7. Validar Existencia Beneficiarios
+         **/
+
+        $this->crearTrabajosCrontab();
+
+        echo "Listo";exit;
 
     }
-    public function limpiarDirectorio() {
-        var_dump($this->rutaAbsoluta_archivos);
+
+    public function registrarComprimido() {
+
+        $arreglo = array(
+            'id_proceso' => $this->proceso[0],
+            'ruta_archivo' => $this->ruta_url_archivo,
+            'nombre_archivo' => $this->nombre_archivo_zip,
+
+        );
         //$this->eliminarDirectorioContenido($this->rutaAbsoluta_archivos);
-        exit;
+
+        $cadenaSql = $this->miSql->getCadenaSql('finalizarProceso', $arreglo);
+
+        //$this->finalizacion_proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+    }
+
+    public function limpiarDirectorio() {
+
+        //$this->eliminarDirectorioContenido($this->rutaAbsoluta_archivos);
+
     }
 
     public function eliminarDirectorioContenido($rutaAnalizar) {
@@ -169,181 +192,53 @@ class FormProcessor {
 
     public function consultarProceso() {
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultarProceso');
+        $cadenaSql = $this->miSql->getCadenaSql('consultarProcesoParticular');
         $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-    }
+        if (!is_null($this->proceso)) {
 
-//----- Borrar desde aca
-    public function validarContratosExistentes() {
-
-        foreach ($this->datos_beneficiario as $key => $value) {
-
-            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaContrato', $value['identificacion_beneficiario']);
-
-            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-
-            if ($consulta) {
-
-                $mensaje = " El beneficiario con identificación " . $consulta['numero_identificacion'] . " ya tiene un contrato con número #" . $consulta['numero_contrato'] . " asociado con el id_benficiario " . $consulta['id_beneficiario'] . ".";
-                $this->escribir_log($mensaje);
-
-                $this->error = true;
-
-            }
-
-        }
-
-    }
-
-    public function escribir_log($mensaje) {
-
-        fwrite($this->log, $mensaje . PHP_EOL);
-
-    }
-
-    public function cerrar_log() {
-
-        fclose($this->log);
-
-    }
-
-    public function creacion_log() {
-
-        $prefijo = substr(md5(uniqid(time())), 0, 6);
-
-        $this->ruta_absoluta_log = $this->rutaAbsoluta . "/entidad/logs/Log_documento_validacion_" . $prefijo . ".log";
-
-        $this->ruta_relativa_log = $this->rutaURL . "/entidad/logs/Log_documento_validacion_" . $prefijo . ".log";
-
-        $this->log = fopen($this->ruta_absoluta_log, "w");
-    }
-
-    public function cargarInformacionHojaCalculo() {
-
-        ini_set('memory_limit', '1024M');
-        ini_set('max_execution_time', 300);
-
-        if (file_exists($this->archivo['ruta_archivo'])) {
-
-            //$documento = \PHPExcel_IOFactory::load($this->archivo['ruta_archivo']);
-
-            //$this->informacion = $documento->getActiveSheet()->toArray(null, true, true, true);
-
-            //unset($this->informacion[1]);
-
-            $hojaCalculo = \PHPExcel_IOFactory::createReader($this->tipo_archivo);
-            $informacion = $hojaCalculo->load($this->archivo['ruta_archivo']);
-            //var_dump($informacion);die;
-
-            //$hoja_1 = $informacion->getActiveSheet();
-            //var_dump($hoja_1);
-
-            $informacion_general = $hojaCalculo->listWorksheetInfo($this->archivo['ruta_archivo']);
-
-            {
-
-                $total_filas = $informacion_general[0]['totalRows'];
-
-            }
-
-            for ($i = 2; $i <= $total_filas; $i++) {
-
-                $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['telefono'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['celular'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['correo'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['direccion'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['manzana'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['bloque'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['torre'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['casa_apartamento'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['interior'] = $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['lote'] = $informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['piso'] = $informacion->setActiveSheetIndex()->getCell('L' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['nombre_comisionador'] = $informacion->setActiveSheetIndex()->getCell('M' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['fecha_contrato'] = $informacion->setActiveSheetIndex()->getCell('N' . $i)->getCalculatedValue();
-
-            }
-            unlink($this->archivo['ruta_archivo']);
-
-            $this->datos_beneficiario = $datos_beneficiario;
-
+            $this->eliminarTrabajoCrontab();
         } else {
-            Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
-
+            exit;
         }
 
     }
+    /**
+     * Metodos Correspondientes al Trabajos del Crontab
+     **/
+    public function crearTrabajosCrontab() {
+        shell_exec('echo "*/3 * * * * ' . $this->Url_ejecucion . '" | crontab -');
+    }
 
-    public function cargarArchivos() {
+    public function eliminarTrabajoCrontab() {
+        shell_exec('echo "" | crontab -');
+    }
 
-        $archivo_datos = '';
-        $archivo = $_FILES['archivo_validacion'];
+    public function crearUrlProcesos() {
 
-        if ($archivo['error'] == 0) {
+        $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
 
-            switch ($archivo['type']) {
-                case 'application/vnd.oasis.opendocument.spreadsheet':
-                    $this->tipo_archivo = 'OOCalc';
-                    break;
+        // URL base
+        $url = $this->miConfigurador->getVariableConfiguracion("host");
+        $url .= $this->miConfigurador->getVariableConfiguracion("site");
+        $url .= "/index.php?";
 
-                case 'application/vnd.ms-excel':
-                    $this->tipo_archivo = 'Excel5';
-                    break;
+        // Variables para Con
+        $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+        $cadenaACodificar .= "&procesarAjax=true";
+        $cadenaACodificar .= "&action=index.php";
+        $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+        $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+        $cadenaACodificar .= "&funcion=ejecutarProcesos";
 
-                case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-                    $this->tipo_archivo = 'Excel2007';
-                    break;
+        // Codificar las variables
+        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
 
-                default:
-                    Redireccionador::redireccionar("ErrorFormatoArchivo");
-                    break;
-            }
+        // URL Consultar Proyectos
+        $this->UrlProceso = $url . $cadena;
 
-            $this->prefijo = substr(md5(uniqid(time())), 0, 6);
-            /*
-             * obtenemos los datos del Fichero
-             */
-            $tamano = $archivo['size'];
-            $tipo = $archivo['type'];
-            $nombre_archivo = str_replace(" ", "_", $archivo['name']);
-            /*
-             * guardamos el fichero en el Directorio
-             */
-            $ruta_absoluta = $this->rutaAbsoluta . "/entidad/archivos_validar/" . $this->prefijo . "_" . $nombre_archivo;
-
-            $ruta_relativa = $this->rutaURL . " /entidad/archivos_validar/" . $this->prefijo . "_" . $nombre_archivo;
-
-            $archivo['rutaDirectorio'] = $ruta_absoluta;
-
-            if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
-
-                Redireccionador::redireccionar("ErrorCargarArchivo");
-            }
-
-            $this->archivo = array(
-                'ruta_archivo' => str_replace("//", "/", $ruta_absoluta),
-                'nombre_archivo' => $archivo['name'],
-
-            );
-
-        } else {
-            Redireccionador::redireccionar("ErrorArchivoNoValido");
-        }
+        $this->Url_ejecucion = "curl  " . $this->UrlProceso;
 
     }
 

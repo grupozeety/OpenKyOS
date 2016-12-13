@@ -149,7 +149,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " ORDER BY id_proceso DESC;";
                 break;
 
-            case 'consultarProceso':
+            case 'consultarProcesoParticular':
                 $cadenaSql = " SELECT *";
                 $cadenaSql .= " FROM parametros.procesos_masivos";
                 $cadenaSql .= " WHERE id_proceso=(";
@@ -165,6 +165,24 @@ class Sql extends \Sql {
                 $cadenaSql .= " SET estado='En Proceso'";
                 $cadenaSql .= " WHERE id_proceso='" . $variable . "';";
                 break;
+
+            case 'finalizarProceso':
+                $cadenaSql = " UPDATE parametros.procesos_masivos";
+                $cadenaSql .= " SET estado='Finalizado',";
+                $cadenaSql .= " ruta_archivo='" . $variable['ruta_archivo'] . "',";
+                $cadenaSql .= " nombre_ruta_archivo='" . $variable['nombre_archivo'] . "'";
+                $cadenaSql .= " WHERE id_proceso='" . $variable['id_proceso'] . "';";
+                break;
+
+            case 'ConsultaBeneficiarios':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM interoperacion.contrato";
+                $cadenaSql .= " WHERE numero_contrato >=4942";
+                $cadenaSql .= " AND numero_contrato<=5202 ";
+                $cadenaSql .= " ORDER BY numero_contrato ;";
+
+                break;
+
         }
 
         return $cadenaSql;
