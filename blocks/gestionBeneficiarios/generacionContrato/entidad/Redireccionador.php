@@ -87,6 +87,45 @@ class Redireccionador {
                 $variable .= '&proceso=cargueRequisitos';
                 break;
 
+            case "InsertoInformacionDocumento":
+
+                $variable = 'pagina=generacionContrato';
+                $variable .= '&opcion=validarRequisitos';
+                $variable .= '&proceso=gestionarContrato';
+                $variable .= '&mensaje=registroSoporteContrato';
+                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+                $variable .= '&tipo=' . $_REQUEST['tipo_beneficiario'];
+                break;
+
+            case "NoInsertoInformacionDocumento":
+
+                $variable = 'pagina=generacionContrato';
+                $variable .= '&opcion=validarRequisitos';
+                $variable .= '&mensaje=errorRegistroSoporteContrato';
+                $variable .= '&proceso=gestionarContrato';
+                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+                $variable .= '&tipo=' . $_REQUEST['tipo'];
+                break;
+
+            case "ErrorTipoArhivoCargar":
+
+                $variable = 'pagina=generacionContrato';
+                $variable .= '&opcion=validarRequisitos';
+                $variable .= '&mensaje=errorTipoSoporteContrato';
+                $variable .= '&proceso=gestionarContrato';
+                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+                $variable .= '&tipo=' . $_REQUEST['tipo'];
+                break;
+
+            case 'ErrorArchivo':
+                $variable = 'pagina=generacionContrato';
+                $variable .= '&opcion=validarRequisitos';
+                $variable .= '&mensaje=errorArchivo';
+                $variable .= '&proceso=gestionarContrato';
+                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+                $variable .= '&tipo=' . $_REQUEST['tipo'];
+                break;
+
             default:
                 $variable = '';
         }
