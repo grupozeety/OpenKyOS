@@ -1,0 +1,1 @@
+$("#micontrato").addClass("active");

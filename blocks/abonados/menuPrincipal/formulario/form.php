@@ -153,7 +153,11 @@ class FormularioMenu {
 				          <li id="miinfo"><a href="index.php?data=QiwqMWiokNeWdiO-nFzyeHTFh73oIzQ8zb70_dSgzHE">Mi Información<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
 				          <li id="cambioclave"><a href="index.php?data=WD2H0J1ms5LSUgQphXTu7s2bI9wN2IUxzs-mg5nzYeA">Cambiar Contraseña<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-lock"></span></a></li>
 				          <li id="pruebasvelocidad"><a href="index.php?data=fwZWpArXm8py2Jtq86jk4VyHm1KgjVLyVND2Kj3gBVU">Pruebas de Velocidad<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-dashboard"></span></a></li>
-				          <li><a href="#">Mi Portatil<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span></a></li>
+				          <li id="miportatil"><a href="index.php?data=Av8RThwXWRtacHN1iSAoWTQYwQx2HkXvnvoAztcqYI4">Mi Portatil<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span></a></li>
+				          <li id="micontrato"><a href="index.php?data=NSe7jAj-1tWV957og1-uHhpcg_IkSp_WnrhxlIhoG9Y">Contrato<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-file"></span></a></li>
+				          <li><a href="#">Facturas<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-usd"></span></a></li>
+				          <li><a href="#">Productos<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-signal"></span></a></li>
+				          <li><a href="index.php?data=SRuAbusjKCfT8KmAcSIspwNNay_JPuA5kJEZUp1J0Xo">Cerrar Sesión<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-share"></span></a></li>
 				        </ul>
 				    </div>
     			  </div>
