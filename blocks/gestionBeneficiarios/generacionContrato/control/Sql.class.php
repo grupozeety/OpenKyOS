@@ -53,7 +53,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
                 $cadenaSql .= " AND ba.estado_registro=TRUE ";
                 $cadenaSql .= " AND ba.carpeta_creada=TRUE ";
-                $cadenaSql .= $variable;
+                //$cadenaSql .= $variable;
                 $cadenaSql .= "     ) datos ";
                 $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "LIMIT 10; ";
