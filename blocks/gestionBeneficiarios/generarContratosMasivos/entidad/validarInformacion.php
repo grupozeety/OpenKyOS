@@ -259,6 +259,10 @@ class FormProcessor {
 
             }
 
+            if ($total_filas > 500) {
+                Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
+            }
+
             for ($i = 2; $i <= $total_filas; $i++) {
 
                 $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
