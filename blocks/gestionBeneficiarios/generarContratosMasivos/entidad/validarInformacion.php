@@ -110,46 +110,60 @@ class FormProcessor {
         foreach ($this->datos_beneficiario as $key => $value) {
 
             //Fecha Valida
-            var_dump($value);
 
             if ($value['fecha_contrato']) {
 
-                $var = $this->is_valid_date($value['fecha_contrato'], 'yyyy-mm-dd');
-                var_dump($var);
-            }
+                $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
+                $hiredate = $value['fecha_contrato'];
 
-        }
-        exit;
-    }
+                if (!preg_match($date_regex, $hiredate)) {
 
-    public function is_valid_date($value, $format = 'dd.mm.yyyy') {
-        if (strlen($value) >= 6 && strlen($format) == 10) {
-
-            // find separator. Remove all other characters from $format
-            $separator_only = str_replace(array('m', 'd', 'y'), '', $format);
-            $separator = $separator_only[0]; // separator is first character
-
-            if ($separator && strlen($separator_only) == 2) {
-                // make regex
-                $regexp = str_replace('mm', '(0?[1-9]|1[0-2])', $format);
-                $regexp = str_replace('dd', '(0?[1-9]|[1-2][0-9]|3[0-1])', $regexp);
-                $regexp = str_replace('yyyy', '(19|20)?[0-9][0-9]', $regexp);
-                $regexp = str_replace($separator, "\\" . $separator, $regexp);
-                if ($regexp != $value && preg_match('/' . $regexp . '\z/', $value)) {
-                    echo "asdasd";
-                    // check date
-                    $arr = explode($separator, $value);
-                    $day = $arr[0];
-                    $month = $arr[1];
-                    $year = $arr[2];
-                    if (@checkdate($month, $day, $year)) {
-                        return true;
-                    }
+                    $mensaje = " La fecha de contrato asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna Fecha de Contrato del Plantilla  se en formato texto y con esl formato 'yyyy-mm-dd'.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
 
                 }
             }
+
+            //Tipo de Tecnologia
+
+            if ($value['tipo_tecnologia']) {
+
+                if (!is_numeric($value['tipo_tecnologia'])) {
+
+                    $mensaje = " El tipo de Tecnologia  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique que el tipo de tecnologia correponda a los numeros asosciados al de plantilla en la Hoja 'Tipo de Tecnologia'.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+
+                }
+                if ($value['tipo_tecnologia'] != '94' && $value['tipo_tecnologia'] != '95' && $value['tipo_tecnologia'] != '96') {
+                    $mensaje = " El tipo de Tecnologia  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique que el tipo de tecnologia correponda a los numeros asosciados al de plantilla en la Hoja 'Tipo de Tecnologia'.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+
+                }
+
+            }
+
+            if ($value['estrato_socioeconomico']) {
+
+                if (!is_numeric($value['estrato_socioeconomico']) && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
+                    $mensaje = " El estrato socioeconomico asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique el que estrato se un campo numerico correspondiente a estrato 1 y 2.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+                }
+
+                if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2' && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
+                    $mensaje = " El estrato socioeconomico asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique el que estrato se un campo numerico correspondiente a estrato 1 y 2.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+                }
+
+            }
+
+            $mensaje = null;
         }
-        return false;
+
     }
 
     public function validarBeneficiariosExistentes() {

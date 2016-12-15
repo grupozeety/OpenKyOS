@@ -80,6 +80,12 @@ class FormProcessor {
         $this->validarBeneficiariosExistentes();
 
         /**
+         *  6. Validar otros Datos
+         **/
+
+        $this->validarOtrosDatos();
+
+        /**
          *  6. Procesar Información Beneficiarios
          **/
 
@@ -235,23 +241,73 @@ class FormProcessor {
                 'correo' => $value['correo'],
                 'velocidad_internet' => "4",
                 'valor_mensual' => "6500",
-                'tecnologia' => "79",
+                'tecnologia' => $value['tipo_tecnologia'],
                 'estado' => "TRUE",
                 'usuario' => "administrador",
                 'manzana' => $value['manzana'],
                 'bloque' => $value['bloque'],
                 'torre' => $value['torre'],
                 'casa_apartamento' => $value['casa_apartamento'],
-                'tipo_tecnologia' => "79",
+                'tipo_tecnologia' => $value['tipo_tecnologia'],
                 'valor_tarificacion' => "6500",
                 'interior' => $value['interior'],
                 'lote' => $value['lote'],
                 'piso' => $value['piso'],
                 'nombre_comisionador' => $value['nombre_comisionador'],
                 'fecha_contrato' => $value['fecha_contrato'],
+                'estrato_socioeconomico' => $value['estrato_socioeconomico'],
 
             );
 
+        }
+
+    }
+
+    public function validarOtrosDatos() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            //Fecha Valida
+
+            if ($value['fecha_contrato']) {
+
+                $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
+                $hiredate = $value['fecha_contrato'];
+
+                if (!preg_match($date_regex, $hiredate)) {
+                    Redireccionador::redireccionar("ErrorCreacionContratos");
+
+                }
+            }
+
+            //Tipo de Tecnologia
+
+            if ($value['tipo_tecnologia']) {
+
+                if (!is_numeric($value['tipo_tecnologia'])) {
+                    Redireccionador::redireccionar("ErrorCreacionContratos");
+
+                }
+                if ($value['tipo_tecnologia'] != '94' && $value['tipo_tecnologia'] != '95' && $value['tipo_tecnologia'] != '96') {
+                    Redireccionador::redireccionar("ErrorCreacionContratos");
+
+                }
+
+            }
+
+            if ($value['estrato_socioeconomico']) {
+
+                if (!is_numeric($value['estrato_socioeconomico']) && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
+                    Redireccionador::redireccionar("ErrorCreacionContratos");
+                }
+
+                if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2' && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
+                    Redireccionador::redireccionar("ErrorCreacionContratos");
+                }
+
+            }
+
+            $mensaje = null;
         }
 
     }
@@ -349,6 +405,10 @@ class FormProcessor {
                 $datos_beneficiario[$i]['nombre_comisionador'] = $informacion->setActiveSheetIndex()->getCell('M' . $i)->getCalculatedValue();
 
                 $datos_beneficiario[$i]['fecha_contrato'] = $informacion->setActiveSheetIndex()->getCell('N' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['tipo_tecnologia'] = $informacion->setActiveSheetIndex()->getCell('O' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['estrato_socioeconomico'] = $informacion->setActiveSheetIndex()->getCell('P' . $i)->getCalculatedValue();
 
             }
 
