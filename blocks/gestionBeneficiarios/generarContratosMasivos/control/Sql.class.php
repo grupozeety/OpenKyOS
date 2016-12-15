@@ -107,7 +107,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " lote,";
                 $cadenaSql .= " piso,";
                 $cadenaSql .= " nombre_comisionador,";
-                $cadenaSql .= " fecha_contrato)";
+                $cadenaSql .= " fecha_contrato,";
+                $cadenaSql .= " estrato_socioeconomico)";
                 $cadenaSql .= " VALUES (";
                 foreach ($variable as $key => $value) {
 
