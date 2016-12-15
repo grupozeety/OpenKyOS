@@ -21,3 +21,40 @@ $(document).ready(function() {
 		htmlbodyHeightUpdate()
 	});
 });
+
+
+var menu = $('.navbar-nav li a');
+var well = $('.superior');
+var panel = $('.panel-primary');
+var activo = $('.navbar-nav > .active > a');
+var boton = $('.btn');
+
+var estado = false;
+
+if ($("#<?php echo $this->campoSeguro('color1')?>").length > 0 ){
+
+	var color1 =  $("#<?php echo $this->campoSeguro("color1")?>").val();
+	var color2 =  $("#<?php echo $this->campoSeguro("color2")?>").val();
+	var color3 =  $("#<?php echo $this->campoSeguro("color3")?>").val();
+
+	estado = true;
+
+}else{
+	var color1 = "#d9d9d9"; 
+	var color2 = "#ffffff";;
+	var color3 = "#000000";
+}
+
+menu.css("background-color", color2);
+menu.css("color", color3);
+
+well.css("background-color", color2);
+well.css("color", color3);
+		
+panel.css("border-color", color2);
+
+activo.css("background-color", color1);
+activo.css("color", color3);
+
+boton.css("background-color", color2);
+boton.css("color", color3);

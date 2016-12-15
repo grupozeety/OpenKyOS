@@ -120,18 +120,63 @@ class FormularioMenu {
 		
 		$salida = (isset ( $respuesta ['description'] ) == false) ? $this->logout () : "";
 		
-		foreach ( $respuesta ['description'] as $key => $rol ) {
+// 		foreach ( $respuesta ['description'] as $key => $rol ) {
 			
-			$respuesta ['rol'] [] = $rol;
+// 			$respuesta ['rol'] [] = $rol;
+// 		}
+		
+// 		$cadenaSql = $this->miSql->getCadenaSql ( "consultarDatosMenu", $respuesta ['rol'] );
+// 		$this->atributosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+// 		// revisar último Beneficiario consultado
+		
+// 		$cadenaSql = $this->miSql->getCadenaSql ( "accesoRapido", $respuesta ['mail'] [0] );
+// 		$this->usuarioRapido = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		
+		$cadena_sql = $this->miSql->getCadenaSql("consultarColor");
+		$colores = $esteRecursoDB->ejecutarAcceso($cadena_sql, "busqueda")[0];
+		
+		if($colores){
+			$esteCampo = 'color1';
+			$atributos ["id"] = $esteCampo; // No cambiar este nombre
+			$atributos ["tipo"] = "hidden";
+			$atributos ['valor'] = $colores['color1'];
+			$atributos ['estilo'] = '';
+			$atributos ["obligatorio"] = false;
+			$atributos ['marco'] = true;
+			$atributos ["etiqueta"] = "";
+				
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoCuadroTexto ( $atributos );
+			unset ( $atributos );
+				
+			$esteCampo = 'color2';
+			$atributos ["id"] = $esteCampo; // No cambiar este nombre
+			$atributos ["tipo"] = "hidden";
+			$atributos ['valor'] = $colores['color2'];
+			$atributos ['estilo'] = '';
+			$atributos ["obligatorio"] = false;
+			$atributos ['marco'] = true;
+			$atributos ["etiqueta"] = "";
+				
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoCuadroTexto ( $atributos );
+			unset ( $atributos );
+				
+			$esteCampo = 'color3';
+			$atributos ["id"] = $esteCampo; // No cambiar este nombre
+			$atributos ["tipo"] = "hidden";
+			$atributos ['valor'] = $colores['color3'];
+			$atributos ['estilo'] = '';
+			$atributos ["obligatorio"] = false;
+			$atributos ['marco'] = true;
+			$atributos ["etiqueta"] = "";
+		
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoCuadroTexto ( $atributos );
+			unset ( $atributos );
 		}
-		
-		$cadenaSql = $this->miSql->getCadenaSql ( "consultarDatosMenu", $respuesta ['rol'] );
-		$this->atributosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-		
-		// revisar último Beneficiario consultado
-		
-		$cadenaSql = $this->miSql->getCadenaSql ( "accesoRapido", $respuesta ['mail'] [0] );
-		$this->usuarioRapido = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		// $this->ConstruirMenu ( $rutaBloque );
 		
@@ -145,7 +190,7 @@ class FormularioMenu {
 				          <span class="icon-bar"></span>
 				          <span class="icon-bar"></span>
         				</button>
-        				<a class="navbar-brand" href="#">Mi Cuenta</a>
+        				<a class="navbar-brand" href="index.php?data=YGfnN1cJPm1nCJppnFBrx6xaBiEQF4qCLGMpeugcyUM">Mi Cuenta</a>
       				</div>
       				<!-- Collect the nav links, forms, and other content for toggling -->
       				<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
