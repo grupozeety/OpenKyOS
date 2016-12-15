@@ -79,7 +79,7 @@ class Registrador {
             // URL Consultar Proyectos
             $urlEjecutarProceso = $url . $cadena;
 
-            //echo $urlEjecutarProceso;exit;
+            //echo $enlace;exit;
 
         }
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -185,17 +185,29 @@ class Registrador {
                         echo $this->miFormulario->division("inicio", $atributos);
                         unset($atributos);
                         {
+
+                            {
+                                // URL base
+                                $url = $this->miConfigurador->getVariableConfiguracion("host");
+                                $url .= $this->miConfigurador->getVariableConfiguracion("site");
+                                $url .= '/archivos/generacionMasiva/plantillas/';
+                                $url .= 'Plantilla_Contratos_Masivos.xls';
+
+                            }
+
                             // -------------Control texto-----------------------
                             $esteCampo = 'mostrarMensaje';
                             $atributos["tamanno"] = '';
                             $atributos["etiqueta"] = '';
                             $mensaje = 'Cargar Formato para Validación:<br>
-                                                1. No exita contrato generado con la identificaciones cargadas.<br>
+                                                1. No exista contrato generado con la identificaciones cargadas.<br>
                                                 2. Exista la información del beneficiario a generar contrato.<br>
                                                 3. Formatos permitidos:<br>
                                                     &nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
                                                     &nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
-                                                    &nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br>';
+                                                    &nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br><br>
+                                        Link de Descarga de Plantilla : <b><a target="_blank" href="' . $url . '">Plantilla Cargue Masivo</a></b><br>
+                                                ';
 
                             $atributos["mensaje"] = $mensaje;
                             $atributos["estilo"] = 'information'; // information,warning,error,validation

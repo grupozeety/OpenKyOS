@@ -73,7 +73,7 @@ class cargueRequisitos {
 
         //$this->registrarContratoBorrador ();
 
-        if ($this->registro_docmuentos) {
+        if ($this->registro_docmuentos || $this->verificacion) {
 
             Redireccionador::redireccionar("Inserto", $total);
         } else {
