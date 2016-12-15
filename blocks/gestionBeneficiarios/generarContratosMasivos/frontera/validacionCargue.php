@@ -202,7 +202,8 @@ class Registrador {
                             $mensaje = 'Cargar Formato para Validación:<br>
                                                 1. No exista contrato generado con la identificaciones cargadas.<br>
                                                 2. Exista la información del beneficiario a generar contrato.<br>
-                                                3. Formatos permitidos:<br>
+                                                3. El múmero de beneficiarios a cargar no puede sobre pasar a 500.<br>
+                                                4. Formatos permitidos:<br>
                                                     &nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
                                                     &nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
                                                     &nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br><br>
