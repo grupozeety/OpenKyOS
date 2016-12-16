@@ -16,6 +16,8 @@ $funcion[$indice++] = "jquery.min.js";
 $funcion[$indice++] = "bootstrap.min.js";
 $funcion[$indice++] = "bootstrap.colorpickersliders.js";
 $funcion[$indice++] = "tinycolor.min.js";
+$funcion[$indice++] = "morris.js";
+
 
 
 

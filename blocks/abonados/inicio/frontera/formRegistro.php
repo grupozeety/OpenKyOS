@@ -152,17 +152,90 @@ class Formulario {
 		     </div>
 				';
 		
-		echo '<div class="well well-md">
-				<div class="row">
-  					<div align="center" class="col-md-4 informacion">
-					<b>Número de Contrato</b><br>
-					1
-					</div>
-  					<divclass="col-md-4 informacion"></div>
-  					<div align="right" class="col-md-4 informacion"></div>
-			  	</div>
-			  </div>';
+		echo ' <div class="col-lg-4 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-blue">
+            <div class="inner">
+              <h4>44</h4><br>
+
+              <p>Número de Contrato</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person"></i>
+            </div>
+          </div>
+        </div>';
 		
+		echo ' <div class="col-lg-4 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h4>23/12/1 2016</h4><br>
+		
+              <p>Fecha Limite de Pago</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-calendar"></i>
+            </div>
+          </div>
+        </div>';
+		
+		echo ' <div class="col-lg-4 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h4>4 MB</h4><br>
+		
+              <p>Velocidad del Servicio</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+          </div>
+        </div>';
+		
+		echo '	<div class="home-doctors  clearfix">
+
+					        
+					        <div class="row">
+
+
+
+<!-- entry1 -->
+						            <div class="col-lg-12 col-md-12 col-sm-12  text-center doc-item">
+				                        <div class="common-doctor animated fadeInUp clearfix ae-animation-fadeInUp">
+
+					                        <ul class="list-inline social-lists animate">
+												<li><a href="#"><i class="fa fa-skype"></i></a></li>
+												<li><a href="#"><i class="fa fa-skype"></i></a></li>
+												<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+												<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+											</ul>
+
+	                                        <figure>
+								                    <img width="100%" height="200" src="' . $rutaBloque . '/frontera/css/imagen/finger-769300_1920.jpg" class="doc-img animate attachment-gallery-post-single wp-post-image" alt="doctor-2"> 
+								            </figure>
+
+						                    <div class="text-content">
+						                        <h5>Redes Sociales</h5>
+						                        <!-- <div class="for-border"></div> -->
+						                    </div>
+						                </div>
+						            </div>
+
+
+
+
+
+
+
+
+
+					                                            <div class="visible-sm clearfix margin-gap"></div>
+
+					    </div>
+
+					</div>';
 		echo '
 					</div>
 					</div>

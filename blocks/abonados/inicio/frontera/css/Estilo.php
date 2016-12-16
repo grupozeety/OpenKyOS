@@ -7,6 +7,8 @@ $indice = 0;
 
 $estilo[$indice++] = "estiloBloque.css";
 $estilo[$indice++] = "bootstrap.colorpickersliders.css";
+$estilo[$indice++] = "morris.css";
+$estilo[$indice++] = "ionicons.min.css";
 
 $indice++;
 
