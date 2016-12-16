@@ -61,7 +61,7 @@ class GestionarContrato {
 			
 			$_REQUEST['fecha_instalacion'] = date("d") . "-" . date("m") . "-" . date("Y");
 			$miDocumento = new GenerarDocumento ();
-			$miDocumento->crearActa ( $this->miSql, $this->rutaURL, $generarActa );
+			$miDocumento->crearActa ( $this->miSql, $this->rutaURL, $generarActa, $this->lenguaje);
 			
 			unset ( $miDocumento );
 			$miDocumento = NULL;
@@ -76,6 +76,8 @@ class GestionarContrato {
 			
 			unset($beneficiarios);
 			$beneficiarios = NULL;
+			
+			echo "Aqui termino";
 		}
 		
 		// $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");

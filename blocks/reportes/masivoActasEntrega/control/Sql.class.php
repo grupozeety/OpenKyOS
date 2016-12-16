@@ -43,7 +43,7 @@ class Sql extends \Sql {
 			
 			case 'consultarInformacionActa' :
 				$cadenaSql = " SELECT";
-				//Atributos tabla contrato
+				// Atributos tabla contrato
 				$cadenaSql .= " cn.id_beneficiario,";
 				$cadenaSql .= " cn.nombres,";
 				$cadenaSql .= " cn.primer_apellido,";
@@ -64,7 +64,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " cn.piso,";
 				$cadenaSql .= " cn.estrato_socioeconomico,";
 				$cadenaSql .= " cn.tipo_tecnologia as tipo_tecnologia_con,";
-				//Atributos tabla masivo_kit (Kit Beneficiario)
+				// Atributos tabla masivo_kit (Kit Beneficiario)
 				$cadenaSql .= " mk.serial_com AS serial,";
 				$cadenaSql .= " mk.serial_esc,";
 				$cadenaSql .= " mk.mac1_esc,";
@@ -72,37 +72,37 @@ class Sql extends \Sql {
 				$cadenaSql .= " mk.marca_esc,";
 				$cadenaSql .= " '1' as cantidad_esc,";
 				$cadenaSql .= " mk.ip_esc,";
-				//Atributos tabla masivo_pruebas (Pruebas)
-				$cadenaSql .=  " mp.hora_prueba,";
-				$cadenaSql .=  " mp.hora_prueba as hora_prueba_vs,";
-				$cadenaSql .=  " mp.resultado_vs ,";
-				$cadenaSql .=  " 'Mbps' as unidad_vs ,";
-				$cadenaSql .=  " '' as observaciones_vs ,";
-				$cadenaSql .=  " mp.hora_prueba as hora_prueba_vb ,";
-				$cadenaSql .=  " mp.resultado_vb ,";
-				$cadenaSql .=  " 'Mbps' as unidad_vb ,";
-				$cadenaSql .=  " '' as observaciones_vb ,";
-				$cadenaSql .=  " mp.hora_prueba as hora_prueba_p1 ,";
-				$cadenaSql .=  " mp.resultado_p1 ,";
-				$cadenaSql .=  " 'ms' as unidad_p1 ,";
-				$cadenaSql .=  " 'www.mintic.gov.co' as observaciones_p1 ,";
-				$cadenaSql .=  " mp.hora_prueba as hora_prueba_p2 ,";
-				$cadenaSql .=  " mp.resultado_p2 ,";
-				$cadenaSql .=  " 'ms' as unidad_p2 ,";
-				$cadenaSql .=  " 'http://www.louvre.fr/en' as observaciones_p2 ,";
-				$cadenaSql .=  " mp.hora_prueba as hora_prueba_p3 ,";
-				$cadenaSql .=  " mp.resultado_p3 ,";
-				$cadenaSql .=  " 'ms' as unidad_p3 ,";
-				$cadenaSql .=  " 'https://www.wikipedia.org/' as observaciones_p3 ,";
-				$cadenaSql .=  " mp.hora_prueba as hora_prueba_tr1 ,";
-				$cadenaSql .=  " mp.resultado_tr1 ,";
-				$cadenaSql .=  " 'estado conexión' as unidad_tr1 ,";
-				$cadenaSql .=  " 'https://www.sivirtual.gov.co/' as observaciones_tr1 ,";
-				$cadenaSql .=  " mp.hora_prueba as hora_prueba_tr2 ,";
-				$cadenaSql .=  " mp.resultado_tr2 ,";
-				$cadenaSql .=  " 'Paso NAP' as unidad_tr2 ,";
-				$cadenaSql .=  " 'https://www.sivirtual.gov.co' as observaciones_tr2,";
-				//Atributos tabla politecnica_portatil (Especificaciones Técnicas Computador)
+				// Atributos tabla masivo_pruebas (Pruebas)
+				$cadenaSql .= " mp.hora_prueba,";
+				$cadenaSql .= " mp.hora_prueba as hora_prueba_vs,";
+				$cadenaSql .= " mp.resultado_vs ,";
+				$cadenaSql .= " 'Mbps' as unidad_vs ,";
+				$cadenaSql .= " '' as observaciones_vs ,";
+				$cadenaSql .= " mp.hora_prueba as hora_prueba_vb ,";
+				$cadenaSql .= " mp.resultado_vb ,";
+				$cadenaSql .= " 'Mbps' as unidad_vb ,";
+				$cadenaSql .= " '' as observaciones_vb ,";
+				$cadenaSql .= " mp.hora_prueba as hora_prueba_p1 ,";
+				$cadenaSql .= " mp.resultado_p1 ,";
+				$cadenaSql .= " 'ms' as unidad_p1 ,";
+				$cadenaSql .= " 'www.mintic.gov.co' as observaciones_p1 ,";
+				$cadenaSql .= " mp.hora_prueba as hora_prueba_p2 ,";
+				$cadenaSql .= " mp.resultado_p2 ,";
+				$cadenaSql .= " 'ms' as unidad_p2 ,";
+				$cadenaSql .= " 'http://www.louvre.fr/en' as observaciones_p2 ,";
+				$cadenaSql .= " mp.hora_prueba as hora_prueba_p3 ,";
+				$cadenaSql .= " mp.resultado_p3 ,";
+				$cadenaSql .= " 'ms' as unidad_p3 ,";
+				$cadenaSql .= " 'https://www.wikipedia.org/' as observaciones_p3 ,";
+				$cadenaSql .= " mp.hora_prueba as hora_prueba_tr1 ,";
+				$cadenaSql .= " mp.resultado_tr1 ,";
+				$cadenaSql .= " 'estado conexión' as unidad_tr1 ,";
+				$cadenaSql .= " 'https://www.sivirtual.gov.co/' as observaciones_tr1 ,";
+				$cadenaSql .= " mp.hora_prueba as hora_prueba_tr2 ,";
+				$cadenaSql .= " mp.resultado_tr2 ,";
+				$cadenaSql .= " 'Paso NAP' as unidad_tr2 ,";
+				$cadenaSql .= " 'https://www.sivirtual.gov.co' as observaciones_tr2,";
+				// Atributos tabla politecnica_portatil (Especificaciones Técnicas Computador)
 				$cadenaSql .= " pc.marca, pc.modelo, pc.cpu_version as procesador,";
 				$cadenaSql .= " pc.memoria_tipo ||' '|| pc.memoria_capacidad as memoria_ram,";
 				$cadenaSql .= " pc.disco_capacidad ||' - '|| pc.disco_serial as disco_duro,";
@@ -117,12 +117,11 @@ class Sql extends \Sql {
 				$cadenaSql .= " '' as web_soporte,";
 				$cadenaSql .= " '' as telefono_soporte,";
 				$cadenaSql .= " ";
-				//Atributos tabla masivo_beneficiario (Beneficiario)
+				// Atributos tabla masivo_beneficiario (Beneficiario)
 				$cadenaSql .= " mb.latitud,";
 				$cadenaSql .= " mb.longitud,";
 				$cadenaSql .= " mb.tipo_tecnologia as tecnologia,";
 				$cadenaSql .= " pr.descripcion as tipo_tecnologia";
-				
 				
 				$cadenaSql .= " FROM interoperacion.contrato AS cn";
 				$cadenaSql .= " FULL JOIN interoperacion.masivo_kit AS mk";
@@ -136,34 +135,34 @@ class Sql extends \Sql {
 				$cadenaSql .= " FULL JOIN parametros.parametros pr ON cn.tipo_tecnologia=pr.id_parametro";
 				$cadenaSql .= " WHERE ";
 				$cadenaSql .= " cn.estado_registro=TRUE AND numero_contrato='" . $variable . "'";
-			
-				break;
-// 			case 'consultaInformacionBeneficiario' :
-// 				$cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato  ";
-// 				$cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
-// 				$cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
-// 				$cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
-// 				$cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id_beneficiario AND cn.estado_registro=TRUE ";
-// 				$cadenaSql .= " WHERE bn.estado_registro = TRUE ";
-// 				$cadenaSql .= " AND pr.estado_registro = TRUE ";
-// 				$cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST ['id'] . "';";
-// 				break;
-			
-// 			case 'consultarBeneficiariosPotenciales' :
-// 				$cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
-// 				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
-// 				$cadenaSql .= "WHERE estado_registro=TRUE ";
-// 				$cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET ['query'] . "%' ";
-// 				$cadenaSql .= "OR nombre ILIKE '%" . $_GET ['query'] . "%' ";
-// 				$cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET ['query'] . "%' ";
-// 				$cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET ['query'] . "%' ";
-// 				$cadenaSql .= "LIMIT 10; ";
 				
-// 				break;
-
-			case 'consultaInformacionBeneficiario':
+				break;
+			// case 'consultaInformacionBeneficiario' :
+			// $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ";
+			// $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
+			// $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
+			// $cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
+			// $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id_beneficiario AND cn.estado_registro=TRUE ";
+			// $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
+			// $cadenaSql .= " AND pr.estado_registro = TRUE ";
+			// $cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST ['id'] . "';";
+			// break;
+			
+			// case 'consultarBeneficiariosPotenciales' :
+			// $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS value, id_beneficiario AS data ";
+			// $cadenaSql .= " FROM interoperacion.beneficiario_potencial ";
+			// $cadenaSql .= "WHERE estado_registro=TRUE ";
+			// $cadenaSql .= "AND cast(identificacion as text) ILIKE '%" . $_GET ['query'] . "%' ";
+			// $cadenaSql .= "OR nombre ILIKE '%" . $_GET ['query'] . "%' ";
+			// $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET ['query'] . "%' ";
+			// $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET ['query'] . "%' ";
+			// $cadenaSql .= "LIMIT 10; ";
+			
+			// break;
+			
+			case 'consultaInformacionBeneficiario' :
 				$cadenaSql = " SELECT bn.*, dep.departamento as dep ,mun.municipio as mun,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ,cn.urbanizacion as nombre_urbanizacion, cn.departamento as nombre_departamento, cn.municipio as nombre_municipio,cn.direccion_domicilio, cn.manzana as manzana_contrato, cn.bloque as bloque_contrato,
-                cn.torre as torre_contrato,cn.casa_apartamento as casa_apto_contrato,cn.interior as interior_contrato,cn.lote as lote_contrato, cn.estrato_socioeconomico "    ;
+                cn.torre as torre_contrato,cn.casa_apartamento as casa_apto_contrato,cn.interior as interior_contrato,cn.lote as lote_contrato, cn.estrato_socioeconomico ";
 				$cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
 				$cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
 				$cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
@@ -172,10 +171,10 @@ class Sql extends \Sql {
 				$cadenaSql .= " JOIN parametros.municipio as mun ON mun.codigo_mun=bn.municipio";
 				$cadenaSql .= " WHERE bn.estado_registro = TRUE ";
 				$cadenaSql .= " AND pr.estado_registro = TRUE ";
-				$cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST['id'] . "';";
+				$cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST ['id'] . "';";
 				break;
 			
-			case 'consultarBeneficiariosPotenciales':
+			case 'consultarBeneficiariosPotenciales' :
 				$cadenaSql = " SELECT value , data ";
 				$cadenaSql .= "FROM ";
 				$cadenaSql .= "(SELECT DISTINCT bp.identificacion ||' - ('||bp.nombre||' '||bp.primer_apellido||' '||bp.segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
@@ -188,7 +187,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " AND ba.carpeta_creada=TRUE ";
 				$cadenaSql .= $variable;
 				$cadenaSql .= "     ) datos ";
-				$cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
+				$cadenaSql .= "WHERE value ILIKE '%" . $_GET ['query'] . "%' ";
 				$cadenaSql .= "LIMIT 10; ";
 				break;
 			
@@ -203,36 +202,36 @@ class Sql extends \Sql {
 				$cadenaSql .= " segundo_apellido,";
 				$cadenaSql .= " tipo_documento,";
 				$cadenaSql .= " identificacion, ";
-// 				$cadenaSql .= " correo, ";
+				// $cadenaSql .= " correo, ";
 				$cadenaSql .= " fecha_instalacion,";
 				$cadenaSql .= " tipo_beneficiario,";
 				$cadenaSql .= " estrato,";
 				$cadenaSql .= " direccion,";
 				$cadenaSql .= " urbanizacion,";
-// 				$cadenaSql .= " id_urbanizacion,";
+				// $cadenaSql .= " id_urbanizacion,";
 				$cadenaSql .= " departamento,";
 				$cadenaSql .= " municipio,";
-// 				$cadenaSql .= " codigo_dane,";
-// 				$cadenaSql .= " contacto,";
-// 				$cadenaSql .= " identificacion_cont,";
-// 				$cadenaSql .= " telefono,";
-// 				$cadenaSql .= " celular,";
+				// $cadenaSql .= " codigo_dane,";
+				// $cadenaSql .= " contacto,";
+				// $cadenaSql .= " identificacion_cont,";
+				// $cadenaSql .= " telefono,";
+				// $cadenaSql .= " celular,";
 				$cadenaSql .= " tipo_tecnologia,";
 				$cadenaSql .= " geolocalizacion,";
-// 				$cadenaSql .= " producto,";
-// 				$cadenaSql .= " numero_act_esc,";
+				// $cadenaSql .= " producto,";
+				// $cadenaSql .= " numero_act_esc,";
 				$cadenaSql .= " mac_esc,";
 				$cadenaSql .= " mac2_esc,";
 				$cadenaSql .= " serial_esc,";
 				$cadenaSql .= " marca_esc,";
 				$cadenaSql .= " cant_esc,";
 				$cadenaSql .= " ip_esc,";
-// 				$cadenaSql .= " numero_act_comp,";
-// 				$cadenaSql .= " mac_comp,";
-// 				$cadenaSql .= " serial_comp,";
-// 				$cadenaSql .= " marca_comp,";
-// 				$cadenaSql .= " cant_comp,";
-// 				$cadenaSql .= " ip_comp,";
+				// $cadenaSql .= " numero_act_comp,";
+				// $cadenaSql .= " mac_comp,";
+				// $cadenaSql .= " serial_comp,";
+				// $cadenaSql .= " marca_comp,";
+				// $cadenaSql .= " cant_comp,";
+				// $cadenaSql .= " ip_comp,";
 				$cadenaSql .= " hora_prueba_vs,";
 				$cadenaSql .= " resultado_vs,";
 				$cadenaSql .= " unidad_vs,";
@@ -261,50 +260,50 @@ class Sql extends \Sql {
 				$cadenaSql .= " resultado_tr2,";
 				$cadenaSql .= " unidad_tr2,";
 				$cadenaSql .= " observaciones_tr2,";
-// 				$cadenaSql .= " ciudad_expedicion_identificacion,";
-// 				$cadenaSql .= " ciudad_firma,";
-// 				$cadenaSql .= " nombre_ins,";
-// 				$cadenaSql .= " identificacion_ins,";
-// 				$cadenaSql .= " celular_ins,";
-// 				$cadenaSql .= " firmaInstalador,";
+				// $cadenaSql .= " ciudad_expedicion_identificacion,";
+				// $cadenaSql .= " ciudad_firma,";
+				// $cadenaSql .= " nombre_ins,";
+				// $cadenaSql .= " identificacion_ins,";
+				// $cadenaSql .= " celular_ins,";
+				// $cadenaSql .= " firmaInstalador,";
 				$cadenaSql .= " firmaBeneficiario)";
-// 				$cadenaSql .= " soporte)";
+				// $cadenaSql .= " soporte)";
 				$cadenaSql .= " VALUES ('" . $variable ['id_beneficiario'] . "',";
 				$cadenaSql .= " '" . $variable ['nombres'] . "',";
 				$cadenaSql .= " '" . $variable ['primer_apellido'] . "',";
 				$cadenaSql .= " '" . $variable ['segundo_apellido'] . "',";
 				$cadenaSql .= " '" . $variable ['tipo_documento'] . "', ";
 				$cadenaSql .= " '" . $variable ['identificacion'] . "',";
-// 				$cadenaSql .= " '" . $variable ['correo'] . "', ";
+				// $cadenaSql .= " '" . $variable ['correo'] . "', ";
 				$cadenaSql .= " '" . $variable ['fecha_instalacion'] . "', ";
 				$cadenaSql .= " '" . $variable ['tipo_beneficiario'] . "', ";
 				$cadenaSql .= " '" . $variable ['estrato'] . "', ";
 				$cadenaSql .= " '" . $variable ['direccion'] . "', ";
-// 				$cadenaSql .= " '" . $variable ['id_urbanizacion'] . "', ";
+				// $cadenaSql .= " '" . $variable ['id_urbanizacion'] . "', ";
 				$cadenaSql .= " '" . $variable ['urbanizacion'] . "', ";
 				$cadenaSql .= " '" . $variable ['departamento'] . "', ";
 				$cadenaSql .= " '" . $variable ['municipio'] . "', ";
-// 				$cadenaSql .= " '" . $variable ['codigo_dane'] . "', ";
-// 				$cadenaSql .= " '" . $variable ['contacto'] . "', ";
-// 				$cadenaSql .= " '" . $variable ['identificacion_cont'] . "', ";
-// 				$cadenaSql .= " '" . $variable ['telefono'] . "', ";
-// 				$cadenaSql .= " '" . $variable ['celular'] . "', ";
+				// $cadenaSql .= " '" . $variable ['codigo_dane'] . "', ";
+				// $cadenaSql .= " '" . $variable ['contacto'] . "', ";
+				// $cadenaSql .= " '" . $variable ['identificacion_cont'] . "', ";
+				// $cadenaSql .= " '" . $variable ['telefono'] . "', ";
+				// $cadenaSql .= " '" . $variable ['celular'] . "', ";
 				$cadenaSql .= " '" . $variable ['tipo_tecnologia'] . "', ";
 				$cadenaSql .= " '" . $variable ['geolocalizacion'] . "', ";
-// 				$cadenaSql .= " '" . $variable ['producto'] . "',";
-// 				$cadenaSql .= " '" . $variable ['numero_act_esc'] . "',";
+				// $cadenaSql .= " '" . $variable ['producto'] . "',";
+				// $cadenaSql .= " '" . $variable ['numero_act_esc'] . "',";
 				$cadenaSql .= " '" . $variable ['mac_esc'] . "',";
 				$cadenaSql .= " '" . $variable ['mac2_esc'] . "',";
 				$cadenaSql .= " '" . $variable ['serial_esc'] . "',";
 				$cadenaSql .= " '" . $variable ['marca_esc'] . "',";
 				$cadenaSql .= " '" . $variable ['cant_esc'] . "',";
 				$cadenaSql .= " '" . $variable ['ip_esc'] . "',";
-// 				$cadenaSql .= " '" . $variable ['numero_act_comp'] . "',";
-// 				$cadenaSql .= " '" . $variable ['mac_comp'] . "',";
-// 				$cadenaSql .= " '" . $variable ['serial_comp'] . "',";
-// 				$cadenaSql .= " '" . $variable ['marca_comp'] . "',";
-// 				$cadenaSql .= " '" . $variable ['cant_comp'] . "',";
-// 				$cadenaSql .= " '" . $variable ['ip_comp'] . "',";
+				// $cadenaSql .= " '" . $variable ['numero_act_comp'] . "',";
+				// $cadenaSql .= " '" . $variable ['mac_comp'] . "',";
+				// $cadenaSql .= " '" . $variable ['serial_comp'] . "',";
+				// $cadenaSql .= " '" . $variable ['marca_comp'] . "',";
+				// $cadenaSql .= " '" . $variable ['cant_comp'] . "',";
+				// $cadenaSql .= " '" . $variable ['ip_comp'] . "',";
 				$cadenaSql .= " '" . $variable ['hora_prueba_vs'] . "',";
 				$cadenaSql .= " '" . $variable ['resultado_vs'] . "',";
 				$cadenaSql .= " '" . $variable ['unidad_vs'] . "',";
@@ -333,14 +332,14 @@ class Sql extends \Sql {
 				$cadenaSql .= " '" . $variable ['resultado_tr2'] . "',";
 				$cadenaSql .= " '" . $variable ['unidad_tr2'] . "',";
 				$cadenaSql .= " '" . $variable ['observaciones_tr2'] . "',";
-// 				$cadenaSql .= " '" . $variable ['ciudad_expedicion_identificacion'] . "',";
-// 				$cadenaSql .= " '" . $variable ['ciudad_firma'] . "',";
-// 				$cadenaSql .= " '" . $variable ['nombre_ins'] . "', ";
-// 				$cadenaSql .= " '" . $variable ['identificacion_ins'] . "', ";
-// 				$cadenaSql .= " '" . $variable ['celular_ins'] . "', ";
-// 				$cadenaSql .= " '" . $variable ['url_firma_contratista'] . "',";
+				// $cadenaSql .= " '" . $variable ['ciudad_expedicion_identificacion'] . "',";
+				// $cadenaSql .= " '" . $variable ['ciudad_firma'] . "',";
+				// $cadenaSql .= " '" . $variable ['nombre_ins'] . "', ";
+				// $cadenaSql .= " '" . $variable ['identificacion_ins'] . "', ";
+				// $cadenaSql .= " '" . $variable ['celular_ins'] . "', ";
+				// $cadenaSql .= " '" . $variable ['url_firma_contratista'] . "',";
 				$cadenaSql .= " '" . $variable ['url_firma_beneficiario'] . "')";
-// 				$cadenaSql .= " '" . $variable ['soporte'] . "');";
+				// $cadenaSql .= " '" . $variable ['soporte'] . "');";
 				break;
 			
 			case 'consultarParametro' :
@@ -444,27 +443,57 @@ class Sql extends \Sql {
 				$cadenaSql .= "rparam.descripcion = 'Estrato' ";
 				break;
 			
-// 			case "parametroTipoTecnologia" :
-// 				$cadenaSql = "SELECT        ";
-// 				$cadenaSql .= "codigo, ";
-// 				$cadenaSql .= "param.descripcion ";
-// 				$cadenaSql .= "FROM ";
-// 				$cadenaSql .= "parametros.parametros as param ";
-// 				$cadenaSql .= "INNER JOIN ";
-// 				$cadenaSql .= "parametros.relacion_parametro as rparam ";
-// 				$cadenaSql .= "ON ";
-// 				$cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
-// 				$cadenaSql .= "WHERE ";
-// 				$cadenaSql .= "rparam.descripcion = 'Tipo de Tecnología' ";
-// 				break;
-
-				case 'parametroTipoTecnologia':
-					$cadenaSql = " SELECT pm.descripcion, pm.descripcion ";
-					$cadenaSql .= " FROM parametros.parametros pm";
-					$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND pm.estado_registro=TRUE AND rl.descripcion='Tipo Tecnologia'";
-					$cadenaSql .= " WHERE pm.estado_registro=TRUE;";
+			// case "parametroTipoTecnologia" :
+			// $cadenaSql = "SELECT ";
+			// $cadenaSql .= "codigo, ";
+			// $cadenaSql .= "param.descripcion ";
+			// $cadenaSql .= "FROM ";
+			// $cadenaSql .= "parametros.parametros as param ";
+			// $cadenaSql .= "INNER JOIN ";
+			// $cadenaSql .= "parametros.relacion_parametro as rparam ";
+			// $cadenaSql .= "ON ";
+			// $cadenaSql .= "(param.rel_parametro = rparam.id_rel_parametro) ";
+			// $cadenaSql .= "WHERE ";
+			// $cadenaSql .= "rparam.descripcion = 'Tipo de Tecnología' ";
+			// break;
+			
+			case 'parametroTipoTecnologia' :
+				$cadenaSql = " SELECT pm.descripcion, pm.descripcion ";
+				$cadenaSql .= " FROM parametros.parametros pm";
+				$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pm.rel_parametro AND pm.estado_registro=TRUE AND rl.descripcion='Tipo Tecnologia'";
+				$cadenaSql .= " WHERE pm.estado_registro=TRUE;";
 				
-					break;
+				break;
+			
+			// Sincronizar Alfresco
+			case "consultarCarpetaSoportes" :
+				$cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
+				$cadenaSql .= " FROM parametros.parametros pr";
+				$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
+				$cadenaSql .= " WHERE ";
+				$cadenaSql .= " pr.estado_registro=TRUE ";
+				$cadenaSql .= " AND rl.descripcion='Alfresco Folders'";
+				$cadenaSql .= " AND pr.codigo='" . $variable . "' ";
+				$cadenaSql .= " AND rl.estado_registro=TRUE ";
+				break;
+			case "alfrescoDirectorio" :
+				$cadenaSql = "SELECT parametros.descripcion ";
+				$cadenaSql .= " FROM parametros.parametros ";
+				$cadenaSql .= " JOIN parametros.relacion_parametro ON relacion_parametro.id_rel_parametro=parametros.rel_parametro ";
+				$cadenaSql .= " WHERE parametros.estado_registro=TRUE AND relacion_parametro.descripcion='Directorio Alfresco Site' ";
+				break;
+			case "alfrescoUser" :
+				$cadenaSql = " SELECT DISTINCT id_beneficiario, nombre_carpeta_dep as padre, nombre_carpeta_mun as hijo, site_alfresco as site ";
+				$cadenaSql .= " FROM interoperacion.beneficiario_potencial ";
+				$cadenaSql .= " INNER JOIN interoperacion.carpeta_alfresco on beneficiario_potencial.departamento=cast(carpeta_alfresco.cod_departamento as integer) ";
+				$cadenaSql .= " WHERE cast(cod_municipio as integer)=municipio ";
+				$cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
+				break;
+			case "alfrescoLog" :
+				$cadenaSql = "SELECT host, usuario, password ";
+				$cadenaSql .= " FROM parametros.api_data ";
+				$cadenaSql .= " WHERE componente='alfresco' ";
+				break;
 		}
 		
 		return $cadenaSql;

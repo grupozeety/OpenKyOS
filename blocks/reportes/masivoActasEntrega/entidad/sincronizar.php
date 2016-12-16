@@ -1,6 +1,6 @@
 <?php
 
-namespace gestionBeneficiarios\generacionContrato\entidad;
+namespace reportes\masivoActas\entidad;
 
 include_once ('RestClient.class.php');
 
@@ -36,13 +36,45 @@ class Sincronizar {
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "1" );
-		$carpetaDocumentos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-			
-		if ($documento ['tipo_documento'] == 128) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "5" );
-			$carpetaDocumentos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		switch ($documento ['tipo_documento']) {
+			case '131' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "1" );
+				break;
+			case '132' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "1" );
+				break;
+			case '135' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "2" );
+				break;
+			case '137' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "3" );
+				break;
+			case '140' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "3" );
+				break;
+			case '141' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "4" );
+				break;
+			case '142' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "4" );
+				break;
+			case '133' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "2" );
+				break;
+			case '134' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "2" );
+				break;
+			case '138' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "3" );
+				break;
+			case '139' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "3" );
+				break;
+			case '136' :
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "2" );
+				break;
 		}
+		$carpetaDocumentos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'alfrescoDirectorio', '' );
 		$directorio = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
@@ -55,6 +87,7 @@ class Sincronizar {
 		
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/upload";
 		
+		var_dump($url);
 		if (! function_exists ( 'curl_file_create' )) {
 			$args = "@$filename;filename=" . ($postname ?: basename ( $filename )) . ($mimetype ? ";type=$mimetype" : '');
 		} else {
@@ -80,7 +113,8 @@ class Sincronizar {
 		
 		$result = RestClient::post ( $url, $archivo, $datosConexion [0] ['usuario'], $datosConexion [0] ['password'] );
 		$json_decode = json_decode ( json_encode ( $result->getResponse () ), true );
-
+		
+		var_dump($result); exit;
 		$status = json_decode ( $json_decode, true );
 		
 		if ($status ['status'] ['code'] == 200) {
@@ -96,6 +130,7 @@ class Sincronizar {
 			);
 		}
 		
+	
 		return $estado;
 	}
 }

@@ -1,5 +1,6 @@
 <?php
-namespace gestionBeneficiarios\generacionContrato\entidad;
+namespace reportes\masivoActas\entidad;
+
 if (!isset($GLOBALS ["autorizado"])) {
     include ("index.php");
     exit();

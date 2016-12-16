@@ -11,6 +11,8 @@ $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfi
 
 include $ruta . "/plugin/html2pdf/html2pdf.class.php";
 
+require_once 'sincronizar.php';
+
 class GenerarDocumento {
 	
     public $miConfigurador;
@@ -26,7 +28,7 @@ class GenerarDocumento {
     public $rutaAbsoluta;
     public $rutaDocumento;
     
-    public function crearActa($sql, $ruta, $generarActa) {
+    public function crearActa($sql, $ruta, $generarActa, $lenguaje) {
 
     	$this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -39,6 +41,8 @@ class GenerarDocumento {
 
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 
+        $this->sincronizacion = new Sincronizar($lenguaje, $sql);
+        
         /**
          *  1. Estruturar Documento
          **/
@@ -53,23 +57,45 @@ class GenerarDocumento {
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
         $this->rutaURL .= '/archivos/actas_entrega_portatil_servicios/';
         $this->rutaAbsoluta .= '/archivos/actas_entrega_portatil_servicios/';
+        
+//         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+//         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+        
+        $this->rutaURLArchivo = $this->rutaURL;
+        
+        $this->rutaAbsolutaArchivo = $this->rutaAbsoluta;
+        
+        
         $this->asosicarCodigoDocumento();
         $this->crearPDF();
 
-        $arreglo = array(
-            'nombre_contrato' => $this->nombreDocumento,
-            'ruta_contrato' => $this->rutaURL . $this->nombreDocumento);
+//         $arreglo = array(
+//             'nombre_contrato' => $this->nombreDocumento,
+//             'ruta_contrato' => $this->rutaURL . $this->nombreDocumento);
 
-        $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentoCertificado', $arreglo);
+//         $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentoCertificado', $arreglo);
 
-        $this->registro_certificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+//         $this->registro_certificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
-        $arreglo = array(
-            'id_beneficiario' => $_REQUEST['id_beneficiario'],
-            'tipologia' => "555",
-            'nombre_documento' => $this->nombreDocumento,
-            'ruta_relativa' => $this->rutaURL . $this->nombreDocumento,
+//         $arreglo = array(
+//             'id_beneficiario' => $_REQUEST['id_beneficiario'],
+//             'tipologia' => "555",
+//             'nombre_documento' => $this->nombreDocumento,
+//             'ruta_relativa' => $this->rutaURL . $this->nombreDocumento,
+//         );
+        
+        //Desde Aquií sincronización
+        $archivo_datos = array(
+        		'ruta_archivo' => $this->rutaURLArchivo . $this->nombreDocumento,
+        		'rutaabsoluta' => $this->rutaAbsolutaArchivo . $this->nombreDocumento,
+        		'nombre_archivo' => $this->nombreDocumento,
+        		'campo' => " ",
+        		'tipo_documento' => '132',
         );
+        
+//         var_dump($archivo_datos);exit;
+        
+        $this->sincronizacion->sincronizarAlfresco($_REQUEST['id_beneficiario'], $archivo_datos);
 
     }
 
@@ -91,13 +117,28 @@ class GenerarDocumento {
 
     public function asosicarCodigoDocumento() {
 
+    	unset($this->prefijo);
+    	$this->prefijo = NULL;
+    	
+    	unset($this->nombreDocumento);
+    	$this->nombreDocumento = NULL;
+    	
         $this->prefijo = substr(md5(uniqid(time())), 0, 6);
-        $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', '900');
-        $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-        $tipo_documento = $id_parametro['id_parametro'];
-        $descripcion_documento = $id_parametro['id_parametro'] . '_' . $id_parametro['descripcion'];
-        $nombre_archivo = "acta_entrega_servicios";
-        $this->nombreDocumento = $_REQUEST['interior'] . "_" . $_REQUEST['direccion_domicilio'] . "_" . $_REQUEST['numero_identificacion'] . "_" . $nombre_archivo . '.pdf';
+        
+        //$cadenaSql = $this->miSql->getCadenaSql('consultarParametro', '900');
+        //$id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+        //$tipo_documento = $id_parametro['id_parametro'];
+        //$descripcion_documento = $id_parametro['id_parametro'] . '_' . $id_parametro['descripcion'];
+
+        //$cadenaSql = $this->miSql->getCadenaSql('consultarParametro', '009');
+        //$id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+        //$tipo_documento = $id_parametro['id_parametro'];
+        
+        $descripcion_documento = "004_009" . '_' . str_replace(" ", "_", "Acta de Entrega de Servicios de Banda Ancha al Usuario");
+        //$nombre_archivo = "acta_entrega_servicios";
+        //$this->nombreDocumento = $_REQUEST['interior'] . "_" . $_REQUEST['direccion_domicilio'] . "_" . $_REQUEST['numero_identificacion'] . "_" . $nombre_archivo . '.pdf';
+        $this->nombreDocumento = $_REQUEST['id_beneficiario'] . "_" . $descripcion_documento . "_" . $this->prefijo . '.pdf';
+
     }
 
     public function estruturaDocumento() {
