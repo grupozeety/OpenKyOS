@@ -103,20 +103,20 @@ class Sql extends \Sql {
 				$cadenaSql .= " 'Paso NAP' as unidad_tr2 ,";
 				$cadenaSql .= " 'https://www.sivirtual.gov.co' as observaciones_tr2,";
 				// Atributos tabla politecnica_portatil (Especificaciones Técnicas Computador)
-				$cadenaSql .= " pc.marca, pc.modelo, pc.cpu_version as procesador,";
-				$cadenaSql .= " pc.memoria_tipo ||' '|| pc.memoria_capacidad as memoria_ram,";
-				$cadenaSql .= " pc.disco_capacidad ||' - '|| pc.disco_serial as disco_duro,";
-				$cadenaSql .= " pc.sistema_operativo,";
-				$cadenaSql .= " pc.camara_tipo ||' '|| pc.camara_formato as camara,";
-				$cadenaSql .= " pc.parlantes_tipo||' '|| pc.audio_tipo as audio,";
-				$cadenaSql .= " pc.bateria_autonomia||' '|| pc.bateria_serial as bateria, ";
-				$cadenaSql .= " pc.red_serial as targeta_red_alambrica ,";
-				$cadenaSql .= " pc.wifi_serial as targeta_red_inalambrica,";
-				$cadenaSql .= " pc.alimentacion_dispositivo||' '|| pc.alimentacion_voltaje as cargador, ";
-				$cadenaSql .= " pc.pantalla_tipo||' '|| pc.pantalla_tamanno as pantalla,";
-				$cadenaSql .= " '' as web_soporte,";
-				$cadenaSql .= " '' as telefono_soporte,";
-				$cadenaSql .= " ";
+// 				$cadenaSql .= " pc.marca, pc.modelo, pc.cpu_version as procesador,";
+// 				$cadenaSql .= " pc.memoria_tipo ||' '|| pc.memoria_capacidad as memoria_ram,";
+// 				$cadenaSql .= " pc.disco_capacidad ||' - '|| pc.disco_serial as disco_duro,";
+// 				$cadenaSql .= " pc.sistema_operativo,";
+// 				$cadenaSql .= " pc.camara_tipo ||' '|| pc.camara_formato as camara,";
+// 				$cadenaSql .= " pc.parlantes_tipo||' '|| pc.audio_tipo as audio,";
+// 				$cadenaSql .= " pc.bateria_autonomia||' '|| pc.bateria_serial as bateria, ";
+// 				$cadenaSql .= " pc.red_serial as targeta_red_alambrica ,";
+// 				$cadenaSql .= " pc.wifi_serial as targeta_red_inalambrica,";
+// 				$cadenaSql .= " pc.alimentacion_dispositivo||' '|| pc.alimentacion_voltaje as cargador, ";
+// 				$cadenaSql .= " pc.pantalla_tipo||' '|| pc.pantalla_tamanno as pantalla,";
+// 				$cadenaSql .= " '' as web_soporte,";
+// 				$cadenaSql .= " '' as telefono_soporte,";
+// 				$cadenaSql .= " ";
 				// Atributos tabla masivo_beneficiario (Beneficiario)
 				$cadenaSql .= " mb.latitud,";
 				$cadenaSql .= " mb.longitud,";
@@ -128,8 +128,8 @@ class Sql extends \Sql {
 				$cadenaSql .= " ON cn.numero_identificacion=mk.identificacion";
 				$cadenaSql .= " FULL JOIN interoperacion.masivo_pruebas AS mp";
 				$cadenaSql .= " ON cn.numero_identificacion=mp.identificacion";
-				$cadenaSql .= " FULL JOIN interoperacion.politecnica_portatil AS pc";
-				$cadenaSql .= " ON mk.serial_com=pc.serial";
+// 				$cadenaSql .= " FULL JOIN interoperacion.politecnica_portatil AS pc";
+// 				$cadenaSql .= " ON mk.serial_com=pc.serial";
 				$cadenaSql .= " FULL JOIN interoperacion.masivo_beneficiario AS mb";
 				$cadenaSql .= " ON cn.numero_identificacion=mb.identificacion";
 				$cadenaSql .= " FULL JOIN parametros.parametros pr ON cn.tipo_tecnologia=pr.id_parametro";
