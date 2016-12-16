@@ -16,6 +16,10 @@ class GestionarContrato {
 	public $ruta;
 	public $rutaURL;
 	public function __construct($lenguaje, $formulario, $sql) {
+		
+		ini_set('memory_limit', '650M');
+		ini_set('max_execution_time', 100000);
+		
 		$this->miConfigurador = \Configurador::singleton ();
 		
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
