@@ -56,6 +56,24 @@ class GestionarContrato {
 		
 		$contratos = explode(", ",$_REQUEST['beneficiario']);
 
+		$_REQUEST['tiempo'] = time();
+		// -------------------------------------------------------------------------------------------------
+		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
+		$esteCampo = $esteBloque['nombre'];
+		$atributos['id'] = $esteCampo;
+		$atributos['nombre'] = $esteCampo;
+		// Si no se coloca, entonces toma el valor predeterminado 'application/x-www-form-urlencoded'
+		$atributos['tipoFormulario'] = 'multipart/form-data';
+		// Si no se coloca, entonces toma el valor predeterminado 'POST'
+		$atributos['metodo'] = 'POST';
+		// Si no se coloca, entonces toma el valor predeterminado 'index.php' (Recomendado)
+		$atributos['action'] = 'index.php';
+		$atributos['titulo'] = $this->lenguaje->getCadena($esteCampo);
+		// Si no se coloca, entonces toma el valor predeterminado.
+		$atributos['estilo'] = '';
+		$atributos['marco'] = true;
+		$tab = 1;
+		
 		foreach ( $contratos as $generarActa ) {
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarInformacionActa', $generarActa);

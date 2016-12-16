@@ -87,7 +87,6 @@ class Sincronizar {
 		
 		$url = "http://" . $datosConexion [0] ['host'] . "/alfresco/service/api/upload";
 		
-		var_dump($url);
 		if (! function_exists ( 'curl_file_create' )) {
 			$args = "@$filename;filename=" . ($postname ?: basename ( $filename )) . ($mimetype ? ";type=$mimetype" : '');
 		} else {
