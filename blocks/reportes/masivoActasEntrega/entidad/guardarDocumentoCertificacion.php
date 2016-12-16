@@ -84,6 +84,8 @@ class GenerarDocumento {
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
         $html2pdf->Output($this->rutaAbsoluta . $this->nombreDocumento, 'F');
+        
+        $this->contenidoPagina = NULL;
 
     }
 
@@ -362,7 +364,6 @@ class GenerarDocumento {
                             <br>
                             <br>
                             		<br>
-                            		<br>
                             <table width:100%;>
                                 <tr>
                                     <td rowspan='2' align='rigth' style='vertical-align:top;width:50%;'>Firma: <br>&nbsp;
@@ -384,6 +385,10 @@ class GenerarDocumento {
         $contenidoPagina .= "</page>";
 
         $this->contenidoPagina = $contenidoPagina;
+        
+        unset($contenidoPagina);
+        $contenidoPagina = NULL;
+        
     }
 }
 

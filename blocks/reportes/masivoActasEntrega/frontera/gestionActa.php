@@ -59,15 +59,23 @@ class GestionarContrato {
 
 			$_REQUEST = $infoCertificado;
 			
-			echo "Generando Acta ...<br>";
-			echo "Número de Contrato: " . $_REQUEST['numero_contrato'] . "<br>";
-			echo "Identificación Beneficiario: " . $_REQUEST['numero_identificacion'] . "<br>";
-			
 			$_REQUEST['fecha_instalacion'] = date("d") . "-" . date("m") . "-" . date("Y");
 			$miDocumento = new GenerarDocumento ();
 			$miDocumento->crearActa ( $this->miSql, $this->rutaURL, $generarActa );
+			
 			unset ( $miDocumento );
+			$miDocumento = NULL;
+			
 			unset ( $_REQUEST );
+			$_REQUEST = NULL;
+			
+			$cadenaSql = NULL;
+			
+			unset($infoCertificado);
+			$infoCertificado = NULL;
+			
+			unset($beneficiarios);
+			$beneficiarios = NULL;
 		}
 		
 		// $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
