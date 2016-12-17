@@ -36,15 +36,7 @@ class Sincronizar {
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "1" );
-		$carpetaDocumentos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-			
-		if ($documento ['tipo_documento'] == 128) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCarpetaSoportes', "5" );
-			$carpetaDocumentos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-		}
-		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'alfrescoDirectorio', '' );
+	 	$cadenaSql = $this->miSql->getCadenaSql ( 'alfrescoDirectorio', '' );
 		$directorio = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'alfrescoUser', $beneficiario );
@@ -74,7 +66,7 @@ class Sincronizar {
 				'filedata' => $args,
 				'siteid' => $variable [0] ['site'],
 				'containerid' => 'documentLibrary',
-				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'] . "/" . $beneficiario . "/" . $carpetaDocumentos [0] ['descripcion'],
+				'uploaddirectory' => "/" . $directorio [0] [0] . "/" . $variable [0] ['padre'] . "/" . $variable [0] ['hijo'] . "/" . $beneficiario ,
 				'contenttype' => 'cm:content' 
 		);
 		
