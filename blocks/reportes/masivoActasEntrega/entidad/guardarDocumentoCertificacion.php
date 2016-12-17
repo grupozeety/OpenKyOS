@@ -39,6 +39,129 @@ class GenerarDocumento {
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
+        $anexo_dir = '';
+        
+        if ($_REQUEST['manzana'] != '0' && $_REQUEST['manzana'] != '') {
+        	$anexo_dir .= " Manzana  #" . $_REQUEST['manzana'] . " - ";
+        }
+        
+        if ($_REQUEST['bloque'] != '0' && $_REQUEST['bloque'] != '') {
+        	$anexo_dir .= " Bloque #" . $_REQUEST['bloque'] . " - ";
+        }
+        
+        if ($_REQUEST['torre'] != '0' && $_REQUEST['torre'] != '') {
+        	$anexo_dir .= " Torre #" . $_REQUEST['torre'] . " - ";
+        }
+        
+        if ($_REQUEST['casa_apartamento'] != '0' && $_REQUEST['casa_apartamento'] != '') {
+        	$anexo_dir .= " Casa/Apartamento #" . $_REQUEST['casa_apartamento'];
+        }
+        
+        if ($_REQUEST['interior'] != '0' && $_REQUEST['interior'] != '') {
+        	$anexo_dir .= " Interior #" . $_REQUEST['interior'];
+        }
+        
+        if ($_REQUEST['lote'] != '0' && $_REQUEST['lote'] != '') {
+        	$anexo_dir .= " Lote #" . $_REQUEST['lote'];
+        }
+        
+        if ($_REQUEST['piso'] != '0' && $_REQUEST['piso'] != '') {
+        	$anexo_dir .= " Piso #" . $_REQUEST['piso'];
+        }
+        
+        
+//         var_dump($_REQUEST);die;
+        
+        $_REQUEST ['tipo_documento'] = 1;
+        $_REQUEST ['tipo_beneficiario'] = '';
+        $_REQUEST ['direccion'] = $_REQUEST ['direccion_domicilio'] . " " . $anexo_dir;
+        $_REQUEST ['geolocalizacion'] = $_REQUEST ['latitud'] . "," . $_REQUEST ['longitud'];
+        $url_firma_beneficiario = '';
+        
+        $arreglo = array (
+        		'id_beneficiario' => $_REQUEST ['id_beneficiario'],
+        		'nombres' => $_REQUEST ['nombres'],
+        		'primer_apellido' => $_REQUEST ['primer_apellido'],
+        		'segundo_apellido' => $_REQUEST ['segundo_apellido'],
+        		'identificacion' => $_REQUEST ['numero_identificacion'],
+        		'tipo_documento' => $_REQUEST ['tipo_documento'],
+        		// 				'correo' => $_REQUEST ['correo'],
+        		'fecha_instalacion' => $_REQUEST ['fecha_instalacion'],
+        		'tipo_beneficiario' => $_REQUEST ['tipo_beneficiario'],
+        		'estrato' => $_REQUEST ['estrato'],
+        		'direccion' => $_REQUEST ['direccion'],
+        		'urbanizacion' => $_REQUEST ['urbanizacion'],
+        		// 				'id_urbanizacion' => $_REQUEST ['id_urbanizacion'],
+        		'departamento' => $_REQUEST ['departamento'],
+        		'municipio' => $_REQUEST ['municipio'],
+        		// 				'codigo_dane' => $_REQUEST ['codigo_dane'],
+        // 				'contacto' => $_REQUEST ['contacto'],
+        // 				'identificacion_cont' => $_REQUEST ['numero_identificacion_cont'],
+        // 				'telefono' => $_REQUEST ['telefono'],
+        // 				'celular' => $_REQUEST ['celular'],
+        		'geolocalizacion' => $_REQUEST ['geolocalizacion'],
+        		// 				'producto' => $_REQUEST ['producto'],
+        		'tipo_tecnologia' => $_REQUEST ['tipo_tecnologia'],
+        		// 				'numero_act_esc' => $_REQUEST ['numero_act_esc'],
+        		'mac_esc' => $_REQUEST ['mac1_esc'],
+        		'mac2_esc' => $_REQUEST ['mac2_esc'],
+        		'serial_esc' => $_REQUEST ['serial_esc'],
+        		'marca_esc' => $_REQUEST ['marca_esc'],
+        		'cant_esc' => $_REQUEST ['cantidad_esc'],
+        		'ip_esc' => $_REQUEST ['ip_esc'],
+        		// 				'numero_act_comp' => $_REQUEST ['numero_act_comp'],
+        // 				'mac_comp' => $_REQUEST ['mac_comp'],
+        // 				'serial_comp' => $_REQUEST ['serial_comp'],
+        // 				'marca_comp' => $_REQUEST ['marca_comp'],
+        // 				'cant_comp' => $_REQUEST ['cant_comp'],
+        // 				'ip_comp' => $_REQUEST ['ip_comp'],
+        		'hora_prueba_vs' => $_REQUEST ['hora_prueba_vs'],
+        		'resultado_vs' => $_REQUEST ['resultado_vs'],
+        		'unidad_vs' => $_REQUEST ['unidad_vs'],
+        		'observaciones_vs' => $_REQUEST ['observaciones_vs'],
+        		'hora_prueba_vb' => $_REQUEST ['hora_prueba_vb'],
+        		'resultado_vb' => $_REQUEST ['resultado_vb'],
+        		'unidad_vb' => $_REQUEST ['unidad_vb'],
+        		'observaciones_vb' => $_REQUEST ['observaciones_vb'],
+        		'hora_prueba_p1' => $_REQUEST ['hora_prueba_p1'],
+        		'resultado_p1' => $_REQUEST ['resultado_p1'],
+        		'unidad_p1' => $_REQUEST ['unidad_p1'],
+        		'observaciones_p1' => $_REQUEST ['observaciones_p1'],
+        		'hora_prueba_p2' => $_REQUEST ['hora_prueba_p2'],
+        		'resultado_p2' => $_REQUEST ['resultado_p2'],
+        		'unidad_p2' => $_REQUEST ['unidad_p2'],
+        		'observaciones_p2' => $_REQUEST ['observaciones_p2'],
+        		'hora_prueba_p3' => $_REQUEST ['hora_prueba_p3'],
+        		'resultado_p3' => $_REQUEST ['resultado_p3'],
+        		'unidad_p3' => $_REQUEST ['unidad_p3'],
+        		'observaciones_p3' => $_REQUEST ['observaciones_p3'],
+        		'hora_prueba_tr1' => $_REQUEST ['hora_prueba_tr1'],
+        		'resultado_tr1' => $_REQUEST ['resultado_tr1'],
+        		'unidad_tr1' => $_REQUEST ['unidad_tr1'],
+        		'observaciones_tr1' => $_REQUEST ['observaciones_tr1'],
+        		'hora_prueba_tr2' => $_REQUEST ['hora_prueba_tr2'],
+        		'resultado_tr2' => $_REQUEST ['resultado_tr2'],
+        		'unidad_tr2' => $_REQUEST ['unidad_tr2'],
+        		'observaciones_tr2' => $_REQUEST ['observaciones_tr2'],
+        		// 				'ciudad_expedicion_identificacion' => $_REQUEST ['ciudad'],
+        // 				'ciudad_firma' => $_REQUEST ['ciudad_firma'],
+        // 				'nombre_ins' => $_REQUEST ['nombre_ins'],
+        // 				'identificacion_ins' => $_REQUEST ['identificacion_ins'],
+        // 				'celular_ins' => $_REQUEST ['celular_ins'],
+        // 				'url_firma_contratista' => $url_firma_contratista,
+        		'url_firma_beneficiario' => $url_firma_beneficiario
+        		// 				'soporte' => $soporte
+        );
+        
+        $cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
+        $cadenaSql = str_replace ( "''", 'null', $cadenaSql );
+        $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
+        
+        echo $cadenaSql;
+        echo '<br>';
+        var_dump($this->registroActa);
+        
+        
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 
         $this->sincronizacion = new Sincronizar($lenguaje, $sql);

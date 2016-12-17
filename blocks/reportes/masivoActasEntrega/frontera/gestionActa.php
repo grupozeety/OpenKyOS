@@ -99,7 +99,7 @@ class GestionarContrato {
 			unset($beneficiarios);
 			$beneficiarios = NULL;
 			
-			echo "Aqui termino";
+			echo $generarActa . "<br>";
 		}
 		
 		// $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");

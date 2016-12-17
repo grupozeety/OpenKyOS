@@ -143,100 +143,189 @@ class Formulario {
             				<div class="panel-body">
 								<div class="row">';
 		
-		echo '<div class="well well-lg superior">
-				<div class="row">
-  					<div class="col-md-4">Hola, Pepito</div>
-  					<div align="center" id="bannerReloj" class="col-md-4"></div>
-  					<div align="right" class="col-md-4"><span id="bgcolor" class="glyphicon glyphicon-cog" aria-hidden="true"></span></div>
-			  	</div>
-		     </div>
-				';
 		
-		echo ' <div class="col-lg-4 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-blue">
-            <div class="inner">
-              <h4>44</h4><br>
-
-              <p>Número de Contrato</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-person"></i>
-            </div>
-          </div>
-        </div>';
+		$barraSuperior = '';
+		$barraSuperior .= '<div class="well well-lg superior">
+						   <div class="row">
+						   <div class="col-md-4">Hola, ';
+				
+		$beneficiario = "Abonado Apellido";
+		$barraSuperior .= $beneficiario;
 		
-		echo ' <div class="col-lg-4 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-red">
-            <div class="inner">
-              <h4>23/12/1 2016</h4><br>
+		$barraSuperior .= '</div>
+						   <div align="center" id="bannerReloj" class="col-md-4"></div>
+  						   <div align="right" class="col-md-4"><span id="bgcolor" class="glyphicon glyphicon-cog" aria-hidden="true"></span></div>
+					       </div>
+		                   </div>';
+							
 		
-              <p>Fecha Limite de Pago</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-calendar"></i>
-            </div>
-          </div>
-        </div>';
+		echo $barraSuperior;
 		
-		echo ' <div class="col-lg-4 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-green">
-            <div class="inner">
-              <h4>4 MB</h4><br>
 		
-              <p>Velocidad del Servicio</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-stats-bars"></i>
-            </div>
-          </div>
-        </div>';
+		$barraTipoBeneficiario= '<div class="col-lg-4 col-md-4 col-sm-12">
+          				  <div class="small-box bg-yellow">
+						  <div class="inner">
+              			  <h4>';
 		
-		echo '	<div class="home-doctors  clearfix">
+		$tipoBeneficiario = 'VIP';
+		$barraTipoBeneficiario .= $tipoBeneficiario;
+		
+		$barraTipoBeneficiario .= '</h4><br>
+						   <p>Tipo de Abonado</p>
+            			   </div>
+            			   <div class="icon">
+              			   <i class="ion ion-person"></i>
+            			   </div>
+          				   </div>
+       				       </div>';
+		
+		echo $barraTipoBeneficiario;
+		
+		$barraContrato = '<div class="col-lg-4 col-md-4 col-sm-12">
+          				  <div class="small-box bg-blue">
+						  <div class="inner">
+              			  <h4>';
+		
+		$numeroContrato = '44';
+		$barraContrato .= $numeroContrato;
+		
+		$barraContrato .= '</h4><br>
+						   <p>Número de Contrato</p>
+            			   </div>
+            			   <div class="icon">
+              			   <i class="ion ion-document-text"></i>
+            			   </div>
+          				   </div>
+       				       </div>';
+		
+		echo $barraContrato;
+		
+		$barraEstadoServicio = '<div class="col-lg-4 col-md-4 col-sm-12">
+          						<div class="small-box bg-red">
+            					<div class="inner">
+              					<h4>';
+		
+		$pagoFactura = '23/12/2016';
+		$barraEstadoServicio .= $pagoFactura;
+		
+		$barraEstadoServicio .= '</h4><br>
+              					<p>Fecha Limite de Pago</p>
+            					</div>
+            					<div class="icon">
+              					<i class="ion ion-ios-alarm"></i>
+            					</div>
+          						</div>
+        						</div>';
 
-					        
-					        <div class="row">
+		echo $barraEstadoServicio;
+		
+		$barraEstadoServicio = '<div class="col-lg-4 col-md-4 col-sm-12">
+          						<div class="small-box bg-green">
+            					<div class="inner">
+              					<h4>';
+		
+		$estadoServicio = 'Instalado';
+		$barraEstadoServicio .= $estadoServicio;
+		
+		$barraEstadoServicio .= '</h4><br>
+              					 <p>Estado del Servicio</p>
+            					 </div>
+            					 <div class="icon">
+              					 <i class="ion ion-stats-bars"></i>
+            					 </div>
+          						 </div>
+        						 </div>';
+		
+		
+		echo '</div>
+			  <div class="row">';
+		
+		
+		$noticiasBeneficiario = array(array("imagen"=>'bg1.jpg', "noticia" => 'noticia1'),array("imagen"=>'bg2.jpg', "noticia" => 'noticia2'),array("imagen"=>'main-feature.png', "noticia" => 'noticia3'),array("imagen"=>'cta2-img.png', "noticia" => 'noticia4'));
+		
+		$noticias = '<div class="col-lg-8 col-md-8 col-sm-12  text-center">
+					 <div id="myCarousel" class="carousel slide" data-ride="carousel">
+					 <ol class="carousel-indicators">';
+		
+		$contador = 0;
+		
+		foreach ($noticiasBeneficiario as $not){
+			
+			$noticias .= '<li data-target="#myCarousel" data-slide-to="';
+			$noticias .= $contador;
+			
+			if ($not === reset($noticiasBeneficiario)) {
+				$noticias .= '" class="active"></li>';
+			}else{
+				$noticias .= '"></li>';
+			}
+				
+			$contador++;
+		}
+		
+		$noticias .= '</ol>
+					  <div class="carousel-inner" role="listbox">';
+		
+		foreach ($noticiasBeneficiario as $not){
+			
+			if ($not === reset($noticiasBeneficiario)) {
+				$noticias .= '<div class="item active">';
+			}else{
+				$noticias .= '<div class="item ">';
+			}
+				
+			$noticias .= '<img src="';
+			$noticias .=  $rutaBloque . '/frontera/css/imagen/' .$not['imagen'];
+			$noticias .= '" alt="';
+			$noticias .= 'Chania';
+			$noticias .= '" width="460" height="345">';
+			$noticias .= '</div>';
+				
+		}
+		
+		
+		
+		$noticias .= '</div>
+   					  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      				  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      				  <span class="sr-only">Previous</span>
+    				  </a>
+    				  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      				  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      				  <span class="sr-only">Next</span>
+    				  </a>
+					  </div>
+					  </div>';
 
-
-
-<!-- entry1 -->
-						            <div class="col-lg-12 col-md-12 col-sm-12  text-center doc-item">
-				                        <div class="common-doctor animated fadeInUp clearfix ae-animation-fadeInUp">
-
-					                        <ul class="list-inline social-lists animate">
-												<li><a href="#"><i class="fa fa-skype"></i></a></li>
-												<li><a href="#"><i class="fa fa-skype"></i></a></li>
-												<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-												<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-											</ul>
-
-	                                        <figure>
-								                    <img width="100%" height="200" src="' . $rutaBloque . '/frontera/css/imagen/finger-769300_1920.jpg" class="doc-img animate attachment-gallery-post-single wp-post-image" alt="doctor-2"> 
-								            </figure>
-
-						                    <div class="text-content">
-						                        <h5>Redes Sociales</h5>
-						                        <!-- <div class="for-border"></div> -->
-						                    </div>
-						                </div>
-						            </div>
-
-
-
-
-
-
-
-
-
-					                                            <div class="visible-sm clearfix margin-gap"></div>
-
-					    </div>
-
-					</div>';
-		echo '
+		echo $noticias;
+		
+		$redesSociales = '<div class="col-lg-4 col-md-4 col-sm-12  text-center">
+						  <div class="home-doctors  clearfix">
+						  <div class="text-center doc-item">
+					      <div class="common-doctor animated fadeInUp clearfix ae-animation-fadeInUp">
+						  <ul class="list-inline social-lists animate">
+						  <li><a href="#"><i class="fa fa-skype"></i></a></li>
+						  <li><a href="#"><i class="fa fa-skype"></i></a></li>
+						  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+						  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+						  </ul>
+		                  <figure>
+						  <img width="670" height="500" src="' . $rutaBloque . '/frontera/css/imagen/finger-769300_1920.jpg" class="doc-img animate attachment-gallery-post-single wp-post-image" alt="doctor-2"> 
+						  </figure>
+						  </div>
+		                  <div class="visible-sm clearfix margin-gap"></div>
+		                  </div>
+						  </div>
+						  </div>';
+		
+		echo $barraEstadoServicio;
+		
+		echo $redesSociales;
+		
+		echo '</div>
+			  </div>';
+		
+		echo '		</div>
 					</div>
 					</div>
 					</div>
