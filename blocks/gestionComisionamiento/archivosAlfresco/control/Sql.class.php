@@ -76,11 +76,17 @@ class Sql extends \Sql {
 				$cadenaSql .= " JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro=pr.rel_parametro";
 				$cadenaSql .= " WHERE ";
 				$cadenaSql .= " pr.estado_registro=TRUE ";
-				$cadenaSql .= " AND rl.descripcion='Alfresco Folders'";
+				$cadenaSql .= " AND rl.descripcion='Alfresco Folders'"; 
 				$cadenaSql .= " AND pr.codigo='" . $variable . "' ";
 				$cadenaSql .= " AND rl.estado_registro=TRUE ";
                 	break;
-                		
+                	
+                case "masivosArchivos":
+                $cadenaSql = "	SELECT id_beneficiario, split_part(nombre_documento,id_beneficiario||'_',2) as nombre_archivo, '/usr/share/nginx/html'||split_part(ruta_relativa,'http://conexionesdigitales.politecnica.edu.co',2) as rutaabsoluta";
+                $cadenaSql.= " 	FROM interoperacion.documentos_contrato  ";
+                $cadenaSql.= " 	WHERE estado_registro=TRUE ";
+                $cadenaSql.= " 	ORDER BY id_beneficiario ASC  ";
+                break;		
 				
 		}
 		
@@ -88,4 +94,3 @@ class Sql extends \Sql {
 	}
 }
 ?>
-
