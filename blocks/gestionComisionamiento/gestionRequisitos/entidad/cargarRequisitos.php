@@ -48,6 +48,7 @@ class cargueRequisitos {
 
         $this->cargarArchivos();
 
+ 
         /**
          * 3.
          * Registrar Documentos
@@ -148,6 +149,8 @@ class cargueRequisitos {
                     'image/bmp',
                     'application/pdf',
                 );
+                
+                exit();
 
                 if (!in_array($_FILES[$key]['type'], $allowed)) {
 
