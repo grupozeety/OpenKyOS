@@ -219,7 +219,7 @@ class Alfresco {
                 $tamano = $archivo['size'];
                 $tipo = $archivo['type'];
                 $nombre_archivo = str_replace(" ", "_", $archivo['descripcion_documento']);
-                $doc = $_REQUEST['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.' . $exten['extension'];
+                $doc = $nombre_archivo . "_" . $this->prefijo . '.' . $exten['extension'];
                 /*
                  * guardamos el fichero en el Directorio
                  */
