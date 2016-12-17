@@ -36,70 +36,70 @@ class Sincronizar {
         $conexion      = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "1");
-        $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//         $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "1");
+//         $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        switch ($documento['tipo_documento']) {
-            case '131':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "1");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
+//         switch ($documento['tipo_documento']) {
+//             case '131':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "1");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
 
-            case '132':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "1");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
+//             case '132':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "1");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
 
-            case '135':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
+//             case '135':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
 
-            case '137':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
+//             case '137':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
 
-            case '140':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
+//             case '140':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
 
-            case '141':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "4");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
+//             case '141':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "4");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
 
-            case '142':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "4");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
+//             case '142':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "4");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
 
-            case '133':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
+//             case '133':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
 
-            case '134':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
+//             case '134':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
 
-            case '138':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
+//             case '138':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
 
-            case '139':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
+//             case '139':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "3");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
 
-            case '136':
-                $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
-                $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                break;
-        }
+//             case '136':
+//                 $cadenaSql         = $this->miSql->getCadenaSql('consultarCarpetaSoportes', "2");
+//                 $carpetaDocumentos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+//                 break;
+//         } 
 
         $cadenaSql  = $this->miSql->getCadenaSql('alfrescoDirectorio', '');
         $directorio = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -131,7 +131,8 @@ class Sincronizar {
             'filedata'        => $args,
             'siteid'          => $variable[0]['site'],
             'containerid'     => 'documentLibrary',
-            'uploaddirectory' => "/" . $directorio[0][0] . "/" . $variable[0]['padre'] . "/" . $variable[0]['hijo'] . "/" . $beneficiario . "/" . $carpetaDocumentos[0]['descripcion'],
+            //'uploaddirectory' => "/" . $directorio[0][0] . "/" . $variable[0]['padre'] . "/" . $variable[0]['hijo'] . "/" . $beneficiario . "/" . $carpetaDocumentos[0]['descripcion'],
+        	'uploaddirectory' => "/" . $directorio[0][0] . "/" . $variable[0]['padre'] . "/" . $variable[0]['hijo'] . "/" . $beneficiario ,
             'contenttype'     => 'cm:content',
         );
 
