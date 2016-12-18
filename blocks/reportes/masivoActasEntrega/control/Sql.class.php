@@ -120,7 +120,7 @@ class Sql extends \Sql {
 				// Atributos tabla masivo_beneficiario (Beneficiario)
 				$cadenaSql .= " mb.latitud,";
 				$cadenaSql .= " mb.longitud,";
-				$cadenaSql .= " mb.tipo_tecnologia as tecnologia,";
+				$cadenaSql .= " 'HFC' as tecnologia,";
 				$cadenaSql .= " pr.descripcion as tipo_tecnologia";
 				
 				$cadenaSql .= " FROM interoperacion.contrato AS cn";
