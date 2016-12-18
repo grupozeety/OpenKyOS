@@ -159,7 +159,7 @@ class GenerarDocumento {
 
         $cadenaSql = $this->miSql->getCadenaSql ( 'pruebaProduccion');
         $cadenaSql = str_replace ( "''", 'null', $cadenaSql );
-        $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "consultar" );
+        $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
         
         var_dump($this->registroActa);
         
