@@ -51,7 +51,7 @@ class GestionarContrato {
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
 		$miPaginaActual = $this->miConfigurador->getVariableConfiguracion ( "pagina" );
 		
-		$conexion = "interoperacion";
+		$conexion = "produccion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		$contratos = explode(", ",$_REQUEST['beneficiario']);
