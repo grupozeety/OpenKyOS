@@ -155,7 +155,7 @@ class GenerarDocumento {
         
         $cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
         $cadenaSql = str_replace ( "''", 'null', $cadenaSql );
-        $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
+//         $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 
         echo $cadenaSql;
         echo '<br>';
