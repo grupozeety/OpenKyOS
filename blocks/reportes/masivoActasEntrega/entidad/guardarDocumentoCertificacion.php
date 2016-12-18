@@ -36,7 +36,7 @@ class GenerarDocumento {
         $this->rutaURL = $ruta;
 
         //Conexion a Base de Datos
-        $conexion = "interoperacion";
+        $conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $anexo_dir = '';
@@ -153,9 +153,15 @@ class GenerarDocumento {
         		// 				'soporte' => $soporte
         );
         
-        $cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
+//         $cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
+//         $cadenaSql = str_replace ( "''", 'null', $cadenaSql );
+//         $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
+
+        $cadenaSql = $this->miSql->getCadenaSql ( 'pruebaProduccion');
         $cadenaSql = str_replace ( "''", 'null', $cadenaSql );
-        $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
+        $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "consultar" );
+        
+        var_dump($this->registroActa);
         
         echo $cadenaSql;
         echo '<br>';
