@@ -134,7 +134,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " ON cn.numero_identificacion=mb.identificacion";
 				$cadenaSql .= " FULL JOIN parametros.parametros pr ON cn.tipo_tecnologia=pr.id_parametro";
 				$cadenaSql .= " WHERE ";
-				$cadenaSql .= " cn.estado_registro=TRUE AND numero_contrato='" . $variable . "'";
+				$cadenaSql .= " cn.estado_registro=TRUE AND numero_identificacion='" . $variable . "'";
 				
 				break;
 			// case 'consultaInformacionBeneficiario' :

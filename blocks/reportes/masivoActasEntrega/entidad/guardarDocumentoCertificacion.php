@@ -218,7 +218,7 @@ class GenerarDocumento {
         
 //         var_dump($archivo_datos);exit;
         
-        $this->sincronizacion->sincronizarAlfresco($_REQUEST['id_beneficiario'], $archivo_datos);
+//         $this->sincronizacion->sincronizarAlfresco($_REQUEST['id_beneficiario'], $archivo_datos);
 
     }
 
