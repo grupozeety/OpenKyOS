@@ -69,7 +69,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " mk.serial_esc,";
 				$cadenaSql .= " mk.mac1_esc,";
 				$cadenaSql .= " mk.mac2_esc,";
-				$cadenaSql .= " mk.marca_esc,";
+				$cadenaSql .= " 'PREVAIL' as marca_esc,";
 				$cadenaSql .= " '1' as cantidad_esc,";
 				$cadenaSql .= " mk.ip_esc,";
 				// Atributos tabla masivo_pruebas (Pruebas)

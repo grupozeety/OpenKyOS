@@ -153,16 +153,10 @@ class GenerarDocumento {
         		// 				'soporte' => $soporte
         );
         
-//         $cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
-//         $cadenaSql = str_replace ( "''", 'null', $cadenaSql );
-//         $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
-
-        $cadenaSql = $this->miSql->getCadenaSql ( 'pruebaProduccion');
+        $cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
         $cadenaSql = str_replace ( "''", 'null', $cadenaSql );
-        $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-        
-        var_dump($this->registroActa);
-        
+        $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
+
         echo $cadenaSql;
         echo '<br>';
         var_dump($this->registroActa);
