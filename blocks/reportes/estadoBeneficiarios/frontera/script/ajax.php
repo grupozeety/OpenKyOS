@@ -22,6 +22,7 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($caden
 
 // URL Consultar Proyectos
 $urlConsultaGeneral = $url . $cadena;
+echo $urlConsultaGeneral;
 
 // Variables para Con
 $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
@@ -39,7 +40,7 @@ $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
 $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
 
 // URL Consultar Proyectos
-$urlConsultaGeneral = $url . $cadena;
+$urlConsultaParticular = $url . $cadena;
 
 // Variables para Con
 $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
@@ -109,7 +110,23 @@ echo '<a target="_blank" href="' . $urlConsultarParticularEnlace . '">Enlace Con
 
                   } );
                     return nRow;
-             }
+             },
+              responsive: true,
+                   ajax:{
+                      url:"<?php echo $urlConsultaGeneral;?>",
+                      dataSrc:"data"
+                  },
+                  columns: [
+                  { data :"proyecto"},
+                  { data :"beneficiarios" },
+                  { data :"preventas" },
+                  { data :"ventas"},
+                  { data :"accPortatil" },
+                  { data :"accServicio" },
+                  { data :"activacion"},
+                  { data :"revision" },
+                  { data :"aprobacion" },
+                           ]
 //
     } );
 	$('#example_2').DataTable( {
@@ -156,7 +173,8 @@ echo '<a target="_blank" href="' . $urlConsultarParticularEnlace . '">Enlace Con
 
                   } );
                     return nRow;
-             }
+             },
+
 //
     } );
 

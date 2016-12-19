@@ -69,11 +69,68 @@ class Registrador {
 
                     {
 
+                        /*echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                        <th><center>Departamento<center></th>
+                        <th><center>Municipio<center></th>
+                        <th><center>Beneficiarios<center></th>
+                        <th><center>Preventas(%)<center></th>
+                        <th><center>Ventas(%)<center></th>
+                        <th><center>Asignación de<br>Portatiles(%)<center></th>
+                        <th><center>Asignación de<br>Equipos de Acceso(%)<center></th>
+                        <th><center>Activación(%)<center></th>
+                        <th><center>Revisión(%)<center></th>
+                        <th><center>Aprobación(%)<center></th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                        <th><center>Departamento<center></th>
+                        <th><center>Municipio<center></th>
+                        <th><center>Beneficiarios<center></th>
+                        <th><center>Preventas(%)<center></th>
+                        <th><center>Ventas(%)<center></th>
+                        <th><center>Asignación de<br>Portatiles(%)<center></th>
+                        <th><center>Asignación de<br>Equipos de Acceso(%)<center></th>
+                        <th><center>Activación(%)<center></th>
+                        <th><center>Revisión(%)<center></th>
+                        <th><center>Aprobación(%)<center></th>
+                        </tr>
+                        </tfoot>
+
+                        <tbody>
+                        <tr>
+                        <td>CORDOBA</td>
+                        <td>MONTERIA</td>
+                        <td>EL RECUERDO</td>
+                        <td>10</td>
+                        <td>40</td>
+                        <td>50</td>
+                        <td>60</td>
+                        <td>70</td>
+                        <td>80</td>
+                        <td>100</td>
+                        </tr>
+                        <tr>
+                        <td>CORDOBA</td>
+                        <td>CERETE</td>
+                        <td>ALTOS DE LAS ACACIAS</td>
+                        <td>100</td>
+                        <td>30</td>
+                        <td>50</td>
+                        <td>80</td>
+                        <td>70</td>
+                        <td>10</td>
+                        <td>90</td>
+                        </tr>
+                        </tbody>
+                        </table>';*/
+
                         echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th><center>Departamento<center></th>
-                                            <th><center>Municipio<center></th>
+                                            <th><center>Proyecto<center></th>
                                             <th><center>Beneficiarios<center></th>
                                             <th><center>Preventas(%)<center></th>
                                             <th><center>Ventas(%)<center></th>
@@ -86,8 +143,7 @@ class Registrador {
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th><center>Departamento<center></th>
-                                            <th><center>Municipio<center></th>
+                                            <th><center>Proyecto<center></th>
                                             <th><center>Beneficiarios<center></th>
                                             <th><center>Preventas(%)<center></th>
                                             <th><center>Ventas(%)<center></th>
@@ -98,33 +154,6 @@ class Registrador {
                                             <th><center>Aprobación(%)<center></th>
                                         </tr>
                                     </tfoot>
-
-                                     <tbody>
-							            <tr>
-							                <td>CORDOBA</td>
-							                <td>MONTERIA</td>
-							                <td>EL RECUERDO</td>
-							                <td>10</td>
-							                <td>40</td>
-							                <td>50</td>
-							                <td>60</td>
-							                <td>70</td>
-							                <td>80</td>
-							                <td>100</td>
-							            </tr>
-							            <tr>
-							                <td>CORDOBA</td>
-							                <td>CERETE</td>
-							                <td>ALTOS DE LAS ACACIAS</td>
-							                <td>100</td>
-							                <td>30</td>
-							                <td>50</td>
-							                <td>80</td>
-							                <td>70</td>
-							                <td>10</td>
-							                <td>90</td>
-							            </tr>
-							         </tbody>
                                   </table>';
                     }
 

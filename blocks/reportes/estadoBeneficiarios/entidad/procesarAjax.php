@@ -10,44 +10,57 @@ class procesarAjax {
 
         $this->sql = $sql;
 
+        $conexion = "interoperacion";
+
+        //$conexion = "produccion";
+        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
+        // URL base
+        $url = $this->miConfigurador->getVariableConfiguracion("host");
+        $url .= $this->miConfigurador->getVariableConfiguracion("site");
+        $url .= "/index.php?";
+
+        $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
+
         switch ($_REQUEST['funcion']) {
 
             case 'consultaGeneral':
-                var_dump($_REQUEST);
-                exit;
-
+                //var_dump($_REQUEST);
+                //exit;
                 $cadenaSql = $this->sql->getCadenaSql('consultaGeneralBeneficiarios');
+
                 $procesos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
                 if ($procesos) {
                     foreach ($procesos as $key => $valor) {
 
-                        /*
-                    // Variables para Con
-                    $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
-                    $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
-                    $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                    $cadenaACodificar .= "&opcion=consultaParticular";
-                    $cadenaACodificar .= "&proyecto=EL RECUERDO";
-                    $cadenaACodificar .= "&id_proyecto=11";
+                        // Variables para Con
+                        $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+                        $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+                        $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                        $cadenaACodificar .= "&opcion=consultaParticular";
+                        $cadenaACodificar .= "&proyecto=" . $valor['proyecto'];
+                        $cadenaACodificar .= "&id_proyecto=" . $valor['id_proyecto'];
 
-                    // Codificar las variables
-                    $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-                    $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+                        // Codificar las variables
+                        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
 
-                    // URL Consultar Proyectos
-                    $urlConsultarParticularEnlace = $url . $cadena;
-                    echo $urlConsultarParticularEnlace;
-                     */
-
-                        $archivo = (is_null($valor['ruta_archivo'])) ? " " : "<center><a href='" . $valor['ruta_archivo'] . "' target='_blank' >" . $valor['nombre_ruta_archivo'] . "</a></center>";
+                        // URL Consultar Proyectos
+                        $urlConsultarParticularEnlace = $url . $cadena;
+                        $link = "<a  target='_blank' href='" . $urlConsultarParticularEnlace . "'>" . $valor['proyecto'] . "</a>";
 
                         $resultadoFinal[] = array(
-                            'proceso' => $valor['id_proceso'],
-                            'estado' => $valor['estado'],
-                            'archivo' => $archivo,
-                            'num_inicial' => $valor['parametro_inicio'],
-                            'num_final' => $valor['parametro_fin'],
+                            'proyecto' => $valor['proyecto'],
+                            'beneficiarios' => "#" . $valor['beneficiarios'],
+                            'preventas' => $valor['preventas'],
+                            'ventas' => $valor['ventas'],
+                            'accPortatil' => $valor['asignacion_portatiles'],
+                            'accServicio' => $valor['asignacion_servicios'],
+                            'activacion' => $valor['activacion'],
+                            'revision' => $valor['revision'],
+                            'aprobacion' => $valor['aprobacion'],
+
                         );
                     }
 
