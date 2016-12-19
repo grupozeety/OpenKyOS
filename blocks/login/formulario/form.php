@@ -123,6 +123,7 @@ class FormularioMenu {
 		}else if(isset($_REQUEST['event']) && $_REQUEST['event']=="login"){
 			include $this->site.'funcion/VerificarSesion.php';
 			if($respuesta){
+				
 				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
@@ -138,13 +139,31 @@ class FormularioMenu {
 			include $this->site.'funcion/VerificarSesion.php';
 				
 			if($respuesta){
+				
+				$info_usuario = $this->miSesionSso->getParametrosSesionAbierta ();
+				
+				foreach ( $info_usuario ['description'] as $key => $rol ) {
+				
+					$info_usuario ['rol'] [] = $rol;
+				}
+				
+				
 				$directorio = $this->miConfigurador->getVariableConfiguracion ( "host" );
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
-				$valorCodificado = "pagina=paginaPrincipal";
+				
+				if($info_usuario['rol'][0] != "abonados"){
+					$valorCodificado = "pagina=paginaPrincipal";
+				}else{
+					$valorCodificado = "pagina=indexAbonados";
+				}
+				
 				$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );
 				$enlace = $directorio.'='.$valorCodificado;
+				
 				header('Location: '.$enlace);
+				
+				exit();
 			}
 			
 			include $this->site.'funcion/Login.php';
