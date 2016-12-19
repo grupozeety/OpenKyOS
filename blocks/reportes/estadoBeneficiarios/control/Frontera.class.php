@@ -46,7 +46,7 @@ class Frontera {
 
         if (isset($_REQUEST['opcion'])) {
 
-            switch ($_REQUEST['proceso']) {
+            switch ($_REQUEST['opcion']) {
 
                 case 'consultaParticular':
                     include_once $this->ruta . "frontera/consultaParticular.php";
@@ -59,7 +59,7 @@ class Frontera {
 
         } else {
 
-            include_once $this->ruta . "frontera/consultaParticular.php";
+            include_once $this->ruta . "frontera/consultaGeneral.php";
 
         }
     }

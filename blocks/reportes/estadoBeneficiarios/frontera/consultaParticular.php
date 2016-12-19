@@ -72,9 +72,9 @@ class Registrador {
                         echo '<table id="example_2" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th><center>Departamento<center></th>
-                                            <th><center>Municipio<center></th>
-                                            <th><center>Beneficiarios<center></th>
+                                            <th><center>ID Beneficiario<center></th>
+                                            <th><center>Identificación Beneficiario<center></th>
+                                            <th><center>Nombre Beneficiario<center></th>
                                             <th><center>Preventas(%)<center></th>
                                             <th><center>Ventas(%)<center></th>
                                             <th><center>Asignación de<br>Portatiles(%)<center></th>
@@ -86,9 +86,9 @@ class Registrador {
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th><center>Departamento<center></th>
-                                            <th><center>Municipio<center></th>
-                                            <th><center>Beneficiarios<center></th>
+                                            <th><center>ID Beneficiario<center></th>
+                                            <th><center>Identificación Beneficiario<center></th>
+                                            <th><center>Nombre Beneficiario<center></th>
                                             <th><center>Preventas(%)<center></th>
                                             <th><center>Ventas(%)<center></th>
                                             <th><center>Asignación de<br>Portatiles(%)<center></th>
@@ -101,28 +101,28 @@ class Registrador {
 
                                      <tbody>
                                         <tr>
-                                            <td>CORDOBA</td>
-                                            <td>MONTERIA</td>
-                                            <td>EL RECUERDO</td>
-                                            <td>10</td>
-                                            <td>40</td>
+                                            <td>CE272</td>
+                                            <td>1026276984</td>
+                                            <td>STIV VERDUGO MARQUEZ</td>
+                                            <td>100</td>
+                                            <td>90</td>
+                                            <td>80</td>
                                             <td>50</td>
                                             <td>60</td>
                                             <td>70</td>
-                                            <td>80</td>
-                                            <td>100</td>
+                                            <td>0</td>
                                         </tr>
                                         <tr>
-                                            <td>CORDOBA</td>
-                                            <td>CERETE</td>
-                                            <td>ALTOS DE LAS ACACIAS</td>
-                                            <td>100</td>
-                                            <td>30</td>
+                                            <td>CE275</td>
+                                            <td>1078945874</td>
+                                            <td>EMMANUEL TABORDA</td>
+                                            <td>0</td>
+                                            <td>10</td>
+                                            <td>25</td>
                                             <td>50</td>
                                             <td>80</td>
-                                            <td>70</td>
-                                            <td>10</td>
                                             <td>90</td>
+                                            <td>100</td>
                                         </tr>
                                      </tbody>
                                   </table>';
