@@ -200,9 +200,9 @@ class FormularioMenu {
 				          <li id="pruebasvelocidad"><a href="index.php?data=fwZWpArXm8py2Jtq86jk4VyHm1KgjVLyVND2Kj3gBVU">Pruebas de Velocidad<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-dashboard"></span></a></li>
 				          <li id="miportatil"><a href="index.php?data=Av8RThwXWRtacHN1iSAoWTQYwQx2HkXvnvoAztcqYI4">Mi Portatil<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span></a></li>
 				          <li id="micontrato"><a href="index.php?data=NSe7jAj-1tWV957og1-uHhpcg_IkSp_WnrhxlIhoG9Y">Contrato<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-file"></span></a></li>
-				          <li><a href="#">Facturas<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-usd"></span></a></li>
+				          <li id="mifactura"><a href="index.php?data=Hbsu6Zg4HNBQul9_lZAW4XjzfyFLP1iyYzv9Gz_PLqE">Facturas<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-usd"></span></a></li>
 				          <li id="miservicio"><a href="index.php?data=dnSaa6vHFjg8HsSAQAhC368BWRVsJ2jjOaGu9ye-NKk">Productos<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-signal"></span></a></li>
-				          <li><a href="#">PQR<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-question-sign"></span></a></li>
+				          <li><a href="http://soporte.politecnica.edu.co/"  target="_blank">PQR<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-question-sign"></span></a></li>
 				          <li><a href="index.php?data=SRuAbusjKCfT8KmAcSIspwNNay_JPuA5kJEZUp1J0Xo">Cerrar Sesión<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-share"></span></a></li>
 				        </ul>
 				    </div>

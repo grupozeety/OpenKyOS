@@ -174,6 +174,45 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND estado_registro='TRUE';";
                 break;
 
+                
+                case 'consultarInformacionActa' :
+                	$cadenaSql = " SELECT";
+                	//Atributos tabla politecnica_portatil (Especificaciones Técnicas Computador)
+                	$cadenaSql .= " pc.serial,";
+//                 	$cadenaSql .= " pc.bits,";
+                	$cadenaSql .= " pc.cpu_fabricante,";
+                	$cadenaSql .= " pc.cpu_version,";
+                	$cadenaSql .= " pc.modelo,";
+
+                	$cadenaSql .= " pc.board_fabricante,";
+                	$cadenaSql .= " pc.board_serial,";
+                	$cadenaSql .= " pc.board_version,";
+                	$cadenaSql .= " pc.cpu_cantidad_nucleos,";
+                	$cadenaSql .= " pc.cpu_bits,";
+                	$cadenaSql .= " pc.cpu_velocidad,";
+
+//                 	$cadenaSql .= " pc.marca, pc.modelo,";
+                	$cadenaSql .= "	pc.cpu_version as procesador,";
+                	$cadenaSql .= " pc.memoria_tipo ||' '|| pc.memoria_capacidad as memoria_ram,";
+                	$cadenaSql .= " pc.disco_capacidad ||' - '|| pc.disco_serial as disco_duro,";
+                	$cadenaSql .= " pc.sistema_operativo,";
+                	$cadenaSql .= " pc.camara_tipo ||' '|| pc.camara_formato as camara,";
+                	$cadenaSql .= " pc.parlantes_tipo||' '|| pc.audio_tipo as audio,";
+                	$cadenaSql .= " pc.bateria_autonomia||' '|| pc.bateria_serial as bateria, ";
+                	$cadenaSql .= " pc.red_serial as targeta_red_alambrica ,";
+                	$cadenaSql .= " pc.wifi_serial as targeta_red_inalambrica,";
+                	$cadenaSql .= " pc.alimentacion_dispositivo||' '|| pc.alimentacion_voltaje as cargador, ";
+                	$cadenaSql .= " pc.pantalla_tipo||' '|| pc.pantalla_tamanno as pantalla";
+                	$cadenaSql .= " ";
+
+                	$cadenaSql .= " FROM interoperacion.acta_entrega_portatil AS ap";
+                	$cadenaSql .= " FULL JOIN interoperacion.politecnica_portatil AS pc";
+                	$cadenaSql .= " ON ap.serial=pc.serial";
+                	$cadenaSql .= " WHERE ";
+                	$cadenaSql .= " ap.estado_registro=TRUE AND identificacion='" . $info_usuario['uid'][0] . "'";
+                
+                	break;
+                	
             case 'registrarRequisito':
                 $cadenaSql = " INSERT INTO interoperacion.documentos_contrato(";
                 $cadenaSql .= " id_beneficiario, ";

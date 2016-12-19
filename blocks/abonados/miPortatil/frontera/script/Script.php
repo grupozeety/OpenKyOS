@@ -12,14 +12,14 @@ $indice = 0;
 
 //$funcion [$indice ++] = " ";
 
-$funcion[$indice++] = "bootstrap-datetimepicker.min.js";
-$funcion[$indice++] = "bootstrap-datetimepicker.es.js";
-$funcion[$indice++] = "jquery.autocomplete.js";
-$funcion[$indice++] = "jquery.autocomplete.min.js";
-$funcion[$indice++] = "select2.min.js";
-$funcion[$indice++] = "modalLoad.js";
-$funcion[$indice++] = "jSignature.js";
-$funcion[$indice++] = "jSignature.CompressorSVG.js";
+$funcion[$indice++] = "main.js";
+$funcion[$indice++] = "funciones.js";
+$funcion[$indice++] = "bootstrap-filestyle.min.js";
+$funcion[$indice++] = "modernizr.js";
+$funcion[$indice++] = "pace.min.js";
+$funcion[$indice++] = "plugins.js";
+$funcion[$indice++] = "main.js";
+
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");

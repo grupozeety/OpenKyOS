@@ -7,10 +7,9 @@ $indice = 0;
 
 $estilo[$indice++] = "estiloBloque.css";
 
-$estilo [$indice ++] = "jquery.auto-complete.css";
-$estilo [$indice ++] = "select2.min.css";
-$estilo [$indice ++] = "modalLoad.css";
-$estilo [$indice ++] = "miestilo.css";
+$estilo [$indice ++] = "base.css";
+$estilo [$indice ++] = "vendor.css";
+$estilo [$indice ++] = "main.css";
 
 $indice++;
 

@@ -267,7 +267,7 @@ class Sql extends \Sql {
 			case 'consultaInformacionCertificado' :
 				$cadenaSql = " SELECT *";
 				$cadenaSql .= " FROM interoperacion.acta_entrega_servicios";
-				$cadenaSql .= " WHERE id_beneficiario ='" . $_REQUEST ['id_beneficiario'] . "'";
+                $cadenaSql .= " WHERE identificacion ='" . $info_usuario['uid'][0]  . "'";
 				$cadenaSql .= " AND estado_registro='TRUE';";
 				break;
 			
