@@ -55,7 +55,7 @@ class Registrador {
 
             $esteCampo = 'Agrupacion';
             $atributos['id'] = $esteCampo;
-            $atributos['leyenda'] = "Consulta de Beneficiarios con Relación al Proyecto";
+            $atributos['leyenda'] = "Consulta de Beneficiarios con Relación al Proyecto : <b>" . $_REQUEST['proyecto'] . "</b>";
             echo $this->miFormulario->agrupacion('inicio', $atributos);
             unset($atributos);
             {
@@ -72,13 +72,10 @@ class Registrador {
                         echo '<table id="example_2" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th><center>ID Beneficiario<center></th>
-                                            <th><center>Identificación Beneficiario<center></th>
-                                            <th><center>Nombre Beneficiario<center></th>
-                                            <th><center>Preventas(%)<center></th>
-                                            <th><center>Ventas(%)<center></th>
-                                            <th><center>Asignación de<br>Portatiles(%)<center></th>
-                                            <th><center>Asignación de<br>Equipos de Acceso(%)<center></th>
+                                            <th><center>Beneficiario<center></th>
+                                            <th><center>Contratos(%)<center></th>
+                                            <th><center>Asignación de<br>Portatil(%)<center></th>
+                                            <th><center>Asignación de<br>Equipo de Acceso(%)<center></th>
                                             <th><center>Activación(%)<center></th>
                                             <th><center>Revisión(%)<center></th>
                                             <th><center>Aprobación(%)<center></th>
@@ -86,45 +83,15 @@ class Registrador {
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th><center>ID Beneficiario<center></th>
-                                            <th><center>Identificación Beneficiario<center></th>
-                                            <th><center>Nombre Beneficiario<center></th>
-                                            <th><center>Preventas(%)<center></th>
-                                            <th><center>Ventas(%)<center></th>
-                                            <th><center>Asignación de<br>Portatiles(%)<center></th>
-                                            <th><center>Asignación de<br>Equipos de Acceso(%)<center></th>
+                                            <th><center>Beneficiario<center></th>
+                                            <th><center>Contratos(%)<center></th>
+                                            <th><center>Asignación de<br>Portatil(%)<center></th>
+                                            <th><center>Asignación de<br>Equipo de Acceso(%)<center></th>
                                             <th><center>Activación(%)<center></th>
                                             <th><center>Revisión(%)<center></th>
                                             <th><center>Aprobación(%)<center></th>
                                         </tr>
                                     </tfoot>
-
-                                     <tbody>
-                                        <tr>
-                                            <td>CE272</td>
-                                            <td>1026276984</td>
-                                            <td>STIV VERDUGO MARQUEZ</td>
-                                            <td>100</td>
-                                            <td>90</td>
-                                            <td>80</td>
-                                            <td>50</td>
-                                            <td>60</td>
-                                            <td>70</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>CE275</td>
-                                            <td>1078945874</td>
-                                            <td>EMMANUEL TABORDA</td>
-                                            <td>0</td>
-                                            <td>10</td>
-                                            <td>25</td>
-                                            <td>50</td>
-                                            <td>80</td>
-                                            <td>90</td>
-                                            <td>100</td>
-                                        </tr>
-                                     </tbody>
                                   </table>';
                     }
 
