@@ -22,7 +22,6 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($caden
 
 // URL Consultar Proyectos
 $urlConsultaGeneral = $url . $cadena;
-echo $urlConsultaGeneral;
 
 // Variables para Con
 $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
@@ -56,7 +55,6 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($caden
 
 // URL Consultar Proyectos
 $urlConsultarParticularEnlace = $url . $cadena;
-echo '<a target="_blank" href="' . $urlConsultarParticularEnlace . '">Enlace Consulta Particular</a>';
 
 ?>
 <script type='text/javascript'>
@@ -174,6 +172,20 @@ echo '<a target="_blank" href="' . $urlConsultarParticularEnlace . '">Enlace Con
                   } );
                     return nRow;
              },
+              responsive: true,
+                   ajax:{
+                      url:"<?php echo $urlConsultaParticular;?>",
+                      dataSrc:"data"
+                  },
+                  columns: [
+                  { data :"beneficiario" },
+                  { data :"contrato" },
+                  { data :"accPortatil" },
+                  { data :"accServicio" },
+                  { data :"activacion"},
+                  { data :"revision" },
+                  { data :"aprobacion" },
+                           ]
 
 //
     } );

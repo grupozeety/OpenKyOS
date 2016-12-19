@@ -1,0 +1,590 @@
+@CHARSET "UTF-8";
+
+form {
+	margin: 0 auto 0 auto;
+	width: 100%;
+}
+
+form fieldset {
+	clear: both;
+	padding: 10px;
+	margin: 10px 5px 15px 5px;
+}
+
+form fieldset legend {
+	width: 90%;
+}
+
+form fieldset:hover {
+	border-color: #AAAAAA;
+	border-width: 1px 1px 1px 1px;
+	border-style: solid solid solid solid;
+}
+
+form div label {
+	font-size: 15px;
+	font-weight: normal;
+	font-family: Roboto, sans-serif;
+	display: block;
+	float: left;
+	padding: 3px 5px;
+	margin: 0 0 5px 0;
+	text-align: right;
+	border-width: 0px;
+	border-style: solid;
+}
+
+form input[type="text"]:focus {
+	border: 1px solid #4D90FE;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset;
+	outline: medium none;
+}
+
+.etiquetaTextoLateral {
+	font-size: 13px;
+	font-weight: normal;
+	font-family: Roboto, sans-serif;
+	display: block;
+	float: left;
+	padding: 3px 5px;
+	margin: 0 0 5px 0;
+	text-align: left;
+	border-width: 0px;
+	border-style: solid;
+}
+
+/*----------------Divisiones---------------------*/
+div.margen {
+	padding: 0px 15px 0px 15px;
+}
+
+div.margen2 {
+	padding: 15px 15px 0px 15px;
+}
+
+div.banner {
+	margin: 0px auto 0px auto;
+	border-collapse: collapse;
+	border-width: 0px 0px 0px 0px;
+	border-style: solid;
+	border-color: #CCCCCC;
+	border-spacing: 0px;
+}
+
+div.mensaje {
+	width: 98%;
+	float: left;
+	margin: 5px auto 5px auto;
+	border-collapse: collapse;
+	border-width: 1px 1px 1px 1px;
+	border-style: solid;
+	border-color: #CCCCCC;
+	background-color: #FFFFFF;
+	border-spacing: 0px;
+	padding: 5px;
+}
+
+div.mensajeAlerta {
+	width: 90%;
+	margin: 0 auto 10px auto;
+	border-collapse: collapse;
+	border-width: 1px 1px 1px 1px;
+	border-style: solid;
+	border-color: #8D0A00;
+	background-color: #FCFFD8;
+	border-spacing: 0px;
+	padding: 15px;
+	text-align: center;
+}
+
+div.formulario {
+	width: 98%;
+	margin: 0px auto 0 auto;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #CCCCCC;
+	background-color: #FFFFFF;
+	border-spacing: 0px;
+	padding: 10px;
+}
+
+div.formularioConJqgrid {
+	width: 98%;
+	margin: 0px auto 0 auto;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #CCCCCC;
+	background-color: #FFFFFF;
+	border-spacing: 0px;
+	padding: 10px;
+}
+
+div.formularioLateral {
+	width: 98%;
+	margin: 10px auto 0 auto;
+	float: left;
+	text-align: left;
+	border-collapse: collapse;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #CCCCCC;
+	background-color: #FFFFFF;
+	border-spacing: 0px;
+	padding: 0px;
+	background-color: #CCCCCC;
+	-moz-border-radius-bottomleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+}
+
+div.mapa,div.mapaGrande {
+	width: 90%;
+	margin: 5px auto 5px auto;
+	border-collapse: collapse;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+div.mapa {
+	height: 300px;
+}
+
+div.mapaGrande {
+	height: 500px;
+}
+
+div.campoMapa {
+	width: 95%;
+	margin: 5px auto 5px auto;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+div.recaptcha {
+	width: 95%;
+	margin: 0px auto 0px auto;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+div.campoCuadroTexto {
+	width: 95%;
+	margin: 0px auto 0px auto;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 5px 5px 5px;
+}
+
+div.campoAreaTexto {
+	width: 95%;
+	margin: 5px auto 5px auto;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 5px 5px 5px;
+}
+
+div.campoBotonRadial {
+	width: 90%;
+	margin: 5px auto 5px auto;
+	font-size: 12px;
+	font-family: "Roboto", Verdana, Trebuchet MS, Helvetica, sans-serif;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 5px 5px 5px;
+}
+
+div.campoCuadroSeleccion {
+	width: 90%;
+	margin: 0px auto 0px auto;
+	font-size: 12px;
+	font-family: "Roboto", Verdana, Trebuchet MS, Helvetica, sans-serif;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 5px 5px 5px;
+}
+
+div.campoCuadroSeleccionCorta {
+	width: 45%;
+	margin: 0px auto 0px auto;
+	font-size: 12px;
+	font-family: "Roboto", Verdana, Trebuchet MS, Helvetica, sans-serif;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 5px 5px 5px;
+}
+
+div.campoCuadroTextoLateral {
+	width: 90%;
+	margin: 5px auto 5px auto;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+div.campoCuadroLista {
+	width: 90%;
+	margin: 5px auto 5px auto;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px 0px 0px 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 5px 5px 5px;
+}
+
+div.campoTexto {
+	width: 100%;
+	margin: 1px auto 1px auto;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 0px;
+}
+
+div.campoFecha {
+	width: 90%;
+	margin: 1px auto 1px auto;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px;
+	background-color: #FFFFFF;
+}
+
+div.cuadroTextoImportante {
+	width: 90%;
+	margin: 1px auto 1px auto;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	display: table-cell;
+	vertical-align: middle;
+	background-color: #FFFFFF;
+}
+
+div.campoTextoEtiqueta {
+	display: block;
+	text-align: left;
+	width: 20%;
+	float: left;
+	padding: 0px 0px;
+	margin: 1px 0 1px 0;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	font-size: 14px;
+	font-family: "Roboto",sans-serif;
+}
+
+div.campoMapaEtiqueta {
+	width: 90%;
+	float: left;
+	padding: 3px 5px;
+	margin: 5px 0 5px 0;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	font-size: 14px;
+	font-family: "Roboto", Verdana, Trebuchet MS, Helvetica, sans-serif;
+	font-weight: bold;
+}
+
+div.campoTextoContenido {
+	float: left;
+	width: 60%;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #FFFFFF;
+	border-spacing: 0px;
+	margin: 1px 0 1px 0;
+	padding: 2px;
+	font-size: 14px;
+	font-family: "Roboto", Verdana, Trebuchet MS, Helvetica, sans-serif;
+	font-style: italic;
+}
+
+div.campoTextoContenidoSolo {
+	
+}
+
+div.campoMarcador {
+	width: 100%;
+	font-size: 14px;
+	font-family: "Roboto", Verdana, Trebuchet MS, Helvetica, sans-serif;
+	font-style: italic;
+}
+
+div.campoAreaContenido {
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 5px 5px 5px;
+}
+
+div.campoMensaje {
+	width: 90%;
+	float: left;
+	margin: 10px auto 1px auto;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 10px 5px 10px 5px;
+}
+
+div.campoMostrar {
+	padding: 5px 5px 5px 0px;
+	margin: 1px auto 1px auto;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+}
+
+div.campoImagen {
+	float: left;
+	width: 95%;
+	margin: 1px auto 1px auto;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+}
+
+div.marcoControles {
+	width: 90%;
+	border-collapse: collapse;
+	border-width: 0px 0px 0px 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	margin: 0px auto 0px auto;
+	padding: 0px;
+}
+
+div.marcoCentrado {
+	width: 95%;
+	margin: 0px auto 0px auto;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	padding: 0px 0px;
+}
+
+div.marcoCentralInterno {
+	width: 90%;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	margin: 0px auto 0px auto;
+	padding: 5px;
+}
+
+div.spacer {
+	clear: both;
+}
+
+div.marcoTipoCelda {
+	width: 45%;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	float: left;
+}
+
+div.marcoGeneral {
+	width: 100%;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	margin: 0px auto 0px auto;
+	padding: 10px 0px 10px 0px;
+	text-align: center;
+}
+
+div.general {
+	width: 98%;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	margin: 5px auto 5px auto;
+	padding: 5px;
+	font-family: "Roboto", Verdana, Trebuchet MS, Helvetica, sans-serif;
+}
+
+div.campoBoton {
+	display: inline;
+	margin: 1px auto 1px auto;
+	border-collapse: collapse;
+	border-width: 0px 0px 0px 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	padding: 5px 30px 5px 30px;
+}
+
+div.marcoMensajeSolo {
+	width: 50%;
+	border-collapse: collapse;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	margin: 0px auto 0px auto;
+	padding: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+div.marcoBotones {
+	width: 95%;
+	border-collapse: collapse;
+	border-width: 0px 0px 0px 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	margin: 5px auto 15px auto;
+	text-align: center;
+}
+
+div.marcoConfirmar {
+	width: 90%;
+	border-collapse: collapse;
+	border-width: 1px 1px 1px 1px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	margin: 5px auto 15px auto;
+	font-family: "Roboto", Verdana, Trebuchet MS, Helvetica, sans-serif;
+}
+
+div.marcoTitulo {
+	width: 98%;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px 0px 0px 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	background-color: #AAAAAA;
+	margin: 5px auto 15px auto;
+	padding: 5px 5px 5px 10px;
+	font-family: "Roboto", Verdana, Trebuchet MS, Helvetica, sans-serif;
+}
+
+div.marcoTituloSimple {
+	width: 98%;
+	float: left;
+	border-collapse: collapse;
+	border-width: 0px 0px 2px 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	margin: 5px auto 15px auto;
+	padding: 5px 5px 5px 10px;
+	font-family: "Roboto", Verdana, Trebuchet MS, Helvetica, sans-serif;
+}
+
+div.espacioBlanco {
+	width: 100%;
+	border-collapse: collapse;
+	border-width: 0px 0px 0px 0px;
+	border-style: solid;
+	border-color: #000000;
+	border-spacing: 0px;
+	margin: 5px 0 5px 0;
+	display: block;
+}
+
+.anchoColumna1 {
+	clear: both;
+	width: 95% !important;
+}
+
+.anchoColumna2 {
+	width: 46% !important;
+}
+
+.anchoColumna3 {
+	width: 32% !important;
+}
+
+.botonEnlace {
+	padding: 15px;
+	margin: 10px auto;
+}
+
+.listaEnlace {
+	padding: 15px;
+}
