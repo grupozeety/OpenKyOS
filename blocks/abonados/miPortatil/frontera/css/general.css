@@ -1,0 +1,75 @@
+/* ----------------Estructura de la página ----------------- */
+body {
+	width: 100%;
+	margin: 0;
+}
+
+#marcoGeneral {
+	width: 95%;
+	margin: 0 auto;
+	border: 1px solid #EEEEEE;
+	background-color: #FFFFFF;
+	padding: 0px 10px;
+	display: table;
+}
+
+.seccionAmplia {
+	width: 100%;
+	float: left;
+}
+
+.seccionB {
+	width: 20%;
+	float: left;
+}
+
+.seccionCentral {
+	width: 70%;
+	float: left;
+}
+
+.seccionCentralAmpliada {
+	width: 80%;
+	float: left;
+}
+
+.seccionD {
+	width: 15%;
+	float: left;
+}
+
+/* ------Fin Estilos de Estructura de la página ------------ */
+.ocultar {
+	display: none
+}
+
+.reducir {
+	width: 0px;
+	height: 0px
+}
+
+.centrar {
+	margin: 0 auto 0 auto;
+}
+
+.shadow {
+	-moz-box-shadow: 3px 3px 5px 6px #ccc;
+	-webkit-box-shadow: 3px 3px 5px 6px #ccc;
+	box-shadow: 3px 3px 5px 6px #ccc;
+}
+
+
+.listaMenu{
+	
+	list-style-type:none;
+	
+}
+
+a.enlaceMenu{
+    
+     text-decoration:none; 
+    
+}
+
+
+
