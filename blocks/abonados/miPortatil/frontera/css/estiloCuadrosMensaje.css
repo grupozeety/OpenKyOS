@@ -1,0 +1,79 @@
+.information,.success,.warning,.error,.validation,.message,.divTitulo,.validation2
+	{
+	margin: 30px auto;
+	border: 1px solid;
+	padding: 15px 15px 15px 50px;
+	background-repeat: no-repeat;
+	background-position: 10px 15px;
+	width: 70%;
+	font-family: "Roboto", Helvetica, sans-serif;
+	font-size: 15px;
+	clear:both;
+}
+/*.info {
+    color: #00529B;
+    background-color: #BDE5F8;
+    background-image: url('../img/knobs/info.png');
+}*/
+.information {
+	color: #00529B;
+	background-color: #BDE5F8;
+	background-image: url('../img/knobs/info.png');
+}
+
+.success {
+	color: #4F8A10;
+	background-color: #DFF2BF;
+	background-image: url('../img/knobs/validgreen.png');
+}
+
+.warning {
+	color: #9F6000;
+	background-color: #FEEFB3;
+	background-image: url('../img/knobs/attention.png');
+}
+
+.error {
+	color: #D8000C;
+	background-color: #FFB2B2;
+	display: block;
+	background-image: url("../img/knobs/cancel.png");
+}
+
+.validation {
+	color: #666666;
+	background-color: #FFFFFF;
+	display: block;
+	background-image: url("../img/knobs/add.png");
+}
+
+.validation2 {
+	color: #666666;
+	background-color: #FFFFFF;
+	display: block;
+}
+
+.message {
+	color: #00529B;
+	background-color: #BDE5F8;
+	background-image: url('../img/knobs/info.png');
+}
+
+.divTitulo {
+	color: #666666;
+	background-color: #F0EFEE;
+	display: block;
+	/*background-image: url("../img/knobs/add.png");*/
+}
+
+.vineta {
+	list-style-image: url(../img/images/vineta1.png);
+}
+
+.vineta2 {
+	list-style-image: url(../img/images/vineta2.png);
+}
+
+.vineta3 {
+	list-style-image: url(../img/images/vineta3.png);
+}
