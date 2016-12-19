@@ -2,6 +2,8 @@
 
 namespace cambioClave\formRegistro;
 
+include_once ("core/auth/SesionSso.class.php");
+
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include ("../index.php");
 	exit ();
@@ -11,6 +13,8 @@ class Formulario {
 	var $lenguaje;
 	var $miFormulario;
 	var $miSql;
+	var $miSesionSso;
+	
 	function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -21,6 +25,9 @@ class Formulario {
 		$this->miFormulario = $formulario;
 		
 		$this->miSql = $sql;
+		
+		$this->miSesionSso = \SesionSso::singleton ();
+		
 	}
 	function formulario() {
 		
@@ -92,6 +99,8 @@ class Formulario {
 		echo $this->miFormulario->formularioBootstrap ( $atributos );
 		unset ( $atributos );
 		
+		$info_usuario = $this->miSesionSso->getParametrosSesionAbierta ();
+		
 		$cadena_sql = $this->miSql->getCadenaSql ( "consultarColor" );
 		$colores = $esteRecursoDB->ejecutarAcceso ( $cadena_sql, "busqueda" ) [0];
 		
@@ -149,7 +158,7 @@ class Formulario {
 						   <div class="row">
 						   <div class="col-md-4">Hola, ';
 				
-		$beneficiario = "Abonado Apellido";
+		$beneficiario = $info_usuario['uid'][0];
 		$barraSuperior .= $beneficiario;
 		
 		$barraSuperior .= '</div>
@@ -163,7 +172,7 @@ class Formulario {
 		
 		
 		$barraTipoBeneficiario= '<div class="col-lg-4 col-md-4 col-sm-12">
-          				  <div class="small-box bg-yellow">
+          				  <div class="small-box bg-blue">
 						  <div class="inner">
               			  <h4>';
 		
@@ -201,7 +210,7 @@ class Formulario {
 		echo $barraContrato;
 		
 		$barraEstadoServicio = '<div class="col-lg-4 col-md-4 col-sm-12">
-          						<div class="small-box bg-red">
+          						<div class="small-box bg-blue">
             					<div class="inner">
               					<h4>';
 		
@@ -220,7 +229,7 @@ class Formulario {
 		echo $barraEstadoServicio;
 		
 		$barraEstadoServicio = '<div class="col-lg-4 col-md-4 col-sm-12">
-          						<div class="small-box bg-green">
+          						<div class="small-box bg-blue">
             					<div class="inner">
               					<h4>';
 		
@@ -241,7 +250,7 @@ class Formulario {
 			  <div class="row">';
 		
 		
-		$noticiasBeneficiario = array(array("imagen"=>'bg1.jpg', "noticia" => 'noticia1'),array("imagen"=>'bg2.jpg', "noticia" => 'noticia2'),array("imagen"=>'main-feature.png', "noticia" => 'noticia3'),array("imagen"=>'cta2-img.png', "noticia" => 'noticia4'));
+		$noticiasBeneficiario = array(array("imagen"=>'bg1.jpg', "noticia" => 'noticia1'),array("imagen"=>'bg2.jpg', "noticia" => 'noticia2'),array("imagen"=>'main-feature.png', "noticia" => 'noticia3'));
 		
 		$noticias = '<div class="col-lg-8 col-md-8 col-sm-12  text-center">
 					 <div id="myCarousel" class="carousel slide" data-ride="carousel">

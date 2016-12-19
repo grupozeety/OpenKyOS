@@ -155,7 +155,7 @@ class GenerarDocumento {
         
         $cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
         $cadenaSql = str_replace ( "''", 'null', $cadenaSql );
-//         $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
+        $this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 
         echo $cadenaSql;
         echo '<br>';
@@ -216,6 +216,8 @@ class GenerarDocumento {
         		'tipo_documento' => '132',
         );
         
+        
+        
 //         var_dump($archivo_datos);exit;
         
 //         $this->sincronizacion->sincronizarAlfresco($_REQUEST['id_beneficiario'], $archivo_datos);
@@ -260,7 +262,10 @@ class GenerarDocumento {
         $descripcion_documento = "004_009" . '_' . str_replace(" ", "_", "Acta de Entrega de Servicios de Banda Ancha al Usuario");
         //$nombre_archivo = "acta_entrega_servicios";
         //$this->nombreDocumento = $_REQUEST['interior'] . "_" . $_REQUEST['direccion_domicilio'] . "_" . $_REQUEST['numero_identificacion'] . "_" . $nombre_archivo . '.pdf';
-        $this->nombreDocumento = $_REQUEST['id_beneficiario'] . "_" . $descripcion_documento . "_" . $this->prefijo . '.pdf';
+
+        $this->nombreDocumento = $_REQUEST['manzana'] . "_" . $_REQUEST['piso'] . "_" . $_REQUEST['numero_identificacion'] . "_" . $_REQUEST['casa_apartamento'] . "_Acta_Entrega_Servicios_" . $this->prefijo . '.pdf';
+        
+//         $this->nombreDocumento = $_REQUEST['id_beneficiario'] . "_" . $descripcion_documento . "_" . $this->prefijo . '.pdf';
 
     }
 
