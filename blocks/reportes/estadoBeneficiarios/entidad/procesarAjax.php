@@ -51,7 +51,7 @@ class procesarAjax {
                         $link = "<a  target='_blank' href='" . $urlConsultarParticularEnlace . "'>" . $valor['proyecto'] . "</a>";
 
                         $resultadoFinal[] = array(
-                            'proyecto' => $valor['proyecto'],
+                            'proyecto' => $link,
                             'beneficiarios' => "#" . $valor['beneficiarios'],
                             'preventas' => $valor['preventas'],
                             'ventas' => $valor['ventas'],
@@ -84,23 +84,21 @@ class procesarAjax {
                 break;
 
             case 'consultaParticular':
-                var_dump($_REQUEST);
-                exit;
 
-                $cadenaSql = $this->sql->getCadenaSql('consultaParticularBeneficiarios');
+                $cadenaSql = $this->sql->getCadenaSql('consultaParticularBeneficiarios', $_REQUEST['id_proyecto']);
                 $procesos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
                 if ($procesos) {
                     foreach ($procesos as $key => $valor) {
 
-                        $archivo = (is_null($valor['ruta_archivo'])) ? " " : "<center><a href='" . $valor['ruta_archivo'] . "' target='_blank' >" . $valor['nombre_ruta_archivo'] . "</a></center>";
-
                         $resultadoFinal[] = array(
-                            'proceso' => $valor['id_proceso'],
-                            'estado' => $valor['estado'],
-                            'archivo' => $archivo,
-                            'num_inicial' => $valor['parametro_inicio'],
-                            'num_final' => $valor['parametro_fin'],
+                            'beneficiario' => $valor['beneficiario'],
+                            'contrato' => $valor['contratos'],
+                            'accPortatil' => $valor['portatiles_asignados'],
+                            'accServicio' => $valor['servicios_asignados'],
+                            'activacion' => $valor['nactivacion'],
+                            'revision' => $valor['nrevision'],
+                            'aprobacion' => $valor['naprobacion'],
                         );
                     }
 
