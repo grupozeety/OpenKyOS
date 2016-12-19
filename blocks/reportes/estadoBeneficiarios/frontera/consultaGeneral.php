@@ -9,7 +9,8 @@ class Registrador {
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
-    public function __construct($lenguaje, $formulario) {
+    public $miSql;
+    public function __construct($lenguaje, $formulario, $sql) {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -17,6 +18,8 @@ class Registrador {
         $this->lenguaje = $lenguaje;
 
         $this->miFormulario = $formulario;
+
+        $this->miSql = $sql;
     }
     public function seleccionarForm() {
 
@@ -25,7 +28,10 @@ class Registrador {
 
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 
-        // -------------------------------------------------------------------------------------------------
+        //Conexion a Base de Datos
+        $conexion = "interoperacion";
+        $conexion = "produccion";
+        $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
         $esteCampo = $esteBloque['nombre'];
@@ -69,69 +75,89 @@ class Registrador {
 
                     {
 
-                        /*echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                        <thead>
-                        <tr>
-                        <th><center>Departamento<center></th>
-                        <th><center>Municipio<center></th>
-                        <th><center>Beneficiarios<center></th>
-                        <th><center>Preventas(%)<center></th>
-                        <th><center>Ventas(%)<center></th>
-                        <th><center>Asignación de<br>Portatiles(%)<center></th>
-                        <th><center>Asignación de<br>Equipos de Acceso(%)<center></th>
-                        <th><center>Activación(%)<center></th>
-                        <th><center>Revisión(%)<center></th>
-                        <th><center>Aprobación(%)<center></th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                        <th><center>Departamento<center></th>
-                        <th><center>Municipio<center></th>
-                        <th><center>Beneficiarios<center></th>
-                        <th><center>Preventas(%)<center></th>
-                        <th><center>Ventas(%)<center></th>
-                        <th><center>Asignación de<br>Portatiles(%)<center></th>
-                        <th><center>Asignación de<br>Equipos de Acceso(%)<center></th>
-                        <th><center>Activación(%)<center></th>
-                        <th><center>Revisión(%)<center></th>
-                        <th><center>Aprobación(%)<center></th>
-                        </tr>
-                        </tfoot>
+                        $esteCampo = 'tipo_datos';
+                        $atributos['nombre'] = $esteCampo;
+                        $atributos['id'] = $esteCampo;
+                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                        $atributos["etiquetaObligatorio"] = true;
+                        $atributos['tab'] = $tab++;
+                        $atributos['anchoEtiqueta'] = 1;
+                        $atributos['evento'] = '';
+                        $atributos['seleccion'] = '1';
+                        $atributos['deshabilitado'] = false;
+                        $atributos['columnas'] = 1;
+                        $atributos['tamanno'] = 1;
+                        $atributos['ajax_function'] = "";
+                        $atributos['ajax_control'] = $esteCampo;
+                        $atributos['estilo'] = "bootstrap";
+                        $atributos['limitar'] = false;
+                        $atributos['anchoCaja'] = 3;
+                        $atributos['miEvento'] = '';
+                        $atributos['validar'] = 'required';
+                        $atributos['cadena_sql'] = 'required';
+                        $matrizItems = array(
+                            array(
+                                '1',
+                                'Porcentaje',
+                            ),
+                            array(
+                                '2',
+                                'Númerico',
+                            ),
+                        );
+                        $atributos['matrizItems'] = $matrizItems;
+                        // Aplica atributos globales al control
 
-                        <tbody>
-                        <tr>
-                        <td>CORDOBA</td>
-                        <td>MONTERIA</td>
-                        <td>EL RECUERDO</td>
-                        <td>10</td>
-                        <td>40</td>
-                        <td>50</td>
-                        <td>60</td>
-                        <td>70</td>
-                        <td>80</td>
-                        <td>100</td>
-                        </tr>
-                        <tr>
-                        <td>CORDOBA</td>
-                        <td>CERETE</td>
-                        <td>ALTOS DE LAS ACACIAS</td>
-                        <td>100</td>
-                        <td>30</td>
-                        <td>50</td>
-                        <td>80</td>
-                        <td>70</td>
-                        <td>10</td>
-                        <td>90</td>
-                        </tr>
-                        </tbody>
-                        </table>';*/
+                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                        unset($atributos);
 
-                        echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                        $esteCampo = 'metas';
+                        $atributos['nombre'] = $esteCampo;
+                        $atributos['id'] = $esteCampo;
+                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                        $atributos["etiquetaObligatorio"] = true;
+                        $atributos['tab'] = $tab++;
+                        $atributos['anchoEtiqueta'] = 1;
+                        $atributos['evento'] = '';
+                        $atributos['seleccion'] = '0';
+                        $atributos['deshabilitado'] = false;
+                        $atributos['columnas'] = 1;
+                        $atributos['tamanno'] = 1;
+                        $atributos['ajax_function'] = "";
+                        $atributos['ajax_control'] = $esteCampo;
+                        $atributos['estilo'] = "bootstrap";
+                        $atributos['limitar'] = false;
+                        $atributos['anchoCaja'] = 3;
+                        $atributos['miEvento'] = '';
+                        $atributos['validar'] = 'required';
+                        $atributos['cadena_sql'] = 'required';
+                        $cadenaSql = $this->miSql->getCadenaSql('consultarMetas');
+                        $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                        $arreglo = array(
+                            array(
+                                '0',
+                                'Todas las Metas',
+                            ),
+                        );
+                        $atributos['matrizItems'] = array_merge($resultado, $arreglo);
+                        // Aplica atributos globales al control
+
+                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                        unset($atributos);
+
+                        // ------------------Division para los botones-------------------------
+                        $atributos["id"] = "porcentaje";
+                        $atributos["estilo"] = " ";
+                        $atributos["estiloEnLinea"] = "display:block;";
+                        echo $this->miFormulario->division("inicio", $atributos);
+                        unset($atributos);
+                        {
+                            echo '<table id="example_porcentaje" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th><center>Proyecto<center></th>
-                                            <th><center>Beneficiarios<center></th>
+                                            <th><center>Beneficiarios<br>Meta<center></th>
+                                            <th><center>Beneficiarios<br>Sistema<center></th>
                                             <th><center>Preventas(%)<center></th>
                                             <th><center>Ventas(%)<center></th>
                                             <th><center>Asignación de<br>Portatiles(%)<center></th>
@@ -144,7 +170,8 @@ class Registrador {
                                     <tfoot>
                                         <tr>
                                             <th><center>Proyecto<center></th>
-                                            <th><center>Beneficiarios<center></th>
+                                            <th><center>Beneficiarios<br>Meta<center></th>
+                                            <th><center>Beneficiarios<br>Sistema<center></th>
                                             <th><center>Preventas(%)<center></th>
                                             <th><center>Ventas(%)<center></th>
                                             <th><center>Asignación de<br>Portatiles(%)<center></th>
@@ -155,6 +182,51 @@ class Registrador {
                                         </tr>
                                     </tfoot>
                                   </table>';
+                        }
+                        //echo "</div>";
+                        echo $this->miFormulario->division("fin");
+                        unset($atributos);
+
+                        // ------------------Division para los botones-------------------------
+                        $atributos["id"] = "numerico";
+                        $atributos["estilo"] = " ";
+                        $atributos["estiloEnLinea"] = "display:none;";
+                        echo $this->miFormulario->division("inicio", $atributos);
+                        unset($atributos);
+                        {
+
+                            echo '<table id="example_numerico" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th><center>Proyecto<center></th>
+                                            <th><center>Beneficiarios<br>Meta<center></th>
+                                            <th><center>Beneficiarios<br>Sistema<center></th>
+                                            <th><center>Contratos<center></th>
+                                            <th><center>Asignación de<br>Portatiles<center></th>
+                                            <th><center>Asignación de<br>Equipos de Acceso<center></th>
+                                            <th><center>Activación<center></th>
+                                            <th><center>Revisión<center></th>
+                                            <th><center>Aprobación<center></th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th><center>Proyecto<center></th>
+                                            <th><center>Beneficiarios<br>Meta<center></th>
+                                            <th><center>Beneficiarios<br>Sistema<center></th>
+                                            <th><center>Contratos<center></th>
+                                            <th><center>Asignación de<br>Portatiles<center></th>
+                                            <th><center>Asignación de<br>Equipos de Acceso<center></th>
+                                            <th><center>Activación<center></th>
+                                            <th><center>Revisión<center></th>
+                                            <th><center>Aprobación<center></th>
+                                        </tr>
+                                    </tfoot>
+                                  </table>';
+                        }
+                        //echo "</div>";
+                        echo $this->miFormulario->division("fin");
+                        unset($atributos);
                     }
 
                 }
@@ -175,44 +247,10 @@ class Registrador {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensaje() {
 
-        // Si existe algun tipo de error en el login aparece el siguiente mensaje
-        $mensaje = $this->miConfigurador->getVariableConfiguracion('mostrarMensaje');
-        $this->miConfigurador->setVariableConfiguracion('mostrarMensaje', null);
-
-        if ($mensaje) {
-            $tipoMensaje = $this->miConfigurador->getVariableConfiguracion('tipoMensaje');
-            if ($tipoMensaje == 'json') {
-
-                $atributos['mensaje'] = $mensaje;
-                $atributos['json'] = true;
-            } else {
-                $atributos['mensaje'] = $this->lenguaje->getCadena($mensaje);
-            }
-            // ------------------Division para los botones-------------------------
-            $atributos['id'] = 'divMensaje';
-            $atributos['estilo'] = 'marcoBotones';
-            echo $this->miFormulario->division("inicio", $atributos);
-
-            // -------------Control texto-----------------------
-            $esteCampo = 'mostrarMensaje';
-            $atributos["tamanno"] = '';
-            $atributos["estilo"] = 'information';
-            $atributos["etiqueta"] = '';
-            $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-            echo $this->miFormulario->campoMensaje($atributos);
-            unset($atributos);
-
-            // ------------------Fin Division para los botones-------------------------
-            echo $this->miFormulario->division("fin");
-        }
-    }
 }
 
-$miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario);
-
-$miSeleccionador->mensaje();
+$miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->seleccionarForm();
 

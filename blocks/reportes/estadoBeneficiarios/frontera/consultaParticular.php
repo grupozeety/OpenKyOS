@@ -73,7 +73,7 @@ class Registrador {
                                     <thead>
                                         <tr>
                                             <th><center>Beneficiario<center></th>
-                                            <th><center>Contratos(%)<center></th>
+                                            <th><center>Contrato(%)<center></th>
                                             <th><center>Asignación de<br>Portatil(%)<center></th>
                                             <th><center>Asignación de<br>Equipo de Acceso(%)<center></th>
                                             <th><center>Activación(%)<center></th>
@@ -84,7 +84,7 @@ class Registrador {
                                     <tfoot>
                                         <tr>
                                             <th><center>Beneficiario<center></th>
-                                            <th><center>Contratos(%)<center></th>
+                                            <th><center>Contrato(%)<center></th>
                                             <th><center>Asignación de<br>Portatil(%)<center></th>
                                             <th><center>Asignación de<br>Equipo de Acceso(%)<center></th>
                                             <th><center>Activación(%)<center></th>
