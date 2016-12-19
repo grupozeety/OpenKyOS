@@ -12,7 +12,7 @@ class procesarAjax {
 
         $conexion = "interoperacion";
 
-        $conexion = "produccion";
+        //$conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         // URL base
