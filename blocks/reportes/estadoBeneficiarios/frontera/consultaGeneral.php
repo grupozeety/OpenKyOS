@@ -30,7 +30,7 @@ class Registrador {
 
         //Conexion a Base de Datos
         $conexion = "interoperacion";
-        $conexion = "produccion";
+        //$conexion = "produccion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
