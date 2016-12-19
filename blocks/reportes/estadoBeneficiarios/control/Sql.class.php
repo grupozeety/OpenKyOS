@@ -26,14 +26,12 @@ class Sql extends \Sql {
             /**
              * Clausulas específicas
              */
-            case 'consultarBloques':
-
-                $cadenaSql = " SELECT id_bloque, nombre, descripcion, grupo ";
-                $cadenaSql .= " FROM " . $prefijo . "bloque;";
-
+            case 'consultarMetas':
+                $cadenaSql = " SELECT DISTINCT meta, 'META '||meta descripcion";
+                $cadenaSql .= " FROM parametros.proyectos_metas";
                 break;
 
-            case 'consultaGeneralBeneficiarios':
+            case 'consultaGeneralBeneficiariosPorcentaje':
                 $cadenaSql = " SELECT";
                 $cadenaSql .= " proyecto,id_proyecto,";
                 $cadenaSql .= " beneficiarios,";
@@ -66,6 +64,48 @@ class Sql extends \Sql {
                 $cadenaSql .= " ) as revision on revision.id_beneficiario=aes.id_beneficiario";
                 $cadenaSql .= " GROUP BY bp.proyecto,bp.id_proyecto ";
                 $cadenaSql .= " order by bp.proyecto ASC) as precalculos";
+                break;
+
+            case 'consultaGeneralBeneficiariosNumerico':
+                $cadenaSql = " SELECT";
+                $cadenaSql .= " proyecto,id_proyecto,";
+                $cadenaSql .= " beneficiarios,";
+                $cadenaSql .= " '&nbsp;'||beneficiarios as preventas,";
+                $cadenaSql .= " '&nbsp;'||contratos as ventas,";
+                $cadenaSql .= " '&nbsp;'||portatiles_asignados as asignacion_portatiles,";
+                $cadenaSql .= " '&nbsp;'||servicios_asignados as asignacion_servicios,";
+                $cadenaSql .= " '&nbsp;'||nactivacion as activacion,";
+                $cadenaSql .= " '&nbsp;'||nrevision as revision,";
+                $cadenaSql .= " '&nbsp;'||naprobacion as aprobacion";
+                $cadenaSql .= " FROM (SELECT bp.proyecto,bp.id_proyecto, ";
+                $cadenaSql .= " count(bp.id_beneficiario) as beneficiarios, ";
+                $cadenaSql .= " count(c.id_beneficiario) as contratos, ";
+                $cadenaSql .= " count(ap.id_beneficiario) as portatiles_asignados,";
+                $cadenaSql .= " count(aes.id_beneficiario) as servicios_asignados,";
+                $cadenaSql .= " count(revision.id_beneficiario) as nrevision,";
+                $cadenaSql .= " count(apnull.id_beneficiario) as nactivacion,";
+                $cadenaSql .= " count(bp.estado_beneficiario) filter (where bp.estado_beneficiario='APROBACION') as naprobacion";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
+                $cadenaSql .= " JOIN parametros.proyectos_metas pm ON pm.id_proyecto=bp.id_proyecto";
+                $cadenaSql .= " LEFT JOIN interoperacion.contrato c ON c.id_beneficiario=bp.id_beneficiario AND bp.proyecto=c.urbanizacion";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil ap on ap.id_beneficiario=bp.id_beneficiario AND ap.serial IS NOT NULL";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil apnull on apnull.id_beneficiario=bp.id_beneficiario";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios aes on aes.id_beneficiario=bp.id_beneficiario AND aes.serial_esc IS NOT NULL";
+                $cadenaSql .= " LEFT JOIN ";
+                $cadenaSql .= " (SELECT dc.id_beneficiario ";
+                $cadenaSql .= " FROM interoperacion.contrato io ";
+                $cadenaSql .= " JOIN interoperacion.documentos_contrato dc ON dc.id_beneficiario=io.id_beneficiario ";
+                $cadenaSql .= " WHERE ruta_documento_contrato IS NOT NULL";
+                $cadenaSql .= " AND dc.tipologia_documento=132";
+                $cadenaSql .= " ) as revision on revision.id_beneficiario=aes.id_beneficiario";
+
+                if ($variable != '0') {
+                    $cadenaSql .= " WHERE pm.meta='" . $variable . "' ";
+                }
+
+                $cadenaSql .= " GROUP BY bp.proyecto,bp.id_proyecto ";
+                $cadenaSql .= " order by bp.proyecto ASC) as precalculos";
+
                 break;
 
             case 'consultaParticularBeneficiarios':

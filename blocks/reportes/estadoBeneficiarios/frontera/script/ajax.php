@@ -64,7 +64,8 @@ $urlConsultarParticularEnlace = $url . $cadena;
  */
 
  $(document).ready(function() {
-      $('#example').DataTable( {
+    actualizarTabla();
+  $('#example_2').DataTable( {
         language: {
 
             "sProcessing":     "Procesando...",
@@ -92,70 +93,7 @@ $urlConsultarParticularEnlace = $url . $cadena;
 
               },
 //
-    		"fnRowCallback": function( nRow, myInfraArray){
-                  $(nRow).children().each(function(index, td, myInfraArray) {
-                    if ($(td).html() >=0 && $(td).html() <= 20) {
-                          $(td).css("background-color", "#F08080");
-                       }else if ($(td).html() >= 21 && $(td).html() <= 50) {
-                          $(td).css("background-color", "#f3aa51");
-                       }else if ($(td).html() >= 51 && $(td).html() <= 80) {
-                          $(td).css("background-color", "#f0ed80");
-                       }else if ($(td).html() >= 81 && $(td).html() <= 99) {
-                          $(td).css("background-color", "#b0e6c8");
-                       }else if ($(td).html() == 100 ) {
-                          $(td).css("background-color", "#0d7b3e");
-                       }
-
-                  } );
-                    return nRow;
-             },
-              responsive: true,
-                   ajax:{
-                      url:"<?php echo $urlConsultaGeneral;?>",
-                      dataSrc:"data"
-                  },
-                  columns: [
-                  { data :"proyecto"},
-                  { data :"beneficiarios" },
-                  { data :"preventas" },
-                  { data :"ventas"},
-                  { data :"accPortatil" },
-                  { data :"accServicio" },
-                  { data :"activacion"},
-                  { data :"revision" },
-                  { data :"aprobacion" },
-                           ]
-//
-    } );
-	$('#example_2').DataTable( {
-        language: {
-
-            "sProcessing":     "Procesando...",
-            "sLengthMenu":     "Mostrar _MENU_ registros",
-            "sZeroRecords":    "No se encontraron resultados",
-            "sEmptyTable":     "Ningún dato disponible en esta tabla",
-            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix":    "",
-            "sSearch":         "Buscar:",
-            "sUrl":            "",
-            "sInfoThousands":  ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst":    "Primero",
-                "sLast":     "Último",
-                "sNext":     "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-
-              },
-//
-    		"fnRowCallback": function( nRow, myInfraArray){
+        "fnRowCallback": function( nRow, myInfraArray){
                   $(nRow).children().each(function(index, td, myInfraArray) {
                     if ($(td).html() >=0 && $(td).html() <= 20) {
                           $(td).css("background-color", "#F08080");
@@ -190,6 +128,189 @@ $urlConsultarParticularEnlace = $url . $cadena;
 //
     } );
 
+
+
+
+
+
+
+
+  $("#tipo_datos").change(function() {
+
+
+
+        switch ($("#tipo_datos").val()) {
+          case '1':
+                $("#porcentaje").css("display", "block");
+                $("#numerico").css("display", "none");
+
+            break;
+
+          case '2':
+            $("#porcentaje").css("display", "none");
+            $("#numerico").css("display", "block");
+
+            break;
+
+
+        }
+       });
+
+
+
+  $("#metas").change(function() {
+
+actualizarTabla();
+       });
+
+
 } );
+
+
+
+function actualizarTabla(){
+
+    $('#example_porcentaje').DataTable().destroy();
+
+    $('#example_numerico').DataTable().destroy();
+
+
+
+
+
+    var tablaP= $('#example_porcentaje').DataTable( {
+        language: {
+
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+
+              },
+//
+        "fnRowCallback": function( nRow, myInfraArray){
+                  $(nRow).children().each(function(index, td, myInfraArray) {
+                    if ($(td).html() >=0 && $(td).html() <= 20) {
+                          $(td).css("background-color", "#F08080");
+                       }else if ($(td).html() >= 21 && $(td).html() <= 50) {
+                          $(td).css("background-color", "#f3aa51");
+                       }else if ($(td).html() >= 51 && $(td).html() <= 80) {
+                          $(td).css("background-color", "#f0ed80");
+                       }else if ($(td).html() >= 81 && $(td).html() <= 99) {
+                          $(td).css("background-color", "#b0e6c8");
+                       }else if ($(td).html() == 100 ) {
+                          $(td).css("background-color", "#0d7b3e");
+                       }
+
+                  } );
+                    return nRow;
+             },
+              responsive: true,
+                   ajax:{
+                      url:"<?php echo $urlConsultaGeneral;?>"+"&metas="+$("#metas").val()+"&tipo=porcentaje",
+                      dataSrc:"data"
+                  },
+                  columns: [
+                  { data :"proyecto"},
+                  { data :"beneficiarios" },
+                  { data :"preventas" },
+                  { data :"ventas"},
+                  { data :"accPortatil" },
+                  { data :"accServicio" },
+                  { data :"activacion"},
+                  { data :"revision" },
+                  { data :"aprobacion" },
+                           ]
+//
+    } );
+
+     var tablaN=  $('#example_numerico').DataTable( {
+        language: {
+
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+
+              },
+//
+        "fnRowCallback": function( nRow, myInfraArray){
+                  $(nRow).children().each(function(index, td, myInfraArray) {
+                    if ($(td).html() >=0 && $(td).html() <= 20) {
+                          $(td).css("background-color", "#F08080");
+                       }else if ($(td).html() >= 21 && $(td).html() <= 50) {
+                          $(td).css("background-color", "#f3aa51");
+                       }else if ($(td).html() >= 51 && $(td).html() <= 80) {
+                          $(td).css("background-color", "#f0ed80");
+                       }else if ($(td).html() >= 81 && $(td).html() <= 99) {
+                          $(td).css("background-color", "#b0e6c8");
+                       }else if ($(td).html() == 100 ) {
+                          $(td).css("background-color", "#0d7b3e");
+                       }
+
+                  } );
+                    return nRow;
+             },
+              responsive: true,
+                   ajax:{
+                      url:"<?php echo $urlConsultaGeneral;?>"+"&metas="+$("#metas").val()+"&tipo=numerico",
+                      dataSrc:"data"
+                  },
+                  columns: [
+                  { data :"proyecto"},
+                  { data :"beneficiarios" },
+                  { data :"preventas" },
+                  { data :"ventas"},
+                  { data :"accPortatil" },
+                  { data :"accServicio" },
+                  { data :"activacion"},
+                  { data :"revision" },
+                  { data :"aprobacion" },
+                           ]
+//
+    } );
+
+      setInterval( function () {
+        tableP.fnReloadAjax();
+        tableN.fnReloadAjax();
+    }, 30000 );
+
+  }
 
 </script>

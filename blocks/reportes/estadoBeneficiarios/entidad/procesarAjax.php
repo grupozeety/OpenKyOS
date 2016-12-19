@@ -12,7 +12,7 @@ class procesarAjax {
 
         $conexion = "interoperacion";
 
-        //$conexion = "produccion";
+        $conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         // URL base
@@ -25,9 +25,17 @@ class procesarAjax {
         switch ($_REQUEST['funcion']) {
 
             case 'consultaGeneral':
-                //var_dump($_REQUEST);
-                //exit;
-                $cadenaSql = $this->sql->getCadenaSql('consultaGeneralBeneficiarios');
+
+                switch ($_REQUEST['tipo']) {
+
+                case 'porcentaje':
+                        $cadenaSql = $this->sql->getCadenaSql('consultaGeneralBeneficiariosPorcentaje', $_REQUEST['metas']);
+                        break;
+
+                case 'numerico':
+                        $cadenaSql = $this->sql->getCadenaSql('consultaGeneralBeneficiariosNumerico', $_REQUEST['metas']);
+                        break;
+                }
 
                 $procesos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
