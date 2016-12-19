@@ -158,7 +158,7 @@ class Formulario {
 						   <div class="row">
 						   <div class="col-md-4">Hola, ';
 				
-		$beneficiario = $info_usuario['uid'][0];
+		$beneficiario = $info_usuario['uid'][1];
 		$barraSuperior .= $beneficiario;
 		
 		$barraSuperior .= '</div>
