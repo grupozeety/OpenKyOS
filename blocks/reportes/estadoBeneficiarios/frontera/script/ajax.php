@@ -216,7 +216,7 @@ function actualizarTabla(){
                           $(td).css("background-color", "#f0ed80");
                        }else if ($(td).html() >= 81 && $(td).html() <= 99) {
                           $(td).css("background-color", "#b0e6c8");
-                       }else if ($(td).html() == 100 ) {
+                       }else if ($(td).html()>= 100 ) {
                           $(td).css("background-color", "#0d7b3e");
                        }
 
@@ -230,7 +230,8 @@ function actualizarTabla(){
                   },
                   columns: [
                   { data :"proyecto"},
-                  { data :"beneficiarios" },
+                  { data :"beneficiarios_meta" },
+                  { data :"beneficiarios_sistema" },
                   { data :"preventas" },
                   { data :"ventas"},
                   { data :"accPortatil" },
@@ -280,7 +281,7 @@ function actualizarTabla(){
                           $(td).css("background-color", "#f0ed80");
                        }else if ($(td).html() >= 81 && $(td).html() <= 99) {
                           $(td).css("background-color", "#b0e6c8");
-                       }else if ($(td).html() == 100 ) {
+                       }else if ($(td).html() >= 100 ) {
                           $(td).css("background-color", "#0d7b3e");
                        }
 
@@ -294,9 +295,9 @@ function actualizarTabla(){
                   },
                   columns: [
                   { data :"proyecto"},
-                  { data :"beneficiarios" },
-                  { data :"preventas" },
-                  { data :"ventas"},
+                  { data :"beneficiarios_meta" },
+                  { data :"beneficiarios_sistema" },
+                  { data :"contratos" },
                   { data :"accPortatil" },
                   { data :"accServicio" },
                   { data :"activacion"},

@@ -156,7 +156,8 @@ class Registrador {
                                     <thead>
                                         <tr>
                                             <th><center>Proyecto<center></th>
-                                            <th><center>Beneficiarios<center></th>
+                                            <th><center>Beneficiarios<br>Meta<center></th>
+                                            <th><center>Beneficiarios<br>Sistema<center></th>
                                             <th><center>Preventas(%)<center></th>
                                             <th><center>Ventas(%)<center></th>
                                             <th><center>Asignación de<br>Portatiles(%)<center></th>
@@ -169,7 +170,8 @@ class Registrador {
                                     <tfoot>
                                         <tr>
                                             <th><center>Proyecto<center></th>
-                                            <th><center>Beneficiarios<center></th>
+                                            <th><center>Beneficiarios<br>Meta<center></th>
+                                            <th><center>Beneficiarios<br>Sistema<center></th>
                                             <th><center>Preventas(%)<center></th>
                                             <th><center>Ventas(%)<center></th>
                                             <th><center>Asignación de<br>Portatiles(%)<center></th>
@@ -197,27 +199,27 @@ class Registrador {
                                     <thead>
                                         <tr>
                                             <th><center>Proyecto<center></th>
-                                            <th><center>Beneficiarios<center></th>
-                                            <th><center>Preventas(%)<center></th>
-                                            <th><center>Ventas(%)<center></th>
-                                            <th><center>Asignación de<br>Portatiles(%)<center></th>
-                                            <th><center>Asignación de<br>Equipos de Acceso(%)<center></th>
-                                            <th><center>Activación(%)<center></th>
-                                            <th><center>Revisión(%)<center></th>
-                                            <th><center>Aprobación(%)<center></th>
+                                            <th><center>Beneficiarios<br>Meta<center></th>
+                                            <th><center>Beneficiarios<br>Sistema<center></th>
+                                            <th><center>Contratos<center></th>
+                                            <th><center>Asignación de<br>Portatiles<center></th>
+                                            <th><center>Asignación de<br>Equipos de Acceso<center></th>
+                                            <th><center>Activación<center></th>
+                                            <th><center>Revisión<center></th>
+                                            <th><center>Aprobación<center></th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th><center>Proyecto<center></th>
-                                            <th><center>Beneficiarios<center></th>
-                                            <th><center>Preventas(%)<center></th>
-                                            <th><center>Ventas(%)<center></th>
-                                            <th><center>Asignación de<br>Portatiles(%)<center></th>
-                                            <th><center>Asignación de<br>Equipos de Acceso(%)<center></th>
-                                            <th><center>Activación(%)<center></th>
-                                            <th><center>Revisión(%)<center></th>
-                                            <th><center>Aprobación(%)<center></th>
+                                            <th><center>Beneficiarios<br>Meta<center></th>
+                                            <th><center>Beneficiarios<br>Sistema<center></th>
+                                            <th><center>Contratos<center></th>
+                                            <th><center>Asignación de<br>Portatiles<center></th>
+                                            <th><center>Asignación de<br>Equipos de Acceso<center></th>
+                                            <th><center>Activación<center></th>
+                                            <th><center>Revisión<center></th>
+                                            <th><center>Aprobación<center></th>
                                         </tr>
                                     </tfoot>
                                   </table>';
