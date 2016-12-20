@@ -117,6 +117,8 @@ $urlConsultarParticularEnlace = $url . $cadena;
                   },
                   columns: [
                   { data :"beneficiario" },
+                  { data :"contratacion" },
+                  { data :"comisionamiento" },
                   { data :"contrato" },
                   { data :"accPortatil" },
                   { data :"accServicio" },
