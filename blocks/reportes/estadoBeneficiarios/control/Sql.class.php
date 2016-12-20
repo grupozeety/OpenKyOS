@@ -143,6 +143,14 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial ben on precalculos.id_beneficiario=ben.id_beneficiario";
                 $cadenaSql .= " ORDER BY asignacion_portatiles DESC";
                 break;
+
+            case 'consultarDocumentos':
+                $cadenaSql = " SELECT DISTINCT id_beneficiario ";
+                $cadenaSql .= " FROM interoperacion.documentos_contrato";
+                $cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND estado_registro='TRUE'";
+
+                break;
         }
 
         return $cadenaSql;
