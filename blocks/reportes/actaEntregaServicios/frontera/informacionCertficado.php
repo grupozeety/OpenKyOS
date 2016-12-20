@@ -42,7 +42,7 @@ class Certificado {
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		$_REQUEST ['id_beneficiario'] = $_REQUEST ['id'];
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionCertificado' );
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionBeneficiario' );
 		
 		$infoCertificado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 
