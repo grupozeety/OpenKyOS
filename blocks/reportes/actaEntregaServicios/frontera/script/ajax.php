@@ -150,12 +150,18 @@
 	            initMap();
 	}
 	
- 	$("#<?php echo $this->campoSeguro('tipo_documento')?>").select2({width:'100%'});
-	$("#<?php echo $this->campoSeguro('tipo_beneficiario')?>").select2({width:'100%'});
-	$("#<?php echo $this->campoSeguro('estrato')?>").select2({width:'100%'});
-	/* $("#<?php echo $this->campoSeguro('urbanizacion')?>").select2({width:'100%'}); */
-	$("#<?php echo $this->campoSeguro('tipo_tecnologia')?>").select2({width:'100%'});
-
+ 	$("#<?php echo $this->campoSeguro('tipo_documento_int')?>").select2({width:'100%',readonly: true});
+ 	$("#<?php echo $this->campoSeguro('tipo_documento_int')?>").prop('disabled', true);
+ 	
+	$("#<?php echo $this->campoSeguro('tipo_beneficiario_int')?>").select2({width:'100%'});
+	$("#<?php echo $this->campoSeguro('tipo_beneficiario_int')?>").prop('disabled', true);
+	
+	$("#<?php echo $this->campoSeguro('estrato_int')?>").select2({width:'100%'});
+	$("#<?php echo $this->campoSeguro('estrato_int')?>").prop('disabled', true);
+	
+	$("#<?php echo $this->campoSeguro('tipo_tecnologia_int')?>").select2({width:'100%'});
+	$("#<?php echo $this->campoSeguro('tipo_tecnologia_int')?>").prop('disabled', true);
+	
  	$("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
 	   	minChars: 3,
 	   	serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
@@ -260,6 +266,12 @@
 		$("#mensaje_firma_bn").css("display","block");
 		$("#guardarBn").css("display","none");
 	});
+
+	if($("#<?php echo $this->campoSeguro('firmaBeneficiario');?>").val() != ""){
+		$("#firma_digital_beneficiario").css("display","none");
+		$("#mensaje_firma_bn").css("display","block");
+		$("#guardarBn").css("display","none");
+	}
 
 /*
 	var $sigdiv1 =$("#firma_digital_instalador").jSignature();

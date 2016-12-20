@@ -160,9 +160,13 @@ class FormProcessor {
 // 				'soporte' => $soporte 
 		);
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
+		if($_REQUEST ['editar']){
+			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
+		}else{
+			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarActaEntrega', $arreglo );
+		}
+		
 		$cadenaSql = str_replace ( "''", 'null', $cadenaSql );
-
 		$this->registroActa = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "acceso" );
 	}
 	public function cargarArchivos() {
