@@ -274,10 +274,11 @@ class Sql extends \Sql {
                 break;
 
             case 'consultarEquipo':
-                $cadenaSql = " SELECT id_equipo as data , serial  as value";
-                $cadenaSql .= " FROM interoperacion.politecnica_portatil";
-                $cadenaSql .= " WHERE serial ILIKE '%" . $variable . "%'";
-                $cadenaSql .= " LIMIT 10;";
+
+                $cadenaSql = " SELECT pp.id_equipo as data , pp.serial as value ";
+                $cadenaSql .= " FROM interoperacion.politecnica_portatil pp";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil ap ON ap.serial=pp.serial AND ap.serial IS NULL";
+                $cadenaSql .= " WHERE pp.serial ILIKE '%" . $variable . "%' LIMIT 10;";
                 break;
 
             case 'consultarInformacionEquipo':

@@ -191,6 +191,37 @@ class GestionarContrato {
                         echo $this->miFormulario->division("fin");
                         unset($atributos);
 
+                        $atributos["id"] = "botones_sin";
+                        $atributos["estilo"] = "marcoBotones";
+                        $atributos["estiloEnLinea"] = "display:block;";
+                        echo $this->miFormulario->division("inicio", $atributos);
+                        unset($atributos);
+
+                        {
+
+                            $valorCodificado = "action=" . $esteBloque["nombre"];
+                            $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                            $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+                            $valorCodificado .= "&opcion=edicionActa";
+                            $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
+                            $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
+                            $valorCodificado .= "&estrato_socioeconomico=" . $infoBeneficiario['estrato_socioeconomico'];
+
+                            $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                            $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+                            $urlpdfNoFirmas = $url . $cadena;
+
+                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Edición Acta de Entrega Computador Portátil</a></b>";
+
+                        }
+
+                        // ------------------Fin Division para los botones-------------------------
+                        echo $this->miFormulario->division("fin");
+                        unset($atributos);
+
                     }
 
                     // ------------------Fin Division para los botones-------------------------
