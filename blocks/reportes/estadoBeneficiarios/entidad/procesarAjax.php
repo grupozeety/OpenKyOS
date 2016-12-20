@@ -177,7 +177,7 @@ class procesarAjax {
 
                         $cadenaSql = $this->sql->getCadenaSql('consultarDocumentos', $valor['id_beneficiario']);
                         $documento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                        var_dump($documento);
+
                         // Variables para Con
                         $cadenaACodificar = "pagina=generacionContrato";
                         //$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];

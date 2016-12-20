@@ -104,44 +104,22 @@ class Sql extends \Sql {
                 break;
 
             case 'consultaParticularBeneficiarios':
-                $cadenaSql = " SELECT";
-                $cadenaSql .= " precalculos.id_beneficiario,ben.identificacion||' - '||ben.nombre||' '||ben.primer_apellido||' '||ben.segundo_apellido as beneficiario,";
-                $cadenaSql .= " precalculos.proyecto,precalculos.id_proyecto,";
-                $cadenaSql .= " meta, num_beneficiarios as beneficiarios_meta,cant_beneficiarios as beneficiarios_sistema,";
-                $cadenaSql .= " (cant_beneficiarios*100) as preventas,";
-                $cadenaSql .= " (contratos*100)as contrato,";
-                $cadenaSql .= " (portatiles_asignados*100) as asignacion_portatiles,";
-                $cadenaSql .= " (servicios_asignados*100)as asignacion_servicios,";
-                $cadenaSql .= " (nactivacion*100) as activacion,";
-                $cadenaSql .= " (nrevision*100) as revision,";
-                $cadenaSql .= " (naprobacion*100) as aprobacion";
-                $cadenaSql .= " FROM (SELECT bp.proyecto,bp.id_proyecto,bp.id_beneficiario,";
-                $cadenaSql .= " count(bp.id_beneficiario) as cant_beneficiarios,";
-                $cadenaSql .= " count(c.id_beneficiario) as contratos,";
-                $cadenaSql .= " count(ap.id_beneficiario) as portatiles_asignados,";
-                $cadenaSql .= " count(aes.id_beneficiario) as servicios_asignados,";
-                $cadenaSql .= " count(revision.id_beneficiario) as nrevision,";
-                $cadenaSql .= " count(apnull.id_beneficiario) as nactivacion,";
-                $cadenaSql .= " count(bp.estado_beneficiario) filter (where bp.estado_beneficiario='APROBACION') as naprobacion";
+                $cadenaSql = " SELECT bp.id_beneficiario,bp.identificacion ||' - '|| bp.nombre ||' '|| bp.primer_apellido ||' '|| bp.segundo_apellido as beneficiario,";
+                $cadenaSql .= " count(c.id_beneficiario)*100 as contrato,";
+                $cadenaSql .= " count(ap.id_beneficiario)*100 as asignacion_portatiles,";
+                $cadenaSql .= " count(aes.id_beneficiario)*100 as asignacion_servicios,";
+                $cadenaSql .= " count(revision.id_beneficiario)*100 as revision,";
+                $cadenaSql .= " count(apnull.id_beneficiario)*100 as activacion,";
+                $cadenaSql .= " count(bp.estado_beneficiario) filter (where bp.estado_beneficiario='APROBACION') *100 as aprobacion";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
                 $cadenaSql .= " LEFT JOIN interoperacion.contrato c ON c.id_beneficiario=bp.id_beneficiario AND bp.proyecto=c.urbanizacion";
-                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil ap on ap.id_beneficiario=bp.id_beneficiario AND ap.serial IS NOT NULL";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil ap on ap.id_beneficiario=bp.id_beneficiario AND ap.serial IS NOT NULL AND bp.proyecto=ap.urbanizacion";
                 $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil apnull on apnull.id_beneficiario=bp.id_beneficiario";
                 $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios aes on aes.id_beneficiario=bp.id_beneficiario AND aes.serial_esc IS NOT NULL";
-                $cadenaSql .= " LEFT JOIN";
-                $cadenaSql .= " (SELECT DISTINCT dc.id_beneficiario";
-                $cadenaSql .= " FROM interoperacion.contrato io";
-                $cadenaSql .= " JOIN interoperacion.documentos_contrato dc ON dc.id_beneficiario=io.id_beneficiario";
-                $cadenaSql .= " WHERE ruta_documento_contrato IS NOT NULL";
-                $cadenaSql .= " AND dc.tipologia_documento=132 and dc.estado_registro=TRUE";
-                $cadenaSql .= " ) as revision on revision.id_beneficiario=bp.id_beneficiario";
+                $cadenaSql .= " LEFT JOIN (SELECT distinct id_beneficiario, estado_registro FROM interoperacion.documentos_contrato) as revision on revision.id_beneficiario=bp.id_beneficiario and revision.estado_registro=TRUE";
                 $cadenaSql .= " WHERE bp.estado_registro=TRUE";
                 $cadenaSql .= " AND bp.id_proyecto='" . $variable . "'";
-                $cadenaSql .= " GROUP BY bp.id_beneficiario,bp.proyecto,bp.id_proyecto";
-                $cadenaSql .= " order by bp.id_proyecto ASC) as precalculos";
-                $cadenaSql .= " JOIN parametros.proyectos_metas on precalculos.id_proyecto=proyectos_metas.id_proyecto";
-                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial ben on precalculos.id_beneficiario=ben.id_beneficiario";
-                $cadenaSql .= " ORDER BY asignacion_portatiles DESC";
+                $cadenaSql .= " GROUP BY bp.id_beneficiario,bp.identificacion, bp.nombre, bp.primer_apellido, bp.segundo_apellido";
                 break;
 
             case 'consultarDocumentos':
