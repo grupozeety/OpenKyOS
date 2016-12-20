@@ -41,9 +41,6 @@ class Certificado {
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-		$conexion = "openproject";
-		$esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-		
 		$_REQUEST ['id_beneficiario'] = $_REQUEST ['id'];
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionCertificado' );
 		
