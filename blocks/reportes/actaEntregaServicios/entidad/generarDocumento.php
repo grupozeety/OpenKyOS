@@ -77,6 +77,34 @@ class GenerarDocumento {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
         $infoCertificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        $anexo_dir = '';
+        
+        if ($infoCertificado['manzana'] != 0) {
+        	$anexo_dir .= " Manzana  #" . $infoCertificado['manzana'] . " - ";
+        }
+        
+        if ($infoCertificado['bloque'] != 0) {
+        	$anexo_dir .= " Bloque #" . $infoCertificado['bloque'] . " - ";
+        }
+        
+        if ($infoCertificado['torre'] != 0) {
+        	$anexo_dir .= " Torre #" . $infoCertificado['torre'] . " - ";
+        }
+        
+        if ($infoCertificado['casa_apartamento'] != 0) {
+        	$anexo_dir .= " Casa/Apartamento #" . $infoCertificado['casa_apartamento'];
+        }
+        
+        if ($infoCertificado['interior'] != 0) {
+        	$anexo_dir .= " Interior #" . $infoCertificado['interior'];
+        }
+        
+        if ($infoCertificado['lote'] != 0) {
+        	$anexo_dir .= " Lote #" . $infoCertificado['lote'];
+        }
+        
+        $infoCertificado['direccion'] = $infoCertificado['direccion'] . " " . $anexo_dir;
         
         $_REQUEST = array_merge($_REQUEST, $infoCertificado);
         

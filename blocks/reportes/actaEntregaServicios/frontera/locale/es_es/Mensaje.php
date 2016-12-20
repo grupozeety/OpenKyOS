@@ -17,6 +17,8 @@ $this->idioma['segundo_apellido'] = 'Segundo Apellido';
 
 $this->idioma['tipo_documento'] = 'Tipo Documento';
 
+$this->idioma['tipo_documento_int'] = 'Tipo Documento';
+
 $this->idioma['numero_identificacion'] = 'Número Identificación';
 
 $this->idioma['numero_identificacion_cont'] = 'Número Identificación';
@@ -31,6 +33,10 @@ $this->idioma['tipo_beneficiario'] = 'Tipo de Beneficiario';
 
 $this->idioma['estrato'] = 'Estrato';
 
+$this->idioma['tipo_beneficiario_int'] = 'Tipo de Beneficiario';
+
+$this->idioma['estrato_int'] = 'Estrato';
+
 $this->idioma['fecha_instalacion'] = 'Fecha de Instalación';
 
 $this->idioma['direccion'] = 'Dirección';
@@ -44,6 +50,8 @@ $this->idioma['municipio'] = 'Municipio';
 $this->idioma['codigo_dane'] = 'Código DANE';
 
 $this->idioma['tipo_tecnologia'] = 'Tipo de Tecnología';
+
+$this->idioma['tipo_tecnologia_int'] = 'Tipo de Tecnología';
 
 $this->idioma['correo'] = 'Correo';
 
