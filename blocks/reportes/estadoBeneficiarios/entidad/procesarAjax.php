@@ -12,7 +12,7 @@ class procesarAjax {
 
         $conexion = "interoperacion";
 
-//        $conexion = "produccion";
+        //$conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         // URL base
@@ -175,6 +175,9 @@ class procesarAjax {
                 if ($procesos) {
                     foreach ($procesos as $key => $valor) {
 
+                        $cadenaSql = $this->sql->getCadenaSql('consultarDocumentos', $valor['id_beneficiario']);
+                        $documento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                        var_dump($documento);
                         // Variables para Con
                         $cadenaACodificar = "pagina=generacionContrato";
                         //$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
@@ -189,10 +192,28 @@ class procesarAjax {
 
                         // URL Consultar Proyectos
                         $urlConsultarRequisitos = $url . $cadena;
-                        $link = "<a  target='_blank' href='" . $urlConsultarRequisitos . "'>" . $valor['beneficiario'] . "</a>";
+                        $link1 = ($documento) ? "<a  target='_blank' href='" . $urlConsultarRequisitos . "'>Ver</a>" : " ";
+
+                        // Variables para Con
+                        $cadenaACodificar = "pagina=gestionRequisitos";
+                        //$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+                        //$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                        $cadenaACodificar .= "&opcion=validarRequisitos";
+                        $cadenaACodificar .= "&proceso=verificarRequisitos";
+                        $cadenaACodificar .= "&id_beneficiario=" . $valor['id_beneficiario'];
+
+                        // Codificar las variables
+                        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+                        // URL Consultar Proyectos
+                        $urlConsultarRequisitos = $url . $cadena;
+                        $link2 = ($documento) ? "<a  target='_blank' href='" . $urlConsultarRequisitos . "'>Ver</a>" : " ";
 
                         $resultadoFinal[] = array(
-                            'beneficiario' => $link,
+                            'beneficiario' => $valor['beneficiario'],
+                            'contratacion' => $link1,
+                            'comisionamiento' => $link2,
                             'contrato' => $valor['contrato'],
                             'accPortatil' => $valor['asignacion_portatiles'],
                             'accServicio' => $valor['asignacion_servicios'],
