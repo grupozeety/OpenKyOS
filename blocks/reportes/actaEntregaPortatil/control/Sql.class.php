@@ -168,10 +168,22 @@ class Sql extends \Sql {
                 break;
 
             case 'consultaInformacionCertificado':
-                $cadenaSql = " SELECT *";
-                $cadenaSql .= " FROM interoperacion.acta_entrega_portatil";
-                $cadenaSql .= " WHERE id_beneficiario ='" . $_REQUEST['id_beneficiario'] . "'";
-                $cadenaSql .= " AND estado_registro='TRUE';";
+
+                $cadenaSql = " SELECT pr.*,";
+                $cadenaSql .= " cn.direccion_domicilio as direccion,";
+                $cadenaSql .= " cn.manzana,";
+                $cadenaSql .= " cn.bloque,";
+                $cadenaSql .= " cn.torre,";
+                $cadenaSql .= " cn.casa_apartamento,";
+                $cadenaSql .= " cn.interior,";
+                $cadenaSql .= " cn.lote,";
+                $cadenaSql .= " cn.piso";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_portatil pr";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=pr.id_beneficiario";
+                $cadenaSql .= " WHERE pr.id_beneficiario ='" . $_REQUEST['id_beneficiario'] . "'";
+                $cadenaSql .= " AND pr.estado_registro='TRUE';";
+                $cadenaSql .= " AND pr.serial IS NOT NULL ";
+                $cadenaSql .= " AND pr.marca IS NOT NULL ";
                 break;
 
             case 'registrarRequisito':
