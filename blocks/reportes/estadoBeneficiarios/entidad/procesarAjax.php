@@ -192,7 +192,7 @@ class procesarAjax {
 
                         // URL Consultar Proyectos
                         $urlConsultarRequisitos = $url . $cadena;
-                        $link1 = ($documento) ? "<a  target='_blank' href='" . $urlConsultarRequisitos . "'>Ver</a>" : " ";
+                        $link1 = ($documento) ? "<a  target='_blank' href='" . $urlConsultarRequisitos . "'>Ver</a>" : "&nbsp;";
 
                         // Variables para Con
                         $cadenaACodificar = "pagina=gestionRequisitos";
@@ -208,7 +208,7 @@ class procesarAjax {
 
                         // URL Consultar Proyectos
                         $urlConsultarRequisitos = $url . $cadena;
-                        $link2 = ($documento) ? "<a  target='_blank' href='" . $urlConsultarRequisitos . "'>Ver</a>" : " ";
+                        $link2 = ($documento) ? "<a  target='_blank' href='" . $urlConsultarRequisitos . "'>Ver</a>" : "&nbsp;";
 
                         $resultadoFinal[] = array(
                             'beneficiario' => $valor['beneficiario'],
