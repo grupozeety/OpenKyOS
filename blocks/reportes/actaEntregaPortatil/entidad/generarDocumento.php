@@ -31,6 +31,7 @@ class GenerarDocumento {
 
         // Conexion a Base de Datos
         $conexion = "interoperacion";
+
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $conexion = "openproject";
@@ -81,12 +82,20 @@ class GenerarDocumento {
 
         $_REQUEST = array_merge($_REQUEST, $infoCertificado);
 
-        $fecha = explode("-", $this->infoCertificado['fecha_entrega']);
+        if (!is_null($this->infoCertificado['fecha_entrega']) && $this->infoCertificado['fecha_entrega'] != '') {
 
-        $dia = $fecha[0];
-        $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-        $mes = $mes[$fecha[1]];
-        $anno = $fecha[2];
+            $fecha = explode("-", $this->infoCertificado['fecha_entrega']);
+            $dia = $fecha[0];
+            $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            $mes = $mes[$fecha[1]];
+            $anno = $fecha[2];
+            $fecha_letra = $dia . " de " . $mes . " de " . $anno . ".";
+        } else {
+
+            $fecha_letra = "__________________________________________.";
+
+        }
+
         {
 
             $tipo_vip = ($_REQUEST['tipo_beneficiario'] == "1") ? "<b>X</b>" : "";
@@ -95,6 +104,40 @@ class GenerarDocumento {
         }
 
         setlocale(LC_ALL, "es_CO.UTF-8");
+
+        {
+
+            $anexo_dir = '';
+
+            if ($this->infoCertificado['manzana'] != '0' && $this->infoCertificado['manzana'] != '') {
+                $anexo_dir .= " Manzana  #" . $this->infoCertificado['manzana'] . " - ";
+            }
+
+            if ($this->infoCertificado['bloque'] != '0' && $this->infoCertificado['bloque'] != '') {
+                $anexo_dir .= " Bloque #" . $this->infoCertificado['bloque'] . " - ";
+            }
+
+            if ($this->infoCertificado['torre'] != '0' && $this->infoCertificado['torre'] != '') {
+                $anexo_dir .= " Torre #" . $this->infoCertificado['torre'] . " - ";
+            }
+
+            if ($this->infoCertificado['casa_apartamento'] != '0' && $this->infoCertificado['casa_apartamento'] != '') {
+                $anexo_dir .= " Casa/Apartamento #" . $this->infoCertificado['casa_apartamento'];
+            }
+
+            if ($this->infoCertificado['interior'] != '0' && $this->infoCertificado['interior'] != '') {
+                $anexo_dir .= " Interior #" . $this->infoCertificado['interior'];
+            }
+
+            if ($this->infoCertificado['lote'] != '0' && $this->infoCertificado['lote'] != '') {
+                $anexo_dir .= " Lote #" . $this->infoCertificado['lote'];
+            }
+
+            if ($this->infoCertificado['piso'] != '0' && $this->infoCertificado['piso'] != '') {
+                $anexo_dir .= " Piso #" . $this->infoCertificado['piso'];
+            }
+
+        }
 
         $contenidoPagina = "
                             <style type=\"text/css\">
@@ -174,7 +217,7 @@ class GenerarDocumento {
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>Dirección</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['direccion_general'] . "</td>
+                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['direccion'] . " " . $anexo_dir . "</td>
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>Departamento</td>
@@ -256,7 +299,7 @@ class GenerarDocumento {
                                 <br>
                             5. Que se compromete a participar en por lo menos 20 horas de  capacitación sobre el manejo del equipo y/o aplicativos de uso productivo de esta herramienta como parte del proceso de apropiación social contemplado en el Anexo Técnico del proyecto Conexiones Digitales II<br><br><br>
 
-                            Para constancia de lo anterior, firma en la ciudad de " . $_REQUEST['municipio'] . ", municipio de " . $_REQUEST['municipio'] . ", departamento de " . $_REQUEST['departamento'] . ", el día " . $dia . " de " . $mes . " de " . $anno . ".
+                            Para constancia de lo anterior, firma en la ciudad de " . $_REQUEST['municipio'] . ", municipio de " . $_REQUEST['municipio'] . ", departamento de " . $_REQUEST['departamento'] . ", el día " . $fecha_letra . "
                             <br>
                             <br>
                             <br>
