@@ -30,7 +30,7 @@ class Registrador {
 
         //Conexion a Base de Datos
         $conexion = "interoperacion";
-        //$conexion = "produccion";
+        $conexion = "produccion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -155,6 +155,7 @@ class Registrador {
                             echo '<table id="example_porcentaje" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
+                                            <th><center>Municipio<center></th>
                                             <th><center>Proyecto<center></th>
                                             <th><center>Beneficiarios<br>Meta<center></th>
                                             <th><center>Beneficiarios<br>Sistema<center></th>
@@ -169,6 +170,7 @@ class Registrador {
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                            <th><center>Municipio<center></th>
                                             <th><center>Proyecto<center></th>
                                             <th><center>Beneficiarios<br>Meta<center></th>
                                             <th><center>Beneficiarios<br>Sistema<center></th>
@@ -198,6 +200,7 @@ class Registrador {
                             echo '<table id="example_numerico" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
+                                            <th><center>Municipio<center></th>
                                             <th><center>Proyecto<center></th>
                                             <th><center>Beneficiarios<br>Meta<center></th>
                                             <th><center>Beneficiarios<br>Sistema<center></th>
@@ -211,6 +214,7 @@ class Registrador {
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                            <th><center>Municipio<center></th>
                                             <th><center>Proyecto<center></th>
                                             <th><center>Beneficiarios<br>Meta<center></th>
                                             <th><center>Beneficiarios<br>Sistema<center></th>

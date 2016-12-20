@@ -229,6 +229,7 @@ function actualizarTabla(){
                       dataSrc:"data"
                   },
                   columns: [
+                  { data :"municipio"},
                   { data :"proyecto"},
                   { data :"beneficiarios_meta" },
                   { data :"beneficiarios_sistema" },
@@ -294,6 +295,7 @@ function actualizarTabla(){
                       dataSrc:"data"
                   },
                   columns: [
+                  { data :"municipio"},
                   { data :"proyecto"},
                   { data :"beneficiarios_meta" },
                   { data :"beneficiarios_sistema" },

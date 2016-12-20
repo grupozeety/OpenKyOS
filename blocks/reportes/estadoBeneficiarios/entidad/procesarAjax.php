@@ -12,7 +12,7 @@ class procesarAjax {
 
         $conexion = "interoperacion";
 
-        //$conexion = "produccion";
+        $conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         // URL base
@@ -52,6 +52,7 @@ class procesarAjax {
                                 $link = "<a  target='_blank' href='" . $urlConsultarParticularEnlace . "'>" . $valor['proyecto'] . "</a>";
 
                                 $resultadoFinal[] = array(
+                                    'municipio' => $valor['municipio'],
                                     'proyecto' => $link,
                                     'beneficiarios_meta' => "&nbsp;" . $valor['beneficiarios_meta'],
                                     'beneficiarios_sistema' => "&nbsp;" . $valor['beneficiarios_sistema'],
@@ -87,7 +88,7 @@ class procesarAjax {
                         $cadenaSql = $this->sql->getCadenaSql('consultaGeneralBeneficiariosNumerico', $_REQUEST['metas']);
 
                         $procesos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
+                        //var_dump($procesos);
                         if ($procesos) {
                             foreach ($procesos as $key => $valor) {
 
@@ -107,16 +108,35 @@ class procesarAjax {
                                 $urlConsultarParticularEnlace = $url . $cadena;
                                 $link = "<a  target='_blank' href='" . $urlConsultarParticularEnlace . "'>" . $valor['proyecto'] . "</a>";
 
+                                $pc_contratos = ($valor['contratos'] / $valor['beneficiarios_meta']) * 100;
+                                $color_contrato = $this->colorCelda($pc_contratos);
+
+                                $pc_accPortatil = ($valor['asignacion_portatiles'] / $valor['beneficiarios_meta']) * 100;
+                                $color_pc_accPortatil = $this->colorCelda($pc_accPortatil);
+
+                                $pc_accServicio = ($valor['asignacion_servicios'] / $valor['beneficiarios_meta']) * 100;
+                                $color_pc_accServicio = $this->colorCelda($pc_accServicio);
+
+                                $pc_activacion = ($valor['activacion'] / $valor['beneficiarios_meta']) * 100;
+                                $color_pc_activacion = $this->colorCelda($pc_activacion);
+
+                                $pc_revision = ($valor['revision'] / $valor['beneficiarios_meta']) * 100;
+                                $color_pc_revision = $this->colorCelda($pc_revision);
+
+                                $pc_aprobacion = ($valor['aprobacion'] / $valor['beneficiarios_meta']) * 100;
+                                $color_pc_aprobacion = $this->colorCelda($pc_aprobacion);
+
                                 $resultadoFinal[] = array(
+                                    'municipio' => $valor['municipio'],
                                     'proyecto' => $link,
                                     'beneficiarios_meta' => "&nbsp;" . $valor['beneficiarios_meta'],
                                     'beneficiarios_sistema' => "&nbsp;" . $valor['beneficiarios_sistema'],
-                                    'contratos' => "&nbsp;" . $valor['contratos'],
-                                    'accPortatil' => "&nbsp;" . $valor['asignacion_portatiles'],
-                                    'accServicio' => "&nbsp;" . $valor['asignacion_servicios'],
-                                    'activacion' => "&nbsp;" . $valor['activacion'],
-                                    'revision' => "&nbsp;" . $valor['revision'],
-                                    'aprobacion' => "&nbsp;" . $valor['aprobacion'],
+                                    'contratos' => "<div style='background-color:" . $color_contrato . "'>" . $valor['contratos'] . "</div>",
+                                    'accPortatil' => "<div style='background-color:" . $color_pc_accPortatil . "'>" . $valor['asignacion_portatiles'] . "</div>",
+                                    'accServicio' => "<div style='background-color:" . $color_pc_accServicio . "'>" . $valor['asignacion_servicios'] . "</div>",
+                                    'activacion' => "<div style='background-color:" . $color_pc_activacion . "'>" . $valor['activacion'] . "</div>",
+                                    'revision' => "<div style='background-color:" . $color_pc_revision . "'>" . $valor['revision'] . "</div>",
+                                    'aprobacion' => "<div style='background-color:" . $color_pc_aprobacion . "'>" . $valor['aprobacion'] . "</div>",
 
                                 );
                             }
@@ -202,8 +222,24 @@ class procesarAjax {
 
         }
     }
-}
 
+    public function colorCelda($valor) {
+
+        if ($valor >= 0 && $valor <= 20) {
+            $color = "#F08080";
+        } else if ($valor >= 21 && $valor <= 50) {
+            $color = "#f3aa51";
+        } else if ($valor >= 51 && $valor <= 80) {
+            $color = "#f0ed80";
+        } else if ($valor >= 81 && $valor <= 99) {
+            $color = "#b0e6c8";
+        } else if ($valor >= 100) {
+            $color = "#0d7b3e";
+        }
+
+        return $color;
+    }
+}
 $miProcesarAjax = new procesarAjax($this->sql);
 exit;
 ?>
