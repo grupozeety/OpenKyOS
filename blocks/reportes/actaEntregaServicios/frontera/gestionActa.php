@@ -144,6 +144,38 @@ class GestionarContrato {
                         $url .= $this->miConfigurador->getVariableConfiguracion("site");
                         $url .= "/index.php?";
 
+                        
+                        // ------------------Division para los botones-------------------------
+                        $atributos["id"] = "botones_edit";
+                        $atributos["estilo"] = "marcoBotones";
+                        $atributos["estiloEnLinea"] = "display:block;";
+                        echo $this->miFormulario->division("inicio", $atributos);
+                        unset($atributos);
+                        
+                        {
+                        
+                        	$valorCodificado = "action=" . $esteBloque["nombre"];
+                        	$valorCodificado = "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                        	$valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                        	$valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                        	$valorCodificado .= "&id=" . $_REQUEST['id_beneficiario'];
+                        	$valorCodificado .= "&opcion=editarCertificacion";
+                        	$valorCodificado .= "&editar=editar";
+                        	 
+                        
+                        	$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                        	$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+                        
+                        	$urlpdfNoFirmas = $url . $cadena;
+                        
+                        	echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Editar Acta Entrega de Servicios Instalados</a></b>";
+                        
+                        }
+                        
+                        // ------------------Fin Division para los botones-------------------------
+                        echo $this->miFormulario->division("fin");
+                        unset($atributos);
+                        
                         // ------------------Division para los botones-------------------------
                         $atributos["id"] = "botones_sin";
                         $atributos["estilo"] = "marcoBotones";
@@ -177,6 +209,8 @@ class GestionarContrato {
                         echo $this->miFormulario->division("fin");
                         unset($atributos);
 
+                        
+                        
                         // ------------------Division para los botones-------------------------
                         $atributos["id"] = "botones_pdf";
                         $atributos["estilo"] = "marcoBotones";
