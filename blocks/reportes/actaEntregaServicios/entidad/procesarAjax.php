@@ -18,6 +18,7 @@ class procesarAjax {
             case 'consultaBeneficiarios':
                 $cadenaSql = $this->sql->getCadenaSql('consultarBeneficiariosPotenciales');
 
+                echo $cadenaSql; die;
                 $resultadoItems = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
                 foreach ($resultadoItems as $key => $values) {

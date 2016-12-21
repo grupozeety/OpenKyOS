@@ -33,9 +33,6 @@ class GenerarDocumento {
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        $conexion = "openproject";
-        $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 
@@ -195,7 +192,6 @@ $urbanizacion = $urbanizacion[0];
         $mes = $mes[$fecha[1]];
         $anno = $fecha[2];
         {
-
             $tipo_vip = ($_REQUEST['tipo_beneficiario'] == "1") ? "<b>X</b>" : "";
             $tipo_residencial_1 = ($_REQUEST['tipo_beneficiario'] == "2") ? (($_REQUEST['estrato'] == "1") ? "<b>X</b>" : "") : "";
             $tipo_residencial_2 = ($_REQUEST['tipo_beneficiario'] == "2") ? (($_REQUEST['estrato'] == "2") ? "<b>X</b>" : "") : "";
@@ -203,8 +199,14 @@ $urbanizacion = $urbanizacion[0];
 
         $localizacion = explode(",", $_REQUEST['geolocalizacion']);
         
-        $localizacion[0] = trim($localizacion[0]);
-        $localizacion[1] = trim($localizacion[1]);
+        if(count($localizacion)==2){
+        	$localizacion[0] = trim($localizacion[0]);
+        	$localizacion[1] = trim($localizacion[1]); 
+        }else{
+        	$localizacion[0] = '';
+        	$localizacion[1] = '';
+        }
+        
         
         /**
          * Calculo Latitud GMS
