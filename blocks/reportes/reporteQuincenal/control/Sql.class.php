@@ -106,8 +106,8 @@ class Sql extends \Sql {
 item_contrato.estado_contrato as \"Estado de compra\",
 item_contrato.num_contrato as \"Número OC  o Contrato\",
 item_contrato.proveedor as \"Nombre Proveedor\", 
-\"\" as \"Fecha Contratacion\",
-`tabProductos a Proyectar`.`item_proyeccion` as \"Cantidad o capacidad Comprada o a adquirir\", 
+\"\" as \"Fecha Contratacion\", 
+item_contrato.cantidad as  \"Cantidad o capacidad Comprada o a adquirir\", 
 `tabItem`.`stock_uom` as \"Unidad\",
 `tabItem`.`brand` as \"Marca o fabricante elemento\",
 `tabProductos a Proyectar`.`item_proyeccion` as \"Cantidad o capacidad requerida en el proyecto\",
@@ -142,11 +142,10 @@ LEFT JOIN (SELECT destino.tipo_almacen,origen.project, `tabStock Entry Detail`.`
 LEFT JOIN `tabPurchase Receipt Item` on `tabPurchase Receipt Item`.`item_code`=`tabItem`.`item_code` AND `tabPurchase Receipt Item`.creation<= '".$variable."' 
 LEFT JOIN `tabPurchase Receipt` on `tabPurchase Receipt`.`name`=`tabPurchase Receipt Item`.`parent` AND `tabPurchase Receipt`.posting_date<= '".$variable."' 
 LEFT JOIN 
-(SELECT DISTINCT item_code,`tabRegistro de Contrato`.`proveedor`, `tabRegistro de Contrato`.`num_contrato`, `tabRegistro de Contrato`.`estado_contrato`
+(SELECT DISTINCT item_code,`tabRegistro de Contrato`.`proveedor`, `tabRegistro de Contrato`.`num_contrato`, `tabRegistro de Contrato`.`estado_contrato`, project, cantidad
 FROM `tabRegistro de Contrato Item` 
 JOIN `tabRegistro de Contrato` ON `tabRegistro de Contrato`.`name`=`tabRegistro de Contrato Item`.`parent` 
-WHERE 1 
-GROUP BY item_code ORDER BY item_code ASC) as item_contrato on item_contrato.item_code=`tabItem`.item_code
+WHERE 1 ORDER BY item_code ASC ) as item_contrato on item_contrato.item_code=`tabItem`.item_code  AND item_contrato.project=`tabProductos a Proyectar`.`parent`
 LEFT JOIN (
 SELECT destino.tipo_almacen,origen.project, `tabStock Entry Detail`.`parent`,`item_code`, sum(qty) as qty,GROUP_CONCAT(`posting_date` SEPARATOR ', ') as fechas_salidas, `t_warehouse`,s_warehouse, origen.`tipo_almacen` tipo_origen,`uom`FROM `tabStock Entry Detail` JOIN `tabStock Entry` on `tabStock Entry`.`name`=`tabStock Entry Detail`.`parent` JOIN `tabWarehouse` as origen on origen.`name`=s_warehouse JOIN `tabWarehouse` as destino on destino.`name`=t_warehouse WHERE `tabStock Entry Detail`.`docstatus`!=2 AND destino.tipo_almacen='Salida' AND origen.tipo_almacen='Entrada' AND posting_date<= '".$variable."' GROUP BY item_code,`s_warehouse`, project ORDER BY `tabStock Entry Detail`.`s_warehouse` ASC ) as stock_detail on stock_detail.item_code=`tabItem`.`item_code` AND stock_detail.project=`tabProductos a Proyectar`.`parent`
 ORDER By `tabItem`.`item_code`ASC
