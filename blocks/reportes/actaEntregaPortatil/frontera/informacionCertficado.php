@@ -83,7 +83,7 @@ class Certificado {
                 'id_urbanizacion' => $infoBeneficiario['id_proyecto'],
                 'tipo_beneficiario' => $infoBeneficiario['tipo_beneficiario'],
                 'telefono' => $infoBeneficiario['telefono'],
-                'celular' => $infoBeneficiario['celular'],
+                'celular' => $infoBeneficiario['celular_contrato'],
                 'correo' => $infoBeneficiario['correo'],
             );
 
