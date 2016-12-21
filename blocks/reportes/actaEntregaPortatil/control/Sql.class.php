@@ -265,7 +265,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " , pp.serial as value";
                 $cadenaSql .= " FROM interoperacion.politecnica_portatil pp";
                 $cadenaSql .= " WHERE pp.serial ILIKE  '%" . $variable . "%'";
-                $cadenaSql .= " AND pp.serial NOT IN (SELECT DISTINCT serial from interoperacion.acta_entrega_portatil WHERE estado_registro='TRUE' )";
+                $cadenaSql .= " AND pp.serial NOT IN (SELECT DISTINCT serial from interoperacion.acta_entrega_portatil WHERE estado_registro='TRUE' AND serial IS NOT NULL )";
                 $cadenaSql .= " LIMIT 10";
                 break;
 
