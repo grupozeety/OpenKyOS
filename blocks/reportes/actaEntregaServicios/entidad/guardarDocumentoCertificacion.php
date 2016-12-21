@@ -202,6 +202,9 @@ $urbanizacion = $urbanizacion[0];
         if(count($localizacion)==2){
         	$localizacion[0] = trim($localizacion[0]);
         	$localizacion[1] = trim($localizacion[1]); 
+        }else{
+        	$localizacion[0] = '';
+        	$localizacion[1] = '';
         }
         
         
