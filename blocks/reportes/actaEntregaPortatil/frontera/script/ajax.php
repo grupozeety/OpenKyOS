@@ -104,15 +104,28 @@ function informacionPortatil(elem, request, response){
 	   	minChars: 2,
 	   	serviceUrl: '<?php echo $urlConsultarPortatiles;?>',
 	   	onSelect: function (suggestion) {
+
+	   		if(suggestion.data){
 			$("#<?php echo $this->campoSeguro('id_serial');?>").val(suggestion.data);
-
 			informacionPortatil();
-
+			}
 		}
 	});
 
 
+$("#<?php echo $this->campoSeguro('serial');?>").change(function() {
 
+
+if($("#<?php echo $this->campoSeguro('id_serial');?>").val()==''){
+
+
+$("#<?php echo $this->campoSeguro('serial');?>").val("");
+
+}
+
+
+
+});
 
 
 

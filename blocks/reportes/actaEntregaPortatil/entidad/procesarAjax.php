@@ -36,14 +36,22 @@ class procesarAjax {
 
                 $resultadoItems = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-                foreach ($resultadoItems as $key => $values) {
-                    $keys = array(
-                        'value',
-                        'data',
-                    );
-                    $resultado[$key] = array_intersect_key($resultadoItems[$key], array_flip($keys));
+                if ($resultadoItems) {
+                    foreach ($resultadoItems as $key => $values) {
+                        $keys = array(
+                            'value',
+                            'data',
+                        );
+                        $resultado[$key] = array_intersect_key($resultadoItems[$key], array_flip($keys));
+                    }
+
+                    echo '{"suggestions":' . json_encode($resultado) . '}';
+                } else {
+
+                    echo '{"suggestions":[{data: "1", value: "No Disponible"}]}';
+
                 }
-                echo '{"suggestions":' . json_encode($resultado) . '}';
+
                 break;
 
             case 'consultaInformacionPortatiles':

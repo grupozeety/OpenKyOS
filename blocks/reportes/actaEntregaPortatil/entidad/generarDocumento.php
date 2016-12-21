@@ -59,7 +59,6 @@ class GenerarDocumento {
          * 2.
          * Crear PDF
          */
-
         $this->crearPDF();
     }
     public function crearPDF() {
@@ -78,6 +77,7 @@ class GenerarDocumento {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
         $infoCertificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
         $this->infoCertificado = $infoCertificado;
 
         $_REQUEST = array_merge($_REQUEST, $infoCertificado);
@@ -98,9 +98,9 @@ class GenerarDocumento {
 
         {
 
-            $tipo_vip = ($_REQUEST['tipo_beneficiario'] == "1") ? "<b>X</b>" : "";
-            $tipo_residencial_1 = ($_REQUEST['tipo_beneficiario'] == "2") ? (($_REQUEST['estrato_socioeconomico'] == "1") ? "<b>X</b>" : "") : "";
-            $tipo_residencial_2 = ($_REQUEST['tipo_beneficiario'] == "2") ? (($_REQUEST['estrato_socioeconomico'] == "2") ? "<b>X</b>" : "") : "";
+            $tipo_vip = ($_REQUEST['tipo_beneficiario_contrato'] == "1") ? "<b>X</b>" : "";
+            $tipo_residencial_1 = ($_REQUEST['tipo_beneficiario_contrato'] == "2") ? (($_REQUEST['estrato_socioeconomico_contrato'] == "1") ? "<b>X</b>" : "") : "";
+            $tipo_residencial_2 = ($_REQUEST['tipo_beneficiario_contrato'] == "2") ? (($_REQUEST['estrato_socioeconomico_contrato'] == "2") ? "<b>X</b>" : "") : "";
         }
 
         setlocale(LC_ALL, "es_CO.UTF-8");
@@ -200,11 +200,11 @@ class GenerarDocumento {
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>Beneficiario</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . $_REQUEST['nombre'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b></td>
+                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . $_REQUEST['nombre_contrato'] . " " . $_REQUEST['primer_apellido_contrato'] . " " . $_REQUEST['segundo_apellido_contrato'] . "</b></td>
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>No de Identificación</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . number_format($_REQUEST['identificacion'], 0, '', '.') . "</b></td>
+                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . number_format($_REQUEST['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
                                 </tr>
                                 <tr>
                                     <td colspan='4'><b>Datos de Vivienda</b></td>
@@ -221,13 +221,13 @@ class GenerarDocumento {
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>Departamento</td>
-                                    <td style='width:25%;text-align:center;'>" . $_REQUEST['departamento'] . "</td>
+                                    <td style='width:25%;text-align:center;'>" . $_REQUEST['nombre_departamento'] . "</td>
                                     <td style='width:25%;'>Municipio</td>
-                                    <td style='width:25%;text-align:center;'>" . $_REQUEST['municipio'] . "</td>
+                                    <td style='width:25%;text-align:center;'>" . $_REQUEST['nombre_municipio'] . "</td>
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>Urbanización</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['urbanizacion'] . "</td>
+                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['nombre_urbanizacion'] . "</td>
                                 </tr>
                             </table>
                             <br>
@@ -308,10 +308,10 @@ class GenerarDocumento {
                             <table width:100%;>
                                 <tr>
                                     <td rowspan='2' style='width:50%;'>Firma: </td>
-                                    <td style='width:50%;text-align:center;'><b>" . $_REQUEST['nombre'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b></td>
+                                    <td style='width:50%;text-align:center;'><b>" . $_REQUEST['nombre_contrato'] . " " . $_REQUEST['primer_apellido_contrato'] . " " . $_REQUEST['segundo_apellido_contrato'] . "</b></td>
                                 </tr>
                                 <tr>
-                                    <td style='width:50%;text-align:center;'><b>" . number_format($_REQUEST['identificacion'], 0, '', '.') . "</b></td>
+                                    <td style='width:50%;text-align:center;'><b>" . number_format($_REQUEST['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
                                 </tr>
                             </table>
 
