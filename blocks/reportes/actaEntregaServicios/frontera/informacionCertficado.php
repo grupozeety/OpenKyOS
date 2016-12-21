@@ -66,6 +66,13 @@ class Certificado {
 		
 		if(isset($_REQUEST['editar'])){
 			$editar = true;
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionBeneficiarioEditar' );
+			$infoBeneficiario = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			$infoBeneficiario = $infoBeneficiario [0];
+		}else{
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultaInformacionBeneficiario' );
+			$infoBeneficiario = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			$infoBeneficiario = $infoBeneficiario [0];
 		}
 		// Consulta información
 		

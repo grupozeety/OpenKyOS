@@ -79,6 +79,76 @@ class Sql extends \Sql {
 // 				break;
 
 			case 'consultaInformacionBeneficiario':
+				$cadenaSql=" SELECT ";
+				$cadenaSql.=" cn.numero_contrato,";
+				$cadenaSql.=" cn.nombres AS nombre,";
+				$cadenaSql.=" cn.primer_apellido,";
+				$cadenaSql.=" cn.segundo_apellido,";
+				$cadenaSql.=" cn.tipo_documento,";
+				$cadenaSql.=" cn.numero_identificacion AS identificacion,";
+				$cadenaSql.=" cn.direccion_domicilio AS direccion,";
+				$cadenaSql.=" cn.manzana AS manzana_contrato,";
+				$cadenaSql.=" cn.bloque As bloque_contrato,";
+				$cadenaSql.=" cn.torre AS torre_contrato,";
+				$cadenaSql.=" cn.casa_apartamento AS casa_apto_contrato,";
+				$cadenaSql.=" cn.interior AS interior_contrato,";
+				$cadenaSql.=" cn.lote AS lote_contrato,";
+				$cadenaSql.=" cn.piso AS piso_contrato,";
+				$cadenaSql.=" cn.estrato AS tipo_beneficiario,";
+				$cadenaSql.=" cn.estrato_socioeconomico,";
+				$cadenaSql.=" cn.departamento AS nombre_departamento,";
+				$cadenaSql.=" cn.municipio AS nombre_municipio,";
+				$cadenaSql.=" cn.urbanizacion AS nombre_urbanizacion,";
+				$cadenaSql.=" cn.tipo_tecnologia as tipo_tecnologia_int,";
+				$cadenaSql.=" pr.descripcion AS tipo_tecnologia,";
+				$cadenaSql.=" aes.geolocalizacion,";
+				$cadenaSql.=" aes.mac_esc,";
+				$cadenaSql.=" aes.mac2_esc,";
+				$cadenaSql.=" aes.serial_esc,";
+				$cadenaSql.=" aes.marca_esc,";
+				$cadenaSql.=" aes.cant_esc,";
+				$cadenaSql.=" aes.ip_esc,";
+				$cadenaSql.=" aes.hora_prueba_vs,";
+				$cadenaSql.=" aes.resultado_vs,";
+				$cadenaSql.=" aes.unidad_vs,";
+				$cadenaSql.=" aes.observaciones_vs,";
+				$cadenaSql.=" aes.hora_prueba_vb,";
+				$cadenaSql.=" aes.resultado_vb, ";
+				$cadenaSql.=" aes.unidad_vb,";
+				$cadenaSql.=" aes.observaciones_vb,";
+				$cadenaSql.=" aes.hora_prueba_p1,";
+				$cadenaSql.=" aes.resultado_p1,";
+				$cadenaSql.=" aes.unidad_p1,";
+				$cadenaSql.=" aes.observaciones_p1,";
+				$cadenaSql.=" aes.hora_prueba_p2,";
+				$cadenaSql.=" aes.resultado_p2,";
+				$cadenaSql.=" aes.unidad_p2,";
+				$cadenaSql.=" aes.observaciones_p2,";
+				$cadenaSql.=" aes.hora_prueba_p3,";
+				$cadenaSql.=" aes.resultado_p3,";
+				$cadenaSql.=" aes.unidad_p3,";
+				$cadenaSql.=" aes.observaciones_p3,";
+				$cadenaSql.=" aes.hora_prueba_tr1,";
+				$cadenaSql.=" aes.resultado_tr1,";
+				$cadenaSql.=" aes.unidad_tr1,";
+				$cadenaSql.=" aes.observaciones_tr1,";
+				$cadenaSql.=" aes.hora_prueba_tr2,";
+				$cadenaSql.=" aes.resultado_tr2,";
+				$cadenaSql.=" aes.unidad_tr2,";
+				$cadenaSql.=" aes.observaciones_tr2,";
+				$cadenaSql.=" aes.fecha_instalacion,";
+				$cadenaSql.=" aes.firmabeneficiario,";
+				$cadenaSql.=" aes.ruta_documento,";
+				$cadenaSql.=" aes.nombre_documento";
+				$cadenaSql.=" FROM interoperacion.contrato AS cn ";
+				$cadenaSql.=" FULL JOIN interoperacion.acta_entrega_servicios aes";
+				$cadenaSql.=" ON cn.id_beneficiario=aes.id_beneficiario";
+				$cadenaSql.=" JOIN parametros.parametros pr";
+				$cadenaSql.=" ON cn.tipo_tecnologia=pr.id_parametro";
+				$cadenaSql .= " WHERE cn.id_beneficiario ='" . $_REQUEST ['id_beneficiario'] . "'";
+				break;
+				
+			case 'consultaInformacionBeneficiarioEditar':
 			$cadenaSql=" SELECT ";
 			$cadenaSql.=" cn.numero_contrato,";
 			$cadenaSql.=" cn.nombres AS nombre,";
@@ -146,6 +216,7 @@ class Sql extends \Sql {
 			$cadenaSql.=" JOIN parametros.parametros pr";
 			$cadenaSql.=" ON cn.tipo_tecnologia=pr.id_parametro";
 			$cadenaSql .= " WHERE cn.id_beneficiario ='" . $_REQUEST ['id_beneficiario'] . "'";
+			$cadenaSql.=" AND aes.estado_registro=TRUE";
 			break;
 			
 			case 'consultarBeneficiariosPotenciales':
