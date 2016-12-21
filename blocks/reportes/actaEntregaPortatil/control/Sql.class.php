@@ -167,8 +167,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=pr.id_beneficiario AND cn.estado_registro='TRUE' ";
                 $cadenaSql .= " WHERE pr.id_beneficiario ='" . $_REQUEST['id_beneficiario'] . "'";
                 $cadenaSql .= " AND pr.estado_registro='TRUE' ";
-                $cadenaSql .= " AND pr.serial IS NOT NULL ";
-                $cadenaSql .= " AND pr.marca IS NOT NULL ";
+                $cadenaSql .= " /*AND pr.serial IS NOT NULL*/ ";
+                $cadenaSql .= " /*AND pr.marca IS NOT NULL */";
 
                 break;
 
