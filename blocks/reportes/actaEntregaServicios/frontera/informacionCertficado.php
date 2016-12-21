@@ -2971,7 +2971,7 @@ class Certificado {
 					}
                 </script>
                 <script async defer
-                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgAHnG5AICmnNuBCpu75evMTBr4ZU3i60&callback=initMap">
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgAHnG5AICmnNuBCpu75evMTBr4ZU3i60">
                 </script>';
 				// -----------------INICIO CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
 			}
