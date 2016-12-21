@@ -276,19 +276,19 @@ class GenerarDocumento {
                             1. Que ha recibido a satisfacción los equipos y el servicio de acceso de banda ancha con las características descritas a continuación:<br>
         		 	<table width:100%;>
                         <tr>
-	                        <td align='center'style='width:16%;'><b>EQUIPO</b></td>
-							<td align='center'style='width:18%;'><b>MAC</b></td>
-	                        <td align='center'style='width:18%;'><b>SERIAL</b></td>
-	                        <td align='center'style='width:16%;'><b>MARCA</b></td>
-	                        <td align='center'style='width:16%;'><b>CANT</b></td>
+	                        <td align='center'style='width:15%;'><b>EQUIPO</b></td>
+							<td align='center'style='width:20%;'><b>MAC</b></td>
+	                        <td align='center'style='width:21%;'><b>SERIAL</b></td>
+	                        <td align='center'style='width:14%;'><b>MARCA</b></td>
+	                        <td align='center'style='width:14%;'><b>CANT</b></td>
 					 		<td align='center'style='width:16%;'><b>IP</b></td>
                        	</tr>
                         <tr>
-                        	<td align='center'style='width:16%;'>ESCLAVO</td>
-                            <td align='center'style='width:18%;'>" . $_REQUEST ['mac_esc'] . "<br>" . $_REQUEST ['mac2_esc'] . " </td>
-                            <td align='center'style='width:18%;'>" . $_REQUEST ['serial_esc'] . " </td>
-                            <td align='center'style='width:16%;'>" . $_REQUEST ['marca_esc'] . " </td>
-				 			<td align='center'style='width:16%;'>" . $_REQUEST ['cant_esc'] . " </td>
+                        	<td align='center'style='width:15%;'>ESCLAVO</td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST ['mac_esc'] . "<br>" . $_REQUEST ['mac2_esc'] . " </td>
+                            <td align='center'style='width:21%;'>" . $_REQUEST ['serial_esc'] . " </td>
+                            <td align='center'style='width:14%;'>" . $_REQUEST ['marca_esc'] . " </td>
+				 			<td align='center'style='width:14%;'>" . $_REQUEST ['cant_esc'] . " </td>
 							<td align='center'style='width:16%;'>" . $_REQUEST ['ip_esc'] . " </td>
                         </tr>
                     </table>
