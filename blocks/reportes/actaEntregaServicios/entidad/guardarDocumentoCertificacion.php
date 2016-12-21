@@ -199,8 +199,11 @@ $urbanizacion = $urbanizacion[0];
 
         $localizacion = explode(",", $_REQUEST['geolocalizacion']);
         
-        $localizacion[0] = trim($localizacion[0]);
-        $localizacion[1] = trim($localizacion[1]);
+        if(count($localizacion)==2){
+        	$localizacion[0] = trim($localizacion[0]);
+        	$localizacion[1] = trim($localizacion[1]); 
+        }
+        
         
         /**
          * Calculo Latitud GMS
