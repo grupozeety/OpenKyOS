@@ -166,12 +166,12 @@ class Certificado {
         $esteCampo = $esteBloque['nombre'];
         $atributos['id'] = $esteCampo;
         $atributos['nombre'] = $esteCampo;
-        // Si no se coloca, entonces toma el valor predeterminado 'application / x - www - form - urlencoded'
-        $atributos['tipoFormulario'] = 'multipart / form - data';
+        // Si no se coloca, entonces toma el valor predeterminado 'application/x-www-form-urlencoded'
+        $atributos['tipoFormulario'] = 'multipart/form-data';
         // Si no se coloca, entonces toma el valor predeterminado 'POST'
         $atributos['metodo'] = 'POST';
-        // Si no se coloca, entonces toma el valor predeterminado 'index . php' (Recomendado)
-        $atributos['action'] = 'index . php';
+        // Si no se coloca, entonces toma el valor predeterminado 'index.php' (Recomendado)
+        $atributos['action'] = 'index.php';
         $atributos['titulo'] = $this->lenguaje->getCadena($esteCampo);
         // Si no se coloca, entonces toma el valor predeterminado.
         $atributos['estilo'] = '';
@@ -203,16 +203,16 @@ class Certificado {
                 unset($atributos);
                 {
 
-                    echo ' < divclass  = "panel-group"id = "accordion" >
+                    echo '<div class="panel-group" id="accordion">
 
-            < divclass  = "panel panel-default" >
-            < divclass  = "panel-heading" >
-            < h4class  = "panel-title" >
-            < adata - toggle = "collapse"data - parent = "#accordion"href = "#collapse1" > DatosBásicos <  / a >
-            <  / h4 >
-            <  / div >
-            < divid = "collapse1"class  = "panel-collapse collapse" >
-            < divclass  = "panel-body" > ';
+                       <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Datos Básicos</a>
+                                </h4>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse">
+                                <div class="panel-body">';
 
                     {
 
@@ -339,11 +339,11 @@ class Certificado {
                         $matrizItems = array(
                             array(
                                 '1',
-                                'CéduladeCiudadanía',
+                                'Cédula de Ciudadanía',
                             ),
                             array(
                                 '2',
-                                'CéduladeExtranjería',
+                                'Cédula de Extranjería',
                             ),
                         );
                         $atributos['matrizItems'] = $matrizItems;
@@ -553,17 +553,17 @@ class Certificado {
                         // ----------------FIN CONTROL: Campo Texto Municipio--------------------------------------------------------
 
                     }
-                    echo ' <  / div >
-            <  / div >
-            <  / div >
-            < divclass  = "panel panel-default" >
-            < divclass  = "panel-heading" >
-            < h4class  = "panel-title" >
-            < adata - toggle = "collapse"data - parent = "#accordion"href = "#collapse2" > InformacióndelComputador <  / a >
-            <  / h4 >
-            <  / div >
-            < divid = "collapse2"class  = "panel-collapse collapse" >
-            < divclass  = "panel-body" > ';
+                    echo '</div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Información del Computador</a>
+                        </h4>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse">
+                        <div class="panel-body">';
                     {
 
                         $esteCampo = 'serial';
