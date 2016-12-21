@@ -55,6 +55,10 @@ class Frontera {
                     include_once $this->ruta . "frontera/gestionActa.php";
                     break;
 
+                case 'edicionActa':
+                    include_once $this->ruta . "frontera/informacionCertficado.php";
+                    break;
+
                 default:
                     include_once $this->ruta . "frontera/consultarBeneficiario.php";
                     break;
