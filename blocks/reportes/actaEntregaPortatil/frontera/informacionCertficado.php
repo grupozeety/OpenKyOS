@@ -138,6 +138,18 @@ class Certificado {
                           </div>';
         } else {
             $mensaje_titulo = '';
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificacion', $_REQUEST['id_beneficiario']);
+            $serial_pc = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if ($serial_pc) {
+
+                $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $serial_pc['serial']);
+                $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                $_REQUEST = array_merge($_REQUEST, $resultado[0]);
+            }
+
         }
 
         // Rescatar los datos de este bloque
@@ -154,12 +166,12 @@ class Certificado {
         $esteCampo = $esteBloque['nombre'];
         $atributos['id'] = $esteCampo;
         $atributos['nombre'] = $esteCampo;
-        // Si no se coloca, entonces toma el valor predeterminado 'application/x-www-form-urlencoded'
-        $atributos['tipoFormulario'] = 'multipart/form-data';
+        // Si no se coloca, entonces toma el valor predeterminado 'application / x - www - form - urlencoded'
+        $atributos['tipoFormulario'] = 'multipart / form - data';
         // Si no se coloca, entonces toma el valor predeterminado 'POST'
         $atributos['metodo'] = 'POST';
-        // Si no se coloca, entonces toma el valor predeterminado 'index.php' (Recomendado)
-        $atributos['action'] = 'index.php';
+        // Si no se coloca, entonces toma el valor predeterminado 'index . php' (Recomendado)
+        $atributos['action'] = 'index . php';
         $atributos['titulo'] = $this->lenguaje->getCadena($esteCampo);
         // Si no se coloca, entonces toma el valor predeterminado.
         $atributos['estilo'] = '';
@@ -191,16 +203,16 @@ class Certificado {
                 unset($atributos);
                 {
 
-                    echo '<div class="panel-group" id="accordion">
+                    echo ' < divclass  = "panel-group"id = "accordion" >
 
-                       <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Datos Básicos</a>
-                                </h4>
-                            </div>
-                            <div id="collapse1" class="panel-collapse collapse">
-                                <div class="panel-body">';
+            < divclass  = "panel panel-default" >
+            < divclass  = "panel-heading" >
+            < h4class  = "panel-title" >
+            < adata - toggle = "collapse"data - parent = "#accordion"href = "#collapse1" > DatosBásicos <  / a >
+            <  / h4 >
+            <  / div >
+            < divid = "collapse1"class  = "panel-collapse collapse" >
+            < divclass  = "panel-body" > ';
 
                     {
 
@@ -327,11 +339,11 @@ class Certificado {
                         $matrizItems = array(
                             array(
                                 '1',
-                                'Cédula de Ciudadanía',
+                                'CéduladeCiudadanía',
                             ),
                             array(
                                 '2',
-                                'Cédula de Extranjería',
+                                'CéduladeExtranjería',
                             ),
                         );
                         $atributos['matrizItems'] = $matrizItems;
@@ -541,17 +553,17 @@ class Certificado {
                         // ----------------FIN CONTROL: Campo Texto Municipio--------------------------------------------------------
 
                     }
-                    echo '</div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Información del Computador</a>
-                        </h4>
-                    </div>
-                    <div id="collapse2" class="panel-collapse collapse">
-                        <div class="panel-body">';
+                    echo ' <  / div >
+            <  / div >
+            <  / div >
+            < divclass  = "panel panel-default" >
+            < divclass  = "panel-heading" >
+            < h4class  = "panel-title" >
+            < adata - toggle = "collapse"data - parent = "#accordion"href = "#collapse2" > InformacióndelComputador <  / a >
+            <  / h4 >
+            <  / div >
+            < divid = "collapse2"class  = "panel-collapse collapse" >
+            < divclass  = "panel-body" > ';
                     {
 
                         $esteCampo = 'serial';
