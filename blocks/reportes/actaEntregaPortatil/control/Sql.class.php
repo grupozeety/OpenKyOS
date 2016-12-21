@@ -43,7 +43,13 @@ class Sql extends \Sql {
 
             case 'consultaInformacionBeneficiario':
                 $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ,cn.urbanizacion as nombre_urbanizacion, cn.departamento as nombre_departamento, cn.municipio as nombre_municipio,cn.direccion_domicilio, cn.manzana as manzana_contrato, cn.bloque as bloque_contrato,
-                cn.torre as torre_contrato,cn.casa_apartamento as casa_apto_contrato,cn.interior as interior_contrato,cn.lote as lote_contrato, cn.estrato_socioeconomico "    ;
+                cn.torre as torre_contrato,cn.casa_apartamento as casa_apto_contrato,cn.interior as interior_contrato,cn.lote as lote_contrato,cn.piso as piso_contrato, cn.estrato_socioeconomico,
+                cn.nombres as nombre_contrato,
+                    cn.primer_apellido as primer_apellido_contrato,
+                    cn.segundo_apellido as segundo_apellido_contrato,
+                    cn.tipo_documento as tipo_documento_contrato,
+                    cn.numero_identificacion as numero_identificacion_contrato
+                             "    ;
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
                 $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
                 $cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
@@ -51,6 +57,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
                 $cadenaSql .= " AND pr.estado_registro = TRUE ";
                 $cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST['id'] . "';";
+
                 break;
 
             case 'consultarBeneficiariosPotenciales':
@@ -76,18 +83,18 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "';";
                 $cadenaSql .= " INSERT INTO interoperacion.acta_entrega_portatil(";
                 $cadenaSql .= " id_beneficiario,";
-                $cadenaSql .= " nombre,";
-                $cadenaSql .= " primer_apellido,";
-                $cadenaSql .= " segundo_apellido,";
-                $cadenaSql .= " tipo_documento,";
-                $cadenaSql .= " identificacion, ";
+                //$cadenaSql .= " nombre,";
+                //$cadenaSql .= " primer_apellido,";
+                //$cadenaSql .= " segundo_apellido,";
+                //$cadenaSql .= " tipo_documento,";
+                //$cadenaSql .= " identificacion, ";
                 $cadenaSql .= " fecha_entrega,";
-                $cadenaSql .= " tipo_beneficiario,";
-                $cadenaSql .= " urbanizacion,";
+                // $cadenaSql .= " tipo_beneficiario,";
+                //cadenaSql .= " urbanizacion,";
                 //$cadenaSql .= " id_urbanizacion,";
-                $cadenaSql .= " departamento,";
-                $cadenaSql .= " municipio,";
-                $cadenaSql .= " celular,";
+                //$cadenaSql .= " departamento,";
+                //$cadenaSql .= " municipio,";
+                //$cadenaSql .= " celular,";
                 $cadenaSql .= " marca,";
                 $cadenaSql .= " modelo,";
                 $cadenaSql .= " serial,";
@@ -104,7 +111,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " pantalla,";
                 $cadenaSql .= " web_soporte,";
                 $cadenaSql .= " telefono_soporte,";
-                $cadenaSql .= " direccion_general,";
+                //$cadenaSql .= " direccion_general,";
                 //$cadenaSql .= " perifericos,";
                 //$cadenaSql .= " nombre_ins,";
                 //$cadenaSql .= " identificacion_ins,";
@@ -112,18 +119,18 @@ class Sql extends \Sql {
                 //$cadenaSql .= " firmaInstalador,";
                 $cadenaSql .= " firmaBeneficiario)";
                 $cadenaSql .= " VALUES ('" . $variable['id_beneficiario'] . "',";
-                $cadenaSql .= " '" . $variable['nombre'] . "',";
-                $cadenaSql .= " '" . $variable['primer_apellido'] . "',";
-                $cadenaSql .= " '" . $variable['segundo_apellido'] . "',";
-                $cadenaSql .= " '" . $variable['tipo_documento'] . "', ";
-                $cadenaSql .= " '" . $variable['identificacion'] . "',";
+                //$cadenaSql .= " '" . $variable['nombre'] . "',";
+                //$cadenaSql .= " '" . $variable['primer_apellido'] . "',";
+                //$cadenaSql .= " '" . $variable['segundo_apellido'] . "',";
+                //$cadenaSql .= " '" . $variable['tipo_documento'] . "', ";
+                //$cadenaSql .= " '" . $variable['identificacion'] . "',";
                 $cadenaSql .= " '" . $variable['fecha_entrega'] . "', ";
-                $cadenaSql .= " '" . $variable['tipo_beneficiario'] . "', ";
+                //$cadenaSql .= " '" . $variable['tipo_beneficiario'] . "', ";
                 //$cadenaSql .= " '" . $variable['id_urbanizacion'] . "', ";
-                $cadenaSql .= " '" . $variable['urbanizacion'] . "', ";
-                $cadenaSql .= " '" . $variable['departamento'] . "', ";
-                $cadenaSql .= " '" . $variable['municipio'] . "', ";
-                $cadenaSql .= " '" . $variable['celular'] . "', ";
+                //$cadenaSql .= " '" . $variable['urbanizacion'] . "', ";
+                //$cadenaSql .= " '" . $variable['departamento'] . "', ";
+                //$cadenaSql .= " '" . $variable['municipio'] . "', ";
+                //$cadenaSql .= " '" . $variable['celular'] . "', ";
                 $cadenaSql .= " '" . $variable['marca'] . "', ";
                 $cadenaSql .= " '" . $variable['modelo'] . "', ";
                 $cadenaSql .= " '" . $variable['serial'] . "', ";
@@ -140,13 +147,14 @@ class Sql extends \Sql {
                 $cadenaSql .= " '" . $variable['pantalla'] . "', ";
                 $cadenaSql .= " '" . $variable['web_soporte'] . "', ";
                 $cadenaSql .= " '" . $variable['telefono_soporte'] . "', ";
-                $cadenaSql .= " '" . $variable['direccion'] . "', ";
+                //$cadenaSql .= " '" . $variable['direccion'] . "', ";
                 //$cadenaSql .= " '" . $variable['perifericos'] . "', ";
                 //$cadenaSql .= " '" . $variable['nombre_ins'] . "', ";
                 //$cadenaSql .= " '" . $variable['identificacion_ins'] . "', ";
                 //$cadenaSql .= " '" . $variable['celular_ins'] . "', ";
                 //$cadenaSql .= " '" . $variable['url_firma_contratista'] . "',";
                 $cadenaSql .= " '" . $variable['url_firma_beneficiario'] . "');";
+
                 break;
 
             case 'consultarParametro':
@@ -177,13 +185,24 @@ class Sql extends \Sql {
                 $cadenaSql .= " cn.casa_apartamento,";
                 $cadenaSql .= " cn.interior,";
                 $cadenaSql .= " cn.lote,";
-                $cadenaSql .= " cn.piso";
+                $cadenaSql .= " cn.piso,";
+                $cadenaSql .= " cn.nombres as nombre_contrato,";
+                $cadenaSql .= " cn.primer_apellido as primer_apellido_contrato,";
+                $cadenaSql .= " cn.segundo_apellido as segundo_apellido_contrato,";
+                $cadenaSql .= " cn.tipo_documento as tipo_documento_contrato,";
+                $cadenaSql .= " cn.numero_identificacion as numero_identificacion_contrato,";
+                $cadenaSql .= " cn.estrato as tipo_beneficiario_contrato, ";
+                $cadenaSql .= " cn.estrato_socioeconomico as estrato_socioeconomico_contrato,";
+                $cadenaSql .= " cn.urbanizacion as nombre_urbanizacion,";
+                $cadenaSql .= " cn.departamento as nombre_departamento,";
+                $cadenaSql .= " cn.municipio as nombre_municipio";
                 $cadenaSql .= " FROM interoperacion.acta_entrega_portatil pr";
-                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=pr.id_beneficiario";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=pr.id_beneficiario AND cn.estado_registro='TRUE' ";
                 $cadenaSql .= " WHERE pr.id_beneficiario ='" . $_REQUEST['id_beneficiario'] . "'";
-                $cadenaSql .= " AND pr.estado_registro='TRUE';";
+                $cadenaSql .= " AND pr.estado_registro='TRUE' ";
                 $cadenaSql .= " AND pr.serial IS NOT NULL ";
                 $cadenaSql .= " AND pr.marca IS NOT NULL ";
+
                 break;
 
             case 'registrarRequisito':
@@ -275,27 +294,53 @@ class Sql extends \Sql {
 
             case 'consultarEquipo':
 
-                $cadenaSql = " SELECT pp.id_equipo as data , pp.serial as value ";
+                $cadenaSql = " SELECT pp.id_equipo as data ";
+                $cadenaSql .= " , pp.serial as value";
                 $cadenaSql .= " FROM interoperacion.politecnica_portatil pp";
-                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil ap ON ap.serial=pp.serial AND ap.serial IS NULL";
-                $cadenaSql .= " WHERE pp.serial ILIKE '%" . $variable . "%' LIMIT 10;";
+                $cadenaSql .= " WHERE pp.serial ILIKE  '%" . $variable . "%'";
+                $cadenaSql .= " AND pp.serial NOT IN (SELECT DISTINCT serial from interoperacion.acta_entrega_portatil WHERE estado_registro='TRUE' )";
+                $cadenaSql .= " LIMIT 10";
                 break;
 
             case 'consultarInformacionEquipo':
-                $cadenaSql = " SELECT marca, modelo, cpu_version as procesador,";
+                $cadenaSql = " SELECT marca, modelo,  substr(cpu_version,0,12) ||' 4 cores 2.2 GHz'as procesador,";
                 $cadenaSql .= " memoria_tipo ||' '||memoria_capacidad as memoria_ram,";
-                $cadenaSql .= " disco_capacidad ||' - '||disco_serial as disco_duro,";
+                $cadenaSql .= " substr(disco_capacidad,0,4)||' GB' as disco_duro,";
                 $cadenaSql .= " sistema_operativo,";
                 $cadenaSql .= " camara_tipo ||' '||camara_formato as camara,";
                 $cadenaSql .= " parlantes_tipo||' '||audio_tipo as audio,";
-                $cadenaSql .= " bateria_autonomia||' '||bateria_serial as bateria, ";
-                $cadenaSql .= " red_serial as red_alamnbrica,";
-                $cadenaSql .= " wifi_serial as red_inalambrica,";
+                $cadenaSql .= " substr(bateria_autonomia,0,10) as bateria, ";
+                $cadenaSql .= " 'Integrada' as red_alamnbrica,";
+                $cadenaSql .= " 'Integrada' as red_inalambrica,";
                 $cadenaSql .= " alimentacion_dispositivo||' '||alimentacion_voltaje as cargador, ";
-                $cadenaSql .= " pantalla_tipo||' '|| pantalla_tamanno as pantalla";
+                $cadenaSql .= " substr(pantalla_tipo ,0,20)||substr(pantalla_tipo ,35,50)||substr(pantalla_tamanno ,0,5)as pantalla";
                 $cadenaSql .= " FROM interoperacion.politecnica_portatil";
                 $cadenaSql .= " WHERE id_equipo='" . $variable . "';";
                 break;
+
+            case 'consultarInformacionEquipoSerial':
+                $cadenaSql = " SELECT marca, modelo,  substr(cpu_version,0,12) ||' 4 cores 2.2 GHz'as procesador,";
+                $cadenaSql .= " memoria_tipo ||' '||memoria_capacidad as memoria_ram,serial,";
+                $cadenaSql .= " substr(disco_capacidad,0,4)||' GB' as disco_duro,";
+                $cadenaSql .= " sistema_operativo,";
+                $cadenaSql .= " camara_tipo ||' '||camara_formato as camara,";
+                $cadenaSql .= " parlantes_tipo||' '||audio_tipo as audio,";
+                $cadenaSql .= " substr(bateria_autonomia,0,10) as bateria, ";
+                $cadenaSql .= " 'Integrada' as targeta_red_alambrica,";
+                $cadenaSql .= " 'Integrada' as targeta_red_inalambrica,";
+                $cadenaSql .= " alimentacion_dispositivo||' '||alimentacion_voltaje as cargador, ";
+                $cadenaSql .= " substr(pantalla_tipo ,0,20)||substr(pantalla_tipo ,35,50)||substr(pantalla_tamanno ,0,5)as pantalla";
+                $cadenaSql .= " FROM interoperacion.politecnica_portatil";
+                $cadenaSql .= " WHERE serial='" . $variable . "';";
+                break;
+
+            case 'consultaInformacionCertificacion':
+                $cadenaSql = " SELECT serial";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_portatil";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                break;
+
         }
 
         return $cadenaSql;

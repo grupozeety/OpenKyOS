@@ -184,7 +184,11 @@ class GestionarContrato {
                         unset($atributos);
 
                         {
-                            echo "<b><a id='link_a' target='_blank' href='" . $infoCertificado['ruta_documento'] . "'>Acta de Entrega Computador Portátil <br> Con Firma</a></b>";
+
+                            if (!is_null($infoCertificado['ruta_documento']) && $infoCertificado['ruta_documento'] != '') {
+                                echo "<b><a id='link_a' target='_blank' href='" . $infoCertificado['ruta_documento'] . "'>Acta de Entrega Computador Portátil <br> Con Firma</a></b>";
+                            }
+
                         }
 
                         // ------------------Fin Division para los botones-------------------------
@@ -199,11 +203,11 @@ class GestionarContrato {
 
                         {
 
-                            $valorCodificado = "action=" . $esteBloque["nombre"];
+                            $valorCodificado = "actionBloque=" . $esteBloque["nombre"];
                             $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                             $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                             $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                            $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+                            $valorCodificado .= "&id=" . $_REQUEST['id_beneficiario'];
                             $valorCodificado .= "&opcion=edicionActa";
                             $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
                             $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
@@ -212,9 +216,10 @@ class GestionarContrato {
                             $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
                             $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
-                            $urlpdfNoFirmas = $url . $cadena;
+                            $urlEdicion = $url . $cadena;
+                            //echo $urlEdicion;
 
-                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Edición Acta de Entrega Computador Portátil</a></b>";
+                            echo "<b><a id='link_b' href='" . $urlEdicion . "'>Edición Acta de Entrega Computador Portátil</a></b>";
 
                         }
 
