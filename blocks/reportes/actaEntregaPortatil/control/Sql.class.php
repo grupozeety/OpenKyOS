@@ -48,7 +48,8 @@ class Sql extends \Sql {
                     cn.primer_apellido as primer_apellido_contrato,
                     cn.segundo_apellido as segundo_apellido_contrato,
                     cn.tipo_documento as tipo_documento_contrato,
-                    cn.numero_identificacion as numero_identificacion_contrato
+                    cn.numero_identificacion as numero_identificacion_contrato,
+                    cn.celular as celular_contrato
                              "    ;
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
                 $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
