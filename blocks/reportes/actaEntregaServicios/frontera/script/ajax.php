@@ -68,7 +68,9 @@
 		
 	$(function() {
 		$("#<?php echo $this->campoSeguro("geolocalizacion")?>").focus(function() {
+			 initMap();
 	        $("#myModal").modal("show");
+	       
 	    });
 	});	
 		
@@ -146,9 +148,6 @@
 	          "Error: Your browser doesn\'t support geolocation.");
 	}
 
-	if($('#myModal').length > 0){
-	            initMap();
-	}
 	
  	$("#<?php echo $this->campoSeguro('tipo_documento_int')?>").select2({width:'100%',readonly: true});
  	$("#<?php echo $this->campoSeguro('tipo_documento_int')?>").prop('disabled', true);
