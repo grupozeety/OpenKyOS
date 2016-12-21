@@ -132,6 +132,10 @@ class Certificado {
             $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
             $_REQUEST = array_merge($_REQUEST, $resultado[0]);
+
+            echo '<div class="alert alert-danger text-center">
+                            <strong>Información!</strong> Para editar los datos básicos del beneficiario, lo debe realizar desde el módulo de contratos.
+                          </div>';
         } else {
             $mensaje_titulo = '';
         }
