@@ -1,13 +1,3 @@
-/*
-Código css correspondiente al Bloque.
-*/
-.col-xs-2 {
-    text-align: left;
-}
-.col-lg-2 {
-    text-align: left;
-}
-
-.col-xs-12 {
-    text-align: left;
+#tel {
+	margin-right: 16px;
 }

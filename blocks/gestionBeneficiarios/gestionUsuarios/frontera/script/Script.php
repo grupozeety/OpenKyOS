@@ -14,6 +14,7 @@ $indice = 0;
 
 $funcion[$indice++] = "modalLoad.js";
 $funcion[$indice++] = "dataTables.bootstrap.min.js";
+$funcion[$indice++] = "bootstrap.min.js";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");

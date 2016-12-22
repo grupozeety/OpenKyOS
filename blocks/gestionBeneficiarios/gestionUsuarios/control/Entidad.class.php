@@ -44,8 +44,8 @@ class Entidad {
         include_once $this->ruta . "entidad/generarDocumento.php";
     }
 
-    public function guardarInformacion() {
-        include_once $this->ruta . "entidad/guardarCertificacion.php";
+    public function editarUsuario() {
+        include_once $this->ruta . "entidad/modificarUsuario.php";
     }
     public function action() {
         $resultado = true;
@@ -61,6 +61,7 @@ class Entidad {
             $this->procesarAjax();
         }
         if (isset($_REQUEST['opcion'])) {
+        	
             switch ($_REQUEST['opcion']) {
 
                 case 'generarCertificacion':
@@ -69,9 +70,9 @@ class Entidad {
 
                     break;
 
-                case 'guardarInformacion':
+                case 'editarUsuario':
 
-                    $this->guardarInformacion();
+                    $this->editarUsuario();
 
                     break;
 

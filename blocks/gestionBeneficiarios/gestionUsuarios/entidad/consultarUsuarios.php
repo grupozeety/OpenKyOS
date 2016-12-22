@@ -92,19 +92,21 @@ class GenerarDocumento {
     	$this->users = ldap_get_entries($con, $sr);
     	
     	$miConfigurador = \Configurador::singleton ();
-    	
-    			$variable = 'pagina=gestionUsuarios';
-    			$variable .= '&opcion=editarUsuario';
-    			$variable .= '&usuario=' . $valor ['usuario'];
-    	
-    	
-    	$url = $miConfigurador->configuracion ["host"] . $miConfigurador->configuracion ["site"] . "/index.php?";
-    	$enlace = $miConfigurador->configuracion ['enlace'];
-    	$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
-    	$_REQUEST [$enlace] = $enlace . '=' . $variable;
-    	$redireccion = $url . $_REQUEST [$enlace];
-
+    	 
     	foreach ($this->users as $key => $user){
+    		 
+    		$variable = 'pagina=gestionUsuarios';
+    		$variable .= '&opcion=editarUsuario';
+    		$variable .= '&nombre_usuario=' . $user['uid'][0];
+    		$variable .= '&rol=' . $user['description'][0];
+    		$variable .= '&nombre_completo=' . $user['givenname'][0];
+    		$variable .= '&correo_electronico=' . $user['mail'][0];
+    		 
+    		$url = $miConfigurador->configuracion ["host"] . $miConfigurador->configuracion ["site"] . "/index.php?";
+    		$enlace = $miConfigurador->configuracion ['enlace'];
+    		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
+    		$_REQUEST [$enlace] = $enlace . '=' . $variable;
+    		$redireccion = $url . $_REQUEST [$enlace];
     		if($key != "count"){
     			$infoUser[$key-1]['uid'] = "<a href='$redireccion'>" . $user['uid'][0] . "</a>";
     			$infoUser[$key-1]['description'] = $user['description'][0];
