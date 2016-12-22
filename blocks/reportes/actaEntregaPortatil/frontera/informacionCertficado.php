@@ -128,13 +128,14 @@ class Certificado {
 
             $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificacion', $_REQUEST['id_beneficiario']);
             $serial_pc = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-
             if (!is_null($serial_pc['serial']) && $serial_pc['serial'] != '') {
 
                 $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $serial_pc['serial']);
                 $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-                $_REQUEST = array_merge($_REQUEST, $resultado[0]);
+                if ($resultado) {
+                    $_REQUEST = array_merge($_REQUEST, $resultado[0]);
+                }
             }
 
             echo '<div class="alert alert-danger text-center">
@@ -151,7 +152,9 @@ class Certificado {
                 $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $serial_pc['serial']);
                 $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-                $_REQUEST = array_merge($_REQUEST, $resultado[0]);
+                if ($resultado) {
+                    $_REQUEST = array_merge($_REQUEST, $resultado[0]);
+                }
             }
 
         }
