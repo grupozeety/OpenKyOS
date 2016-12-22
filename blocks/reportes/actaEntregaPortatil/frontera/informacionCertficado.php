@@ -128,10 +128,14 @@ class Certificado {
 
             $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificacion', $_REQUEST['id_beneficiario']);
             $serial_pc = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-            $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $serial_pc['serial']);
-            $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-            $_REQUEST = array_merge($_REQUEST, $resultado[0]);
+            if (!is_null($serial_pc['serial']) && $serial_pc['serial'] != '') {
+
+                $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $serial_pc['serial']);
+                $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                $_REQUEST = array_merge($_REQUEST, $resultado[0]);
+            }
 
             echo '<div class="alert alert-danger text-center">
                             <strong>Información!</strong> Para editar los datos básicos del beneficiario, lo debe realizar desde el módulo de contratos.
@@ -142,7 +146,7 @@ class Certificado {
             $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificacion', $_REQUEST['id_beneficiario']);
             $serial_pc = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if ($serial_pc) {
+            if (!is_null($serial_pc['serial']) && $serial_pc['serial'] != '') {
 
                 $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $serial_pc['serial']);
                 $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -591,7 +595,7 @@ class Certificado {
                         $atributos['limitar'] = false;
                         $atributos['anchoCaja'] = 10;
                         $atributos['miEvento'] = '';
-//                                         $atributos ['validar'] = 'required';
+                        //$atributos['validar'] = 'required';
                         // Aplica atributos globales al control
                         $atributos = array_merge($atributos, $atributosGlobales);
                         echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
@@ -631,7 +635,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = 'Hewlett Packard';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -662,7 +666,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = 'HP 245 G4 Notebook PC';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -693,7 +697,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = 'AMD A8-7410 4 cores 2.2 GHz';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -724,7 +728,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = 'DDR3 4096 MB';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -755,7 +759,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = '500 GB';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -786,7 +790,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = 'Ubuntu';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -848,7 +852,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = 'Integrada 720 px HD';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -879,7 +883,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = 'Integrado Estéreo';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -910,7 +914,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = '41610 mWh';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -941,7 +945,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = 'Integrada';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -972,7 +976,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = 'Integrada';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -1003,7 +1007,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = 'Smart AC 100 v a 120 v';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -1034,7 +1038,7 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = '';
+                            $atributos['valor'] = 'HD SVA anti-brillo LED 14"';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
