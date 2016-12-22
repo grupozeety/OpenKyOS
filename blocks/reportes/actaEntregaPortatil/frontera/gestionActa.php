@@ -112,7 +112,7 @@ class GestionarContrato {
         $atributos['marco'] = true;
         $tab = 1;
         // ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
-
+        $_REQUEST['id_beneficiario'] = $_REQUEST['id'];
         // ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
         $atributos['tipoEtiqueta'] = 'inicio';
         echo $this->miFormulario->formulario($atributos);
@@ -202,6 +202,7 @@ class GestionarContrato {
                         unset($atributos);
 
                         {
+                            =
 
                             $valorCodificado = "actionBloque=" . $esteBloque["nombre"];
                             $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
