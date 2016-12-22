@@ -140,7 +140,7 @@ class GenerarDocumento {
 			
 			$ldapbind = ldap_bind ( $con, $ldaprdn, $ldappass );
 			
-			$dnUser = 'uid=' . $nombre . ',ou=' . $rol . ',' . $dn;
+			$dnUser = 'uid=' . $user . ',ou=' . $rol . ',' . $dn;
 			$ldaprecord['objectclass'][0] = "top";
 			$ldaprecord['objectclass'][1] = "person";
 			$ldaprecord['objectclass'][2] = "organizationalPerson";
@@ -158,6 +158,7 @@ class GenerarDocumento {
 			$ldaprecord['ou'] = 'ou=' . $rol . ',' . $dn;
 			$ldaprecord['telephoneNumber'] = $telefono;
 			$ldaprecord['mail'] = $correo;
+			$ldaprecord['givenName'] = $nombre;
 			$ldaprecord['superAdmin'] = 'false';
 				
 			$result = ldap_add($con, $dnUser, $ldaprecord);
@@ -169,7 +170,7 @@ class GenerarDocumento {
 				$message ['error'] .= "$errno - $error";
 			} else {
 				$message_css = "yes";
-				$message ['sucess'] = "El usuario ha sido creado. \n Está completamente activo.\n";
+				$message ['sucess'] = "El usuario $nombre ($user) ha sido creado. \n Está completamente activo.\n";
 			}
 			
 		}
@@ -179,7 +180,6 @@ class GenerarDocumento {
 	
 	function findLargestUidNumber($ds, $dn)
 	{
-		var_dump("Aqui");
 		$s = ldap_search($ds, $dn, 'uidnumber=*');
 		if ($s)
 		{

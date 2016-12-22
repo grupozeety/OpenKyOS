@@ -12,16 +12,8 @@ $indice = 0;
 
 //$funcion [$indice ++] = " ";
 
-$funcion[$indice++] = "bootstrap-datetimepicker.min.js";
-$funcion[$indice++] = "bootstrap-datetimepicker.es.js";
-$funcion[$indice++] = "jquery.autocomplete.js";
-$funcion[$indice++] = "jquery.autocomplete.min.js";
-$funcion[$indice++] = "select2.min.js";
 $funcion[$indice++] = "modalLoad.js";
-$funcion[$indice++] = "jSignature.js";
-$funcion[$indice++] = "jSignature.CompressorSVG.js";
-
-$funcion [$indice ++] = "bootstrap-tokenfield.js";
+$funcion[$indice++] = "dataTables.bootstrap.min.js";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");

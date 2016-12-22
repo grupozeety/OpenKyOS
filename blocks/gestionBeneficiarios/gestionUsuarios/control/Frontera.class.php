@@ -47,21 +47,21 @@ class Frontera {
         if (isset($_REQUEST['opcion'])) {
 
             switch ($_REQUEST['opcion']) {
-                case 'editarCertificacion':
-                    include_once $this->ruta . "frontera/informacionCertficado.php";
+                case 'crearUsuario':
+                    include_once $this->ruta . "frontera/crearUsuario.php";
                     break;
 
-                case 'resultadoActa':
-                    include_once $this->ruta . "frontera/gestionActa.php";
+                case 'editarUsuario':
+                    include_once $this->ruta . "frontera/editarUsuario.php";
                     break;
 
                 default:
-                    include_once $this->ruta . "frontera/consultarBeneficiario.php";
+                    include_once $this->ruta . "frontera/listaUsuarios.php";
                     break;
             }
 
         } else {
-            include_once $this->ruta . "frontera/formRegistro.php";
+            include_once $this->ruta . "frontera/listaUsuarios.php";
         }
 
     }

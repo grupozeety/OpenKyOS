@@ -20,6 +20,7 @@ class Redireccionador {
 			
 			case "error" :
 				$variable = 'pagina=gestionUsuarios';
+				$variable .= '&opcion=crearUsuario';
 				$variable .= '&mensaje=error';
 				$variable .= '&valor=' . $valor;
 				break;
@@ -39,5 +40,6 @@ class Redireccionador {
 		
 		exit ();
 	}
+	
 }
 ?>

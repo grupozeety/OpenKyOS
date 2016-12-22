@@ -19,6 +19,8 @@ $this->idioma['telefono'] = 'Número de Teléfono o Celular';
 
 $this->idioma['rol'] = 'Rol';
 
+$this->idioma['botonCrear'] = 'Crear Usuario';
+
 $this->idioma['botonContinuar'] = 'Crear';
 
 
