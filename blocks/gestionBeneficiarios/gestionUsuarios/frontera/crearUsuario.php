@@ -182,8 +182,8 @@ class Formulario {
 		$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
 		$atributos ['matrizItems'] = $matrizItems;
 			
-		if (isset ( $_REQUEST ['tipo_beneficiario'] )) {
-			$atributos ['seleccion'] = $_REQUEST ['tipo_beneficiario'];
+		if (isset ( $_REQUEST [$esteCampo] )) {
+			$atributos ['seleccion'] = $_REQUEST [$esteCampo];
 		} else {
 			$atributos ['seleccion'] = - 1;
 		}

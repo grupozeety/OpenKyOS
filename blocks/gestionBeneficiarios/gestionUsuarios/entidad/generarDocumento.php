@@ -41,8 +41,10 @@ class GenerarDocumento {
 		
 		$this->changePassword ( $_REQUEST ['nombre_completo'], $_REQUEST ['nombre_usuario'], $_REQUEST ['contrasena'], $_REQUEST ['contrasena_val'], $_REQUEST ['correo_electronico'], $_REQUEST ['telefono'], $_REQUEST['rol']);
 		
+		$datos = array('nombre_completo' => $_REQUEST ['nombre_completo'], 'nombre_usuario' => $_REQUEST ['nombre_usuario'], 'correo_electronico' => $_REQUEST ['correo_electronico'], 'telefono' => $_REQUEST ['telefono'], 'rol' => $_REQUEST['rol'], 'mensaje' =>  $this->message['error']);
+		
 		if(isset($this->message['error']) && $this->message['error'] != ""){
-			Redireccionador::redireccionar("error", $this->message['error']);
+			Redireccionador::redireccionar("error", $datos);
 		}else if(isset($this->message['sucess']) && $this->message['sucess'] != ""){
 			Redireccionador::redireccionar("sucess", $this->message['sucess']);
 		}

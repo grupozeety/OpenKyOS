@@ -85,7 +85,7 @@ class GenerarDocumento {
 		
     	$filter="(objectClass=person)";
     	
-    	$justthese = array("uid", "givenName", "mail", "description");
+    	$justthese = array("uid", "givenName", "mail", "description", "telephonenumber");
 
     	$sr=ldap_search($con, $dn, $filter, $justthese);
 
@@ -101,6 +101,7 @@ class GenerarDocumento {
     		$variable .= '&rol=' . $user['description'][0];
     		$variable .= '&nombre_completo=' . $user['givenname'][0];
     		$variable .= '&correo_electronico=' . $user['mail'][0];
+    		$variable .= '&telefono=' . $user['telephonenumber'][0];
     		 
     		$url = $miConfigurador->configuracion ["host"] . $miConfigurador->configuracion ["site"] . "/index.php?";
     		$enlace = $miConfigurador->configuracion ['enlace'];
@@ -112,6 +113,7 @@ class GenerarDocumento {
     			$infoUser[$key-1]['description'] = $user['description'][0];
     			$infoUser[$key-1]['mail'] = $user['mail'][0];
     			$infoUser[$key-1]['givenname'] = $user['givenname'][0];
+    			$infoUser[$key-1]['telephonenumber'] = $user['telephonenumber'][0];
     		}
     	}
     	

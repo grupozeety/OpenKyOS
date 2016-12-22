@@ -79,6 +79,11 @@ class Formulario {
 		echo $this->miFormulario->formularioBootstrap ( $atributos );
 		unset ( $atributos );
 		
+		$user = "";
+		
+		if(isset($_REQUEST['nombre_usuario'])){
+			$user = $_REQUEST['nombre_usuario'];
+		}
 		
 		if(isset($_REQUEST['mensaje'])){
 			$this->mensaje ();
@@ -108,7 +113,7 @@ class Formulario {
 		$atributos ['anchoEtiqueta'] = 2;
 		$atributos ['estilo'] = "bootstrap";
 		$atributos ['evento'] = '';
-		$atributos ['deshabilitado'] = false;
+		$atributos ['deshabilitado'] = true;
 		$atributos ['readonly'] = false;
 		$atributos ['columnas'] = 1;
 		$atributos ['tamanno'] = 1;
@@ -178,7 +183,7 @@ class Formulario {
 		$atributos ['limitar'] = false;
 		$atributos ['anchoCaja'] = 10;
 		$atributos ['miEvento'] = '';
-		$atributos ['validar'] = 'required';
+		//$atributos ['validar'] = '';
 		$atributos ['cadena_sql'] = $this->miSql->getCadenaSql ( "rol" );
 		$matrizItems = array (
 				array (
@@ -256,7 +261,7 @@ class Formulario {
 		$atributos ['limitar'] = false;
 		$atributos ['anchoCaja'] = 10;
 		$atributos ['miEvento'] = '';
-		$atributos ['validar'] = 'required';
+		//$atributos ['validar'] = 'required';
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
@@ -268,6 +273,14 @@ class Formulario {
 		echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 		unset ( $atributos );
 		
+		$seleccion = 1;
+		
+		if(isset($_REQUEST['rol'])){
+			if($_REQUEST['rol'] == "inactivo"){
+				$seleccion = 2;
+			}
+		}
+		
 		$esteCampo = 'estado_cuenta';
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['id'] = $esteCampo;
@@ -275,7 +288,7 @@ class Formulario {
 		$atributos ["etiquetaObligatorio"] = true;
 		$atributos ['tab'] = $tab ++;
 		$atributos ['anchoEtiqueta'] = 2;
-		$atributos ['seleccion'] = - 1;
+		$atributos ['seleccion'] = $seleccion;
 		$atributos ['deshabilitado'] = false;
 		$atributos ['columnas'] = 1;
 		$atributos ['tamanno'] = 1;
@@ -286,7 +299,7 @@ class Formulario {
 		$atributos ['anchoCaja'] = 10;
 		$atributos ['miEvento'] = '';
 		$atributos ['validar'] = 'required';
-		$atributos ['opciones'] = "1&Activar|2&Desactivar";
+		$atributos ['opciones'] = "1&Activo|2&Inactivo";
 			
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
@@ -352,6 +365,7 @@ class Formulario {
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=editarUsuario";
+		$valorCodificado .= "&user=" . $user;
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.
 		 * Para ello utiliza la hora en que es creado el formulario para

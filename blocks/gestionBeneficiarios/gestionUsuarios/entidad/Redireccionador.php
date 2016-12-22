@@ -22,7 +22,24 @@ class Redireccionador {
 				$variable = 'pagina=gestionUsuarios';
 				$variable .= '&opcion=crearUsuario';
 				$variable .= '&mensaje=error';
-				$variable .= '&valor=' . $valor;
+				$variable .= '&valor=' . $valor['mensaje'];
+				$variable .= '&nombre_completo=' . $valor['nombre_completo'];
+				$variable .= '&nombre_usuario=' . $valor['nombre_usuario'];
+				$variable .= '&correo_electronico=' . $valor['correo_electronico'];
+				$variable .= '&telefono=' . $valor['telefono'];
+				$variable .= '&rol=' . $valor['rol'];
+				break;
+			
+			case "errorModificar" :
+				$variable = 'pagina=gestionUsuarios';
+				$variable .= '&opcion=editarUsuario';
+				$variable .= '&mensaje=error';
+				$variable .= '&valor=' . $valor['mensaje'];
+				$variable .= '&nombre_completo=' . $valor['nombre_completo'];
+				$variable .= '&nombre_usuario=' . $valor['nombre_usuario'];
+				$variable .= '&correo_electronico=' . $valor['correo_electronico'];
+				$variable .= '&telefono=' . $valor['telefono'];
+				$variable .= '&rol=' . $valor['rol'];
 				break;
 		}
 		
@@ -40,6 +57,5 @@ class Redireccionador {
 		
 		exit ();
 	}
-	
 }
 ?>

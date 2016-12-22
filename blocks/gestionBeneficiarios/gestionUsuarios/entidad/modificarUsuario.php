@@ -39,10 +39,16 @@ class GenerarDocumento {
 		
 		$_REQUEST ['usuario'] = $info_usuario ['uid'] [0];
 		
-		$this->changePassword ( $_REQUEST ['nombre_completo'], $_REQUEST ['nombre_usuario'], $_REQUEST ['correo_electronico'], $_REQUEST ['telefono'], $_REQUEST['rol']);
+		if(isset($_REQUEST ['estado_cuenta']) & $_REQUEST ['estado_cuenta'] == 2){
+			$_REQUEST ['rol'] = "inactivo";
+		}
+			
+		$this->changePassword ( $_REQUEST ['nombre_completo'], $_REQUEST ['user'], $_REQUEST ['correo_electronico'], $_REQUEST ['telefono'], $_REQUEST['rol']);
+		
+		$datos = array('nombre_completo' => $_REQUEST ['nombre_completo'], 'nombre_usuario' => $_REQUEST ['user'], 'correo_electronico' => $_REQUEST ['correo_electronico'], 'telefono' => $_REQUEST ['telefono'], 'rol' => $_REQUEST['rol'], 'mensaje' =>  $this->message['error']);
 		
 		if(isset($this->message['error']) && $this->message['error'] != ""){
-			Redireccionador::redireccionar("error", $this->message['error']);
+			Redireccionador::redireccionar("errorModificar", $datos);
 		}else if(isset($this->message['sucess']) && $this->message['sucess'] != ""){
 			Redireccionador::redireccionar("sucess", $this->message['sucess']);
 		}
@@ -65,8 +71,6 @@ class GenerarDocumento {
 	 *         of this license document, but changing it is not allowed.
 	 */
 	function changePassword($nombre, $user, $correo, $telefono, $rol) {
-		
-		$rol = "admin";
 		
 		global $message;
 		global $message_css;
@@ -100,7 +104,7 @@ class GenerarDocumento {
 			$user_get2 = ldap_get_entries ( $con, $user_search );
 			
 			if ($user_get2['count'] > 0) {
-				$message ['error'] .= "Error E100 - Ya existe un usuario registrado con el correo ingresado.\n";
+				$message ['error'] .= "Error E100 - Otro usuario tiene registrado el correo ingresado.\n";
 				$testing ++;
 			}
 		}
@@ -130,8 +134,10 @@ class GenerarDocumento {
 				$message ['error'] .= "$errno - $error";
 			} else {
 				
-				$dnUserNew = 'uid=' . $user . ',ou=' . $rol . ',' . $dn;
-				$result = ldap_rename($con, $dnUser, "uid=".$user, 'ou=' . $rol . ',' . $dn, true);
+				if($rolAnt != $rol){
+					$dnUserNew = 'uid=' . $user . ',ou=' . $rol . ',' . $dn;
+					$result = ldap_rename($con, $dnUser, "uid=".$user, 'ou=' . $rol . ',' . $dn, true);
+				}
 				
 				if ($result === false) {
 					$error = ldap_error ( $con );
