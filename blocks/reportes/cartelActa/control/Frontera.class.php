@@ -44,25 +44,7 @@ class Frontera {
         $miBloque = $this->miConfigurador->getVariableConfiguracion('esteBloque');
         $resultado = $this->miConfigurador->getVariableConfiguracion('errorFormulario');
 
-        if (isset($_REQUEST['opcion'])) {
-
-            switch ($_REQUEST['opcion']) {
-                case 'editarCertificacion':
-                    include_once $this->ruta . "frontera/informacionCertficado.php";
-                    break;
-
-                case 'resultadoActa':
-                    include_once $this->ruta . "frontera/gestionActa.php";
-                    break;
-
-                default:
-                    include_once $this->ruta . "frontera/consultarBeneficiario.php";
-                    break;
-            }
-
-        } else {
-            include_once $this->ruta . "frontera/consultarBeneficiario.php";
-        }
+        include_once $this->ruta . "frontera/consultarBeneficiario.php";
 
     }
 }

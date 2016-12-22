@@ -61,7 +61,7 @@ class Registrador {
 
                 $esteCampo = 'AgrupacionBeneficiario';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "Consulta de Beneficiario (Acta Entrega Portatil)";
+                $atributos['leyenda'] = "Consulta de Beneficiario (Generación Cartel Acta)";
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
 
@@ -124,7 +124,7 @@ class Registrador {
                 unset($atributos);
                 {
                     // -----------------CONTROL: Botón ----------------------------------------------------------------
-                    $esteCampo = 'botonConsultar';
+                    $esteCampo = 'botonGenerar';
                     $atributos["id"] = $esteCampo;
                     $atributos["tabIndex"] = $tab;
                     $atributos["tipo"] = 'boton';
@@ -167,11 +167,11 @@ class Registrador {
                 // En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
 
                 // Paso 1: crear el listado de variables
-                $valorCodificado = "actionBloque=" . $esteBloque["nombre"];
+                $valorCodificado = "action=" . $esteBloque["nombre"];
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                $valorCodificado .= "&opcion=editarCertificacion";
+                $valorCodificado .= "&opcion=generarCartel";
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.

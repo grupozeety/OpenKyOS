@@ -40,13 +40,10 @@ class Entidad {
         include_once $this->ruta . "entidad/procesarAjax.php";
     }
 
-    public function generarCerficadoPdf() {
-        include_once $this->ruta . "entidad/generarDocumento.php";
+    public function generarCartelPdf() {
+        include_once $this->ruta . "entidad/generarCartel.php";
     }
 
-    public function guardarInformacion() {
-        include_once $this->ruta . "entidad/guardarCertificacion.php";
-    }
     public function action() {
         $resultado = true;
 
@@ -63,15 +60,9 @@ class Entidad {
         if (isset($_REQUEST['opcion'])) {
             switch ($_REQUEST['opcion']) {
 
-                case 'generarCertificacion':
+                case 'generarCartel':
 
-                    $this->generarCerficadoPdf();
-
-                    break;
-
-                case 'guardarInformacion':
-
-                    $this->guardarInformacion();
+                    $this->generarCartelPdf();
 
                     break;
 

@@ -285,7 +285,7 @@ class Sql extends \Sql {
                 break;
 
             case 'consultaInformacionCertificador':
-                $cadenaSql = " SELECT ep.*, ";
+                $cadenaSql = " SELECT ";
                 $cadenaSql .= " cn.numero_contrato,";
                 $cadenaSql .= " cn.estrato as tp_beneficiario,";
                 $cadenaSql .= " cn.direccion_domicilio,";
@@ -307,16 +307,9 @@ class Sql extends \Sql {
                 $cadenaSql .= " cn.urbanizacion as nombre_urbanizacion,";
                 $cadenaSql .= " cn.departamento as nombre_departamento,";
                 $cadenaSql .= " cn.municipio as nombre_municipio";
-                $cadenaSql .= " FROM interoperacion.acta_entrega_portatil AS ep";
-                $cadenaSql .= " JOIN interoperacion.contrato as cn ON cn.id_beneficiario=ep.id_beneficiario";
-                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial as bn ON bn.id_beneficiario=ep.id_beneficiario";
-                $cadenaSql .= " WHERE 1=1/*ep.id >=412 ";
-                $cadenaSql .= " AND ep.id <= 666*/";
-                $cadenaSql .= " AND  ep.identificacion IN('3989103','64893904','8860976','92028425')";
-                $cadenaSql .= " AND  ep.id_beneficiario IN('S1290')";
-                //$cadenaSql .= " AND  cn.manzana NOT IN('1','2')";
-                $cadenaSql .= " order by ep.id;";
-
+                $cadenaSql .= " FROM interoperacion.contrato as cn ";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial as bn ON bn.id_beneficiario=cn.id_beneficiario";
+                $cadenaSql .= " WHERE cn.id_beneficiario ='" . $_REQUEST['id'] . "';";
                 break;
             // Sincronizar Alfresco
             case "consultarCarpetaSoportes":
