@@ -202,7 +202,6 @@ class GestionarContrato {
                         unset($atributos);
 
                         {
-                            =
 
                             $valorCodificado = "actionBloque=" . $esteBloque["nombre"];
                             $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
