@@ -1218,7 +1218,7 @@ class Certificado {
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
                 // $valorCodificado .= "&opcion=generarCertificacion";
                 $valorCodificado .= "&opcion=guardarInformacion";
-                $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id'];
+                $valorCodificado .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
                 $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
                 $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
                 $valorCodificado .= "&direccion=" . $direccion_general;
