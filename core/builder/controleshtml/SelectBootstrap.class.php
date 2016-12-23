@@ -172,9 +172,11 @@ class SelectBootstrap extends HtmlBase {
 
         // Si no se especifica una seleccion se agrega un espacio en blanco
 
-        if (isset($this->atributos[self::SELECCION]) && $this->atributos[self::SELECCION] == -1) {
-            $this->cadena_html .= "<option value=''>Seleccione .....</option>\n";
-        }
+//         if (isset($this->atributos[self::SELECCION]) && $this->atributos[self::SELECCION] == -1) {
+//             $this->cadena_html .= "<option value=''>Seleccione .....</option>\n";
+//         }
+        
+        $this->cadena_html .= "<option value=''>Seleccione .....</option>\n"; 
 
         // Si el control esta asociado a otro control que aparece si no hay un valor en la lista
         if (isset($this->atributos["otraOpcion"])) {
