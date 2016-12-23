@@ -40,8 +40,8 @@ class Entidad {
         include_once $this->ruta . "entidad/procesarAjax.php";
     }
 
-    public function generarCerficadoPdf() {
-        include_once $this->ruta . "entidad/generarDocumento.php";
+    public function crearUsuario() {
+        include_once $this->ruta . "entidad/crearUsuario.php";
     }
 
     public function editarUsuario() {
@@ -64,9 +64,9 @@ class Entidad {
         	
             switch ($_REQUEST['opcion']) {
 
-                case 'generarCertificacion':
+                case 'crearUsuario':
 
-                    $this->generarCerficadoPdf();
+                    $this->crearUsuario();
 
                     break;
 

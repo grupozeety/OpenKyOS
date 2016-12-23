@@ -42,6 +42,10 @@ class GenerarDocumento {
 		if(isset($_REQUEST ['estado_cuenta']) & $_REQUEST ['estado_cuenta'] == 2){
 			$_REQUEST ['rol'] = "inactivo";
 		}
+		
+		if($_REQUEST['telefono']==""){
+			$_REQUEST['telefono'] = "0";
+		}
 			
 		$this->changePassword ( $_REQUEST ['nombre_completo'], $_REQUEST ['user'], $_REQUEST ['correo_electronico'], $_REQUEST ['telefono'], $_REQUEST['rol']);
 		

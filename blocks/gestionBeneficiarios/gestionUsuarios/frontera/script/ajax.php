@@ -97,5 +97,16 @@ $urlCargarInformacion = $url . $cadena;
  }
 
 	
+	$("#<?php echo $this->campoSeguro('rol');?>").attr("required", true);
+
+	$('input[name="<?php echo $this->campoSeguro('estado_cuenta');?>"]').on('change', function() {
+		  var radioValue = $('input[name="<?php echo $this->campoSeguro('estado_cuenta');?>"]:checked').val();        
+		  if(radioValue == "1"){
+				$("#<?php echo $this->campoSeguro('rol');?>").attr("required", true);
+			}else if(radioValue == "2"){
+				$("#<?php echo $this->campoSeguro('rol');?>").attr("required", false);
+			}
+	});  
+	
 </script>
 
