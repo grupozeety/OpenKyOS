@@ -183,6 +183,10 @@ class FormularioMenu {
 		
 		$menuGeneral = array ();
 		
+		if(!$this->atributosMenu){
+			echo '<div class="alert alert-danger text-center">El usuario con el cual ha iniciado sesión se encuentra inactivo. Por favor comuníquese con el administrador del sistema.</div>'; 
+			exit();
+		}
 		foreach ( $this->atributosMenu as $valor ) {
 			
 			$menuGeneral [] = $valor ['nombre_menu'];
