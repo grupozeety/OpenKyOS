@@ -54,7 +54,7 @@ class FormProcessor {
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $_REQUEST['tiempo'] = time();
-
+        var_dump($_REQUEST);
         /**
          *  1. Cargar Archivo en el Directorio
          **/
@@ -74,17 +74,34 @@ class FormProcessor {
         $this->creacion_log();
 
         /**
-         *  4. Validar Existencia Contratos Beneficiarios
-         **/
-
-        $this->validarContratosExistentes();
-
-        /**
-         *  5. Validar Existencia Beneficiarios
+         *  4. Validar Existencia Beneficiarios
          **/
 
         $this->validarBeneficiariosExistentes();
 
+        /**
+         *  5. Validar Existencia Contratos Beneficiarios
+         **/
+
+        $this->validarContratosExistentes();
+
+        switch ($_REQUEST['funcionalidad']) {
+            case '3':
+
+                echo "Actualizacion";
+
+                break;
+
+            default:
+
+            /**
+             *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
+             **/
+                $this->validarDuplicidadPortatil();
+                break;
+        }
+
+        exit;
         /**
          *  6. Validar otros Datos
          **/
@@ -94,7 +111,7 @@ class FormProcessor {
         /**
          *  7. Cerrar Log
          **/
-
+        exit;
         $this->cerrar_log();
 
         if (isset($this->error)) {
@@ -166,6 +183,36 @@ class FormProcessor {
 
     }
 
+    public function validarDuplicidadPortatil() {
+        //var_dump($this->datos_beneficiario);exit;
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $arreglo = array(
+                'identificacion' => $value['identificacion_beneficiario'],
+                'serial_portatil' => $value['serial_portatil'],
+            );
+
+            if ($value['serial_portatil'] != 'Sin Serial Portatil') {
+                $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialPortatil', $arreglo);
+                $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                if ($consulta) {
+
+                    $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " asociada con el serial " . $value['serial_portatil'] . " no es validad dado que este serial ya esta asociado a un acta con el beneficiario de identifiación " . $consulta['numero_identificacion'] . ". Sugerencia relacione otro serial de portatil o corrija el acta registrada.";
+                    $this->escribir_log($mensaje);
+
+                    $this->error = true;
+
+                }
+
+            }
+
+        }
+
+        exit;
+
+    }
+
     public function validarBeneficiariosExistentes() {
 
         foreach ($this->datos_beneficiario as $key => $value) {
@@ -195,9 +242,9 @@ class FormProcessor {
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if ($consulta) {
+            if (is_null($consulta)) {
 
-                $mensaje = " El beneficiario con identificación " . $consulta['numero_identificacion'] . " ya tiene un contrato con número #" . $consulta['numero_contrato'] . " asociado con el id_benficiario " . $consulta['id_beneficiario'] . ".";
+                $mensaje = " El beneficiario con identificación " . $value['identificacion_beneficiario'] . " no tiene un contrato asociado.Sugerencia registrar un contrato con la identificación asociada.";
                 $this->escribir_log($mensaje);
 
                 $this->error = true;
@@ -267,35 +314,21 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['telefono'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['serial_portatil'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['celular'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['fecha_entrega_posrtatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['correo'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['mac_1'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['direccion'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['mac_2'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['manzana'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['serial_esclavo'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['bloque'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['marca_esclavo'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['torre'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['cantidad_esclavo'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['casa_apartamento'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['interior'] = $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['lote'] = $informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['piso'] = $informacion->setActiveSheetIndex()->getCell('L' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['nombre_comisionador'] = $informacion->setActiveSheetIndex()->getCell('M' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['fecha_contrato'] = $informacion->setActiveSheetIndex()->getCell('N' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['tipo_tecnologia'] = $informacion->setActiveSheetIndex()->getCell('O' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['estrato_socioeconomico'] = $informacion->setActiveSheetIndex()->getCell('P' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['ip'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
 
             }
             unlink($this->archivo['ruta_archivo']);
@@ -330,6 +363,7 @@ class FormProcessor {
                     break;
 
                 default:
+                    exit;
                     Redireccionador::redireccionar("ErrorFormatoArchivo");
                     break;
             }
@@ -344,9 +378,8 @@ class FormProcessor {
             /*
              * guardamos el fichero en el Directorio
              */
-            $ruta_absoluta = $this->rutaAbsoluta . "/entidad/archivos_validar/" . $this->prefijo . "_" . $nombre_archivo;
-
-            $ruta_relativa = $this->rutaURL . " /entidad/archivos_validar/" . $this->prefijo . "_" . $nombre_archivo;
+            $ruta_absoluta = $this->rutaAbsoluta . "entidad/archivos_validar/" . $this->prefijo . "_" . $nombre_archivo;
+            $ruta_relativa = $this->rutaURL . "entidad/archivos_validar/" . $this->prefijo . "_" . $nombre_archivo;
 
             $archivo['rutaDirectorio'] = $ruta_absoluta;
 
@@ -362,6 +395,7 @@ class FormProcessor {
             );
 
         } else {
+
             Redireccionador::redireccionar("ErrorArchivoNoValido");
         }
 
