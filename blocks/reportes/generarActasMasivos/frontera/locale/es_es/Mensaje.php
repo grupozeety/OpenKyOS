@@ -15,6 +15,8 @@ $this->idioma['botonCargar'] = 'Cargar y Generar Actas';
 
 $this->idioma['seleccion_proceso'] = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Proceso';
 
+$this->idioma['funcionalidad'] = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Funcionalidad';
+
 $this->idioma['generarActasMasivos'] = 'Generación Masiva de Actas';
 
 ?>

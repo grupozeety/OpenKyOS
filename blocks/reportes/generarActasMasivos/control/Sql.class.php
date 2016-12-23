@@ -26,27 +26,16 @@ class Sql extends \Sql {
             /**
              * Clausulas específicas
              */
-            case 'consultarBloques':
 
-                $cadenaSql = " SELECT id_bloque, nombre, descripcion, grupo ";
-                $cadenaSql .= " FROM " . $prefijo . "bloque;";
+            //Validaciones
 
-                break;
-
-            case 'insertarBloque':
-                $cadenaSql = 'INSERT INTO ';
-                $cadenaSql .= $prefijo . 'bloque ';
-                $cadenaSql .= '( ';
-                $cadenaSql .= 'nombre,';
-                $cadenaSql .= 'descripcion,';
-                $cadenaSql .= 'grupo';
-                $cadenaSql .= ') ';
-                $cadenaSql .= 'VALUES ';
-                $cadenaSql .= '( ';
-                $cadenaSql .= '\'' . $_REQUEST['nombre'] . '\', ';
-                $cadenaSql .= '\'' . $_REQUEST['descripcion'] . '\', ';
-                $cadenaSql .= '\'' . $_REQUEST['grupo'] . '\' ';
-                $cadenaSql .= '); ';
+            case 'consultarExitenciaSerialPortatil':
+                $cadenaSql = " SELECT ep.id as identificador_acta, cn.numero_identificacion ";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_portatil ep";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=ep.id_beneficiario AND cn.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE ep.estado_registro='TRUE'";
+                $cadenaSql .= " AND ep.serial='" . $variable['serial_portatil'] . "'";
+                //$cadenaSql .= " AND cn.numero_identificacion='" . $variable['identificacion_beneficiario'] . "'";
                 break;
 
             case 'consultarExitenciaContrato':
@@ -72,7 +61,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND bp.identificacion='" . $variable . "';";
 
                 break;
-
+            //Registros
             case 'registrarContrato':
 
                 $cadenaSql = " INSERT INTO interoperacion.contrato(";
@@ -126,7 +115,7 @@ class Sql extends \Sql {
 
                 $cadenaSql .= ")RETURNING numero_contrato;";
                 break;
-
+            // Registro Procesos
             case 'registrarProceso':
                 $cadenaSql = " INSERT INTO parametros.procesos_masivos(";
                 $cadenaSql .= " descripcion,";
