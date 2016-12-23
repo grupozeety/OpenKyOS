@@ -108,13 +108,19 @@ class GenerarDocumento {
     		$variable = $miConfigurador->fabricaConexiones->crypto->codificar ( $variable );
     		$_REQUEST [$enlace] = $enlace . '=' . $variable;
     		$redireccion = $url . $_REQUEST [$enlace];
+    		
     		if($key != "count"){
-    			$infoUser[$key-1]['uid'] = "<a href='$redireccion'>" . $user['uid'][0] . "</a>";
+    			if($user['description'][0] == "inactivo"){
+    				$infoUser[$key-1]['uid'] = "<a id='inactivo' href='$redireccion'>" . $user['uid'][0] . "</a>";
+    			}else{
+    				$infoUser[$key-1]['uid'] = "<a href='$redireccion'>" . $user['uid'][0] . "</a>";
+    			}
     			$infoUser[$key-1]['description'] = $user['description'][0];
     			$infoUser[$key-1]['mail'] = $user['mail'][0];
     			$infoUser[$key-1]['givenname'] = $user['givenname'][0];
     			$infoUser[$key-1]['telephonenumber'] = $user['telephonenumber'][0];
     		}
+    		
     	}
     	
     	$total = count ( $infoUser );
