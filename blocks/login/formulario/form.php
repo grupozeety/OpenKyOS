@@ -152,7 +152,7 @@ class FormularioMenu {
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "site" ) . "/index.php?";
 				$directorio .= $this->miConfigurador->getVariableConfiguracion ( "enlace" );
 				
-				if($info_usuario['rol'][0] != "abonados"){
+				if($info_usuario['rol'][0] != "abonado"){
 					$valorCodificado = "pagina=paginaPrincipal";
 				}else{
 					$valorCodificado = "pagina=indexAbonados";
