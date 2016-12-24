@@ -109,16 +109,16 @@ class GenerarDocumento {
     		$_REQUEST [$enlace] = $enlace . '=' . $variable;
     		$redireccion = $url . $_REQUEST [$enlace];
     		
-    		if($key != "count"){
+    		if($key !== "count"){
     			if($user['description'][0] == "inactivo"){
-    				$infoUser[$key-1]['uid'] = "<a id='inactivo' href='$redireccion'>" . $user['uid'][0] . "</a>";
+    				$infoUser[$key]['uid'] = "<a id='inactivo' href='$redireccion'>" . $user['uid'][0] . "</a>";
     			}else{
-    				$infoUser[$key-1]['uid'] = "<a href='$redireccion'>" . $user['uid'][0] . "</a>";
+    				$infoUser[$key]['uid'] = "<a href='$redireccion'>" . $user['uid'][0] . "</a>";
     			}
-    			$infoUser[$key-1]['description'] = $user['description'][0];
-    			$infoUser[$key-1]['mail'] = $user['mail'][0];
-    			$infoUser[$key-1]['givenname'] = $user['givenname'][0];
-    			$infoUser[$key-1]['telephonenumber'] = $user['telephonenumber'][0];
+    			$infoUser[$key]['description'] = $user['description'][0];
+    			$infoUser[$key]['mail'] = $user['mail'][0];
+    			$infoUser[$key]['givenname'] = $user['givenname'][0];
+    			$infoUser[$key]['telephonenumber'] = $user['telephonenumber'][0];
     		}
     		
     	}
