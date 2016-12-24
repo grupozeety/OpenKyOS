@@ -128,6 +128,11 @@ class FormularioMenu {
 		$cadenaSql = $this->miSql->getCadenaSql ( "consultarDatosMenu", $respuesta ['rol'] );
 		$this->atributosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+		if(!$this->atributosMenu && $respuesta ['rol'][0] != "abonado"){
+			echo '<div class="alert alert-danger text-center">El usuario con el cual ha iniciado sesión se encuentra inactivo. Por favor comuníquese con el administrador del sistema.</div>';
+			exit();
+		}
+		
 		// revisar último Beneficiario consultado
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( "accesoRapido", $respuesta ['mail'] [0] );
@@ -183,10 +188,6 @@ class FormularioMenu {
 		
 		$menuGeneral = array ();
 		
-		if(!$this->atributosMenu){
-			echo '<div class="alert alert-danger text-center">El usuario con el cual ha iniciado sesión se encuentra inactivo. Por favor comuníquese con el administrador del sistema.</div>'; 
-			exit();
-		}
 		foreach ( $this->atributosMenu as $valor ) {
 			
 			$menuGeneral [] = $valor ['nombre_menu'];
