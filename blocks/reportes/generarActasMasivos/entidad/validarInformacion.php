@@ -99,6 +99,12 @@ class FormProcessor {
              **/
                 $this->validarDuplicidadPortatil();
                 break;
+
+            /**
+             *  5.2. Validar que no exitan registradas actas con las identificaciones de los Beneficiaciarios
+             **/
+                $this->validarDuplicidadActa();
+                break;
         }
 
         exit;
@@ -183,8 +189,27 @@ class FormProcessor {
 
     }
 
+    public function validarDuplicidadActa() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaActa', $value['identificacion_beneficiario']);
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if ($consulta) {
+
+                $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " asociada con el serial " . $value['serial_portatil'] . " no es validad dado que este serial ya esta asociado a un acta con el beneficiario de identifiación " . $consulta['numero_identificacion'] . ". Sugerencia relacione otro serial de portatil o corrija el acta registrada.";
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
+        }
+
+    }
     public function validarDuplicidadPortatil() {
-        //var_dump($this->datos_beneficiario);exit;
+
         foreach ($this->datos_beneficiario as $key => $value) {
 
             $arreglo = array(
@@ -208,8 +233,6 @@ class FormProcessor {
             }
 
         }
-
-        exit;
 
     }
 

@@ -29,6 +29,15 @@ class Sql extends \Sql {
 
             //Validaciones
 
+            case 'consultarExitenciaActa':
+                $cadenaSql = " SELECT ep.id as identificador_acta, cn.numero_identificacion ";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_portatil ep";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=ep.id_beneficiario AND cn.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE ep.estado_registro='TRUE'";
+                $cadenaSql .= " AND ep.serial='" . $variable['serial_portatil'] . "'";
+                //$cadenaSql .= " AND cn.numero_identificacion='" . $variable['identificacion_beneficiario'] . "'";
+                break;
+
             case 'consultarExitenciaSerialPortatil':
                 $cadenaSql = " SELECT ep.id as identificador_acta, cn.numero_identificacion ";
                 $cadenaSql .= " FROM interoperacion.acta_entrega_portatil ep";
