@@ -7,8 +7,10 @@ if (!isset($GLOBALS["autorizado"])) {
     exit();
 }
 
-use gestionComisionamiento\gestionRequisitos\entidad\Redireccionador;
+use gestionComisionamiento\gestionRequisitos\entidad\Redireccionador;use reportes\masivoActas\entidad\GenerarDocumento;
 use gestionComisionamiento\gestionRequisitos\entidad\Sincronizar;
+use gestionComisionamiento\gestionRequisitos\entidad\CrearUsuario;
+
 
 include_once 'Redireccionador.php';
 require_once 'sincronizar.php';
@@ -21,6 +23,7 @@ class cargueRequisitos {
     public $archivos_datos;
     public $esteRecursoDB;
     public $datos_contrato;
+    public $mensaje;
     public function __construct($lenguaje, $sql) {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -72,9 +75,11 @@ class cargueRequisitos {
          * Registrar Contrato Borrador y Servicio
          */
 
+        $valor = array("total" => $total, "estado" =>  $this->mensaje['sucess']);
+        
         if ($this->registro_documentos) {
 
-            Redireccionador::redireccionar("Inserto", $total);
+            Redireccionador::redireccionar("Inserto", $valor);
         } else {
             Redireccionador::redireccionar("NoInserto");
         }
@@ -86,9 +91,28 @@ class cargueRequisitos {
 
             $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentos', $value);
             $this->registro_documentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            
+            if($value['tipo_documento'] == "132" || $value['campo'] == "004009"){
+            	
+				//Consulta Agendamiento
+	            $cadenaSql = $this->miSql->getCadenaSql('informacionLdapUsuario');
+	            $crearCuenta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+            	
+	            if($crearCuenta['telefono'] == "0" || $crearCuenta['telefono']){
+	            	$crearCuenta['telefono'] = $crearCuenta['celular'];
+	            }
+	            
+				$_REQUEST = array_merge($_REQUEST, $crearCuenta);
+				
+				require_once 'crearUsuario.php';
+				
+				$miDocumento = new CrearUsuario ();
+				$this->mensaje = $miDocumento->iniciar($this->miSql);
+	            
+            }
 
         }
-
+        
         $this->verificarEstadoComisionamiento();
 
     }
