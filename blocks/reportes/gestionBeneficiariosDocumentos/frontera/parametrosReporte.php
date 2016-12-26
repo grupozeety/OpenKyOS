@@ -60,8 +60,6 @@ class Registrador {
         echo $this->miFormulario->formulario($atributos);
         {
 
-            echo "<div class='modalLoad'></div>";
-
             $esteCampo = 'Agrupacion';
             $atributos['id'] = $esteCampo;
             $atributos['leyenda'] = "<b>Reporte Documentos Relacionados Beneficiario</b>";

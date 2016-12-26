@@ -40,7 +40,6 @@ class GenerarReporteExcelInstalaciones {
          * Estruturamiento Información
          */
         $this->estruturarInformacion();
-        exit;
 
         /**
          * XX.
@@ -62,8 +61,9 @@ class GenerarReporteExcelInstalaciones {
 
         $i = 2;
 
-        var_dump($this->informacion);exit;
         foreach ($this->informacion as $key => $value) {
+
+            $this->objCal->getActiveSheet()->getRowDimension($i)->setRowHeight(50);
 
             // Elemento
             $this->objCal->setActiveSheetIndex(0)->setCellValue('A' . $i, $value['municipio'])->getStyle('A' . $i)->applyFromArray($styleCentradoVertical);
@@ -97,50 +97,63 @@ class GenerarReporteExcelInstalaciones {
 
             $this->objCal->setActiveSheetIndex(0)->setCellValue('N' . $i, $value['casa_apartamento'])->getStyle('N' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('O' . $i, $value['Cedula Beneficiario (Frente)'])->getStyle('O' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('O' . $i, $this->estruturarValor($value['Cedula Beneficiario (Frente)']))->getStyle('O' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('P' . $i, $value['Cédula Beneficiario (Reverso)'])->getStyle('P' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('P' . $i, $this->estruturarValor($value['Cédula Beneficiario (Reverso)']))->getStyle('P' . $i)->applyFromArray($styleCentradoVertical);
 
             // Entrega en sitio de instalación (aplica para equipos, materiales, infraestructura)
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('Q' . $i, $value['Fotocopia Acta de entrega VIP'])->getStyle('Q' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('Q' . $i, $this->estruturarValor($value['Fotocopia Acta de entrega VIP']))->getStyle('Q' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('R' . $i, $value['Certificado de servicio publico'])->getStyle('R' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('R' . $i, $this->estruturarValor($value['Certificado de servicio publico']))->getStyle('R' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('S' . $i, $value['Certificado del proyecto catalogado como VIP'])->getStyle("S" . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('S' . $i, $this->estruturarValor($value['Certificado del proyecto catalogado como VIP']))->getStyle("S" . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('T' . $i, $value['Documento que demuestra dirección de la vivienda del beneficia'])->getStyle("T" . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('T' . $i, $this->estruturarValor($value['Documento que demuestra dirección de la vivienda del beneficia']))->getStyle("T" . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('U' . $i, $value['Certificado No Internet ultimos 6 meses'])->getStyle("U" . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('U' . $i, $this->estruturarValor($value['Certificado No Internet ultimos 6 meses']))->getStyle("U" . $i)->applyFromArray($styleCentradoVertical);
 
             // Entrega servicios, interconexión ISP
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('V' . $i, $value['Marco Contrato'])->getStyle("V" . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('V' . $i, $this->estruturarValor($value['Marco Contrato']))->getStyle("V" . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('W' . $i, $value['Formato de recibo entrega de portátil'])->getStyle("W" . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('W' . $i, $this->estruturarValor($value['Formato de recibo entrega de portátil']))->getStyle("W" . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('X' . $i, $value['Fotografias de los equipos instalados en la vivienda'])->getStyle('X' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('X' . $i, $this->estruturarValor($value['Fotografias de los equipos instalados en la vivienda']))->getStyle('X' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('Y' . $i, $value['Fotografias de la vivienda con la dirección'])->getStyle('Y' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('Y' . $i, $this->estruturarValor($value['Fotografias de la vivienda con la dirección']))->getStyle('Y' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('Z' . $i, $value['Fotografia panorámica de la vivienda'])->getStyle("Z" . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('Z' . $i, $this->estruturarValor($value['Fotografia panorámica de la vivienda']))->getStyle("Z" . $i)->applyFromArray($styleCentradoVertical);
 
             // PI&PS
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('AA' . $i, $value['Foto en sitio portátil se entrega embalado'])->getStyle('AA' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('AA' . $i, $this->estruturarValor($value['Foto en sitio portátil se entrega embalado']))->getStyle('AA' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('AB' . $i, $value['Fotografias del computador navegando con el acceso instalado y '])->getStyle('AB' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('AB' . $i, $this->estruturarValor($value['Fotografias del computador navegando con el acceso instalado y ']))->getStyle('AB' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('AC' . $i, $value['Fotografias del serial del computador'])->getStyle('AC' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('AC' . $i, $this->estruturarValor($value['Fotografias del serial del computador']))->getStyle('AC' . $i)->applyFromArray($styleCentradoVertical);
 
             //Observaciones
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('AD' . $i, $value['Foto personalización de la la carcasa'])->getStyle('AD' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('AD' . $i, $this->estruturarValor($value['Foto personalización de la la carcasa']))->getStyle('AD' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('AE' . $i, $value['Pantallazo o fotografia de la prueba de velocidad'])->getStyle('AE' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('AE' . $i, $this->estruturarValor($value['Pantallazo o fotografia de la prueba de velocidad']))->getStyle('AE' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('AF' . $i, $value['Foto personalización de la la carcasa'])->getStyle('AF' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('AF' . $i, $this->estruturarValor($value['Foto personalización de la la carcasa']))->getStyle('AF' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('AG' . $i, $value['Acta de Entrega de Servicios de Banda Ancha al Usuario'])->getStyle('AF' . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('AG' . $i, $this->estruturarValor($value['Acta de Entrega de Servicios de Banda Ancha al Usuario']))->getStyle('AG' . $i)->applyFromArray($styleCentradoVertical);
 
             $i++;
         }
+
+    }
+
+    public function estruturarValor($valor) {
+
+        if ($valor == '1') {
+            return "SI";
+        }
+
+        if ($valor == '0') {
+            return "NO";
+        }
+
     }
     public function generarEsquemaDocumento() {
 

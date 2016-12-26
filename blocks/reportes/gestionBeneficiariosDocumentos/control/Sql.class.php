@@ -78,15 +78,14 @@ class Sql extends \Sql {
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '100') as \"Certificado de servicio publico\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '141') as \"Pantallazo o fotografia de la prueba de velocidad\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '124') as \"Certificado No Internet ultimos 6 meses\",";
-                $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '131') as \"Formato de recibo entrega de portátil\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '137') as \"Foto en sitio portátil se entrega embalado\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '135') as \"Fotografia panorámica de la vivienda\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '138') as \"Fotografias del computador navegando con el acceso instalado y cartel\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '103') as \"Documento que demuestra dirección de la vivienda del beneficiario\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '99') as \"Cedula Beneficiario (Frente)\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '136') as \"Fotografia visita viabilidad comercial\",";
-                $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '140') as \"Foto personalización de la la carcasa \",";
-                $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '131') as \"Formato de recibo entrega de portátil \",";
+                $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '140') as \"Foto personalización de la la carcasa\",";
+                $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '131') as \"Formato de recibo entrega de portátil\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '132') as \"Acta de Entrega de Servicios de Banda Ancha al Usuario\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '133') as \"Fotografias de los equipos instalados en la vivienda\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '139') as \"Fotografias del serial del computador\",";
