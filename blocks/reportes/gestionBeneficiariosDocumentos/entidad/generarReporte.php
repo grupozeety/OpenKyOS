@@ -41,7 +41,6 @@ class GenerarReporteInstalaciones {
         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacion');
 
         $this->informacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        var_dump($this->informacion);
 
         if ($this->informacion == false) {
 
