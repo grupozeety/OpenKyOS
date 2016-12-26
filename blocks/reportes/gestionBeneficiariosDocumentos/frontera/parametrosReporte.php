@@ -90,7 +90,7 @@ class Registrador {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = '';
+            //$atributos['validar'] = '';
             $cadenaSql = $this->miSql->getCadenaSql('consultarDepartamento');
             $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
             $atributos['matrizItems'] = $resultado;
@@ -123,7 +123,7 @@ class Registrador {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = '';
+            //$atributos['validar'] = '';
             $atributos['cadena_sql'] = ' ';
             $cadenaSql = $this->miSql->getCadenaSql('consultarMunicipio');
             $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -157,7 +157,7 @@ class Registrador {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = '';
+            //$atributos['validar'] = '';
             $atributos['cadena_sql'] = ' ';
             $cadenaSql = $this->miSql->getCadenaSql('consultarUrbanizacion');
             $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");

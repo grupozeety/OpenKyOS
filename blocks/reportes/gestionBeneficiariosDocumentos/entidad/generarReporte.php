@@ -41,7 +41,6 @@ class GenerarReporteInstalaciones {
 
         $this->informacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        var_dump($this->informacion);exit;
     }
     public function crearHojaCalculo() {
         include_once "crearDocumentoHojaCalculo.php";

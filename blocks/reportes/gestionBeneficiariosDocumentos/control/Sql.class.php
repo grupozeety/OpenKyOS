@@ -127,6 +127,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " cn.piso,";
                 $cadenaSql .= " cn.casa_apartamento";
                 $cadenaSql .= " ORDER BY cn.numero_contrato;";
+
                 break;
 
         }
