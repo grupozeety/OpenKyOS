@@ -15,7 +15,8 @@ class GenerarReporteExcelInstalaciones {
     public $informacion;
     public $objCal;
     public function __construct($sql, $informacion) {
-
+        ini_set('memory_limit', '2048M');
+        ini_set('max_execution_time', 10000);
         date_default_timezone_set('America/Bogota');
 
         $this->miConfigurador = \Configurador::singleton();
