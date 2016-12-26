@@ -73,6 +73,15 @@ class GenerarDocumento {
 		$cadenaSql = $this->miSql->getCadenaSql('consultarInformacionApi', 'ldap');
 		$ldap = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 		
+		$cadenaSql = $this->miSql->getCadenaSql('rol');
+		$roles = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+		
+		$valores = array();
+		
+		foreach ($roles as $key => $rol){
+			$valores[$rol['rol']] = $rol['descripcion'];
+		}
+		
 		$server = $ldap['host'];
 		$dn = $ldap['ruta_cookie'];
 		
@@ -115,7 +124,7 @@ class GenerarDocumento {
     			}else{
     				$infoUser[$key]['uid'] = "<a href='$redireccion'>" . $user['uid'][0] . "</a>";
     			}
-    			$infoUser[$key]['description'] = $user['description'][0];
+    			$infoUser[$key]['description'] = $valores[$user['description'][0]];
     			$infoUser[$key]['mail'] = $user['mail'][0];
     			$infoUser[$key]['givenname'] = $user['givenname'][0];
     			$infoUser[$key]['telephonenumber'] = $user['telephonenumber'][0];
