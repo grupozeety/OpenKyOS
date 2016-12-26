@@ -129,7 +129,10 @@ class FormularioMenu {
 		$this->atributosMenu = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		if(!$this->atributosMenu && $respuesta ['rol'][0] != "abonado"){
+			echo '<div class="text-center">';
 			echo '<div class="alert alert-danger text-center">El usuario con el cual ha iniciado sesión se encuentra inactivo. Por favor comuníquese con el administrador del sistema.</div>';
+			echo '<a href="index.php?data=SRuAbusjKCfT8KmAcSIspwNNay_JPuA5kJEZUp1J0Xo" class="btn btn-danger btn-lg" role="button">Cerrar Sesión</a>';
+			echo '</div>';
 			exit();
 		}
 		
