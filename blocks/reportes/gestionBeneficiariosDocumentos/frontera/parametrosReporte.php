@@ -261,9 +261,9 @@ class Registrador {
     public function mensaje($tab = '', $nombreBloque = '') {
 
         switch ($_REQUEST['mensaje']) {
-            case 'inserto':
-                $mensaje = "Exito en la Aprobación de Contrato.<br>Número de Contrato : " . $_REQUEST['numero_contrato'];
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+            case 'sinResultado':
+                $mensaje = "<b>No Se Genero Ningun Resultado<br>Verifique la combinacion de Parametros</b>";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
                 break;
 
         }

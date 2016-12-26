@@ -2,6 +2,7 @@
 
 namespace reportes\gestionBeneficiariosDocumentos\entidad;
 
+include_once 'Redireccionador.php';
 class GenerarReporteInstalaciones {
     public $miConfigurador;
     public $lenguaje;
@@ -40,6 +41,12 @@ class GenerarReporteInstalaciones {
         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacion');
 
         $this->informacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        var_dump($this->informacion);
+
+        if ($this->informacion == false) {
+
+            Redireccionador::redireccionar('SinResultado');
+        }
 
     }
     public function crearHojaCalculo() {

@@ -11,27 +11,30 @@ class Redireccionador {
 
         switch ($opcion) {
 
-            case "opcion1":
+            case "SinResultado":
 
-                $variable = 'pagina=segundaPagina';
-                $variable .= '&variable' . $valor;
+                $variable = 'pagina=gestionBeneficiariosDocumentos';
+                $variable .= '&mensaje=sinResultado';
                 break;
 
             default:
-                $variable = '';
+                $variable = '    ';
 
         }
         foreach ($_REQUEST as $clave => $valor) {
             unset($_REQUEST[$clave]);
+
         }
 
-        $enlace = $miConfigurador->getVariableConfiguracion("enlace");
+        $url = $miConfigurador->configuracion["host"] . $miConfigurador->configuracion["site"] . "/index.php?";
+        $enlace = $miConfigurador->configuracion['enlace'];
         $variable = $miConfigurador->fabricaConexiones->crypto->codificar($variable);
+        $_REQUEST[$enlace] = $enlace . '=' . $variable;
+        $redireccion = $url . $_REQUEST[$enlace];
 
-        $_REQUEST[$enlace] = $variable;
-        $_REQUEST["recargar"] = true;
+        echo "<script>location.replace('    " . $redireccion . "')</script>";
 
-        return true;
+        exit();
     }
 }
 ?>
