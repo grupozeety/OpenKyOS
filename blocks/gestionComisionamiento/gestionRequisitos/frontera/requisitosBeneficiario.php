@@ -415,6 +415,9 @@ class Registrador {
                 } else {
                     $estilo_mensaje = 'success';
                     $atributos["mensaje"] = 'Requisitos Correctamente Subidos.';
+					if(isset($_REQUEST['estadoUsuario'])){
+						$atributos["mensaje"] .= '<br>' . $_REQUEST['estadoUsuario'];
+					}
                 }
                 break;
 

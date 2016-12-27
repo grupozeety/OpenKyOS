@@ -176,6 +176,10 @@ class GenerarReporteInstalaciones {
         return $urlApi;
     }
     public function crearHojaCalculo() {
+    	
+    	$conexion = "almacendatos";
+    	$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+    	 
         include_once "crearDocumentoHojaCalculo.php";
         $miProcesador = new GenerarReporteExcelInstalaciones();
         $miProcesador->iniciar($this->miSql, $this->proyectos, $this->fecha);
