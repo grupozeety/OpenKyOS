@@ -107,6 +107,10 @@ class Sql extends \Sql {
                     $cadenaSql .= " AND cn.urbanizacion='" . $_REQUEST['urbanizacion'] . "'";
                 }
 
+                if (isset($_REQUEST['id_beneficiario']) && $_REQUEST['id_beneficiario'] != '') {
+                    $cadenaSql .= " AND cn.id_beneficiario='" . $_REQUEST['id_beneficiario'] . "'";
+                }
+
                 $cadenaSql .= " GROUP BY ";
                 $cadenaSql .= " cn.id_beneficiario,";
                 $cadenaSql .= " cn.numero_identificacion,";
@@ -127,6 +131,19 @@ class Sql extends \Sql {
                 $cadenaSql .= " cn.casa_apartamento";
                 $cadenaSql .= " ORDER BY cn.numero_contrato;";
 
+                break;
+
+            case 'consultarBeneficiariosPotenciales':
+                $cadenaSql = " SELECT value , data ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "(SELECT DISTINCT cn.numero_identificacion ||' - ('||cn.nombres||' '||cn.primer_apellido||' '||(CASE WHEN cn.segundo_apellido IS NULL THEN '' ELSE cn.segundo_apellido END)||')' AS value, bp.id_beneficiario AS data ";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND cn.estado_registro=TRUE ";
+                $cadenaSql .= "     ) datos ";
+                $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "LIMIT 10; ";
                 break;
 
         }
