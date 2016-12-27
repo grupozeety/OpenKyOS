@@ -20,8 +20,9 @@ class Redireccionador {
                 $variable .= '&mensaje=inserto';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
                 $variable .= '&tipo=' . $_REQUEST['tipo'];
-                $variable .= '&alfresco=' . $valor;
+                $variable .= '&alfresco=' . $valor['valor'];
                 $variable .= '&proceso=cargueRequisitos';
+                $variable .= '&estadoUsuario=' .   $valor['estado'];
                 break;
 
             case "NoInserto":
