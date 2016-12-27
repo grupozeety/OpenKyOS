@@ -312,7 +312,7 @@ class GenerarReporteExcelInstalaciones {
     public function configurarDocumento() {
         $this->objCal = new \PHPExcel();
         // Set document properties
-        $this->objCal->getProperties()->setCreator("OpenKyOS")->setLastModifiedBy("OpenKyOS")->setTitle("Reporte Beneficiario Vs Documentos")->setSubject("Reporte Instalaciones")->setDescription("Reporte de Quincenal en un determinado periodo de tiempo")->setCategory("Reporte");
+        $this->objCal->getProperties()->setCreator("OpenKyOS")->setLastModifiedBy("OpenKyOS")->setTitle("Reporte Beneficiario Vs Documentos")->setSubject("Reporte Beneficiario Vs Documentos")->setDescription("Reporte Beneficiario Vs Documentos")->setCategory("Reporte");
     }
     public function retornarDocumento() {
 
