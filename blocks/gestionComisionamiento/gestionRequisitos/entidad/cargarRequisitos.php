@@ -112,7 +112,7 @@ class cargueRequisitos {
 				require_once 'crearUsuario.php';
 				
 				$miDocumento = new CrearUsuario ();
-				$this->mensaje = $miDocumento->iniciar ( $this->miSql );
+				//$this->mensaje = $miDocumento->iniciar ( $this->miSql );
 			}
 		}
 		
