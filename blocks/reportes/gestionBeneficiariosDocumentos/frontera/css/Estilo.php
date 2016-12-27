@@ -7,11 +7,12 @@ $indice = 0;
 
 $estilo[$indice++] = "estiloBloque.css";
 
-$estilo [$indice ++] = "modalLoad.css";
-$estilo [$indice ++] = "bootstrap-datetimepicker.min.css";
-$estilo [$indice ++] = "bootstrap-datetimepicker.css";
-$estilo [$indice ++] = "dataTables.bootstrap.min.css";
-$estilo [$indice ++] = "dataTables.bootstrap.css";
+$estilo[$indice++] = "modalLoad.css";
+$estilo[$indice++] = "bootstrap-datetimepicker.min.css";
+$estilo[$indice++] = "bootstrap-datetimepicker.css";
+$estilo[$indice++] = "dataTables.bootstrap.min.css";
+$estilo[$indice++] = "dataTables.bootstrap.css";
+$estilo[$indice++] = "jquery.auto-complete.css";
 $indice++;
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
