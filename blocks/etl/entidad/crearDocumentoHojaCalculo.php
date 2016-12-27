@@ -2,9 +2,6 @@
 
 namespace reportes\instalacionesGenerales\entidad;
 
-$ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
-$host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
-
 class GenerarReporteExcelInstalaciones {
     public $miConfigurador;
     public $lenguaje;
@@ -15,10 +12,10 @@ class GenerarReporteExcelInstalaciones {
     public $objCal;
     public $informacion;
     public $fecha;
+    public $recursoDB;
     
-    public function iniciar($sql, $proyectos, $fecha='') {
-        $this->miConfigurador = \Configurador::singleton();
-        $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
+    public function iniciar($sql, $proyectos, $fecha='', $recursoDB) {
+    	$this->recursoDB = $recursoDB;
         $this->miSql = $sql;
         $this->proyectos = $proyectos;
 		$this->fecha = $fecha;
@@ -504,8 +501,8 @@ class GenerarReporteExcelInstalaciones {
     }
 
     public function registrarAlmacenDatos() {
-        $conexion = "almacendatos";
-        $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
+    	$esteRecursoDB = $this->recursoDB;
 
         ksort($this->informacion);
 
@@ -519,6 +516,9 @@ class GenerarReporteExcelInstalaciones {
         	$cadenaSql = $this->miSql->getCadenaSql('registrarProyectosAlmacenMasivo', $this->informacion, $this->fecha);
         	$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
         }
+        
+        echo $cadenaSql;
+        var_dump($resultado);
     }
 
     public function consultarPaqueteTrabajo($proyecto = '', $nombre_paquete = '', $tipo = '') {
