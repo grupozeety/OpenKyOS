@@ -18,6 +18,9 @@ class GenerarReporteInstalaciones {
 
         $_REQUEST['tiempo'] = time();
 
+        $conexion = "almacendatos";
+        $this->esteRecursoAD = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+        
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
@@ -177,12 +180,9 @@ class GenerarReporteInstalaciones {
     }
     public function crearHojaCalculo() {
     	
-    	$conexion = "almacendatos";
-    	$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-    	 
         include_once "crearDocumentoHojaCalculo.php";
         $miProcesador = new GenerarReporteExcelInstalaciones();
-        $miProcesador->iniciar($this->miSql, $this->proyectos, $this->fecha);
+        $miProcesador->iniciar($this->miSql, $this->proyectos, $this->fecha, $this->esteRecursoAD);
         
     }
     public function detallarCamposPersonalizadosProyecto() {
