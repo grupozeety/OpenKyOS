@@ -60,10 +60,17 @@ class Registrador {
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionAprobacionContrato');
         $estadoAprobacionContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        if ($estadoAprobacion != false) {
+        if ($estadoAprobacion != false || $estadoAprobacionContrato != false) {
 
             if ($estadoAprobacionContrato != false) {
-                $estadoAprobacion = array_merge($estadoAprobacion, $estadoAprobacionContrato);
+
+                if ($estadoAprobacion != false) {
+                    $estadoAprobacion = array_merge($estadoAprobacion, $estadoAprobacionContrato); # code...
+                } else {
+
+                    $estadoAprobacion = $estadoAprobacionContrato;
+                }
+
             }
 
             foreach ($estadoAprobacion as $key => $values) {
@@ -102,11 +109,19 @@ class Registrador {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarContratoExistente');
         $infoArchivoContrato = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
         if ($infoArchivoContrato != FALSE) {
-            $infoArchivo = array_merge($infoArchivo, $infoArchivoContrato);
-        }
 
+            //var_dump($infoArchivo);exit;
+
+            if ($infoArchivo != false) {
+                $infoArchivo = array_merge($infoArchivo, $infoArchivoContrato);
+            } else {
+
+                $infoArchivo = $infoArchivoContrato;
+
+            }
+
+        }
         if ($requisitosContrato != FALSE) {
             $requisitos = array_merge($requisitos, $requisitosContrato);
         }
@@ -232,8 +247,8 @@ class Registrador {
                         if (isset($infoArchivo)) {
 
                             $indice = array_search($requisitos[$key]['codigo'], array_column($infoArchivo, 'codigo_requisito'), true);
-
-                            if (!is_null($indice) && isset($redireccion[$requisitos[$key]['codigo']])) {
+                            if (is_numeric($indice) && isset($redireccion[$requisitos[$key]['codigo']])) {
+                                echo "Entre";
                                 $cadena = "<center><a href='" . $redireccion[$requisitos[$key]['codigo']] . "' >" . "<b>" . $requisitos[$key]['codigo'] . "</b> " . $requisitos[$key]['descripcion'] . "</a></center>";
                             } else {
                                 $a++;
