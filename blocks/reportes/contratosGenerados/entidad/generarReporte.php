@@ -41,7 +41,6 @@ class GenerarReporteInstalaciones {
         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacion');
 
         $this->informacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
         if ($this->informacion == false) {
 
             Redireccionador::redireccionar('SinResultado');

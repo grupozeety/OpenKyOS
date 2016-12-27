@@ -13,7 +13,7 @@ class Redireccionador {
 
             case "SinResultado":
 
-                $variable = 'pagina=gestionBeneficiariosDocumentos';
+                $variable = 'pagina=contratosGenerados';
                 $variable .= '&mensaje=sinResultado';
                 break;
 

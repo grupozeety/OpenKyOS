@@ -309,6 +309,7 @@ class Registrador {
             case 'sinResultado':
                 $mensaje = "<b>No Se Genero Ningun Resultado<br>Verifique la combinacion de Parametros</b>";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
                 break;
 
         }
@@ -337,6 +338,8 @@ class Registrador {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->modal($atributos);
         unset($atributos);
+
+        unset($_REQUEST['mensaje']);
 
     }
 }

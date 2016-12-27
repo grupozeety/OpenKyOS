@@ -30,6 +30,8 @@ $urlConsultarBeneficiarios = $url . $cadena;
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
  */
 
+ $("#mensaje").modal("show");
+
 
    $("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
         minChars: 3,
