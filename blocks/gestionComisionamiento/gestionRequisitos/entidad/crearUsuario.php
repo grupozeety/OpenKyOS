@@ -50,6 +50,8 @@ class CrearUsuario {
 
 	function createUser($nombre, $user, $Password, $correo, $telefono, $rol) {
 		
+		$this->message = array();
+		
 		global $message;
 		global $message_css;
 		
@@ -124,7 +126,7 @@ class CrearUsuario {
 				$message ['sucess'] = "El usuario $nombre ($user) ha sido creado. \n Está completamente activo.\n";
 				
 				$this->urlApiCorreos = $this->crearUrlEnviarCorreos($correo, $user, $Password, $this->rutaURL, $rol);
-				$this->enviarCorreo();
+				//$this->enviarCorreo();
 				
 				if($this->estadoCorreo != "Message sent!"){
 					$message ['sucess'] .= "<br> <b>!No ha sido posible enviar el correo con la información de la nueva cuenta al usuario, por favor verifique la cuenta de correo y/o envíele uno con el nombre de usuario para que restaure la contraseña!</b> \n";
