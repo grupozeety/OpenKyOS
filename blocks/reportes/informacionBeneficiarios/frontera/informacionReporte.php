@@ -25,6 +25,7 @@ class Registrador {
     }
     public function seleccionarForm() {
         // Rescatar los datos de este bloque
+        //var_dump($_REQUEST);
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
@@ -57,7 +58,7 @@ class Registrador {
         echo $this->miFormulario->formulario($atributos);
         {
 
-            echo "<div class='modalLoad'></div>";
+            //echo "<div class='modalLoad'></div>";
 
             $esteCampo = 'Agrupacion';
             $atributos['id'] = $esteCampo;
@@ -171,7 +172,7 @@ class Registrador {
 
                     // ----------------INICIO CONTROL: Lista Proyectos---------------------------
 
-                    $esteCampo = 'beneficiario';
+                    $esteCampo = 'beneficiario_1';
                     $atributos['nombre'] = $esteCampo;
                     $atributos['tipo'] = "text";
                     $atributos['id'] = $esteCampo;
@@ -214,26 +215,25 @@ class Registrador {
                     echo $this->miFormulario->campoCuadroTexto($atributos);
                     unset($atributos);
 
+                    $esteCampo = "beneficiario";
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['valor'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['valor'] = "";
+                    }
+                    $atributos['validar'] = 'required';
+                    $atributos['filas'] = 3;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoTextAreaBootstrap($atributos);
+                    unset($atributos);
+
                 }
-
-                $atributos['id'] = 'divMensaje';
-                $atributos['estilo'] = 'marcoBotones';
-                echo $this->miFormulario->division("inicio", $atributos);
-                unset($atributos);
-                // -------------Control texto-----------------------
-                $esteCampo = 'mostrarMensaje';
-                $atributos["tamanno"] = '';
-                $estilo_mensaje = 'success'; // information,warning,error,validation
-                $atributos["mensaje"] = '<b>¿Desea Generar Con la Información Actual de los Beneficiarios?<b>';
-                $atributos["etiqueta"] = '';
-                $atributos["estilo"] = $estilo_mensaje;
-                $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-                echo $this->miFormulario->campoMensaje($atributos);
-                unset($atributos);
-
-                // ------------------Fin Division para los botones-------------------------
-                echo $this->miFormulario->division("fin");
-                unset($atributos);
 
             }
 
