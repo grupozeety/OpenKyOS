@@ -231,7 +231,7 @@ class Registrador {
                     } else {
                         $atributos['valor'] = "";
                     }
-                    $atributos['validar'] = '';
+                    //$atributos['validar'] = '';
                     $atributos['filas'] = 3;
                     // Aplica atributos globales al control
                     $atributos = array_merge($atributos, $atributosGlobales);
