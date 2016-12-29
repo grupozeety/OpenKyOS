@@ -33,7 +33,7 @@ $urlConsultarBeneficiarios = $url . $cadena;
  */
 
 
-   $("#beneficiario").autocomplete({
+   $("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
         minChars: 3,
         serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
         minChars:3,
@@ -44,7 +44,11 @@ $urlConsultarBeneficiarios = $url . $cadena;
         width:1000,
         zIndex: 9999,
         deferRequestBy: 0, //miliseconds
-        noCache: false
+        noCache: false,
+        onSelect: function (suggestion) {
+            $("#<?php echo $this->campoSeguro('beneficiario');?>").val($("#<?php echo $this->campoSeguro('beneficiario');?>").val()+";");
+        }
+
        });
 
 </script>

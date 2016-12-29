@@ -33,7 +33,50 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario";
                 $cadenaSql .= " JOIN parametros.proyectos_metas AS pm ON pm.id_proyecto =bn.id_proyecto";
                 $cadenaSql .= " WHERE cn.estado_registro='TRUE' ";
-                $cadenaSql .= " ORDER BY cn.numero_contrato;";
+
+                if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
+                    $cadenaSql .= " AND cn.municipio='" . $_REQUEST['municipio'] . "'";
+                }
+                if (isset($_REQUEST['departamento']) && $_REQUEST['departamento'] != '') {
+
+                    $cadenaSql .= " AND cn.departamento='" . $_REQUEST['departamento'] . "'";
+                }
+
+                if (isset($_REQUEST['urbanizacion']) && $_REQUEST['urbanizacion'] != '') {
+                    $cadenaSql .= " AND cn.urbanizacion='" . $_REQUEST['urbanizacion'] . "'";
+                }
+
+                if (isset($_REQUEST['beneficiario']) && $_REQUEST['beneficiario'] != '') {
+
+                    $cadenaSql .= " AND cn.numero_identificacion IN(";
+
+                    var_dump($_REQUEST['beneficiario']);
+
+                    $beneficiarios = explode(";", $_REQUEST['beneficiario']);
+
+                    foreach ($beneficiarios as $key => $value) {
+                        if ($value == '') {
+                            unset($beneficiarios[$key]);
+                        }
+
+                    }
+                    if (count($beneficiarios) == 1) {
+
+                        $cadenaSql .= "'" . $value . "') ";
+                    } else {
+                        foreach ($beneficiarios as $key => $value) {
+                            $cadenaSql .= "'" . $value . "',";
+                        }
+
+                        $cadenaSql .= ") ";
+
+                    }
+                }
+
+                $cadenaSql .= "ORDER BY cn . numero_contrato;";
+
+                $cadenaSql = str_replace("',)", "')", $cadenaSql);
+
                 break;
 
             /**
@@ -41,41 +84,41 @@ class Sql extends \Sql {
              */
             case 'consultarDepartamento':
 
-                $cadenaSql = " SELECT DISTINCT departamento as valor, departamento";
-                $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND departamento IS NOT NULL;";
+                $cadenaSql = "SELECTDISTINCTdepartamento as valor, departamento";
+                $cadenaSql .= "FROMinteroperacion . contrato";
+                $cadenaSql .= "WHEREestado_registro = TRUE";
+                $cadenaSql .= " AND departamentoISNOTNULL;";
                 break;
 
             case 'consultarMunicipio':
 
-                $cadenaSql = " SELECT DISTINCT municipio as valor, municipio ";
-                $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND municipio IS NOT NULL;";
+                $cadenaSql = "SELECTDISTINCTmunicipio as valor, municipio";
+                $cadenaSql .= "FROMinteroperacion . contrato";
+                $cadenaSql .= "WHEREestado_registro = TRUE";
+                $cadenaSql .= " AND municipioISNOTNULL;";
 
                 break;
 
             case 'consultarUrbanizacion':
 
-                $cadenaSql = " SELECT DISTINCT urbanizacion as valor, urbanizacion";
-                $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND urbanizacion IS NOT NULL;";
+                $cadenaSql = "SELECTDISTINCTurbanizacion as valor, urbanizacion";
+                $cadenaSql .= "FROMinteroperacion . contrato";
+                $cadenaSql .= "WHEREestado_registro = TRUE";
+                $cadenaSql .= " AND urbanizacionISNOTNULL;";
 
                 break;
 
             case 'consultarBeneficiariosPotenciales':
-                $cadenaSql = " SELECT value,  data ";
-                $cadenaSql .= "FROM ";
-                $cadenaSql .= "(SELECT DISTINCT cn.numero_identificacion /*||' - ('||cn.nombres||' '||cn.primer_apellido||' '||(CASE WHEN cn.segundo_apellido IS NULL THEN '' ELSE cn.segundo_apellido END)||')'*/ AS value, bp.id_beneficiario AS data ";
-                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp ";
-                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario ";
-                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
-                $cadenaSql .= " AND cn.estado_registro=TRUE ";
-                $cadenaSql .= "     ) datos ";
-                $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "LIMIT 10; ";
+                $cadenaSql = "SELECTvalue, data";
+                $cadenaSql .= "FROM";
+                $cadenaSql .= "(SELECTDISTINCTcn . numero_identificacion/*||' - ('||cn.nombres||' '||cn.primer_apellido||' '||(CASE WHEN cn.segundo_apellido IS NULL THEN '' ELSE cn.segundo_apellido END)||')'*/ AS value, bp . id_beneficiario AS data";
+                $cadenaSql .= "FROMinteroperacion . beneficiario_potencialbp";
+                $cadenaSql .= "JOINinteroperacion . contratocnONcn . id_beneficiario = bp . id_beneficiario";
+                $cadenaSql .= "WHEREbp . estado_registro = TRUE";
+                $cadenaSql .= " AND cn . estado_registro = TRUE";
+                $cadenaSql .= ")datos";
+                $cadenaSql .= "WHEREvalueILIKE'%" . $_GET['query'] . "%'";
+                $cadenaSql .= "LIMIT10;";
                 break;
 
         }

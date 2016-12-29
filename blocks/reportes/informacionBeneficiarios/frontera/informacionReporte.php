@@ -170,49 +170,54 @@ class Registrador {
                     echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
 
-                    // ----------------INICIO CONTROL: Lista Proyectos---------------------------
-
-                    $esteCampo = 'beneficiario_1';
+                    $esteCampo = 'estado_beneficiario';
                     $atributos['nombre'] = $esteCampo;
-                    $atributos['tipo'] = "text";
                     $atributos['id'] = $esteCampo;
                     $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                     $atributos["etiquetaObligatorio"] = true;
                     $atributos['tab'] = $tab++;
                     $atributos['anchoEtiqueta'] = 2;
-                    $atributos['estilo'] = "bootstrap";
                     $atributos['evento'] = '';
+
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['seleccion'] = '-1';
+                    }
                     $atributos['deshabilitado'] = false;
-                    $atributos['readonly'] = false;
                     $atributos['columnas'] = 1;
                     $atributos['tamanno'] = 1;
-                    $atributos['placeholder'] = "Ingrese Mínimo 3 Caracteres de Busqueda";
-                    $atributos['valor'] = "";
                     $atributos['ajax_function'] = "";
                     $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
                     $atributos['limitar'] = false;
                     $atributos['anchoCaja'] = 10;
                     $atributos['miEvento'] = '';
+                    //$atributos['validar'] = 'required';
+                    $atributos['cadena_sql'] = 'required';
+                    //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
+                    //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    //"Cédula de Ciudadanía";"1"
+                    //"Tarjeta de Identidad";"2"
+                    $matrizItems = array(
+                        array(
+                            '1',
+                            'En Revisión',
+                        ),
+                        array(
+                            '2',
+                            'Verificado por el Beneficiario',
+                        ),
 
+                        array(
+                            '3',
+                            'Aprobado por Interventoria',
+                        ),
+                    );
+                    $atributos['matrizItems'] = $matrizItems;
                     // Aplica atributos globales al control
                     $atributos = array_merge($atributos, $atributosGlobales);
-                    echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-                    unset($atributos);
-
-                    $esteCampo = 'id_beneficiario';
-                    $atributos["id"] = $esteCampo; // No cambiar este nombre
-                    $atributos["tipo"] = "hidden";
-                    $atributos['estilo'] = '';
-                    $atributos["obligatorio"] = false;
-                    $atributos['marco'] = true;
-                    $atributos["etiqueta"] = "";
-                    if (isset($_REQUEST[$esteCampo])) {
-                        $atributos['valor'] = $_REQUEST[$esteCampo];
-                    } else {
-                        $atributos['valor'] = '';
-                    }
-                    $atributos = array_merge($atributos, $atributosGlobales);
-                    echo $this->miFormulario->campoCuadroTexto($atributos);
+                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
 
                     $esteCampo = "beneficiario";
@@ -226,7 +231,7 @@ class Registrador {
                     } else {
                         $atributos['valor'] = "";
                     }
-                    $atributos['validar'] = 'required';
+                    $atributos['validar'] = '';
                     $atributos['filas'] = 3;
                     // Aplica atributos globales al control
                     $atributos = array_merge($atributos, $atributosGlobales);
