@@ -229,6 +229,18 @@ class GenerarReporteExcelInstalaciones {
             $this->objCal->setActiveSheetIndex(0)
                  ->setCellValue('AE' . $i, $value['personas_trabajo_otro'])
                  ->getStyle('AE' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AF' . $i, $value['velocidad_subida'])
+                 ->getStyle('AF' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AG' . $i, $value['velocidad_bajada'])
+                 ->getStyle('AG' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AH' . $i, $value['descripcion_tipo_tegnologia'])
+                 ->getStyle('AH1' . $i)->applyFromArray($styleCentradoVertical);
             $i++;
 
         }
