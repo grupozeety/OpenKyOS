@@ -119,6 +119,139 @@ class Sql extends \Sql {
                 $cadenaSql .= "LIMIT 10; ";
                 break;
 
+            // Consultas Particulares
+
+            case 'consultaCantidadMujeresHogar':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND genero_familiar='1';";
+                break;
+
+            case 'consultaCantidadMasculinoHogar':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND genero_familiar='2';";
+                break;
+
+            case 'consultaCantidadMenores18':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND edad_familiar::int < 18 ;";
+                break;
+
+            case 'consultaCantidad18y25':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND edad_familiar::int >= 18 ";
+                $cadenaSql .= " AND edad_familiar::int <= 25 ;";
+                break;
+
+            case 'consultaCantidad26y30':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND edad_familiar::int >= 26 ";
+                $cadenaSql .= " AND edad_familiar::int <= 30 ;";
+                break;
+
+            case 'consultaCantidad31y40':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND edad_familiar::int >= 31 ";
+                $cadenaSql .= " AND edad_familiar::int <= 40 ;";
+                break;
+
+            case 'consultaCantidad41y65':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND edad_familiar::int >= 41 ";
+                $cadenaSql .= " AND edad_familiar::int <= 65 ;";
+                break;
+
+            case 'consultaCantidadMayor65':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND edad_familiar::int > 65 ;";
+                break;
+
+            case 'consultaCantidadEmpleado':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND ocupacion_familiar='1';";
+                break;
+
+            case 'consultaCantidadTrabajoInformal':    // Corregir
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND ocupacion_familiar='1';";
+                break;
+
+            case 'consultaCantidadEstudiante':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND ocupacion_familiar='4';";
+                break;
+
+            case 'consultaCantidadTrabajoIndependiente':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND ocupacion_familiar='13';";
+                break;
+
+            case 'consultaCantidadHogarDomestico':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND ocupacion_familiar='20';";
+                break;
+
+            case 'consultaCantidadHogarDomesticoCasa':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND ocupacion_familiar='14';";
+                break;
+
+            case 'consultaCantidadNoTrabaja':    //Corregir
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND ocupacion_familiar='14';";
+                break;
+
+            case 'consultaCantidadOtro':
+                $cadenaSql = " SELECT COUNT(consecutivo)";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND ocupacion_familiar='30';";
+                break;
         }
 
         return $cadenaSql;
