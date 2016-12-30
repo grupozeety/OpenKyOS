@@ -3,8 +3,17 @@
  * Etiquetas correspondientes a los Formularios
  */
 
-$this->idioma['fecha_inicio'] = 'Fecha Inicio';
-$this->idioma['fecha_final'] = 'Fecha Final';
+$this->idioma['departamento'] = 'Departamento';
+
+$this->idioma['municipio'] = 'Municipio';
+
+$this->idioma['urbanizacion'] = 'Urbanización';
+
+$this->idioma['generarReporte'] = 'Generar Reporte';
+
+$this->idioma['beneficiario'] = 'Indentificaciones Beneficiario';
+
+$this->idioma['estado_beneficiario'] = 'Estado Beneficiarios';
 
 $this->idioma['generarReporte'] = 'Generar Reporte';
 
