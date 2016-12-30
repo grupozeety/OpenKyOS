@@ -28,7 +28,7 @@ class Sql extends \Sql {
              */
 
             case 'consultaInformacionBeneficiario':
-                $cadenaSql = " SELECT cn.* , pm.descripcion_metas,pmr.descripcion as descripcion_tipo_tegnologia, ";
+                $cadenaSql = " SELECT cn.* , pm.meta,pmr.descripcion as descripcion_tipo_tegnologia, ";
                 $cadenaSql .= " aes.resultado_vs as velocidad_subida, aes.resultado_vb as velocidad_bajada ";
                 $cadenaSql .= " FROM interoperacion.contrato AS cn ";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario";
@@ -92,6 +92,7 @@ class Sql extends \Sql {
                 $cadenaSql .= "ORDER BY cn . numero_contrato;";
 
                 $cadenaSql = str_replace("',)", "')", $cadenaSql);
+
                 break;
 
             /**

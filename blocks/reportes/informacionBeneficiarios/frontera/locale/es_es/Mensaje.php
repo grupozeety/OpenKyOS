@@ -11,7 +11,7 @@ $this->idioma['urbanizacion'] = 'Urbanización';
 
 $this->idioma['generarReporte'] = 'Generar Reporte';
 
-$this->idioma['beneficiario'] = 'Indentificaciones Beneficiario';
+$this->idioma['beneficiario'] = 'Identificaciones Beneficiario';
 
 $this->idioma['estado_beneficiario'] = 'Estado Beneficiarios';
 
