@@ -240,7 +240,7 @@ class GenerarReporteExcelInstalaciones {
 
             $this->objCal->setActiveSheetIndex(0)
                  ->setCellValue('AH' . $i, $value['descripcion_tipo_tegnologia'])
-                 ->getStyle('AH1' . $i)->applyFromArray($styleCentradoVertical);
+                 ->getStyle('AH' . $i)->applyFromArray($styleCentradoVertical);
             $i++;
 
         }

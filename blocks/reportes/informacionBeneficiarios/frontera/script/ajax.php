@@ -28,6 +28,8 @@ $urlConsultarBeneficiarios = $url . $cadena;
 ?>
 <script type='text/javascript'>
 
+$("#mensaje").modal("show");
+
 /**
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
  */

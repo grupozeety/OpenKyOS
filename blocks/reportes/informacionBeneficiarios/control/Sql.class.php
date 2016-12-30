@@ -34,8 +34,23 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario";
                 $cadenaSql .= " JOIN parametros.proyectos_metas AS pm ON pm.id_proyecto =bn.id_proyecto";
                 $cadenaSql .= " JOIN parametros.parametros AS pmr ON pmr.id_parametro =cn.tipo_tecnologia";
-                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios AS aes ON aes.id_beneficiario=cn.id_beneficiario";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios AS aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
+
+                if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '1') {
+                    $cadenaSql .= " JOIN interoperacion.documentos_contrato dr  ON dr.id_beneficiario=cn.id_beneficiario AND dr.estado_registro='TRUE' AND dr.tipologia_documento='132' ";
+                }
+
                 $cadenaSql .= " WHERE cn.estado_registro='TRUE' ";
+
+                if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '1') {
+                    $cadenaSql .= " AND cn.nombre_documento_contrato IS NOT NULL ";
+
+                }
+
+                if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '3') {
+                    $cadenaSql .= " AND bn.estado_beneficiario='APROBADO INTERVENTORIA' ";
+
+                }
 
                 if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
                     $cadenaSql .= " AND cn.municipio='" . $_REQUEST['municipio'] . "'";
@@ -77,7 +92,6 @@ class Sql extends \Sql {
                 $cadenaSql .= "ORDER BY cn . numero_contrato;";
 
                 $cadenaSql = str_replace("',)", "')", $cadenaSql);
-
                 break;
 
             /**
@@ -254,6 +268,27 @@ class Sql extends \Sql {
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
                 $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
                 $cadenaSql .= " AND ocupacion_familiar='30';";
+                break;
+
+            case 'verificarDocumentos':
+                $cadenaSql = " SELECT count(*)";
+                $cadenaSql .= " FROM";
+                $cadenaSql .= " (";
+                $cadenaSql .= " SELECT DISTINCT tipologia_documento";
+                $cadenaSql .= " FROM interoperacion.documentos_requisitos dr";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " UNION";
+                $cadenaSql .= " SELECT (CASE WHEN nombre_documento_contrato IS NULL THEN '0' ELSE '128' END)::int AS tipologia_documento";
+                $cadenaSql .= " FROM interoperacion.contrato ";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND (CASE WHEN nombre_documento_contrato IS NULL THEN '0' ELSE '128' END)::int <> 0";
+                $cadenaSql .= " AND supervisor='TRUE'";
+                $cadenaSql .= " ) as requisitos";
+                $cadenaSql .= " JOIN interoperacion.documentos_contrato dc ON dc.tipologia_documento=requisitos.tipologia_documento ";
+                $cadenaSql .= " AND dc.estado_registro='TRUE'";
+                $cadenaSql .= " AND dc.id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " AND dc.supervisor='TRUE'";
                 break;
         }
 

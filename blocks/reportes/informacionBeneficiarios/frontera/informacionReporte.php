@@ -206,7 +206,7 @@ class Registrador {
                         ),
                         array(
                             '2',
-                            'Verificado por el Beneficiario',
+                            'Verificado por el Supervisor',
                         ),
 
                         array(
@@ -283,7 +283,7 @@ class Registrador {
         }
 
         if (isset($_REQUEST['mensaje'])) {
-            $this->mensaje($tab, $esteBloque['nombre']);
+            $this->mensajeModal($tab, $esteBloque['nombre']);
         }
 
         {
@@ -337,9 +337,9 @@ class Registrador {
     public function mensajeModal($tab = '', $nombreBloque = '') {
 
         switch ($_REQUEST['mensaje']) {
-            case 'inserto':
-                $mensaje = "Exito en la Aprobación de Contrato.<br>Número de Contrato : " . $_REQUEST['numero_contrato'];
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+            case 'SinResultado':
+                $mensaje = "<b>No Se Genero Ningun Resultado<br>Verifique la combinacion de Parametros</b>";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
                 break;
 
         }

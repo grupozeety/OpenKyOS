@@ -1,6 +1,8 @@
 <?php
 namespace reportes\informacionBeneficiarios\entidad;
 
+include_once 'Redireccionador.php';
+
 class GenerarReporteInstalaciones {
 
     public $miConfigurador;
@@ -41,9 +43,47 @@ class GenerarReporteInstalaciones {
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
         $this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
+        if ($this->beneficiarios == false) {
+
+            Redireccionador::redireccionar('SinResultado');
+        }
+
         ini_set('xdebug.var_display_max_depth', 5);
         ini_set('xdebug.var_display_max_children', 256);
         ini_set('xdebug.var_display_max_data', 1024);
+
+        if (isset($_REQUEST['estado_beneficiario'])) {
+
+            switch ($_REQUEST['estado_beneficiario']) {
+
+                case '2':
+                    var_dump(count($this->beneficiarios));
+                    foreach ($this->beneficiarios as $key => $value) {
+
+                        $cadenaSql = $this->miSql->getCadenaSql('verificarDocumentos', $value['id_beneficiario']);
+
+                        $documentos_Beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['count'];
+
+                        if ($documentos_Beneficiario != '19') {
+
+                            unset($this->beneficiarios[$key]);
+
+                        }
+                    }
+
+                    $var = count($this->beneficiarios);
+
+                    if ($var == 0) {
+
+                        Redireccionador::redireccionar('SinResultado');
+
+                    }
+
+                    break;
+
+            }
+
+        }
 
         foreach ($this->beneficiarios as $key => $value) {
 
