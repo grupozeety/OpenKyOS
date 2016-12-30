@@ -162,6 +162,85 @@ class GenerarReporteExcelInstalaciones {
                  ->setCellValue('O' . $i, "APARTAMENTO")
                  ->getStyle('O' . $i)->applyFromArray($styleCentradoVertical);
 
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('P' . $i, $value['numero_mujeres'])
+                 ->getStyle('P' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('Q' . $i, $value['numero_hombres'])
+                 ->getStyle('Q' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('R' . $i, $value['personas_menores_18'])
+                 ->getStyle('R' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('S' . $i, $value['personas_18_25'])
+                 ->getStyle('S' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('T' . $i, $value['personas_26_30'])
+                 ->getStyle('T' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('U' . $i, $value['personas_31_40'])
+                 ->getStyle('U' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('V' . $i, $value['personas_41_65'])
+                 ->getStyle('V' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('W' . $i, $value['personas_my_65'])
+                 ->getStyle('W' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('X' . $i, $value['personas_trabajo_empleado'])
+                 ->getStyle('X' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('Y' . $i, $value['personas_trabajo_informal'])
+                 ->getStyle('Y' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('Z' . $i, $value['personas_estudiante'])
+                 ->getStyle('Z' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AA' . $i, $value['personas_trabajo_independiente'])
+                 ->getStyle('AA' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AB' . $i, $value['personas_trabajo_independiente'])
+                 ->getStyle('AB' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AB' . $i, $value['personas_trabajo_hogar_domestico'])
+                 ->getStyle('AB' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AC' . $i, $value['personas_trabajo_hogar_domestico_casa'])
+                 ->getStyle('AC' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AD' . $i, $value['personas_trabajo_no'])
+                 ->getStyle('AD' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AE' . $i, $value['personas_trabajo_otro'])
+                 ->getStyle('AE' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AF' . $i, $value['velocidad_subida'])
+                 ->getStyle('AF' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AG' . $i, $value['velocidad_bajada'])
+                 ->getStyle('AG' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AH' . $i, $value['descripcion_tipo_tegnologia'])
+                 ->getStyle('AH' . $i)->applyFromArray($styleCentradoVertical);
             $i++;
 
         }
@@ -448,7 +527,7 @@ class GenerarReporteExcelInstalaciones {
              ->getStyle('AH1')->applyFromArray($styleCentrado);
         {
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AH2', 'Resultado Velocidad  SUBIDA (UPLINK)  (NÚMERO) en  Kbps')
+                 ->setCellValue('AH2', 'Tecnología Final Instalada')
                  ->getStyle('AH2')->applyFromArray($styleCentrado);
 
             $this->objCal->getActiveSheet()->getColumnDimension('AH')->setWidth(20);
