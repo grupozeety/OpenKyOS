@@ -94,7 +94,7 @@ class GenerarReporteExcelInstalaciones {
                  ->getStyle('F' . $i)->applyFromArray($styleCentradoVertical);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('G' . $i, $value['descripcion_metas'])
+                 ->setCellValue('G' . $i, "Meta " . $value['meta'])
                  ->getStyle('G' . $i)->applyFromArray($styleCentrado);
 
             /**
