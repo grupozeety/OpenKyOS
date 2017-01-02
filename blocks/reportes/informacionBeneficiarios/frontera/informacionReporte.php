@@ -326,10 +326,6 @@ class Registrador {
 
         }
 
-        if (isset($_REQUEST['mensaje'])) {
-            $this->mensajeModal($tab, $esteBloque['nombre']);
-        }
-
         {
             /**
              * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
@@ -358,6 +354,7 @@ class Registrador {
              * codificar el nombre de cada campo.
              */
             $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
+
             // Paso 2: codificar la cadena resultante
             $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);
 
@@ -377,6 +374,11 @@ class Registrador {
         $atributos['marco'] = true;
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
+
+        if (isset($_REQUEST['mensaje'])) {
+            $this->mensajeModal($tab, $esteBloque['nombre']);
+        }
+
     }
     public function mensajeModal($tab = '', $nombreBloque = '') {
 
