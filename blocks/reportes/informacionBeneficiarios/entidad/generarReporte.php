@@ -13,6 +13,7 @@ class GenerarReporteInstalaciones {
     public $proyectos;
     public $proyectos_general;
     public $directorio_archivos;
+    public $ruta_directorio = '';
 
     public function __construct($sql) {
 
@@ -38,7 +39,13 @@ class GenerarReporteInstalaciones {
          * 1. Creación Directorio
          **/
 
-        $this->crearDirectorio();
+        if ($_REQUEST['tipo_resultado'] != '1') {
+            $this->crearDirectorio();
+        } else {
+
+            $this->crearHojaCalculo();
+
+        }
 
     }
 
@@ -263,6 +270,38 @@ class GenerarReporteInstalaciones {
 
     }
 
+    public function comprimir($rutaObjetivoContenido, $nombreComprimido, $nombreDirectorioComprimir, $rutaSalidaComprimido = '') {
+
+        $ruta_actual = getcwd();
+        chdir($rutaObjetivoContenido);
+        $nombre_archivo = time() . ".zip";
+        $cadena = "zip -r " . $rutaSalidaComprimido . $nombre_archivo . " " . $nombreDirectorioComprimir . "/*";
+        $queries = exec($cadena);
+        chdir($ruta_actual);
+
+        return $nombre_archivo;
+
+    }
+
+    public function eliminarDirectorioContenido($rutaAnalizar) {
+        foreach (glob($rutaAnalizar . "/*") as $archivos_carpeta) {
+            if (is_dir($archivos_carpeta)) {
+
+                $valorContenido = @scandir($archivos_carpeta);
+
+                if (count($valorContenido) == 2) {
+
+                    rmdir($archivos_carpeta);
+                } else {
+
+                    $this->eliminarDirectorioContenido($archivos_carpeta);
+                }
+            } else {
+                unlink($archivos_carpeta);
+            }
+        }
+        rmdir($rutaAnalizar);
+    }
     public function crearDirectorio() {
 
         /**
@@ -272,16 +311,16 @@ class GenerarReporteInstalaciones {
         $this->directorio_archivos = $this->rutaAbsoluta . "/archivos/";
 
         $this->rutaURLArchivo = $this->rutaURL . "/archivos/archivosDescargaAccesos";
-        $this->ruta_dir = $this->rutaAbsoluta . "/archivos/archivosDescargaAccesos";
+        $this->ruta_directorio_raiz = $this->rutaAbsoluta . "/archivos/archivosDescargaAccesos";
 
-        $this->nombre_dir = "paqueteAccesos" . time();
-        $this->ruta_dir = $this->ruta_dir . "/" . $this->nombre_dir;
+        $this->nombre_directorio = "paqueteAccesos" . time();
+        $this->ruta_directorio = $this->ruta_directorio_raiz . "/" . $this->nombre_directorio;
 
-        mkdir($this->ruta_dir, 0777, true);
-        chmod($this->ruta_dir, 0777);
+        mkdir($this->ruta_directorio, 0777, true);
+        chmod($this->ruta_directorio, 0777);
 
         $this->nombre_dir = "Accesos";
-        $this->ruta_dir_archivos = $this->ruta_dir . "/" . $this->nombre_dir;
+        $this->ruta_dir_archivos = $this->ruta_directorio . "/" . $this->nombre_dir;
 
         mkdir($this->ruta_dir_archivos, 0777, true);
         chmod($this->ruta_dir_archivos, 0777);
@@ -297,16 +336,16 @@ class GenerarReporteInstalaciones {
          **/
 
         $this->crearDirectorioArchivosBeneficiarios();
-        exit;
+
         /**
          * 3. Comprimir Directorio
          **/
-        $this->nombre_archivo_zip = $this->comprimir($this->ruta_dir, $this->nombre_dir_actas, $this->nombre_dir_actas);
+        $this->nombre_archivo_zip = $this->comprimir($this->ruta_directorio_raiz, $this->nombre_directorio, $this->nombre_directorio);
 
         /**
          * 4. Eliminar Archivos No Necesarios
          **/
-        $this->eliminarDirectorioContenido($this->ruta_dir_actas);
+        $this->eliminarDirectorioContenido($this->ruta_directorio);
 
         /**
          * 4. Redireccionar
@@ -317,7 +356,7 @@ class GenerarReporteInstalaciones {
             "rutaUrl" => $this->rutaURLArchivo . "/" . $this->nombre_archivo_zip,
         );
 
-        if (file_exists($this->ruta_dir . "/" . $this->nombre_archivo_zip)) {
+        if (file_exists($this->ruta_directorio_raiz . "/" . $this->nombre_archivo_zip)) {
 
             Redireccionador::redireccionar('archivoGenerado', $arreglo);
         } else {
