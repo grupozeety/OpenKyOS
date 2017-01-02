@@ -2,6 +2,7 @@
 /**
  * Etiquetas correspondientes a los Formularios
  */
+$this->idioma['tipo_resultado'] = 'Tipo Resultado';
 
 $this->idioma['departamento'] = 'Departamento';
 

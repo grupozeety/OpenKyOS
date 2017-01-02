@@ -12,6 +12,8 @@ class GenerarReporteInstalaciones {
     public $conexion;
     public $proyectos;
     public $proyectos_general;
+    public $directorio_archivos;
+    public $ruta_directorio = '';
 
     public function __construct($sql) {
 
@@ -25,16 +27,25 @@ class GenerarReporteInstalaciones {
 
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+
         /**
          * 0. Estrucurar Información Reporte
          **/
         $this->estruturarProyectos();
 
         /**
-         * 6. Crear Documento Hoja de Calculo(Reporte)
+         * 1. Creación Directorio
          **/
 
-        $this->crearHojaCalculo();
+        if ($_REQUEST['tipo_resultado'] != '1') {
+            $this->crearDirectorio();
+        } else {
+
+            $this->crearHojaCalculo();
+
+        }
 
     }
 
@@ -185,8 +196,174 @@ class GenerarReporteInstalaciones {
 
         }
 
-        //var_dump($this->beneficiarios);
-        //exit;
+    }
+
+    public function directorio_beneficiario($ruta) {
+        $directorio_beneficiario = $ruta . "/" . $value['id_beneficiario'];
+
+        mkdir($directorio_beneficiario, 0777, true);
+        chmod($directorio_beneficiario, 0777);
+    }
+
+    public function analizarCrearDirectorio($directorio) {
+
+        if (!is_dir($directorio)) {
+            $partes = explode("/", $directorio);
+
+            $conteo = count($partes);
+
+            unset($partes[$conteo - 1]);
+
+            $url = implode("/", $partes);
+
+            if (!is_dir($url)) {
+
+                mkdir($url, 0777, true);
+                chmod($url, 0777);
+
+                mkdir($directorio, 0777, true);
+                chmod($directorio, 0777);
+
+            }
+
+        }
+
+    }
+
+    public function crearDirectorioArchivosBeneficiarios() {
+
+        foreach ($this->beneficiarios as $key => $value) {
+            $directorio_municipio = $this->ruta_dir_archivos . "/" . $value['municipio'];
+
+            $nombre = trim(str_replace("URBANIZACION", "", $value['urbanizacion']));
+
+            $directorio_urbanizacion = $directorio_municipio . "/" . $nombre;
+
+            $this->analizarCrearDirectorio($directorio_urbanizacion);
+
+            $directorio_beneficiario = $directorio_urbanizacion . "/" . $value['id_beneficiario'];
+
+            mkdir($directorio_beneficiario, 0777);
+            chmod($directorio_beneficiario, 0777);
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultaDocumentosBeneficiarios', $value['id_beneficiario']);
+            $documentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+            if ($documentos) {
+                foreach ($documentos as $llave => $valor) {
+                    /*
+                    if (!copy($this->directorio_archivos . $valor['nombre_documento'], $directorio_beneficiario . "/" . $valor['nombre_documento'])) {
+                    echo "Error al copiar $fichero...\n";
+
+                    }*/
+
+                    @copy($this->directorio_archivos . $valor['nombre_documento'], $directorio_beneficiario . "/" . $valor['nombre_documento']);
+                }
+
+            }
+
+            if (!is_null($value['nombre_documento_contrato'])) {
+                @copy($this->directorio_archivos . "/contratos/" . $value['nombre_documento_contrato'], $directorio_beneficiario . "/" . $value['nombre_documento_contrato']);
+            }
+
+        }
+
+    }
+
+    public function comprimir($rutaObjetivoContenido, $nombreComprimido, $nombreDirectorioComprimir, $rutaSalidaComprimido = '') {
+
+        $ruta_actual = getcwd();
+        chdir($rutaObjetivoContenido);
+        $nombre_archivo = time() . ".zip";
+        $cadena = "zip -r " . $rutaSalidaComprimido . $nombre_archivo . " " . $nombreDirectorioComprimir . "/*";
+        $queries = exec($cadena);
+        chdir($ruta_actual);
+
+        return $nombre_archivo;
+
+    }
+
+    public function eliminarDirectorioContenido($rutaAnalizar) {
+        foreach (glob($rutaAnalizar . "/*") as $archivos_carpeta) {
+            if (is_dir($archivos_carpeta)) {
+
+                $valorContenido = @scandir($archivos_carpeta);
+
+                if (count($valorContenido) == 2) {
+
+                    rmdir($archivos_carpeta);
+                } else {
+
+                    $this->eliminarDirectorioContenido($archivos_carpeta);
+                }
+            } else {
+                unlink($archivos_carpeta);
+            }
+        }
+        rmdir($rutaAnalizar);
+    }
+    public function crearDirectorio() {
+
+        /**
+         * 1. Crear Directorio
+         **/
+
+        $this->directorio_archivos = $this->rutaAbsoluta . "/archivos/";
+
+        $this->rutaURLArchivo = $this->rutaURL . "/archivos/archivosDescargaAccesos";
+        $this->ruta_directorio_raiz = $this->rutaAbsoluta . "/archivos/archivosDescargaAccesos";
+
+        $this->nombre_directorio = "paqueteAccesos" . time();
+        $this->ruta_directorio = $this->ruta_directorio_raiz . "/" . $this->nombre_directorio;
+
+        mkdir($this->ruta_directorio, 0777, true);
+        chmod($this->ruta_directorio, 0777);
+
+        $this->nombre_dir = "Accesos";
+        $this->ruta_dir_archivos = $this->ruta_directorio . "/" . $this->nombre_dir;
+
+        mkdir($this->ruta_dir_archivos, 0777, true);
+        chmod($this->ruta_dir_archivos, 0777);
+
+        /**
+         * 2. Crear Documento Hoja de Calculo(Reporte)
+         **/
+
+        $this->crearHojaCalculo();
+
+        /**
+         * 3. Crear Directorios Archivos Beneficiarios
+         **/
+
+        $this->crearDirectorioArchivosBeneficiarios();
+
+        /**
+         * 3. Comprimir Directorio
+         **/
+        $this->nombre_archivo_zip = $this->comprimir($this->ruta_directorio_raiz, $this->nombre_directorio, $this->nombre_directorio);
+
+        /**
+         * 4. Eliminar Archivos No Necesarios
+         **/
+        $this->eliminarDirectorioContenido($this->ruta_directorio);
+
+        /**
+         * 4. Redireccionar
+         **/
+
+        $arreglo = array(
+            "nombre_archivo" => $this->nombre_archivo_zip,
+            "rutaUrl" => $this->rutaURLArchivo . "/" . $this->nombre_archivo_zip,
+        );
+
+        if (file_exists($this->ruta_directorio_raiz . "/" . $this->nombre_archivo_zip)) {
+
+            Redireccionador::redireccionar('archivoGenerado', $arreglo);
+        } else {
+
+            Redireccionador::redireccionar('archivoNoGenerado');
+        }
+
     }
 
     public function crearHojaCalculo() {

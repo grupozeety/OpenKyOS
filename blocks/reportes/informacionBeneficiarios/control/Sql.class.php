@@ -27,6 +27,13 @@ class Sql extends \Sql {
              * Clausulas específicas
              */
 
+            case 'consultaDocumentosBeneficiarios':
+                $cadenaSql = " SELECT nombre_documento, ruta_relativa";
+                $cadenaSql .= " FROM interoperacion.documentos_contrato";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "';";
+                break;
+
             case 'consultaInformacionBeneficiario':
                 $cadenaSql = " SELECT cn.* , pm.meta,pmr.descripcion as descripcion_tipo_tegnologia, ";
                 $cadenaSql .= " aes.resultado_vs as velocidad_subida, aes.resultado_vb as velocidad_bajada ";
