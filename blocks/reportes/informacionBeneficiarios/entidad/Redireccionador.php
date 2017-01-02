@@ -17,6 +17,12 @@ class Redireccionador {
                 $variable .= '&mensaje=SinResultado';
                 break;
 
+            case "archivoGenerado":
+                $variable = 'pagina=informacionBeneficiarios';
+                $variable .= '&mensaje=archivoGenerado';
+                $variable .= "&archivo=" . $valor['rutaUrl'];
+                break;
+
             default:
                 $variable = '';
 

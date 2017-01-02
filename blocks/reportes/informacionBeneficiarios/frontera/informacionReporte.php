@@ -69,7 +69,51 @@ class Registrador {
             {
 
                 {
+                    $esteCampo = 'tipo_resultado';
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    $atributos['anchoEtiqueta'] = 2;
+                    $atributos['evento'] = '';
 
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['seleccion'] = '1';
+                    }
+                    $atributos['deshabilitado'] = false;
+                    $atributos['columnas'] = 1;
+                    $atributos['tamanno'] = 1;
+                    $atributos['ajax_function'] = "";
+                    $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
+                    $atributos['limitar'] = false;
+                    $atributos['anchoCaja'] = 10;
+                    $atributos['miEvento'] = '';
+                    //$atributos['validar'] = 'required';
+                    $atributos['cadena_sql'] = 'required';
+                    //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
+                    //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    //"Cédula de Ciudadanía";"1"
+                    //"Tarjeta de Identidad";"2"
+                    $matrizItems = array(
+                        array(
+                            '1',
+                            'Reporte',
+                        ),
+                        array(
+                            '2',
+                            'Reporte y Documentos Beneficiarios',
+                        ),
+
+                    );
+                    $atributos['matrizItems'] = $matrizItems;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                    unset($atributos);
                     $esteCampo = 'departamento';
                     $atributos['nombre'] = $esteCampo;
                     $atributos['id'] = $esteCampo;
@@ -282,10 +326,6 @@ class Registrador {
 
         }
 
-        if (isset($_REQUEST['mensaje'])) {
-            $this->mensajeModal($tab, $esteBloque['nombre']);
-        }
-
         {
             /**
              * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
@@ -314,6 +354,7 @@ class Registrador {
              * codificar el nombre de cada campo.
              */
             $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
+
             // Paso 2: codificar la cadena resultante
             $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);
 
@@ -333,6 +374,11 @@ class Registrador {
         $atributos['marco'] = true;
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
+
+        if (isset($_REQUEST['mensaje'])) {
+            $this->mensajeModal($tab, $esteBloque['nombre']);
+        }
+
     }
     public function mensajeModal($tab = '', $nombreBloque = '') {
 
@@ -340,6 +386,17 @@ class Registrador {
             case 'SinResultado':
                 $mensaje = "<b>No Se Genero Ningun Resultado<br>Verifique la combinacion de Parametros</b>";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
+
+            case 'archivoGenerado':
+
+                $mensaje = "Exito en la Generación del Reporte y Estructuración de Documentos de los Beneficiarios<br> Link de Archivo : <a target='_blank' href='" . $_REQUEST['archivo'] . "'  >Descargar Reporte y Documentos</a>";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+            case 'errorGenerarArchivo':
+                $mensaje = "Error en la Generación del Reporte y/o en la Etructuración de los Documentos de los Beneficiarios";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
                 break;
 
         }

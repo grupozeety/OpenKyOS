@@ -251,10 +251,6 @@ class Registrador {
 
         }
 
-        if (isset($_REQUEST['mensaje'])) {
-            $this->mensaje($tab, $esteBloque['nombre']);
-        }
-
         {
             /**
              * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
@@ -302,6 +298,10 @@ class Registrador {
         $atributos['marco'] = true;
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
+
+        if (isset($_REQUEST['mensaje'])) {
+            $this->mensaje($tab, $esteBloque['nombre']);
+        }
     }
     public function mensaje($tab = '', $nombreBloque = '') {
 
