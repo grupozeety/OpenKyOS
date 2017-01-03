@@ -75,6 +75,11 @@ class Sql extends \Sql {
                     $cadenaSql .= " JOIN interoperacion.documentos_contrato dc ON dc.id_beneficiario=cn.id_beneficiario AND dc.estado_registro='TRUE' ";
                     $cadenaSql .= " AND dc.tipologia_documento='131' AND dc.id IS NOT NULL ";
 
+                } elseif (isset($_REQUEST['tipo_firma']) && $_REQUEST['tipo_firma'] == '1') {
+
+                    $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato dc ON dc.id_beneficiario=cn.id_beneficiario AND dc.estado_registro='TRUE' ";
+                    $cadenaSql .= " AND dc.tipologia_documento='131' AND dc.id IS  NULL ";
+
                 }
 
                 $cadenaSql .= " WHERE cn.numero_identificacion IS NOT NULL";
@@ -122,6 +127,11 @@ class Sql extends \Sql {
 
                     $cadenaSql .= "AND dc.nombre_documento IS NOT NULL ";
 
+                } elseif (isset($_REQUEST['tipo_firma']) && $_REQUEST['tipo_firma'] == '1') {
+
+                    $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato dc ON dc.id_beneficiario=cn.id_beneficiario AND dc.estado_registro='TRUE' AND dc.tipologia_documento='132' ";
+
+                    $cadenaSql .= "AND dc.nombre_documento IS  NULL ";
                 }
 
                 $cadenaSql .= " WHERE cn.numero_identificacion IS NOT NULL";
