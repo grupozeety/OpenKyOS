@@ -126,7 +126,10 @@ as \"Ubicación Actual\",
 stock_detail.fechas_salidas  as \"Fecha Entrega en Sitio de Instalación\",
 purchase_items.fechas_entradas as \"Fecha Entrada\",
 stock_detail.`project`  as \"Sitio de Instalación\",
-(stock_detail.qty -`tabProductos a Proyectar`.`cantidad_devolucion`)  as \"Cantidad en sitio de Instalación\",
+CASE 
+WHEN `tabProductos a Proyectar`.`modelo` IS NULL THEN stock_detail.qty-`tabProductos a Proyectar`.`cantidad_devolucion`
+ELSE stock_detail.qty END
+as \"Cantidad en sitio de Instalación\",
 `tabProductos a Proyectar`.`item_proyeccion`  as \"Cantidad Requerida en sitio de Instalación\",
 `tabProject`.`fecha_prevista_sitio` as \"Fecha Prevista en Sitio de Instalación\",
 `tabProject`.`estado_isp` as \"Estado actual\",
