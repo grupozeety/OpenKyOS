@@ -117,7 +117,7 @@ item_contrato.cantidad as  \"Cantidad o capacidad Comprada o a adquirir\",
 CASE 
 WHEN stock_detail.qty IS NULL THEN qty_entrada
 WHEN `tabProductos a Proyectar`.`modelo` IS NULL THEN qty_entrada-stock_detail.qty-`tabProductos a Proyectar`.`cantidad_devolucion`
-ELSE qty_entrada-stock_detail.qty  
+ELSE qty_entrada-stock_detail.qty END 
 as \"Ubicación Actual\",
 CASE WHEN stock_detail.qty IS NULL THEN qty_entrada
 ELSE qty_entrada-stock_detail.qty- COALESCE(qty_entradaso,0) END 
@@ -144,7 +144,7 @@ SELECT
 destino.project as project, 
 `tabStock Entry Detail`.`parent`,
 `item_code`, sum(qty) as qty_entrada,
-GROUP_CONCAT(DATE_FORMAT(`posting_date`, '%%Y-%%m-%%d') SEPARATOR ', ') as fechas_entradas, 
+GROUP_CONCAT(`posting_date` SEPARATOR ', ') as fechas_entradas, 
 `t_warehouse`,
 s_warehouse, 
 `uom`
@@ -174,8 +174,8 @@ AND destino.project IS NULL
 AND destino.tipo_almacen='Maestra'
 GROUP BY item_code,`s_warehouse`, origen.project
 ORDER BY `tabStock Entry Detail`.`t_warehouse` ASC, `tabStock Entry Detail`.`parent` ASC ) as entradaso_items on entradaso_items.project=`tabProductos a Proyectar`.`parent` AND entradaso_items.item_code=`tabItem`.`item_code` 
-LEFT JOIN `tabPurchase Receipt Item` on `tabPurchase Receipt Item`.`item_code`=`tabItem`.`item_code`
-LEFT JOIN `tabPurchase Receipt` on `tabPurchase Receipt`.`name`=`tabPurchase Receipt Item`.`parent`
+LEFT JOIN `tabPurchase Receipt Item` on `tabPurchase Receipt Item`.`item_code`=`tabItem`.`item_code` AND `tabPurchase Receipt Item`.creation<= '".$variable."'  
+LEFT JOIN `tabPurchase Receipt` on `tabPurchase Receipt`.`name`=`tabPurchase Receipt Item`.`parent`  AND `tabPurchase Receipt`.posting_date<= '".$variable."' 
 LEFT JOIN 
 (SELECT DISTINCT item_code,`tabRegistro de Contrato`.`proveedor`, `tabRegistro de Contrato`.`num_contrato`, `tabRegistro de Contrato`.`estado_contrato`, project, cantidad
 FROM `tabRegistro de Contrato Item` 
@@ -186,7 +186,7 @@ SELECT destino.project as project,
 `tabStock Entry Detail`.`parent`,
 `item_code`, 
 sum(qty) as qty,
-GROUP_CONCAT(DATE_FORMAT(`posting_date`, '%%Y-%%m-%%d') SEPARATOR ', ') as fechas_salidas, 
+GROUP_CONCAT(`posting_date` SEPARATOR ', ') as fechas_salidas, 
 `s_warehouse`,`uom`
 FROM `tabStock Entry Detail` 
 JOIN `tabStock Entry` on `tabStock Entry`.`name`=`tabStock Entry Detail`.`parent` 
@@ -201,7 +201,6 @@ ORDER By `tabProductos a Proyectar`.`parent` ASC, `tabItem`.`item_code`ASC
 ) as resultado ";
 				break;
 		}
-		
 		return $cadenaSql;
 	}
 }
