@@ -14,6 +14,8 @@ $this->idioma['generarReporte'] = 'Generar Reporte';
 
 $this->idioma['beneficiario'] = 'Beneficiario';
 
+$this->idioma['tipo_firma'] = 'Tipo Firma';
+
 $this->idioma['noDefinido'] = 'Etiqueta No definida';
 
 ?>
