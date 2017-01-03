@@ -255,6 +255,52 @@ class Registrador {
             echo $this->miFormulario->campoCuadroTexto($atributos);
             unset($atributos);
 
+            $esteCampo = 'tipo_firma';
+            $atributos['nombre'] = $esteCampo;
+            $atributos['id'] = $esteCampo;
+            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+            $atributos["etiquetaObligatorio"] = true;
+            $atributos['tab'] = $tab++;
+            $atributos['anchoEtiqueta'] = 2;
+            $atributos['evento'] = '';
+
+            if (isset($_REQUEST[$esteCampo])) {
+                $atributos['seleccion'] = $_REQUEST[$esteCampo];
+            } else {
+                $atributos['seleccion'] = '1';
+            }
+            $atributos['deshabilitado'] = false;
+            $atributos['columnas'] = 1;
+            $atributos['tamanno'] = 1;
+            $atributos['ajax_function'] = "";
+            $atributos['ajax_control'] = $esteCampo;
+            $atributos['estilo'] = "bootstrap";
+            $atributos['limitar'] = false;
+            $atributos['anchoCaja'] = 10;
+            $atributos['miEvento'] = '';
+            //$atributos['validar'] = 'required';
+            $atributos['cadena_sql'] = 'required';
+            //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
+            //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            //"Cédula de Ciudadanía";"1"
+            //"Tarjeta de Identidad";"2"
+            $matrizItems = array(
+                array(
+                    '1',
+                    'Actas Sin Firmar',
+                ),
+                array(
+                    '2',
+                    'Actas Firmadas',
+                ),
+
+            );
+            $atributos['matrizItems'] = $matrizItems;
+            // Aplica atributos globales al control
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+            unset($atributos);
+
             // ------------------Division para los botones-------------------------
             $atributos["id"] = "botones";
             $atributos["estilo"] = "marcoBotones";

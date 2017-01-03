@@ -55,7 +55,8 @@ class Sql extends \Sql {
                 break;
 
             case 'consultarInformacionPortatil':
-                $cadenaSql = " SELECT cn.id_beneficiario, cn.numero_identificacion,";
+
+                $cadenaSql = " SELECT DISTINCT cn.id_beneficiario, cn.numero_identificacion,";
                 $cadenaSql .= " cn.nombres||' '||cn.primer_apellido||' '|| CASE WHEN cn.segundo_apellido IS NULL THEN ' 'ELSE cn.segundo_apellido END as \"NombreBeneficiario\",";
                 $cadenaSql .= " cn.departamento, cn.municipio, cn.urbanizacion,";
                 $cadenaSql .= " cn.direccion_domicilio as direccion,";
@@ -69,6 +70,13 @@ class Sql extends \Sql {
                 $cadenaSql .= " cn.numero_contrato ";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN interoperacion.acta_entrega_portatil ep ON ep.id_beneficiario=cn.id_beneficiario AND ep.estado_registro='TRUE'";
+
+                if (isset($_REQUEST['tipo_firma']) && $_REQUEST['tipo_firma'] == '2') {
+                    $cadenaSql .= " JOIN interoperacion.documentos_contrato dc ON dc.id_beneficiario=cn.id_beneficiario AND dc.estado_registro='TRUE' ";
+                    $cadenaSql .= " AND dc.tipologia_documento='131' AND dc.id IS NOT NULL ";
+
+                }
+
                 $cadenaSql .= " WHERE cn.numero_identificacion IS NOT NULL";
                 $cadenaSql .= " AND cn.estado_registro='TRUE'";
 
@@ -94,7 +102,7 @@ class Sql extends \Sql {
 
             case 'consultarInformacionServicios':
 
-                $cadenaSql = " SELECT cn.id_beneficiario, cn.numero_identificacion ,";
+                $cadenaSql = " SELECT DISTINCT cn.id_beneficiario, cn.numero_identificacion ,";
                 $cadenaSql .= " cn.nombres||' '||cn.primer_apellido||' '|| CASE WHEN cn.segundo_apellido IS NULL THEN ' 'ELSE cn.segundo_apellido END as \"NombreBeneficiario\",";
                 $cadenaSql .= " cn.departamento, cn.municipio, cn.urbanizacion,";
                 $cadenaSql .= " cn.direccion_domicilio as direccion,";
@@ -108,6 +116,14 @@ class Sql extends \Sql {
                 $cadenaSql .= " cn.numero_contrato ";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios ep ON ep.id_beneficiario=cn.id_beneficiario AND ep.estado_registro='TRUE'";
+
+                if (isset($_REQUEST['tipo_firma']) && $_REQUEST['tipo_firma'] == '2') {
+                    $cadenaSql .= " JOIN interoperacion.documentos_contrato dc ON dc.id_beneficiario=cn.id_beneficiario AND dc.estado_registro='TRUE' AND dc.tipologia_documento='132' ";
+
+                    $cadenaSql .= "AND dc.nombre_documento IS NOT NULL ";
+
+                }
+
                 $cadenaSql .= " WHERE cn.numero_identificacion IS NOT NULL";
                 $cadenaSql .= " AND cn.estado_registro='TRUE'";
 
