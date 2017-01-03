@@ -118,10 +118,10 @@ CASE
 WHEN stock_detail.qty IS NULL THEN qty_entrada
 WHEN `tabProductos a Proyectar`.`modelo` IS NULL THEN qty_entrada-stock_detail.qty-`tabProductos a Proyectar`.`cantidad_devolucion`
 ELSE qty_entrada-stock_detail.qty END 
-as \"Ubicación Actual\",
-CASE WHEN stock_detail.qty IS NULL THEN qty_entrada
-ELSE qty_entrada-stock_detail.qty- COALESCE(qty_entradaso,0) END 
 as \"Cantidad en Bodega\",
+CASE WHEN stock_detail.qty IS NULL THEN purchase_items.t_warehouse
+ELSE entradaso_items.t_warehouse  END 
+as \"Ubicación Actual\",
 `tabProject`.`fecha_prevista_bodega` as \"Fecha Prevista de Entrega en Bodega\",
 stock_detail.fechas_salidas  as \"Fecha Entrega en Sitio de Instalación\",
 purchase_items.fechas_entradas as \"Fecha Entrada\",
