@@ -73,9 +73,19 @@ class Sql extends \Sql {
                 $cadenaSql .= " FROM interoperacion.contrato";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
 
+                if (isset($_REQUEST['tipo_firma']) && $_REQUEST['tipo_firma'] == '2') {
+                    $cadenaSql .= " AND nombre_documento_contrato IS NOT NULL ";
+
+                } elseif (isset($_REQUEST['tipo_firma']) && $_REQUEST['tipo_firma'] == '1') {
+
+                    $cadenaSql .= " AND nombre_documento_contrato IS  NULL";
+
+                }
+
                 if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
                     $cadenaSql .= " AND municipio='" . $_REQUEST['municipio'] . "'";
                 }
+
                 if (isset($_REQUEST['departamento']) && $_REQUEST['departamento'] != '') {
 
                     $cadenaSql .= " AND departamento='" . $_REQUEST['departamento'] . "'";
@@ -90,7 +100,6 @@ class Sql extends \Sql {
                 }
 
                 $cadenaSql .= " ORDER BY numero_contrato ";
-
                 break;
 
             case 'consultarBeneficiariosPotenciales':
