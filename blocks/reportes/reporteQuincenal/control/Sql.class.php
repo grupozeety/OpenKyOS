@@ -114,8 +114,10 @@ item_contrato.cantidad as  \"Cantidad o capacidad Comprada o a adquirir\",
 `tabProductos a Proyectar`.`cantidad_adicional` as \"Cantidad Adicionada\", 
 `tabProductos a Proyectar`.`cantidad_devolucion` as \"Cantidad Devuelta\",
 `tabItem`.`stock_uom` as \"Unidad Medida\",
-CASE WHEN stock_detail.qty IS NULL THEN purchase_items.t_warehouse
-ELSE stock_detail.t_warehouse  END 
+CASE 
+WHEN stock_detail.qty IS NULL THEN qty_entrada
+WHEN `tabProductos a Proyectar`.`modelo` IS NULL THEN qty_entrada-stock_detail.qty-`tabProductos a Proyectar`.`cantidad_devolucion`
+ELSE qty_entrada-stock_detail.qty  
 as \"Ubicación Actual\",
 CASE WHEN stock_detail.qty IS NULL THEN qty_entrada
 ELSE qty_entrada-stock_detail.qty- COALESCE(qty_entradaso,0) END 
@@ -137,23 +139,66 @@ stock_detail.`project`  as \"Sitio de Instalación\",
 FROM `tabItem`
 JOIN `tabProductos a Proyectar` on `tabProductos a Proyectar`.`item`=`tabItem`.`item_code`
 LEFT JOIN `tabProject` on `tabProject`.`name`=`tabProductos a Proyectar`.`parent`
-LEFT JOIN (SELECT destino.tipo_almacen,destino.project, `tabStock Entry Detail`.`parent`,`item_code`, sum(qty) as qty_entrada,GROUP_CONCAT(`posting_date` SEPARATOR ', ') as fechas_entradas, `t_warehouse`,s_warehouse, origen.`tipo_almacen` tipo_origen,`uom` FROM `tabStock Entry Detail` JOIN `tabStock Entry` on `tabStock Entry`.`name`=`tabStock Entry Detail`.`parent` JOIN `tabWarehouse` as origen on origen.`name`=s_warehouse JOIN `tabWarehouse` as destino on destino.`name`=t_warehouse WHERE `tabStock Entry Detail`.`docstatus`!=2 AND destino.tipo_almacen!='Salida' AND posting_date<= '".$variable."' GROUP BY item_code,`t_warehouse`, project ORDER BY `tabStock Entry Detail`.`t_warehouse` ASC ) as purchase_items on purchase_items.project=`tabProductos a Proyectar`.`parent` AND purchase_items.item_code=`tabItem`.`item_code` 
-LEFT JOIN (SELECT destino.tipo_almacen,origen.project, `tabStock Entry Detail`.`parent`,`item_code`, sum(qty) as qty_entradaso, `t_warehouse`,s_warehouse, origen.`tipo_almacen` tipo_origen,`uom`FROM `tabStock Entry Detail` JOIN `tabStock Entry` on `tabStock Entry`.`name`=`tabStock Entry Detail`.`parent` JOIN `tabWarehouse` as origen on origen.`name`=s_warehouse JOIN `tabWarehouse` as destino on destino.`name`=t_warehouse WHERE `tabStock Entry Detail`.`docstatus`!=2 AND origen.tipo_almacen='Entrada' AND destino.tipo_almacen='Entrada' AND posting_date<= '".$variable."'  GROUP BY item_code, s_warehouse ORDER BY `tabStock Entry Detail`.`t_warehouse` ) as entradaso_items on entradaso_items.project=`tabProductos a Proyectar`.`parent` AND entradaso_items.item_code=`tabItem`.`item_code` 
-LEFT JOIN `tabPurchase Receipt Item` on `tabPurchase Receipt Item`.`item_code`=`tabItem`.`item_code` AND `tabPurchase Receipt Item`.creation<= '".$variable."' 
-LEFT JOIN `tabPurchase Receipt` on `tabPurchase Receipt`.`name`=`tabPurchase Receipt Item`.`parent` AND `tabPurchase Receipt`.posting_date<= '".$variable."' 
+LEFT JOIN (
+SELECT 
+destino.project as project, 
+`tabStock Entry Detail`.`parent`,
+`item_code`, sum(qty) as qty_entrada,
+GROUP_CONCAT(DATE_FORMAT(`posting_date`, '%%Y-%%m-%%d') SEPARATOR ', ') as fechas_entradas, 
+`t_warehouse`,
+s_warehouse, 
+`uom`
+FROM `tabStock Entry Detail` 
+JOIN `tabStock Entry` on `tabStock Entry`.`name`=`tabStock Entry Detail`.`parent` 
+JOIN `tabWarehouse` as origen on origen.`name`=s_warehouse 
+JOIN `tabWarehouse` as destino on destino.`name`=t_warehouse 
+WHERE `tabStock Entry Detail`.`docstatus`!=2 
+AND `tabStock Entry Detail`.`docstatus`!=0 
+AND `tabStock Entry`.`purpose`='Material Transfer'
+AND `tabStock Entry`.`tipo_devolutivo`=0
+GROUP BY item_code,`t_warehouse`, destino.project ORDER BY `tabStock Entry Detail`.`t_warehouse` ASC
+) as purchase_items on purchase_items.project=`tabProductos a Proyectar`.`parent` AND purchase_items.item_code=`tabItem`.`item_code` 
+LEFT JOIN (
+  SELECT origen.project as project, 
+`tabStock Entry Detail`.`parent`,
+`item_code`, 
+sum(qty) as qty_entradaso,
+`t_warehouse`,s_warehouse,`uom`
+FROM `tabStock Entry Detail` 
+JOIN `tabStock Entry` on `tabStock Entry`.`name`=`tabStock Entry Detail`.`parent` 
+JOIN `tabWarehouse` as destino on destino.`name`=t_warehouse 
+JOIN `tabWarehouse` as origen on origen.`name`=s_warehouse 
+WHERE `tabStock Entry Detail`.`docstatus`!=2 
+AND `tabStock Entry`.`purpose`='Material Transfer'
+AND destino.project IS NULL
+AND destino.tipo_almacen='Maestra'
+GROUP BY item_code,`s_warehouse`, origen.project
+ORDER BY `tabStock Entry Detail`.`t_warehouse` ASC, `tabStock Entry Detail`.`parent` ASC ) as entradaso_items on entradaso_items.project=`tabProductos a Proyectar`.`parent` AND entradaso_items.item_code=`tabItem`.`item_code` 
+LEFT JOIN `tabPurchase Receipt Item` on `tabPurchase Receipt Item`.`item_code`=`tabItem`.`item_code`
+LEFT JOIN `tabPurchase Receipt` on `tabPurchase Receipt`.`name`=`tabPurchase Receipt Item`.`parent`
 LEFT JOIN 
 (SELECT DISTINCT item_code,`tabRegistro de Contrato`.`proveedor`, `tabRegistro de Contrato`.`num_contrato`, `tabRegistro de Contrato`.`estado_contrato`, project, cantidad
 FROM `tabRegistro de Contrato Item` 
 JOIN `tabRegistro de Contrato` ON `tabRegistro de Contrato`.`name`=`tabRegistro de Contrato Item`.`parent` 
-WHERE 1 ORDER BY item_code ASC ) as item_contrato on item_contrato.item_code=`tabItem`.item_code  AND item_contrato.project=`tabProductos a Proyectar`.`parent`
+WHERE 1 ORDER BY item_code ASC) as item_contrato on item_contrato.item_code=`tabItem`.item_code AND item_contrato.project=`tabProductos a Proyectar`.`parent`
 LEFT JOIN (
-SELECT destino.tipo_almacen,origen.project, `tabStock Entry Detail`.`parent`,`item_code`, sum(qty) as qty,GROUP_CONCAT(`posting_date` SEPARATOR ', ') as fechas_salidas, `t_warehouse`,s_warehouse, origen.`tipo_almacen` tipo_origen,`uom`FROM `tabStock Entry Detail` JOIN `tabStock Entry` on `tabStock Entry`.`name`=`tabStock Entry Detail`.`parent` JOIN `tabWarehouse` as origen on origen.`name`=s_warehouse JOIN `tabWarehouse` as destino on destino.`name`=t_warehouse WHERE `tabStock Entry Detail`.`docstatus`!=2 AND destino.tipo_almacen='Salida' AND origen.tipo_almacen='Entrada' AND posting_date<= '".$variable."' GROUP BY item_code,`s_warehouse`, project ORDER BY `tabStock Entry Detail`.`s_warehouse` ASC ) as stock_detail on stock_detail.item_code=`tabItem`.`item_code` AND stock_detail.project=`tabProductos a Proyectar`.`parent`
-ORDER By `tabItem`.`item_code`ASC
-) as resultado
-		
-GROUP BY `Proyecto/Municipio Destino Instalación`,`Descripción  detallada del elemento`
-ORDER BY `Ubicación Actual`";
-				$cadenaSql." LIMIT 50";
+SELECT destino.project as project, 
+`tabStock Entry Detail`.`parent`,
+`item_code`, 
+sum(qty) as qty,
+GROUP_CONCAT(DATE_FORMAT(`posting_date`, '%%Y-%%m-%%d') SEPARATOR ', ') as fechas_salidas, 
+`s_warehouse`,`uom`
+FROM `tabStock Entry Detail` 
+JOIN `tabStock Entry` on `tabStock Entry`.`name`=`tabStock Entry Detail`.`parent` 
+JOIN `tabWarehouse` as destino on destino.`name`=s_warehouse 
+WHERE `tabStock Entry Detail`.`docstatus`!=2 
+AND `tabStock Entry Detail`.`docstatus`!=0 
+AND `tabStock Entry`.`purpose`='Material Issue'
+AND `tabStock Entry`.`tipo_devolutivo`=0
+GROUP BY item_code,`s_warehouse`, destino.project ORDER BY `tabStock Entry Detail`.`s_warehouse` ASC) as stock_detail on stock_detail.item_code=`tabItem`.`item_code` AND stock_detail.project=`tabProductos a Proyectar`.`parent`
+GROUP BY `tabProductos a Proyectar`.`parent`,`tabItem`.`item_code`
+ORDER By `tabProductos a Proyectar`.`parent` ASC, `tabItem`.`item_code`ASC
+) as resultado ";
 				break;
 		}
 		
