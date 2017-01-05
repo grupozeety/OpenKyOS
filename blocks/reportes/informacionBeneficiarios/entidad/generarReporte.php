@@ -56,7 +56,13 @@ class GenerarReporteInstalaciones {
         $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
         if ($this->proceso) {
+
+            ini_set('memory_limit', '2048M');
+            ini_set('max_execution_time', 1000000);
+
             // Eliminar Tarea Crontab
+
+            $this->eliminarTrabajoCrontab();
 
             // Cambiar Estado Proceso
             $cadenaSql = $this->miSql->getCadenaSql('actualizarProcesoParticularEstado', $this->proceso['id_proceso']);
@@ -70,7 +76,84 @@ class GenerarReporteInstalaciones {
 
             $this->crearDirectorio();
 
+            // Url Proceso
+            $this->crearUrlProceso();
+
+            // Crear Tarea Crontab
+
+            $this->crearTrabajosCrontab();
+            exit;
+
+        } else {
+            exit;
         }
+    }
+
+    /**
+     * Metodos Correspondientes al Trabajos del Crontab
+     **/
+    public function crearTrabajosCrontab() {
+        shell_exec('echo "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -');
+    }
+
+    public function eliminarTrabajoCrontab() {
+
+        exec('crontab -l', $crontab);
+
+        shell_exec('echo "" | crontab -');
+
+        if (!empty($crontab) && is_array($crontab)) {
+
+            $cadena_buscada = '#Accesos';
+
+            foreach ($crontab as $key => $value) {
+
+                $posicion_coincidencia = strpos($value, $cadena_buscada);
+                if ($posicion_coincidencia === false) {
+
+                } else {
+
+                    unset($crontab[$key]);
+                }
+            }
+
+            foreach ($crontab as $key => $value) {
+
+                $valor = ($value == '') ? '' : '`crontab -l`\n';
+
+                exec('echo "' . $valor . $value . '" | crontab -');
+            }
+
+        }
+
+    }
+
+    public function crearUrlProceso() {
+
+        $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
+
+        {
+
+            $url = $this->miConfigurador->getVariableConfiguracion("host");
+            $url .= $this->miConfigurador->getVariableConfiguracion("site");
+            $url .= "/index.php?";
+
+            $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+            $valorCodificado .= "&action=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+            $valorCodificado .= "&opcion=generarReporte";
+            $valorCodificado .= "&tipo_resultado=3";
+
+        }
+
+        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+        $this->UrlProceso = $url . $cadena;
+
+        $this->Url_ejecucion = "curl  " . $this->UrlProceso . "  #Accesos";
+
     }
 
     public function generarProceso() {
@@ -441,6 +524,9 @@ class GenerarReporteInstalaciones {
          **/
         $this->eliminarDirectorioContenido($this->ruta_directorio);
 
+        //Actualizar Avance Progreso
+        $this->actualizarAvance(98);
+
         /**
          * 4. Registrar Finalizacion Proceso
          **/
@@ -448,10 +534,11 @@ class GenerarReporteInstalaciones {
         $arreglo = array(
             "nombre_archivo" => $this->nombre_archivo_zip,
             "rutaUrl" => $this->rutaURLArchivo . "/" . $this->nombre_archivo_zip,
+            "proceso" => $this->proceso['id_proceso'],
         );
 
-        //Actualizar Avance Progreso
-        $this->actualizarAvance(98);
+        $cadenaSql = $this->miSql->getCadenaSql('finalizarProceso', $arreglo);
+        $finalizacionproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 

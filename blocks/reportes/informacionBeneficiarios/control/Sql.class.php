@@ -23,6 +23,15 @@ class Sql extends \Sql {
 
         switch ($tipo) {
 
+            case 'finalizarProceso':
+                $cadenaSql = " UPDATE parametros.procesos_accesos";
+                $cadenaSql .= " SET estado='Finalizado',";
+                $cadenaSql .= " porcentaje_estado='100', ";
+                $cadenaSql .= " nombre_archivo='" . $variable['nombre_archivo'] . "',";
+                $cadenaSql .= " ruta_relativa_archivo='" . $variable['rutaUrl'] . "'";
+                $cadenaSql .= " WHERE id_proceso='" . $variable['proceso'] . "';";
+                break;
+
             case 'actualizarProcesoParticularEstado':
                 $cadenaSql = " UPDATE parametros.procesos_accesos";
                 $cadenaSql .= " SET estado='En Proceso' ";
@@ -62,7 +71,7 @@ class Sql extends \Sql {
                 $cadenaSql = " SELECT *";
                 $cadenaSql .= " FROM parametros.procesos_accesos";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
-                //$cadenaSql .= " AND estado='No Iniciado'";
+                $cadenaSql .= " AND estado='No Iniciado'";
                 $cadenaSql .= " ORDER BY id_proceso ASC LIMIT 1;";
                 break;
 

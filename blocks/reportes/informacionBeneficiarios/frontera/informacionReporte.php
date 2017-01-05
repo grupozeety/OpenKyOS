@@ -50,7 +50,7 @@ class Registrador {
             $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
             $urlProceso = $url . $cadena;
-            echo $urlProceso;
+            //echo $urlProceso;
 
         }
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
@@ -407,7 +407,7 @@ class Registrador {
             // ------------------Division para los botones-------------------------
             $atributos["id"] = "consulta_proceso";
             $atributos["estilo"] = "marcoBotones";
-            $atributos["estiloEnLinea"] = "display:block;";
+            $atributos["estiloEnLinea"] = "display:none;";
             echo $this->miFormulario->division("inicio", $atributos);
             unset($atributos);
 
