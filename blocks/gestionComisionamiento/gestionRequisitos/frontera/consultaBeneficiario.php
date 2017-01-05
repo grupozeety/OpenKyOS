@@ -73,7 +73,6 @@ class Registrador {
                     }
 
                 }
-
                 $esteCampo = 'Agrupacion';
                 $atributos['id'] = $esteCampo;
                 $atributos['leyenda'] = "<b>Consultar Beneficiario</b> " . $titulo;

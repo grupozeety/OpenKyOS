@@ -101,7 +101,6 @@ class Formulario {
 			$nomFami = "";
 			
 			for($i = 0; $i < count ( $datos ); $i ++) {
-				var_dump("Aqui");
 				$cargueDatos = array ();
 				
 				$cargueDatos ['tipo_documento_familiar' . '_' . $i] = $datos [$i] ['tipo_documento_familiar'];
