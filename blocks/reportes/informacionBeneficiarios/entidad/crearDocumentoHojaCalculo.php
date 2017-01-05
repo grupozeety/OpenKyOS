@@ -68,7 +68,6 @@ class GenerarReporteExcelInstalaciones {
 
         foreach ($this->beneficiarios as $key => $value) {
 
-            $this->objCal->getActiveSheet()->getRowDimension($i)->setRowHeight(100);
             $this->objCal->setActiveSheetIndex(0)
                  ->setCellValue('A' . $i, 'Corporación Politécnica Nacional')
                  ->getStyle("A" . $i)->applyFromArray($styleCentrado);
@@ -134,7 +133,7 @@ class GenerarReporteExcelInstalaciones {
             }
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('I' . $i, $value['direccion_instalacion'] . " " . $anexo_dir)
+                 ->setCellValue('I' . $i, $value['direccion_domicilio'] . " " . $anexo_dir)
                  ->getStyle('I' . $i)->applyFromArray($styleCentradoVertical);
 
             /*
@@ -243,6 +242,46 @@ class GenerarReporteExcelInstalaciones {
             $this->objCal->setActiveSheetIndex(0)
                  ->setCellValue('AH' . $i, $value['descripcion_tipo_tegnologia'])
                  ->getStyle('AH' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->getActiveSheet()->getRowDimension($i)->setRowHeight(100);
+
+            //Hoja Calculo #2
+
+            {
+
+                $this->objCal2->setCellValue('A' . $i, $value['id_beneficiario'])
+                     ->getStyle("A" . $i)->applyFromArray($styleCentrado);
+
+                $this->objCal2->setCellValue('B' . $i, $value['direccion_domicilio'] . " " . $anexo_dir)
+                     ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
+
+                $this->objCal2->setCellValue('C' . $i, "")
+                     ->getStyle('C' . $i)->applyFromArray($styleCentradoVertical);
+
+                $this->objCal2->setCellValue('D' . $i, "")
+                     ->getStyle('D' . $i)->applyFromArray($styleCentradoVertical);
+
+                $this->objCal2->setCellValue('E' . $i, "")
+                     ->getStyle('E' . $i)->applyFromArray($styleCentradoVertical);
+
+                $this->objCal2->setCellValue('F' . $i, "")
+                     ->getStyle('F' . $i)->applyFromArray($styleCentradoVertical);
+
+                $this->objCal2->setCellValue('G' . $i, "")
+                     ->getStyle('G' . $i)->applyFromArray($styleCentrado);
+
+                $this->objCal2->setCellValue('H' . $i, "")
+                     ->getStyle('H' . $i)->applyFromArray($styleCentradoVertical);
+
+                $this->objCal2->setCellValue('I' . $i, "")
+                     ->getStyle('I' . $i)->applyFromArray($styleCentradoVertical);
+
+                $this->objCal2->setCellValue('J' . $i, "")
+                     ->getStyle('J' . $i)->applyFromArray($styleCentradoVertical);
+
+                $this->objCal2->getRowDimension($i)->setRowHeight(100);
+            }
+
             $i++;
 
         }
@@ -736,6 +775,74 @@ class GenerarReporteExcelInstalaciones {
 
         }
 
+        //Hoja Calculo #2
+
+        $this->objCal2->getRowDimension('1')->setRowHeight(30);
+        $this->objCal2->getRowDimension('2')->setRowHeight(80);
+
+        $this->objCal2->mergeCells('A1:J1');
+        $this->objCal2->setCellValue('A1', 'FOR-1264-TEC-017-REV-00 FORMATO DE COMISIONAMIENTO')
+             ->getStyle('A1')->applyFromArray($styleCentrado);
+
+        {
+            $this->objCal2->getStyle('A')->getAlignment()->setWrapText(true);
+            $this->objCal2->getStyle('B')->getAlignment()->setWrapText(true);
+            $this->objCal2->getStyle('C')->getAlignment()->setWrapText(true);
+            $this->objCal2->getStyle('D')->getAlignment()->setWrapText(true);
+            $this->objCal2->getStyle('E')->getAlignment()->setWrapText(true);
+            $this->objCal2->getStyle('F')->getAlignment()->setWrapText(true);
+            $this->objCal2->getStyle('G')->getAlignment()->setWrapText(true);
+            $this->objCal2->getStyle('H')->getAlignment()->setWrapText(true);
+            $this->objCal2->getStyle('I')->getAlignment()->setWrapText(true);
+            $this->objCal2->getStyle('J')->getAlignment()->setWrapText(true);
+
+        }
+
+        {
+
+            $this->objCal2->setCellValue('A2', 'ID Beneficiario Contratista')
+                 ->getStyle('A2')->applyFromArray($styleCentrado);
+
+            $this->objCal2->setCellValue('B2', 'Dirección')
+                 ->getStyle('B2')->applyFromArray($styleCentrado);
+
+            $this->objCal2->setCellValue('C2', 'Fecha de Comisionamiento (DD/MM/AAAA del COMISIONAMIENTO)')
+                 ->getStyle('C2')->applyFromArray($styleCentrado);
+
+            $this->objCal2->setCellValue('D2', 'IP Equipo de Borde (Deben ir separados por punto (.))')
+                 ->getStyle('D2')->applyFromArray($styleCentrado);
+
+            $this->objCal2->setCellValue('E2', 'MAC WAN (Deben ir separado por (-))')
+                 ->getStyle('E2')->applyFromArray($styleCentrado);
+
+            $this->objCal2->setCellValue('F2', 'Resultado Latencia (Tiempo ms)')
+                 ->getStyle('F2')->applyFromArray($styleCentrado);
+
+            $this->objCal2->setCellValue('G2', 'Pruebas TRACERT(Por medio de comando TRACERT verificar que pase por el NAP Colombia) (SI/NO)')
+                 ->getStyle('G2')->applyFromArray($styleCentrado);
+
+            $this->objCal2->setCellValue('H2', 'Reporte de Fallos (Reportar los fallas si aplica durante el proceso de instalación)')
+                 ->getStyle('H2')->applyFromArray($styleCentrado);
+
+            $this->objCal2->setCellValue('I2', 'El Accesos queda reportando desde el Centro de Gestión')
+                 ->getStyle('I2')->applyFromArray($styleCentrado);
+
+            $this->objCal2->setCellValue('J2', 'Páginas Visitadas (Anotar tres páginas del gobierno, visitadas para verificar la navegación)')
+                 ->getStyle('J2')->applyFromArray($styleCentrado);
+
+            $this->objCal2->getColumnDimension('A')->setWidth(20);
+            $this->objCal2->getColumnDimension('B')->setWidth(20);
+            $this->objCal2->getColumnDimension('C')->setWidth(20);
+            $this->objCal2->getColumnDimension('D')->setWidth(20);
+            $this->objCal2->getColumnDimension('E')->setWidth(20);
+            $this->objCal2->getColumnDimension('F')->setWidth(20);
+            $this->objCal2->getColumnDimension('G')->setWidth(20);
+            $this->objCal2->getColumnDimension('H')->setWidth(20);
+            $this->objCal2->getColumnDimension('I')->setWidth(20);
+            $this->objCal2->getColumnDimension('J')->setWidth(20);
+
+        }
+
     }
 
     public function configurarDocumento() {
@@ -749,6 +856,11 @@ class GenerarReporteExcelInstalaciones {
              ->setSubject("Reporte Beneficiarios")
              ->setDescription("Reporte de Información Beneficiarios")
              ->setCategory("Reporte");
+
+        $this->objCal->getActiveSheet()->setTitle('FormatoReporteInstalaciones');
+
+        $this->objCal2 = $this->objCal->createSheet();
+        $this->objCal2->setTitle('FormatoPruebaComisionamiento');
 
     }
 
