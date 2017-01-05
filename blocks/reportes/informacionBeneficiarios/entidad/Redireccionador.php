@@ -23,6 +23,18 @@ class Redireccionador {
                 $variable .= "&archivo=" . $valor['rutaUrl'];
                 break;
 
+            case "errorProceso":
+
+                $variable = 'pagina=informacionBeneficiarios';
+                $variable .= '&mensaje=errorProceso';
+                break;
+
+            case "exitoProceso":
+                $variable = 'pagina=informacionBeneficiarios';
+                $variable .= '&mensaje=exitoProceso';
+                $variable .= "&identificacion_proceso=" . $valor;
+                break;
+
             default:
                 $variable = '';
 

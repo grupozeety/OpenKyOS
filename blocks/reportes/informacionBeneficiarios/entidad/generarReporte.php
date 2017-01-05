@@ -29,24 +29,106 @@ class GenerarReporteInstalaciones {
 
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+        switch ($_REQUEST['tipo_resultado']) {
+            case '1':
 
-        /**
-         * 0. Estrucurar Información Reporte
-         **/
-        $this->estruturarProyectos();
+                $this->estruturarProyectos();
+                $this->crearHojaCalculo();
+                break;
 
-        /**
-         * 1. Creación Directorio
-         **/
+            case '2':
+                $this->generarProceso();
+                break;
 
-        if ($_REQUEST['tipo_resultado'] != '1') {
-            $this->crearDirectorio();
-        } else {
+            case '3':
 
-            $this->crearHojaCalculo();
+                $this->consultarProceso();
+
+                break;
 
         }
 
+    }
+
+    public function consultarProceso() {
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarProcesoParticular');
+        $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        if ($this->proceso) {
+            // Eliminar Tarea Crontab
+
+            // Cambiar Estado Proceso
+            $cadenaSql = $this->miSql->getCadenaSql('actualizarProcesoParticularEstado', $this->proceso['id_proceso']);
+            $estadoproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+            $parametros = json_decode(base64_decode($this->proceso['parametros']), true);
+
+            $_REQUEST = array_merge($_REQUEST, $parametros);
+
+            $this->estruturarProyectos();
+
+            $this->crearDirectorio();
+
+        }
+    }
+
+    public function generarProceso() {
+
+        $arreglo = array(
+            'departamento' => $_REQUEST['departamento'],
+            'municipio' => $_REQUEST['municipio'],
+            'urbanizacion' => $_REQUEST['urbanizacion'],
+            'estado_beneficiario' => $_REQUEST['estado_beneficiario'],
+            'beneficiario' => $_REQUEST['beneficiario'],
+        );
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultaGeneralInformacion');
+        $this->Informacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        if ($this->Informacion == false) {
+
+            Redireccionador::redireccionar('SinResultado');
+        }
+
+        $descripcion = '';
+        foreach ($this->Informacion as $key => $value) {
+
+            $descripcion .= ($key + 1) . ". " . $value['departamento'] . ", " . $value['municipio'] . ", " . trim(str_replace("URBANIZACION", "", $value['urbanizacion'])) . "<br>";
+
+        }
+
+        $arreglo = array(
+            'parametros' => base64_encode(json_encode($arreglo)),
+            'descripcion' => $descripcion,
+        );
+
+        $cadenaSql = $this->miSql->getCadenaSql('crearProceso', $arreglo);
+
+        $proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0][0];
+
+        if ($proceso) {
+
+            Redireccionador::redireccionar('exitoProceso', $proceso);
+        } else {
+
+            Redireccionador::redireccionar('errorProceso');
+        }
+
+    }
+
+    public function actualizarAvance($avance) {
+
+        $arreglo = array(
+            'avance' => $avance,
+            'proceso' => $this->proceso['id_proceso'],
+        );
+
+        $cadenaSql = $this->miSql->getCadenaSql('actualizarProcesoParticularAvance', $arreglo);
+
+        $avanceproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+        return $avanceproceso;
     }
 
     public function estruturarProyectos() {
@@ -59,6 +141,9 @@ class GenerarReporteInstalaciones {
             Redireccionador::redireccionar('SinResultado');
         }
 
+        //Actualizar Avance Progreso
+        $this->actualizarAvance(10);
+
         ini_set('xdebug.var_display_max_depth', 5);
         ini_set('xdebug.var_display_max_children', 256);
         ini_set('xdebug.var_display_max_data', 1024);
@@ -68,7 +153,7 @@ class GenerarReporteInstalaciones {
             switch ($_REQUEST['estado_beneficiario']) {
 
                 case '2':
-                    var_dump(count($this->beneficiarios));
+
                     foreach ($this->beneficiarios as $key => $value) {
 
                         $cadenaSql = $this->miSql->getCadenaSql('verificarDocumentos', $value['id_beneficiario']);
@@ -195,6 +280,9 @@ class GenerarReporteInstalaciones {
             $this->beneficiarios[$key]['personas_trabajo_otro'] = $numero_otro;
 
         }
+
+        //Actualizar Avance Progreso
+        $this->actualizarAvance(25);
 
     }
 
@@ -331,11 +419,17 @@ class GenerarReporteInstalaciones {
 
         $this->crearHojaCalculo();
 
+        //Actualizar Avance Progreso
+        $this->actualizarAvance(50);
+
         /**
          * 3. Crear Directorios Archivos Beneficiarios
          **/
 
         $this->crearDirectorioArchivosBeneficiarios();
+
+        //Actualizar Avance Progreso
+        $this->actualizarAvance(60);
 
         /**
          * 3. Comprimir Directorio
@@ -348,7 +442,7 @@ class GenerarReporteInstalaciones {
         $this->eliminarDirectorioContenido($this->ruta_directorio);
 
         /**
-         * 4. Redireccionar
+         * 4. Registrar Finalizacion Proceso
          **/
 
         $arreglo = array(
@@ -356,13 +450,8 @@ class GenerarReporteInstalaciones {
             "rutaUrl" => $this->rutaURLArchivo . "/" . $this->nombre_archivo_zip,
         );
 
-        if (file_exists($this->ruta_directorio_raiz . "/" . $this->nombre_archivo_zip)) {
-
-            Redireccionador::redireccionar('archivoGenerado', $arreglo);
-        } else {
-
-            Redireccionador::redireccionar('archivoNoGenerado');
-        }
+        //Actualizar Avance Progreso
+        $this->actualizarAvance(98);
 
     }
 
