@@ -216,6 +216,9 @@ class GenerarReporteInstalaciones {
 
     public function estruturarProyectos() {
 
+        ini_set('xdebug.var_display_max_depth', 5);
+        ini_set('xdebug.var_display_max_children', 256);
+        ini_set('xdebug.var_display_max_data', 1024);
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
         $this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
@@ -226,10 +229,6 @@ class GenerarReporteInstalaciones {
 
         //Actualizar Avance Progreso
         $this->actualizarAvance(10);
-
-        ini_set('xdebug.var_display_max_depth', 5);
-        ini_set('xdebug.var_display_max_children', 256);
-        ini_set('xdebug.var_display_max_data', 1024);
 
         if (isset($_REQUEST['estado_beneficiario'])) {
 
