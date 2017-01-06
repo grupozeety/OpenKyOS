@@ -23,9 +23,57 @@ class Sql extends \Sql {
 
         switch ($tipo) {
 
+            case 'finalizarProceso':
+                $cadenaSql = " UPDATE parametros.procesos_accesos";
+                $cadenaSql .= " SET estado='Finalizado',";
+                $cadenaSql .= " porcentaje_estado='100', ";
+                $cadenaSql .= " nombre_archivo='" . $variable['nombre_archivo'] . "',";
+                $cadenaSql .= " ruta_relativa_archivo='" . $variable['rutaUrl'] . "'";
+                $cadenaSql .= " WHERE id_proceso='" . $variable['proceso'] . "';";
+                break;
+
+            case 'actualizarProcesoParticularEstado':
+                $cadenaSql = " UPDATE parametros.procesos_accesos";
+                $cadenaSql .= " SET estado='En Proceso' ";
+                //$cadenaSql .= " porcentaje_estado=?";
+                $cadenaSql .= " WHERE id_proceso='" . $variable . "';";
+                break;
+
+            case 'actualizarProcesoParticularAvance':
+                $cadenaSql = " UPDATE parametros.procesos_accesos";
+                $cadenaSql .= " SET porcentaje_estado='" . $variable['avance'] . "'";
+                $cadenaSql .= " WHERE id_proceso='" . $variable['proceso'] . "';";
+
+                break;
+
+            case 'crearProceso':
+                $cadenaSql = " INSERT INTO parametros.procesos_accesos(descripcion, parametros, estado, porcentaje_estado)";
+                $cadenaSql .= " VALUES ('" . $variable['descripcion'] . "',";
+                $cadenaSql .= " '" . $variable['parametros'] . "',";
+                $cadenaSql .= " 'No Iniciado',";
+                $cadenaSql .= " 0)";
+                $cadenaSql .= " RETURNING id_proceso;";
+
+                break;
+
             /**
              * Clausulas específicas
              */
+
+            case 'consultarProceso':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM parametros.procesos_accesos";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " ORDER BY id_proceso DESC;";
+                break;
+
+            case 'consultarProcesoParticular':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM parametros.procesos_accesos";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND estado='No Iniciado'";
+                $cadenaSql .= " ORDER BY id_proceso ASC LIMIT 1;";
+                break;
 
             case 'consultaDocumentosBeneficiarios':
                 $cadenaSql = " SELECT nombre_documento, ruta_relativa";
@@ -34,9 +82,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND id_beneficiario='" . $variable . "';";
                 break;
 
-            case 'consultaInformacionBeneficiario':
-                $cadenaSql = " SELECT cn.* , pm.meta,pmr.descripcion as descripcion_tipo_tegnologia, ";
-                $cadenaSql .= " aes.resultado_vs as velocidad_subida, aes.resultado_vb as velocidad_bajada ";
+            case 'consultaGeneralInformacion':
+                $cadenaSql = " SELECT DISTINCT cn.departamento,cn.municipio,cn.urbanizacion ";
                 $cadenaSql .= " FROM interoperacion.contrato AS cn ";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario";
                 $cadenaSql .= " JOIN parametros.proyectos_metas AS pm ON pm.id_proyecto =bn.id_proyecto";
@@ -95,6 +142,91 @@ class Sql extends \Sql {
 
                     }
                 }
+
+                $cadenaSql .= " AND cn.departamento IS NOT NULL ";
+                $cadenaSql .= " AND cn.municipio IS NOT NULL ";
+                $cadenaSql .= " AND cn.urbanizacion IS NOT NULL ";
+
+                $cadenaSql = str_replace("',)", "')", $cadenaSql);
+
+                break;
+
+            case 'consultaInformacionBeneficiario':
+                $cadenaSql = " SELECT DISTINCT cn.* , pm.meta,pmr.descripcion as descripcion_tipo_tegnologia, ";
+                $cadenaSql .= " aes.resultado_vs as velocidad_subida, aes.resultado_vb as velocidad_bajada,";
+                $cadenaSql .= " ip_olt,mac_olt, port_olt,nombre_olt, puerto_olt,";     //Cabecera
+                $cadenaSql .= " ip_celda,mac_celda,nombre_nodo,nombre_sectorial,ip_switch_celda,ip_sm_celda,";     //Nodo
+                $cadenaSql .= " mac_sm_celda,mac_cpe_celda,";     //Nodo
+                $cadenaSql .= " mac_master_eoc,ip_master_eoc,ip_onu_eoc,mac_onu_eoc,ip_hub_eoc,mac_hub_eoc,mac_cpe_eoc,";     //Nodo HCF
+                $cadenaSql .= " aes.fecha_instalacion,aes.ip_esc,aes.mac_esc, aes.resultado_p1,aes.resultado_tr1 ";     //Nodo HCF
+                $cadenaSql .= " FROM interoperacion.contrato AS cn ";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario";
+                $cadenaSql .= " JOIN parametros.proyectos_metas AS pm ON pm.id_proyecto =bn.id_proyecto";
+                $cadenaSql .= " JOIN parametros.parametros AS pmr ON pmr.id_parametro =cn.tipo_tecnologia";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios AS aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
+
+                $cadenaSql .= " LEFT JOIN interoperacion.asociacion_benf_nodo AS abn ON abn.id_beneficiario=bn.id_beneficiario AND abn.estado_registro='TRUE'";
+
+                $cadenaSql .= " LEFT JOIN interoperacion.nodo AS nd ON nd.codigo_nodo=abn.codigo_nodo AND nd.estado_registro='TRUE'";
+
+                $cadenaSql .= " LEFT JOIN interoperacion.cabecera AS cab ON cab.codigo_cabecera=nd.codigo_cabecera AND cab.estado_registro='TRUE'";
+
+                if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '1') {
+                    $cadenaSql .= " JOIN interoperacion.documentos_contrato dr  ON dr.id_beneficiario=cn.id_beneficiario AND dr.estado_registro='TRUE' AND dr.tipologia_documento='132' ";
+                }
+
+                $cadenaSql .= " WHERE cn.estado_registro='TRUE' ";
+
+                if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '1') {
+                    $cadenaSql .= " AND cn.nombre_documento_contrato IS NOT NULL ";
+
+                }
+
+                if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '3') {
+                    $cadenaSql .= " AND bn.estado_beneficiario='APROBADO INTERVENTORIA' ";
+
+                }
+
+                if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
+                    $cadenaSql .= " AND cn.municipio='" . $_REQUEST['municipio'] . "'";
+                }
+                if (isset($_REQUEST['departamento']) && $_REQUEST['departamento'] != '') {
+
+                    $cadenaSql .= " AND cn.departamento='" . $_REQUEST['departamento'] . "'";
+                }
+
+                if (isset($_REQUEST['urbanizacion']) && $_REQUEST['urbanizacion'] != '') {
+                    $cadenaSql .= " AND cn.urbanizacion='" . $_REQUEST['urbanizacion'] . "'";
+                }
+
+                if (isset($_REQUEST['beneficiario']) && $_REQUEST['beneficiario'] != '') {
+
+                    $cadenaSql .= " AND cn.numero_identificacion IN(";
+
+                    $beneficiarios = explode(";", $_REQUEST['beneficiario']);
+
+                    foreach ($beneficiarios as $key => $value) {
+                        if ($value == '') {
+                            unset($beneficiarios[$key]);
+                        }
+
+                    }
+                    if (count($beneficiarios) == 1) {
+
+                        $cadenaSql .= "'" . $beneficiarios[0] . "') ";
+                    } else {
+                        foreach ($beneficiarios as $key => $value) {
+                            $cadenaSql .= "'" . $value . "',";
+                        }
+
+                        $cadenaSql .= ") ";
+
+                    }
+                }
+
+                $cadenaSql .= " AND cn.departamento IS NOT NULL ";
+                $cadenaSql .= " AND cn.municipio IS NOT NULL ";
+                $cadenaSql .= " AND cn.urbanizacion IS NOT NULL ";
 
                 $cadenaSql .= "ORDER BY cn . numero_contrato;";
 

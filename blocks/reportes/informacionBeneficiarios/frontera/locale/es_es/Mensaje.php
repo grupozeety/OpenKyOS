@@ -18,6 +18,8 @@ $this->idioma['estado_beneficiario'] = 'Estado Beneficiarios';
 
 $this->idioma['generarReporte'] = 'Generar Reporte';
 
+$this->idioma['proceso'] = 'Proceso';
+
 $this->idioma['noDefinido'] = 'Etiqueta No definida';
 
 ?>

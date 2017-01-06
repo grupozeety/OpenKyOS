@@ -24,10 +24,35 @@ class Registrador {
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
     }
     public function seleccionarForm() {
+
         // Rescatar los datos de este bloque
-        //var_dump($_REQUEST);
+
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 
+        {
+
+            {
+
+                $url = $this->miConfigurador->getVariableConfiguracion("host");
+                $url .= $this->miConfigurador->getVariableConfiguracion("site");
+                $url .= "/index.php?";
+
+                $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                $valorCodificado .= "&action=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                $valorCodificado .= "&opcion=generarReporte";
+                $valorCodificado .= "&tipo_resultado=3";
+
+            }
+
+            $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+            $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+            $urlProceso = $url . $cadena;
+            //echo $urlProceso;
+
+        }
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 
         $atributosGlobales['campoSeguro'] = 'true';
@@ -66,6 +91,59 @@ class Registrador {
             echo $this->miFormulario->agrupacion('inicio', $atributos);
             unset($atributos);
 
+            $esteCampo = 'proceso';
+            $atributos['nombre'] = $esteCampo;
+            $atributos['id'] = $esteCampo;
+            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+            $atributos["etiquetaObligatorio"] = true;
+            $atributos['tab'] = $tab++;
+            $atributos['anchoEtiqueta'] = 1;
+            $atributos['evento'] = '';
+
+            if (isset($_REQUEST[$esteCampo])) {
+                $atributos['seleccion'] = $_REQUEST[$esteCampo];
+            } else {
+                $atributos['seleccion'] = '1';
+            }
+            $atributos['deshabilitado'] = false;
+            $atributos['columnas'] = 1;
+            $atributos['tamanno'] = 1;
+            $atributos['ajax_function'] = "";
+            $atributos['ajax_control'] = $esteCampo;
+            $atributos['estilo'] = "bootstrap";
+            $atributos['limitar'] = false;
+            $atributos['anchoCaja'] = 3;
+            $atributos['miEvento'] = '';
+            //$atributos['validar'] = 'required';
+            $atributos['cadena_sql'] = 'required';
+            //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
+            //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            //"Cédula de Ciudadanía";"1"
+            //"Tarjeta de Identidad";"2"
+            $matrizItems = array(
+                array(
+                    '1',
+                    'Reporte y Consulta Accesos',
+                ),
+                array(
+                    '2',
+                    'Estado Proceso Accesos',
+                ),
+
+            );
+            $atributos['matrizItems'] = $matrizItems;
+            // Aplica atributos globales al control
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+            unset($atributos);
+
+            echo "<br><br><br>";
+            // ------------------Division para los botones-------------------------
+            $atributos["id"] = "consulta_reporte";
+            $atributos["estilo"] = "marcoBotones";
+            $atributos["estiloEnLinea"] = "display:block;";
+            echo $this->miFormulario->division("inicio", $atributos);
+            unset($atributos);
             {
 
                 {
@@ -114,6 +192,7 @@ class Registrador {
                     $atributos = array_merge($atributos, $atributosGlobales);
                     echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
+
                     $esteCampo = 'departamento';
                     $atributos['nombre'] = $esteCampo;
                     $atributos['id'] = $esteCampo;
@@ -284,40 +363,79 @@ class Registrador {
 
                 }
 
+                // ------------------Division para los botones-------------------------
+                $atributos["id"] = "botones";
+                $atributos["estilo"] = "marcoBotones";
+                $atributos["estiloEnLinea"] = "display:block;";
+                echo $this->miFormulario->division("inicio", $atributos);
+                unset($atributos);
+                {
+                    // -----------------CONTROL: Botón ----------------------------------------------------------------
+                    $esteCampo = 'generarReporte';
+                    $atributos["id"] = $esteCampo;
+                    $atributos["tabIndex"] = $tab;
+                    $atributos["tipo"] = 'boton';
+                    // submit: no se coloca si se desea un tipo button genérico
+                    $atributos['submit'] = true;
+                    $atributos["simple"] = true;
+                    $atributos["estiloMarco"] = '';
+                    $atributos["estiloBoton"] = 'default';
+                    $atributos["block"] = false;
+                    // verificar: true para verificar el formulario antes de pasarlo al servidor.
+                    $atributos["verificar"] = '';
+                    $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+                    $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos['nombreFormulario'] = $esteBloque['nombre'];
+                    $tab++;
+
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
+                    unset($atributos);
+                    // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+                }
+                // ------------------Fin Division para los botones-------------------------
+                echo $this->miFormulario->division("fin");
+                unset($atributos);
+
             }
+
+            //echo "</div>";
+            echo $this->miFormulario->division("fin");
+            unset($atributos);
 
             // ------------------Division para los botones-------------------------
-            $atributos["id"] = "botones";
+            $atributos["id"] = "consulta_proceso";
             $atributos["estilo"] = "marcoBotones";
-            $atributos["estiloEnLinea"] = "display:block;";
+            $atributos["estiloEnLinea"] = "display:none;";
             echo $this->miFormulario->division("inicio", $atributos);
             unset($atributos);
-            {
-                // -----------------CONTROL: Botón ----------------------------------------------------------------
-                $esteCampo = 'generarReporte';
-                $atributos["id"] = $esteCampo;
-                $atributos["tabIndex"] = $tab;
-                $atributos["tipo"] = 'boton';
-                // submit: no se coloca si se desea un tipo button genérico
-                $atributos['submit'] = true;
-                $atributos["simple"] = true;
-                $atributos["estiloMarco"] = '';
-                $atributos["estiloBoton"] = 'default';
-                $atributos["block"] = false;
-                // verificar: true para verificar el formulario antes de pasarlo al servidor.
-                $atributos["verificar"] = '';
-                $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-                $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
-                $atributos['nombreFormulario'] = $esteBloque['nombre'];
-                $tab++;
 
-                // Aplica atributos globales al control
-                $atributos = array_merge($atributos, $atributosGlobales);
-                echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
-                unset($atributos);
-                // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+            {
+
+                echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th><center>Paquete Accesos<center></th>
+                                            <th><center>Descripción<center></th>
+                                            <th><center>Estado<center></th>
+                                            <th><center>Porcentaje(%)<br>Progreso<center></th>
+                                            <th><center>Archivo Descarga<center></th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th><center>Paquete Accesos<center></th>
+                                            <th><center>Descripción<center></th>
+                                            <th><center>Estado<center></th>
+                                            <th><center>Porcentaje(%)<br>Progreso<center></th>
+                                            <th><center>Archivo Descarga<center></th>
+                                        </tr>
+                                    </tfoot>
+                                  </table>';
             }
-            // ------------------Fin Division para los botones-------------------------
+
+            echo "</div>";
             echo $this->miFormulario->division("fin");
             unset($atributos);
 
@@ -389,12 +507,22 @@ class Registrador {
                 break;
 
             case 'archivoGenerado':
-
                 $mensaje = "Exito en la Generación del Reporte y Estructuración de Documentos de los Beneficiarios<br> Link de Archivo : <a target='_blank' href='" . $_REQUEST['archivo'] . "'  >Descargar Reporte y Documentos</a>";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
             case 'errorGenerarArchivo':
                 $mensaje = "Error en la Generación del Reporte y/o en la Etructuración de los Documentos de los Beneficiarios";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
+                break;
+
+            case 'exitoProceso':
+                $mensaje = "Exito en el Registro del Proceso para la Descarga de los Accesos.<br><b>Proceso N° " . $_REQUEST['identificacion_proceso'] . "</b><br>Verifique en estado del Proceso en la Opción \"Estado Procesos Accesos\".<br>Recuerde que el tiempo para poder descargar depende del la cantidad de Accesos (Beneficiarios)que arroje la consulta.";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
+            case 'errorProceso':
+                $mensaje = "Error en el Registro del Proceso para la Descarga de los Accesos";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
 
                 break;

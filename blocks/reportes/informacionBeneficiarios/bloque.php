@@ -57,6 +57,7 @@ class Bloque implements \Bloque {
         $this->miSql = new Sql();
         $this->miFrontera = new Frontera();
         $this->miLenguaje = new Lenguaje();
+
     }
     public function bloque() {
         if (isset($_REQUEST['botonCancelar']) && $_REQUEST['botonCancelar'] == "true") {

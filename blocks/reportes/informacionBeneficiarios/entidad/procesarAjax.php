@@ -31,6 +31,44 @@ class procesarAjax {
 
                 break;
 
+            case 'consultarProcesos':
+
+                $cadenaSql = $this->sql->getCadenaSql('consultarProceso');
+                $procesos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                if ($procesos) {
+                    foreach ($procesos as $key => $valor) {
+
+                        $archivo = (is_null($valor['nombre_archivo'])) ? " " : "<center><a href='" . $valor['ruta_relativa_archivo'] . "' target='_blank' >" . $valor['nombre_archivo'] . "</a></center>";
+
+                        $resultadoFinal[] = array(
+                            'id_proceso' => "<center>" . $valor['id_proceso'] . "</center>",
+                            'descripcion' => "<center>" . $valor['descripcion'] . "</center>",
+                            'estado' => "<center>" . $valor['estado'] . "</center>",
+                            'porcentaje_estado' => "<center>" . $valor['porcentaje_estado'] . "</center>",
+                            'archivo' => "<center>" . $archivo . "</center>",
+                        );
+                    }
+
+                    $total = count($resultadoFinal);
+
+                    $resultado = json_encode($resultadoFinal);
+
+                    $resultado = '{
+                                "recordsTotal":'     . $total . ',
+                                "recordsFiltered":'     . $total . ',
+                                "data":'     . $resultado . '}';
+                } else {
+
+                    $resultado = '{
+                                "recordsTotal":0 ,
+                                "recordsFiltered":0 ,
+                                "data": 0 }'    ;
+                }
+                echo $resultado;
+
+                break;
+
         }
     }
 }
