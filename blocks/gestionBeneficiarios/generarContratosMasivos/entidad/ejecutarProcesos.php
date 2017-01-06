@@ -206,11 +206,38 @@ class FormProcessor {
      * Metodos Correspondientes al Trabajos del Crontab
      **/
     public function crearTrabajosCrontab() {
-        shell_exec('echo "* * * * * ' . $this->Url_ejecucion . '" | crontab -');
+        shell_exec('echo "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -');
     }
 
     public function eliminarTrabajoCrontab() {
+
+        exec('crontab -l', $crontab);
+
         shell_exec('echo "" | crontab -');
+
+        if (!empty($crontab) && is_array($crontab)) {
+
+            $cadena_buscada = '#Contratos';
+
+            foreach ($crontab as $key => $value) {
+
+                $posicion_coincidencia = strpos($value, $cadena_buscada);
+                if ($posicion_coincidencia === false) {
+
+                } else {
+
+                    unset($crontab[$key]);
+                }
+            }
+
+            foreach ($crontab as $key => $value) {
+
+                $valor = ($value == '') ? '' : '`crontab -l`\n';
+
+                exec('echo "' . $valor . $value . '" | crontab -');
+            }
+
+        }
     }
 
     public function crearUrlProcesos() {
@@ -237,7 +264,7 @@ class FormProcessor {
         // URL Consultar Proyectos
         $this->UrlProceso = $url . $cadena;
 
-        $this->Url_ejecucion = "curl  " . $this->UrlProceso;
+        $this->Url_ejecucion = "curl  " . $this->UrlProceso . "  #Contratos";
 
     }
 
