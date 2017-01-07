@@ -248,7 +248,6 @@ class Registrador {
 
                             $indice = array_search($requisitos[$key]['codigo'], array_column($infoArchivo, 'codigo_requisito'), true);
                             if (is_numeric($indice) && isset($redireccion[$requisitos[$key]['codigo']])) {
-                                echo "Entre";
                                 $cadena = "<center><a href='" . $redireccion[$requisitos[$key]['codigo']] . "' >" . "<b>" . $requisitos[$key]['codigo'] . "</b> " . $requisitos[$key]['descripcion'] . "</a></center>";
                             } else {
                                 $a++;
