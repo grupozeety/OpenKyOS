@@ -593,16 +593,16 @@ class GenerarReporteExcelInstalaciones {
                 $this->objCal2->setCellValue('F' . $i, $value['resultado_p1'])
                      ->getStyle('F' . $i)->applyFromArray($styleCentradoVertical);
 
-                $this->objCal2->setCellValue('G' . $i, "") //Tracer pasa por car que pase por el NAP Colombia
+                $this->objCal2->setCellValue('G' . $i, $value['verificacion_tracert']) //Tracer pasa por car que pase por el NAP Colombia
                      ->getStyle('G' . $i)->applyFromArray($styleCentrado);
 
-                $this->objCal2->setCellValue('H' . $i, "") /// Reporte de Fallos (Reportar los fallas si aplica durante el proceso de instalación)
+                $this->objCal2->setCellValue('H' . $i, $value['reporte_fallos']) /// Reporte de Fallos (Reportar los fallas si aplica durante el proceso de instalación)
                      ->getStyle('H' . $i)->applyFromArray($styleCentradoVertical);
 
-                $this->objCal2->setCellValue('I' . $i, "") //El Accesos queda reportando desde el Centro de Gestión
+                $this->objCal2->setCellValue('I' . $i, $value['acceso_reportando']) //El Accesos queda reportando desde el Centro de Gestión
                      ->getStyle('I' . $i)->applyFromArray($styleCentradoVertical);
 
-                $this->objCal2->setCellValue('J' . $i, "") // Páginas Visitadas (Anotar tres páginas del gobierno, visitadas para verificar la navegación)
+                $this->objCal2->setCellValue('J' . $i, $value['paginas_visitadas']) // Páginas Visitadas (Anotar tres páginas del gobierno, visitadas para verificar la navegación)
                      ->getStyle('J' . $i)->applyFromArray($styleCentradoVertical);
 
                 $this->objCal2->getRowDimension($i)->setRowHeight(100);
