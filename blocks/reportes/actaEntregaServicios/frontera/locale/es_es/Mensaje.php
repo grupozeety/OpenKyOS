@@ -131,5 +131,14 @@ $this->idioma['celular_ins'] = 'Celular';
 
 $this->idioma['foto_soporte'] = 'Soporte';
 
+// Campos Adicionales Pruebas
+
+$this->idioma['verificacion_tracert'] = 'Pasa por el NAP Colombia<br>(Pruebas Tracert)';
+
+$this->idioma['reporte_fallos'] = 'Reporte de Fallos';
+
+$this->idioma['acceso_reportando'] = 'El Acceso Reportando<br>Centro de Gestión';
+
+$this->idioma['paginas_visitadas'] = 'Paginas Visitadas del Gobierno para Verificar Navegancion (Separas con <b>";"</b>)';
 
 ?>
