@@ -72,8 +72,6 @@ class FormProcessor {
         }
     }
     public function procesarInformacion() {
-        var_dump($_REQUEST);
-
         $url_firma_beneficiario = $_REQUEST['firmaBeneficiario'];
 
         $arreglo = array(
@@ -127,7 +125,6 @@ class FormProcessor {
             'unidad_tr2' => $_REQUEST['unidad_tr2'],
             'observaciones_tr2' => $_REQUEST['observaciones_tr2'],
             'url_firma_beneficiario' => $url_firma_beneficiario,
-            'verificacion_tracert' => $_REQUEST['verificacion_tracert'],
             'reporte_fallos' => $_REQUEST['reporte_fallos'],
             'acceso_reportando' => $_REQUEST['acceso_reportando'],
             'paginas_visitadas' => $_REQUEST['paginas_visitadas'],

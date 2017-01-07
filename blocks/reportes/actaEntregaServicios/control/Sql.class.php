@@ -140,13 +140,12 @@ class Sql extends \Sql {
                 $cadenaSql .= " aes.firmabeneficiario,";
                 $cadenaSql .= " aes.ruta_documento,";
                 $cadenaSql .= " aes.nombre_documento,";
-                $cadenaSql .= " aes.verificacion_tracert,";
                 $cadenaSql .= " aes.reporte_fallos,";
                 $cadenaSql .= " aes.acceso_reportando,";
                 $cadenaSql .= " aes.paginas_visitadas ";
                 $cadenaSql .= " FROM interoperacion.contrato AS cn ";
                 $cadenaSql .= " FULL JOIN interoperacion.acta_entrega_servicios aes";
-                $cadenaSql .= " ON cn.id_beneficiario=aes.id_beneficiario";
+                $cadenaSql .= " ON cn.id_beneficiario=aes.id_beneficiario AND aes.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN parametros.parametros pr";
                 $cadenaSql .= " ON cn.tipo_tecnologia=pr.id_parametro";
                 $cadenaSql .= " WHERE cn.id_beneficiario ='" . $_REQUEST['id_beneficiario'] . "'";
@@ -299,7 +298,6 @@ class Sql extends \Sql {
                 $cadenaSql .= " unidad_tr2,";
                 $cadenaSql .= " observaciones_tr2,";
                 $cadenaSql .= " firmaBeneficiario,";
-                $cadenaSql .= " verificacion_tracert,";
                 $cadenaSql .= " reporte_fallos,";
                 $cadenaSql .= " acceso_reportando,";
                 $cadenaSql .= " paginas_visitadas)";
@@ -353,7 +351,6 @@ class Sql extends \Sql {
                 $cadenaSql .= " '" . $variable['unidad_tr2'] . "',";
                 $cadenaSql .= " '" . $variable['observaciones_tr2'] . "',";
                 $cadenaSql .= " '" . $variable['url_firma_beneficiario'] . "',";
-                $cadenaSql .= " '" . $variable['verificacion_tracert'] . "',";
                 $cadenaSql .= " '" . $variable['reporte_fallos'] . "',";
                 $cadenaSql .= " '" . $variable['acceso_reportando'] . "',";
                 $cadenaSql .= " '" . $variable['paginas_visitadas'] . "')";

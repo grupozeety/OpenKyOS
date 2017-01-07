@@ -199,20 +199,20 @@ class Certificado {
 
                 echo '<div class="panel-group" id="accordion">
 
-		               <div class="panel panel-default">
-		                    <div class="panel-heading">
-		                        <h4 class="panel-title">
-		                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Datos Básicos</a>
-		                        </h4>
-		                    </div>
-		                    <div id="collapse1" class="panel-collapse collapse">
-		                        <div class="panel-body">';
+                       <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Datos Básicos</a>
+                                </h4>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse">
+                                <div class="panel-body">';
 
                 {
 
                     echo '<div class="alert alert-danger text-center">
-  						  <strong>Información!</strong> Para editar los datos básicos del beneficiario, lo debe realizar desde el módulo de contratos.
-						  </div>';
+                          <strong>Información!</strong> Para editar los datos básicos del beneficiario, lo debe realizar desde el módulo de contratos.
+                          </div>';
 
                     $esteCampo = 'nombres';
                     $atributos['nombre'] = $esteCampo;
@@ -803,14 +803,14 @@ class Certificado {
 
                     echo '<div class="panel-group" id="accordion2">
 
-						               <div class="panel panel-default">
-						                    <div class="panel-heading">
-						                        <h4 class="panel-title">
-						                            <a data-toggle="collapse" data-parent="#accordion2" href="#collapse3A">Esclavo</a>
-						                        </h4>
-						                    </div>
-						                    <div id="collapse3A" class="panel-collapse collapse">
-						                        <div class="panel-body">';
+                                       <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion2" href="#collapse3A">Esclavo</a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse3A" class="panel-collapse collapse">
+                                                <div class="panel-body">';
 
                     {
 
@@ -1002,8 +1002,8 @@ class Certificado {
                     }
 
                     echo '</div></div>
-				                    </div>
-				                </div>';
+                                    </div>
+                                </div>';
                 }
                 echo '</div>
                     </div>
@@ -1019,14 +1019,14 @@ class Certificado {
                 {
                     echo '<div class="panel-group" id="accordion4A">
 
-						               <div class="panel panel-default">
-						                    <div class="panel-heading">
-						                        <h4 class="panel-title">
-						                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4A">Velocidad de Subida</a>
-						                        </h4>
-						                    </div>
-						                    <div id="collapse4A" class="panel-collapse collapse">
-						                        <div class="panel-body">';
+                                       <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4A">Velocidad de Subida</a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse4A" class="panel-collapse collapse">
+                                                <div class="panel-body">';
 
                     {
 
@@ -1151,16 +1151,16 @@ class Certificado {
                         unset($atributos);
                     }
                     echo '</div>
-				                    </div>
-				                </div>
-				                <div class="panel panel-default">
-				                    <div class="panel-heading">
-				                        <h4 class="panel-title">
-				                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4B">Velocidad de Bajada</a>
-				                        </h4>
-				                    </div>
-				                    <div id="collapse4B" class="panel-collapse collapse">
-				                        <div class="panel-body">';
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4B">Velocidad de Bajada</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse4B" class="panel-collapse collapse">
+                                        <div class="panel-body">';
                     {
                         $esteCampo = 'hora_prueba_vb';
                         $atributos['nombre'] = $esteCampo;
@@ -1283,16 +1283,16 @@ class Certificado {
                         unset($atributos);
                     }
                     echo '</div>
-				                    </div>
-				                </div>
-				                <div class="panel panel-default">
-				                    <div class="panel-heading">
-				                        <h4 class="panel-title">
-				                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4C">Ping 1</a>
-				                        </h4>
-				                    </div>
-				                    <div id="collapse4C" class="panel-collapse collapse">
-				                        <div class="panel-body">';
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4C">Ping 1</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse4C" class="panel-collapse collapse">
+                                        <div class="panel-body">';
                     {
 
                         $esteCampo = 'hora_prueba_p1';
@@ -1416,16 +1416,16 @@ class Certificado {
                         unset($atributos);
                     }
                     echo '</div>
-				                    </div>
-				                </div>
-				                <div class="panel panel-default">
-				                    <div class="panel-heading">
-				                        <h4 class="panel-title">
-				                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4D">Ping 2</a>
-				                        </h4>
-				                    </div>
-				                    <div id="collapse4D" class="panel-collapse collapse">
-				                        <div class="panel-body">';
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4D">Ping 2</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse4D" class="panel-collapse collapse">
+                                        <div class="panel-body">';
                     {
 
                         $esteCampo = 'hora_prueba_p2';
@@ -1553,16 +1553,16 @@ class Certificado {
                         unset($atributos);
                     }
                     echo '</div>
-				                    </div>
-				                </div>
-				                <div class="panel panel-default">
-				                    <div class="panel-heading">
-				                        <h4 class="panel-title">
-				                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4E">Ping 3</a>
-				                        </h4>
-				                    </div>
-				                    <div id="collapse4E" class="panel-collapse collapse">
-				                        <div class="panel-body">';
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4E">Ping 3</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse4E" class="panel-collapse collapse">
+                                        <div class="panel-body">';
                     {
 
                         $esteCampo = 'hora_prueba_p3';
@@ -1690,16 +1690,16 @@ class Certificado {
                         unset($atributos);
                     }
                     echo '</div>
-				                    </div>
-				                </div>
-				                <div class="panel panel-default">
-				                    <div class="panel-heading">
-				                        <h4 class="panel-title">
-				                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4F">Traceroute</a>
-				                        </h4>
-				                    </div>
-				                    <div id="collapse4F" class="panel-collapse collapse">
-				                        <div class="panel-body">';
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4F">Traceroute</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse4F" class="panel-collapse collapse">
+                                        <div class="panel-body">';
                     {
 
                         $esteCampo = 'hora_prueba_tr1';
@@ -1827,16 +1827,16 @@ class Certificado {
                         unset($atributos);
                     }
                     echo '</div>
-				                    </div>
-				                </div>
-				                <div class="panel panel-default">
-				                    <div class="panel-heading">
-				                        <h4 class="panel-title">
-				                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4G">Traceroute</a>
-				                        </h4>
-				                    </div>
-				                    <div id="collapse4G" class="panel-collapse collapse">
-				                        <div class="panel-body">';
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion4A" href="#collapse4G">Traceroute</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse4G" class="panel-collapse collapse">
+                                        <div class="panel-body">';
                     {
 
                         $esteCampo = 'hora_prueba_tr2';
@@ -1872,33 +1872,43 @@ class Certificado {
 
                         $esteCampo = 'resultado_tr2';
                         $atributos['nombre'] = $esteCampo;
-                        $atributos['tipo'] = "text";
                         $atributos['id'] = $esteCampo;
                         $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                         $atributos["etiquetaObligatorio"] = true;
                         $atributos['tab'] = $tab++;
                         $atributos['anchoEtiqueta'] = 2;
-                        $atributos['estilo'] = "bootstrap";
                         $atributos['evento'] = '';
+
+                        if (isset($_REQUEST[$esteCampo])) {
+                            $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                        } else {
+                            $atributos['seleccion'] = '1';
+                        }
                         $atributos['deshabilitado'] = false;
-                        $atributos['readonly'] = false;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
-                        $atributos['placeholder'] = "";
-                        if (isset($_REQUEST[$esteCampo])) {
-                            $atributos['valor'] = $_REQUEST[$esteCampo];
-                        } else {
-                            $atributos['valor'] = '';
-                        }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
+                        $atributos['estilo'] = "bootstrap";
                         $atributos['limitar'] = false;
                         $atributos['anchoCaja'] = 10;
                         $atributos['miEvento'] = '';
-                        //$atributos ['validar'] = 'required';
+                        $atributos['cadena_sql'] = 'required';
+                        $matrizItems = array(
+                            array(
+                                'SI',
+                                'SI',
+                            ),
+                            array(
+                                'NO',
+                                'NO',
+                            ),
+
+                        );
+                        $atributos['matrizItems'] = $matrizItems;
                         // Aplica atributos globales al control
                         $atributos = array_merge($atributos, $atributosGlobales);
-                        echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                         unset($atributos);
 
                         $esteCampo = 'unidad_tr2';
@@ -1919,7 +1929,8 @@ class Certificado {
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
                         } else {
-                            $atributos['valor'] = 'Paso NAP';
+
+                            $atributos['valor'] = 'Pasa por el NAP Colombia';
                         }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
@@ -1965,50 +1976,9 @@ class Certificado {
                     }
 
                     echo '</div></div>
-				                    </div>
-				                </div>';
+                                    </div>
+                                </div>';
                 }
-
-                $esteCampo = 'verificacion_tracert';
-                $atributos['nombre'] = $esteCampo;
-                $atributos['id'] = $esteCampo;
-                $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-                $atributos["etiquetaObligatorio"] = true;
-                $atributos['tab'] = $tab++;
-                $atributos['anchoEtiqueta'] = 1;
-                $atributos['evento'] = '';
-
-                if (isset($_REQUEST[$esteCampo])) {
-                    $atributos['seleccion'] = $_REQUEST[$esteCampo];
-                } else {
-                    $atributos['seleccion'] = '1';
-                }
-                $atributos['deshabilitado'] = false;
-                $atributos['columnas'] = 1;
-                $atributos['tamanno'] = 1;
-                $atributos['ajax_function'] = "";
-                $atributos['ajax_control'] = $esteCampo;
-                $atributos['estilo'] = "bootstrap";
-                $atributos['limitar'] = false;
-                $atributos['anchoCaja'] = 3;
-                $atributos['miEvento'] = '';
-                $atributos['cadena_sql'] = 'required';
-                $matrizItems = array(
-                    array(
-                        'SI',
-                        'SI',
-                    ),
-                    array(
-                        'NO',
-                        'NO',
-                    ),
-
-                );
-                $atributos['matrizItems'] = $matrizItems;
-                // Aplica atributos globales al control
-                $atributos = array_merge($atributos, $atributosGlobales);
-                echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
-                unset($atributos);
 
                 $esteCampo = "reporte_fallos";
                 $atributos['nombre'] = $esteCampo;
@@ -2126,91 +2096,6 @@ class Certificado {
 
                 echo $this->miFormulario->agrupacion('fin');
                 unset($atributos);
-
-//                     $esteCampo = "foto_soporte";
-                //                     $atributos ["id"] = $esteCampo;
-                //                     $atributos ["nombre"] = $esteCampo;
-                //                     $atributos ["tipo"] = "file";
-                //                     $atributos ["obligatorio"] = true;
-                //                     $atributos ["etiquetaObligatorio"] = false;
-                //                     $atributos ["tabIndex"] = $tab ++;
-                //                     $atributos ["columnas"] = 1;
-                //                     $atributos ["anchoCaja"] = "12";
-                //                     $atributos ["estilo"] = "textoIzquierda";
-                //                     $atributos ["anchoEtiqueta"] = 0;
-                //                     $atributos ["tamanno"] = 500000;
-                //                     $atributos ["validar"] = " ";
-                //                     $atributos ["estilo"] = "file";
-                //                     $atributos ["etiqueta"] = $this->lenguaje->getCadena ( $esteCampo );
-                //                     $atributos ["bootstrap"] = true;
-                //                     $tab ++;
-                //                     // $atributos ["valor"] = $valorCodificado;
-                //                     $atributos = array_merge ( $atributos );
-                //                     echo $this->miFormulario->campoCuadroTexto ( $atributos );
-                //                     unset ( $atributos );
-                //                 }
-
-//                 $esteCampo = 'ciudad';
-                //                 $atributos ['nombre'] = $esteCampo;
-                //                 $atributos ['tipo'] = "text";
-                //                 $atributos ['id'] = $esteCampo;
-                //                 $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-                //                 $atributos ["etiquetaObligatorio"] = true;
-                //                 $atributos ['tab'] = $tab ++;
-                //                 $atributos ['anchoEtiqueta'] = 2;
-                //                 $atributos ['estilo'] = "bootstrap";
-                //                 $atributos ['evento'] = '';
-                //                 $atributos ['deshabilitado'] = false;
-                //                 $atributos ['readonly'] = false;
-                //                 $atributos ['columnas'] = 1;
-                //                 $atributos ['tamanno'] = 1;
-                //                 $atributos ['placeholder'] = "Ingrese Ciudad de Expedición de la Identificación";
-                //                 if (isset ( $_REQUEST [$esteCampo] )) {
-                //                     $atributos ['valor'] = $_REQUEST [$esteCampo];
-                //                 } else {
-                //                     $atributos ['valor'] = '';
-                //                 }
-                //                 $atributos ['ajax_function'] = "";
-                //                 $atributos ['ajax_control'] = $esteCampo;
-                //                 $atributos ['limitar'] = false;
-                //                 $atributos ['anchoCaja'] = 10;
-                //                 $atributos ['miEvento'] = '';
-                //                 $atributos ['validar'] = 'required';
-                //                 // Aplica atributos globales al control
-                //                 $atributos = array_merge ( $atributos, $atributosGlobales );
-                //                 echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
-                //                 unset ( $atributos );
-
-//                 $esteCampo = 'ciudad_firma';
-                //                 $atributos ['nombre'] = $esteCampo;
-                //                 $atributos ['tipo'] = "text";
-                //                 $atributos ['id'] = $esteCampo;
-                //                 $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-                //                 $atributos ["etiquetaObligatorio"] = true;
-                //                 $atributos ['tab'] = $tab ++;
-                //                 $atributos ['anchoEtiqueta'] = 2;
-                //                 $atributos ['estilo'] = "bootstrap";
-                //                 $atributos ['evento'] = '';
-                //                 $atributos ['deshabilitado'] = false;
-                //                 $atributos ['readonly'] = false;
-                //                 $atributos ['columnas'] = 1;
-                //                 $atributos ['tamanno'] = 1;
-                //                 $atributos ['placeholder'] = "Ingrese Ciudad de firma acta de entrega";
-                //                 if (isset ( $_REQUEST [$esteCampo] )) {
-                //                     $atributos ['valor'] = $_REQUEST [$esteCampo];
-                //                 } else {
-                //                     $atributos ['valor'] = '';
-                //                 }
-                //                 $atributos ['ajax_function'] = "";
-                //                 $atributos ['ajax_control'] = $esteCampo;
-                //                 $atributos ['limitar'] = false;
-                //                 $atributos ['anchoCaja'] = 10;
-                //                 $atributos ['miEvento'] = '';
-                //                 $atributos ['validar'] = 'required';
-                //                 // Aplica atributos globales al control
-                //                 $atributos = array_merge ( $atributos, $atributosGlobales );
-                //                 echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
-                //                 unset ( $atributos );
 
                 {
 
@@ -2389,39 +2274,39 @@ class Certificado {
 
                 echo '  <script>
                     var markers = [];
-					function initMap() {
-					    var map = new google.maps.Map(document.getElementById("map-canvas"), {
-					        center: {lat: 4.6482837, lng: -74.2478939},
-					        zoom: 6
-					    });
-					    var infoWindow = new google.maps.InfoWindow({map: map});
+                    function initMap() {
+                        var map = new google.maps.Map(document.getElementById("map-canvas"), {
+                            center: {lat: 4.6482837, lng: -74.2478939},
+                            zoom: 6
+                        });
+                        var infoWindow = new google.maps.InfoWindow({map: map});
 
-					     if (navigator.geolocation) {
-					         navigator.geolocation.getCurrentPosition(function(position) {
-					         var pos = {
-					                 lat: position.coords.latitude,
-					                 lng: position.coords.longitude
-					         };
+                         if (navigator.geolocation) {
+                             navigator.geolocation.getCurrentPosition(function(position) {
+                             var pos = {
+                                     lat: position.coords.latitude,
+                                     lng: position.coords.longitude
+                             };
 
-					         infoWindow.setPosition(pos);
-					         infoWindow.setContent("Localización Encontrada.");
-					         map.setCenter(pos);
-					         }, function() {
-					         handleLocationError(true, infoWindow, map.getCenter());
-					         });
-						 } else {
-						         // Browser doesnt support Geolocation
-						         handleLocationError(false, infoWindow, map.getCenter());
-						 }
+                             infoWindow.setPosition(pos);
+                             infoWindow.setContent("Localización Encontrada.");
+                             map.setCenter(pos);
+                             }, function() {
+                             handleLocationError(true, infoWindow, map.getCenter());
+                             });
+                         } else {
+                                 // Browser doesnt support Geolocation
+                                 handleLocationError(false, infoWindow, map.getCenter());
+                         }
 
                     }
 
-					function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-					    infoWindow.setPosition(pos);
-					    infoWindow.setContent(browserHasGeolocation ?
-					          "Error: The Geolocation service failed." :
-					          "Error: Your browser doesn\'t support geolocation.");
-					}
+                    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                        infoWindow.setPosition(pos);
+                        infoWindow.setContent(browserHasGeolocation ?
+                              "Error: The Geolocation service failed." :
+                              "Error: Your browser doesn\'t support geolocation.");
+                    }
                 </script>
                 <script async defer
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgAHnG5AICmnNuBCpu75evMTBr4ZU3i60">
