@@ -593,7 +593,7 @@ class GenerarReporteExcelInstalaciones {
                 $this->objCal2->setCellValue('F' . $i, $value['resultado_p1'])
                      ->getStyle('F' . $i)->applyFromArray($styleCentradoVertical);
 
-                $this->objCal2->setCellValue('G' . $i, $value['verificacion_tracert']) //Tracer pasa por car que pase por el NAP Colombia
+                $this->objCal2->setCellValue('G' . $i, $value['resultado_tr2']) //Tracer pasa por car que pase por el NAP Colombia
                      ->getStyle('G' . $i)->applyFromArray($styleCentrado);
 
                 $this->objCal2->setCellValue('H' . $i, $value['reporte_fallos']) /// Reporte de Fallos (Reportar los fallas si aplica durante el proceso de instalación)
