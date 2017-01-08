@@ -67,9 +67,10 @@ class cargueRequisitos {
          * Sincronizar Alfresco
          */
         $total = 0;
-
+        //var_dump($this->archivo_datos_cargar);
         foreach ($this->archivo_datos_cargar as $key => $values) {
-            $resultado[$key] = $this->sincronizacion->sincronizarAlfresco($_REQUEST['id_beneficiario'], $this->archivos_datos[$key]);
+
+            $resultado[$key] = $this->sincronizacion->sincronizarAlfresco($_REQUEST['id_beneficiario'], $this->archivo_datos_cargar[$key]);
             $total = $resultado[$key]['estado'] + $total;
         }
 
