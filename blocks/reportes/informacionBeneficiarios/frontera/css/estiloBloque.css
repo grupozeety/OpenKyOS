@@ -20,3 +20,14 @@ div.dataTables_filter label {
 .col-xs-12 {
     text-align: left;
 }
+
+
+@media (max-height: 720px) {
+.marca{
+display: none;
+}
+
+#example_paginate{
+text-align: center;
+}
+}
