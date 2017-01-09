@@ -154,6 +154,11 @@ class GenerarDocumento {
             if ($beneficiario['piso'] != '0' && $beneficiario['piso'] != '') {
                 $anexo_dir .= " Piso #" . $beneficiario['piso'];
             }
+
+            if (!is_null($beneficiario['barrio']) && $beneficiario['barrio'] != '') {
+                $anexo_dir .= " Barrio " . $beneficiario['barrio'];
+            }
+
         }
         {
             $cedula = ($beneficiario['tipo_documento'] == $CodigoCedula['codigo']) ? '<b>(X)</b>' : '';
