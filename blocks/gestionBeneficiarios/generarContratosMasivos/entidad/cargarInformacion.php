@@ -256,6 +256,7 @@ class FormProcessor {
                 'nombre_comisionador' => $value['nombre_comisionador'],
                 'fecha_contrato' => $value['fecha_contrato'],
                 'estrato_socioeconomico' => $value['estrato_socioeconomico'],
+                'barrio' => $value['barrio'],
 
             );
 
@@ -302,6 +303,17 @@ class FormProcessor {
                 }
 
                 if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2' && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
+                    Redireccionador::redireccionar("ErrorCreacionContratos");
+                }
+
+            }
+
+            //Validar Barrio
+
+            if ($value['barrio'] != 'Sin Barrio') {
+
+                if (is_null($value['barrio']) || $value['barrio'] == '') {
+
                     Redireccionador::redireccionar("ErrorCreacionContratos");
                 }
 
@@ -413,6 +425,8 @@ class FormProcessor {
                 $datos_beneficiario[$i]['tipo_tecnologia'] = $informacion->setActiveSheetIndex()->getCell('O' . $i)->getCalculatedValue();
 
                 $datos_beneficiario[$i]['estrato_socioeconomico'] = $informacion->setActiveSheetIndex()->getCell('P' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['barrio'] = $informacion->setActiveSheetIndex()->getCell('Q' . $i)->getCalculatedValue();
 
             }
 

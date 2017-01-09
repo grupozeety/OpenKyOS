@@ -108,13 +108,16 @@ class Sql extends \Sql {
                 $cadenaSql .= " piso,";
                 $cadenaSql .= " nombre_comisionador,";
                 $cadenaSql .= " fecha_contrato,";
-                $cadenaSql .= " estrato_socioeconomico)";
+                $cadenaSql .= " estrato_socioeconomico,";
+                $cadenaSql .= " barrio)";
                 $cadenaSql .= " VALUES (";
                 foreach ($variable as $key => $value) {
 
-                    if ($key == 'correo' && $value = 'Sin Correo') {
+                    if ($key == 'correo' && $value == 'Sin Correo') {
                         $cadenaSql .= "NULL,";
-                    } else if ($key == 'nombre_comisionador' && $value = 'Sin Comisionador') {
+                    } else if ($key == 'nombre_comisionador' && $value == 'Sin Comisionador') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'barrio' && $value == 'Sin Barrio') {
                         $cadenaSql .= "NULL,";
                     } else {
 
@@ -125,6 +128,7 @@ class Sql extends \Sql {
                 }
 
                 $cadenaSql .= ")RETURNING numero_contrato;";
+
                 break;
 
             case 'registrarProceso':

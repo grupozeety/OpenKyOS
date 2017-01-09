@@ -111,7 +111,7 @@ class FormProcessor {
 
             //Fecha Valida
 
-            if ($value['fecha_contrato']) {
+            if (isset($value['fecha_contrato'])) {
 
                 $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
                 $hiredate = $value['fecha_contrato'];
@@ -127,7 +127,7 @@ class FormProcessor {
 
             //Tipo de Tecnologia
 
-            if ($value['tipo_tecnologia']) {
+            if (isset($value['tipo_tecnologia'])) {
 
                 if (!is_numeric($value['tipo_tecnologia'])) {
 
@@ -145,7 +145,9 @@ class FormProcessor {
 
             }
 
-            if ($value['estrato_socioeconomico']) {
+            //Estrato Socioeconomico
+
+            if (isset($value['estrato_socioeconomico'])) {
 
                 if (!is_numeric($value['estrato_socioeconomico']) && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
                     $mensaje = " El estrato socioeconomico asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique el que estrato se un campo numerico correspondiente a estrato 1 y 2.";
@@ -155,6 +157,19 @@ class FormProcessor {
 
                 if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2' && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
                     $mensaje = " El estrato socioeconomico asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique el que estrato se un campo numerico correspondiente a estrato 1 y 2.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+                }
+
+            }
+
+            //Validar Barrio
+
+            if ($value['barrio'] != 'Sin Barrio') {
+
+                if (is_null($value['barrio']) || $value['barrio'] == '') {
+
+                    $mensaje = " El barrio asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique el que barrio no sea un campo vacio";
                     $this->escribir_log($mensaje);
                     $this->error = true;
                 }
@@ -296,6 +311,8 @@ class FormProcessor {
                 $datos_beneficiario[$i]['tipo_tecnologia'] = $informacion->setActiveSheetIndex()->getCell('O' . $i)->getCalculatedValue();
 
                 $datos_beneficiario[$i]['estrato_socioeconomico'] = $informacion->setActiveSheetIndex()->getCell('P' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['barrio'] = $informacion->setActiveSheetIndex()->getCell('Q' . $i)->getCalculatedValue();
 
             }
             unlink($this->archivo['ruta_archivo']);
