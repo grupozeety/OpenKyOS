@@ -119,6 +119,8 @@ class Sql extends \Sql {
                         $cadenaSql .= "NULL,";
                     } else if ($key == 'barrio' && $value == 'Sin Barrio') {
                         $cadenaSql .= "NULL,";
+                    } else if ($key == 'estrato_socioeconomico' && $value == 'Estrato No Clasificado') {
+                        $cadenaSql .= "NULL,";
                     } else {
 
                         $cadenaSql .= "'" . $value . "',";
