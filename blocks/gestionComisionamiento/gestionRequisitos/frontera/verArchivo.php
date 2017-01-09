@@ -28,6 +28,7 @@ class Registrador {
         $this->miSql = $sql;
     }
     public function seleccionarForm() {
+
         $ruta = $_REQUEST['ruta'];
         $idArchivo = $_REQUEST['archivo'];
 

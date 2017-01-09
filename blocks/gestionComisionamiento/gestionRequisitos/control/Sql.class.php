@@ -168,7 +168,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " cn.nombre_documento_contrato as nombre_documento,";
                 $cadenaSql .= " cn.ruta_documento_contrato as ruta_relativa";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
-                $cadenaSql .= " WHERE cn.estado_registro=TRUE";
+                $cadenaSql .= " WHERE cn.estado_registro=TRUE AND cn.ruta_documento_contrato IS NOT NULL ";
                 $cadenaSql .= " AND cn.id_beneficiario='" . $_REQUEST['id_beneficiario'] . "') as table1,(SELECT";
                 $cadenaSql .= " pr.descripcion tipo_requisito,";
                 $cadenaSql .= " pr.codigo codigo_requisito,";
