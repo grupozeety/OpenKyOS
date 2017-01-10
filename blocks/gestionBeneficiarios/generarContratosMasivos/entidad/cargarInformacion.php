@@ -222,6 +222,30 @@ class FormProcessor {
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
+            switch ($consulta['tipo_beneficiario']) {
+
+                case '1':
+                    $valor_tarificacion = '6500';
+                    break;
+
+                case '2':
+
+                    $valor_tarificacion = '0';
+
+                    if ($_REQUEST['estrato_economico'] == '1') {
+                        $valor_tarificacion = '12600';
+                    } elseif ($_REQUEST['estrato_economico'] == '2') {
+                        $valor_tarificacion = '17600';
+                    }
+
+                    break;
+
+                case '3':
+                    $valor_tarificacion = $_REQUEST['valor_tarificacion'];
+                    break;
+
+            }
+
             $this->informacion_registrar[] = array(
                 'id_beneficiario' => $consulta['id_beneficiario'],
                 'estado_contrato' => "82",
@@ -235,7 +259,7 @@ class FormProcessor {
                 'departamento' => $consulta['nombre_departamento'],
                 'municipio' => $consulta['nombre_municipio'],
                 'urbanizacion' => $consulta['proyecto'],
-                'estrato' => "1",
+                'estrato' => $consulta['tipo_beneficiario'],
                 'telefono' => $value['telefono'],
                 'celular' => $value['celular'],
                 'correo' => $value['correo'],
@@ -249,7 +273,7 @@ class FormProcessor {
                 'torre' => $value['torre'],
                 'casa_apartamento' => $value['casa_apartamento'],
                 'tipo_tecnologia' => $value['tipo_tecnologia'],
-                'valor_tarificacion' => "6500",
+                'valor_tarificacion' => $valor_tarificacion,
                 'interior' => $value['interior'],
                 'lote' => $value['lote'],
                 'piso' => $value['piso'],
