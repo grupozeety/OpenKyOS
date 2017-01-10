@@ -185,6 +185,8 @@ class GenerarDocumento {
 
         $telefono = ($beneficiario['telefono'] != '0') ? $beneficiario['telefono'] : " ";
 
+        $celular = ($beneficiario['celular'] != '0') ? $beneficiario['celular'] : " ";
+
         {
 
             $tipo_vip = ($beneficiario['estrato'] == 1) ? "<b>X</b>" : "";
@@ -341,7 +343,7 @@ class GenerarDocumento {
                             <td style='width:15%;text-align=center;'><b>Telefono</b></td>
                             <td style='width:10%;text-align=center;'>" . $telefono . "</td>
                             <td style='width:10%;text-align=center;'><b>Celular</b></td>
-                            <td style='width:10%;text-align=center;'>" . $beneficiario['celular'] . "</td>
+                            <td style='width:10%;text-align=center;'>" . $celular . "</td>
                         </tr>
                         <tr>
                             <td style='width:15%;text-align=center;'><b>Correo Electrónico</b></td>
