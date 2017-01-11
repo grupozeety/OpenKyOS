@@ -153,7 +153,6 @@ class Sql extends \Sql {
 
             case 'consultaInformacionBeneficiario':
                 $cadenaSql = " SELECT DISTINCT ";
-
                 $cadenaSql .= " cn.* , pm.meta,pmr.descripcion as descripcion_tipo_tegnologia, ";
                 $cadenaSql .= " aes.resultado_vs as velocidad_subida, aes.resultado_vb as velocidad_bajada,";
                 $cadenaSql .= " ip_olt,mac_olt, nd.port_olt,nombre_olt, puerto_olt,";     //Cabecera
@@ -171,7 +170,7 @@ class Sql extends \Sql {
 
                 $cadenaSql .= " LEFT JOIN interoperacion.nodo AS nd ON nd.macesclavo1=aes.mac_esc AND nd.estado_registro='TRUE'";
 
-                $cadenaSql .= " JOIN interoperacion.cabecera AS cab ON cab.codigo_cabecera=nd.codigo_cabecera AND cab.estado_registro='TRUE'";
+                $cadenaSql .= " LEFT JOIN interoperacion.cabecera AS cab ON cab.codigo_cabecera=nd.codigo_cabecera AND cab.estado_registro='TRUE'";
 
                 if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '1') {
                     $cadenaSql .= " JOIN interoperacion.documentos_contrato dr  ON dr.id_beneficiario=cn.id_beneficiario AND dr.estado_registro='TRUE' AND dr.tipologia_documento='132' ";
