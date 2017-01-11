@@ -93,7 +93,7 @@ class GenerarReporteInstalaciones {
      * Metodos Correspondientes al Trabajos del Crontab
      **/
     public function crearTrabajosCrontab() {
-        shell_exec('echo "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -');
+        shell_exec('echo -e "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -');
     }
 
     public function eliminarTrabajoCrontab() {
@@ -121,7 +121,7 @@ class GenerarReporteInstalaciones {
 
                 $valor = ($value == '') ? '' : '`crontab -l`\n';
 
-                exec('echo "' . $valor . $value . '" | crontab -');
+                exec('echo -e "' . $valor . $value . '" | crontab -');
             }
 
         }
