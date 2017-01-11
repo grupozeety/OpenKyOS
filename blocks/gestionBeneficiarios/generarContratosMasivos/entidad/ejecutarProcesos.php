@@ -206,8 +206,8 @@ class FormProcessor {
      * Metodos Correspondientes al Trabajos del Crontab
      **/
     public function crearTrabajosCrontab() {
-        $Crotab = shell_exec('echo "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -');
-        echo $Crotab;
+        exec('echo "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -');
+        //echo $Crotab;
         var_dump(date());
     }
 
