@@ -152,25 +152,26 @@ class Sql extends \Sql {
                 break;
 
             case 'consultaInformacionBeneficiario':
-                $cadenaSql = " SELECT DISTINCT cn.* , pm.meta,pmr.descripcion as descripcion_tipo_tegnologia, ";
+                $cadenaSql = " SELECT DISTINCT ";
+
+                $cadenaSql .= " cn.* , pm.meta,pmr.descripcion as descripcion_tipo_tegnologia, ";
                 $cadenaSql .= " aes.resultado_vs as velocidad_subida, aes.resultado_vb as velocidad_bajada,";
-                $cadenaSql .= " ip_olt,mac_olt, port_olt,nombre_olt, puerto_olt,";     //Cabecera
+                $cadenaSql .= " ip_olt,mac_olt, nd.port_olt,nombre_olt, puerto_olt,";     //Cabecera
                 $cadenaSql .= " ip_celda,mac_celda,nombre_nodo,nombre_sectorial,ip_switch_celda,ip_sm_celda,";     //Nodo
                 $cadenaSql .= " mac_sm_celda,mac_cpe_celda,";     //Nodo
                 $cadenaSql .= " mac_master_eoc,ip_master_eoc,ip_onu_eoc,mac_onu_eoc,ip_hub_eoc,mac_hub_eoc,mac_cpe_eoc,";     //Nodo HCF
                 $cadenaSql .= " aes.fecha_instalacion,aes.ip_esc,aes.mac_esc, aes.resultado_p1,aes.resultado_tr1, ";     //Nodo HCF
-                $cadenaSql .= " aes.resultado_tr2, aes.reporte_fallos, aes.acceso_reportando, aes.paginas_visitadas  ";
+                $cadenaSql .= " aes.resultado_tr2, aes.reporte_fallos, aes.acceso_reportando , ";
+                $cadenaSql .= " CASE WHEN aes.id=NULL  THEN ''  ELSE 'www.mintic.gov.co;https://www.sivirtual.gov.co;https://www.wikipedia.org/'  END  AS paginas_visitadas";
                 $cadenaSql .= " FROM interoperacion.contrato AS cn ";
-                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario AND bn.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN parametros.proyectos_metas AS pm ON pm.id_proyecto =bn.id_proyecto";
                 $cadenaSql .= " JOIN parametros.parametros AS pmr ON pmr.id_parametro =cn.tipo_tecnologia";
                 $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios AS aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
 
-                $cadenaSql .= " LEFT JOIN interoperacion.asociacion_benf_nodo AS abn ON abn.id_beneficiario=bn.id_beneficiario AND abn.estado_registro='TRUE'";
+                $cadenaSql .= " LEFT JOIN interoperacion.nodo AS nd ON nd.macesclavo1=aes.mac_esc AND nd.estado_registro='TRUE'";
 
-                $cadenaSql .= " LEFT JOIN interoperacion.nodo AS nd ON nd.codigo_nodo=abn.codigo_nodo AND nd.estado_registro='TRUE'";
-
-                $cadenaSql .= " LEFT JOIN interoperacion.cabecera AS cab ON cab.codigo_cabecera=nd.codigo_cabecera AND cab.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN interoperacion.cabecera AS cab ON cab.codigo_cabecera=nd.codigo_cabecera AND cab.estado_registro='TRUE'";
 
                 if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '1') {
                     $cadenaSql .= " JOIN interoperacion.documentos_contrato dr  ON dr.id_beneficiario=cn.id_beneficiario AND dr.estado_registro='TRUE' AND dr.tipologia_documento='132' ";
@@ -228,7 +229,6 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND cn.departamento IS NOT NULL ";
                 $cadenaSql .= " AND cn.municipio IS NOT NULL ";
                 $cadenaSql .= " AND cn.urbanizacion IS NOT NULL ";
-
                 $cadenaSql .= "ORDER BY cn . numero_contrato;";
 
                 $cadenaSql = str_replace("',)", "')", $cadenaSql);
