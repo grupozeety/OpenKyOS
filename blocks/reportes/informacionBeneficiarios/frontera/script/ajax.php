@@ -105,6 +105,7 @@ $("#mensaje").modal("show");
                   { data :"descripcion"},
                   { data :"estado" },
                   { data :"porcentaje_estado","sClass": "marca"},
+                  { data :"fecha","sClass": "marca"},
                   { data :"archivo" ,"sClass": "marca"},
                            ]
     } );

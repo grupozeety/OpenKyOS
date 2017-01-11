@@ -50,7 +50,7 @@ class Registrador {
             $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
             $urlProceso = $url . $cadena;
-            //echo $urlProceso;
+//            echo $urlProceso;
 
         }
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
@@ -420,6 +420,7 @@ class Registrador {
                                             <th><center>Descripción<center></th>
                                             <th><center>Estado<center></th>
                                             <th><center>Porcentaje(%)<br>Progreso<center></th>
+                                            <th><center>Fecha Generación</th>
                                             <th><center>Archivo Descarga<center></th>
                                         </tr>
                                     </thead>
@@ -429,6 +430,7 @@ class Registrador {
                                             <th><center>Descripción<center></th>
                                             <th><center>Estado<center></th>
                                             <th><center>Porcentaje(%)<br>Progreso<center></th>
+                                            <th><center>Fecha Generación</th>
                                             <th><center>Archivo Descarga<center></th>
                                         </tr>
                                     </tfoot>

@@ -46,6 +46,7 @@ class procesarAjax {
                             'descripcion' => "<center>" . $valor['descripcion'] . "</center>",
                             'estado' => "<center>" . $valor['estado'] . "</center>",
                             'porcentaje_estado' => "<center>" . $valor['porcentaje_estado'] . "</center>",
+                            'fecha' => "<center>" . substr($valor['fecha_registro'], 0, 19) . "</center>",
                             'archivo' => "<center>" . $archivo . "</center>",
                         );
                     }
