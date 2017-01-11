@@ -208,6 +208,7 @@ class FormProcessor {
     public function crearTrabajosCrontab() {
         $Crotab = shell_exec('echo "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -');
         echo $Crotab;
+        var_dump(date());
     }
 
     public function eliminarTrabajoCrontab() {
