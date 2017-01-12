@@ -66,7 +66,7 @@ class GenerarReporteInstalaciones {
 
             // Cambiar Estado Proceso
             $cadenaSql = $this->miSql->getCadenaSql('actualizarProcesoParticularEstado', $this->proceso['id_proceso']);
-            //$estadoproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            $estadoproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
             $parametros = json_decode(base64_decode($this->proceso['parametros']), true);
 
@@ -93,7 +93,10 @@ class GenerarReporteInstalaciones {
      * Metodos Correspondientes al Trabajos del Crontab
      **/
     public function crearTrabajosCrontab() {
-        shell_exec('echo -e "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -');
+
+        exec('echo -e "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
+        exec('echo  "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
+
     }
 
     public function eliminarTrabajoCrontab() {
@@ -122,6 +125,7 @@ class GenerarReporteInstalaciones {
                 $valor = ($value == '') ? '' : '`crontab -l`\n';
 
                 exec('echo -e "' . $valor . $value . '" | crontab -');
+                exec('echo  "' . $valor . $value . '" | crontab -');
             }
 
         }
@@ -539,8 +543,6 @@ class GenerarReporteInstalaciones {
 
         exec('ls -lh ' . $this->ruta_directorio_raiz, $lista);
 
-        var_dump($lista);
-
         foreach ($lista as $key => $value) {
 
             $posicion_coincidencia = strrpos($value, $this->nombre_archivo_zip);
@@ -561,10 +563,9 @@ class GenerarReporteInstalaciones {
             "proceso" => $this->proceso['id_proceso'],
             "tamanio_archivo" => $tamanio_archivo,
         );
-        var_dump($arreglo);exit;
 
         $cadenaSql = $this->miSql->getCadenaSql('finalizarProceso', $arreglo);
-        //$finalizacionproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        $finalizacionproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
