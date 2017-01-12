@@ -64,10 +64,11 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarExistenciaServicio' :
-				$cadenaSql = " SELECT id_beneficiario";
-				$cadenaSql .= " FROM interoperacion.acta_entrega_servicios";
+				$cadenaSql = " SELECT bp.id_beneficiario ";
+				$cadenaSql .= " FROM interoperacion.beneficiario_potencial bp ";
+				$cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=bp.id_beneficiario";
 				$cadenaSql .= " WHERE estado_registro='TRUE'";
-				$cadenaSql .= " AND identificacion='" . $variable . "';";
+				$cadenaSql .= " AND bp.identificacion='" . $variable . "';";
 				break;
 			
 			case 'consultarInformacionBeneficiario' :
@@ -91,8 +92,8 @@ class Sql extends \Sql {
 				$cadenaSql .= " VALUES (";
 				$cadenaSql .= " 'Actualizar Servicio - Pruebas Comision',";
 				$cadenaSql .= " 'Actualizar',";
-				$cadenaSql .= " '" . $variable['nombre_archivo']. "',";
-				$cadenaSql .= " '" . $variable['nombre_archivo']. "',";
+				$cadenaSql .= " '" . $variable ['nombre_archivo'] . "',";
+				$cadenaSql .= " '" . $variable ['nombre_archivo'] . "',";
 				$cadenaSql .= " 0,";
 				$cadenaSql .= " 0";
 				$cadenaSql .= " )RETURNING id_proceso;";
@@ -159,21 +160,21 @@ class Sql extends \Sql {
 			case 'actualizarServicio' :
 				$cadenaSql = " UPDATE interoperacion.acta_entrega_servicios ";
 				$cadenaSql .= " SET ";
-				$cadenaSql .= " resultado_vs='".$variable['resultado_vs']."', ";
-				$cadenaSql .= " resultado_vb='".$variable['resultado_vb']."', ";
-				$cadenaSql .= " resultado_p1='".$variable['resultado_p1']."', ";
-				$cadenaSql .= " observaciones_p1='".$variable['observaciones_p1']."', ";
-				$cadenaSql .= " resultado_tr2='".$variable['resultado_tr2']."', ";
-				$cadenaSql .= " resultado_tr1='".$variable['resultado_tr1']."', ";
-				$cadenaSql .= " reporte_fallos='Fecha Comisionamiento ".$variable['fecha'].". ".$variable['reporte_fallos']."', ";
-				$cadenaSql .= " acceso_reportando='".$variable['acceso_reportando']."', ";
-				$cadenaSql .= " hora_prueba_vs='".$variable['fecha']."', ";
-				$cadenaSql .= " hora_prueba_vb='".$variable['fecha']."', ";
-				$cadenaSql .= " hora_prueba_p1='".$variable['fecha']."', ";
-				$cadenaSql .= " hora_prueba_tr2='".$variable['fecha']."', ";
-				$cadenaSql .= " hora_prueba_tr1='".$variable['fecha']."', ";
-				$cadenaSql .= " paginas_visitadas='".$variable['paginas_visitadas']."' ";
-		     	$cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "' ;";
+				$cadenaSql .= " resultado_vs='" . $variable ['resultado_vs'] . "', ";
+				$cadenaSql .= " resultado_vb='" . $variable ['resultado_vb'] . "', ";
+				$cadenaSql .= " resultado_p1='" . $variable ['resultado_p1'] . "', ";
+				$cadenaSql .= " observaciones_p1='" . $variable ['observaciones_p1'] . "', ";
+				$cadenaSql .= " resultado_tr2='" . $variable ['resultado_tr2'] . "', ";
+				$cadenaSql .= " resultado_tr1='" . $variable ['resultado_tr1'] . "', ";
+				$cadenaSql .= " reporte_fallos='Fecha Comisionamiento " . $variable ['fecha'] . ". " . $variable ['reporte_fallos'] . "', ";
+				$cadenaSql .= " acceso_reportando='" . $variable ['acceso_reportando'] . "', ";
+				$cadenaSql .= " hora_prueba_vs='" . $variable ['fecha'] . "', ";
+				$cadenaSql .= " hora_prueba_vb='" . $variable ['fecha'] . "', ";
+				$cadenaSql .= " hora_prueba_p1='" . $variable ['fecha'] . "', ";
+				$cadenaSql .= " hora_prueba_tr2='" . $variable ['fecha'] . "', ";
+				$cadenaSql .= " hora_prueba_tr1='" . $variable ['fecha'] . "', ";
+				$cadenaSql .= " paginas_visitadas='" . $variable ['paginas_visitadas'] . "' ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable ['id_beneficiario'] . "' ;";
 				break;
 		}
 		

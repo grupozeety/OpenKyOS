@@ -129,11 +129,12 @@ class FormProcessor {
 		foreach ( $this->informacion_registrar as $key => $value ) {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarServicio', $value );
 			$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
-		
+
 			if ($resultado != true) {
 				Redireccionador::redireccionar ( "ErrorActualizacion" );
 			}
 		}
+
 	}
 	public function procesarInformacionBeneficiario() {
 		foreach ( $this->datos_beneficiario as $key => $value ) {
@@ -219,7 +220,7 @@ class FormProcessor {
 				
 				$datos_beneficiario [$i] ['identificacion_beneficiario'] = $informacion->setActiveSheetIndex ()->getCell ( 'A' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['fecha_comisionamiento'] = $informacion->setActiveSheetIndex ()->getCell ( 'B' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['fecha_comisionamiento'] = $informacion->setActiveSheetIndex ()->getCell ( 'B' . $i )->getFormattedValue();
 				
 				$datos_beneficiario [$i] ['latencia'] = $informacion->setActiveSheetIndex ()->getCell ( 'C' . $i )->getCalculatedValue ();
 				
@@ -237,8 +238,9 @@ class FormProcessor {
 			}
 			
 			$this->datos_beneficiario = $datos_beneficiario;
-			
+	
 			unlink ( $this->archivo ['ruta_archivo'] );
+
 		} else {
 			Redireccionador::redireccionar ( "ErrorNoCargaInformacionHojaCalculo" );
 		}
