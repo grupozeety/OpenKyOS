@@ -63,7 +63,7 @@ class procesarAjax {
 
                         $urlEliminarProceso = $url . $cadena;
 
-                        $url_eliminar = ($valor['estado'] == 'No Iniciado') ? '<a href="' . $urlEliminarProceso . '">Eliminar Proceso</a>' : " ";
+                        $url_eliminar = ($valor['estado'] == 'No Iniciado' || $valor['estado'] == 'Finalizado') ? '<a href="' . $urlEliminarProceso . '">Eliminar Proceso</a>' : " ";
 
                         $resultadoFinal[] = array(
                             'id_proceso' => "<center>" . $valor['id_proceso'] . "</center>",

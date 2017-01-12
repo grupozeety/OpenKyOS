@@ -23,6 +23,10 @@ class GenerarReporteInstalaciones {
 
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
+        $rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+
+        $ruta_directorio_raiz = $rutaAbsoluta . "/archivos/archivosDescargaAccesos/";
+
         $cadenaSql = $this->miSql->getCadenaSql('consultarEstadoProceso');
         $estadoproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
@@ -30,8 +34,15 @@ class GenerarReporteInstalaciones {
             Redireccionador::redireccionar('ErrorEliminarProceso');
         } else {
 
+            if (isset($estadoproceso['nombre_archivo']) && $estadoproceso['estado'] == 'Finalizado') {
+
+                $archivo = $ruta_directorio_raiz . $estadoproceso['nombre_archivo'];
+
+                $archivo_del = (file_exists($archivo)) ? unlink($archivo) : "No Exite Archivo";
+            }
+
             $cadenaSql = $this->miSql->getCadenaSql('eliminarProceso');
-            $proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "accesp");
+            $proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
             if ($proceso) {
                 Redireccionador::redireccionar('ExitoEliminarProceso');
