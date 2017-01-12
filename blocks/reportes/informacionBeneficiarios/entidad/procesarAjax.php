@@ -41,6 +41,30 @@ class procesarAjax {
 
                         $archivo = (is_null($valor['nombre_archivo'])) ? " " : "<center><a href='" . $valor['ruta_relativa_archivo'] . "' target='_blank' >" . $valor['nombre_archivo'] . "</a></center>";
 
+                        {
+
+                            $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
+
+                            $url = $this->miConfigurador->getVariableConfiguracion("host");
+                            $url .= $this->miConfigurador->getVariableConfiguracion("site");
+                            $url .= "/index.php?";
+
+                            $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&action=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                            $valorCodificado .= "&opcion=eliminarProceso";
+                            $valorCodificado .= "&id_proceso=" . $valor['id_proceso'];
+
+                        }
+
+                        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+                        $urlEliminarProceso = $url . $cadena;
+
+                        $url_eliminar = ($valor['estado'] == 'No Iniciado') ? '<a href="' . $urlEliminarProceso . '">Eliminar Proceso</a>' : " ";
+
                         $resultadoFinal[] = array(
                             'id_proceso' => "<center>" . $valor['id_proceso'] . "</center>",
                             'descripcion' => "<center>" . $valor['descripcion'] . "</center>",
@@ -49,6 +73,7 @@ class procesarAjax {
                             'fecha' => "<center>" . substr($valor['fecha_registro'], 0, 19) . "</center>",
                             'tamanio_archivo' => "<center>" . $valor['tamanio_archivo'] . "</center>",
                             'archivo' => "<center>" . $archivo . "</center>",
+                            'finalizar' => "<center>" . $url_eliminar . "</center>",
                         );
                     }
 

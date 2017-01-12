@@ -50,7 +50,6 @@ class Registrador {
             $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
             $urlProceso = $url . $cadena;
-            echo $urlProceso;
 
         }
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
@@ -531,6 +530,17 @@ class Registrador {
                 $mensaje = "Error en el Registro del Proceso para la Descarga de los Accesos";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
 
+                break;
+
+            case 'errorEliminarProceso':
+                $mensaje = "Error al eliminar Proceso de generación de reporte y documentos acceso.<br>Sugerencia para eliminar un proceso el estado del mismo debe estar <b>'No Iniciado'</b><br>y tiene un tiempo límite de 5 minutos desde su registro para poderlo eliminar, si no exiten más procesos ejecutados.";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
+                break;
+
+            case 'exitoEliminarProceso':
+                $mensaje = "Exito en la Proceso de generación de reporte y documentos acceso";
+                $atributos['estiloLinea'] = 'success';
                 break;
 
         }

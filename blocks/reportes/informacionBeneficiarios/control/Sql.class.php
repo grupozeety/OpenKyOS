@@ -30,20 +30,23 @@ class Sql extends \Sql {
                 $cadenaSql .= " tamanio_archivo='" . $variable['tamanio_archivo'] . "',";
                 $cadenaSql .= " nombre_archivo='" . $variable['nombre_archivo'] . "',";
                 $cadenaSql .= " ruta_relativa_archivo='" . $variable['rutaUrl'] . "'";
-                $cadenaSql .= " WHERE id_proceso='" . $variable['proceso'] . "';";
+                $cadenaSql .= " WHERE id_proceso='" . $variable['proceso'] . "' ";
+                $cadenaSql .= " AND estado_registro='TRUE' ;";
                 break;
 
             case 'actualizarProcesoParticularEstado':
                 $cadenaSql = " UPDATE parametros.procesos_accesos";
                 $cadenaSql .= " SET estado='En Proceso' ";
                 //$cadenaSql .= " porcentaje_estado=?";
-                $cadenaSql .= " WHERE id_proceso='" . $variable . "';";
+                $cadenaSql .= " WHERE id_proceso='" . $variable . "' ";
+                $cadenaSql .= " AND estado_registro='TRUE' ;";
                 break;
 
             case 'actualizarProcesoParticularAvance':
                 $cadenaSql = " UPDATE parametros.procesos_accesos";
                 $cadenaSql .= " SET porcentaje_estado='" . $variable['avance'] . "'";
-                $cadenaSql .= " WHERE id_proceso='" . $variable['proceso'] . "';";
+                $cadenaSql .= " WHERE id_proceso='" . $variable['proceso'] . "' ";
+                $cadenaSql .= " AND estado_registro='TRUE' ;";
 
                 break;
 
@@ -55,6 +58,20 @@ class Sql extends \Sql {
                 $cadenaSql .= " 0)";
                 $cadenaSql .= " RETURNING id_proceso;";
 
+                break;
+
+            case 'consultarEstadoProceso':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM parametros.procesos_accesos";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_proceso='" . $_REQUEST['id_proceso'] . "' ";
+                $cadenaSql .= " AND estado='No Iniciado'; ";
+                break;
+
+            case 'eliminarProceso':
+                $cadenaSql = " UPDATE parametros.procesos_accesos";
+                $cadenaSql .= " SET estado_registro='FALSE'";
+                $cadenaSql .= " WHERE id_proceso='" . $_REQUEST['id_proceso'] . "'; ";
                 break;
 
             /**

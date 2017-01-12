@@ -35,8 +35,17 @@ class Redireccionador {
                 $variable .= "&identificacion_proceso=" . $valor;
                 break;
 
-            default:
-                $variable = '';
+            case "ErrorEliminarProceso":
+                $variable = 'pagina=informacionBeneficiarios';
+                $variable .= '&mensaje=errorEliminarProceso';
+
+                break;
+
+            case "ExitoEliminarProceso":
+                $variable = 'pagina=informacionBeneficiarios';
+                $variable .= '&mensaje=exitoEliminarProceso';
+
+                break;
 
         }
         foreach ($_REQUEST as $clave => $valor) {

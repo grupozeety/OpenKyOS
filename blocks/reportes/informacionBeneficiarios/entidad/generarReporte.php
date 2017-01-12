@@ -94,8 +94,8 @@ class GenerarReporteInstalaciones {
      **/
     public function crearTrabajosCrontab() {
 
-        exec('echo -e "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
-        exec('echo  "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
+        exec('echo -e "`crontab -l`\n*/5 * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
+        //exec('echo  "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
 
     }
 
@@ -125,7 +125,7 @@ class GenerarReporteInstalaciones {
                 $valor = ($value == '') ? '' : '`crontab -l`\n';
 
                 exec('echo -e "' . $valor . $value . '" | crontab -');
-                exec('echo  "' . $valor . $value . '" | crontab -');
+                //exec('echo  "' . $valor . $value . '" | crontab -');
             }
 
         }
