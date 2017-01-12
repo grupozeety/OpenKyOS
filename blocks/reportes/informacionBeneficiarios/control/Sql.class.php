@@ -27,6 +27,7 @@ class Sql extends \Sql {
                 $cadenaSql = " UPDATE parametros.procesos_accesos";
                 $cadenaSql .= " SET estado='Finalizado',";
                 $cadenaSql .= " porcentaje_estado='100', ";
+                $cadenaSql .= " tamanio_archivo='" . $variable['tamanio_archivo'] . "',";
                 $cadenaSql .= " nombre_archivo='" . $variable['nombre_archivo'] . "',";
                 $cadenaSql .= " ruta_relativa_archivo='" . $variable['rutaUrl'] . "'";
                 $cadenaSql .= " WHERE id_proceso='" . $variable['proceso'] . "';";

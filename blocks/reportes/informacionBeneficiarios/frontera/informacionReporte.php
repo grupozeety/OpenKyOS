@@ -50,7 +50,7 @@ class Registrador {
             $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
             $urlProceso = $url . $cadena;
-//            echo $urlProceso;
+            echo $urlProceso;
 
         }
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
@@ -416,22 +416,26 @@ class Registrador {
                 echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th><center>Paquete Accesos<center></th>
-                                            <th><center>Descripción<center></th>
-                                            <th><center>Estado<center></th>
-                                            <th><center>Porcentaje(%)<br>Progreso<center></th>
-                                            <th><center>Fecha Generación</th>
-                                            <th><center>Archivo Descarga<center></th>
+                                            <th><center>Paquete Accesos</center></th>
+                                            <th><center>Descripción</center></th>
+                                            <th><center>Estado</center></th>
+                                            <th><center>Porcentaje(%)<br>Progreso</center></th>
+                                            <th><center>Fecha Generación</center></th>
+                                            <th><center>Tamaño<br>Archivo</center></th>
+                                            <th><center>Archivo Descarga</center></th>
+                                            <th><center>Finalizar<br>Proceso</center></th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th><center>Paquete Accesos<center></th>
-                                            <th><center>Descripción<center></th>
-                                            <th><center>Estado<center></th>
-                                            <th><center>Porcentaje(%)<br>Progreso<center></th>
-                                            <th><center>Fecha Generación</th>
-                                            <th><center>Archivo Descarga<center></th>
+                                            <th><center>Paquete Accesos</center></th>
+                                            <th><center>Descripción</center></th>
+                                            <th><center>Estado</center></th>
+                                            <th><center>Porcentaje(%)<br>Progreso</center></th>
+                                            <th><center>Fecha Generación</center></th>
+                                            <th><center>Tamaño<br>Archivo</center></th>
+                                            <th><center>Archivo Descarga</center></th>
+                                            <th><center>Finalizar<br>Proceso</center></th>
                                         </tr>
                                     </tfoot>
                                   </table>';

@@ -106,7 +106,9 @@ $("#mensaje").modal("show");
                   { data :"estado" },
                   { data :"porcentaje_estado","sClass": "marca"},
                   { data :"fecha","sClass": "marca"},
+                  { data :"tamanio_archivo","sClass": "marca"},
                   { data :"archivo" ,"sClass": "marca"},
+                  { data :"finalizar","sClass": "marca"},
                            ]
     } );
 

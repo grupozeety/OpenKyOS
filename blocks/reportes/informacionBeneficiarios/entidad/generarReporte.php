@@ -66,7 +66,7 @@ class GenerarReporteInstalaciones {
 
             // Cambiar Estado Proceso
             $cadenaSql = $this->miSql->getCadenaSql('actualizarProcesoParticularEstado', $this->proceso['id_proceso']);
-            $estadoproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            //$estadoproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
             $parametros = json_decode(base64_decode($this->proceso['parametros']), true);
 
@@ -394,6 +394,11 @@ class GenerarReporteInstalaciones {
                 mkdir($directorio, 0777, true);
                 chmod($directorio, 0777);
 
+            } elseif (is_dir($url)) {
+
+                mkdir($directorio, 0777, true);
+                chmod($directorio, 0777);
+
             }
 
         }
@@ -413,8 +418,10 @@ class GenerarReporteInstalaciones {
 
             $directorio_beneficiario = $directorio_urbanizacion . "/" . $value['id_beneficiario'];
 
-            mkdir($directorio_beneficiario, 0777);
-            chmod($directorio_beneficiario, 0777);
+            if (!is_dir($directorio_beneficiario)) {
+                mkdir($directorio_beneficiario, 0777);
+                chmod($directorio_beneficiario, 0777);
+            }
 
             $cadenaSql = $this->miSql->getCadenaSql('consultaDocumentosBeneficiarios', $value['id_beneficiario']);
             $documentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -530,14 +537,34 @@ class GenerarReporteInstalaciones {
          * 4. Registrar Finalizacion Proceso
          **/
 
+        exec('ls -lh ' . $this->ruta_directorio_raiz, $lista);
+
+        var_dump($lista);
+
+        foreach ($lista as $key => $value) {
+
+            $posicion_coincidencia = strrpos($value, $this->nombre_archivo_zip);
+
+            if ($posicion_coincidencia === false) {
+
+            } else {
+
+                $variable = explode(" ", $value);
+
+                $tamanio_archivo = $variable[count($variable) - 5];
+            }
+        }
+
         $arreglo = array(
             "nombre_archivo" => $this->nombre_archivo_zip,
             "rutaUrl" => $this->rutaURLArchivo . "/" . $this->nombre_archivo_zip,
             "proceso" => $this->proceso['id_proceso'],
+            "tamanio_archivo" => $tamanio_archivo,
         );
+        var_dump($arreglo);exit;
 
         $cadenaSql = $this->miSql->getCadenaSql('finalizarProceso', $arreglo);
-        $finalizacionproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        //$finalizacionproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
