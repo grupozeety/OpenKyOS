@@ -192,6 +192,69 @@ class Sql extends \Sql {
 				$cadenaSql .= ");";
 				break;
 			
+			case 'actualizarBeneficiario' :
+				$cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
+				// $cadenaSql .= "tipo_beneficiario=" . "'" . $variable ['tipo_beneficiario'] . "',";
+				// $cadenaSql .= "tipo_documento=" . "'" . $variable ['tipo_documento'] . "',";
+				// $cadenaSql .= "identificacion=" . "'" . $variable ['identificacion_beneficiario'] . "',";
+				if (! is_null ( $variable ['nombre_beneficiario'] )) {
+					$cadenaSql .= "nombre=" . "'" . $variable ['nombre_beneficiario'] . "',";
+				}
+				if (! is_null ( $variable ['primer_apellido'] )) {
+					$cadenaSql .= "primer_apellido=" . "'" . $variable ['primer_apellido'] . "',";
+				}
+				if (! is_null ( $variable ['segundo_apellido'] )) {
+					$cadenaSql .= "segundo_apellido=" . "'" . $variable ['segundo_apellido'] . "',";
+				}
+				if ($variable ['genero_beneficiario'] != 0) {
+					$cadenaSql .= "genero=" . "'" . $variable ['genero_beneficiario'] . "',";
+				}
+				if ($variable ['edad_beneficiario'] != 0) {
+					$cadenaSql .= "edad=" . "'" . $variable ['edad_beneficiario'] . "',";
+				}
+				if ($variable ['nivel_estudio'] != 0) {
+					$cadenaSql .= "nivel_estudio=" . "'" . $variable ['nivel_estudio'] . "',";
+				}
+				if ($variable ['telefono'] != 0) {
+					$cadenaSql .= "telefono=" . "'" . $variable ['telefono'] . "',";
+				}
+				if (! is_null ( $variable ['correo'] )) {
+					$cadenaSql .= "correo=" . "'" . $variable ['correo'] . "',";
+				}
+				if (! is_null ( $variable ['direccion'] )) {
+					$cadenaSql .= "direccion=" . "'" . $variable ['direccion'] . "',";
+				}
+				if (! is_null ( $variable ['manzana'] )) {
+					$cadenaSql .= "manzana=" . "'" . $variable ['manzana'] . "',";
+				}
+				if (! is_null ( $variable ['interior'] )) {
+					$cadenaSql .= "interior=" . "'" . $variable ['interior'] . "',";
+				}
+				if (! is_null ( $variable ['bloque'] )) {
+					$cadenaSql .= "bloque=" . "'" . $variable ['bloque'] . "',";
+				}
+				if (! is_null ( $variable ['torre'] )) {
+					$cadenaSql .= "torre=" . "'" . $variable ['torre'] . "',";
+				}
+				if (! is_null ( $variable ['apartamento'] )) {
+					$cadenaSql .= "apartamento=" . "'" . $variable ['apartamento'] . "',";
+				}
+				if (! is_null ( $variable ['lote'] )) {
+					$cadenaSql .= "lote=" . "'" . $variable ['lote'] . "',";
+				}
+				if (! is_null ( $variable ['barrio'] )) {
+					$cadenaSql .= "barrio=" . "'" . $variable ['barrio'] . "',";
+				}
+				if (! is_null ( $variable ['interior'] )) {
+					$cadenaSql .= "telefono=" . "'" . $variable ['telefono'] . "' ,";
+				}
+				if ($variable ['estrato'] != 0) {
+					$cadenaSql .= "estrato=" . "'" . $variable ['estrato'] . "'";
+				}
+				
+				$cadenaSql .= " WHERE identificacion='" . $variable ['identificacion_beneficiario'] . "' ";
+				break;
+			
 			case 'consultarConsecutivo' :
 				$cadenaSql = " select id_beneficiario ";
 				$cadenaSql .= "FROM interoperacion.beneficiario_potencial ";

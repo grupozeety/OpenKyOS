@@ -75,14 +75,23 @@ class FormProcessor {
 		
 		$this->creacion_log ();
 		
+		
+		/**
+		 * 3.
+		 * Validar que no hayan nulos
+		 */
+		
+		$this->validarNulo();
+		
+		
 		/**
 		 * 4.
 		 * Validar Existencia Beneficiarios
 		 */
 		
-		if($_REQUEST['funcionalidad']==2){
+		if ($_REQUEST ['funcionalidad'] == 2) {
 			$this->validarBeneficiariosExistentesRegistro ();
-		}else{
+		} else {
 			$this->validarBeneficiariosExistentes ();
 		}
 		
@@ -90,7 +99,7 @@ class FormProcessor {
 		 * 7.
 		 * Cerrar Log
 		 */
-		
+
 		$this->cerrar_log ();
 		
 		if (isset ( $this->error )) {
@@ -99,7 +108,6 @@ class FormProcessor {
 			Redireccionador::redireccionar ( "ExitoInformacion" );
 		}
 	}
-
 	public function validarBeneficiariosExistentes() {
 		foreach ( $this->datos_beneficiario as $key => $value ) {
 			
@@ -115,23 +123,37 @@ class FormProcessor {
 			}
 		}
 	}
-	
 	public function validarBeneficiariosExistentesRegistro() {
 		foreach ( $this->datos_beneficiario as $key => $value ) {
-				
+			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExitenciaBeneficiario', $value ['identificacion_beneficiario'] );
-				
+			
 			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
-				
-			if (!is_null( $consulta )) {
-				$mensaje = " La identificación " . $value ['identificacion_beneficiario'] . ", ya se encuentra registrada en el sistema.";
+			
+			if (! is_null ( $consulta )) {
+				$mensaje = "La identificación " . $value ['identificacion_beneficiario'] . ", ya se encuentra registrada en el sistema.";
 				$this->escribir_log ( $mensaje );
-	
+				
 				$this->error = true;
 			}
 		}
 	}
-
+	public function validarNulo() {
+		foreach ( $this->datos_beneficiario as $key => $value ) {
+			
+			if ($value ['estrato'] == 0 ) {
+				$mensaje = " La identificación " . $value ['identificacion_beneficiario'] . ", posee un estrato vacío.";
+				$this->escribir_log ( $mensaje );
+				$this->error = true;
+			}
+			
+			if ( is_null ( $value ['identificacion_beneficiario'] )) {
+				$mensaje = "Existe un campo de identificación vacío. La identificación del beneficiario es obligatoria.";
+				$this->escribir_log ( $mensaje );
+				$this->error = true;
+			}
+		}
+	}
 	public function escribir_log($mensaje) {
 		fwrite ( $this->log, $mensaje . PHP_EOL );
 	}
@@ -176,7 +198,7 @@ class FormProcessor {
 				
 				$datos_beneficiario [$i] ['tipo_beneficiario'] = $informacion->setActiveSheetIndex ()->getCell ( 'E' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['tipo_identificacion'] = $informacion->setActiveSheetIndex ()->getCell ( 'F' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['tipo_documento'] = $informacion->setActiveSheetIndex ()->getCell ( 'F' . $i )->getCalculatedValue ();
 				
 				$datos_beneficiario [$i] ['identificacion_beneficiario'] = $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue ();
 				
@@ -186,15 +208,15 @@ class FormProcessor {
 				
 				$datos_beneficiario [$i] ['segundo_apellido'] = $informacion->setActiveSheetIndex ()->getCell ( 'J' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['genero'] = $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['genero'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () : 0;
 				
-				$datos_beneficiario [$i] ['edad'] = $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['edad'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () : 0;
 				
-				$datos_beneficiario [$i] ['nivel_estudio'] = $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['nivel_estudio'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () : 0;
 				
 				$datos_beneficiario [$i] ['correo'] = $informacion->setActiveSheetIndex ()->getCell ( 'N' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['telefono'] = $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['telefono'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () : 0;
 				
 				$datos_beneficiario [$i] ['direccion'] = $informacion->setActiveSheetIndex ()->getCell ( 'P' . $i )->getCalculatedValue ();
 				
@@ -210,14 +232,13 @@ class FormProcessor {
 				
 				$datos_beneficiario [$i] ['lote'] = $informacion->setActiveSheetIndex ()->getCell ( 'V' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['piso'] = $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['piso'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () : 0;
 				
-				$datos_beneficiario [$i] ['minvivienda'] = $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['minvivienda'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () : 'FALSE';
 				
 				$datos_beneficiario [$i] ['barrio'] = $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['estrato'] = $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue ();
-
+				$datos_beneficiario [$i] ['estrato'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () : 0;
 			}
 			
 			unlink ( $this->archivo ['ruta_archivo'] );

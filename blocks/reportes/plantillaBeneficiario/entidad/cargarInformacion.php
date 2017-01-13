@@ -66,6 +66,13 @@ class FormProcessor {
 		$this->cargarInformacionHojaCalculo ();
 		
 		/**
+		 * 3.
+		 * Validar que no hayan nulos
+		 */
+		
+		$this->validarNulo ();
+		
+		/**
 		 * 5.
 		 * Validar Existencia Beneficiarios
 		 */
@@ -96,7 +103,7 @@ class FormProcessor {
 		 */
 		
 		$this->registroProceso ();
-		
+		exit ();
 		if (isset ( $this->proceso ) && $this->proceso != null) {
 			Redireccionador::redireccionar ( "ExitoRegistroProceso", $this->proceso );
 		} else {
@@ -117,33 +124,46 @@ class FormProcessor {
 	}
 	public function informacionBeneficiario() {
 		foreach ( $this->informacion_registrar as $key => $value ) {
-			
 			if ($_REQUEST ['funcionalidad'] == 3) {
-				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarBeneficiario', $value );
+				echo $cadenaSql = $this->miSql->getCadenaSql ( 'actualizarBeneficiario', $value );
 				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 			} else {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $value );
 				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 			}
-
+			
+	
 			if ($resultado != true) {
 				Redireccionador::redireccionar ( "ErrorActualizacion" );
+			}
+		}
+
+	}
+	public function validarNulo() {
+		foreach ( $this->datos_beneficiario as $key => $value ) {
+			
+			if ($value ['estrato'] == 0) {
+				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+				exit();
+			}
+			
+			if (is_null ( $value ['identificacion_beneficiario'] )) {
+				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+				exit();
 			}
 		}
 	}
 	public function procesarInformacionBeneficiario() {
 		foreach ( $this->datos_beneficiario as $key => $value ) {
-
+			
 			// Funcionalidad 3 es Actualización de Registros
 			if ($_REQUEST ['funcionalidad'] == 3) {
-				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarInformacionBeneficiario', $this->datos_beneficiario ['identificacion_beneficiario'] );
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarInformacionBeneficiario', $value ['identificacion_beneficiario'] );
 				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
-				
-				$beneficiarioPotencial ['id_beneficiario'] = $_REQUEST ['id_beneficiario'];
-				$beneficiarioPotencial ['nomenclatura'] = $_REQUEST ['nomenclatura'];
 				
 				$this->informacion_registrar [] = array (
 						'id_beneficiario' => $consulta ['id_beneficiario'],
+						'identificacion_beneficiario' => $value ['identificacion_beneficiario'],
 						'tipo_beneficiario' => $value ['tipo_beneficiario'],
 						'tipo_documento' => $value ['tipo_documento'],
 						'nomenclatura' => $consulta ['nomenclatura'],
@@ -277,7 +297,6 @@ class FormProcessor {
 			}
 		}
 	}
-	
 	public function validarBeneficiariosExistentes() {
 		foreach ( $this->datos_beneficiario as $key => $value ) {
 			
@@ -290,12 +309,10 @@ class FormProcessor {
 			}
 		}
 	}
-	
 	public function validarBeneficiariosExistentesRegistro() {
 		foreach ( $this->datos_beneficiario as $key => $value ) {
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExitenciaBeneficiario', $value ['identificacion_beneficiario'] );
-			
 			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 			
 			if (! is_null ( $consulta )) {
@@ -303,7 +320,6 @@ class FormProcessor {
 			}
 		}
 	}
-	
 	public function cargarInformacionHojaCalculo() {
 		ini_set ( 'memory_limit', '1024M' );
 		ini_set ( 'max_execution_time', 300 );
@@ -345,15 +361,15 @@ class FormProcessor {
 				
 				$datos_beneficiario [$i] ['segundo_apellido'] = $informacion->setActiveSheetIndex ()->getCell ( 'J' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['genero'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue ():0;
+				$datos_beneficiario [$i] ['genero'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () : 0;
 				
-				$datos_beneficiario [$i] ['edad'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue ():0;
+				$datos_beneficiario [$i] ['edad'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () : 0;
 				
-				$datos_beneficiario [$i] ['nivel_estudio'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue ():0;
+				$datos_beneficiario [$i] ['nivel_estudio'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () : 0;
 				
 				$datos_beneficiario [$i] ['correo'] = $informacion->setActiveSheetIndex ()->getCell ( 'N' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['telefono'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue ():0;
+				$datos_beneficiario [$i] ['telefono'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () : 0;
 				
 				$datos_beneficiario [$i] ['direccion'] = $informacion->setActiveSheetIndex ()->getCell ( 'P' . $i )->getCalculatedValue ();
 				
@@ -369,13 +385,13 @@ class FormProcessor {
 				
 				$datos_beneficiario [$i] ['lote'] = $informacion->setActiveSheetIndex ()->getCell ( 'V' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['piso'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue ():0;
+				$datos_beneficiario [$i] ['piso'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () : 0;
 				
-				$datos_beneficiario [$i] ['minvivienda'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue ():'FALSE';
+				$datos_beneficiario [$i] ['minvivienda'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () : 'FALSE';
 				
 				$datos_beneficiario [$i] ['barrio'] = $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['estrato'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue ():0;
+				$datos_beneficiario [$i] ['estrato'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () : 0;
 			}
 			
 			$this->datos_beneficiario = $datos_beneficiario;
@@ -385,7 +401,6 @@ class FormProcessor {
 			Redireccionador::redireccionar ( "ErrorNoCargaInformacionHojaCalculo" );
 		}
 	}
-	
 	public function cargarArchivos() {
 		$archivo_datos = '';
 		$archivo = $_FILES ['archivo_informacion'];
