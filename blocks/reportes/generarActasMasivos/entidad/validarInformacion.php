@@ -98,13 +98,18 @@ class FormProcessor {
              *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
              **/
                 $this->validarDuplicidadPortatil();
-                break;
 
             /**
              *  5.2. Validar que no exitan registradas actas con las identificaciones de los Beneficiaciarios
              **/
                 $this->validarDuplicidadActa();
+
+            /**
+             *  5.3. Validar existencia serial portatil
+             **/
+                $this->validarExistenciaSerialPortatil();
                 break;
+
         }
 
         exit;
@@ -185,6 +190,28 @@ class FormProcessor {
             }
 
             $mensaje = null;
+        }
+
+    }
+
+    public function validarExistenciaSerialPortatil() {
+        echo "Serial";
+        var_dump($this->datos_beneficiario);exit;
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialRegistrado', $value['identificacion_beneficiario']);
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if ($consulta) {
+
+                $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " asociada con el serial " . $value['serial_portatil'] . " no es validad dado que este serial ya esta asociado a un acta con el beneficiario de identifiación " . $consulta['numero_identificacion'] . ". Sugerencia relacione otro serial de portatil o corrija el acta registrada.";
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
         }
 
     }
@@ -330,6 +357,7 @@ class FormProcessor {
             }
 
             if ($total_filas > 500) {
+                echo "max ROWS";exit;
                 Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
             }
 
@@ -359,6 +387,7 @@ class FormProcessor {
             $this->datos_beneficiario = $datos_beneficiario;
 
         } else {
+            echo "Error Cargar Informacion";exit;
             Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
 
         }
@@ -407,7 +436,7 @@ class FormProcessor {
             $archivo['rutaDirectorio'] = $ruta_absoluta;
 
             if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
-
+                echo "copiar archivo";exit;
                 Redireccionador::redireccionar("ErrorCargarArchivo");
             }
 
@@ -418,7 +447,7 @@ class FormProcessor {
             );
 
         } else {
-
+            echo "Archivo No Valido";exit;
             Redireccionador::redireccionar("ErrorArchivoNoValido");
         }
 
