@@ -96,45 +96,27 @@ class FormProcessor {
 		 */
 		
 		$this->informacionBeneficiario ();
-		
-		/**
-		 * 9.
-		 * Registrar Tarea o Proceso Masivo
-		 */
-		
-		$this->registroProceso ();
-		exit ();
-		if (isset ( $this->proceso ) && $this->proceso != null) {
-			Redireccionador::redireccionar ( "ExitoRegistroProceso", $this->proceso );
-		} else {
-			Redireccionador::redireccionar ( "ErrorRegistroProceso" );
-		}
+
 	}
 	
 	/**
 	 * Funcionalidades Específicas
 	 */
-	public function registroProceso() {
-		$arreglo_registro = array (
-				'nombre_archivo' => $this->archivo ['ruta_archivo'] 
-		);
-		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarProceso', $arreglo_registro );
-		$this->proceso = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_proceso'];
-	}
+
 	public function informacionBeneficiario() {
 		foreach ( $this->informacion_registrar as $key => $value ) {
 			if ($_REQUEST ['funcionalidad'] == 3) {
-				echo $cadenaSql = $this->miSql->getCadenaSql ( 'actualizarBeneficiario', $value );
-				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+				 $cadenaSql = $this->miSql->getCadenaSql ( 'actualizarBeneficiario', $value );
+				$this->resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 			} else {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $value );
-				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+				$this->resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 			}
-			
-	
-			if ($resultado != true) {
+
+			if ($this->resultado != true) {
 				Redireccionador::redireccionar ( "ErrorActualizacion" );
+			}else{
+				Redireccionador::redireccionar ( "ExitoRegistroProceso");
 			}
 		}
 

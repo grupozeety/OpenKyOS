@@ -51,7 +51,6 @@ class Redireccionador {
 			case "ExitoRegistroProceso" :
 				$variable = 'pagina=plantillaBeneficiario';
 				$variable .= '&mensajeModal=exitoRegistroProceso';
-				$variable .= '&proceso=' . $valor;
 				break;
 			
 			case "ErrorRegistroProceso" :

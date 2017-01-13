@@ -46,55 +46,6 @@ class Sql extends \Sql {
 				
 				break;
 			
-			// Registro Procesos
-			case 'registrarProceso' :
-				$cadenaSql = " INSERT INTO parametros.procesos_masivos(";
-				$cadenaSql .= " descripcion,";
-				$cadenaSql .= " estado,";
-				$cadenaSql .= " nombre_archivo, ruta_archivo,";
-				$cadenaSql .= " parametro_inicio,";
-				$cadenaSql .= " parametro_fin)";
-				$cadenaSql .= " VALUES (";
-				$cadenaSql .= " 'Actualizar Servicio - Pruebas Comision',";
-				$cadenaSql .= " 'Actualizar',";
-				$cadenaSql .= " '" . $variable ['nombre_archivo'] . "',";
-				$cadenaSql .= " '" . $variable ['nombre_archivo'] . "',";
-				$cadenaSql .= " 0,";
-				$cadenaSql .= " 0";
-				$cadenaSql .= " )RETURNING id_proceso;";
-				break;
-			
-			case 'consultarProceso' :
-				$cadenaSql = " SELECT * ";
-				$cadenaSql .= " FROM parametros.procesos_masivos";
-				$cadenaSql .= " WHERE descripcion='Contratos'";
-				$cadenaSql .= " ORDER BY id_proceso DESC;";
-				break;
-			
-			case 'consultarProcesoParticular' :
-				$cadenaSql = " SELECT *";
-				$cadenaSql .= " FROM parametros.procesos_masivos";
-				$cadenaSql .= " WHERE id_proceso=(";
-				$cadenaSql .= " SELECT MIN(id_proceso) ";
-				$cadenaSql .= " FROM parametros.procesos_masivos";
-				$cadenaSql .= " WHERE estado_registro='TRUE' ";
-				$cadenaSql .= " AND estado='No Iniciado'";
-				$cadenaSql .= " );";
-				break;
-			
-			case 'actualizarProceso' :
-				$cadenaSql = " UPDATE parametros.procesos_masivos";
-				$cadenaSql .= " SET estado='En Proceso'";
-				$cadenaSql .= " WHERE id_proceso='" . $variable . "';";
-				break;
-			
-			case 'finalizarProceso' :
-				$cadenaSql = " UPDATE parametros.procesos_masivos";
-				$cadenaSql .= " SET estado='Finalizado',";
-				$cadenaSql .= " ruta_archivo='" . $variable ['ruta_archivo'] . "',";
-				$cadenaSql .= " nombre_ruta_archivo='" . $variable ['nombre_archivo'] . "'";
-				$cadenaSql .= " WHERE id_proceso='" . $variable ['id_proceso'] . "';";
-				break;
 			// Crear Documenntos Contrato
 			case 'ConsultaBeneficiarios' :
 				$cadenaSql = " SELECT *";
