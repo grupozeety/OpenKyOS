@@ -76,11 +76,12 @@ class FormProcessor {
 		 * 5.
 		 * Validar Existencia Beneficiarios
 		 */
-		
+
 		if ($_REQUEST ['funcionalidad'] == 3) {
-			$this->validarBeneficiariosExistentesRegistro ();
-		} else {
 			$this->validarBeneficiariosExistentes ();
+			
+		} else {
+			$this->validarBeneficiariosExistentesRegistro ();
 		}
 		
 		/**
@@ -113,11 +114,12 @@ class FormProcessor {
 				$this->resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 			}
 
-			if ($this->resultado != true) {
-				Redireccionador::redireccionar ( "ErrorActualizacion" );
-			}else{
-				Redireccionador::redireccionar ( "ExitoRegistroProceso");
-			}
+		}
+
+		if ($this->resultado != true) {
+			Redireccionador::redireccionar ( "ErrorActualizacion" );
+		}else{
+			Redireccionador::redireccionar ( "ExitoRegistroProceso");
 		}
 
 	}
@@ -136,6 +138,7 @@ class FormProcessor {
 		}
 	}
 	public function procesarInformacionBeneficiario() {
+		$a=0;
 		foreach ( $this->datos_beneficiario as $key => $value ) {
 			
 			// Funcionalidad 3 es Actualización de Registros
@@ -199,7 +202,7 @@ class FormProcessor {
 				
 				if ($resultado) {
 					$consecutivo = explode ( $_REQUEST ['consecutivo'], $resultado [0] ['id_beneficiario'] );
-					$nuevoConsecutivo = $consecutivo [1] + 1;
+					$nuevoConsecutivo = $consecutivo [1] + 1 +$a;
 					
 					if (strlen ( $_REQUEST ['consecutivo'] ) == 1) {
 						if ($nuevoConsecutivo < 10) {
@@ -245,6 +248,8 @@ class FormProcessor {
 					
 					$beneficiarioPotencial ['id_beneficiario'] = $nuevoConsecutivo;
 				}
+				
+				$a++;
 				
 				$this->informacion_registrar [] = array (
 						'id_beneficiario' => $beneficiarioPotencial ['id_beneficiario'],
