@@ -504,7 +504,7 @@ class Registrador {
 				break;
 			
 			case 'exitoRegistroProceso' :
-				$mensaje = "Exito<br>Se ha Registrado con exito el <b>Proceso # " . $_REQUEST ['proceso'] . "</b>.<br>";
+				$mensaje = "Exito<br>Se ha Registrado con exito el proceso solicitado.<br>";
 				$atributos ['estiloLinea'] = 'success'; // success,error,information,warning
 				break;
 			
