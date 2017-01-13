@@ -86,7 +86,6 @@ class FormProcessor {
 			$this->validarBeneficiariosExistentes ();
 		}
 		
-		
 		/**
 		 * 7.
 		 * Cerrar Log
@@ -179,7 +178,7 @@ class FormProcessor {
 				
 				$datos_beneficiario [$i] ['tipo_identificacion'] = $informacion->setActiveSheetIndex ()->getCell ( 'F' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['identificacion'] = $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['identificacion_beneficiario'] = $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue ();
 				
 				$datos_beneficiario [$i] ['nombre'] = $informacion->setActiveSheetIndex ()->getCell ( 'H' . $i )->getCalculatedValue ();
 				
@@ -216,6 +215,8 @@ class FormProcessor {
 				$datos_beneficiario [$i] ['minvivienda'] = $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue ();
 				
 				$datos_beneficiario [$i] ['barrio'] = $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['estrato'] = $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue ();
 
 			}
 			

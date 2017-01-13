@@ -66,25 +66,15 @@ class FormProcessor {
 		$this->cargarInformacionHojaCalculo ();
 		
 		/**
-		 * 4.
-		 * Validar Existencia Contratos Beneficiarios
-		 */
-		
-		$this->validarContratosExistentes ();
-		
-		/**
 		 * 5.
 		 * Validar Existencia Beneficiarios
 		 */
 		
-		$this->validarBeneficiariosExistentes ();
-		
-		/**
-		 * 6.
-		 * Validar Existencia Acta de Servicio
-		 */
-		
-		$this->validarServiciosExistentes ();
+		if ($_REQUEST ['funcionalidad'] == 3) {
+			$this->validarBeneficiariosExistentesRegistro ();
+		} else {
+			$this->validarBeneficiariosExistentes ();
+		}
 		
 		/**
 		 * 6.
@@ -95,10 +85,10 @@ class FormProcessor {
 		
 		/**
 		 * 7.
-		 * Crear Contrato
+		 * Actualizar o Registrar beneficiarios
 		 */
 		
-		$this->informacionServicio ();
+		$this->informacionBeneficiario ();
 		
 		/**
 		 * 9.
@@ -125,39 +115,169 @@ class FormProcessor {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarProceso', $arreglo_registro );
 		$this->proceso = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_proceso'];
 	}
-	public function informacionServicio() {
+	public function informacionBeneficiario() {
 		foreach ( $this->informacion_registrar as $key => $value ) {
-			$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarServicio', $value );
-			$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+			
+			if ($_REQUEST ['funcionalidad'] == 3) {
+				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarBeneficiario', $value );
+				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+			} else {
+				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $value );
+				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+			}
 
 			if ($resultado != true) {
 				Redireccionador::redireccionar ( "ErrorActualizacion" );
 			}
 		}
-
 	}
 	public function procesarInformacionBeneficiario() {
 		foreach ( $this->datos_beneficiario as $key => $value ) {
-			
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarInformacionBeneficiario', $value ['identificacion_beneficiario'] );
-			
-			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
-			
-			$this->informacion_registrar [] = array (
-					'id_beneficiario' => $consulta ['id_beneficiario'],
-					'resultado_vs' => $value ['subida'],
-					'resultado_vb' => $value ['bajada'],
-					'resultado_p1' => $value ['latencia'],
-					'observaciones_p1' => $value ['pagina'],
-					'resultado_tr2' => $value ['tracert'],
-					'resultado_tr1' => $value ['estado'],
-					'reporte_fallos' => $value ['observaciones'],
-					'acceso_reportando' => $value ['tracert'],
-					'paginas_visitadas' => $value ['pagina'],
-					'fecha' => $value ['fecha_comisionamiento'] 
-			);
+
+			// Funcionalidad 3 es Actualización de Registros
+			if ($_REQUEST ['funcionalidad'] == 3) {
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarInformacionBeneficiario', $this->datos_beneficiario ['identificacion_beneficiario'] );
+				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
+				
+				$beneficiarioPotencial ['id_beneficiario'] = $_REQUEST ['id_beneficiario'];
+				$beneficiarioPotencial ['nomenclatura'] = $_REQUEST ['nomenclatura'];
+				
+				$this->informacion_registrar [] = array (
+						'id_beneficiario' => $consulta ['id_beneficiario'],
+						'tipo_beneficiario' => $value ['tipo_beneficiario'],
+						'tipo_documento' => $value ['tipo_documento'],
+						'nomenclatura' => $consulta ['nomenclatura'],
+						'nombre_beneficiario' => $value ['nombre'],
+						'primer_apellido' => $value ['primer_apellido'],
+						'segundo_apellido' => $value ['segundo_apellido'],
+						'genero_beneficiario' => $value ['genero'],
+						'edad_beneficiario' => $value ['edad'],
+						'nivel_estudio' => $value ['nivel_estudio'],
+						'correo' => $value ['correo'],
+						'direccion' => $value ['direccion'],
+						'manzana' => $value ['manzana'],
+						'torre' => $value ['torre'],
+						'bloque' => $value ['bloque'],
+						'interior' => $value ['interior'],
+						'lote' => $value ['lote'],
+						'apartamento' => $value ['casa_apto'],
+						'telefono' => $value ['telefono'],
+						'departamento' => $value ['departamento'],
+						'municipio' => $value ['municipio'],
+						'piso' => $value ['piso'],
+						'minvi' => $value ['minvivienda'],
+						'barrio' => $value ['barrio'],
+						'id_proyecto' => $value ['id_proyecto'],
+						'proyecto' => $value ['proyecto'],
+						'estrato' => $value ['estrato'] 
+				);
+			} else {
+				
+				$cadenaSql = $this->miSql->getCadenaSql ( 'codificacion', $value ['id_proyecto'] );
+				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+				
+				if ($resultado) {
+					$_REQUEST ['consecutivo'] = $resultado [0] ['abr_benf'];
+					$_REQUEST ['abr_urb'] = $resultado [0] ['abr_urb'];
+					$_REQUEST ['abr_mun'] = $resultado [0] ['abr_mun'];
+				} else {
+					$_REQUEST ['consecutivo'] = "ND";
+					$_REQUEST ['abr_urb'] = "ND";
+					$_REQUEST ['abr_mun'] = "ND";
+				}
+				
+				$numeroCaracteres = 5;
+				$numeroBusqueda = strlen ( $_REQUEST ['consecutivo'] );
+				
+				$valor ['string'] = $_REQUEST ['consecutivo'];
+				$valor ['longitud'] = $numeroCaracteres - $numeroBusqueda - 1;
+				
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarConsecutivo', $valor );
+				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+				
+				if ($resultado) {
+					$consecutivo = explode ( $_REQUEST ['consecutivo'], $resultado [0] ['id_beneficiario'] );
+					$nuevoConsecutivo = $consecutivo [1] + 1;
+					
+					if (strlen ( $_REQUEST ['consecutivo'] ) == 1) {
+						if ($nuevoConsecutivo < 10) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '000' . $nuevoConsecutivo;
+						} else if ($nuevoConsecutivo < 100) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '00' . $nuevoConsecutivo;
+						} else if ($nuevoConsecutivo < 1000) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $nuevoConsecutivo;
+						} else {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . $nuevoConsecutivo;
+						}
+					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 2) {
+						if ($nuevoConsecutivo < 10) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '00' . $nuevoConsecutivo;
+						} else if ($nuevoConsecutivo < 100) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $nuevoConsecutivo;
+						} else {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . $nuevoConsecutivo;
+						}
+					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 3) {
+						if ($nuevoConsecutivo < 10) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $nuevoConsecutivo;
+						} else if ($nuevoConsecutivo < 100) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . $nuevoConsecutivo;
+						} else {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . $nuevoConsecutivo;
+						}
+					} else {
+						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . $nuevoConsecutivo;
+					}
+					
+					$beneficiarioPotencial ['id_beneficiario'] = $nuevoConsecutivo;
+				} else {
+					if (strlen ( $_REQUEST ['consecutivo'] ) == 1) {
+						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0001';
+					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 2) {
+						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '001';
+					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 3) {
+						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '01';
+					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 4) {
+						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '1';
+					}
+					
+					$beneficiarioPotencial ['id_beneficiario'] = $nuevoConsecutivo;
+				}
+				
+				$this->informacion_registrar [] = array (
+						'id_beneficiario' => $beneficiarioPotencial ['id_beneficiario'],
+						'tipo_beneficiario' => $value ['tipo_beneficiario'],
+						'tipo_documento' => $value ['tipo_documento'],
+						'identificacion_beneficiario' => $value ['identificacion_beneficiario'],
+						'nombre_beneficiario' => $value ['nombre'],
+						'primer_apellido' => $value ['primer_apellido'],
+						'segundo_apellido' => $value ['segundo_apellido'],
+						'genero_beneficiario' => $value ['genero'],
+						'edad_beneficiario' => $value ['edad'],
+						'nivel_estudio' => $value ['nivel_estudio'],
+						'correo' => $value ['correo'],
+						'direccion' => $value ['direccion'],
+						'manzana' => $value ['manzana'],
+						'interior' => $value ['interior'],
+						'bloque' => $value ['bloque'],
+						'torre' => $value ['torre'],
+						'apartamento' => $value ['casa_apto'],
+						'lote' => $value ['lote'],
+						'telefono' => $value ['telefono'],
+						'departamento' => $value ['departamento'],
+						'municipio' => $value ['municipio'],
+						'estrato' => $value ['estrato'],
+						'id_proyecto' => $value ['id_proyecto'],
+						'proyecto' => $value ['proyecto'],
+						'piso' => $value ['piso'],
+						'minvi' => $value ['minvivienda'],
+						'barrio' => $value ['barrio'],
+						'nomenclatura' => $_REQUEST ['abr_mun'] . "_" . $_REQUEST ['abr_urb'] . "_" . $value ['identificacion_beneficiario'] 
+				);
+			}
 		}
 	}
+	
 	public function validarBeneficiariosExistentes() {
 		foreach ( $this->datos_beneficiario as $key => $value ) {
 			
@@ -166,37 +286,24 @@ class FormProcessor {
 			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 			
 			if (is_null ( $consulta )) {
-				
-				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
-			}
-		}
-	}
-	public function validarContratosExistentes() {
-		foreach ( $this->datos_beneficiario as $key => $value ) {
-			
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExitenciaContrato', $value ['identificacion_beneficiario'] );
-			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
-			
-			if (is_null ( $consulta )) {
-				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
-			}
-		}
-	}
-	public function validarServiciosExistentes() {
-		foreach ( $this->datos_beneficiario as $key => $value ) {
-			
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaServicio', $value ['identificacion_beneficiario'] );
-			
-			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
-			
-			if (is_null ( $consulta )) {
-				$mensaje = " El beneficiario con identificación " . $value ['identificacion_beneficiario'] . " no tiene un equipo instalado. Sugerencia registrar el kit correspondiente.";
-				$this->escribir_log ( $mensaje );
-				
 				$this->error = true;
 			}
 		}
 	}
+	
+	public function validarBeneficiariosExistentesRegistro() {
+		foreach ( $this->datos_beneficiario as $key => $value ) {
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExitenciaBeneficiario', $value ['identificacion_beneficiario'] );
+			
+			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
+			
+			if (! is_null ( $consulta )) {
+				$this->error = true;
+			}
+		}
+	}
+	
 	public function cargarInformacionHojaCalculo() {
 		ini_set ( 'memory_limit', '1024M' );
 		ini_set ( 'max_execution_time', 300 );
@@ -218,33 +325,67 @@ class FormProcessor {
 			
 			for($i = 2; $i <= $total_filas; $i ++) {
 				
-				$datos_beneficiario [$i] ['identificacion_beneficiario'] = $informacion->setActiveSheetIndex ()->getCell ( 'A' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['departamento'] = $informacion->setActiveSheetIndex ()->getCell ( 'A' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['fecha_comisionamiento'] = $informacion->setActiveSheetIndex ()->getCell ( 'B' . $i )->getFormattedValue();
+				$datos_beneficiario [$i] ['municipio'] = $informacion->setActiveSheetIndex ()->getCell ( 'B' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['latencia'] = $informacion->setActiveSheetIndex ()->getCell ( 'C' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['id_proyecto'] = $informacion->setActiveSheetIndex ()->getCell ( 'C' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['tracert'] = $informacion->setActiveSheetIndex ()->getCell ( 'D' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['proyecto'] = $informacion->setActiveSheetIndex ()->getCell ( 'D' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['observaciones'] = $informacion->setActiveSheetIndex ()->getCell ( 'E' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['tipo_beneficiario'] = $informacion->setActiveSheetIndex ()->getCell ( 'E' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['estado'] = $informacion->setActiveSheetIndex ()->getCell ( 'F' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['tipo_documento'] = $informacion->setActiveSheetIndex ()->getCell ( 'F' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['pagina'] = $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['identificacion_beneficiario'] = $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['subida'] = $informacion->setActiveSheetIndex ()->getCell ( 'H' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['nombre'] = $informacion->setActiveSheetIndex ()->getCell ( 'H' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['bajada'] = $informacion->setActiveSheetIndex ()->getCell ( 'I' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['primer_apellido'] = $informacion->setActiveSheetIndex ()->getCell ( 'I' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['segundo_apellido'] = $informacion->setActiveSheetIndex ()->getCell ( 'J' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['genero'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue ():0;
+				
+				$datos_beneficiario [$i] ['edad'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue ():0;
+				
+				$datos_beneficiario [$i] ['nivel_estudio'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue ():0;
+				
+				$datos_beneficiario [$i] ['correo'] = $informacion->setActiveSheetIndex ()->getCell ( 'N' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['telefono'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue ():0;
+				
+				$datos_beneficiario [$i] ['direccion'] = $informacion->setActiveSheetIndex ()->getCell ( 'P' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['manzana'] = $informacion->setActiveSheetIndex ()->getCell ( 'Q' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['bloque'] = $informacion->setActiveSheetIndex ()->getCell ( 'R' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['torre'] = $informacion->setActiveSheetIndex ()->getCell ( 'S' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['casa_apto'] = $informacion->setActiveSheetIndex ()->getCell ( 'T' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['interior'] = $informacion->setActiveSheetIndex ()->getCell ( 'U' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['lote'] = $informacion->setActiveSheetIndex ()->getCell ( 'V' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['piso'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue ():0;
+				
+				$datos_beneficiario [$i] ['minvivienda'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue ():'FALSE';
+				
+				$datos_beneficiario [$i] ['barrio'] = $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue ();
+				
+				$datos_beneficiario [$i] ['estrato'] = (!is_null($informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue ()))?$informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue ():0;
 			}
 			
 			$this->datos_beneficiario = $datos_beneficiario;
-	
+			
 			unlink ( $this->archivo ['ruta_archivo'] );
-
 		} else {
 			Redireccionador::redireccionar ( "ErrorNoCargaInformacionHojaCalculo" );
 		}
 	}
+	
 	public function cargarArchivos() {
 		$archivo_datos = '';
 		$archivo = $_FILES ['archivo_informacion'];

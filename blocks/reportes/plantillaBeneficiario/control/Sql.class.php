@@ -29,43 +29,9 @@ class Sql extends \Sql {
 			 * Clausulas específicas
 			 */
 			
-			// Validaciones
-			
-			case 'consultarExitenciaActa' :
-				$cadenaSql = " SELECT ep.id as identificador_acta, cn.numero_identificacion ";
-				$cadenaSql .= " FROM interoperacion.acta_entrega_portatil ep";
-				$cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=ep.id_beneficiario AND cn.estado_registro='TRUE'";
-				$cadenaSql .= " WHERE ep.estado_registro='TRUE'";
-				$cadenaSql .= " AND ep.serial='" . $variable ['serial_portatil'] . "'";
-				// $cadenaSql .= " AND cn.numero_identificacion='" . $variable['identificacion_beneficiario'] . "'";
-				break;
-			
-			case 'consultarExitenciaSerialPortatil' :
-				$cadenaSql = " SELECT ep.id as identificador_acta, cn.numero_identificacion ";
-				$cadenaSql .= " FROM interoperacion.acta_entrega_portatil ep";
-				$cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=ep.id_beneficiario AND cn.estado_registro='TRUE'";
-				$cadenaSql .= " WHERE ep.estado_registro='TRUE'";
-				$cadenaSql .= " AND ep.serial='" . $variable ['serial_portatil'] . "'";
-				// $cadenaSql .= " AND cn.numero_identificacion='" . $variable['identificacion_beneficiario'] . "'";
-				break;
-			
-			case 'consultarExitenciaContrato' :
-				$cadenaSql = " SELECT id_beneficiario, numero_contrato,numero_identificacion";
-				$cadenaSql .= " FROM interoperacion.contrato";
-				$cadenaSql .= " WHERE estado_registro='TRUE'";
-				$cadenaSql .= " AND numero_identificacion='" . $variable . "';";
-				break;
-			
 			case 'consultarExitenciaBeneficiario' :
 				$cadenaSql = " SELECT id_beneficiario";
 				$cadenaSql .= " FROM interoperacion.beneficiario_potencial";
-				$cadenaSql .= " WHERE estado_registro='TRUE'";
-				$cadenaSql .= " AND identificacion='" . $variable . "';";
-				break;
-			
-			case 'consultarExistenciaServicio' :
-				$cadenaSql = " SELECT id_beneficiario";
-				$cadenaSql .= " FROM interoperacion.acta_entrega_servicios";
 				$cadenaSql .= " WHERE estado_registro='TRUE'";
 				$cadenaSql .= " AND identificacion='" . $variable . "';";
 				break;
@@ -91,8 +57,8 @@ class Sql extends \Sql {
 				$cadenaSql .= " VALUES (";
 				$cadenaSql .= " 'Actualizar Servicio - Pruebas Comision',";
 				$cadenaSql .= " 'Actualizar',";
-				$cadenaSql .= " '" . $variable['nombre_archivo']. "',";
-				$cadenaSql .= " '" . $variable['nombre_archivo']. "',";
+				$cadenaSql .= " '" . $variable ['nombre_archivo'] . "',";
+				$cadenaSql .= " '" . $variable ['nombre_archivo'] . "',";
 				$cadenaSql .= " 0,";
 				$cadenaSql .= " 0";
 				$cadenaSql .= " )RETURNING id_proceso;";
@@ -156,24 +122,84 @@ class Sql extends \Sql {
 				$cadenaSql .= " AND id_parametro='" . $variable . "';";
 				break;
 			
-			case 'actualizarServicio' :
-				$cadenaSql = " UPDATE interoperacion.acta_entrega_servicios ";
-				$cadenaSql .= " SET ";
-				$cadenaSql .= " resultado_vs='".$variable['resultado_vs']."', ";
-				$cadenaSql .= " resultado_vb='".$variable['resultado_vb']."', ";
-				$cadenaSql .= " resultado_p1='".$variable['resultado_p1']."', ";
-				$cadenaSql .= " observaciones_p1='".$variable['observaciones_p1']."', ";
-				$cadenaSql .= " resultado_tr2='".$variable['resultado_tr2']."', ";
-				$cadenaSql .= " resultado_tr1='".$variable['resultado_tr1']."', ";
-				$cadenaSql .= " reporte_fallos='Fecha Comisionamiento ".$variable['fecha'].". ".$variable['reporte_fallos']."', ";
-				$cadenaSql .= " acceso_reportando='".$variable['acceso_reportando']."', ";
-				$cadenaSql .= " hora_prueba_vs='".$variable['fecha']."', ";
-				$cadenaSql .= " hora_prueba_vb='".$variable['fecha']."', ";
-				$cadenaSql .= " hora_prueba_p1='".$variable['fecha']."', ";
-				$cadenaSql .= " hora_prueba_tr2='".$variable['fecha']."', ";
-				$cadenaSql .= " hora_prueba_tr1='".$variable['fecha']."', ";
-				$cadenaSql .= " paginas_visitadas='".$variable['paginas_visitadas']."' ";
-		     	$cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "' ;";
+			case "codificacion" :
+				$cadenaSql = "SELECT mc.abreviatura AS abr_mun, ur.abreviatura AS  abr_urb, ur.abreviatura_benef AS abr_benf ";
+				$cadenaSql .= "FROM parametros.urbanizacion ur join parametros.municipio mc ON  ur.codigo_mun=mc.codigo_mun ";
+				$cadenaSql .= "WHERE id_urbanizacion='" . $variable . "'";
+				break;
+			
+			case "registrarBeneficiarioPotencial" :
+				
+				$cadenaSql = "INSERT INTO interoperacion.beneficiario_potencial (";
+				$cadenaSql .= "id_beneficiario,";
+				$cadenaSql .= "tipo_beneficiario,";
+				$cadenaSql .= "tipo_documento,";
+				$cadenaSql .= "identificacion,";
+				$cadenaSql .= "nombre,";
+				$cadenaSql .= "primer_apellido,";
+				$cadenaSql .= "segundo_apellido,";
+				$cadenaSql .= "genero,";
+				$cadenaSql .= "edad,";
+				$cadenaSql .= "nivel_estudio,";
+				$cadenaSql .= "correo,";
+				$cadenaSql .= "direccion,";
+				$cadenaSql .= "manzana,";
+				$cadenaSql .= "interior,";
+				$cadenaSql .= "bloque,";
+				$cadenaSql .= "torre,";
+				$cadenaSql .= "apartamento,";
+				$cadenaSql .= "lote,";
+				$cadenaSql .= "telefono,";
+				$cadenaSql .= "departamento,";
+				$cadenaSql .= "municipio,";
+				$cadenaSql .= "proyecto,";
+				$cadenaSql .= "id_proyecto,";
+				$cadenaSql .= "estrato,";
+				$cadenaSql .= "nomenclatura,";
+				$cadenaSql .= "minvi,";
+				$cadenaSql .= "barrio,";
+				$cadenaSql .= "piso";
+				$cadenaSql .= ") VALUES ";
+				$cadenaSql .= "(";
+				$cadenaSql .= "'" . $variable ['id_beneficiario'] . "',";
+				$cadenaSql .= "'" . $variable ['tipo_beneficiario'] . "',";
+				$cadenaSql .= "'" . $variable ['tipo_documento'] . "',";
+				$cadenaSql .= "'" . $variable ['identificacion_beneficiario'] . "',";
+				$cadenaSql .= "'" . $variable ['nombre_beneficiario'] . "',";
+				$cadenaSql .= "'" . $variable ['primer_apellido'] . "',";
+				$cadenaSql .= "'" . $variable ['segundo_apellido'] . "',";
+				$cadenaSql .= "'" . $variable ['genero_beneficiario'] . "',";
+				$cadenaSql .= "'" . $variable ['edad_beneficiario'] . "',";
+				$cadenaSql .= "'" . $variable ['nivel_estudio'] . "',";
+				$cadenaSql .= "'" . $variable ['correo'] . "',";
+				$cadenaSql .= "'" . $variable ['direccion'] . "',";
+				$cadenaSql .= "'" . $variable ['manzana'] . "',";
+				$cadenaSql .= "'" . $variable ['interior'] . "',";
+				$cadenaSql .= "'" . $variable ['bloque'] . "',";
+				$cadenaSql .= "'" . $variable ['torre'] . "',";
+				$cadenaSql .= "'" . $variable ['apartamento'] . "',";
+				$cadenaSql .= "'" . $variable ['lote'] . "',";
+				$cadenaSql .= "'" . $variable ['telefono'] . "',";
+				$cadenaSql .= "'" . $variable ['departamento'] . "',";
+				$cadenaSql .= "'" . $variable ['municipio'] . "',";
+				$cadenaSql .= "'" . $variable ['proyecto'] . "',";
+				$cadenaSql .= "'" . $variable ['id_proyecto'] . "',";
+				$cadenaSql .= "'" . $variable ['estrato'] . "',";
+				$cadenaSql .= "'" . $variable ['nomenclatura'] . "',";
+				$cadenaSql .= "'" . $variable ['minvi'] . "',";
+				$cadenaSql .= "'" . $variable ['barrio'] . "',";
+				$cadenaSql .= "'" . $variable ['piso'] . "'";
+				$cadenaSql .= ");";
+				break;
+			
+			case 'consultarConsecutivo' :
+				$cadenaSql = " select id_beneficiario ";
+				$cadenaSql .= "FROM interoperacion.beneficiario_potencial ";
+				$cadenaSql .= "WHERE id_beneficiario ";
+				$cadenaSql .= "ILIKE '" . $variable ['string'] . "%' ";
+				$cadenaSql .= "AND substr(id_beneficiario, length(id_beneficiario)-" . $variable ['longitud'];
+				$cadenaSql .= ", 1) ~ '^[0-9]'";
+				$cadenaSql .= "ORDER BY id_beneficiario DESC LIMIT 1";
 				break;
 		}
 		
