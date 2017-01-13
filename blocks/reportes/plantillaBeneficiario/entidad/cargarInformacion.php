@@ -287,7 +287,8 @@ class FormProcessor {
 			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 			
 			if (is_null ( $consulta )) {
-				$this->error = true;
+				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+				exit();
 			}
 		}
 	}
@@ -298,7 +299,8 @@ class FormProcessor {
 			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 			
 			if (! is_null ( $consulta )) {
-				$this->error = true;
+				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+				exit();
 			}
 		}
 	}
