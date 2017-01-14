@@ -164,6 +164,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " FROM parametros.procesos_masivos";
                 $cadenaSql .= " WHERE estado_registro='TRUE' ";
                 $cadenaSql .= " AND estado='No Iniciado'";
+                $cadenaSql .= " AND descripcion='Contratos'";
                 $cadenaSql .= " );";
                 break;
 
