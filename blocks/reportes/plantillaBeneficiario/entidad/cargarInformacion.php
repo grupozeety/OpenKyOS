@@ -111,7 +111,7 @@ class FormProcessor {
 				$this->resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 			}
 		}
-		exit ();
+
 		if ($this->resultado != true) {
 			Redireccionador::redireccionar ( "ErrorActualizacion" );
 		} else {
