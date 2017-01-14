@@ -211,7 +211,7 @@ class Sql extends \Sql {
             case 'consultarProceso':
                 $cadenaSql = " SELECT * ";
                 $cadenaSql .= " FROM parametros.procesos_masivos";
-                $cadenaSql .= " WHERE descripcion='Contratos'";
+                $cadenaSql .= " WHERE descripcion='Actas'";
                 $cadenaSql .= " ORDER BY id_proceso DESC;";
                 break;
 
@@ -338,7 +338,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND cn.id_beneficiario IN (" . $variable . ");";
                 break;
 
-            case 'consultaInformacionCertificador':
+            case 'ConsultaBeneficiariosActaPortatil':
                 $cadenaSql = " SELECT ep.*, ";
                 $cadenaSql .= " cn.numero_contrato,";
                 $cadenaSql .= " cn.estrato as tp_beneficiario,";
@@ -361,16 +361,12 @@ class Sql extends \Sql {
                 $cadenaSql .= " cn.urbanizacion as nombre_urbanizacion,";
                 $cadenaSql .= " cn.departamento as nombre_departamento,";
                 $cadenaSql .= " cn.municipio as nombre_municipio,";
-                $cadenaSql .= " cn.barrio as barrio_contrato";
+                $cadenaSql .= " cn.barrio as barrio_contrato, cn.numero_identificacion,cn.nombres ";
                 $cadenaSql .= " FROM interoperacion.acta_entrega_portatil AS ep";
-                $cadenaSql .= " JOIN interoperacion.contrato as cn ON cn.id_beneficiario=ep.id_beneficiario";
-                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial as bn ON bn.id_beneficiario=ep.id_beneficiario";
-                $cadenaSql .= " WHERE  cn.numero_contrato >= 5494 ";
-                $cadenaSql .= " AND cn.numero_contrato <= 5496";
-                //$cadenaSql .= " AND  ep.identificacion IN('3989103','64893904','8860976','92028425')";
-                //$cadenaSql .= " AND  ep.id_beneficiario IN('S1290')";
-                //$cadenaSql .= " AND  cn.manzana NOT IN('1','2')";
-                $cadenaSql .= " order by ep.id;";
+                $cadenaSql .= " JOIN interoperacion.contrato as cn ON cn.id_beneficiario=ep.id_beneficiario AND cn.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial as bn ON bn.id_beneficiario=ep.id_beneficiario AND bn.estado_registro='TRUE' ";
+                $cadenaSql .= " WHERE  ep.estado_registro='TRUE' ";
+                $cadenaSql .= " AND ep.id_beneficiario IN (" . $variable . ");";
 
                 break;
 

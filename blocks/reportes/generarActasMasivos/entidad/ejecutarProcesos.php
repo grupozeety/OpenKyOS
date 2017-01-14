@@ -169,7 +169,7 @@ class FormProcessor {
                 break;
 
         }
-        var_dump($_REQUEST);exit;
+
     }
 
     public function crearDirectorio() {
@@ -187,7 +187,7 @@ class FormProcessor {
     public function actualizarEstadoProceso() {
 
         $cadenaSql = $this->miSql->getCadenaSql('actualizarProceso', $this->proceso['id_proceso']);
-        //$actualizacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        $actualizacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
@@ -208,7 +208,10 @@ class FormProcessor {
      * Metodos Correspondientes al Trabajos del Crontab
      **/
     public function crearTrabajosCrontab() {
-        shell_exec('echo "* * * * * ' . $this->Url_ejecucion . '" | crontab -');
+
+        exec('echo -e "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
+        //exec('echo "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
+
     }
 
     public function eliminarTrabajoCrontab() {
@@ -237,6 +240,7 @@ class FormProcessor {
                 $valor = ($value == '') ? '' : '`crontab -l`\n';
 
                 exec('echo -e "' . $valor . $value . '" | crontab -');
+                //exec('echo  "' . $valor . $value . '" | crontab -');
             }
 
         }

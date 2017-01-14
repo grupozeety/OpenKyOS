@@ -311,8 +311,8 @@ class FormProcessor {
 
             $this->informacion_registrar_portatil[] = array(
                 'id_beneficiario' => $consulta['id_beneficiario'],
-                'serial' => $value['serial_portatil'],
                 'fecha_entrega' => $value['fecha_entrega_portatil'],
+                'serial' => $value['serial_portatil'],
             );
 
             $this->informacion_registrar_acta_servicios[] = array(
