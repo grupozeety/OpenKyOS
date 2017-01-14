@@ -162,6 +162,7 @@ class FormProcessor {
         foreach ($this->datos_beneficiario as $key => $value) {
 
             $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaActaPortatil', $value['identificacion_beneficiario']);
+
             $consulta_acta_portatil = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if (is_null($consulta_acta_portatil)) {
@@ -174,6 +175,7 @@ class FormProcessor {
             }
 
             $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaActaServicios', $value['identificacion_beneficiario']);
+
             $consulta_acta_servicios = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if (is_null($consulta_acta_servicios)) {

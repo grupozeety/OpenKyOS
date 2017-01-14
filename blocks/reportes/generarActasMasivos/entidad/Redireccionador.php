@@ -42,9 +42,9 @@ class Redireccionador {
                 $variable .= '&mensajeModal=exitoInformacion';
                 break;
 
-            case "ErrorCreacionContratos":
+            case "ErrorCreacion":
                 $variable = 'pagina=generarActasMasivos';
-                $variable .= '&mensajeModal=errorCreacionContratos';
+                $variable .= '&mensajeModal=errorCreacion';
                 break;
 
             case "ExitoRegistroProceso":
@@ -56,6 +56,16 @@ class Redireccionador {
             case "ErrorRegistroProceso":
                 $variable = 'pagina=generarActasMasivos';
                 $variable .= '&mensajeModal=errorRegistroProceso';
+                break;
+
+            case "ExitoRegistroActas":
+                $variable = 'pagina=generarActasMasivos';
+                $variable .= '&mensajeModal=exitoRegistroActas';
+                break;
+
+            case 'ExitoActualizacionActas':
+                $variable = 'pagina=generarActasMasivos';
+                $variable .= '&mensajeModal=exitoActualizacionActas';
                 break;
 
         }

@@ -543,6 +543,16 @@ class Registrador {
 
         switch ($_REQUEST['mensajeModal']) {
 
+            case 'exitoRegistroActas':
+                $mensaje = "Exito<br>Información Correctamente Registrada";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
+            case 'exitoActualizacionActas':
+                $mensaje = "Exito<br>Información Correctamente Actualizada";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
             case 'errorFormatoArchivo':
                 $mensaje = "Error<br>Formato Archivo Invalido";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
@@ -573,13 +583,13 @@ class Registrador {
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
 
-            case 'errorCreacionContratos':
-                $mensaje = "Error<br>Existen Inconsistencias en la Información a Cargar.<br>Para más Informacion Validar el Archivo en el Opción \"Validar Formato de Información Contrato\"";
+            case 'errorCreacion':
+                $mensaje = "Error<br>Existen Inconsistencias en la Información a Cargar.<br>Para más Informacion Validar el Archivo en el Opción \"Validar Formato de Información\"";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
                 break;
 
             case 'exitoRegistroProceso':
-                $mensaje = "Exito<br>Se ha Registrado con exito el <b>Proceso # " . $_REQUEST['proceso'] . "</b>.<br>Para más Informacion consulte la Opción \"Consulta Estado de Generación Contratos\"";
+                $mensaje = "Exito<br>Se ha Registrado con exito el <b>Proceso # " . $_REQUEST['proceso'] . "</b>.<br>Para más Informacion consulte la Opción \"Consulta Estado de Generación Actas\"";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
 

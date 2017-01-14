@@ -149,31 +149,59 @@ class FormProcessor {
 
         $this->crearActas();
 
-        /**
-         *  8. Parametrizacion Nombre Contrato
-         **/
+        switch ($_REQUEST['funcionalidad']) {
+            case '1':
 
-        $this->parametrizarNombreContratos();
+                if (!is_null($this->id_beneficiario_acta_portatil) && !is_null($this->id_beneficiario_acta_servicio)) {
 
-        /**
-         *  9. Registrar Tarea o Proceso de Generación Pdf Contratos
-         **/
+                    Redireccionador::redireccionar("ExitoRegistroActas");
 
-        $this->registroProceso();
+                } else {
+                    Redireccionador::redireccionar("ErrorCreacion");
+                }
 
-        if (isset($this->proceso) && $this->proceso != null) {
-            Redireccionador::redireccionar("ExitoRegistroProceso", $this->proceso);
-        } else {
-            Redireccionador::redireccionar("ErrorRegistroProceso");
+                break;
+
+            case '2':
+
+            /**
+             *  8. Parametrizacion Nombre Contrato
+             **/
+
+                $this->parametrizarNombre();
+
+            /**
+             *  9. Registrar Tarea o Proceso de Generación Pdf Contratos
+             **/
+
+                $this->registroProceso();
+
+                if (isset($this->proceso) && $this->proceso != null) {
+                    Redireccionador::redireccionar("ExitoRegistroProceso", $this->proceso);
+                } else {
+                    Redireccionador::redireccionar("ErrorRegistroProceso");
+                }
+                break;
+
+            case '3':
+                if (!is_null($this->id_beneficiario_acta_portatil) && !is_null($this->id_beneficiario_acta_servicio)) {
+
+                    Redireccionador::redireccionar("ExitoActualizacionActas");
+                } else {
+                    Redireccionador::redireccionar("ErrorCreacion");
+                }
+
+                break;
+
         }
 
     }
 
     public function registroProceso() {
         $arreglo_registro = array(
-            'nombre_contrato' => $this->arreglo_nombre,
-            'contrato_inicio' => $this->contrato[0],
-            'contrato_final' => end($this->contrato),
+            'nombre' => $this->arreglo_nombre,
+            'inicio' => $this->id_beneficiario_acta_portatil[0],
+            'final' => end($this->id_beneficiario_acta_portatil),
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarProceso', $arreglo_registro);
@@ -182,7 +210,7 @@ class FormProcessor {
 
     }
 
-    public function parametrizarNombreContratos() {
+    public function parametrizarNombre() {
         if (isset($this->datos_nombre_documento)) {
 
             foreach ($this->datos_nombre_documento as $key => $value) {
@@ -232,10 +260,6 @@ class FormProcessor {
                         $arreglo_nombre[] = 'piso';
                         break;
 
-                    case 'Nombre Comisionador':
-                        $arreglo_nombre[] = 'nombre_comisionador';
-                        break;
-
                 }
 
             }
@@ -253,8 +277,6 @@ class FormProcessor {
     }
 
     public function crearActas() {
-
-        var_dump($_REQUEST);
 
         foreach ($this->informacion_registrar_portatil as $key => $value) {
 
@@ -275,10 +297,6 @@ class FormProcessor {
             $this->id_beneficiario_acta_servicio[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_beneficiario'];
 
         }
-
-        echo "Listo";
-
-        exit;
 
     }
 
@@ -318,7 +336,7 @@ class FormProcessor {
             $consulta_acta_portatil = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if (is_null($consulta_acta_portatil)) {
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
 
             }
 
@@ -327,7 +345,7 @@ class FormProcessor {
 
             if (is_null($consulta_acta_servicios)) {
 
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
 
             }
 
@@ -347,7 +365,7 @@ class FormProcessor {
                 $hiredate = $value['fecha_entrega_portatil'];
 
                 if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha') {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
+                    Redireccionador::redireccionar("ErrorCreacion");
                 }
             }
 
@@ -356,12 +374,12 @@ class FormProcessor {
                 if (is_numeric($value['cantidad_esclavo'])) {
 
                     if ($value['cantidad_esclavo'] < 1) {
-                        Redireccionador::redireccionar("ErrorCreacionContratos");
+                        Redireccionador::redireccionar("ErrorCreacion");
                     }
 
                 } elseif ($value['cantidad_esclavo'] != 'Sin Cantidad') {
 
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
+                    Redireccionador::redireccionar("ErrorCreacion");
                 }
             }
 
@@ -380,7 +398,7 @@ class FormProcessor {
 
             if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
 
             }
 
@@ -390,7 +408,7 @@ class FormProcessor {
 
             if (!is_null($mac_1_beneficiario) && $value['ip'] != 'Sin MAC 1' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
 
             }
 
@@ -399,7 +417,7 @@ class FormProcessor {
             $mac_2_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if (!is_null($mac_2_beneficiario) && $value['ip'] != 'Sin MAC 2' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
 
             }
 
@@ -416,7 +434,7 @@ class FormProcessor {
 
             if ($consulta) {
 
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
             }
 
         }
@@ -432,7 +450,7 @@ class FormProcessor {
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if (is_null($consulta) && $value['serial_portatil'] != 'Sin Serial Portatil') {
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
 
             }
 
@@ -455,7 +473,7 @@ class FormProcessor {
 
                 if ($consulta && $value['identificacion_beneficiario'] != $consulta['numero_identificacion']) {
 
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
+                    Redireccionador::redireccionar("ErrorCreacion");
                 }
 
             }
@@ -474,7 +492,7 @@ class FormProcessor {
 
             if (is_null($consulta)) {
 
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
 
             }
 
@@ -492,7 +510,7 @@ class FormProcessor {
 
             if (is_null($consulta)) {
 
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
 
             }
 

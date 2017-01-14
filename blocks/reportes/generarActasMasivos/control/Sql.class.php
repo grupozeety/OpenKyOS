@@ -108,18 +108,24 @@ class Sql extends \Sql {
                 break;
 
             case 'consultarInformacionBeneficiario':
-                $cadenaSql = " SELECT bp.* ,mn.municipio as nombre_municipio,dp.departamento as nombre_departamento";
-                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
-                $cadenaSql .= " JOIN parametros.municipio mn ON mn.codigo_mun=bp.municipio";
-                $cadenaSql .= " JOIN parametros.departamento dp ON dp.codigo_dep=bp.departamento";
+                $cadenaSql = " SELECT bp.* ";
+                $cadenaSql .= " FROM interoperacion.contrato bp";
                 $cadenaSql .= " WHERE bp.estado_registro='TRUE' ";
-                $cadenaSql .= " AND bp.identificacion='" . $variable . "';";
+                $cadenaSql .= " AND bp.numero_identificacion='" . $variable . "';";
 
                 break;
             //Registros
             case 'registrarActaServicios':
 
-                $cadenaSql = " INSERT INTO interoperacion.acta_entrega_servicios(";
+                if ($_REQUEST['funcionalidad'] == '3') {
+                    $cadenaSql = " UPDATE interoperacion.acta_entrega_servicios";
+                    $cadenaSql .= " SET estado_registro='FALSE'";
+                    $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "';";
+                    $cadenaSql .= " INSERT INTO interoperacion.acta_entrega_servicios(";
+                } else {
+                    $cadenaSql = " INSERT INTO interoperacion.acta_entrega_servicios(";
+                }
+
                 $cadenaSql .= " id_beneficiario,";
                 $cadenaSql .= " mac_esc, ";
                 $cadenaSql .= " serial_esc, ";
@@ -154,7 +160,16 @@ class Sql extends \Sql {
                 break;
 
             case 'registrarActaPortatil':
-                $cadenaSql = " INSERT INTO interoperacion.acta_entrega_portatil(";
+
+                if ($_REQUEST['funcionalidad'] == '3') {
+
+                    $cadenaSql = " UPDATE interoperacion.acta_entrega_portatil";
+                    $cadenaSql .= " SET estado_registro='FALSE'";
+                    $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "';";
+                    $cadenaSql .= " INSERT INTO interoperacion.acta_entrega_portatil(";
+                } else {
+                    $cadenaSql = " INSERT INTO interoperacion.acta_entrega_portatil(";
+                }
                 $cadenaSql .= " id_beneficiario,";
                 $cadenaSql .= " fecha_entrega,";
                 $cadenaSql .= " serial)";
@@ -184,11 +199,11 @@ class Sql extends \Sql {
                 $cadenaSql .= " parametro_inicio,";
                 $cadenaSql .= " parametro_fin)";
                 $cadenaSql .= " VALUES (";
-                $cadenaSql .= " 'Contratos',";
+                $cadenaSql .= " 'Actas',";
                 $cadenaSql .= " 'No Iniciado',";
-                $cadenaSql .= " '" . $variable['nombre_contrato'] . "',";
-                $cadenaSql .= " '" . $variable['contrato_inicio'] . "',";
-                $cadenaSql .= " '" . $variable['contrato_final'] . "'";
+                $cadenaSql .= " '" . $variable['nombre'] . "',";
+                $cadenaSql .= " '" . $variable['inicio'] . "',";
+                $cadenaSql .= " '" . $variable['final'] . "'";
                 $cadenaSql .= " )RETURNING id_proceso;";
                 break;
 
