@@ -202,6 +202,7 @@ class FormProcessor {
             'nombre' => $this->arreglo_nombre,
             'inicio' => $this->id_beneficiario_acta_portatil[0],
             'final' => end($this->id_beneficiario_acta_portatil),
+            'datos_adicionales' => implode(";", $this->id_beneficiario_acta_portatil),
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarProceso', $arreglo_registro);

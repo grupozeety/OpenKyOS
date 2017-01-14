@@ -197,13 +197,14 @@ class Sql extends \Sql {
                 $cadenaSql .= " estado,";
                 $cadenaSql .= " nombre_archivo,";
                 $cadenaSql .= " parametro_inicio,";
-                $cadenaSql .= " parametro_fin)";
+                $cadenaSql .= " parametro_fin,datos_adicionales)";
                 $cadenaSql .= " VALUES (";
                 $cadenaSql .= " 'Actas',";
                 $cadenaSql .= " 'No Iniciado',";
                 $cadenaSql .= " '" . $variable['nombre'] . "',";
                 $cadenaSql .= " '" . $variable['inicio'] . "',";
-                $cadenaSql .= " '" . $variable['final'] . "'";
+                $cadenaSql .= " '" . $variable['final'] . "',";
+                $cadenaSql .= " '" . $variable['datos_adicionales'] . "'";
                 $cadenaSql .= " )RETURNING id_proceso;";
                 break;
 
@@ -222,7 +223,9 @@ class Sql extends \Sql {
                 $cadenaSql .= " FROM parametros.procesos_masivos";
                 $cadenaSql .= " WHERE estado_registro='TRUE' ";
                 $cadenaSql .= " AND estado='No Iniciado'";
+                $cadenaSql .= " AND descripcion='Actas'";
                 $cadenaSql .= " );";
+
                 break;
 
             case 'actualizarProceso':
@@ -263,6 +266,112 @@ class Sql extends \Sql {
                 $cadenaSql .= " FROM parametros.parametros";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
                 $cadenaSql .= " AND id_parametro='" . $variable . "';";
+                break;
+
+            case 'ConsultaBeneficiariosActaServicio':
+                $cadenaSql = " SELECT";
+                $cadenaSql .= " cn.id_beneficiario,";
+                $cadenaSql .= " cn.nombres,";
+                $cadenaSql .= " cn.primer_apellido,";
+                $cadenaSql .= " cn.segundo_apellido,";
+                $cadenaSql .= " cn.numero_identificacion,";
+                $cadenaSql .= " cn.numero_contrato,";
+                $cadenaSql .= " cn.direccion_domicilio,";
+                $cadenaSql .= " cn.departamento,";
+                $cadenaSql .= " cn.municipio,";
+                $cadenaSql .= " cn.urbanizacion,";
+                $cadenaSql .= " cn.estrato,";
+                $cadenaSql .= " cn.manzana,";
+                $cadenaSql .= " cn.bloque,";
+                $cadenaSql .= " cn.barrio,";
+                $cadenaSql .= " cn.torre,";
+                $cadenaSql .= " cn.casa_apartamento,";
+                $cadenaSql .= " cn.interior,";
+                $cadenaSql .= " cn.lote,";
+                $cadenaSql .= " cn.piso,";
+                $cadenaSql .= " cn.estrato_socioeconomico,";
+                $cadenaSql .= " cn.tipo_tecnologia as tipo_tecnologia_con,";
+                $cadenaSql .= " ";
+                $cadenaSql .= " '' AS serial,";
+                $cadenaSql .= " mp.serial_esc,";
+                $cadenaSql .= " mp.mac_esc as mac1_esc,";
+                $cadenaSql .= " mp.mac2_esc,";
+                $cadenaSql .= " mp.marca_esc,";
+                $cadenaSql .= " mp.cant_esc as cantidad_esc,";
+                $cadenaSql .= " mp.ip_esc,";
+                $cadenaSql .= " '' hora_prueba,";
+                $cadenaSql .= " '' as hora_prueba_vs,";
+                $cadenaSql .= " '' resultado_vs ,";
+                $cadenaSql .= " 'Mbps' as unidad_vs ,";
+                $cadenaSql .= " '' as observaciones_vs ,";
+                $cadenaSql .= " '' as hora_prueba_vb ,";
+                $cadenaSql .= " '' resultado_vb ,";
+                $cadenaSql .= " 'Mbps' as unidad_vb ,";
+                $cadenaSql .= " '' as observaciones_vb ,";
+                $cadenaSql .= " '' as hora_prueba_p1 ,";
+                $cadenaSql .= " '' resultado_p1 ,";
+                $cadenaSql .= " 'ms' as unidad_p1 ,";
+                $cadenaSql .= " 'www.mintic.gov.co' as observaciones_p1 ,";
+                $cadenaSql .= " '' as hora_prueba_p2 ,";
+                $cadenaSql .= " '' resultado_p2 ,";
+                $cadenaSql .= " 'ms' as unidad_p2 ,";
+                $cadenaSql .= " 'http://www.louvre.fr/en' as observaciones_p2 ,";
+                $cadenaSql .= " '' as hora_prueba_p3 ,";
+                $cadenaSql .= " '' resultado_p3 ,";
+                $cadenaSql .= " 'ms' as unidad_p3 ,";
+                $cadenaSql .= " 'https://www.wikipedia.org/' as observaciones_p3 ,";
+                $cadenaSql .= " '' as hora_prueba_tr1 ,";
+                $cadenaSql .= " '' resultado_tr1 ,";
+                $cadenaSql .= " 'estado conexión' as unidad_tr1 ,";
+                $cadenaSql .= " 'https://www.sivirtual.gov.co/' as observaciones_tr1 ,";
+                $cadenaSql .= " '' as hora_prueba_tr2 ,";
+                $cadenaSql .= " '' resultado_tr2 ,";
+                $cadenaSql .= " 'Pasa por el NAP Colombia' as unidad_tr2 ,";
+                $cadenaSql .= " 'https://www.sivirtual.gov.co' as observaciones_tr2,";
+                $cadenaSql .= " cn.tipo_tecnologia as tecnologia,";
+                $cadenaSql .= " pr.descripcion as tipo_tecnologia";
+                $cadenaSql .= " FROM interoperacion.contrato AS cn";
+                $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios AS mp ON mp.id_beneficiario=cn.id_beneficiario AND mp.estado_registro='TRUE' ";
+                $cadenaSql .= " FULL JOIN parametros.parametros pr ON cn.tipo_tecnologia=pr.id_parametro";
+                $cadenaSql .= " WHERE ";
+                $cadenaSql .= " cn.estado_registro=TRUE ";
+                $cadenaSql .= " AND cn.id_beneficiario IN (" . $variable . ");";
+                break;
+
+            case 'consultaInformacionCertificador':
+                $cadenaSql = " SELECT ep.*, ";
+                $cadenaSql .= " cn.numero_contrato,";
+                $cadenaSql .= " cn.estrato as tp_beneficiario,";
+                $cadenaSql .= " cn.direccion_domicilio,";
+                $cadenaSql .= " cn.manzana,";
+                $cadenaSql .= " cn.bloque,";
+                $cadenaSql .= " cn.torre,";
+                $cadenaSql .= " cn.casa_apartamento,";
+                $cadenaSql .= " cn.interior,";
+                $cadenaSql .= " cn.lote,";
+                $cadenaSql .= " cn.piso,";
+                $cadenaSql .= " bn.municipio as codigo_municipio, ";
+                $cadenaSql .= " cn.nombres as nombre_contrato,";
+                $cadenaSql .= " cn.primer_apellido as primer_apellido_contrato,";
+                $cadenaSql .= " cn.segundo_apellido as segundo_apellido_contrato,";
+                $cadenaSql .= " cn.tipo_documento as tipo_documento_contrato,";
+                $cadenaSql .= " cn.numero_identificacion as numero_identificacion_contrato,";
+                $cadenaSql .= " cn.estrato as tipo_beneficiario_contrato, ";
+                $cadenaSql .= " cn.estrato_socioeconomico as estrato_socioeconomico_contrato,";
+                $cadenaSql .= " cn.urbanizacion as nombre_urbanizacion,";
+                $cadenaSql .= " cn.departamento as nombre_departamento,";
+                $cadenaSql .= " cn.municipio as nombre_municipio,";
+                $cadenaSql .= " cn.barrio as barrio_contrato";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_portatil AS ep";
+                $cadenaSql .= " JOIN interoperacion.contrato as cn ON cn.id_beneficiario=ep.id_beneficiario";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial as bn ON bn.id_beneficiario=ep.id_beneficiario";
+                $cadenaSql .= " WHERE  cn.numero_contrato >= 5494 ";
+                $cadenaSql .= " AND cn.numero_contrato <= 5496";
+                //$cadenaSql .= " AND  ep.identificacion IN('3989103','64893904','8860976','92028425')";
+                //$cadenaSql .= " AND  ep.id_beneficiario IN('S1290')";
+                //$cadenaSql .= " AND  cn.manzana NOT IN('1','2')";
+                $cadenaSql .= " order by ep.id;";
+
                 break;
 
         }

@@ -451,8 +451,8 @@ class Registrador {
                                             <th><center>Proceso<center></th>
                                             <th><center>Estado<center></th>
                                             <th><center>Archivo Descarga<center></th>
-                                            <th><center>Numéro de Contrato Inicial<center></th>
-                                            <th><center>Numéro de Contrato Final<center></th>
+                                            <th><center>Parametro Inicio<br>Id Beneficiario<center></th>
+                                            <th><center>Parametro Final<br>Id Beneficiario<center></th>
                                         </tr>
                                     </thead>
                                            <tfoot>
@@ -460,8 +460,8 @@ class Registrador {
                                             <th><center>Proceso<center></th>
                                             <th><center>Estado<center></th>
                                             <th><center>Archivo Descarga<center></th>
-                                            <th><center>Numéro de Contrato Inicial<center></th>
-                                            <th><center>Numéro de Contrato Final<center></th>
+                                            <th><center>Parametro Inicio<br>Id Beneficiario<center></th>
+                                            <th><center>Parametro Final<br>Id Beneficiario<center></th>
                                         </tr>
                                     </tfoot>
                                   </table>';

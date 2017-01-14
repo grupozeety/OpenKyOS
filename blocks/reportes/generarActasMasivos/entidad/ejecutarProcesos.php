@@ -163,11 +163,13 @@ class FormProcessor {
     public function creacionDocumentos() {
 
         switch ($this->proceso['descripcion']) {
-            case 'Contratos':
-                include_once "generacionContratos.php";
+
+            case 'Actas':
+                include_once "generacionActas.php";
                 break;
 
         }
+        var_dump($_REQUEST);exit;
     }
 
     public function crearDirectorio() {
@@ -185,7 +187,7 @@ class FormProcessor {
     public function actualizarEstadoProceso() {
 
         $cadenaSql = $this->miSql->getCadenaSql('actualizarProceso', $this->proceso['id_proceso']);
-        $actualizacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        //$actualizacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
@@ -210,7 +212,34 @@ class FormProcessor {
     }
 
     public function eliminarTrabajoCrontab() {
+
+        exec('crontab -l', $crontab);
+
         shell_exec('echo "" | crontab -');
+
+        if (!empty($crontab) && is_array($crontab)) {
+
+            $cadena_buscada = '#Actas';
+
+            foreach ($crontab as $key => $value) {
+
+                $posicion_coincidencia = strpos($value, $cadena_buscada);
+                if ($posicion_coincidencia === false) {
+
+                } else {
+
+                    unset($crontab[$key]);
+                }
+            }
+
+            foreach ($crontab as $key => $value) {
+
+                $valor = ($value == '') ? '' : '`crontab -l`\n';
+
+                exec('echo -e "' . $valor . $value . '" | crontab -');
+            }
+
+        }
     }
 
     public function crearUrlProcesos() {
@@ -237,7 +266,7 @@ class FormProcessor {
         // URL Consultar Proyectos
         $this->UrlProceso = $url . $cadena;
 
-        $this->Url_ejecucion = "curl  " . $this->UrlProceso;
+        $this->Url_ejecucion = "curl  " . $this->UrlProceso . "  #Actas ";
 
     }
 
