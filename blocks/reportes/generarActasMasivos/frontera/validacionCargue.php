@@ -79,7 +79,7 @@ class Registrador {
             // URL Consultar Proyectos
             $urlEjecutarProceso = $url . $cadena;
 
-            //echo $enlace;exit;
+            echo $urlEjecutarProceso;
 
         }
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -235,7 +235,7 @@ class Registrador {
                                 $url = $this->miConfigurador->getVariableConfiguracion("host");
                                 $url .= $this->miConfigurador->getVariableConfiguracion("site");
                                 $url .= '/archivos/generacionMasiva/plantillas/';
-                                $url .= 'Plantilla_Contratos_Masivos.xls';
+                                $url .= 'Plantilla_Actas_Masivas.ods';
 
                             }
 
@@ -252,7 +252,7 @@ class Registrador {
                                                     &nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
                                                     &nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
                                                     &nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br><br>
-                                        Link de Descarga de Plantilla : <b><a target="_blank" href="#">Plantilla Cargue Masivo</a></b><br>
+                                        Link de Descarga de Plantilla : <b><a target="_blank" href="' . $url . '">Plantilla Cargue Masivo</a></b><br>
                                                 ';
 
                             $atributos["mensaje"] = $mensaje;
