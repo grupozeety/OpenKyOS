@@ -79,6 +79,58 @@ class FormProcessor {
 
         $this->validarBeneficiariosExistentes();
 
+        switch ($_REQUEST['funcionalidad']) {
+            case '3':
+
+            /**
+             *  5.1. Validar que no exitan actas a Actualizar
+             **/
+                $this->validarExistenciaActas();
+
+            /**
+             *  5.3. Validar existencia serial portatil
+             **/
+                $this->validarExistenciaSerialPortatil();
+
+            /**
+             *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
+             **/
+
+                $this->validarDuplicidadPortatil();
+
+            /**
+             *  5.4. Validar duplicidad IP y MAC Esclavos
+             **/
+                $this->validarIPyMAC();
+
+                break;
+
+            default:
+
+            /**
+             *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
+             **/
+                $this->validarDuplicidadPortatil();
+
+            /**
+             *  5.2. Validar que no exitan registradas actas con las identificaciones de los Beneficiaciarios
+             **/
+                $this->validarDuplicidadActa();
+
+            /**
+             *  5.3. Validar existencia serial portatil
+             **/
+                $this->validarExistenciaSerialPortatil();
+
+            /**
+             *  5.4. Validar duplicidad IP y MAC Esclavos
+             **/
+                $this->validarIPyMAC();
+
+                break;
+
+        }
+
         /**
          *  6. Validar otros Datos
          **/
@@ -92,36 +144,65 @@ class FormProcessor {
         $this->procesarInformacionBeneficiario();
 
         /**
-         *  7. Crear Contrato
+         *  7. Crear Actas
          **/
 
-        $this->crearContrato();
+        $this->crearActas();
 
-        /**
-         *  8. Parametrizacion Nombre Contrato
-         **/
+        switch ($_REQUEST['funcionalidad']) {
+            case '1':
 
-        $this->parametrizarNombreContratos();
+                if (!is_null($this->id_beneficiario_acta_portatil) && !is_null($this->id_beneficiario_acta_servicio)) {
 
-        /**
-         *  9. Registrar Tarea o Proceso de Generación Pdf Contratos
-         **/
+                    Redireccionador::redireccionar("ExitoRegistroActas");
 
-        $this->registroProceso();
+                } else {
+                    Redireccionador::redireccionar("ErrorCreacion");
+                }
 
-        if (isset($this->proceso) && $this->proceso != null) {
-            Redireccionador::redireccionar("ExitoRegistroProceso", $this->proceso);
-        } else {
-            Redireccionador::redireccionar("ErrorRegistroProceso");
+                break;
+
+            case '2':
+
+            /**
+             *  8. Parametrizacion Nombre Contrato
+             **/
+
+                $this->parametrizarNombre();
+
+            /**
+             *  9. Registrar Tarea o Proceso de Generación Pdf Contratos
+             **/
+
+                $this->registroProceso();
+
+                if (isset($this->proceso) && $this->proceso != null) {
+                    Redireccionador::redireccionar("ExitoRegistroProceso", $this->proceso);
+                } else {
+                    Redireccionador::redireccionar("ErrorRegistroProceso");
+                }
+                break;
+
+            case '3':
+                if (!is_null($this->id_beneficiario_acta_portatil) && !is_null($this->id_beneficiario_acta_servicio)) {
+
+                    Redireccionador::redireccionar("ExitoActualizacionActas");
+                } else {
+                    Redireccionador::redireccionar("ErrorCreacion");
+                }
+
+                break;
+
         }
 
     }
 
     public function registroProceso() {
         $arreglo_registro = array(
-            'nombre_contrato' => $this->arreglo_nombre,
-            'contrato_inicio' => $this->contrato[0],
-            'contrato_final' => end($this->contrato),
+            'nombre' => $this->arreglo_nombre,
+            'inicio' => $this->id_beneficiario_acta_portatil[0],
+            'final' => end($this->id_beneficiario_acta_portatil),
+            'datos_adicionales' => implode(";", $this->id_beneficiario_acta_portatil),
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarProceso', $arreglo_registro);
@@ -130,7 +211,7 @@ class FormProcessor {
 
     }
 
-    public function parametrizarNombreContratos() {
+    public function parametrizarNombre() {
         if (isset($this->datos_nombre_documento)) {
 
             foreach ($this->datos_nombre_documento as $key => $value) {
@@ -180,10 +261,6 @@ class FormProcessor {
                         $arreglo_nombre[] = 'piso';
                         break;
 
-                    case 'Nombre Comisionador':
-                        $arreglo_nombre[] = 'nombre_comisionador';
-                        break;
-
                 }
 
             }
@@ -200,15 +277,25 @@ class FormProcessor {
 
     }
 
-    public function crearContrato() {
+    public function crearActas() {
 
-        foreach ($this->informacion_registrar as $key => $value) {
+        foreach ($this->informacion_registrar_portatil as $key => $value) {
 
-            $cadenaSql = $this->miSql->getCadenaSql('registrarContrato', $value);
+            $cadenaSql = $this->miSql->getCadenaSql('registrarActaPortatil', $value);
 
             $cadenaSql = str_replace(",)", ")", $cadenaSql);
 
-            $this->contrato[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['numero_contrato'];
+            $this->id_beneficiario_acta_portatil[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_beneficiario'];
+
+        }
+
+        foreach ($this->informacion_registrar_acta_servicios as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('registrarActaServicios', $value);
+
+            $cadenaSql = str_replace(",)", ")", $cadenaSql);
+
+            $this->id_beneficiario_acta_servicio[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_beneficiario'];
 
         }
 
@@ -222,42 +309,46 @@ class FormProcessor {
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            $this->informacion_registrar[] = array(
+            $this->informacion_registrar_portatil[] = array(
                 'id_beneficiario' => $consulta['id_beneficiario'],
-                'estado_contrato' => "82",
-                'nombre' => $consulta['nombre'],
-                'primer_apellido' => $consulta['primer_apellido'],
-                'segundo_apellido' => $consulta['segundo_apellido'],
-                'tipo_documento' => "1",
-                'identificacion' => $consulta['identificacion'],
-                'direccion_domicilio' => $value['direccion'],
-                'direccion_instalacion' => $value['direccion'],
-                'departamento' => $consulta['nombre_departamento'],
-                'municipio' => $consulta['nombre_municipio'],
-                'urbanizacion' => $consulta['proyecto'],
-                'estrato' => "1",
-                'telefono' => $value['telefono'],
-                'celular' => $value['celular'],
-                'correo' => $value['correo'],
-                'velocidad_internet' => "4",
-                'valor_mensual' => "6500",
-                'tecnologia' => $value['tipo_tecnologia'],
-                'estado' => "TRUE",
-                'usuario' => "administrador",
-                'manzana' => $value['manzana'],
-                'bloque' => $value['bloque'],
-                'torre' => $value['torre'],
-                'casa_apartamento' => $value['casa_apartamento'],
-                'tipo_tecnologia' => $value['tipo_tecnologia'],
-                'valor_tarificacion' => "6500",
-                'interior' => $value['interior'],
-                'lote' => $value['lote'],
-                'piso' => $value['piso'],
-                'nombre_comisionador' => $value['nombre_comisionador'],
-                'fecha_contrato' => $value['fecha_contrato'],
-                'estrato_socioeconomico' => $value['estrato_socioeconomico'],
-
+                'fecha_entrega' => $value['fecha_entrega_portatil'],
+                'serial' => $value['serial_portatil'],
             );
+
+            $this->informacion_registrar_acta_servicios[] = array(
+                'id_beneficiario' => $consulta['id_beneficiario'],
+                'mac_esc' => $value['mac_1'],
+                'serial_esc' => $value['serial_esclavo'],
+                'marca_esc' => $value['marca_esclavo'],
+                'cant_esc' => $value['cantidad_esclavo'],
+                'ip_esc' => $value['ip'],
+                'mac_esc2' => $value['mac_2'],
+            );
+
+        }
+
+    }
+
+    public function validarExistenciaActas() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaActaPortatil', $value['identificacion_beneficiario']);
+            $consulta_acta_portatil = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (is_null($consulta_acta_portatil)) {
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaActaServicios', $value['identificacion_beneficiario']);
+            $consulta_acta_servicios = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (is_null($consulta_acta_servicios)) {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
 
         }
 
@@ -269,45 +360,125 @@ class FormProcessor {
 
             //Fecha Valida
 
-            if ($value['fecha_contrato']) {
+            if (isset($value['fecha_entrega_portatil'])) {
 
                 $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
-                $hiredate = $value['fecha_contrato'];
+                $hiredate = $value['fecha_entrega_portatil'];
 
-                if (!preg_match($date_regex, $hiredate)) {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
-
+                if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha') {
+                    Redireccionador::redireccionar("ErrorCreacion");
                 }
             }
 
-            //Tipo de Tecnologia
+            if (isset($value['cantidad_esclavo'])) {
 
-            if ($value['tipo_tecnologia']) {
+                if (is_numeric($value['cantidad_esclavo'])) {
 
-                if (!is_numeric($value['tipo_tecnologia'])) {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
+                    if ($value['cantidad_esclavo'] < 1) {
+                        Redireccionador::redireccionar("ErrorCreacion");
+                    }
 
+                } elseif ($value['cantidad_esclavo'] != 'Sin Cantidad') {
+
+                    Redireccionador::redireccionar("ErrorCreacion");
                 }
-                if ($value['tipo_tecnologia'] != '94' && $value['tipo_tecnologia'] != '95' && $value['tipo_tecnologia'] != '96') {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
-
-                }
-
-            }
-
-            if ($value['estrato_socioeconomico']) {
-
-                if (!is_numeric($value['estrato_socioeconomico']) && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
-                }
-
-                if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2' && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
-                }
-
             }
 
             $mensaje = null;
+        }
+
+    }
+
+    public function validarIPyMAC() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaIP', $value['ip']);
+
+            $ip_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaMac1', $value['mac_1']);
+
+            $mac_1_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($mac_1_beneficiario) && $value['ip'] != 'Sin MAC 1' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaMac2', $value['mac_2']);
+
+            $mac_2_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($mac_2_beneficiario) && $value['ip'] != 'Sin MAC 2' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+
+        }
+
+    }
+
+    public function validarDuplicidadActa() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaActa', $value['identificacion_beneficiario']);
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if ($consulta) {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+            }
+
+        }
+
+    }
+
+    public function validarExistenciaSerialPortatil() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialRegistrado', $value['serial_portatil']);
+
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (is_null($consulta) && $value['serial_portatil'] != 'Sin Serial Portatil') {
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+
+        }
+
+    }
+
+    public function validarDuplicidadPortatil() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $arreglo = array(
+                'identificacion' => $value['identificacion_beneficiario'],
+                'serial_portatil' => $value['serial_portatil'],
+            );
+
+            if ($value['serial_portatil'] != 'Sin Serial Portatil') {
+                $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialPortatil', $arreglo);
+                $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                if ($consulta && $value['identificacion_beneficiario'] != $consulta['numero_identificacion']) {
+
+                    Redireccionador::redireccionar("ErrorCreacion");
+                }
+
+            }
+
         }
 
     }
@@ -322,7 +493,7 @@ class FormProcessor {
 
             if (is_null($consulta)) {
 
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
 
             }
 
@@ -338,9 +509,9 @@ class FormProcessor {
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if ($consulta) {
+            if (is_null($consulta)) {
 
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
 
             }
 
@@ -384,41 +555,27 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['telefono'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['serial_portatil'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['celular'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['fecha_entrega_portatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['correo'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['mac_1'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['direccion'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['mac_2'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['manzana'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['serial_esclavo'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['bloque'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['marca_esclavo'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['torre'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['cantidad_esclavo'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['casa_apartamento'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['interior'] = $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['lote'] = $informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['piso'] = $informacion->setActiveSheetIndex()->getCell('L' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['nombre_comisionador'] = $informacion->setActiveSheetIndex()->getCell('M' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['fecha_contrato'] = $informacion->setActiveSheetIndex()->getCell('N' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['tipo_tecnologia'] = $informacion->setActiveSheetIndex()->getCell('O' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['estrato_socioeconomico'] = $informacion->setActiveSheetIndex()->getCell('P' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['ip'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
 
             }
 
             $this->datos_beneficiario = $datos_beneficiario;
 
-            if (isset($informacion_general[1]) && $informacion_general['1']['worksheetName'] == 'Parametrización Nombre Contrato') {
+            if (isset($informacion_general[1]) && $informacion_general['1']['worksheetName'] == 'Parametrización Nombre Actas') {
                 {
                     //var_dump($informacion_general);exit;
 
@@ -446,7 +603,7 @@ class FormProcessor {
     public function cargarArchivos() {
 
         $archivo_datos = '';
-        $archivo = $_FILES['archivo_contratos'];
+        $archivo = $_FILES['archivo_actas'];
 
         if ($archivo['error'] == 0) {
 

@@ -54,7 +54,7 @@ class FormProcessor {
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $_REQUEST['tiempo'] = time();
-        var_dump($_REQUEST);
+
         /**
          *  1. Cargar Archivo en el Directorio
          **/
@@ -88,7 +88,26 @@ class FormProcessor {
         switch ($_REQUEST['funcionalidad']) {
             case '3':
 
-                echo "Actualizacion";
+            /**
+             *  5.1. Validar que no exitan actas a Actualizar
+             **/
+                $this->validarExistenciaActas();
+
+            /**
+             *  5.3. Validar existencia serial portatil
+             **/
+                $this->validarExistenciaSerialPortatil();
+
+            /**
+             *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
+             **/
+
+                $this->validarDuplicidadPortatil();
+
+            /**
+             *  5.4. Validar duplicidad IP y MAC Esclavos
+             **/
+                $this->validarIPyMAC();
 
                 break;
 
@@ -98,16 +117,26 @@ class FormProcessor {
              *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
              **/
                 $this->validarDuplicidadPortatil();
-                break;
 
             /**
              *  5.2. Validar que no exitan registradas actas con las identificaciones de los Beneficiaciarios
              **/
                 $this->validarDuplicidadActa();
+
+            /**
+             *  5.3. Validar existencia serial portatil
+             **/
+                $this->validarExistenciaSerialPortatil();
+
+            /**
+             *  5.4. Validar duplicidad IP y MAC Esclavos
+             **/
+                $this->validarIPyMAC();
+
                 break;
+
         }
 
-        exit;
         /**
          *  6. Validar otros Datos
          **/
@@ -117,7 +146,7 @@ class FormProcessor {
         /**
          *  7. Cerrar Log
          **/
-        exit;
+
         $this->cerrar_log();
 
         if (isset($this->error)) {
@@ -128,63 +157,154 @@ class FormProcessor {
 
     }
 
+    public function validarExistenciaActas() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaActaPortatil', $value['identificacion_beneficiario']);
+
+            $consulta_acta_portatil = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (is_null($consulta_acta_portatil)) {
+
+                $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " no tiene asociada una acta de entrega de portatil. Sugerencia registre un acta de entrega de portatil para el beneficiario.";
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaActaServicios', $value['identificacion_beneficiario']);
+
+            $consulta_acta_servicios = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (is_null($consulta_acta_servicios)) {
+
+                $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " no tiene asociada una acta de servicios. Sugerencia registre un acta de servicios para el beneficiario.";
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
+        }
+
+    }
+
     public function validarOtrosDatos() {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
             //Fecha Valida
 
-            if ($value['fecha_contrato']) {
+            if (isset($value['fecha_entrega_portatil'])) {
 
                 $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
-                $hiredate = $value['fecha_contrato'];
+                $hiredate = $value['fecha_entrega_portatil'];
 
-                if (!preg_match($date_regex, $hiredate)) {
+                if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha') {
 
-                    $mensaje = " La fecha de contrato asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna Fecha de Contrato del Plantilla  se en formato texto y con esl formato 'yyyy-mm-dd'.";
+                    $mensaje = " La fecha de entrega de portatil  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna Fecha de entrega de portatil este en formato texto y con esl formato 'yyyy-mm-dd'.";
                     $this->escribir_log($mensaje);
                     $this->error = true;
 
                 }
             }
 
-            //Tipo de Tecnologia
+            if (isset($value['cantidad_esclavo'])) {
 
-            if ($value['tipo_tecnologia']) {
+                if (is_numeric($value['cantidad_esclavo'])) {
 
-                if (!is_numeric($value['tipo_tecnologia'])) {
+                    if ($value['cantidad_esclavo'] < 1) {
 
-                    $mensaje = " El tipo de Tecnologia  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique que el tipo de tecnologia correponda a los numeros asosciados al de plantilla en la Hoja 'Tipo de Tecnologia'.";
+                        $mensaje = " La cantidad del esclavo   asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que sea mayor o igual  a 1 .";
+                        $this->escribir_log($mensaje);
+                        $this->error = true;
+
+                    }
+
+                } elseif ($value['cantidad_esclavo'] != 'Sin Cantidad') {
+
+                    $mensaje = " La cantidad del esclavo  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que sea un campo númerico.";
                     $this->escribir_log($mensaje);
                     $this->error = true;
 
                 }
-                if ($value['tipo_tecnologia'] != '94' && $value['tipo_tecnologia'] != '95' && $value['tipo_tecnologia'] != '96') {
-                    $mensaje = " El tipo de Tecnologia  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique que el tipo de tecnologia correponda a los numeros asosciados al de plantilla en la Hoja 'Tipo de Tecnologia'.";
-                    $this->escribir_log($mensaje);
-                    $this->error = true;
-
-                }
-
-            }
-
-            if ($value['estrato_socioeconomico']) {
-
-                if (!is_numeric($value['estrato_socioeconomico']) && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
-                    $mensaje = " El estrato socioeconomico asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique el que estrato se un campo numerico correspondiente a estrato 1 y 2.";
-                    $this->escribir_log($mensaje);
-                    $this->error = true;
-                }
-
-                if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2' && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
-                    $mensaje = " El estrato socioeconomico asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique el que estrato se un campo numerico correspondiente a estrato 1 y 2.";
-                    $this->escribir_log($mensaje);
-                    $this->error = true;
-                }
-
             }
 
             $mensaje = null;
+        }
+
+    }
+
+    public function validarIPyMAC() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaIP', $value['ip']);
+
+            $ip_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+
+                $mensaje = " La IP del esclavo " . $value['ip'] . " que esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la IP del Esclavo .";
+
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaMac1', $value['mac_1']);
+
+            $mac_1_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($mac_1_beneficiario) && $value['ip'] != 'Sin MAC 1' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+
+                $mensaje = " La Mac del esclavo 1 <b>" . $value['mac_1'] . "<b> que esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la Mac del Esclavo 1 .";
+
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaMac2', $value['mac_2']);
+
+            $mac_2_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($mac_2_beneficiario) && $value['ip'] != 'Sin MAC 2' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+
+                $mensaje = " La Mac del esclavo 2 <b>" . $value['mac_2'] . "<b> que esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la Mac del Esclavo 2 .";
+
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
+        }
+
+    }
+
+    public function validarExistenciaSerialPortatil() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialRegistrado', $value['serial_portatil']);
+
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (is_null($consulta) && $value['serial_portatil'] != 'Sin Serial Portatil') {
+
+                $mensaje = " El serial  del portatil " . $value['serial_portatil'] . " no exite en la base de datos  el cual esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " . Sugerencia verifique serial de portatil o crear la referencia del mismo con el serial inexistente .";
+
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
         }
 
     }
@@ -221,7 +341,7 @@ class FormProcessor {
                 $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialPortatil', $arreglo);
                 $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-                if ($consulta) {
+                if ($consulta && $value['identificacion_beneficiario'] != $consulta['numero_identificacion']) {
 
                     $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " asociada con el serial " . $value['serial_portatil'] . " no es validad dado que este serial ya esta asociado a un acta con el beneficiario de identifiación " . $consulta['numero_identificacion'] . ". Sugerencia relacione otro serial de portatil o corrija el acta registrada.";
                     $this->escribir_log($mensaje);
@@ -330,6 +450,7 @@ class FormProcessor {
             }
 
             if ($total_filas > 500) {
+                echo "max ROWS";exit;
                 Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
             }
 
@@ -339,7 +460,7 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['serial_portatil'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['fecha_entrega_posrtatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['fecha_entrega_portatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
 
                 $datos_beneficiario[$i]['mac_1'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
 
@@ -359,6 +480,7 @@ class FormProcessor {
             $this->datos_beneficiario = $datos_beneficiario;
 
         } else {
+            echo "Error Cargar Informacion";exit;
             Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
 
         }
@@ -407,7 +529,7 @@ class FormProcessor {
             $archivo['rutaDirectorio'] = $ruta_absoluta;
 
             if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
-
+                echo "copiar archivo";exit;
                 Redireccionador::redireccionar("ErrorCargarArchivo");
             }
 
@@ -418,7 +540,7 @@ class FormProcessor {
             );
 
         } else {
-
+            echo "Archivo No Valido";exit;
             Redireccionador::redireccionar("ErrorArchivoNoValido");
         }
 
