@@ -111,7 +111,7 @@ class FormProcessor {
 				$this->resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 			}
 		}
-
+		
 		if ($this->resultado != true) {
 			Redireccionador::redireccionar ( "ErrorActualizacion" );
 		} else {
@@ -236,25 +236,25 @@ class FormProcessor {
 					if (strlen ( $_REQUEST ['consecutivo'] ) == 1) {
 						if ($b < 10) {
 							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '000' . $b;
-						} else if ($b>9 && $b < 100) {
+						} else if ($b > 9 && $b < 100) {
 							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '00' . $b;
-						} else if ($b>99 && $b < 1000) {
+						} else if ($b > 99 && $b < 1000) {
 							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $b;
-						} elseif ($b>999 && $b < 10000) {
+						} elseif ($b > 999 && $b < 10000) {
 							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '' . $b;
 						}
 					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 2) {
-						if ($b < 100) {
+						if ($b < 10) {
 							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '00' . $b;
-						} else if ($b>9 && $b < 100) {
+						} else if ($b > 9 && $b < 100) {
 							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $b;
-						} elseif ($b>99 && $b< 10000) {
+						} else if ($b > 99 && $b < 1000) {
 							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '' . $b;
 						}
 					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 3) {
-						if ($b < 1000) {
+						if ($b < 10) {
 							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $b;
-						} elseif ($b>999 && $b < 10000) {
+						} else if ($b > 9 && $b < 100) {
 							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '' . $b;
 						}
 					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 4) {
