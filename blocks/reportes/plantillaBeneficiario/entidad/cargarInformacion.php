@@ -76,10 +76,9 @@ class FormProcessor {
 		 * 5.
 		 * Validar Existencia Beneficiarios
 		 */
-
+		
 		if ($_REQUEST ['funcionalidad'] == 3) {
 			$this->validarBeneficiariosExistentes ();
-			
 		} else {
 			$this->validarBeneficiariosExistentesRegistro ();
 		}
@@ -97,48 +96,44 @@ class FormProcessor {
 		 */
 		
 		$this->informacionBeneficiario ();
-
 	}
 	
 	/**
 	 * Funcionalidades Específicas
 	 */
-
 	public function informacionBeneficiario() {
 		foreach ( $this->informacion_registrar as $key => $value ) {
 			if ($_REQUEST ['funcionalidad'] == 3) {
-				 $cadenaSql = $this->miSql->getCadenaSql ( 'actualizarBeneficiario', $value );
+				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarBeneficiario', $value );
 				$this->resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 			} else {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $value );
 				$this->resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 			}
-
 		}
-
+		
 		if ($this->resultado != true) {
 			Redireccionador::redireccionar ( "ErrorActualizacion" );
-		}else{
-			Redireccionador::redireccionar ( "ExitoRegistroProceso");
+		} else {
+			Redireccionador::redireccionar ( "ExitoRegistroProceso" );
 		}
-
 	}
 	public function validarNulo() {
 		foreach ( $this->datos_beneficiario as $key => $value ) {
 			
 			if ($value ['estrato'] == 0) {
 				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
-				exit();
+				exit ();
 			}
 			
 			if (is_null ( $value ['identificacion_beneficiario'] )) {
 				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
-				exit();
+				exit ();
 			}
 		}
 	}
 	public function procesarInformacionBeneficiario() {
-		$a=0;
+		$a = 0;
 		foreach ( $this->datos_beneficiario as $key => $value ) {
 			
 			// Funcionalidad 3 es Actualización de Registros
@@ -202,7 +197,7 @@ class FormProcessor {
 				
 				if ($resultado) {
 					$consecutivo = explode ( $_REQUEST ['consecutivo'], $resultado [0] ['id_beneficiario'] );
-					$nuevoConsecutivo = $consecutivo [1] + 1 +$a;
+					$nuevoConsecutivo = $consecutivo [1] + 1 + $a;
 					
 					if (strlen ( $_REQUEST ['consecutivo'] ) == 1) {
 						if ($nuevoConsecutivo < 10) {
@@ -236,20 +231,40 @@ class FormProcessor {
 					
 					$beneficiarioPotencial ['id_beneficiario'] = $nuevoConsecutivo;
 				} else {
+					$b = 1 + $a;
+					
 					if (strlen ( $_REQUEST ['consecutivo'] ) == 1) {
-						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0001';
+						if ($b < 10) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '000' . $b;
+						} else if ($b > 9 && $b < 100) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '00' . $b;
+						} else if ($b > 99 && $b < 1000) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $b;
+						} elseif ($b > 999 && $b < 10000) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '' . $b;
+						}
 					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 2) {
-						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '001';
+						if ($b < 10) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '00' . $b;
+						} else if ($b > 9 && $b < 100) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $b;
+						} else if ($b > 99 && $b < 1000) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '' . $b;
+						}
 					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 3) {
-						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '01';
+						if ($b < 10) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $b;
+						} else if ($b > 9 && $b < 100) {
+							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '' . $b;
+						}
 					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 4) {
-						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '1';
+						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '' . $b;
 					}
 					
 					$beneficiarioPotencial ['id_beneficiario'] = $nuevoConsecutivo;
 				}
 				
-				$a++;
+				$a ++;
 				
 				$this->informacion_registrar [] = array (
 						'id_beneficiario' => $beneficiarioPotencial ['id_beneficiario'],
@@ -293,7 +308,7 @@ class FormProcessor {
 			
 			if (is_null ( $consulta )) {
 				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
-				exit();
+				exit ();
 			}
 		}
 	}
@@ -305,7 +320,7 @@ class FormProcessor {
 			
 			if (! is_null ( $consulta )) {
 				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
-				exit();
+				exit ();
 			}
 		}
 	}
