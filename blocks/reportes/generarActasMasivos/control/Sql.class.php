@@ -29,25 +29,44 @@ class Sql extends \Sql {
 
             //Validaciones
 
+            case 'consultarExitenciaActaServicios':
+                $cadenaSql = " SELECT aes.id_beneficiario,cn.numero_identificacion";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_servicios aes ";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=aes.id_beneficiario AND cn.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE cn.numero_identificacion='" . $variable . "'";
+                $cadenaSql .= " AND aes.estado_registro='TRUE';";
+                break;
+
+            case 'consultarExitenciaActaPortatil':
+                $cadenaSql = " SELECT ap.id_beneficiario,cn.numero_identificacion";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_portatil ap ";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=ap.id_beneficiario AND cn.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE cn.numero_identificacion='" . $variable . "'";
+                $cadenaSql .= " AND ap.estado_registro='TRUE'";
+                break;
+
             case 'consultarExitenciaIP':
-                $cadenaSql = " SELECT id_beneficiario";
-                $cadenaSql .= " FROM interoperacion.acta_entrega_servicios";
-                $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND ip_esc='" . $variable . "';";
+                $cadenaSql = " SELECT aes.id_beneficiario,cn.numero_identificacion ";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_servicios aes";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=aes.id_beneficiario AND cn.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE aes.estado_registro='TRUE'";
+                $cadenaSql .= " AND aes.ip_esc='" . $variable . "';";
                 break;
 
             case 'consultarExitenciaMac1':
-                $cadenaSql = " SELECT id_beneficiario";
-                $cadenaSql .= " FROM interoperacion.acta_entrega_servicios";
-                $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND mac_esc='" . $variable . "';";
+                $cadenaSql = " SELECT aes.id_beneficiario,cn.numero_identificacion ";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_servicios aes";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=aes.id_beneficiario AND cn.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE aes.estado_registro='TRUE'";
+                $cadenaSql .= " AND aes.mac_esc='" . $variable . "';";
                 break;
 
             case 'consultarExitenciaMac2':
-                $cadenaSql = " SELECT id_beneficiario";
-                $cadenaSql .= " FROM interoperacion.acta_entrega_servicios";
-                $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND mac2_esc='" . $variable . "';";
+                $cadenaSql = " SELECT aes.id_beneficiario,cn.numero_identificacion ";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_servicios aes";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=aes.id_beneficiario AND cn.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE aes.estado_registro='TRUE'";
+                $cadenaSql .= " AND aes.mac2_esc='" . $variable . "';";
                 break;
 
             case 'consultarExitenciaSerialRegistrado':
@@ -98,48 +117,30 @@ class Sql extends \Sql {
 
                 break;
             //Registros
-            case 'registrarContrato':
+            case 'registrarActaServicios':
 
-                $cadenaSql = " INSERT INTO interoperacion.contrato(";
+                $cadenaSql = " INSERT INTO interoperacion.acta_entrega_servicios(";
                 $cadenaSql .= " id_beneficiario,";
-                $cadenaSql .= " estado_contrato, ";
-                $cadenaSql .= " nombres, ";
-                $cadenaSql .= " primer_apellido,";
-                $cadenaSql .= " segundo_apellido,";
-                $cadenaSql .= " tipo_documento,";
-                $cadenaSql .= " numero_identificacion, ";
-                $cadenaSql .= " direccion_domicilio,";
-                $cadenaSql .= " direccion_instalacion, ";
-                $cadenaSql .= " departamento,";
-                $cadenaSql .= " municipio, ";
-                $cadenaSql .= " urbanizacion,";
-                $cadenaSql .= " estrato,";
-                $cadenaSql .= " telefono, ";
-                $cadenaSql .= " celular,";
-                $cadenaSql .= " correo,";
-                $cadenaSql .= " velocidad_internet, ";
-                $cadenaSql .= " valor_mensual, ";
-                $cadenaSql .= " tecnologia,";
-                $cadenaSql .= " estado,";
-                $cadenaSql .= " usuario,";
-                $cadenaSql .= " manzana,";
-                $cadenaSql .= " bloque,";
-                $cadenaSql .= " torre, ";
-                $cadenaSql .= " casa_apartamento,";
-                $cadenaSql .= " tipo_tecnologia, ";
-                $cadenaSql .= " valor_tarificacion, ";
-                $cadenaSql .= " interior,";
-                $cadenaSql .= " lote,";
-                $cadenaSql .= " piso,";
-                $cadenaSql .= " nombre_comisionador,";
-                $cadenaSql .= " fecha_contrato,";
-                $cadenaSql .= " estrato_socioeconomico)";
+                $cadenaSql .= " mac_esc, ";
+                $cadenaSql .= " serial_esc, ";
+                $cadenaSql .= " marca_esc, ";
+                $cadenaSql .= " cant_esc, ";
+                $cadenaSql .= " ip_esc, ";
+                $cadenaSql .= " mac2_esc)";
                 $cadenaSql .= " VALUES (";
                 foreach ($variable as $key => $value) {
 
-                    if ($key == 'correo' && $value = 'Sin Correo') {
+                    if ($key == 'mac_esc' && $value == 'Sin MAC 1') {
                         $cadenaSql .= "NULL,";
-                    } else if ($key == 'nombre_comisionador' && $value = 'Sin Comisionador') {
+                    } else if ($key == 'mac_esc2' && $value == 'Sin MAC 2') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'ip_esc' && $value == 'Sin IP') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'marca_esc' && $value == 'Sin Marca Esclavo') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'serial_esc' && $value == 'Sin Serial Esclavo') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'cant_esc' && $value == 'Sin Cantidad') {
                         $cadenaSql .= "NULL,";
                     } else {
 
@@ -149,7 +150,30 @@ class Sql extends \Sql {
 
                 }
 
-                $cadenaSql .= ")RETURNING numero_contrato;";
+                $cadenaSql .= ")RETURNING id_beneficiario;";
+                break;
+
+            case 'registrarActaPortatil':
+                $cadenaSql = " INSERT INTO interoperacion.acta_entrega_portatil(";
+                $cadenaSql .= " id_beneficiario,";
+                $cadenaSql .= " fecha_entrega,";
+                $cadenaSql .= " serial)";
+                $cadenaSql .= " VALUES (";
+                foreach ($variable as $key => $value) {
+
+                    if ($key == 'serial' && $value == 'Sin Serial Portatil') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'fecha_entrega' && $value == 'Sin Fecha') {
+                        $cadenaSql .= "NULL,";
+                    } else {
+
+                        $cadenaSql .= "'" . $value . "',";
+
+                    }
+
+                }
+
+                $cadenaSql .= ")RETURNING id_beneficiario;";
                 break;
             // Registro Procesos
             case 'registrarProceso':

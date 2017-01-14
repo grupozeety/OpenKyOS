@@ -12,49 +12,49 @@ class Redireccionador {
         switch ($opcion) {
 
             case "ErrorFormatoArchivo":
-                $variable = 'pagina=generarContratosMasivos';
+                $variable = 'pagina=generarActasMasivos';
                 $variable .= '&mensajeModal=errorFormatoArchivo';
                 break;
 
             case "ErrorArchivoNoValido":
-                $variable = 'pagina=generarContratosMasivos';
+                $variable = 'pagina=generarActasMasivos';
                 $variable .= '&mensajeModal=errorArchivoNoValido';
                 break;
 
             case "ErrorCargarArchivo":
-                $variable = 'pagina=generarContratosMasivos';
+                $variable = 'pagina=generarActasMasivos';
                 $variable .= '&mensajeModal=errorCargarArchivo';
                 break;
 
             case "ErrorNoCargaInformacionHojaCalculo":
-                $variable = 'pagina=generarContratosMasivos';
+                $variable = 'pagina=generarActasMasivos';
                 $variable .= '&mensajeModal=errorCargarInformacion';
                 break;
 
             case "ErrorInformacionCargar":
-                $variable = 'pagina=generarContratosMasivos';
+                $variable = 'pagina=generarActasMasivos';
                 $variable .= '&mensajeModal=errorInformacionCargar';
                 $variable .= '&log=' . $valor;
                 break;
 
             case "ExitoInformacion":
-                $variable = 'pagina=generarContratosMasivos';
+                $variable = 'pagina=generarActasMasivos';
                 $variable .= '&mensajeModal=exitoInformacion';
                 break;
 
             case "ErrorCreacionContratos":
-                $variable = 'pagina=generarContratosMasivos';
+                $variable = 'pagina=generarActasMasivos';
                 $variable .= '&mensajeModal=errorCreacionContratos';
                 break;
 
             case "ExitoRegistroProceso":
-                $variable = 'pagina=generarContratosMasivos';
+                $variable = 'pagina=generarActasMasivos';
                 $variable .= '&mensajeModal=exitoRegistroProceso';
                 $variable .= '&proceso=' . $valor;
                 break;
 
             case "ErrorRegistroProceso":
-                $variable = 'pagina=generarContratosMasivos';
+                $variable = 'pagina=generarActasMasivos';
                 $variable .= '&mensajeModal=errorRegistroProceso';
                 break;
 

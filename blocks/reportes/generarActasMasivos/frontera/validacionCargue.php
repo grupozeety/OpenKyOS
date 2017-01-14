@@ -569,7 +569,7 @@ class Registrador {
                 break;
 
             case 'exitoInformacion':
-                $mensaje = "Exito<br>Información Correctamente Validada y sin Errores.<br>Dirigirse a la Opcion \"Crear y Cargar Contratos\" ";
+                $mensaje = "Exito<br>Información Correctamente Validada y sin Errores.<br>Dirigirse a la Opcion \"Crear y Cargar Actas\" ";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
 

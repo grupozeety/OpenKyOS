@@ -82,8 +82,27 @@ class FormProcessor {
         switch ($_REQUEST['funcionalidad']) {
             case '3':
 
-                echo "Actualizacion";
-                exit;
+            /**
+             *  5.1. Validar que no exitan actas a Actualizar
+             **/
+                $this->validarExistenciaActas();
+
+            /**
+             *  5.3. Validar existencia serial portatil
+             **/
+                $this->validarExistenciaSerialPortatil();
+
+            /**
+             *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
+             **/
+
+                $this->validarDuplicidadPortatil();
+
+            /**
+             *  5.4. Validar duplicidad IP y MAC Esclavos
+             **/
+                $this->validarIPyMAC();
+
                 break;
 
             default:
@@ -125,10 +144,10 @@ class FormProcessor {
         $this->procesarInformacionBeneficiario();
 
         /**
-         *  7. Crear Contrato
+         *  7. Crear Actas
          **/
 
-        $this->crearContrato();
+        $this->crearActas();
 
         /**
          *  8. Parametrizacion Nombre Contrato
@@ -233,17 +252,33 @@ class FormProcessor {
 
     }
 
-    public function crearContrato() {
+    public function crearActas() {
 
-        foreach ($this->informacion_registrar as $key => $value) {
+        var_dump($_REQUEST);
 
-            $cadenaSql = $this->miSql->getCadenaSql('registrarContrato', $value);
+        foreach ($this->informacion_registrar_portatil as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('registrarActaPortatil', $value);
 
             $cadenaSql = str_replace(",)", ")", $cadenaSql);
 
-            $this->contrato[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['numero_contrato'];
+            $this->id_beneficiario_acta_portatil[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_beneficiario'];
 
         }
+
+        foreach ($this->informacion_registrar_acta_servicios as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('registrarActaServicios', $value);
+
+            $cadenaSql = str_replace(",)", ")", $cadenaSql);
+
+            $this->id_beneficiario_acta_servicio[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_beneficiario'];
+
+        }
+
+        echo "Listo";
+
+        exit;
 
     }
 
@@ -258,17 +293,43 @@ class FormProcessor {
             $this->informacion_registrar_portatil[] = array(
                 'id_beneficiario' => $consulta['id_beneficiario'],
                 'serial' => $value['serial_portatil'],
+                'fecha_entrega' => $value['fecha_entrega_portatil'],
             );
 
-            $this->informacion_registrar_acta[] = array(
+            $this->informacion_registrar_acta_servicios[] = array(
                 'id_beneficiario' => $consulta['id_beneficiario'],
-                'mac_esc1' => $value['mac_1'],
-                'mac_esc2' => $value['mac_2'],
-                'ip_esc' => $value['ip'],
+                'mac_esc' => $value['mac_1'],
                 'serial_esc' => $value['serial_esclavo'],
-                'marca_esclavo' => $value['marca_esclavo'],
-                'cantidad_esclavo' => $value['cantidad_esclavo'],
+                'marca_esc' => $value['marca_esclavo'],
+                'cant_esc' => $value['cantidad_esclavo'],
+                'ip_esc' => $value['ip'],
+                'mac_esc2' => $value['mac_2'],
             );
+
+        }
+
+    }
+
+    public function validarExistenciaActas() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaActaPortatil', $value['identificacion_beneficiario']);
+            $consulta_acta_portatil = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (is_null($consulta_acta_portatil)) {
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaActaServicios', $value['identificacion_beneficiario']);
+            $consulta_acta_servicios = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (is_null($consulta_acta_servicios)) {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+
+            }
 
         }
 
@@ -280,18 +341,31 @@ class FormProcessor {
 
             //Fecha Valida
 
-            if ($value['fecha_entrega_portatil']) {
+            if (isset($value['fecha_entrega_portatil'])) {
 
                 $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
                 $hiredate = $value['fecha_entrega_portatil'];
 
                 if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha') {
-
                     Redireccionador::redireccionar("ErrorCreacionContratos");
-
                 }
             }
 
+            if (isset($value['cantidad_esclavo'])) {
+
+                if (is_numeric($value['cantidad_esclavo'])) {
+
+                    if ($value['cantidad_esclavo'] < 1) {
+                        Redireccionador::redireccionar("ErrorCreacionContratos");
+                    }
+
+                } elseif ($value['cantidad_esclavo'] != 'Sin Cantidad') {
+
+                    Redireccionador::redireccionar("ErrorCreacionContratos");
+                }
+            }
+
+            $mensaje = null;
         }
 
     }
@@ -304,7 +378,7 @@ class FormProcessor {
 
             $ip_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP') {
+            if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
                 Redireccionador::redireccionar("ErrorCreacionContratos");
 
@@ -314,7 +388,7 @@ class FormProcessor {
 
             $mac_1_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (!is_null($mac_1_beneficiario) && $value['ip'] != 'Sin MAC 1') {
+            if (!is_null($mac_1_beneficiario) && $value['ip'] != 'Sin MAC 1' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
                 Redireccionador::redireccionar("ErrorCreacionContratos");
 
@@ -324,8 +398,7 @@ class FormProcessor {
 
             $mac_2_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (!is_null($mac_2_beneficiario) && $value['ip'] != 'Sin MAC 2') {
-
+            if (!is_null($mac_2_beneficiario) && $value['ip'] != 'Sin MAC 2' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
                 Redireccionador::redireccionar("ErrorCreacionContratos");
 
             }
@@ -359,8 +432,8 @@ class FormProcessor {
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if (is_null($consulta) && $value['serial_portatil'] != 'Sin Serial Portatil') {
-
                 Redireccionador::redireccionar("ErrorCreacionContratos");
+
             }
 
         }
@@ -380,10 +453,9 @@ class FormProcessor {
                 $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialPortatil', $arreglo);
                 $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-                if ($consulta) {
+                if ($consulta && $value['identificacion_beneficiario'] != $consulta['numero_identificacion']) {
 
                     Redireccionador::redireccionar("ErrorCreacionContratos");
-
                 }
 
             }
@@ -418,7 +490,7 @@ class FormProcessor {
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if ($consulta) {
+            if (is_null($consulta)) {
 
                 Redireccionador::redireccionar("ErrorCreacionContratos");
 
