@@ -79,6 +79,39 @@ class FormProcessor {
 
         $this->validarBeneficiariosExistentes();
 
+        switch ($_REQUEST['funcionalidad']) {
+            case '3':
+
+                echo "Actualizacion";
+                exit;
+                break;
+
+            default:
+
+            /**
+             *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
+             **/
+                $this->validarDuplicidadPortatil();
+
+            /**
+             *  5.2. Validar que no exitan registradas actas con las identificaciones de los Beneficiaciarios
+             **/
+                $this->validarDuplicidadActa();
+
+            /**
+             *  5.3. Validar existencia serial portatil
+             **/
+                $this->validarExistenciaSerialPortatil();
+
+            /**
+             *  5.4. Validar duplicidad IP y MAC Esclavos
+             **/
+                $this->validarIPyMAC();
+
+                break;
+
+        }
+
         /**
          *  6. Validar otros Datos
          **/
@@ -222,41 +255,19 @@ class FormProcessor {
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            $this->informacion_registrar[] = array(
+            $this->informacion_registrar_portatil[] = array(
                 'id_beneficiario' => $consulta['id_beneficiario'],
-                'estado_contrato' => "82",
-                'nombre' => $consulta['nombre'],
-                'primer_apellido' => $consulta['primer_apellido'],
-                'segundo_apellido' => $consulta['segundo_apellido'],
-                'tipo_documento' => "1",
-                'identificacion' => $consulta['identificacion'],
-                'direccion_domicilio' => $value['direccion'],
-                'direccion_instalacion' => $value['direccion'],
-                'departamento' => $consulta['nombre_departamento'],
-                'municipio' => $consulta['nombre_municipio'],
-                'urbanizacion' => $consulta['proyecto'],
-                'estrato' => "1",
-                'telefono' => $value['telefono'],
-                'celular' => $value['celular'],
-                'correo' => $value['correo'],
-                'velocidad_internet' => "4",
-                'valor_mensual' => "6500",
-                'tecnologia' => $value['tipo_tecnologia'],
-                'estado' => "TRUE",
-                'usuario' => "administrador",
-                'manzana' => $value['manzana'],
-                'bloque' => $value['bloque'],
-                'torre' => $value['torre'],
-                'casa_apartamento' => $value['casa_apartamento'],
-                'tipo_tecnologia' => $value['tipo_tecnologia'],
-                'valor_tarificacion' => "6500",
-                'interior' => $value['interior'],
-                'lote' => $value['lote'],
-                'piso' => $value['piso'],
-                'nombre_comisionador' => $value['nombre_comisionador'],
-                'fecha_contrato' => $value['fecha_contrato'],
-                'estrato_socioeconomico' => $value['estrato_socioeconomico'],
+                'serial' => $value['serial_portatil'],
+            );
 
+            $this->informacion_registrar_acta[] = array(
+                'id_beneficiario' => $consulta['id_beneficiario'],
+                'mac_esc1' => $value['mac_1'],
+                'mac_esc2' => $value['mac_2'],
+                'ip_esc' => $value['ip'],
+                'serial_esc' => $value['serial_esclavo'],
+                'marca_esclavo' => $value['marca_esclavo'],
+                'cantidad_esclavo' => $value['cantidad_esclavo'],
             );
 
         }
@@ -269,45 +280,114 @@ class FormProcessor {
 
             //Fecha Valida
 
-            if ($value['fecha_contrato']) {
+            if ($value['fecha_entrega_portatil']) {
 
                 $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
-                $hiredate = $value['fecha_contrato'];
+                $hiredate = $value['fecha_entrega_portatil'];
 
-                if (!preg_match($date_regex, $hiredate)) {
+                if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha') {
+
                     Redireccionador::redireccionar("ErrorCreacionContratos");
 
                 }
             }
 
-            //Tipo de Tecnologia
+        }
 
-            if ($value['tipo_tecnologia']) {
+    }
 
-                if (!is_numeric($value['tipo_tecnologia'])) {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
+    public function validarIPyMAC() {
 
-                }
-                if ($value['tipo_tecnologia'] != '94' && $value['tipo_tecnologia'] != '95' && $value['tipo_tecnologia'] != '96') {
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaIP', $value['ip']);
+
+            $ip_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP') {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaMac1', $value['mac_1']);
+
+            $mac_1_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($mac_1_beneficiario) && $value['ip'] != 'Sin MAC 1') {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaMac2', $value['mac_2']);
+
+            $mac_2_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($mac_2_beneficiario) && $value['ip'] != 'Sin MAC 2') {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+
+            }
+
+        }
+
+    }
+
+    public function validarDuplicidadActa() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaActa', $value['identificacion_beneficiario']);
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if ($consulta) {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+            }
+
+        }
+
+    }
+
+    public function validarExistenciaSerialPortatil() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialRegistrado', $value['serial_portatil']);
+
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (is_null($consulta) && $value['serial_portatil'] != 'Sin Serial Portatil') {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+            }
+
+        }
+
+    }
+
+    public function validarDuplicidadPortatil() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $arreglo = array(
+                'identificacion' => $value['identificacion_beneficiario'],
+                'serial_portatil' => $value['serial_portatil'],
+            );
+
+            if ($value['serial_portatil'] != 'Sin Serial Portatil') {
+                $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialPortatil', $arreglo);
+                $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                if ($consulta) {
+
                     Redireccionador::redireccionar("ErrorCreacionContratos");
 
                 }
 
             }
 
-            if ($value['estrato_socioeconomico']) {
-
-                if (!is_numeric($value['estrato_socioeconomico']) && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
-                }
-
-                if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2' && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
-                }
-
-            }
-
-            $mensaje = null;
         }
 
     }
@@ -384,41 +464,27 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['telefono'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['serial_portatil'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['celular'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['fecha_entrega_portatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['correo'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['mac_1'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['direccion'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['mac_2'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['manzana'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['serial_esclavo'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['bloque'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['marca_esclavo'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['torre'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['cantidad_esclavo'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['casa_apartamento'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['interior'] = $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['lote'] = $informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['piso'] = $informacion->setActiveSheetIndex()->getCell('L' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['nombre_comisionador'] = $informacion->setActiveSheetIndex()->getCell('M' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['fecha_contrato'] = $informacion->setActiveSheetIndex()->getCell('N' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['tipo_tecnologia'] = $informacion->setActiveSheetIndex()->getCell('O' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['estrato_socioeconomico'] = $informacion->setActiveSheetIndex()->getCell('P' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['ip'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
 
             }
 
             $this->datos_beneficiario = $datos_beneficiario;
 
-            if (isset($informacion_general[1]) && $informacion_general['1']['worksheetName'] == 'Parametrización Nombre Contrato') {
+            if (isset($informacion_general[1]) && $informacion_general['1']['worksheetName'] == 'Parametrización Nombre Actas') {
                 {
                     //var_dump($informacion_general);exit;
 
@@ -446,7 +512,7 @@ class FormProcessor {
     public function cargarArchivos() {
 
         $archivo_datos = '';
-        $archivo = $_FILES['archivo_contratos'];
+        $archivo = $_FILES['archivo_actas'];
 
         if ($archivo['error'] == 0) {
 

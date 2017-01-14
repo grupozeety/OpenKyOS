@@ -89,7 +89,7 @@ class FormProcessor {
             case '3':
 
                 echo "Actualizacion";
-
+                exit;
                 break;
 
             default:
@@ -108,11 +108,16 @@ class FormProcessor {
              *  5.3. Validar existencia serial portatil
              **/
                 $this->validarExistenciaSerialPortatil();
+
+            /**
+             *  5.4. Validar duplicidad IP y MAC Esclavos
+             **/
+                $this->validarIPyMAC();
+
                 break;
 
         }
 
-        exit;
         /**
          *  6. Validar otros Datos
          **/
@@ -122,7 +127,7 @@ class FormProcessor {
         /**
          *  7. Cerrar Log
          **/
-        exit;
+
         $this->cerrar_log();
 
         if (isset($this->error)) {
@@ -139,54 +144,18 @@ class FormProcessor {
 
             //Fecha Valida
 
-            if ($value['fecha_contrato']) {
+            if ($value['fecha_entrega_portatil']) {
 
                 $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
-                $hiredate = $value['fecha_contrato'];
+                $hiredate = $value['fecha_entrega_portatil'];
 
-                if (!preg_match($date_regex, $hiredate)) {
+                if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha') {
 
-                    $mensaje = " La fecha de contrato asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna Fecha de Contrato del Plantilla  se en formato texto y con esl formato 'yyyy-mm-dd'.";
+                    $mensaje = " La fecha de entrega de portatil  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna Fecha de entrega de portatil este en formato texto y con esl formato 'yyyy-mm-dd'.";
                     $this->escribir_log($mensaje);
                     $this->error = true;
 
                 }
-            }
-
-            //Tipo de Tecnologia
-
-            if ($value['tipo_tecnologia']) {
-
-                if (!is_numeric($value['tipo_tecnologia'])) {
-
-                    $mensaje = " El tipo de Tecnologia  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique que el tipo de tecnologia correponda a los numeros asosciados al de plantilla en la Hoja 'Tipo de Tecnologia'.";
-                    $this->escribir_log($mensaje);
-                    $this->error = true;
-
-                }
-                if ($value['tipo_tecnologia'] != '94' && $value['tipo_tecnologia'] != '95' && $value['tipo_tecnologia'] != '96') {
-                    $mensaje = " El tipo de Tecnologia  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique que el tipo de tecnologia correponda a los numeros asosciados al de plantilla en la Hoja 'Tipo de Tecnologia'.";
-                    $this->escribir_log($mensaje);
-                    $this->error = true;
-
-                }
-
-            }
-
-            if ($value['estrato_socioeconomico']) {
-
-                if (!is_numeric($value['estrato_socioeconomico']) && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
-                    $mensaje = " El estrato socioeconomico asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique el que estrato se un campo numerico correspondiente a estrato 1 y 2.";
-                    $this->escribir_log($mensaje);
-                    $this->error = true;
-                }
-
-                if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2' && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
-                    $mensaje = " El estrato socioeconomico asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique el que estrato se un campo numerico correspondiente a estrato 1 y 2.";
-                    $this->escribir_log($mensaje);
-                    $this->error = true;
-                }
-
             }
 
             $mensaje = null;
@@ -194,18 +163,68 @@ class FormProcessor {
 
     }
 
-    public function validarExistenciaSerialPortatil() {
-        echo "Serial";
-        var_dump($this->datos_beneficiario);exit;
+    public function validarIPyMAC() {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
-            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialRegistrado', $value['identificacion_beneficiario']);
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaIP', $value['ip']);
+
+            $ip_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP') {
+
+                $mensaje = " La IP del esclavo " . $value['ip'] . " que esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la IP del Esclavo .";
+
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaMac1', $value['mac_1']);
+
+            $mac_1_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($mac_1_beneficiario) && $value['ip'] != 'Sin MAC 1') {
+
+                $mensaje = " La Mac del esclavo 1 <b>" . $value['mac_1'] . "<b> que esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la Mac del Esclavo 1 .";
+
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaMac2', $value['mac_2']);
+
+            $mac_2_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (!is_null($mac_2_beneficiario) && $value['ip'] != 'Sin MAC 2') {
+
+                $mensaje = " La Mac del esclavo 2 <b>" . $value['mac_2'] . "<b> que esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la Mac del Esclavo 2 .";
+
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
+            }
+
+        }
+
+    }
+
+    public function validarExistenciaSerialPortatil() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialRegistrado', $value['serial_portatil']);
+
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if ($consulta) {
+            if (is_null($consulta) && $value['serial_portatil'] != 'Sin Serial Portatil') {
 
-                $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " asociada con el serial " . $value['serial_portatil'] . " no es validad dado que este serial ya esta asociado a un acta con el beneficiario de identifiación " . $consulta['numero_identificacion'] . ". Sugerencia relacione otro serial de portatil o corrija el acta registrada.";
+                $mensaje = " El serial  del portatil " . $value['serial_portatil'] . " no exite en la base de datos  el cual esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " . Sugerencia verifique serial de portatil o crear la referencia del mismo con el serial inexistente .";
+
                 $this->escribir_log($mensaje);
 
                 $this->error = true;
@@ -367,7 +386,7 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['serial_portatil'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['fecha_entrega_posrtatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['fecha_entrega_portatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
 
                 $datos_beneficiario[$i]['mac_1'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
 

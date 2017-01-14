@@ -29,6 +29,33 @@ class Sql extends \Sql {
 
             //Validaciones
 
+            case 'consultarExitenciaIP':
+                $cadenaSql = " SELECT id_beneficiario";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_servicios";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND ip_esc='" . $variable . "';";
+                break;
+
+            case 'consultarExitenciaMac1':
+                $cadenaSql = " SELECT id_beneficiario";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_servicios";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND mac_esc='" . $variable . "';";
+                break;
+
+            case 'consultarExitenciaMac2':
+                $cadenaSql = " SELECT id_beneficiario";
+                $cadenaSql .= " FROM interoperacion.acta_entrega_servicios";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND mac2_esc='" . $variable . "';";
+                break;
+
+            case 'consultarExitenciaSerialRegistrado':
+                $cadenaSql = " SELECT id_equipo, serial";
+                $cadenaSql .= " FROM interoperacion.politecnica_portatil ";
+                $cadenaSql .= " WHERE serial='" . $variable . "';";
+                break;
+
             case 'consultarExitenciaActa':
                 $cadenaSql = " SELECT ep.id as identificador_acta, cn.numero_identificacion ";
                 $cadenaSql .= " FROM interoperacion.acta_entrega_portatil ep";

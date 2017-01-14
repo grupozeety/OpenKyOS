@@ -247,7 +247,7 @@ class Registrador {
                                                 1. No exista  Información relacionada las identificaciones de los beneficiarios.<br>
                                                 2. Existan contratos relacionado con las identificaciones de los beneficiarios.<br>
                                                 2. Existan registrados los seriales de portatiles y que estos no esten relacionados con otra actas.<br>
-                                                3. El múmero de beneficiarios a cargar no puede sobre pasar a 500.<br>
+                                                3. El número de beneficiarios a cargar no puede sobre pasar a 500.<br>
                                                 4. Formatos permitidos:<br>
                                                     &nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
                                                     &nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
@@ -345,8 +345,8 @@ class Registrador {
                             $esteCampo = 'mostrarMensaje';
                             $atributos["tamanno"] = '';
                             $atributos["etiqueta"] = '';
-                            $mensaje = 'Cargar Formato Información Contratos:<br>
-                                                Recordar que no se generará ningun contrato si exite algún error de validación en el formato.<br>
+                            $mensaje = 'Cargar Formato Información Actas:<br>
+                                                Recordar que no se generará ninguna Acta si exite algún error de validación en el formato.<br>
                                                 Antes de cargar la información verifique el formato en la sección de Validación.';
                             $atributos["mensaje"] = $mensaje;
                             $atributos["estilo"] = 'information'; // information,warning,error,validation
