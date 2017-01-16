@@ -163,11 +163,13 @@ class FormProcessor {
     public function creacionDocumentos() {
 
         switch ($this->proceso['descripcion']) {
-            case 'Contratos':
-                include_once "generacionContratos.php";
+
+            case 'Actas':
+                include_once "generacionActas.php";
                 break;
 
         }
+
     }
 
     public function crearDirectorio() {
@@ -206,11 +208,42 @@ class FormProcessor {
      * Metodos Correspondientes al Trabajos del Crontab
      **/
     public function crearTrabajosCrontab() {
-        shell_exec('echo "* * * * * ' . $this->Url_ejecucion . '" | crontab -');
+
+        exec('echo -e "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
+        //exec('echo "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
+
     }
 
     public function eliminarTrabajoCrontab() {
+
+        exec('crontab -l', $crontab);
+
         shell_exec('echo "" | crontab -');
+
+        if (!empty($crontab) && is_array($crontab)) {
+
+            $cadena_buscada = '#Actas';
+
+            foreach ($crontab as $key => $value) {
+
+                $posicion_coincidencia = strpos($value, $cadena_buscada);
+                if ($posicion_coincidencia === false) {
+
+                } else {
+
+                    unset($crontab[$key]);
+                }
+            }
+
+            foreach ($crontab as $key => $value) {
+
+                $valor = ($value == '') ? '' : '`crontab -l`\n';
+
+                exec('echo -e "' . $valor . $value . '" | crontab -');
+                //exec('echo  "' . $valor . $value . '" | crontab -');
+            }
+
+        }
     }
 
     public function crearUrlProcesos() {
@@ -237,7 +270,7 @@ class FormProcessor {
         // URL Consultar Proyectos
         $this->UrlProceso = $url . $cadena;
 
-        $this->Url_ejecucion = "curl  " . $this->UrlProceso;
+        $this->Url_ejecucion = "curl  " . $this->UrlProceso . "  #Actas ";
 
     }
 

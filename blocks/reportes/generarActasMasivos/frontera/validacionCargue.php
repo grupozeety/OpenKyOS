@@ -79,8 +79,6 @@ class Registrador {
             // URL Consultar Proyectos
             $urlEjecutarProceso = $url . $cadena;
 
-            //echo $enlace;exit;
-
         }
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
         $esteCampo = $esteBloque['nombre'];
@@ -235,7 +233,7 @@ class Registrador {
                                 $url = $this->miConfigurador->getVariableConfiguracion("host");
                                 $url .= $this->miConfigurador->getVariableConfiguracion("site");
                                 $url .= '/archivos/generacionMasiva/plantillas/';
-                                $url .= 'Plantilla_Contratos_Masivos.xls';
+                                $url .= 'Plantilla_Actas_Masivas.ods';
 
                             }
 
@@ -247,12 +245,12 @@ class Registrador {
                                                 1. No exista  Información relacionada las identificaciones de los beneficiarios.<br>
                                                 2. Existan contratos relacionado con las identificaciones de los beneficiarios.<br>
                                                 2. Existan registrados los seriales de portatiles y que estos no esten relacionados con otra actas.<br>
-                                                3. El múmero de beneficiarios a cargar no puede sobre pasar a 500.<br>
+                                                3. El número de beneficiarios a cargar no puede sobre pasar a 500.<br>
                                                 4. Formatos permitidos:<br>
                                                     &nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
                                                     &nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
                                                     &nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br><br>
-                                        Link de Descarga de Plantilla : <b><a target="_blank" href="#">Plantilla Cargue Masivo</a></b><br>
+                                        Link de Descarga de Plantilla : <b><a target="_blank" href="' . $url . '">Plantilla Cargue Masivo</a></b><br>
                                                 ';
 
                             $atributos["mensaje"] = $mensaje;
@@ -345,8 +343,8 @@ class Registrador {
                             $esteCampo = 'mostrarMensaje';
                             $atributos["tamanno"] = '';
                             $atributos["etiqueta"] = '';
-                            $mensaje = 'Cargar Formato Información Contratos:<br>
-                                                Recordar que no se generará ningun contrato si exite algún error de validación en el formato.<br>
+                            $mensaje = 'Cargar Formato Información Actas:<br>
+                                                Recordar que no se generará ninguna Acta si exite algún error de validación en el formato.<br>
                                                 Antes de cargar la información verifique el formato en la sección de Validación.';
                             $atributos["mensaje"] = $mensaje;
                             $atributos["estilo"] = 'information'; // information,warning,error,validation
@@ -451,8 +449,8 @@ class Registrador {
                                             <th><center>Proceso<center></th>
                                             <th><center>Estado<center></th>
                                             <th><center>Archivo Descarga<center></th>
-                                            <th><center>Numéro de Contrato Inicial<center></th>
-                                            <th><center>Numéro de Contrato Final<center></th>
+                                            <th><center>Parametro Inicio<br>Id Beneficiario<center></th>
+                                            <th><center>Parametro Final<br>Id Beneficiario<center></th>
                                         </tr>
                                     </thead>
                                            <tfoot>
@@ -460,8 +458,8 @@ class Registrador {
                                             <th><center>Proceso<center></th>
                                             <th><center>Estado<center></th>
                                             <th><center>Archivo Descarga<center></th>
-                                            <th><center>Numéro de Contrato Inicial<center></th>
-                                            <th><center>Numéro de Contrato Final<center></th>
+                                            <th><center>Parametro Inicio<br>Id Beneficiario<center></th>
+                                            <th><center>Parametro Final<br>Id Beneficiario<center></th>
                                         </tr>
                                     </tfoot>
                                   </table>';
@@ -543,6 +541,16 @@ class Registrador {
 
         switch ($_REQUEST['mensajeModal']) {
 
+            case 'exitoRegistroActas':
+                $mensaje = "Exito<br>Información Correctamente Registrada";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
+            case 'exitoActualizacionActas':
+                $mensaje = "Exito<br>Información Correctamente Actualizada";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
             case 'errorFormatoArchivo':
                 $mensaje = "Error<br>Formato Archivo Invalido";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
@@ -569,17 +577,17 @@ class Registrador {
                 break;
 
             case 'exitoInformacion':
-                $mensaje = "Exito<br>Información Correctamente Validada y sin Errores.<br>Dirigirse a la Opcion \"Crear y Cargar Contratos\" ";
+                $mensaje = "Exito<br>Información Correctamente Validada y sin Errores.<br>Dirigirse a la Opcion \"Crear y Cargar Actas\" ";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
 
-            case 'errorCreacionContratos':
-                $mensaje = "Error<br>Existen Inconsistencias en la Información a Cargar.<br>Para más Informacion Validar el Archivo en el Opción \"Validar Formato de Información Contrato\"";
+            case 'errorCreacion':
+                $mensaje = "Error<br>Existen Inconsistencias en la Información a Cargar.<br>Para más Informacion Validar el Archivo en el Opción \"Validar Formato de Información\"";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
                 break;
 
             case 'exitoRegistroProceso':
-                $mensaje = "Exito<br>Se ha Registrado con exito el <b>Proceso # " . $_REQUEST['proceso'] . "</b>.<br>Para más Informacion consulte la Opción \"Consulta Estado de Generación Contratos\"";
+                $mensaje = "Exito<br>Se ha Registrado con exito el <b>Proceso # " . $_REQUEST['proceso'] . "</b>.<br>Para más Informacion consulte la Opción \"Consulta Estado de Generación Actas\"";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
 
