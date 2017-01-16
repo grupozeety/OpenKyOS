@@ -35,9 +35,6 @@ div.dataTables_filter label {
 
 
 @media (max-height: 720px) {
-.marca{
-display: none;
-}
 
 #example_paginate{
 text-align: center;
