@@ -68,8 +68,12 @@ $urlConsultarContratos = $url . $cadena;
                   { data :"proceso"},
                   { data :"estado" },
                   { data :"archivo" },
+                  { data :"tamanio_archivo","sClass": "marca"},
                   { data :"num_inicial","sClass": "marca"},
                   { data :"num_final","sClass": "marca" },
+                  { data :"urbanizaciones","sClass": "marca" },
+                  { data :"fecha_generacion","sClass": "marca" },
+                  { data :"eliminar_proceso","sClass": "marca" },
                            ]
     } );
 } );

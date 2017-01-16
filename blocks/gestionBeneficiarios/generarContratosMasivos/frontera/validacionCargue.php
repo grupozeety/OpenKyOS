@@ -406,8 +406,12 @@ class Registrador {
                                             <th><center>Proceso<center></th>
                                             <th><center>Estado<center></th>
                                             <th><center>Archivo Descarga<center></th>
+                                            <th><center>Tamaño Archivo<center></th>
                                             <th><center>Numéro de Contrato Inicial<center></th>
                                             <th><center>Numéro de Contrato Final<center></th>
+                                            <th><center>Urbanizaciones<center></th>
+                                            <th><center>Fecha de Generacion<center></th>
+                                            <th><center>Finalizar Proceso<center></th>
                                         </tr>
                                     </thead>
                                            <tfoot>
@@ -415,8 +419,12 @@ class Registrador {
                                             <th><center>Proceso<center></th>
                                             <th><center>Estado<center></th>
                                             <th><center>Archivo Descarga<center></th>
+                                            <th><center>Tamaño Archivo<center></th>
                                             <th><center>Numéro de Contrato Inicial<center></th>
                                             <th><center>Numéro de Contrato Final<center></th>
+                                            <th><center>Urbanizaciones<center></th>
+                                            <th><center>Fecha de Generacion<center></th>
+                                            <th><center>Finalizar Proceso<center></th>
                                         </tr>
                                     </tfoot>
                                   </table>';
@@ -539,11 +547,20 @@ class Registrador {
                 break;
 
             case 'errorRegistroProceso':
-
                 $mensaje = "Error<br>Error en el Registro del Proceso";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
-
                 break;
+
+            case 'errorEliminarProceso':
+                $mensaje = "Error al eliminar proceso de generación de contratos.<br>Sugerencia para eliminar un proceso, el estado del mismo debe estar <b>'No Iniciado' o 'Finalizado'</b>";
+                $atributos['estiloLinea'] = 'error';
+                break;
+
+            case 'exitoEliminarProceso':
+                $mensaje = "Exito en la eliminación proceso de generación de Contratos";
+                $atributos['estiloLinea'] = 'success';
+                break;
+
         }
 
         // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------

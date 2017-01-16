@@ -139,13 +139,14 @@ class Sql extends \Sql {
                 $cadenaSql .= " estado,";
                 $cadenaSql .= " nombre_archivo,";
                 $cadenaSql .= " parametro_inicio,";
-                $cadenaSql .= " parametro_fin)";
+                $cadenaSql .= " parametro_fin,urbanizaciones)";
                 $cadenaSql .= " VALUES (";
                 $cadenaSql .= " 'Contratos',";
                 $cadenaSql .= " 'No Iniciado',";
                 $cadenaSql .= " '" . $variable['nombre_contrato'] . "',";
                 $cadenaSql .= " '" . $variable['contrato_inicio'] . "',";
-                $cadenaSql .= " '" . $variable['contrato_final'] . "'";
+                $cadenaSql .= " '" . $variable['contrato_final'] . "',";
+                $cadenaSql .= " '" . $variable['urbanizaciones'] . "'";
                 $cadenaSql .= " )RETURNING id_proceso;";
                 break;
 
@@ -153,6 +154,7 @@ class Sql extends \Sql {
                 $cadenaSql = " SELECT * ";
                 $cadenaSql .= " FROM parametros.procesos_masivos";
                 $cadenaSql .= " WHERE descripcion='Contratos'";
+                $cadenaSql .= " AND  estado_registro='TRUE' ";
                 $cadenaSql .= " ORDER BY id_proceso DESC;";
                 break;
 
@@ -178,7 +180,8 @@ class Sql extends \Sql {
                 $cadenaSql = " UPDATE parametros.procesos_masivos";
                 $cadenaSql .= " SET estado='Finalizado',";
                 $cadenaSql .= " ruta_archivo='" . $variable['ruta_archivo'] . "',";
-                $cadenaSql .= " nombre_ruta_archivo='" . $variable['nombre_archivo'] . "'";
+                $cadenaSql .= " nombre_ruta_archivo='" . $variable['nombre_archivo'] . "',";
+                $cadenaSql .= " peso_archivo='" . $variable['tamanio_archivo'] . "'";
                 $cadenaSql .= " WHERE id_proceso='" . $variable['id_proceso'] . "';";
                 break;
             // Crear Documenntos Contrato
@@ -206,6 +209,21 @@ class Sql extends \Sql {
                 $cadenaSql .= " FROM parametros.parametros";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
                 $cadenaSql .= " AND id_parametro='" . $variable . "';";
+                break;
+
+            case 'consultarEstadoProceso':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM parametros.procesos_masivos";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_proceso='" . $_REQUEST['id_proceso'] . "' ";
+                $cadenaSql .= " AND estado='No Iniciado' ";
+                $cadenaSql .= " OR estado='Finalizado'; ";
+                break;
+
+            case 'eliminarProceso':
+                $cadenaSql = " UPDATE parametros.procesos_masivos";
+                $cadenaSql .= " SET estado_registro='FALSE'";
+                $cadenaSql .= " WHERE id_proceso='" . $_REQUEST['id_proceso'] . "'; ";
                 break;
 
         }
