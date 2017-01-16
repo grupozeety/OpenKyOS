@@ -571,6 +571,8 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['ip'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
 
+                $datos_beneficiario[$i]['modelo_portatil'] = $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue();
+
             }
 
             $this->datos_beneficiario = $datos_beneficiario;
