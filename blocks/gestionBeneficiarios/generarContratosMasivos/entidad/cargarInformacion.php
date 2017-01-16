@@ -31,6 +31,7 @@ class FormProcessor {
     public $rutaAbsoluta;
     public $clausulas;
     public $registro_info_contrato;
+    public $urbanizaciones = null;
     public function __construct($lenguaje, $sql) {
 
         $this->miConfigurador = \Configurador::singleton();
@@ -118,10 +119,14 @@ class FormProcessor {
     }
 
     public function registroProceso() {
+
+        $this->urbanizaciones = array_unique($this->urbanizaciones);
+
         $arreglo_registro = array(
             'nombre_contrato' => $this->arreglo_nombre,
             'contrato_inicio' => $this->contrato[0],
             'contrato_final' => end($this->contrato),
+            'urbanizaciones' => implode("<br>", $this->urbanizaciones),
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarProceso', $arreglo_registro);
@@ -221,6 +226,8 @@ class FormProcessor {
             $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionBeneficiario', $value['identificacion_beneficiario']);
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            $this->urbanizaciones[] = $consulta['proyecto'];
 
             switch ($consulta['tipo_beneficiario']) {
 
