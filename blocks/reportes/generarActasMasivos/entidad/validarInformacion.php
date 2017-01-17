@@ -338,7 +338,7 @@ class FormProcessor {
 
             if ($consulta) {
 
-                $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " asociada con el serial " . $value['serial_portatil'] . " no es validad dado que este serial ya esta asociado a un acta con el beneficiario de identifiación " . $consulta['numero_identificacion'] . ". Sugerencia relacione otro serial de portatil o corrija el acta registrada.";
+                $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " asociada un acta . Sugerencia verifique el beneficiario o actualize el beneficiario en la Opcion de Funcionalidad  \"Actualización Registros Actas\".";
                 $this->escribir_log($mensaje);
 
                 $this->error = true;
