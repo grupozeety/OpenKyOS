@@ -449,8 +449,12 @@ class Registrador {
                                             <th><center>Proceso<center></th>
                                             <th><center>Estado<center></th>
                                             <th><center>Archivo Descarga<center></th>
+                                            <th><center>Tamaño Archivo<center></th>
                                             <th><center>Parametro Inicio<br>Id Beneficiario<center></th>
                                             <th><center>Parametro Final<br>Id Beneficiario<center></th>
+                                            <th><center>Urbanizaciones<center></th>
+                                            <th><center>Fecha de Generacion<center></th>
+                                            <th><center>Finalizar Proceso<center></th>
                                         </tr>
                                     </thead>
                                            <tfoot>
@@ -458,8 +462,12 @@ class Registrador {
                                             <th><center>Proceso<center></th>
                                             <th><center>Estado<center></th>
                                             <th><center>Archivo Descarga<center></th>
+                                            <th><center>Tamaño Archivo<center></th>
                                             <th><center>Parametro Inicio<br>Id Beneficiario<center></th>
                                             <th><center>Parametro Final<br>Id Beneficiario<center></th>
+                                            <th><center>Urbanizaciones<center></th>
+                                            <th><center>Fecha de Generacion<center></th>
+                                            <th><center>Finalizar Proceso<center></th>
                                         </tr>
                                     </tfoot>
                                   </table>';
@@ -596,6 +604,16 @@ class Registrador {
                 $mensaje = "Error<br>Error en el Registro del Proceso";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
 
+                break;
+
+            case 'errorEliminarProceso':
+                $mensaje = "Error al eliminar proceso de generación de Actas.<br>Sugerencia para eliminar un proceso, el estado del mismo debe estar <b>'No Iniciado' o 'Finalizado'</b>";
+                $atributos['estiloLinea'] = 'error';
+                break;
+
+            case 'exitoEliminarProceso':
+                $mensaje = "Exito en la eliminación proceso de generación de Actas";
+                $atributos['estiloLinea'] = 'success';
                 break;
         }
 

@@ -31,6 +31,8 @@ class FormProcessor {
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/archivos/generacionMasiva/";
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento") . "/archivos/generacionMasiva/";
 
+        $this->rutaAbsolutaRaiz = $this->miConfigurador->getVariableConfiguracion("raizDocumento") . "/archivos/generacionMasiva/";
+
         //Conexion a Base de Datos
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
@@ -95,11 +97,27 @@ class FormProcessor {
 
     public function registrarComprimido() {
 
+        exec('ls -lh ' . $this->rutaAbsolutaRaiz, $lista);
+
+        foreach ($lista as $key => $value) {
+
+            $posicion_coincidencia = strrpos($value, $this->nombre_archivo_zip);
+
+            if ($posicion_coincidencia === false) {
+
+            } else {
+
+                $variable = explode(" ", $value);
+
+                $tamanio_archivo = $variable[count($variable) - 5];
+            }
+        }
+
         $arreglo = array(
             'id_proceso' => $this->proceso[0],
             'ruta_archivo' => $this->ruta_url_archivo,
             'nombre_archivo' => $this->nombre_archivo_zip,
-
+            'tamanio_archivo' => $tamanio_archivo,
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('finalizarProceso', $arreglo);
