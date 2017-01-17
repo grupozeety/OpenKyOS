@@ -227,7 +227,7 @@ class Registrador {
                                 $url = $this->miConfigurador->getVariableConfiguracion("host");
                                 $url .= $this->miConfigurador->getVariableConfiguracion("site");
                                 $url .= '/archivos/generacionMasiva/plantillas/';
-                                $url .= 'plantilla_beneficiarios_openkyos.xls';
+                                $url .= 'Plantilla_familiares_beneficiarios.xls';
                             }
 
                             // -------------Control texto-----------------------

@@ -76,7 +76,16 @@ class FormProcessor {
         $this->creacion_log();
 
         /**
-         * 3.
+         * 4.
+         * Validar Existencia Beneficiarios
+         */
+
+        $this->validarBeneficiariosExistentes();
+
+        exit;
+
+        /**
+         * 5.
          * Validar que no hayan nulos
          */
 
@@ -186,57 +195,36 @@ class FormProcessor {
 
             for ($i = 2; $i <= $total_filas; $i++) {
 
-                $datos_beneficiario[$i]['departamento'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['municipio'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['tipo_identificacion_fm'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['id_proyecto'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['identificacion_fm'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['proyecto'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['nombre_fm'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['tipo_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['primer_apellido_fm'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['tipo_documento'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['segundo_apellido_fm'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['parentesco_fm'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['nombre'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['genero_fm'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['primer_apellido'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['edad_fm'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['segundo_apellido'] = $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['celular_fm'] = $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['genero'] = (!is_null($informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue())) ? $informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue() : 0;
+                $datos_beneficiario[$i]['nivel_estudio_fm'] = $informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['edad'] = (!is_null($informacion->setActiveSheetIndex()->getCell('L' . $i)->getCalculatedValue())) ? $informacion->setActiveSheetIndex()->getCell('L' . $i)->getCalculatedValue() : 0;
+                $datos_beneficiario[$i]['correo_fm'] = $informacion->setActiveSheetIndex()->getCell('L' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['nivel_estudio'] = (!is_null($informacion->setActiveSheetIndex()->getCell('M' . $i)->getCalculatedValue())) ? $informacion->setActiveSheetIndex()->getCell('M' . $i)->getCalculatedValue() : 0;
+                $datos_beneficiario[$i]['pertencia_fm'] = $informacion->setActiveSheetIndex()->getCell('M' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['correo'] = $informacion->setActiveSheetIndex()->getCell('N' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['institucion_edu_fm'] = $informacion->setActiveSheetIndex()->getCell('N' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['telefono'] = (!is_null($informacion->setActiveSheetIndex()->getCell('O' . $i)->getCalculatedValue())) ? $informacion->setActiveSheetIndex()->getCell('O' . $i)->getCalculatedValue() : 0;
+                $datos_beneficiario[$i]['ocupacion_fm'] = $informacion->setActiveSheetIndex()->getCell('O' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['direccion'] = $informacion->setActiveSheetIndex()->getCell('P' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['manzana'] = $informacion->setActiveSheetIndex()->getCell('Q' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['bloque'] = $informacion->setActiveSheetIndex()->getCell('R' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['torre'] = $informacion->setActiveSheetIndex()->getCell('S' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['casa_apto'] = $informacion->setActiveSheetIndex()->getCell('T' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['interior'] = $informacion->setActiveSheetIndex()->getCell('U' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['lote'] = $informacion->setActiveSheetIndex()->getCell('V' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['piso'] = (!is_null($informacion->setActiveSheetIndex()->getCell('W' . $i)->getCalculatedValue())) ? $informacion->setActiveSheetIndex()->getCell('W' . $i)->getCalculatedValue() : 0;
-
-                $datos_beneficiario[$i]['minvivienda'] = (!is_null($informacion->setActiveSheetIndex()->getCell('X' . $i)->getCalculatedValue())) ? $informacion->setActiveSheetIndex()->getCell('X' . $i)->getCalculatedValue() : 'FALSE';
-
-                $datos_beneficiario[$i]['barrio'] = $informacion->setActiveSheetIndex()->getCell('Y' . $i)->getCalculatedValue();
-
-                $datos_beneficiario[$i]['estrato'] = (!is_null($informacion->setActiveSheetIndex()->getCell('Z' . $i)->getCalculatedValue())) ? $informacion->setActiveSheetIndex()->getCell('Z' . $i)->getCalculatedValue() : 0;
             }
 
             unlink($this->archivo['ruta_archivo']);
@@ -245,6 +233,7 @@ class FormProcessor {
         } else {
             Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
         }
+
     }
     public function cargarArchivos() {
         $archivo_datos = '';
