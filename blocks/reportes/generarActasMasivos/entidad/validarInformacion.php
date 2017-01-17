@@ -338,7 +338,7 @@ class FormProcessor {
 
             if ($consulta) {
 
-                $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " asociada un acta . Sugerencia verifique el beneficiario o actualize el beneficiario en la Opcion de Funcionalidad  \"Actualización Registros Actas\".";
+                $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " ya tiene asociada un acta . Sugerencia verifique el beneficiario o actualize el beneficiario en la Opcion de Funcionalidad  \"Actualización Registros Actas\".";
                 $this->escribir_log($mensaje);
 
                 $this->error = true;
