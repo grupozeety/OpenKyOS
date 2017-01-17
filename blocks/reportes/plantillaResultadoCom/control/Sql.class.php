@@ -67,7 +67,7 @@ class Sql extends \Sql {
 				$cadenaSql = " SELECT bp.id_beneficiario ";
 				$cadenaSql .= " FROM interoperacion.beneficiario_potencial bp ";
 				$cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=bp.id_beneficiario";
-				$cadenaSql .= " WHERE estado_registro='TRUE'";
+				$cadenaSql .= " WHERE bp.estado_registro='TRUE'";
 				$cadenaSql .= " AND bp.identificacion='" . $variable . "';";
 				break;
 			
