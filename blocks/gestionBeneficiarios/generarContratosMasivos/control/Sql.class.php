@@ -216,8 +216,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " FROM parametros.procesos_masivos";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
                 $cadenaSql .= " AND id_proceso='" . $_REQUEST['id_proceso'] . "' ";
-                $cadenaSql .= " AND estado='No Iniciado' ";
-                $cadenaSql .= " OR estado='Finalizado'; ";
+                $cadenaSql .= " AND estado IN ('No Iniciado','Finalizado'); ";
                 break;
 
             case 'eliminarProceso':
