@@ -47,6 +47,10 @@ class Entidad {
     public function cargarInformacion() {
         include_once $this->ruta . "entidad/cargarInformacion.php";
     }
+
+    public function eliminarProceso() {
+        include_once $this->ruta . "entidad/eliminarProceso.php";
+    }
     public function action() {
         $resultado = true;
 
@@ -79,6 +83,10 @@ class Entidad {
 
             case 'generarContratoPDF':
                 $this->generarContratoPdf();
+                break;
+
+            case 'eliminarProceso':
+                $this->eliminarProceso();
                 break;
         }
 

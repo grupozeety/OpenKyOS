@@ -198,11 +198,14 @@ class FormProcessor {
     }
 
     public function registroProceso() {
+
+        $this->urbanizaciones = array_unique($this->urbanizaciones);
         $arreglo_registro = array(
             'nombre' => $this->arreglo_nombre,
             'inicio' => $this->id_beneficiario_acta_portatil[0],
             'final' => end($this->id_beneficiario_acta_portatil),
             'datos_adicionales' => implode(";", $this->id_beneficiario_acta_portatil),
+            'urbanizaciones' => implode("<br>", $this->urbanizaciones),
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarProceso', $arreglo_registro);
@@ -309,6 +312,8 @@ class FormProcessor {
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
+            $this->urbanizaciones[] = $consulta['urbanizacion'];
+
             $this->informacion_registrar_portatil[] = array(
                 'id_beneficiario' => $consulta['id_beneficiario'],
                 'fecha_entrega' => $value['fecha_entrega_portatil'],
@@ -382,6 +387,21 @@ class FormProcessor {
 
                     Redireccionador::redireccionar("ErrorCreacion");
                 }
+            }
+
+            if (isset($value['marca_portatil']) && isset($value['modelo_portatil'])) {
+
+                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['marca_portatil'] != 'Hewlett Packard') {
+                    Redireccionador::redireccionar("ErrorCreacion");
+
+                }
+
+                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['modelo_portatil'] != 'HP 245 G4 Notebook PC') {
+
+                    Redireccionador::redireccionar("ErrorCreacion");
+
+                }
+
             }
 
             $mensaje = null;
@@ -570,6 +590,10 @@ class FormProcessor {
                 $datos_beneficiario[$i]['cantidad_esclavo'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
 
                 $datos_beneficiario[$i]['ip'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['marca_portatil'] = $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['modelo_portatil'] = $informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue();
 
             }
 
