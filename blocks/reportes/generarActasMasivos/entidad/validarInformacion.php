@@ -232,6 +232,26 @@ class FormProcessor {
                 }
             }
 
+            if (isset($value['marca_portatil']) && isset($value['modelo_portatil'])) {
+
+                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['marca_portatil'] != 'Hewlett Packard') {
+
+                    $mensaje = " La marca y el modelo del portatil asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique marca y modelo portatil .";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+
+                }
+
+                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['modelo_portatil'] != 'HP 245 G4 Notebook PC') {
+
+                    $mensaje = " La marca y el modelo del portatil asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique marca y modelo portatil .";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+
+                }
+
+            }
+
             $mensaje = null;
         }
 
@@ -473,6 +493,10 @@ class FormProcessor {
                 $datos_beneficiario[$i]['cantidad_esclavo'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
 
                 $datos_beneficiario[$i]['ip'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['marca_portatil'] = $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue();
+
+                $datos_beneficiario[$i]['modelo_portatil'] = $informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue();
 
             }
             unlink($this->archivo['ruta_archivo']);

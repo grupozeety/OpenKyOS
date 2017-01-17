@@ -68,6 +68,16 @@ class Redireccionador {
                 $variable .= '&mensajeModal=exitoActualizacionActas';
                 break;
 
+            case "ErrorEliminarProceso":
+                $variable = 'pagina=generarActasMasivos';
+                $variable .= '&mensajeModal=errorEliminarProceso';
+                break;
+
+            case 'ExitoEliminarProceso':
+                $variable = 'pagina=generarActasMasivos';
+                $variable .= '&mensajeModal=exitoEliminarProceso';
+                break;
+
         }
         foreach ($_REQUEST as $clave => $valor) {
             unset($_REQUEST[$clave]);
