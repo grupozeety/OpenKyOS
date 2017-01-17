@@ -80,8 +80,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " FROM interoperacion.acta_entrega_portatil ep";
                 $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=ep.id_beneficiario AND cn.estado_registro='TRUE'";
                 $cadenaSql .= " WHERE ep.estado_registro='TRUE'";
-                $cadenaSql .= " AND ep.serial='" . $variable['serial_portatil'] . "'";
-                //$cadenaSql .= " AND cn.numero_identificacion='" . $variable['identificacion_beneficiario'] . "'";
+                $cadenaSql .= " AND cn.numero_identificacion='" . $variable . "'";
+
                 break;
 
             case 'consultarExitenciaSerialPortatil':
