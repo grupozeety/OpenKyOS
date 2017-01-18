@@ -39,7 +39,7 @@ class GenerarReporteExcelInstalaciones {
         /**
          * 3. Estruturamiento Esquema Reporte
          **/
-        $this->estructurarInformacion();
+        //$this->estructurarInformacion();
 
         /**
          *4. Retornar Documento Reporte
@@ -695,167 +695,178 @@ class GenerarReporteExcelInstalaciones {
         $this->objCal->getActiveSheet()->getRowDimension('1')->setRowHeight(30);
         $this->objCal->getActiveSheet()->getRowDimension('2')->setRowHeight(60);
 
-        $this->objCal->setActiveSheetIndex(0)->mergeCells('A1:G1');
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('A1:F1');
         $this->objCal->setActiveSheetIndex(0)
-             ->setCellValue('A1', 'FOR-1264-TEC-016-REV-00   INFORMACIÓN  PROYECTO')
+             ->setCellValue('A1', 'INFORMACIÓN BENEFICIARIO')
              ->getStyle('A1')->applyFromArray($styleCentrado);
         {
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('A2', 'Contratista')
+                 ->setCellValue('A2', 'Departamento')
                  ->getStyle('A2')->applyFromArray($styleCentrado);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('B2', 'Fecha instalación Servicio')
+                 ->setCellValue('B2', 'Municipio')
                  ->getStyle('B2')->applyFromArray($styleCentrado);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('C2', 'Departamento')
+                 ->setCellValue('C2', 'Nombre Proyecto')
                  ->getStyle('C2')->applyFromArray($styleCentrado);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('D2', 'Municipio')
+                 ->setCellValue('D2', 'Número de Indentificación (Cédula persona Beneficiaria)')
                  ->getStyle('D2')->applyFromArray($styleCentrado);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('E2', 'Nombre Proyecto')
+                 ->setCellValue('E2', 'Nombre Beneficiario')
                  ->getStyle('E2')->applyFromArray($styleCentrado);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('F2', 'VIP')
+                 ->setCellValue('F2', 'Dirección')
                  ->getStyle('F2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('G2', 'META')
-                 ->getStyle('G2')->applyFromArray($styleCentrado);
 
             $this->objCal->getActiveSheet()->getColumnDimension('A')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('B')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('C')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('D')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+            $this->objCal->getActiveSheet()->getColumnDimension('F')->setWidth(20);
 
         }
 
-        $this->objCal->setActiveSheetIndex(0)->mergeCells('H1:O1');
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('G1:K1');
         $this->objCal->setActiveSheetIndex(0)
-             ->setCellValue('H1', 'FOR-1264-TEC-016-REV-00 INFORMACION BENEFICARIO')
-             ->getStyle('H1')->applyFromArray($styleCentrado);
+             ->setCellValue('G1', 'KIT COMISIONAMIENTO')
+             ->getStyle('G1')->applyFromArray($styleCentrado);
         {
+
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('H2', 'ID Beneficiario Contratista')
+                 ->setCellValue('G2', 'Serial Portatil')
+                 ->getStyle('G2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('H2', 'MAC 1')
                  ->getStyle('H2')->applyFromArray($styleCentrado);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('I2', 'Dirección')
+                 ->setCellValue('I2', 'MAC 2')
                  ->getStyle('I2')->applyFromArray($styleCentrado);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('J2', 'Estrato SocioEconomico')
+                 ->setCellValue('J2', 'Serial Esclavo')
                  ->getStyle('J2')->applyFromArray($styleCentrado);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('K2', 'Documento Identificación (Cédula persona beneficiaria)')
+                 ->setCellValue('K2', 'IP Esclavo)')
                  ->getStyle('K2')->applyFromArray($styleCentrado);
 
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('L2', 'Nombre Beneficiario')
-                 ->getStyle('L2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('M2', 'Celular')
-                 ->getStyle('M2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('N2', 'Correo Eléctrónico')
-                 ->getStyle('N2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('O2', 'TIPO DE VIVIENDA (CASA/APARTAMENTO)')
-                 ->getStyle('O2')->applyFromArray($styleCentrado);
-
+            $this->objCal->getActiveSheet()->getColumnDimension('G')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('H')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('I')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('J')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('K')->setWidth(20);
+        }
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('L1:S1');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('L1', 'INFORMACIÓN TÉCNICA DE LA INSTALACIÓN (Aplica solo para tecnología INALÁMBRICA, si es diferente rellene con N/A)')
+             ->getStyle('L1')->applyFromArray($styleCentrado);
+        {
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('L2', 'IP CELDA')
+                 ->getStyle('L2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('M2', 'MAC_CELDA')
+                 ->getStyle('M2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('N2', 'Nombre del Nodo')
+                 ->getStyle('N2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('O2', 'Nombre del Sectorial  (Sectorial 1,2,3…n)')
+                 ->getStyle('O2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('P2', 'IP Switch')
+                 ->getStyle('P2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('Q2', 'IP SM')
+                 ->getStyle('Q2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('R2', 'MAC SM')
+                 ->getStyle('R2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('S2', 'MAC-CPE')
+                 ->getStyle('S2')->applyFromArray($styleCentrado);
+
             $this->objCal->getActiveSheet()->getColumnDimension('L')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('M')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('N')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('O')->setWidth(20);
-        }
-
-        $this->objCal->setActiveSheetIndex(0)->mergeCells('P1:AE1');
-        $this->objCal->setActiveSheetIndex(0)
-             ->setCellValue('P1', 'FOR-1264-TEC-016-REV-00 CONFORMACIÓN DEL HOGAR DONDE SE INSTALÓ EL SERVICIO')
-             ->getStyle('P1')->applyFromArray($styleCentrado);
-        {
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('P2', 'Cantidad de personas que pertenecen al género femenino')
-                 ->getStyle('P2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('Q2', 'Cantidad de personas que pertenecen al género masculino')
-                 ->getStyle('Q2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('R2', 'Cantidad de personas cuya edad Menor 18 años')
-                 ->getStyle('R2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('S2', 'Cantidad de personas cuya edad Entre 18 y 25 años')
-                 ->getStyle('S2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('T2', 'Cantidad de personas cuya edad Entre 26 y 30 años')
-                 ->getStyle('T2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('U2', 'Cantidad de personas cuya edad Entre 31 y 40 años')
-                 ->getStyle('U2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('V2', 'Cantidad de personas cuya edad Entre 41 y 65 años')
-                 ->getStyle('V2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('W2', 'Cantidad de personas cuya edad  es mayor a 65 años')
-                 ->getStyle('W2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('X2', 'Cantidad de personas cuya ocupación es Empleado')
-                 ->getStyle('X2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('Y2', 'Cantidad de personas cuya ocupación es Trabajador Informal')
-                 ->getStyle('Y2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('Z2', 'Cantidad de personas cuya ocupación es Estudiante')
-                 ->getStyle('Z2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AA2', 'Cantidad de personas cuya ocupación  trabajador independiente')
-                 ->getStyle('AA2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AB2', 'Cantidad de personas cuya ocupación doméstico fuera del hogar')
-                 ->getStyle('AB2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AC2', 'Cantidad de personas cuya ocupación doméstico en el hogar')
-                 ->getStyle('AC2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AD2', 'Cantidad de personas cuya ocupación es No trabaja')
-                 ->getStyle('AD2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AE2', 'Cantidad de personas cuya ocupación es Otro')
-                 ->getStyle('AE2')->applyFromArray($styleCentrado);
-
             $this->objCal->getActiveSheet()->getColumnDimension('P')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('Q')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('R')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('S')->setWidth(20);
+        }
+
+        $this->objCal->setActiveSheetIndex(0)->mergeCells('T1:AE1');
+        $this->objCal->setActiveSheetIndex(0)
+             ->setCellValue('T1', 'INFORMACIÓN TÉCNICA DE LA INSTALACIÓN (Aplica solo para tecnología HFC, si es diferente rellene con N/A)')
+             ->getStyle('T1')->applyFromArray($styleCentrado);
+
+        {
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('T2', 'IP OLT')
+                 ->getStyle('T2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('U2', 'MAC_OLT')
+                 ->getStyle('U2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('V2', 'PORT OLT')
+                 ->getStyle('V2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('W2', 'NOMBRE OLT')
+                 ->getStyle('W2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('X2', 'PUERTO_OLT')
+                 ->getStyle('X2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('Y2', 'MAC del Master EOC')
+                 ->getStyle('Y2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('Z2', 'IP del Master EOC')
+                 ->getStyle('Z2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AA2', 'IP ONU')
+                 ->getStyle('AA2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AB2', 'MAC ONU')
+                 ->getStyle('AB2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AC2', 'IP HUB')
+                 ->getStyle('AC2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AD2', 'MAC HUB')
+                 ->getStyle('AD2')->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('AE2', 'MAC-CPE')
+                 ->getStyle('AE2')->applyFromArray($styleCentrado);
+
             $this->objCal->getActiveSheet()->getColumnDimension('T')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('U')->setWidth(20);
             $this->objCal->getActiveSheet()->getColumnDimension('V')->setWidth(20);
@@ -871,304 +882,6 @@ class GenerarReporteExcelInstalaciones {
 
         }
 
-        $this->objCal->setActiveSheetIndex(0)->mergeCells('AF1:AG1');
-        $this->objCal->setActiveSheetIndex(0)
-             ->setCellValue('AF1', 'FOR-1264-TEC-016-REV-00 PRUEBA VELOCIDAD')
-             ->getStyle('AF1')->applyFromArray($styleCentrado);
-        {
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AF2', 'Resultado Velocidad  SUBIDA (UPLINK)  (NÚMERO) en  Kbps')
-                 ->getStyle('AF2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AG2', 'Resultado Velocidad (DOWNLINK) (NÚMERO) en  Kbps')
-                 ->getStyle('AG2')->applyFromArray($styleCentrado);
-
-            $this->objCal->getActiveSheet()->getColumnDimension('AF')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AG')->setWidth(20);
-
-        }
-
-        $this->objCal->setActiveSheetIndex(0)
-             ->setCellValue('AH1', 'Tecnología')
-             ->getStyle('AH1')->applyFromArray($styleCentrado);
-        {
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AH2', 'Tecnología Final Instalada')
-                 ->getStyle('AH2')->applyFromArray($styleCentrado);
-
-            $this->objCal->getActiveSheet()->getColumnDimension('AH')->setWidth(20);
-
-        }
-
-        $this->objCal->setActiveSheetIndex(0)->mergeCells('AI1:AN1');
-        $this->objCal->setActiveSheetIndex(0)
-             ->setCellValue('AI1', 'FOR-1264-TEC-016-REV-00  INFORMACIÓN TÉCNICA DE LA INSTALACIÓN (Aplica solo para tecnología GPON, si es diferente rellene con N/A)')
-             ->getStyle('AI1')->applyFromArray($styleCentrado);
-        {
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AI2', 'IP OLT')
-                 ->getStyle('AI2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AJ2', 'MAC_OLT')
-                 ->getStyle('AJ2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AK2', 'PORT OLT')
-                 ->getStyle('AK2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AL2', 'MAC-CPE')
-                 ->getStyle('AL2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AM2', 'NOMBRE OLT')
-                 ->getStyle('AM2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AN2', 'PUERTO_OLT')
-                 ->getStyle('AN2')->applyFromArray($styleCentrado);
-
-            $this->objCal->getActiveSheet()->getColumnDimension('AI')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AJ')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AK')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AL')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AM')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AN')->setWidth(20);
-
-        }
-
-        $this->objCal->setActiveSheetIndex(0)->mergeCells('AO1:AV1');
-        $this->objCal->setActiveSheetIndex(0)
-             ->setCellValue('AO1', 'FOR-1264-TEC-016-REV-00 INFORMACIÓN TÉCNICA DE LA INSTALACIÓN (Aplica solo para tecnología INALÁMBRICA, si es diferente rellene con N/A)')
-             ->getStyle('AO1')->applyFromArray($styleCentrado);
-        {
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AO2', 'IP CELDA')
-                 ->getStyle('AO2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AP2', 'MAC_CELDA')
-                 ->getStyle('AP2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AQ2', 'Nombre del Nodo')
-                 ->getStyle('AQ2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AR2', 'Nombre del Sectorial  (Sectorial 1,2,3…n)')
-                 ->getStyle('AR2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AS2', 'IP Switch')
-                 ->getStyle('AS2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AT2', 'IP SM')
-                 ->getStyle('AT2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AU2', 'MAC SM')
-                 ->getStyle('AU2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AV2', 'MAC-CPE')
-                 ->getStyle('AV2')->applyFromArray($styleCentrado);
-
-            $this->objCal->getActiveSheet()->getColumnDimension('AO')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AP')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AQ')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AR')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AT')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AU')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AV')->setWidth(20);
-
-        }
-
-        $this->objCal->setActiveSheetIndex(0)->mergeCells('AW1:BH1');
-        $this->objCal->setActiveSheetIndex(0)
-             ->setCellValue('AO1', 'FOR-1264-TEC-016-REV-00 INFORMACIÓN TÉCNICA DE LA INSTALACIÓN (Aplica solo para tecnología INALÁMBRICA, si es diferente rellene con N/A)')
-             ->getStyle('AO1')->applyFromArray($styleCentrado);
-        {
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AO2', 'IP CELDA')
-                 ->getStyle('AO2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AP2', 'MAC_CELDA')
-                 ->getStyle('AP2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AQ2', 'Nombre del Nodo')
-                 ->getStyle('AQ2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AR2', 'Nombre del Sectorial  (Sectorial 1,2,3…n)')
-                 ->getStyle('AR2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AS2', 'IP Switch')
-                 ->getStyle('AS2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AT2', 'IP SM')
-                 ->getStyle('AT2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AU2', 'MAC SM')
-                 ->getStyle('AU2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AV2', 'MAC-CPE')
-                 ->getStyle('AV2')->applyFromArray($styleCentrado);
-
-            $this->objCal->getActiveSheet()->getColumnDimension('AO')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AP')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AQ')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AR')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AT')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AU')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AV')->setWidth(20);
-
-        }
-
-        $this->objCal->setActiveSheetIndex(0)->mergeCells('AW1:BH1');
-        $this->objCal->setActiveSheetIndex(0)
-             ->setCellValue('AW1', 'FOR-1264-TEC-016-REV-00 INFORMACIÓN TÉCNICA DE LA INSTALACIÓN (Aplica solo para tecnología HFC, si es diferente rellene con N/A)')
-             ->getStyle('AW1')->applyFromArray($styleCentrado);
-        {
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AW2', 'IP OLT')
-                 ->getStyle('AW2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AX2', 'MAC_OLT')
-                 ->getStyle('AX2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AY2', 'PORT OLT')
-                 ->getStyle('AY2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AZ2', 'NOMBRE OLT')
-                 ->getStyle('AZ2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('BA2', 'PUERTO_OLT')
-                 ->getStyle('BA2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('BB2', 'MAC del Master EOC')
-                 ->getStyle('BB2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('BC2', 'IP del Master EOC')
-                 ->getStyle('BC2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('BD2', 'IP ONU')
-                 ->getStyle('BD2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('BE2', 'MAC ONU')
-                 ->getStyle('BE2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('BF2', 'IP HUB')
-                 ->getStyle('BF2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('BG2', 'MAC HUB')
-                 ->getStyle('BG2')->applyFromArray($styleCentrado);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('BH2', 'MAC-CPE')
-                 ->getStyle('BH2')->applyFromArray($styleCentrado);
-
-            $this->objCal->getActiveSheet()->getColumnDimension('AW')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AX')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AY')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('AZ')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('BA')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('BB')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('BC')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('BD')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('BE')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('BF')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('BG')->setWidth(20);
-            $this->objCal->getActiveSheet()->getColumnDimension('BH')->setWidth(20);
-
-        }
-
-        //Hoja Calculo #2
-
-        $this->objCal2->getRowDimension('1')->setRowHeight(30);
-        $this->objCal2->getRowDimension('2')->setRowHeight(80);
-
-        $this->objCal2->mergeCells('A1:J1');
-        $this->objCal2->setCellValue('A1', 'FOR-1264-TEC-017-REV-00 FORMATO DE COMISIONAMIENTO')
-             ->getStyle('A1')->applyFromArray($styleCentrado);
-
-        {
-            $this->objCal2->getStyle('A')->getAlignment()->setWrapText(true);
-            $this->objCal2->getStyle('B')->getAlignment()->setWrapText(true);
-            $this->objCal2->getStyle('C')->getAlignment()->setWrapText(true);
-            $this->objCal2->getStyle('D')->getAlignment()->setWrapText(true);
-            $this->objCal2->getStyle('E')->getAlignment()->setWrapText(true);
-            $this->objCal2->getStyle('F')->getAlignment()->setWrapText(true);
-            $this->objCal2->getStyle('G')->getAlignment()->setWrapText(true);
-            $this->objCal2->getStyle('H')->getAlignment()->setWrapText(true);
-            $this->objCal2->getStyle('I')->getAlignment()->setWrapText(true);
-            $this->objCal2->getStyle('J')->getAlignment()->setWrapText(true);
-
-        }
-
-        {
-
-            $this->objCal2->setCellValue('A2', 'ID Beneficiario Contratista')
-                 ->getStyle('A2')->applyFromArray($styleCentrado);
-
-            $this->objCal2->setCellValue('B2', 'Dirección')
-                 ->getStyle('B2')->applyFromArray($styleCentrado);
-
-            $this->objCal2->setCellValue('C2', 'Fecha de Comisionamiento (DD/MM/AAAA del COMISIONAMIENTO)')
-                 ->getStyle('C2')->applyFromArray($styleCentrado);
-
-            $this->objCal2->setCellValue('D2', 'IP Equipo de Borde (Deben ir separados por punto (.))')
-                 ->getStyle('D2')->applyFromArray($styleCentrado);
-
-            $this->objCal2->setCellValue('E2', 'MAC WAN (Deben ir separado por (-))')
-                 ->getStyle('E2')->applyFromArray($styleCentrado);
-
-            $this->objCal2->setCellValue('F2', 'Resultado Latencia (Tiempo ms)')
-                 ->getStyle('F2')->applyFromArray($styleCentrado);
-
-            $this->objCal2->setCellValue('G2', 'Pruebas TRACERT(Por medio de comando TRACERT verificar que pase por el NAP Colombia) (SI/NO)')
-                 ->getStyle('G2')->applyFromArray($styleCentrado);
-
-            $this->objCal2->setCellValue('H2', 'Reporte de Fallos (Reportar los fallas si aplica durante el proceso de instalación)')
-                 ->getStyle('H2')->applyFromArray($styleCentrado);
-
-            $this->objCal2->setCellValue('I2', 'El Accesos queda reportando desde el Centro de Gestión')
-                 ->getStyle('I2')->applyFromArray($styleCentrado);
-
-            $this->objCal2->setCellValue('J2', 'Páginas Visitadas (Anotar tres páginas del gobierno, visitadas para verificar la navegación)')
-                 ->getStyle('J2')->applyFromArray($styleCentrado);
-
-            $this->objCal2->getColumnDimension('A')->setWidth(20);
-            $this->objCal2->getColumnDimension('B')->setWidth(20);
-            $this->objCal2->getColumnDimension('C')->setWidth(20);
-            $this->objCal2->getColumnDimension('D')->setWidth(20);
-            $this->objCal2->getColumnDimension('E')->setWidth(20);
-            $this->objCal2->getColumnDimension('F')->setWidth(20);
-            $this->objCal2->getColumnDimension('G')->setWidth(20);
-            $this->objCal2->getColumnDimension('H')->setWidth(20);
-            $this->objCal2->getColumnDimension('I')->setWidth(20);
-            $this->objCal2->getColumnDimension('J')->setWidth(20);
-
-        }
-
     }
 
     public function configurarDocumento() {
@@ -1178,44 +891,33 @@ class GenerarReporteExcelInstalaciones {
         // Set document properties
         $this->objCal->getProperties()->setCreator("OpenKyOS")
              ->setLastModifiedBy("OpenKyOS")
-             ->setTitle("Reporte de Beneficiarios (" . date('Y-m-d') . ")")
-             ->setSubject("Reporte Beneficiarios")
-             ->setDescription("Reporte de Información Beneficiarios")
+             ->setTitle("Reporte de Kiy e Instalaciones (" . date('Y-m-d') . ")")
+             ->setSubject("Reporte de Kit Comisionamiento e Instalaciones")
+             ->setDescription("Reporte de Kit Comisionamiento e Instalaciones")
              ->setCategory("Reporte");
 
-        $this->objCal->getActiveSheet()->setTitle('FormatoReporteInstalaciones');
-
-        $this->objCal2 = $this->objCal->createSheet();
-        $this->objCal2->setTitle('FormatoPruebaComisionamiento');
+        $this->objCal->getActiveSheet()->setTitle('FormatoReporteKitInstalaciones');
 
     }
 
     public function retornarDocumento() {
 
-        if ($_REQUEST['tipo_resultado'] == '1') {
-            // Redirect output to a client’s web browser (Excel2007)
-            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="ReporteAccesoBeneficiarios' . time() . '.xlsx"');
-            header('Cache-Control: max-age=0');
-            // If you're serving to IE 9, then the following may be needed
-            header('Cache-Control: max-age=1');
+        // Redirect output to a client’s web browser (Excel2007)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="ReporteKitComisionamientoInstalaciones' . time() . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
 
-            // If you're serving to IE over SSL, then the following may be needed
-            header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-            header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
-            header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-            header('Pragma: public'); // HTTP/1.0
-            ob_clean();
-            $objWriter = \PHPExcel_IOFactory::createWriter($this->objCal, 'Excel2007');
-            $objWriter->save('php://output');
-            exit;
-        } else {
-
-            ob_clean();
-            $objWriter = \PHPExcel_IOFactory::createWriter($this->objCal, 'Excel2007');
-            $objWriter->save($this->ruta_directorio_xls . '/ReporteAccesosBeneficiarios' . time() . '.xlsx');
-
-        }
+        // If you're serving to IE over SSL, then the following may be needed
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
+        ob_clean();
+        $objWriter = \PHPExcel_IOFactory::createWriter($this->objCal, 'Excel2007');
+        $objWriter->save('php://output');
+        exit;
 
     }
 

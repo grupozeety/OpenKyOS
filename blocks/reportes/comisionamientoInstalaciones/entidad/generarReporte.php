@@ -29,24 +29,9 @@ class GenerarReporteInstalaciones {
 
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
-        switch ($_REQUEST['tipo_resultado']) {
-            case '1':
 
-                $this->estruturarProyectos();
-                $this->crearHojaCalculo();
-                break;
-
-            case '2':
-                $this->generarProceso();
-                break;
-
-            case '3':
-
-                $this->consultarProceso();
-
-                break;
-
-        }
+        //$this->estruturarProyectos();
+        $this->crearHojaCalculo();
 
     }
 
