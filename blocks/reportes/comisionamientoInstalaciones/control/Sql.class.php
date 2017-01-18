@@ -178,9 +178,9 @@ class Sql extends \Sql {
                 $cadenaSql .= " ip_celda,mac_celda,nombre_nodo,nombre_sectorial,ip_switch_celda,ip_sm_celda,";     //Nodo
                 $cadenaSql .= " mac_sm_celda,mac_cpe_celda,";     //Nodo
                 $cadenaSql .= " mac_master_eoc,ip_master_eoc,ip_onu_eoc,mac_onu_eoc,ip_hub_eoc,mac_hub_eoc,mac_cpe_eoc,";     //Nodo HCF
-                $cadenaSql .= " aes.fecha_instalacion,aes.ip_esc,aes.mac_esc, aes.resultado_p1,aes.resultado_tr1, ";     //Nodo HCF
-                $cadenaSql .= " aes.resultado_tr2, aes.reporte_fallos, aes.acceso_reportando , ";
-                $cadenaSql .= " CASE WHEN aes.id=NULL  THEN ''  ELSE 'www.mintic.gov.co;https://www.sivirtual.gov.co;https://www.wikipedia.org/'  END  AS paginas_visitadas";
+                $cadenaSql .= " aes.fecha_instalacion,aes.mac_esc,aes.mac2_esc,aes.ip_esc,aes.serial_esc, aes.resultado_p1,aes.resultado_tr1, ";     //Nodo HCF
+                $cadenaSql .= " aes.resultado_tr2, aes.reporte_fallos, aes.acceso_reportando, ";
+                $cadenaSql .= " aep.serial serial_portatil ";
                 $cadenaSql .= " FROM interoperacion.contrato AS cn ";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario AND bn.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN parametros.proyectos_metas AS pm ON pm.id_proyecto =bn.id_proyecto";
@@ -190,6 +190,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " LEFT JOIN interoperacion.nodo AS nd ON nd.macesclavo1=aes.mac_esc AND nd.estado_registro='TRUE'";
 
                 $cadenaSql .= " LEFT JOIN interoperacion.cabecera AS cab ON cab.codigo_cabecera=nd.codigo_cabecera AND cab.estado_registro='TRUE'";
+
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil AS aep ON aep.id_beneficiario=cn.id_beneficiario AND aep.estado_registro='TRUE'";
 
                 if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '1') {
                     $cadenaSql .= " JOIN interoperacion.documentos_contrato dr  ON dr.id_beneficiario=cn.id_beneficiario AND dr.estado_registro='TRUE' AND dr.tipologia_documento='132' ";

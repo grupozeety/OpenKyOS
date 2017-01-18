@@ -20,7 +20,7 @@ class Registrador {
 
         $this->miSql = $sql;
 
-        $conexion = "interoperacion";
+        $conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
     }
     public function seleccionarForm() {

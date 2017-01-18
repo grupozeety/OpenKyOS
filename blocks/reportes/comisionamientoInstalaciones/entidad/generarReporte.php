@@ -23,184 +23,16 @@ class GenerarReporteInstalaciones {
 
         $_REQUEST['tiempo'] = time();
 
-        $conexion = "interoperacion";
+        $conexion = "produccion";
 
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 
-        //$this->estruturarProyectos();
-        $this->crearHojaCalculo();
+        $this->estruturarProyectos();
+//        $this->crearHojaCalculo();
 
-    }
-
-    public function consultarProceso() {
-
-        $cadenaSql = $this->miSql->getCadenaSql('consultarProcesoParticular');
-        $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-
-        if ($this->proceso) {
-
-            ini_set('memory_limit', '2048M');
-            ini_set('max_execution_time', 1000000);
-
-            // Eliminar Tarea Crontab
-
-            $this->eliminarTrabajoCrontab();
-
-            // Cambiar Estado Proceso
-            $cadenaSql = $this->miSql->getCadenaSql('actualizarProcesoParticularEstado', $this->proceso['id_proceso']);
-            $estadoproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-
-            $parametros = json_decode(base64_decode($this->proceso['parametros']), true);
-
-            $_REQUEST = array_merge($_REQUEST, $parametros);
-
-            $this->estruturarProyectos();
-
-            $this->crearDirectorio();
-
-            // Url Proceso
-            $this->crearUrlProceso();
-
-            // Crear Tarea Crontab
-
-            $this->crearTrabajosCrontab();
-            exit;
-
-        } else {
-            exit;
-        }
-    }
-
-    /**
-     * Metodos Correspondientes al Trabajos del Crontab
-     **/
-    public function crearTrabajosCrontab() {
-
-        exec('echo -e "`crontab -l`\n*/5 * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
-        //exec('echo  "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
-
-    }
-
-    public function eliminarTrabajoCrontab() {
-
-        exec('crontab -l', $crontab);
-
-        shell_exec('echo "" | crontab -');
-
-        if (!empty($crontab) && is_array($crontab)) {
-
-            $cadena_buscada = '#Accesos';
-
-            foreach ($crontab as $key => $value) {
-
-                $posicion_coincidencia = strpos($value, $cadena_buscada);
-                if ($posicion_coincidencia === false) {
-
-                } else {
-
-                    unset($crontab[$key]);
-                }
-            }
-
-            foreach ($crontab as $key => $value) {
-
-                $valor = ($value == '') ? '' : '`crontab -l`\n';
-
-                exec('echo -e "' . $valor . $value . '" | crontab -');
-                //exec('echo  "' . $valor . $value . '" | crontab -');
-            }
-
-        }
-
-    }
-
-    public function crearUrlProceso() {
-
-        $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
-
-        {
-
-            $url = $this->miConfigurador->getVariableConfiguracion("host");
-            $url .= $this->miConfigurador->getVariableConfiguracion("site");
-            $url .= "/index.php?";
-
-            $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-            $valorCodificado .= "&action=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
-            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-            $valorCodificado .= "&opcion=generarReporte";
-            $valorCodificado .= "&tipo_resultado=3";
-
-        }
-
-        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
-
-        $this->UrlProceso = $url . $cadena;
-
-        $this->Url_ejecucion = "curl  " . $this->UrlProceso . "  #Accesos";
-
-    }
-
-    public function generarProceso() {
-
-        $arreglo = array(
-            'departamento' => $_REQUEST['departamento'],
-            'municipio' => $_REQUEST['municipio'],
-            'urbanizacion' => $_REQUEST['urbanizacion'],
-            'estado_beneficiario' => $_REQUEST['estado_beneficiario'],
-            'beneficiario' => $_REQUEST['beneficiario'],
-        );
-
-        $cadenaSql = $this->miSql->getCadenaSql('consultaGeneralInformacion');
-        $this->Informacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-        if ($this->Informacion == false) {
-
-            Redireccionador::redireccionar('SinResultado');
-        }
-
-        $descripcion = '';
-        foreach ($this->Informacion as $key => $value) {
-
-            $descripcion .= ($key + 1) . ". " . $value['departamento'] . ", " . $value['municipio'] . ", " . trim(str_replace("URBANIZACION", "", $value['urbanizacion'])) . "<br>";
-
-        }
-
-        $arreglo = array(
-            'parametros' => base64_encode(json_encode($arreglo)),
-            'descripcion' => $descripcion,
-        );
-
-        $cadenaSql = $this->miSql->getCadenaSql('crearProceso', $arreglo);
-
-        $proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0][0];
-
-        if ($proceso) {
-
-            Redireccionador::redireccionar('exitoProceso', $proceso);
-        } else {
-
-            Redireccionador::redireccionar('errorProceso');
-        }
-
-    }
-
-    public function actualizarAvance($avance) {
-
-        $arreglo = array(
-            'avance' => $avance,
-            'proceso' => $this->proceso['id_proceso'],
-        );
-
-        $cadenaSql = $this->miSql->getCadenaSql('actualizarProcesoParticularAvance', $arreglo);
-
-        $avanceproceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-
-        return $avanceproceso;
     }
 
     public function estruturarProyectos() {
@@ -209,7 +41,10 @@ class GenerarReporteInstalaciones {
         ini_set('xdebug.var_display_max_children', 256);
         ini_set('xdebug.var_display_max_data', 1024);
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
+
         $this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        var_dump($this->beneficiarios);exit;
 
         if ($this->beneficiarios == false) {
 

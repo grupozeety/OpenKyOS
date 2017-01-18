@@ -658,35 +658,6 @@ class GenerarReporteExcelInstalaciones {
             $this->objCal->getActiveSheet()->getStyle('AC')->getAlignment()->setWrapText(true);
             $this->objCal->getActiveSheet()->getStyle('AD')->getAlignment()->setWrapText(true);
             $this->objCal->getActiveSheet()->getStyle('AE')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AF')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AG')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AH')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AI')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AJ')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AK')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AL')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AM')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AN')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AO')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AP')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AQ')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AR')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AS')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AT')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AU')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AV')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AW')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AX')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AY')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('AZ')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('BA')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('BB')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('BC')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('BD')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('BE')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('BF')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('BG')->getAlignment()->setWrapText(true);
-            $this->objCal->getActiveSheet()->getStyle('BH')->getAlignment()->setWrapText(true);
 
         }
 
@@ -756,7 +727,7 @@ class GenerarReporteExcelInstalaciones {
                  ->getStyle('J2')->applyFromArray($styleCentrado);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('K2', 'IP Esclavo)')
+                 ->setCellValue('K2', 'IP Esclavo')
                  ->getStyle('K2')->applyFromArray($styleCentrado);
 
             $this->objCal->getActiveSheet()->getColumnDimension('G')->setWidth(20);
