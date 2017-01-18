@@ -1,6 +1,6 @@
 <?php
 
-namespace reportes\plantillaBeneficiario\entidad;
+namespace reportes\plantillaInfoTecnica\entidad;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "../index.php";
@@ -73,254 +73,277 @@ class FormProcessor {
 		$this->validarNulo ();
 		
 		/**
-		 * 5.
+		 * 4.
 		 * Validar Existencia Beneficiarios
 		 */
 		
-		if ($_REQUEST ['funcionalidad'] == 3) {
-			$this->validarBeneficiariosExistentes ();
+		if ($_REQUEST ['funcionalidad'] == 2) {
+			$this->validarInfoExistentesRegistro ();
 		} else {
-			$this->validarBeneficiariosExistentesRegistro ();
+			$this->validarInfoExistentes ();
 		}
 		
 		/**
-		 * 6.
-		 * Procesar Información Beneficiarios
+		 * 5.
+		 * Procesar Información
 		 */
 		
-		$this->procesarInformacionBeneficiario ();
+		$this->procesarInformacion ();
 		
+		/**
+		 * 6.
+		 * Procesar Cabecera
+		 */
+		
+		$this->procesarCabecera ();
 		/**
 		 * 7.
 		 * Actualizar o Registrar beneficiarios
 		 */
 		
-		$this->informacionBeneficiario ();
+		$this->informacion ();
 	}
 	
 	/**
 	 * Funcionalidades Específicas
 	 */
-	public function informacionBeneficiario() {
+	public function informacion() {
 		foreach ( $this->informacion_registrar as $key => $value ) {
 			if ($_REQUEST ['funcionalidad'] == 3) {
-				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarBeneficiario', $value );
+				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarInformacion', $value );
 				$this->resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 			} else {
-				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarBeneficiarioPotencial', $value );
+				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarNodo', $value );
 				$this->resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+			}
+		}
+
+		if ($this->resultado != true) {
+			Redireccionador::redireccionar ( "ErrorActualizacion" );
+			exit ();
+		} else {
+			Redireccionador::redireccionar ( "ExitoRegistroProceso" );
+			exit ();
+		}
+	}
+	public function procesarCabecera() {
+		foreach ( $this->info_cabecera as $key => $value ) {
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarCabecera', $value ['codigo_cabecera'] );
+			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			if ($consulta == false) {
+				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarCabecera', $value );
+				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+				
+				if ($consulta != true) {
+					Redireccionador::redireccionar ( "ErrorActualizacioncabecera" );
+					exit ();
+				}
+			}
+		}
+	}
+	public function procesarInformacion() {
+		$a = 0;
+		foreach ( $this->datos_infotecnica as $key => $value ) {
+			
+			$cabecera [] = array (
+					'codigo_nodo' => $value ['codigo_nodo'],
+					'codigo_cabecera' => $value ['codigo_cabecera'],
+					'departamento' => $value ['departamento'],
+					'municipio' => $value ['municipio'],
+					'urbanizacion' => $value ['proyecto'],
+					'id_urbanizacion' => $value ['id_proyecto'] 
+			);
+			
+			// wMAN
+			if ($value ['tipo_tecnologia'] == '96') {
+				
+				$this->informacion_registrar [] = array (
+						'codigo_nodo' => $value ['codigo_nodo'],
+						'codigo_cabecera' => $value ['codigo_cabecera'],
+						'departamento' => $value ['departamento'],
+						'municipio' => $value ['municipio'],
+						'urbanizacion' => $value ['proyecto'],
+						'id_urbanizacion' => $value ['id_proyecto'],
+						'tipo_tecnologia' => $value ['tipo_tecnologia'],
+						'mac_master_eoc' => 'N/A',
+						'ip_master_eoc' => 'N/A',
+						'mac_onu_eoc' => 'N/A',
+						'ip_onu_eoc' => 'N/A',
+						'mac_hub_eoc' => 'N/A',
+						'ip_hub_eoc' => 'N/A',
+						'mac_cpe_eoc' => 'N/A',
+						'mac_celda' => $value ['wman_maccelda'],
+						'ip_celda' => $value ['wman_ipcelda'],
+						'nombre_nodo' => $value ['wman_nombrenodo'],
+						'nombre_sectorial' => $value ['wman_nombresectorial'],
+						'ip_switch_celda' => $value ['wman_ipswitchcelda'],
+						'mac_sm_celda' => $value ['wman_macsmcelda'],
+						'ip_sm_celda' => $value ['wman_ipsmcelda'],
+						'mac_cpe_celda' => $value ['wman_maccpecelda'],
+						'estado_registro' => $value ['estado'],
+						'latitud' => $value ['latitud'],
+						'longitud' => $value ['longitud'],
+						'macesclavo1' => $value ['macesclavo1'],
+						'port_olt' => $value ['port'] 
+				);
+			} elseif ($value ['tipo_tecnologia'] == '95') {
+				$this->informacion_registrar [] = array (
+						'codigo_nodo' => $value ['codigo_nodo'],
+						'codigo_cabecera' => $value ['codigo_cabecera'],
+						'departamento' => $value ['departamento'],
+						'municipio' => $value ['municipio'],
+						'urbanizacion' => $value ['proyecto'],
+						'id_urbanizacion' => $value ['id_proyecto'],
+						'tipo_tecnologia' => $value ['tipo_tecnologia'],
+						'mac_master_eoc' => $value ['hfc_macmaster'],
+						'ip_master_eoc' => $value ['hfc_ipmaster'],
+						'mac_onu_eoc' => $value ['hfc_maconu'],
+						'ip_onu_eoc' => $value ['hfc_iponu'],
+						'mac_hub_eoc' => $value ['hfc_machub'],
+						'ip_hub_eoc' => $value ['hfc_iphub'],
+						'mac_cpe_eoc' => $value ['hfc_maccpe'],
+						'mac_celda' => 'N/A',
+						'ip_celda' => 'N/A',
+						'nombre_nodo' => 'N/A',
+						'nombre_sectorial' => 'N/A',
+						'ip_switch_celda' => 'N/A',
+						'mac_sm_celda' => 'N/A',
+						'ip_sm_celda' => 'N/A',
+						'mac_cpe_celda' => 'N/A',
+						'estado_registro' => $value ['estado'],
+						'latitud' => $value ['latitud'],
+						'longitud' => $value ['longitud'],
+						'macesclavo1' => $value ['macesclavo1'],
+						'port_olt' => $value ['port'] 
+				);
 			}
 		}
 		
-		if ($this->resultado != true) {
-			Redireccionador::redireccionar ( "ErrorActualizacion" );
-		} else {
-			Redireccionador::redireccionar ( "ExitoRegistroProceso" );
+		$this->info_cabecera = $this->unique_multidim_array ( $cabecera, 'codigo_cabecera' );
+	}
+	public function validarInfoExistentes() {
+		foreach ( $this->datos_infotecnica as $key => $value ) {
+			
+			if ($value ['tipo_tecnologia'] == '96') {
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoHFC', $value );
+				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
+				
+				if (is_null ( $consulta )) {
+					Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+					exit ();
+				}
+			} elseif ($value ['tipo_tecnologia'] == '95') {
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoWMAN', $value );
+				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
+				if (is_null ( $consulta )) {
+					Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+					exit ();
+				}
+			} else {
+				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+				exit ();
+			}
+		}
+	}
+	public function validarInfoExistentesRegistro() {
+		foreach ( $this->datos_infotecnica as $key => $value ) {
+			if ($value ['tipo_tecnologia'] == '95') {
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoHFC', $value );
+				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
+				
+				if (! is_null ( $consulta )) {
+					Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+					exit ();
+				}
+			} elseif ($value ['tipo_tecnologia'] == '96') {
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoWMAN', $value );
+				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
+				if (! is_null ( $consulta )) {
+					Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+					exit ();
+				}
+			} else {
+				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+				exit ();
+			}
 		}
 	}
 	public function validarNulo() {
-		foreach ( $this->datos_beneficiario as $key => $value ) {
+		foreach ( $this->datos_infotecnica as $key => $value ) {
+			// wMAN
 			
-			if ($value ['estrato'] == 0) {
+			if (is_null ( $value ['id_proyecto'] ) || is_null ( $value ['proyecto'] )) {
 				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
 				exit ();
 			}
 			
-			if (is_null ( $value ['identificacion_beneficiario'] )) {
+			if (is_null ( $value ['codigo_cabecera'] )) {
 				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
 				exit ();
 			}
-		}
-	}
-	public function procesarInformacionBeneficiario() {
-		$a = 0;
-		foreach ( $this->datos_beneficiario as $key => $value ) {
 			
-			// Funcionalidad 3 es Actualización de Registros
-			if ($_REQUEST ['funcionalidad'] == 3) {
-				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarInformacionBeneficiario', $value ['identificacion_beneficiario'] );
-				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
-				
-				$this->informacion_registrar [] = array (
-						'id_beneficiario' => $consulta ['id_beneficiario'],
-						'identificacion_beneficiario' => $value ['identificacion_beneficiario'],
-						'tipo_beneficiario' => $value ['tipo_beneficiario'],
-						'tipo_documento' => $value ['tipo_documento'],
-						'nomenclatura' => $consulta ['nomenclatura'],
-						'nombre_beneficiario' => $value ['nombre'],
-						'primer_apellido' => $value ['primer_apellido'],
-						'segundo_apellido' => $value ['segundo_apellido'],
-						'genero_beneficiario' => $value ['genero'],
-						'edad_beneficiario' => $value ['edad'],
-						'nivel_estudio' => $value ['nivel_estudio'],
-						'correo' => $value ['correo'],
-						'direccion' => $value ['direccion'],
-						'manzana' => $value ['manzana'],
-						'torre' => $value ['torre'],
-						'bloque' => $value ['bloque'],
-						'interior' => $value ['interior'],
-						'lote' => $value ['lote'],
-						'apartamento' => $value ['casa_apto'],
-						'telefono' => $value ['telefono'],
-						'departamento' => $value ['departamento'],
-						'municipio' => $value ['municipio'],
-						'piso' => $value ['piso'],
-						'minvi' => $value ['minvivienda'],
-						'barrio' => $value ['barrio'],
-						'id_proyecto' => $value ['id_proyecto'],
-						'proyecto' => $value ['proyecto'],
-						'estrato' => $value ['estrato'] 
-				);
+			if (is_null ( $value ['codigo_nodo'] )) {
+				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+				exit ();
+			}
+			
+			if (is_null ( $value ['tipo_tecnologia'] )) {
+				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+				exit ();
 			} else {
 				
-				$cadenaSql = $this->miSql->getCadenaSql ( 'codificacion', $value ['id_proyecto'] );
-				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-				
-				if ($resultado) {
-					$_REQUEST ['consecutivo'] = $resultado [0] ['abr_benf'];
-					$_REQUEST ['abr_urb'] = $resultado [0] ['abr_urb'];
-					$_REQUEST ['abr_mun'] = $resultado [0] ['abr_mun'];
-				} else {
-					$_REQUEST ['consecutivo'] = "ND";
-					$_REQUEST ['abr_urb'] = "ND";
-					$_REQUEST ['abr_mun'] = "ND";
-				}
-				
-				$numeroCaracteres = 5;
-				$numeroBusqueda = strlen ( $_REQUEST ['consecutivo'] );
-				
-				$valor ['string'] = $_REQUEST ['consecutivo'];
-				$valor ['longitud'] = $numeroCaracteres - $numeroBusqueda - 1;
-				
-				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarConsecutivo', $valor );
-				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-				
-				if ($resultado) {
-					$consecutivo = explode ( $_REQUEST ['consecutivo'], $resultado [0] ['id_beneficiario'] );
-					$nuevoConsecutivo = $consecutivo [1] + 1 + $a;
-					
-					if (strlen ( $_REQUEST ['consecutivo'] ) == 1) {
-						if ($nuevoConsecutivo < 10) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '000' . $nuevoConsecutivo;
-						} else if ($nuevoConsecutivo < 100) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '00' . $nuevoConsecutivo;
-						} else if ($nuevoConsecutivo < 1000) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $nuevoConsecutivo;
-						} else {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . $nuevoConsecutivo;
-						}
-					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 2) {
-						if ($nuevoConsecutivo < 10) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '00' . $nuevoConsecutivo;
-						} else if ($nuevoConsecutivo < 100) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $nuevoConsecutivo;
-						} else {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . $nuevoConsecutivo;
-						}
-					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 3) {
-						if ($nuevoConsecutivo < 10) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $nuevoConsecutivo;
-						} else if ($nuevoConsecutivo < 100) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . $nuevoConsecutivo;
-						} else {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . $nuevoConsecutivo;
-						}
-					} else {
-						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . $nuevoConsecutivo;
+				if ($value ['tipo_tecnologia'] == '95') {
+					if (is_null ( $value ['hfc_macmaster'] )) {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
+					}
+					if (is_null ( $value ['hfc_ipmaster'] )) {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
 					}
 					
-					$beneficiarioPotencial ['id_beneficiario'] = $nuevoConsecutivo;
-				} else {
-					$b = 1 + $a;
-					
-					if (strlen ( $_REQUEST ['consecutivo'] ) == 1) {
-						if ($b < 10) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '000' . $b;
-						} else if ($b > 9 && $b < 100) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '00' . $b;
-						} else if ($b > 99 && $b < 1000) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $b;
-						} elseif ($b > 999 && $b < 10000) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '' . $b;
-						}
-					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 2) {
-						if ($b < 10) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '00' . $b;
-						} else if ($b > 9 && $b < 100) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $b;
-						} else if ($b > 99 && $b < 1000) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '' . $b;
-						}
-					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 3) {
-						if ($b < 10) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '0' . $b;
-						} else if ($b > 9 && $b < 100) {
-							$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '' . $b;
-						}
-					} else if (strlen ( $_REQUEST ['consecutivo'] ) == 4) {
-						$nuevoConsecutivo = $_REQUEST ['consecutivo'] . '' . $b;
+					if (is_null ( $value ['hfc_maconu'] )) {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
 					}
 					
-					$beneficiarioPotencial ['id_beneficiario'] = $nuevoConsecutivo;
+					if (is_null ( $value ['hfc_iponu'] )) {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
+					}
+					
+					if ($value ['macesclavo1'] == '0') {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
+					}
+				} elseif ($value ['tipo_tecnologia'] == '96') {
+					if (is_null ( $value ['wman_maccelda'] )) {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
+					}
+					
+					if (is_null ( $value ['wman_ipcelda'] )) {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
+					}
+					
+					if (is_null ( $value ['wman_nombresectorial'] )) {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
+					}
+					
+					if (is_null ( $value ['wman_ipsmcelda'] )) {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
+					}
+					
+					if (is_null ( $value ['wman_maccpecelda'] )) {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
+					}
 				}
-				
-				$a ++;
-				
-				$this->informacion_registrar [] = array (
-						'id_beneficiario' => $beneficiarioPotencial ['id_beneficiario'],
-						'tipo_beneficiario' => $value ['tipo_beneficiario'],
-						'tipo_documento' => $value ['tipo_documento'],
-						'identificacion_beneficiario' => $value ['identificacion_beneficiario'],
-						'nombre_beneficiario' => $value ['nombre'],
-						'primer_apellido' => $value ['primer_apellido'],
-						'segundo_apellido' => $value ['segundo_apellido'],
-						'genero_beneficiario' => $value ['genero'],
-						'edad_beneficiario' => $value ['edad'],
-						'nivel_estudio' => $value ['nivel_estudio'],
-						'correo' => $value ['correo'],
-						'direccion' => $value ['direccion'],
-						'manzana' => $value ['manzana'],
-						'interior' => $value ['interior'],
-						'bloque' => $value ['bloque'],
-						'torre' => $value ['torre'],
-						'apartamento' => $value ['casa_apto'],
-						'lote' => $value ['lote'],
-						'telefono' => $value ['telefono'],
-						'departamento' => $value ['departamento'],
-						'municipio' => $value ['municipio'],
-						'estrato' => $value ['estrato'],
-						'id_proyecto' => $value ['id_proyecto'],
-						'proyecto' => $value ['proyecto'],
-						'piso' => $value ['piso'],
-						'minvi' => $value ['minvivienda'],
-						'barrio' => $value ['barrio'],
-						'nomenclatura' => $_REQUEST ['abr_mun'] . "_" . $_REQUEST ['abr_urb'] . "_" . $value ['identificacion_beneficiario'] 
-				);
-			}
-		}
-	}
-	public function validarBeneficiariosExistentes() {
-		foreach ( $this->datos_beneficiario as $key => $value ) {
-			
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExitenciaBeneficiario', $value ['identificacion_beneficiario'] );
-			
-			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
-			
-			if (is_null ( $consulta )) {
-				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
-				exit ();
-			}
-		}
-	}
-	public function validarBeneficiariosExistentesRegistro() {
-		foreach ( $this->datos_beneficiario as $key => $value ) {
-			
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExitenciaBeneficiario', $value ['identificacion_beneficiario'] );
-			$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
-			
-			if (! is_null ( $consulta )) {
-				Redireccionador::redireccionar ( "ErrorCreacionContratos" );
-				exit ();
 			}
 		}
 	}
@@ -345,60 +368,62 @@ class FormProcessor {
 			
 			for($i = 2; $i <= $total_filas; $i ++) {
 				
-				$datos_beneficiario [$i] ['departamento'] = $informacion->setActiveSheetIndex ()->getCell ( 'A' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['codigo_nodo'] = $informacion->setActiveSheetIndex ()->getCell ( 'A' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['municipio'] = $informacion->setActiveSheetIndex ()->getCell ( 'B' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['codigo_cabecera'] = $informacion->setActiveSheetIndex ()->getCell ( 'B' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['id_proyecto'] = $informacion->setActiveSheetIndex ()->getCell ( 'C' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['departamento'] = $informacion->setActiveSheetIndex ()->getCell ( 'C' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['proyecto'] = $informacion->setActiveSheetIndex ()->getCell ( 'D' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['municipio'] = $informacion->setActiveSheetIndex ()->getCell ( 'D' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['tipo_beneficiario'] = $informacion->setActiveSheetIndex ()->getCell ( 'E' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['id_proyecto'] = $informacion->setActiveSheetIndex ()->getCell ( 'F' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['tipo_documento'] = $informacion->setActiveSheetIndex ()->getCell ( 'F' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['proyecto'] = $informacion->setActiveSheetIndex ()->getCell ( 'E' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['identificacion_beneficiario'] = $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['tipo_tecnologia'] = $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['nombre'] = $informacion->setActiveSheetIndex ()->getCell ( 'H' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['hfc_macmaster'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'H' . $i )->getCalculatedValue () );
 				
-				$datos_beneficiario [$i] ['primer_apellido'] = $informacion->setActiveSheetIndex ()->getCell ( 'I' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['hfc_ipmaster'] = $informacion->setActiveSheetIndex ()->getCell ( 'I' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['segundo_apellido'] = $informacion->setActiveSheetIndex ()->getCell ( 'J' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['hfc_maconu'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'J' . $i )->getCalculatedValue () );
 				
-				$datos_beneficiario [$i] ['genero'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['hfc_iponu'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () : 0;
 				
-				$datos_beneficiario [$i] ['edad'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['hfc_machub'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () )) ? str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () ) : 0;
 				
-				$datos_beneficiario [$i] ['nivel_estudio'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['hfc_iphub'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () : 0;
 				
-				$datos_beneficiario [$i] ['correo'] = $informacion->setActiveSheetIndex ()->getCell ( 'N' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['hfc_maccpe'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'N' . $i )->getCalculatedValue () );
 				
-				$datos_beneficiario [$i] ['telefono'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['wman_maccelda'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () )) ? str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () ) : 0;
 				
-				$datos_beneficiario [$i] ['direccion'] = $informacion->setActiveSheetIndex ()->getCell ( 'P' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['wman_ipcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'P' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['manzana'] = $informacion->setActiveSheetIndex ()->getCell ( 'Q' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['wman_nombrenodo'] = $informacion->setActiveSheetIndex ()->getCell ( 'Q' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['bloque'] = $informacion->setActiveSheetIndex ()->getCell ( 'R' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['wman_nombresectorial'] = $informacion->setActiveSheetIndex ()->getCell ( 'R' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['torre'] = $informacion->setActiveSheetIndex ()->getCell ( 'S' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['wman_ipswitchcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'S' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['casa_apto'] = $informacion->setActiveSheetIndex ()->getCell ( 'T' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['wman_macsmcelda'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'T' . $i )->getCalculatedValue () );
 				
-				$datos_beneficiario [$i] ['interior'] = $informacion->setActiveSheetIndex ()->getCell ( 'U' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['wman_ipsmcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'U' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['lote'] = $informacion->setActiveSheetIndex ()->getCell ( 'V' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['wman_maccpecelda'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'V' . $i )->getCalculatedValue () );
 				
-				$datos_beneficiario [$i] ['piso'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['estado'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () : 'TRUE';
 				
-				$datos_beneficiario [$i] ['minvivienda'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () : 'FALSE';
+				$datos_beneficiario [$i] ['latitud'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () )) ? str_replace ( "'", "`", $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () ) : 0;
 				
-				$datos_beneficiario [$i] ['barrio'] = $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['longitud'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue () )) ? str_replace ( "'", "`", $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue () ) : 0;
 				
-				$datos_beneficiario [$i] ['estrato'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['macesclavo1'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () )) ? str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () ) : 0;
+				
+				$datos_beneficiario [$i] ['port'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'AA' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'AA' . $i )->getCalculatedValue () : 0;
 			}
 			
-			$this->datos_beneficiario = $datos_beneficiario;
+			$this->datos_infotecnica = $datos_beneficiario;
 			
 			unlink ( $this->archivo ['ruta_archivo'] );
 		} else {
@@ -457,6 +482,20 @@ class FormProcessor {
 		} else {
 			Redireccionador::redireccionar ( "ErrorArchivoNoValido" );
 		}
+	}
+	public function unique_multidim_array($array, $key) {
+		$temp_array = array ();
+		$i = 0;
+		$key_array = array ();
+		
+		foreach ( $array as $val ) {
+			if (! in_array ( $val [$key], $key_array )) {
+				$key_array [$i] = $val [$key];
+				$temp_array [$i] = $val;
+			}
+			$i ++;
+		}
+		return $temp_array;
 	}
 }
 

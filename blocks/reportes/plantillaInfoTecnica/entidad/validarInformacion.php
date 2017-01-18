@@ -96,7 +96,6 @@ class FormProcessor {
 		 * Cerrar Log
 		 */
 		
-		exit ();
 		$this->cerrar_log ();
 		
 		if (isset ( $this->error )) {
@@ -108,27 +107,27 @@ class FormProcessor {
 	public function validarInfoExistentes() {
 		foreach ( $this->datos_infotecnica as $key => $value ) {
 			
-			if ($value ['tipo_tecnología'] == '96') {
+			if ($value ['tipo_tecnologia'] == '96') {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoHFC', $value );
 				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 				
 				if (is_null ( $consulta )) {
-					$mensaje = "El registro no se encuentra en el sistema. No se puede actualizar.";
+					$mensaje = $key . ". El registro no se encuentra en el sistema. No se puede actualizar.";
 					$this->escribir_log ( $mensaje );
 					
 					$this->error = true;
 				}
-			} elseif ($value ['tipo_tecnología'] == '95') {
+			} elseif ($value ['tipo_tecnologia'] == '95') {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoWMAN', $value );
 				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 				if (is_null ( $consulta )) {
-					$mensaje = "El registro no se encuentra en el sistema. No se puede actualizar.";
+					$mensaje = $key . ". El registro no se encuentra en el sistema. No se puede actualizar.";
 					$this->escribir_log ( $mensaje );
 					
 					$this->error = true;
 				}
 			} else {
-				$mensaje = "Tipo de Tecnología Inválido.";
+				$mensaje = "Tipo de tecnologia Inválido.";
 				$this->escribir_log ( $mensaje );
 				$this->error = true;
 			}
@@ -136,34 +135,33 @@ class FormProcessor {
 	}
 	public function validarInfoExistentesRegistro() {
 		foreach ( $this->datos_infotecnica as $key => $value ) {
-			if ($value ['tipo_tecnología'] == '95') {
+			if ($value ['tipo_tecnologia'] == '95') {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoHFC', $value );
 				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 				
 				if (! is_null ( $consulta )) {
-					$mensaje = "El registro se encuentra en el sistema. No se puede duplicar.";
+					$mensaje = $key . ". El registro se encuentra en el sistema. No se puede duplicar.";
 					$this->escribir_log ( $mensaje );
 					
 					$this->error = true;
 				}
-			} elseif ($value ['tipo_tecnología'] == '96') {
+			} elseif ($value ['tipo_tecnologia'] == '96') {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoWMAN', $value );
 				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 				if (! is_null ( $consulta )) {
-					$mensaje = "El registro se encuentra en el sistema. No se puede duplicar.";
+					$mensaje = $key . ". El registro se encuentra en el sistema. No se puede duplicar.";
 					$this->escribir_log ( $mensaje );
 					
 					$this->error = true;
 				}
 			} else {
-				$mensaje = "Tipo de Tecnología Inválido.";
+				$mensaje = "Tipo de tecnologia Inválido.";
 				$this->escribir_log ( $mensaje );
 				$this->error = true;
 			}
 		}
 	}
 	public function validarNulo() {
-		var_dump ( $this->datos_infotecnica );
 		foreach ( $this->datos_infotecnica as $key => $value ) {
 			// wMAN
 			
@@ -185,13 +183,13 @@ class FormProcessor {
 				$this->error = true;
 			}
 			
-			if (is_null ( $value ['tipo_tecnología'] )) {
+			if (is_null ( $value ['tipo_tecnologia'] )) {
 				$mensaje = "El campo Código Nodo/Celda no puede ser vacío";
 				$this->escribir_log ( $mensaje );
 				$this->error = true;
 			} else {
 				
-				if ($value ['tipo_tecnología'] == '95') {
+				if ($value ['tipo_tecnologia'] == '95') {
 					if (is_null ( $value ['hfc_macmaster'] )) {
 						$mensaje = "Para HFC, MAC Master es Obligatorio.";
 						$this->escribir_log ( $mensaje );
@@ -220,7 +218,7 @@ class FormProcessor {
 						$this->escribir_log ( $mensaje );
 						$this->error = true;
 					}
-				} elseif ($value ['tipo_tecnología'] == '96') {
+				} elseif ($value ['tipo_tecnologia'] == '96') {
 					if (is_null ( $value ['wman_maccelda'] )) {
 						$mensaje = "Para wMan, MAC Celda es Obligatorio.";
 						$this->escribir_log ( $mensaje );
@@ -300,23 +298,23 @@ class FormProcessor {
 				
 				$datos_beneficiario [$i] ['proyecto'] = $informacion->setActiveSheetIndex ()->getCell ( 'E' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['tipo_tecnología'] = $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['tipo_tecnologia'] = $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['hfc_macmaster'] = $informacion->setActiveSheetIndex ()->getCell ( 'H' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['hfc_macmaster'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'H' . $i )->getCalculatedValue () );
 				
 				$datos_beneficiario [$i] ['hfc_ipmaster'] = $informacion->setActiveSheetIndex ()->getCell ( 'I' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['hfc_maconu'] = $informacion->setActiveSheetIndex ()->getCell ( 'J' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['hfc_maconu'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'J' . $i )->getCalculatedValue () );
 				
 				$datos_beneficiario [$i] ['hfc_iponu'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () : 0;
 				
-				$datos_beneficiario [$i] ['hfc_machub'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['hfc_machub'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () )) ? str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () ) : 0;
 				
 				$datos_beneficiario [$i] ['hfc_iphub'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () : 0;
 				
-				$datos_beneficiario [$i] ['hfc_maccpe'] = $informacion->setActiveSheetIndex ()->getCell ( 'N' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['hfc_maccpe'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'N' . $i )->getCalculatedValue () );
 				
-				$datos_beneficiario [$i] ['wman_maccelda'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['wman_maccelda'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () )) ? str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () ) : 0;
 				
 				$datos_beneficiario [$i] ['wman_ipcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'P' . $i )->getCalculatedValue ();
 				
@@ -326,19 +324,19 @@ class FormProcessor {
 				
 				$datos_beneficiario [$i] ['wman_ipswitchcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'S' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['wman_macsmcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'T' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['wman_macsmcelda'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'T' . $i )->getCalculatedValue () );
 				
 				$datos_beneficiario [$i] ['wman_ipsmcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'U' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['wman_maccpecelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'V' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['wman_maccpecelda'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'V' . $i )->getCalculatedValue () );
 				
 				$datos_beneficiario [$i] ['estado'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () : 'TRUE';
 				
-				$datos_beneficiario [$i] ['longitud'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['latitud'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () )) ? str_replace ( "'", "`", $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () ) : 0;
 				
-				$datos_beneficiario [$i] ['longitud'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['longitud'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue () )) ? str_replace ( "'", "`", $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue () ) : 0;
 				
-				$datos_beneficiario [$i] ['macesclavo1'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['macesclavo1'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () )) ? str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () ) : 0;
 				
 				$datos_beneficiario [$i] ['port'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'AA' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'AA' . $i )->getCalculatedValue () : 0;
 			}

@@ -193,7 +193,7 @@ class Registrador {
 				$matrizItems = array (
 						array (
 								'2',
-								'Nuevos Registros'
+								'Nuevos Registros' 
 						),
 						array (
 								'3',
@@ -242,7 +242,7 @@ class Registrador {
                                                     &nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
                                                     &nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
                                                     &nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br><br>
-                                        Link de Descarga de Plantilla : <b><a target="_blank" href="'.$url.'">Plantilla Cargue Masivo</a></b><br>
+                                        Link de Descarga de Plantilla : <b><a target="_blank" href="' . $url . '">Plantilla Cargue Masivo</a></b><br>
                                                 ';
 							
 							$atributos ["mensaje"] = $mensaje;
@@ -466,7 +466,6 @@ class Registrador {
 	}
 	public function mensajeModal() {
 		switch ($_REQUEST ['mensajeModal']) {
-			
 			case 'errorFormatoArchivo' :
 				$mensaje = "Error<br>Formato Archivo Invalido";
 				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
@@ -508,17 +507,18 @@ class Registrador {
 				break;
 			
 			case 'errorRegistroProceso' :
-				
 				$mensaje = "Error<br>Error en el Registro del Proceso";
 				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
-				
 				break;
 			
 			case 'errorActualizacion' :
-				
 				$mensaje = "Error durante la actualización de registros, informe al Administrador del sistema.";
 				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
-				
+				break;
+			
+			case 'errorActualizacionCab' :
+				$mensaje = "Error durante la creación de la Nueva Cabecera, informe al Administrador del sistema.";
+				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
 				break;
 		}
 		

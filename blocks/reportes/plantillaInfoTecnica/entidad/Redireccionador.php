@@ -9,7 +9,7 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 class Redireccionador {
 	public static function redireccionar($opcion, $valor = "") {
 		$miConfigurador = \Configurador::singleton ();
-		
+
 		switch ($opcion) {
 			
 			case "ErrorFormatoArchivo" :
@@ -61,6 +61,11 @@ class Redireccionador {
 			case "ErrorActualizacion" :
 				$variable = 'pagina=plantillaInfoTecnica';
 				$variable .= '&mensajeModal=errorActualizacion';
+				break;
+			
+			case "ErrorActualizacioncabecera" :
+				$variable = 'pagina=plantillaInfoTecnica';
+				$variable .= '&mensajeModal=errorActualizacionCab';
 				break;
 		}
 		foreach ( $_REQUEST as $clave => $valor ) {
