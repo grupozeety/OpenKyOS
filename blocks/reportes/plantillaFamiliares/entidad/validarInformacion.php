@@ -82,6 +82,20 @@ class FormProcessor {
 
         $this->validarBeneficiariosExistentes();
 
+        /**
+         * 5.
+         * Validar Existencia Beneficiarios
+         */
+
+        $this->validarDuplicidadFamiliares();
+
+        /**
+         * 5.
+         * Validar Otros Datos
+         */
+
+        $this->validarOtrosDatos();
+
         exit;
 
         /**
@@ -115,6 +129,162 @@ class FormProcessor {
             Redireccionador::redireccionar("ExitoInformacion");
         }
     }
+
+    public function validarOtrosDatos() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            //Nombre ,Primer Apellido y Segundo Apellido
+
+            if (isset($value['nombre_fm']) && isset($value['primer_apellido_fm']) && isset($value['segundo_apellido_fm'])) {
+
+                if (is_null($value['nombre_fm'])) {
+
+                    $mensaje = " No exite nombre del familiar asociada al beneficiario " . $value['identificacion_beneficiario'] . ". Se Verifique el Nombre del Familiar.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+
+                }
+
+                if (is_null($value['primer_apellido_fm'])) {
+
+                    $mensaje = " No exite primer apellido del familiar asociada al beneficiario " . $value['identificacion_beneficiario'] . ". Se Verifique el Primer Apellido del Familiar.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+
+                }
+
+                if (is_null($value['segundo_apellido_fm'])) {
+
+                    $mensaje = " Segundo apellido del familiar asociada al beneficiario " . $value['identificacion_beneficiario'] . " no es valido. Se Verifique el Segundo Apellido del Familiar.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+
+                }
+            }
+
+            //Parentesco Familiar
+            if (isset($value['parentesco_fm']) && is_numeric($value['parentesco_fm'])) {
+
+                if ($value['parentesco_fm'] != 0) {
+
+                    if ($value['parentesco_fm'] < 1 || $value['parentesco_fm'] > 12) {
+
+                        $mensaje = " La identificación  del familiar " . $value['identificacion_fm'] . " asociada al beneficiario " . $value['identificacion_beneficiario'] . ", no es valido el parentesco familiar. Se sugiere que  revisar el parentesco familiar concuerde con los parametros  en la hoja  \"Parametros\" de la Plantilla.";
+                        $this->escribir_log($mensaje);
+                        $this->error = true;
+
+                    }
+
+                }
+
+            } else {
+
+                $mensaje = " La identificación  del familiar " . $value['identificacion_fm'] . " asociada al beneficiario " . $value['identificacion_beneficiario'] . ", no es valido el parentesco familiar. Se sugiere que  revisar el parentesco familiar concuerde con los parametros en la hoja  \"Parametros\" de la Plantilla y es un campo númerico.";
+                $this->escribir_log($mensaje);
+                $this->error = true;
+
+            }
+
+            //Genero Familiar
+            if (isset($value['genero_fm']) && is_numeric($value['genero_fm'])) {
+
+                if ($value['genero_fm'] != 0) {
+
+                    if ($value['genero_fm'] < 1 || $value['genero_fm'] > 2) {
+
+                        $mensaje = " La identificación  del familiar " . $value['identificacion_fm'] . " asociada al beneficiario " . $value['identificacion_beneficiario'] . ", no es valido el genero familiar. Se sugiere que  revisar el genero familiar concuerde con los parametros en la hoja  \"Parametros\" de la Plantilla.";
+                        $this->escribir_log($mensaje);
+                        $this->error = true;
+
+                    }
+
+                }
+
+            } else {
+
+                $mensaje = " La identificación  del familiar " . $value['identificacion_fm'] . " asociada al beneficiario " . $value['identificacion_beneficiario'] . ", no es valido el genero familiar. Se sugiere que  revisar el genero familiar concuerde con los parametros en la hoja  \"Parametros\" de la Plantilla y es un campo númerico.";
+                $this->escribir_log($mensaje);
+                $this->error = true;
+
+            }
+
+            //Edad Familiar
+            if (isset($value['edad_fm']) && is_numeric($value['edad_fm'])) {
+
+                if ($value['edad_fm'] != 0) {
+
+                    if ($value['edad_fm'] < 1 || $value['edad_fm'] > 100) {
+
+                        $mensaje = " La identificación  del familiar " . $value['identificacion_fm'] . " asociada al beneficiario " . $value['identificacion_beneficiario'] . ", no es valida la edad del familiar. Se sugiere  revisar la edad del familiar.";
+                        $this->escribir_log($mensaje);
+                        $this->error = true;
+
+                    }
+
+                }
+
+            } else {
+
+                $mensaje = " La identificación  del familiar " . $value['identificacion_fm'] . " asociada al beneficiario " . $value['identificacion_beneficiario'] . ", no es valido la edad del familiar. Se sugiere que  revisar la edad familiar ya que es un campo númerico.";
+                $this->escribir_log($mensaje);
+                $this->error = true;
+
+            }
+
+            //Nivel Estudio del Familiar
+            if (isset($value['nivel_estudio_fm']) && is_numeric($value['nivel_estudio_fm'])) {
+
+                if ($value['nivel_estudio_fm'] != 0) {
+
+                    if ($value['nivel_estudio_fm'] < 1 || $value['nivel_estudio_fm'] > 9) {
+
+                        $mensaje = " La identificación  del familiar " . $value['identificacion_fm'] . " asociada al beneficiario " . $value['identificacion_beneficiario'] . ", no es valido el nivel de estudio del  familiar. Se sugiere que  revisar el nivel del estudio del familiar concuerde con los parametros  en la hoja  \"Parametros\" de la Plantilla.";
+                        $this->escribir_log($mensaje);
+                        $this->error = true;
+
+                    }
+
+                }
+
+            } else {
+
+                $mensaje = " La identificación  del familiar " . $value['identificacion_fm'] . " asociada al beneficiario " . $value['identificacion_beneficiario'] . ", no es valido el nivel de estudio del  familiar. Se sugiere que  revisar el nivel de estudio del  familiar concuerde con los parametros en la hoja  \"Parametros\" de la Plantilla y es un campo númerico.";
+                $this->escribir_log($mensaje);
+                $this->error = true;
+
+            }
+
+            $mensaje = null;
+        }
+
+    }
+
+    public function validarDuplicidadFamiliares() {
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            if (is_null($value['identificacion_fm'])) {
+                $mensaje = " No exite relacionada identificacion del familiar asociada al beneficiario " . $value['identificacion_beneficiario'] . ". Se Verifique la Identificación del Familiar.";
+                $this->escribir_log($mensaje);
+                $this->error = true;
+
+            } else {
+
+                $cadenaSql = $this->miSql->getCadenaSql('consultarDuplicidadFamiliar', $value['identificacion_fm']);
+
+                $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                if ($consulta) {
+                    $mensaje = " La identificación  del familiar " . $value['identificacion_fm'] . " asociada al beneficiario " . $value['identificacion_beneficiario'] . ", esta asociada a otro beneficiario " . $consulta['identificacion_beneficiario'] . ". Se sugiere corregir la identificación del familiar y/o corregir el familiar asociado a esa identificación.";
+                    $this->escribir_log($mensaje);
+
+                    $this->error = true;
+
+                }
+            }
+        }
+
+    }
     public function validarBeneficiariosExistentes() {
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -127,8 +297,10 @@ class FormProcessor {
                 $this->escribir_log($mensaje);
 
                 $this->error = true;
+
             }
         }
+
     }
     public function validarBeneficiariosExistentesRegistro() {
         foreach ($this->datos_beneficiario as $key => $value) {

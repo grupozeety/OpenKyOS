@@ -29,6 +29,14 @@ class Sql extends \Sql {
              * Clausulas específicas
              */
 
+            case 'consultarDuplicidadFamiliar':
+                $cadenaSql = " SELECT bp.identificacion as identificacion_beneficiario ,fm.id_beneficiario, fm.identificacion_familiar ";
+                $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial fm";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bp ON bp.id_beneficiario=fm.id_beneficiario AND bp.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE fm.estado_registro='TRUE'";
+                $cadenaSql .= " AND fm.identificacion_familiar ='" . $variable . "';";
+                break;
+
             case 'consultarExitenciaBeneficiario':
                 $cadenaSql = " SELECT id_beneficiario";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial";
