@@ -150,14 +150,14 @@ $(document).ready(function() {
 	            { "data": "tipo_tecnologia" },
 	            { "data": "codigo_cabecera" },
 	            { "data": "urbanizacion" },
-	            {
-	      			"data": null,
-	      			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
-	    		}
+//	            {
+//	      			"data": null,
+//	      			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
+//	    		}
 	        ]
 	    } );
 	    
-		$("div.toolbar").html('<button type="button" id="agregarNodo" class="btn btn-primary">Agregar Celda o Nodo EOC</button>'); 
+//		$("div.toolbar").html('<button type="button" id="agregarNodo" class="btn btn-primary">Agregar Celda o Nodo EOC</button>'); 
 		    
 	    $('#example tbody').on( 'click', '.optionRemove', function () {
 	    	var data = table.row( $(this).parents('tr') ).data();

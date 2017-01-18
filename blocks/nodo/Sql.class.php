@@ -197,7 +197,7 @@ class Sql extends \Sql {
                 	
             case "consultarNodo":
                 
-               	$cadenaSql = "SELECT ";
+               	$cadenaSql = "SELECT DISTINCT ";
                	$cadenaSql .= "nodo.codigo_nodo,";
                	$cadenaSql .= "nodo.codigo_cabecera,";
                	$cadenaSql .= "tipotec.descripcion AS tipo_tecnologia,";

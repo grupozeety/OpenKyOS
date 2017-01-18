@@ -7,7 +7,6 @@ if ($_REQUEST ['funcion'] == "consultarNodo") {
 	
 	$cadenaSql = $this->sql->getCadenaSql ( 'consultarNodo' );
 	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-
 	for($i = 0; $i < count ( $resultado ); $i ++) {
 	
 		$resultadoFinal [] = array (
