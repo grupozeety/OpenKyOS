@@ -8,3 +8,4 @@ blocks/gestionBeneficiarios/generarContratosMasivos/entidad/logs/*
 config/config.inc.php
 blocks/reportes/generarActasMasivos/entidad/archivos_validar/*
 blocks/reportes/generarActasMasivos/entidad/logs/*
+blocks/reportes/plantillaFamiliares/entidad/logs/*
