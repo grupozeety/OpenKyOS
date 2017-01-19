@@ -1,5 +1,5 @@
 <?php
-namespace reportes\beneficiariosRegistrados\entidad;
+namespace reportes\beneficiarios\entidad;
 
 include_once 'Redireccionador.php';
 

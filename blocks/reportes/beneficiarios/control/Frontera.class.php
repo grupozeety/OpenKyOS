@@ -1,5 +1,5 @@
 <?php
-namespace reportes\beneficiariosRegistrados;
+namespace reportes\beneficiarios;
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();

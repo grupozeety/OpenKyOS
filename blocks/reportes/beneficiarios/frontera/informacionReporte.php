@@ -1,5 +1,5 @@
 <?php
-namespace reportes\beneficiariosRegistrados\frontera;
+namespace reportes\beneficiarios\frontera;
 /**
  * IMPORTANTE: Este formulario está utilizando jquery.
  * Por tanto en el archivo ready.php se declaran algunas funciones js
@@ -20,7 +20,7 @@ class Registrador {
 
         $this->miSql = $sql;
 
-        $conexion = "interoperacion";
+        $conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
     }
     public function seleccionarForm() {
@@ -86,57 +86,10 @@ class Registrador {
 
             $esteCampo = 'Agrupacion';
             $atributos['id'] = $esteCampo;
-            $atributos['leyenda'] = "<b>Reporte Información Beneficiarios</b>";
+            $atributos['leyenda'] = "<b>Reporte Beneficiarios Registrados</b>";
             echo $this->miFormulario->agrupacion('inicio', $atributos);
             unset($atributos);
 
-            $esteCampo = 'proceso';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 1;
-            $atributos['evento'] = '';
-
-            if (isset($_REQUEST[$esteCampo])) {
-                $atributos['seleccion'] = $_REQUEST[$esteCampo];
-            } else {
-                $atributos['seleccion'] = '1';
-            }
-            $atributos['deshabilitado'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 3;
-            $atributos['miEvento'] = '';
-            //$atributos['validar'] = 'required';
-            $atributos['cadena_sql'] = 'required';
-            //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
-            //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-            //"Cédula de Ciudadanía";"1"
-            //"Tarjeta de Identidad";"2"
-            $matrizItems = array(
-                array(
-                    '1',
-                    'Reporte y Consulta Accesos',
-                ),
-                array(
-                    '2',
-                    'Estado Proceso Accesos',
-                ),
-
-            );
-            $atributos['matrizItems'] = $matrizItems;
-            // Aplica atributos globales al control
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
-            unset($atributos);
-
-            echo "<br><br><br>";
             // ------------------Division para los botones-------------------------
             $atributos["id"] = "consulta_reporte";
             $atributos["estilo"] = "marcoBotones";
@@ -146,51 +99,6 @@ class Registrador {
             {
 
                 {
-                    $esteCampo = 'tipo_resultado';
-                    $atributos['nombre'] = $esteCampo;
-                    $atributos['id'] = $esteCampo;
-                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-                    $atributos["etiquetaObligatorio"] = true;
-                    $atributos['tab'] = $tab++;
-                    $atributos['anchoEtiqueta'] = 2;
-                    $atributos['evento'] = '';
-
-                    if (isset($_REQUEST[$esteCampo])) {
-                        $atributos['seleccion'] = $_REQUEST[$esteCampo];
-                    } else {
-                        $atributos['seleccion'] = '1';
-                    }
-                    $atributos['deshabilitado'] = false;
-                    $atributos['columnas'] = 1;
-                    $atributos['tamanno'] = 1;
-                    $atributos['ajax_function'] = "";
-                    $atributos['ajax_control'] = $esteCampo;
-                    $atributos['estilo'] = "bootstrap";
-                    $atributos['limitar'] = false;
-                    $atributos['anchoCaja'] = 10;
-                    $atributos['miEvento'] = '';
-                    //$atributos['validar'] = 'required';
-                    $atributos['cadena_sql'] = 'required';
-                    //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
-                    //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                    //"Cédula de Ciudadanía";"1"
-                    //"Tarjeta de Identidad";"2"
-                    $matrizItems = array(
-                        array(
-                            '1',
-                            'Reporte',
-                        ),
-                        array(
-                            '2',
-                            'Reporte y Documentos Beneficiarios',
-                        ),
-
-                    );
-                    $atributos['matrizItems'] = $matrizItems;
-                    // Aplica atributos globales al control
-                    $atributos = array_merge($atributos, $atributosGlobales);
-                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
-                    unset($atributos);
 
                     $esteCampo = 'departamento';
                     $atributos['nombre'] = $esteCampo;
@@ -335,6 +243,52 @@ class Registrador {
                             '3',
                             'Aprobado por Interventoria',
                         ),
+                    );
+                    $atributos['matrizItems'] = $matrizItems;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                    unset($atributos);
+
+                    $esteCampo = 'estado_contrato';
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    $atributos['anchoEtiqueta'] = 2;
+                    $atributos['evento'] = '';
+
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['seleccion'] = '-1';
+                    }
+                    $atributos['deshabilitado'] = false;
+                    $atributos['columnas'] = 1;
+                    $atributos['tamanno'] = 1;
+                    $atributos['ajax_function'] = "";
+                    $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
+                    $atributos['limitar'] = false;
+                    $atributos['anchoCaja'] = 10;
+                    $atributos['miEvento'] = '';
+                    //$atributos['validar'] = 'required';
+                    $atributos['cadena_sql'] = 'required';
+                    //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
+                    //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    //"Cédula de Ciudadanía";"1"
+                    //"Tarjeta de Identidad";"2"
+                    $matrizItems = array(
+                        array(
+                            '1',
+                            'SI',
+                        ),
+                        array(
+                            '0',
+                            'NO',
+                        ),
+
                     );
                     $atributos['matrizItems'] = $matrizItems;
                     // Aplica atributos globales al control

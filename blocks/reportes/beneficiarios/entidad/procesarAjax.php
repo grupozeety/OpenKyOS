@@ -1,5 +1,5 @@
 <?php
-namespace reportes\beneficiariosRegistrados\entidad;
+namespace reportes\beneficiarios\entidad;
 class procesarAjax {
     public $miConfigurador;
     public $sql;

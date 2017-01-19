@@ -1,5 +1,5 @@
 <?php
-namespace reportes\beneficiariosRegistrados\entidad;
+namespace reportes\beneficiarios\entidad;
 
 $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
