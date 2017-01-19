@@ -69,42 +69,24 @@ class GenerarReporteExcelInstalaciones {
         foreach ($this->beneficiarios as $key => $value) {
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('A' . $i, 'Corporación Politécnica Nacional')
+                 ->setCellValue('A' . $i, $value['departamento'])
                  ->getStyle("A" . $i)->applyFromArray($styleCentrado);
 
-            /*
             $this->objCal->setActiveSheetIndex(0)
-            ->setCellValue('B' . $i, (($contenido_CentroGestion != false) ? $contenido_CentroGestion : ""))
-            ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
-             */
+                 ->setCellValue('B' . $i, $value['municipio'])
+                 ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('C' . $i, $value['departamento'])
+                 ->setCellValue('C' . $i, $value['urbanizacion'])
                  ->getStyle('C' . $i)->applyFromArray($styleCentradoVertical);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('D' . $i, $value['municipio'])
+                 ->setCellValue('D' . $i, $value['numero_identificacion'])
                  ->getStyle('D' . $i)->applyFromArray($styleCentradoVertical);
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('E' . $i, $value['urbanizacion'])
+                 ->setCellValue('E' . $i, $value['nombres'] . " " . $value['primer_apellido'] . " " . $value['segundo_apellido'])
                  ->getStyle('E' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('F' . $i, (($value['estrato'] == '1') ? "X" : ""))
-                 ->getStyle('F' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('G' . $i, "Meta " . $value['meta'])
-                 ->getStyle('G' . $i)->applyFromArray($styleCentrado);
-
-            /**
-             * Datos Beneficiarios
-             */
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('H' . $i, $value['id_beneficiario'])
-                 ->getStyle('H' . $i)->applyFromArray($styleCentradoVertical);
 
             $anexo_dir = '';
 
@@ -133,118 +115,35 @@ class GenerarReporteExcelInstalaciones {
             }
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('I' . $i, $value['direccion_domicilio'] . " " . $anexo_dir)
-                 ->getStyle('I' . $i)->applyFromArray($styleCentradoVertical);
+                 ->setCellValue('F' . $i, $value['direccion_domicilio'] . " " . $anexo_dir)
+                 ->getStyle('F' . $i)->applyFromArray($styleCentradoVertical);
 
-            /*
-            $this->objCal->setActiveSheetIndex(0)
-            ->setCellValue('J' . $i, "")
-            ->getStyle('J' . $i)->applyFromArray($styleCentradoVertical);
+            /**
+             * Kit Portatil
              */
 
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('K' . $i, $value['numero_identificacion'])
+                 ->setCellValue('G' . $i, $value['serial_portatil'])
+                 ->getStyle('G' . $i)->applyFromArray($styleCentrado);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('H' . $i, $value['mac_esc'])
+                 ->getStyle('H' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('I' . $i, $value['mac2_esc'])
+                 ->getStyle('I' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('J' . $i, $value['serial_esc'])
+                 ->getStyle('J' . $i)->applyFromArray($styleCentradoVertical);
+
+            $this->objCal->setActiveSheetIndex(0)
+                 ->setCellValue('K' . $i, $value['ip_esc'])
                  ->getStyle('K' . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('L' . $i, $value['nombres'] . " " . $value['primer_apellido'] . " " . $value['segundo_apellido'])
-                 ->getStyle('L' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('M' . $i, (($value['celular'] == 0) ? " " : $value['celular']))
-                 ->getStyle('M' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('N' . $i, $value['correo'])
-                 ->getStyle('N' . $i)->applyFromArray($styleCentradoVertical);
-
-            //Pendiente Ajuste adicion si casa o Apto
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('O' . $i, "APARTAMENTO")
-                 ->getStyle('O' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('P' . $i, $value['numero_mujeres'])
-                 ->getStyle('P' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('Q' . $i, $value['numero_hombres'])
-                 ->getStyle('Q' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('R' . $i, $value['personas_menores_18'])
-                 ->getStyle('R' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('S' . $i, $value['personas_18_25'])
-                 ->getStyle('S' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('T' . $i, $value['personas_26_30'])
-                 ->getStyle('T' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('U' . $i, $value['personas_31_40'])
-                 ->getStyle('U' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('V' . $i, $value['personas_41_65'])
-                 ->getStyle('V' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('W' . $i, $value['personas_my_65'])
-                 ->getStyle('W' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('X' . $i, $value['personas_trabajo_empleado'])
-                 ->getStyle('X' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('Y' . $i, $value['personas_trabajo_informal'])
-                 ->getStyle('Y' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('Z' . $i, $value['personas_estudiante'])
-                 ->getStyle('Z' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AA' . $i, $value['personas_trabajo_independiente'])
-                 ->getStyle('AA' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AB' . $i, $value['personas_trabajo_independiente'])
-                 ->getStyle('AB' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AB' . $i, $value['personas_trabajo_hogar_domestico'])
-                 ->getStyle('AB' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AC' . $i, $value['personas_trabajo_hogar_domestico_casa'])
-                 ->getStyle('AC' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AD' . $i, $value['personas_trabajo_no'])
-                 ->getStyle('AD' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AE' . $i, $value['personas_trabajo_otro'])
-                 ->getStyle('AE' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AF' . $i, $value['velocidad_subida'])
-                 ->getStyle('AF' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AG' . $i, $value['velocidad_bajada'])
-                 ->getStyle('AG' . $i)->applyFromArray($styleCentradoVertical);
-
-            $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('AH' . $i, $value['descripcion_tipo_tegnologia'])
-                 ->getStyle('AH' . $i)->applyFromArray($styleCentradoVertical);
-
             switch ($value['tipo_tecnologia']) {
-                case '94':
+                case '95':
 
                     $this->objCal->setActiveSheetIndex(0)
                          ->setCellValue('AI' . $i, $value['ip_olt'])
@@ -270,146 +169,7 @@ class GenerarReporteExcelInstalaciones {
                          ->setCellValue('AN' . $i, $value['puerto_olt'])
                          ->getStyle('AN' . $i)->applyFromArray($styleCentradoVertical);
 
-                    //Pendiente Ajuste adicion si casa o Apto
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AO' . $i, "N/A")
-                         ->getStyle('AO' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AP' . $i, "N/A")
-                         ->getStyle('AP' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AQ' . $i, "N/A")
-                         ->getStyle('AQ' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AR' . $i, "N/A")
-                         ->getStyle('AR' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AS' . $i, "N/A")
-                         ->getStyle('AS' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AT' . $i, "N/A")
-                         ->getStyle('AT' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AU' . $i, "N/A")
-                         ->getStyle('AU' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AV' . $i, "N/A")
-                         ->getStyle('AV' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AW' . $i, "N/A")
-                         ->getStyle('AW' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AX' . $i, "N/A")
-                         ->getStyle('AX' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AY' . $i, "N/A")
-                         ->getStyle('AY' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AZ' . $i, "N/A")
-                         ->getStyle('AZ' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BA' . $i, "N/A")
-                         ->getStyle('BA' . $i)->applyFromArray($styleCentrado);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BB' . $i, "N/A")
-                         ->getStyle('BB' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BC' . $i, "N/A")
-                         ->getStyle('BC' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BD' . $i, "N/A")
-                         ->getStyle('BD' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BE' . $i, "N/A")
-                         ->getStyle('BE' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BF' . $i, "N/A")
-                         ->getStyle('BF' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BG' . $i, "N/A")
-                         ->getStyle('BG' . $i)->applyFromArray($styleCentrado);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BH' . $i, "N/A")
-                         ->getStyle('BH' . $i)->applyFromArray($styleCentradoVertical);
-
-                    break;
-
-                case '95':
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AI' . $i, "N/A")
-                         ->getStyle('AI' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AJ' . $i, "N/A")
-                         ->getStyle('AJ' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AK' . $i, "N/A")
-                         ->getStyle('AK' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AL' . $i, "N/A")     // PEndiente
-                         ->getStyle('AL' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AM' . $i, "N/A")
-                         ->getStyle('AM' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AN' . $i, "N/A")
-                         ->getStyle('AN' . $i)->applyFromArray($styleCentradoVertical);
-
-                    //Pendiente Ajuste adicion si casa o Apto
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AO' . $i, "N/A")
-                         ->getStyle('AO' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AP' . $i, "N/A")
-                         ->getStyle('AP' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AQ' . $i, "N/A")
-                         ->getStyle('AQ' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AR' . $i, "N/A")
-                         ->getStyle('AR' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AS' . $i, "N/A")
-                         ->getStyle('AS' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AT' . $i, "N/A")
-                         ->getStyle('AT' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AU' . $i, "N/A")
-                         ->getStyle('AU' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AV' . $i, "N/A")
-                         ->getStyle('AV' . $i)->applyFromArray($styleCentradoVertical);
+                    //-----------------------------------------------------------------
 
                     $this->objCal->setActiveSheetIndex(0)
                          ->setCellValue('AW' . $i, $value['ip_olt'])
@@ -464,151 +224,82 @@ class GenerarReporteExcelInstalaciones {
                 case '96':
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AI' . $i, "N/A")
+                         ->setCellValue('AI' . $i, $value['ip_olt'])
                          ->getStyle('AI' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AJ' . $i, "N/A")
+                         ->setCellValue('AJ' . $i, $value['mac_olt'])
                          ->getStyle('AJ' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AK' . $i, "N/A")
+                         ->setCellValue('AK' . $i, $value['port_olt'])
                          ->getStyle('AK' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AL' . $i, "N/A")     // PEndiente
+                         ->setCellValue('AL' . $i, " ")     // PEndiente
                          ->getStyle('AL' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AM' . $i, "N/A")
+                         ->setCellValue('AM' . $i, $value['nombre_olt'])
                          ->getStyle('AM' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AN' . $i, "N/A")
+                         ->setCellValue('AN' . $i, $value['puerto_olt'])
                          ->getStyle('AN' . $i)->applyFromArray($styleCentradoVertical);
 
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AO' . $i, $value['ip_celda'])
-                         ->getStyle('AO' . $i)->applyFromArray($styleCentradoVertical);
+                    //-----------------------------------------------------------------
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AP' . $i, $value['mac_celda'])
-                         ->getStyle('AP' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AQ' . $i, $value['nombre_nodo'])
-                         ->getStyle('AQ' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AR' . $i, $value['nombre_sectorial'])
-                         ->getStyle('AR' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AS' . $i, $value['ip_switch_celda'])
-                         ->getStyle('AS' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AT' . $i, $value['ip_sm_celda'])
-                         ->getStyle('AT' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AU' . $i, $value['mac_sm_celda'])
-                         ->getStyle('AU' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AV' . $i, $value['mac_cpe_celda'])
-                         ->getStyle('AV' . $i)->applyFromArray($styleCentradoVertical);
-
-                    $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AW' . $i, "N/A")
+                         ->setCellValue('AW' . $i, $value['ip_olt'])
                          ->getStyle('AW' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AX' . $i, "N/A")
+                         ->setCellValue('AX' . $i, $value['mac_olt'])
                          ->getStyle('AX' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AY' . $i, "N/A")
+                         ->setCellValue('AY' . $i, $value['port_olt'])
                          ->getStyle('AY' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('AZ' . $i, "N/A")
+                         ->setCellValue('AZ' . $i, $value['nombre_olt'])
                          ->getStyle('AZ' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BA' . $i, "N/A")
+                         ->setCellValue('BA' . $i, $value['puerto_olt'])
                          ->getStyle('BA' . $i)->applyFromArray($styleCentrado);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BB' . $i, "N/A")
+                         ->setCellValue('BB' . $i, $value['mac_master_eoc'])
                          ->getStyle('BB' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BC' . $i, "N/A")
+                         ->setCellValue('BC' . $i, $value['ip_master_eoc'])
                          ->getStyle('BC' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BD' . $i, "N/A")
+                         ->setCellValue('BD' . $i, $value['ip_onu_eoc'])
                          ->getStyle('BD' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BE' . $i, "N/A")
+                         ->setCellValue('BE' . $i, $value['mac_onu_eoc'])
                          ->getStyle('BE' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BF' . $i, "N/A")
+                         ->setCellValue('BF' . $i, $value['ip_hub_eoc'])
                          ->getStyle('BF' . $i)->applyFromArray($styleCentradoVertical);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BG' . $i, "N/A")
+                         ->setCellValue('BG' . $i, $value['mac_hub_eoc'])
                          ->getStyle('BG' . $i)->applyFromArray($styleCentrado);
 
                     $this->objCal->setActiveSheetIndex(0)
-                         ->setCellValue('BH' . $i, "N/A")
+                         ->setCellValue('BH' . $i, $value['mac_cpe_eoc'])
                          ->getStyle('BH' . $i)->applyFromArray($styleCentradoVertical);
 
                     break;
+
             }
-
-            $this->objCal->getActiveSheet()->getRowDimension($i)->setRowHeight(100);
-            //Hoja Calculo #2
-
-            {
-
-                $this->objCal2->setCellValue('A' . $i, $value['id_beneficiario'])
-                     ->getStyle("A" . $i)->applyFromArray($styleCentrado);
-
-                $this->objCal2->setCellValue('B' . $i, $value['direccion_domicilio'] . " " . $anexo_dir)
-                     ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
-
-                $this->objCal2->setCellValue('C' . $i, str_replace("-", "/", $value['fecha_instalacion']))
-                     ->getStyle('C' . $i)->applyFromArray($styleCentradoVertical);
-
-                $this->objCal2->setCellValue('D' . $i, $value['ip_esc'])
-                     ->getStyle('D' . $i)->applyFromArray($styleCentradoVertical);
-
-                $this->objCal2->setCellValue('E' . $i, $value['mac_esc'])
-                     ->getStyle('E' . $i)->applyFromArray($styleCentradoVertical);
-
-                $this->objCal2->setCellValue('F' . $i, $value['resultado_p1'])
-                     ->getStyle('F' . $i)->applyFromArray($styleCentradoVertical);
-
-                $this->objCal2->setCellValue('G' . $i, $value['resultado_tr2']) //Tracer pasa por car que pase por el NAP Colombia
-                     ->getStyle('G' . $i)->applyFromArray($styleCentrado);
-
-                $this->objCal2->setCellValue('H' . $i, $value['reporte_fallos']) /// Reporte de Fallos (Reportar los fallas si aplica durante el proceso de instalación)
-                     ->getStyle('H' . $i)->applyFromArray($styleCentradoVertical);
-
-                $this->objCal2->setCellValue('I' . $i, $value['acceso_reportando']) //El Accesos queda reportando desde el Centro de Gestión
-                     ->getStyle('I' . $i)->applyFromArray($styleCentradoVertical);
-
-                $this->objCal2->setCellValue('J' . $i, $value['paginas_visitadas']) // Páginas Visitadas (Anotar tres páginas del gobierno, visitadas para verificar la navegación)
-                     ->getStyle('J' . $i)->applyFromArray($styleCentradoVertical);
-
-                $this->objCal2->getRowDimension($i)->setRowHeight(100);
-            }
-
-            $i++;
 
         }
 
