@@ -185,13 +185,22 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario AND bn.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN parametros.proyectos_metas AS pm ON pm.id_proyecto =bn.id_proyecto";
                 $cadenaSql .= " JOIN parametros.parametros AS pmr ON pmr.id_parametro =cn.tipo_tecnologia";
-                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios AS aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
+
+                if (isset($_REQUEST['actas_generadas']) && $_REQUEST['actas_generadas'] == '1') {
+                    $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios AS aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
+                } else {
+                    $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios AS aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
+                }
 
                 $cadenaSql .= " LEFT JOIN interoperacion.nodo AS nd ON nd.macesclavo1=aes.mac_esc AND nd.estado_registro='TRUE'";
 
                 $cadenaSql .= " LEFT JOIN interoperacion.cabecera AS cab ON cab.codigo_cabecera=nd.codigo_cabecera AND cab.estado_registro='TRUE'";
 
-                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil AS aep ON aep.id_beneficiario=cn.id_beneficiario AND aep.estado_registro='TRUE'";
+                if (isset($_REQUEST['actas_generadas']) && $_REQUEST['actas_generadas'] == '1') {
+                    $cadenaSql .= " JOIN interoperacion.acta_entrega_portatil AS aep ON aep.id_beneficiario=cn.id_beneficiario AND aep.estado_registro='TRUE'";
+                } else {
+                    $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil AS aep ON aep.id_beneficiario=cn.id_beneficiario AND aep.estado_registro='TRUE'";
+                }
 
                 if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '1') {
                     $cadenaSql .= " JOIN interoperacion.documentos_contrato dr  ON dr.id_beneficiario=cn.id_beneficiario AND dr.estado_registro='TRUE' AND dr.tipologia_documento='132' ";
@@ -249,7 +258,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND cn.departamento IS NOT NULL ";
                 $cadenaSql .= " AND cn.municipio IS NOT NULL ";
                 $cadenaSql .= " AND cn.urbanizacion IS NOT NULL ";
-                $cadenaSql .= "ORDER BY cn . numero_contrato;";
+                $cadenaSql .= "ORDER BY cn . numero_contrato ;";
 
                 $cadenaSql = str_replace("',)", "')", $cadenaSql);
 

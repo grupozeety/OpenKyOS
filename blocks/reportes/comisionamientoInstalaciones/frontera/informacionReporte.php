@@ -20,7 +20,7 @@ class Registrador {
 
         $this->miSql = $sql;
 
-        $conexion = "produccion";
+        $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
     }
     public function seleccionarForm() {
@@ -243,6 +243,49 @@ class Registrador {
                             '3',
                             'Aprobado por Interventoria',
                         ),
+                    );
+                    $atributos['matrizItems'] = $matrizItems;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                    unset($atributos);
+
+                    $esteCampo = 'actas_generadas';
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    $atributos['anchoEtiqueta'] = 2;
+                    $atributos['evento'] = '';
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['seleccion'] = '0';
+                    }
+                    $atributos['deshabilitado'] = false;
+                    $atributos['columnas'] = 1;
+                    $atributos['tamanno'] = 1;
+                    $atributos['ajax_function'] = "";
+                    $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
+                    $atributos['limitar'] = false;
+                    $atributos['anchoCaja'] = 10;
+                    $atributos['miEvento'] = '';
+                    //$atributos['validar'] = 'required';
+                    $atributos['cadena_sql'] = 'required';
+                    //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
+                    //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $matrizItems = array(
+                        array(
+                            '1',
+                            'SI',
+                        ),
+                        array(
+                            '0',
+                            'NO',
+                        ),
+
                     );
                     $atributos['matrizItems'] = $matrizItems;
                     // Aplica atributos globales al control
