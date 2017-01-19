@@ -122,7 +122,6 @@ class Formulario {
 			                <th>Tipo de Tecnología</th>
 			                <th>Código Cabecera</th>
         					<th>Urbanización</th>
-        					<th>Opciones</th>
 			            </tr>
 			        </thead>
 			    </table>
@@ -313,7 +312,7 @@ class Formulario {
          
         // Aplica atributos globales al control
         //         $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
+       // echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
         unset($atributos);
         // -----------------FIN CONTROL: Botón -----------------------------------------------------------
         
