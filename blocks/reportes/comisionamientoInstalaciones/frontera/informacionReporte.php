@@ -281,10 +281,6 @@ class Registrador {
                             '1',
                             'SI',
                         ),
-                        array(
-                            '0',
-                            'NO',
-                        ),
 
                     );
                     $atributos['matrizItems'] = $matrizItems;
