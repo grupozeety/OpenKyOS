@@ -499,7 +499,7 @@ class Registrador {
                 $atributos['estiloLinea'] = 'success';     // success,error,information,warning
                 break;
 
-            case 'errorCreacionContratos':
+            case 'errorCreacion':
                 $mensaje = "Error<br>Existen Inconsistencias en la Información a Cargar.<br>Para más Informacion Validar el Archivo en la Opción \"Validar Formato de Información\"";
                 $atributos['estiloLinea'] = 'error';     // success,error,information,warning
                 break;

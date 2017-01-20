@@ -66,23 +66,41 @@ class FormProcessor {
         $this->cargarInformacionHojaCalculo();
 
         /**
-         * 3.
-         * Validar que no hayan nulos
-         */
-
-        $this->validarNulo();
-
-        /**
-         * 5.
+         * 4.
          * Validar Existencia Beneficiarios
          */
 
-        if ($_REQUEST['funcionalidad'] == 3) {
-            $this->validarBeneficiariosExistentes();
-        } else {
-            $this->validarBeneficiariosExistentesRegistro();
+        $this->validarBeneficiariosExistentes();
+
+        switch ($_REQUEST['funcionalidad']) {
+            case '2':
+            /**
+             * 5.
+             * Validar Existencia Beneficiarios
+             */
+
+                $this->validarDuplicidadFamiliares();
+                break;
+
+            case '3':
+
+            /**
+             * 5.
+             * Validar Existencia Familiares
+             */
+
+                $this->validarExistenciaFamiliares();
+
+                break;
+
         }
 
+        /**
+         * 6.
+         * Validar Otros Datos
+         */
+
+        $this->validarOtrosDatos();
         /**
          * 6.
          * Procesar Información Beneficiarios
@@ -122,12 +140,12 @@ class FormProcessor {
         foreach ($this->datos_beneficiario as $key => $value) {
 
             if ($value['estrato'] == 0) {
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
                 exit();
             }
 
             if (is_null($value['identificacion_beneficiario'])) {
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
                 exit();
             }
         }
@@ -299,6 +317,171 @@ class FormProcessor {
             }
         }
     }
+
+    public function validarOtrosDatos() {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            //Nombre ,Primer Apellido y Segundo Apellido
+
+            if (isset($value['nombre_fm']) && isset($value['primer_apellido_fm']) && isset($value['segundo_apellido_fm'])) {
+
+                if (is_null($value['nombre_fm'])) {
+
+                    Redireccionador::redireccionar("ErrorCreacion");
+
+                }
+
+                if (is_null($value['primer_apellido_fm'])) {
+
+                    Redireccionador::redireccionar("ErrorCreacion");
+
+                }
+
+                if (is_null($value['segundo_apellido_fm'])) {
+
+                    Redireccionador::redireccionar("ErrorCreacion");
+
+                }
+            }
+
+            // Correo
+
+            if (isset($value['correo_fm'])) {
+
+                if (is_null($value['correo_fm'])) {
+
+                    Redireccionador::redireccionar("ErrorCreacion");
+
+                }
+
+            }
+
+            //Parentesco Familiar
+            if (isset($value['parentesco_fm']) && is_numeric($value['parentesco_fm'])) {
+
+                if ($value['parentesco_fm'] != 0) {
+
+                    if ($value['parentesco_fm'] < 1 || $value['parentesco_fm'] > 12) {
+                        Redireccionador::redireccionar("ErrorCreacion");
+
+                    }
+
+                }
+
+            } else {
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+
+            //Genero Familiar
+            if (isset($value['genero_fm']) && is_numeric($value['genero_fm'])) {
+
+                if ($value['genero_fm'] != 0) {
+
+                    if ($value['genero_fm'] < 1 || $value['genero_fm'] > 2) {
+
+                        Redireccionador::redireccionar("ErrorCreacion");
+
+                    }
+
+                }
+
+            } else {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+
+            //Edad Familiar
+            if (isset($value['edad_fm']) && is_numeric($value['edad_fm'])) {
+
+                if ($value['edad_fm'] != 0) {
+
+                    if ($value['edad_fm'] < 1 || $value['edad_fm'] > 100) {
+
+                        Redireccionador::redireccionar("ErrorCreacion");
+
+                    }
+
+                }
+
+            } else {
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+
+            //Nivel Estudio del Familiar
+            if (isset($value['nivel_estudio_fm']) && is_numeric($value['nivel_estudio_fm'])) {
+
+                if ($value['nivel_estudio_fm'] != 0) {
+
+                    if ($value['nivel_estudio_fm'] < 1 || $value['nivel_estudio_fm'] > 9) {
+                        Redireccionador::redireccionar("ErrorCreacion");
+
+                    }
+
+                }
+
+            } else {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+
+            //Pertencia Etnica
+            if (isset($value['pertencia_fm']) && is_numeric($value['pertencia_fm'])) {
+
+                if ($value['pertencia_fm'] != 0) {
+
+                    if ($value['nivel_estudio_fm'] < 1 || $value['nivel_estudio_fm'] > 9) {
+
+                        Redireccionador::redireccionar("ErrorCreacion");
+
+                    }
+
+                }
+
+            } else {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+
+                $mensaje = null;
+            }
+
+            //Institucion del Familiar
+
+            if (isset($value['institucion_edu_fm'])) {
+
+                if (is_null($value['institucion_edu_fm'])) {
+                    Redireccionador::redireccionar("ErrorCreacion");
+
+                }
+
+            }
+
+            //Ocupación del Familiar
+            if (isset($value['ocupacion_fm']) && is_numeric($value['ocupacion_fm'])) {
+
+                if ($value['ocupacion_fm'] != 0) {
+
+                    if ($value['ocupacion_fm'] < 1 || $value['ocupacion_fm'] > 30) {
+
+                        Redireccionador::redireccionar("ErrorCreacion");
+
+                    }
+
+                }
+
+            } else {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+
+        }
+    }
+
     public function validarBeneficiariosExistentes() {
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -307,11 +490,57 @@ class FormProcessor {
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if (is_null($consulta)) {
-                Redireccionador::redireccionar("ErrorCreacionContratos");
-                exit();
+                Redireccionador::redireccionar("ErrorCreacion");
+
             }
         }
+
     }
+
+    public function validarDuplicidadFamiliares() {
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            if (is_null($value['identificacion_fm'])) {
+                Redireccionador::redireccionar("ErrorCreacion");
+            } else {
+
+                $cadenaSql = $this->miSql->getCadenaSql('consultarDuplicidadFamiliar', $value['identificacion_fm']);
+
+                $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                if ($consulta) {
+                    Redireccionador::redireccionar("ErrorCreacion");
+                }
+            }
+        }
+
+    }
+
+    public function validarExistenciaFamiliares() {
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            if (is_null($value['identificacion_fm'])) {
+                Redireccionador::redireccionar("ErrorCreacion");
+            } else {
+
+                $arreglo = array(
+                    'identificacion_familiar' => $value['identificacion_fm'],
+                    'identificacion_beneficiario' => $value['identificacion_beneficiario'],
+                );
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarExistenciaFamiliar', $arreglo);
+
+            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if (is_null($consulta)) {
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+        }
+
+    }
+
     public function validarBeneficiariosExistentesRegistro() {
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -319,8 +548,8 @@ class FormProcessor {
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if (!is_null($consulta)) {
-                Redireccionador::redireccionar("ErrorCreacionContratos");
-                exit();
+                Redireccionador::redireccionar("ErrorCreacion");
+
             }
         }
     }
