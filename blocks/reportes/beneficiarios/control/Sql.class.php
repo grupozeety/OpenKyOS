@@ -102,7 +102,7 @@ class Sql extends \Sql {
                 break;
 
             case 'consultaInformacionBeneficiario':
-                $cadenaSql = " SELECT cn.numero_contrato,";
+                $cadenaSql = " SELECT DISTINCT cn.numero_contrato,";
                 $cadenaSql .= " bn.consecutivo,";
                 $cadenaSql .= " bn.id_beneficiario,";
                 $cadenaSql .= " tb.descripcion tipo_beneficiario,";

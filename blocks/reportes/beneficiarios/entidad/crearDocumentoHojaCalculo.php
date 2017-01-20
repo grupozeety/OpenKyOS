@@ -174,6 +174,8 @@ class GenerarReporteExcelInstalaciones {
                  ->getStyle('Z' . $i)->applyFromArray($styleCentradoVertical);
 
             $this->objCal->getActiveSheet()->getRowDimension($i)->setRowHeight(100);
+
+            $i++;
         }
 
     }
