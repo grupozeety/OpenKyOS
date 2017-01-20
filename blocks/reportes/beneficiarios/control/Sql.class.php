@@ -139,9 +139,31 @@ class Sql extends \Sql {
                 $cadenaSql .= " JOIN parametros.parametros AS td ON td.codigo::int = bn.tipo_documento AND td.rel_parametro='11' AND td.estado_registro='TRUE' ";
                 $cadenaSql .= " LEFT JOIN parametros.parametros AS gn ON gn.codigo::int = bn.genero AND gn.rel_parametro='2' AND gn.estado_registro='TRUE' ";
                 $cadenaSql .= " LEFT JOIN parametros.parametros AS ne ON ne.codigo::int = bn.nivel_estudio AND ne.rel_parametro='3' AND ne.estado_registro='TRUE' ";
-                $cadenaSql .= " LEFT JOIN interoperacion.contrato AS cn ON cn.id_beneficiario = bn.id_beneficiario AND cn.estado_registro='TRUE' AND numero_contrato is not null";
+
+                if (isset($_REQUEST['estado_contrato']) && $_REQUEST['estado_contrato'] == '1') {
+
+                    $cadenaSql .= " JOIN interoperacion.contrato AS cn ON cn.id_beneficiario = bn.id_beneficiario AND cn.estado_registro='TRUE' AND cn.id_beneficiario IS NOT NULL ";
+                } else {
+                    $cadenaSql .= "LEFT  JOIN interoperacion.contrato AS cn ON cn.id_beneficiario = bn.id_beneficiario AND cn.estado_registro='TRUE' ";
+
+                }
                 $cadenaSql .= " WHERE bn.estado_registro='TRUE'";
 
+                if (isset($_REQUEST['estado_contrato']) && $_REQUEST['estado_contrato'] == '0') {
+
+                    $cadenaSql .= " AND cn.id_beneficiario IS  NULL ";
+
+                }
+
+                if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '1') {
+                    $cadenaSql .= " AND cn.nombre_documento_contrato IS NOT NULL ";
+
+                }
+
+                if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '3') {
+                    $cadenaSql .= " AND bn.estado_beneficiario='APROBADO INTERVENTORIA' ";
+
+                }
                 if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
                     $cadenaSql .= " AND bn.municipio='" . $_REQUEST['municipio'] . "'";
                 }
@@ -179,10 +201,10 @@ class Sql extends \Sql {
                     }
                 }
 
-                $cadenaSql .= " AND cn.departamento IS NOT NULL ";
-                $cadenaSql .= " AND cn.municipio IS NOT NULL ";
-                $cadenaSql .= " AND cn.urbanizacion IS NOT NULL ";
-                $cadenaSql .= "ORDER BY cn . numero_contrato;";
+                $cadenaSql .= " AND bn.departamento IS NOT NULL ";
+                $cadenaSql .= " AND bn.municipio IS NOT NULL ";
+                $cadenaSql .= " AND bn.id_proyecto IS NOT NULL ";
+                $cadenaSql .= "ORDER BY bn.consecutivo;";
 
                 $cadenaSql = str_replace("',)", "')", $cadenaSql);
 
@@ -193,38 +215,40 @@ class Sql extends \Sql {
              */
             case 'consultarDepartamento':
 
-                $cadenaSql = " SELECT DISTINCT departamento as valor, departamento";
-                $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND departamento IS NOT NULL;";
+                $cadenaSql = " SELECT DISTINCT bn.departamento as valor,dp.departamento";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
+                $cadenaSql .= " JOIN parametros.departamento AS dp ON dp.codigo_dep = bn.departamento";
+                $cadenaSql .= " WHERE bn.estado_registro=TRUE";
+                $cadenaSql .= " AND bn.departamento IS NOT NULL;";
                 break;
 
             case 'consultarMunicipio':
 
-                $cadenaSql = " SELECT DISTINCT municipio as valor, municipio ";
-                $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND municipio IS NOT NULL;";
+                $cadenaSql = " SELECT DISTINCT bn.municipio as valor,mn.municipio ";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn";
+                $cadenaSql .= " JOIN parametros.municipio AS mn ON mn.codigo_mun = bn.municipio";
+                $cadenaSql .= " WHERE bn.estado_registro=TRUE";
+                $cadenaSql .= " AND  bn.municipio IS NOT NULL;";
 
                 break;
 
             case 'consultarUrbanizacion':
 
-                $cadenaSql = " SELECT DISTINCT urbanizacion as valor, urbanizacion";
-                $cadenaSql .= " FROM interoperacion.contrato";
+                $cadenaSql = " SELECT DISTINCT id_proyecto as valor, proyecto";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial";
                 $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND urbanizacion IS NOT NULL;";
+                $cadenaSql .= " AND proyecto IS NOT NULL ";
+                $cadenaSql .= " AND id_proyecto IS NOT NULL;";
 
                 break;
 
             case 'consultarBeneficiariosPotenciales':
                 $cadenaSql = " SELECT value,  data ";
                 $cadenaSql .= "FROM ";
-                $cadenaSql .= "(SELECT DISTINCT cn.numero_identificacion /*||' - ('||cn.nombres||' '||cn.primer_apellido||' '||(CASE WHEN cn.segundo_apellido IS NULL THEN '' ELSE cn.segundo_apellido END)||')'*/ AS value, bp.id_beneficiario AS data ";
-                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp ";
-                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario ";
-                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
-                $cadenaSql .= " AND cn.estado_registro=TRUE ";
+                $cadenaSql .= "(SELECT DISTINCT bn.identificacion AS value, bn.identificacion AS data ";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
+                $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario=bn.id_beneficiario AND cn.estado_registro=TRUE ";
+                $cadenaSql .= " WHERE bn.estado_registro=TRUE ";
                 $cadenaSql .= "     ) datos ";
                 $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "LIMIT 10; ";

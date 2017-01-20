@@ -159,6 +159,7 @@ class Registrador {
                     $atributos['cadena_sql'] = ' ';
                     $cadenaSql = $this->miSql->getCadenaSql('consultarMunicipio');
                     $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
                     $matrizItems = $resultado;
                     $atributos['matrizItems'] = $matrizItems;
                     // Aplica atributos globales al control
@@ -193,6 +194,7 @@ class Registrador {
                     $atributos['cadena_sql'] = ' ';
                     $cadenaSql = $this->miSql->getCadenaSql('consultarUrbanizacion');
                     $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
                     $matrizItems = $resultado;
                     $atributos['matrizItems'] = $matrizItems;
                     // Aplica atributos globales al control
