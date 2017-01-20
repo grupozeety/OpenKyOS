@@ -30,7 +30,7 @@ class GenerarReporteInstalaciones {
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 
-        //$this->estruturarProyectos();
+        $this->estruturarProyectos();
         $this->crearHojaCalculo();
 
     }
@@ -42,7 +42,7 @@ class GenerarReporteInstalaciones {
         ini_set('xdebug.var_display_max_data', 1024);
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
         $this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        var_dump($this->beneficiarios);exit;
+
         if ($this->beneficiarios == false) {
 
             Redireccionador::redireccionar('SinResultado');
