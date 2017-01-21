@@ -148,36 +148,25 @@ class FormProcessor {
 
             $this->informacion_registrar[] = array(
                 'id_beneficiario' => $consulta['id_beneficiario'],
-                'identificacion_beneficiario' => $value['identificacion_beneficiario'],
-                'tipo_beneficiario' => $value['tipo_beneficiario'],
-                'tipo_documento' => $value['tipo_documento'],
-                'nomenclatura' => $consulta['nomenclatura'],
-                'nombre_beneficiario' => $value['nombre'],
-                'primer_apellido' => $value['primer_apellido'],
-                'segundo_apellido' => $value['segundo_apellido'],
-                'genero_beneficiario' => $value['genero'],
-                'edad_beneficiario' => $value['edad'],
-                'nivel_estudio' => $value['nivel_estudio'],
-                'correo' => $value['correo'],
-                'direccion' => $value['direccion'],
-                'manzana' => $value['manzana'],
-                'torre' => $value['torre'],
-                'bloque' => $value['bloque'],
-                'interior' => $value['interior'],
-                'lote' => $value['lote'],
-                'apartamento' => $value['casa_apto'],
-                'telefono' => $value['telefono'],
-                'departamento' => $value['departamento'],
-                'municipio' => $value['municipio'],
-                'piso' => $value['piso'],
-                'minvi' => $value['minvivienda'],
-                'barrio' => $value['barrio'],
-                'id_proyecto' => $value['id_proyecto'],
-                'proyecto' => $value['proyecto'],
-                'estrato' => $value['estrato'],
+                'tipo_documento' => $value['tipo_identificacion_fm'],
+                'identificacion_familiar' => $value['identificacion_fm'],
+                'nombre_familiar' => $value['nombre_fm'],
+                'primer_apellido_familiar' => $value['primer_apellido_fm'],
+                'segundo_apellido_familiar' => $value['segundo_apellido_fm'],
+                'parentesco' => $value['parentesco_fm'],
+                'genero_familiar' => $value['genero_fm'],
+                'edad_familiar' => $value['genero_fm'],
+                'celular_familiar' => $value['edad_fm'],
+                'nivel_estudio_familiar' => $value['nivel_estudio_fm'],
+                'correo_familiar' => $value['correo_fm'],
+                'pertenencia_etnica_familiar' => $value['pertencia_fm'],
+                'institucion_educativa_familiar' => $value['institucion_edu_fm'],
+                'ocupacion_familiar' => $value['ocupacion_fm'],
             );
 
         }
+
+        var_dump($this->informacion_registrar);exit;
     }
 
     public function validarOtrosDatos() {

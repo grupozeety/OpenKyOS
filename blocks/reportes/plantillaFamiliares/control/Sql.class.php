@@ -101,7 +101,8 @@ class Sql extends \Sql {
                 if ($_REQUEST['funcionalidad'] == '3') {
                     $cadenaSql = " UPDATE interoperacion.familiar_beneficiario_potencial";
                     $cadenaSql .= " SET estado_registro='FALSE'";
-                    $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "';";
+                    $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "' ";
+                    $cadenaSql .= " AND identificacion_familiar='" . $variable['identificacion_familiar'] . "';";
                     $cadenaSql .= " INSERT INTO interoperacion.familiar_beneficiario_potencial(";
                 } else {
                     $cadenaSql = " INSERT INTO interoperacion.familiar_beneficiario_potencial(";
@@ -119,7 +120,6 @@ class Sql extends \Sql {
                 $cadenaSql .= " celular_familiar, ";
                 $cadenaSql .= " nivel_estudio_familiar,";
                 $cadenaSql .= " correo_familiar,";
-                $cadenaSql .= " grado_estudio_familiar, ";
                 $cadenaSql .= " pertenencia_etnica_familiar, ";
                 $cadenaSql .= " institucion_educativa_familiar, ";
                 $cadenaSql .= " ocupacion_familiar)";
