@@ -126,17 +126,25 @@ class Sql extends \Sql {
                 $cadenaSql .= " VALUES (";
                 foreach ($variable as $key => $value) {
 
-                    if ($key == 'mac_esc' && $value == 'Sin MAC 1') {
+                    if ($key == 'segundo_apellido_familiar' && $value == 'Sin Segundo Apellido') {
                         $cadenaSql .= "NULL,";
-                    } else if ($key == 'mac_esc2' && $value == 'Sin MAC 2') {
+                    } else if ($key == 'parentesco' && $value == 0) {
                         $cadenaSql .= "NULL,";
-                    } else if ($key == 'ip_esc' && $value == 'Sin IP') {
+                    } else if ($key == 'genero_familiar' && $value == 0) {
                         $cadenaSql .= "NULL,";
-                    } else if ($key == 'marca_esc' && $value == 'Sin Marca Esclavo') {
+                    } else if ($key == 'edad_familiar' && $value == 0) {
                         $cadenaSql .= "NULL,";
-                    } else if ($key == 'serial_esc' && $value == 'Sin Serial Esclavo') {
+                    } else if ($key == 'celular_familiar' && $value == 0) {
                         $cadenaSql .= "NULL,";
-                    } else if ($key == 'cant_esc' && $value == 'Sin Cantidad') {
+                    } else if ($key == 'nivel_estudio_familiar' && $value == 0) {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'correo_familiar' && $value == 'Sin Correo') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'pertenencia_etnica_familiar' && $value == 0) {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'institucion_educativa_familiar' && $value == 'Sin Institucion') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'ocupacion_familiar' && $value == 0) {
                         $cadenaSql .= "NULL,";
                     } else {
 

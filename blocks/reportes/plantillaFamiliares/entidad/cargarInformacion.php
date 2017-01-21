@@ -115,6 +115,33 @@ class FormProcessor {
          */
 
         $this->informacionBeneficiario();
+
+        switch ($_REQUEST['funcionalidad']) {
+
+            case '2':
+
+                if (!is_null($this->resultado)) {
+
+                    Redireccionador::redireccionar("ExitoRegistro");
+
+                } else {
+                    Redireccionador::redireccionar("ErrorCreacion");
+                }
+
+                break;
+
+            case '3':
+                if (!is_null($this->resultado)) {
+
+                    Redireccionador::redireccionar("ExitoActualizacion");
+                } else {
+                    Redireccionador::redireccionar("ErrorCreacion");
+                }
+
+                break;
+
+        }
+
     }
 
     /**
@@ -122,20 +149,13 @@ class FormProcessor {
      */
     public function informacionBeneficiario() {
         foreach ($this->informacion_registrar as $key => $value) {
-            if ($_REQUEST['funcionalidad'] == 3) {
-                $cadenaSql = $this->miSql->getCadenaSql('actualizarBeneficiario', $value);
-                $this->resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "registro");
-            } else {
-                $cadenaSql = $this->miSql->getCadenaSql('registrarBeneficiarioPotencial', $value);
-                $this->resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "registro");
-            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('registroFamiliares', $value);
+            $cadenaSql = str_replace(",)", ")", $cadenaSql);
+            $this->resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
         }
 
-        if ($this->resultado != true) {
-            Redireccionador::redireccionar("ErrorActualizacion");
-        } else {
-            Redireccionador::redireccionar("ExitoRegistroProceso");
-        }
     }
 
     public function procesarInformacionBeneficiario() {
@@ -166,7 +186,6 @@ class FormProcessor {
 
         }
 
-        var_dump($this->informacion_registrar);exit;
     }
 
     public function validarOtrosDatos() {
