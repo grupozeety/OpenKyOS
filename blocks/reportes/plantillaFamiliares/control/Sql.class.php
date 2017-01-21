@@ -96,142 +96,59 @@ class Sql extends \Sql {
                 $cadenaSql .= "WHERE id_urbanizacion='" . $variable . "'";
                 break;
 
-            case "registrarBeneficiarioPotencial":
+            case 'registroFamiliares':
 
-                $cadenaSql = "INSERT INTO interoperacion.beneficiario_potencial (";
-                $cadenaSql .= "id_beneficiario,";
-                $cadenaSql .= "tipo_beneficiario,";
-                $cadenaSql .= "tipo_documento,";
-                $cadenaSql .= "identificacion,";
-                $cadenaSql .= "nombre,";
-                $cadenaSql .= "primer_apellido,";
-                $cadenaSql .= "segundo_apellido,";
-                $cadenaSql .= "genero,";
-                $cadenaSql .= "edad,";
-                $cadenaSql .= "nivel_estudio,";
-                $cadenaSql .= "correo,";
-                $cadenaSql .= "direccion,";
-                $cadenaSql .= "manzana,";
-                $cadenaSql .= "interior,";
-                $cadenaSql .= "bloque,";
-                $cadenaSql .= "torre,";
-                $cadenaSql .= "apartamento,";
-                $cadenaSql .= "lote,";
-                $cadenaSql .= "telefono,";
-                $cadenaSql .= "departamento,";
-                $cadenaSql .= "municipio,";
-                $cadenaSql .= "proyecto,";
-                $cadenaSql .= "id_proyecto,";
-                $cadenaSql .= "estrato,";
-                $cadenaSql .= "nomenclatura,";
-                $cadenaSql .= "minvi,";
-                $cadenaSql .= "barrio,";
-                $cadenaSql .= "piso";
-                $cadenaSql .= ") VALUES ";
-                $cadenaSql .= "(";
-                $cadenaSql .= "'" . $variable['id_beneficiario'] . "',";
-                $cadenaSql .= "'" . $variable['tipo_beneficiario'] . "',";
-                $cadenaSql .= "'" . $variable['tipo_documento'] . "',";
-                $cadenaSql .= "'" . $variable['identificacion_beneficiario'] . "',";
-                $cadenaSql .= "'" . $variable['nombre_beneficiario'] . "',";
-                $cadenaSql .= "'" . $variable['primer_apellido'] . "',";
-                $cadenaSql .= "'" . $variable['segundo_apellido'] . "',";
-                $cadenaSql .= "'" . $variable['genero_beneficiario'] . "',";
-                $cadenaSql .= "'" . $variable['edad_beneficiario'] . "',";
-                $cadenaSql .= "'" . $variable['nivel_estudio'] . "',";
-                $cadenaSql .= "'" . $variable['correo'] . "',";
-                $cadenaSql .= "'" . $variable['direccion'] . "',";
-                $cadenaSql .= "'" . $variable['manzana'] . "',";
-                $cadenaSql .= "'" . $variable['interior'] . "',";
-                $cadenaSql .= "'" . $variable['bloque'] . "',";
-                $cadenaSql .= "'" . $variable['torre'] . "',";
-                $cadenaSql .= "'" . $variable['apartamento'] . "',";
-                $cadenaSql .= "'" . $variable['lote'] . "',";
-                $cadenaSql .= "'" . $variable['telefono'] . "',";
-                $cadenaSql .= "'" . $variable['departamento'] . "',";
-                $cadenaSql .= "'" . $variable['municipio'] . "',";
-                $cadenaSql .= "'" . $variable['proyecto'] . "',";
-                $cadenaSql .= "'" . $variable['id_proyecto'] . "',";
-                $cadenaSql .= "'" . $variable['estrato'] . "',";
-                $cadenaSql .= "'" . $variable['nomenclatura'] . "',";
-                $cadenaSql .= "'" . $variable['minvi'] . "',";
-                $cadenaSql .= "'" . $variable['barrio'] . "',";
-                $cadenaSql .= "'" . $variable['piso'] . "'";
-                $cadenaSql .= ");";
+                if ($_REQUEST['funcionalidad'] == '3') {
+                    $cadenaSql = " UPDATE interoperacion.familiar_beneficiario_potencial";
+                    $cadenaSql .= " SET estado_registro='FALSE'";
+                    $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "';";
+                    $cadenaSql .= " INSERT INTO interoperacion.familiar_beneficiario_potencial(";
+                } else {
+                    $cadenaSql = " INSERT INTO interoperacion.familiar_beneficiario_potencial(";
+                }
+
+                $cadenaSql .= " id_beneficiario, ";
+                $cadenaSql .= " tipo_documento, ";
+                $cadenaSql .= " identificacion_familiar, ";
+                $cadenaSql .= " nombre_familiar, ";
+                $cadenaSql .= " primer_apellido_familiar, ";
+                $cadenaSql .= " segundo_apellido_familiar, ";
+                $cadenaSql .= " parentesco, ";
+                $cadenaSql .= " genero_familiar, ";
+                $cadenaSql .= " edad_familiar, ";
+                $cadenaSql .= " celular_familiar, ";
+                $cadenaSql .= " nivel_estudio_familiar,";
+                $cadenaSql .= " correo_familiar,";
+                $cadenaSql .= " grado_estudio_familiar, ";
+                $cadenaSql .= " pertenencia_etnica_familiar, ";
+                $cadenaSql .= " institucion_educativa_familiar, ";
+                $cadenaSql .= " ocupacion_familiar)";
+                $cadenaSql .= " VALUES (";
+                foreach ($variable as $key => $value) {
+
+                    if ($key == 'mac_esc' && $value == 'Sin MAC 1') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'mac_esc2' && $value == 'Sin MAC 2') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'ip_esc' && $value == 'Sin IP') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'marca_esc' && $value == 'Sin Marca Esclavo') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'serial_esc' && $value == 'Sin Serial Esclavo') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'cant_esc' && $value == 'Sin Cantidad') {
+                        $cadenaSql .= "NULL,";
+                    } else {
+
+                        $cadenaSql .= "'" . $value . "',";
+
+                    }
+
+                }
+
+                $cadenaSql .= ")RETURNING id_beneficiario;";
                 break;
 
-            case 'actualizarBeneficiario':
-                $cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
-                // $cadenaSql .= "tipo_beneficiario=" . "'" . $variable ['tipo_beneficiario'] . "',";
-                // $cadenaSql .= "tipo_documento=" . "'" . $variable ['tipo_documento'] . "',";
-                // $cadenaSql .= "identificacion=" . "'" . $variable ['identificacion_beneficiario'] . "',";
-                if (!is_null($variable['nombre_beneficiario'])) {
-                    $cadenaSql .= "nombre=" . "'" . $variable['nombre_beneficiario'] . "',";
-                }
-                if (!is_null($variable['primer_apellido'])) {
-                    $cadenaSql .= "primer_apellido=" . "'" . $variable['primer_apellido'] . "',";
-                }
-                if (!is_null($variable['segundo_apellido'])) {
-                    $cadenaSql .= "segundo_apellido=" . "'" . $variable['segundo_apellido'] . "',";
-                }
-                if ($variable['genero_beneficiario'] != 0) {
-                    $cadenaSql .= "genero=" . "'" . $variable['genero_beneficiario'] . "',";
-                }
-                if ($variable['edad_beneficiario'] != 0) {
-                    $cadenaSql .= "edad=" . "'" . $variable['edad_beneficiario'] . "',";
-                }
-                if ($variable['nivel_estudio'] != 0) {
-                    $cadenaSql .= "nivel_estudio=" . "'" . $variable['nivel_estudio'] . "',";
-                }
-                if ($variable['telefono'] != 0) {
-                    $cadenaSql .= "telefono=" . "'" . $variable['telefono'] . "',";
-                }
-                if (!is_null($variable['correo'])) {
-                    $cadenaSql .= "correo=" . "'" . $variable['correo'] . "',";
-                }
-                if (!is_null($variable['direccion'])) {
-                    $cadenaSql .= "direccion=" . "'" . $variable['direccion'] . "',";
-                }
-                if (!is_null($variable['manzana'])) {
-                    $cadenaSql .= "manzana=" . "'" . $variable['manzana'] . "',";
-                }
-                if (!is_null($variable['interior'])) {
-                    $cadenaSql .= "interior=" . "'" . $variable['interior'] . "',";
-                }
-                if (!is_null($variable['bloque'])) {
-                    $cadenaSql .= "bloque=" . "'" . $variable['bloque'] . "',";
-                }
-                if (!is_null($variable['torre'])) {
-                    $cadenaSql .= "torre=" . "'" . $variable['torre'] . "',";
-                }
-                if (!is_null($variable['apartamento'])) {
-                    $cadenaSql .= "apartamento=" . "'" . $variable['apartamento'] . "',";
-                }
-                if (!is_null($variable['lote'])) {
-                    $cadenaSql .= "lote=" . "'" . $variable['lote'] . "',";
-                }
-                if (!is_null($variable['barrio'])) {
-                    $cadenaSql .= "barrio=" . "'" . $variable['barrio'] . "',";
-                }
-                if (!is_null($variable['interior'])) {
-                    $cadenaSql .= "telefono=" . "'" . $variable['telefono'] . "' ,";
-                }
-                if ($variable['estrato'] != 0) {
-                    $cadenaSql .= "estrato=" . "'" . $variable['estrato'] . "'";
-                }
-
-                $cadenaSql .= " WHERE identificacion='" . $variable['identificacion_beneficiario'] . "' ";
-                break;
-
-            case 'consultarConsecutivo':
-                $cadenaSql = " select id_beneficiario ";
-                $cadenaSql .= "FROM interoperacion.beneficiario_potencial ";
-                $cadenaSql .= "WHERE id_beneficiario ";
-                $cadenaSql .= "ILIKE '" . $variable['string'] . "%' ";
-                $cadenaSql .= "AND substr(id_beneficiario, length(id_beneficiario)-" . $variable['longitud'];
-                $cadenaSql .= ", 1) ~ '^[0-9]'";
-                $cadenaSql .= "ORDER BY id_beneficiario DESC LIMIT 1";
-                break;
         }
 
         return $cadenaSql;

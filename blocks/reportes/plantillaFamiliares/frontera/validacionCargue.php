@@ -177,7 +177,7 @@ class Registrador {
                 if (isset($_REQUEST[$esteCampo])) {
                     $atributos['seleccion'] = $_REQUEST[$esteCampo];
                 } else {
-                    $atributos['seleccion'] = '3';
+                    $atributos['seleccion'] = '2';
                 }
                 $atributos['deshabilitado'] = false;
                 $atributos['columnas'] = 1;

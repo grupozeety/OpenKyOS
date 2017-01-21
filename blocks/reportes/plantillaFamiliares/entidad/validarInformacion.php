@@ -270,7 +270,7 @@ class FormProcessor {
 
                 if ($value['pertencia_fm'] != 0) {
 
-                    if ($value['nivel_estudio_fm'] < 1 || $value['nivel_estudio_fm'] > 9) {
+                    if ($value['pertencia_fm'] < 1 || $value['pertencia_fm'] > 5) {
 
                         $mensaje = " La identificación  del familiar " . $value['identificacion_fm'] . " asociada al beneficiario " . $value['identificacion_beneficiario'] . ", no es valido la pertencia étnica. Se sugiere revisarla pertencia étnica concuerde con los parametros  en la hoja  \"Parametros\" de la Plantilla.";
                         $this->escribir_log($mensaje);
@@ -330,6 +330,7 @@ class FormProcessor {
             }
 
         }
+
     }
 
     public function validarDuplicidadFamiliares() {
