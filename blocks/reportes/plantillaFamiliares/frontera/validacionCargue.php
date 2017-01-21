@@ -504,22 +504,17 @@ class Registrador {
                 $atributos['estiloLinea'] = 'error';     // success,error,information,warning
                 break;
 
-            case 'exitoRegistroProceso':
-                $mensaje = "Exito<br>Se ha Registrado con exito el proceso solicitado.<br>";
+            case 'exitoRegistro':
+
+                $mensaje = "Exito<br>Exito en el Registro de la Información.";
                 $atributos['estiloLinea'] = 'success';     // success,error,information,warning
-                break;
-
-            case 'errorRegistroProceso':
-
-                $mensaje = "Error<br>Error en el Registro del Proceso";
-                $atributos['estiloLinea'] = 'error';     // success,error,information,warning
 
                 break;
 
-            case 'errorActualizacion':
+            case 'exitoActualizacion':
 
-                $mensaje = "Error durante la actualización de registros, informe al Administrador del sistema.";
-                $atributos['estiloLinea'] = 'error';     // success,error,information,warning
+                $mensaje = "Exito<br>Exito en la Actualización de la Información.";
+                $atributos['estiloLinea'] = 'success';     // success,error,information,warning
 
                 break;
         }
