@@ -213,7 +213,7 @@ class FormProcessor {
 						$this->error = true;
 					}
 					
-					if ($value ['macesclavo1'] == '0') {
+					if ($value ['macesclavo1'] == 0) {
 						$mensaje = "Para HFC, MAC Esclavo es Obligatorio.";
 						$this->escribir_log ( $mensaje );
 						$this->error = true;
@@ -245,6 +245,11 @@ class FormProcessor {
 					
 					if (is_null ( $value ['wman_maccpecelda'] )) {
 						$mensaje = "Para wMan, MAC CPE Celda es Obligatorio.";
+						$this->escribir_log ( $mensaje );
+						$this->error = true;
+					}
+					if ($value ['macesclavo1'] == 0) {
+						$mensaje = "Para wMan, MAC Esclavo es Obligatorio.";
 						$this->escribir_log ( $mensaje );
 						$this->error = true;
 					}
