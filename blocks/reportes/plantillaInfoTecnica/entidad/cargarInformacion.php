@@ -314,7 +314,7 @@ class FormProcessor {
 						exit ();
 					}
 					
-					if ($value ['macesclavo1'] == '0') {
+					if ($value ['macesclavo1'] == 0) {
 						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
 						exit ();
 					}
@@ -340,6 +340,11 @@ class FormProcessor {
 					}
 					
 					if (is_null ( $value ['wman_maccpecelda'] )) {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
+					}
+					
+					if ($value ['macesclavo1'] == 0) {
 						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
 						exit ();
 					}
