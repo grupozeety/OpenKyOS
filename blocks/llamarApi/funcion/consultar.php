@@ -497,7 +497,6 @@ class Consultar {
 		$paquetesTrabajo = 'planning_elements';
 		
 		$result = $this->clientOpenProject->search ( $tema, $data, $paquetesTrabajo );
-		
 		if (! empty ( $result )) {
 			
 			$paquetesTrabajo = ($result->body ['planning_elements']);
