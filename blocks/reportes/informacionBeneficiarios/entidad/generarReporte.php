@@ -25,7 +25,7 @@ class GenerarReporteInstalaciones {
 
         $conexion = "interoperacion";
 
-        //$conexion = "produccion";
+//        $conexion = "produccion";
 
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
@@ -235,6 +235,7 @@ class GenerarReporteInstalaciones {
                         $documentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
                         if (!$documentos) {
+
                             unset($this->beneficiarios[$key]);
                         }
 
@@ -249,6 +250,9 @@ class GenerarReporteInstalaciones {
                 foreach ($this->beneficiarios as $key => $value) {
 
                     if (!is_null($value['nombre_documento_contrato'])) {
+                        unset($this->beneficiarios[$key]);
+
+                    } else {
 
                         $cadenaSql = $this->miSql->getCadenaSql('consultaDocumentosBeneficiarios', $value['id_beneficiario']);
                         $documentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -261,6 +265,7 @@ class GenerarReporteInstalaciones {
                     }
 
                 }
+
                 break;
         }
 
