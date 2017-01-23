@@ -314,7 +314,7 @@ class FormProcessor {
 						exit ();
 					}
 					
-					if ($value ['macesclavo1'] == '0') {
+					if ($value ['macesclavo1'] == 0) {
 						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
 						exit ();
 					}
