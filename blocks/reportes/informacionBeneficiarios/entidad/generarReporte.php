@@ -25,10 +25,13 @@ class GenerarReporteInstalaciones {
 
         $conexion = "interoperacion";
 
+        //$conexion = "produccion";
+
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+
         switch ($_REQUEST['tipo_resultado']) {
             case '1':
 
@@ -168,6 +171,7 @@ class GenerarReporteInstalaciones {
             'urbanizacion' => $_REQUEST['urbanizacion'],
             'estado_beneficiario' => $_REQUEST['estado_beneficiario'],
             'beneficiario' => $_REQUEST['beneficiario'],
+            'estado_documento' => $_REQUEST['estado_documento'],
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaGeneralInformacion');
@@ -218,8 +222,51 @@ class GenerarReporteInstalaciones {
         return $avanceproceso;
     }
 
-    public function estruturarProyectos() {
+    public function eliminarInformacion() {
 
+        switch ($_REQUEST['estado_documento']) {
+            case '1':
+
+                foreach ($this->beneficiarios as $key => $value) {
+
+                    if (is_null($value['nombre_documento_contrato'])) {
+
+                        $cadenaSql = $this->miSql->getCadenaSql('consultaDocumentosBeneficiarios', $value['id_beneficiario']);
+                        $documentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                        if (!$documentos) {
+                            unset($this->beneficiarios[$key]);
+                        }
+
+                    }
+
+                }
+
+                break;
+
+            case '0':
+
+                foreach ($this->beneficiarios as $key => $value) {
+
+                    if (!is_null($value['nombre_documento_contrato'])) {
+
+                        $cadenaSql = $this->miSql->getCadenaSql('consultaDocumentosBeneficiarios', $value['id_beneficiario']);
+                        $documentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                        if ($documentos) {
+
+                            unset($this->beneficiarios[$key]);
+                        }
+
+                    }
+
+                }
+                break;
+        }
+
+    }
+
+    public function estruturarProyectos() {
         ini_set('xdebug.var_display_max_depth', 5);
         ini_set('xdebug.var_display_max_children', 256);
         ini_set('xdebug.var_display_max_data', 1024);
@@ -230,6 +277,10 @@ class GenerarReporteInstalaciones {
 
             Redireccionador::redireccionar('SinResultado');
         }
+
+        //Eliminar Informacion
+
+        $this->eliminarInformacion();
 
         //Actualizar Avance Progreso
         $this->actualizarAvance(10);
