@@ -22,4 +22,6 @@ $this->idioma['proceso'] = 'Proceso';
 
 $this->idioma['noDefinido'] = 'Etiqueta No definida';
 
+$this->idioma['estado_documento'] = 'Documentos Exitentes';
+
 ?>
