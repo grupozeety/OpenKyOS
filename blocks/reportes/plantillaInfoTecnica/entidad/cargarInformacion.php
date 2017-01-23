@@ -343,6 +343,11 @@ class FormProcessor {
 						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
 						exit ();
 					}
+					
+					if ($value ['macesclavo1'] == 0) {
+						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
+						exit ();
+					}
 				}
 			}
 		}
