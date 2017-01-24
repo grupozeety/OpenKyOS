@@ -233,7 +233,7 @@ class Registrador {
                                 $url = $this->miConfigurador->getVariableConfiguracion("host");
                                 $url .= $this->miConfigurador->getVariableConfiguracion("site");
                                 $url .= '/archivos/generacionMasiva/plantillas/';
-                                $url .= 'Plantilla_Actas_Masivas.ods';
+                                $url .= 'Plantilla_Actas_Masivas.xls';
 
                             }
 
