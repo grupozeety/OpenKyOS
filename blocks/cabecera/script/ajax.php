@@ -151,16 +151,11 @@ $(document).ready(function() {
 	            { "data": "departamento" },
 	            { "data": "municipio" },
 	            { "data": "urbanizacion" },
-	          /**  {
-	      			"data": null,
-	      			"defaultContent": "<span class='glyphicon glyphicon-trash optionRemove'></span><span class='glyphicon glyphicon-pencil optionEdit'></span>"
-	    		}**/
+
 	        ]
 	    } );
 	    
-	/**	$("div.toolbar").html('<button type="button" id="agregarCabecera" class="btn btn-primary">Agregar Cabecera</button>'); **/
-		    
-	    $('#example tbody').on( 'click', '.optionRemove', function () {
+	   $('#example tbody').on( 'click', '.optionRemove', function () {
 	    	var data = table.row( $(this).parents('tr') ).data();
 	        id = data['codigo_cabecera'];
 	        $("#myModal").modal("show");
