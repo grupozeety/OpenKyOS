@@ -122,8 +122,7 @@ class Formulario {
 			                <th>Descripción</th>
 			                <th>Departamento</th>
 			                <th>Municipio</th>
-        					<th>Urbanización</th>
-        					<th>Opciones</th>
+        				<th>Urbanización</th>
 			            </tr>
 			        </thead>
 			    </table>
