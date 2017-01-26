@@ -57,11 +57,10 @@ $urlConsultarProcesosAccesos = $url . $cadena;
 <?php 
 for ($i=1;$i<4;$i++){
 ?>
-  $('#<?php echo $this->campoSeguro($i."_fecha");?>').datepicker({
+  $('#<?php echo $this->campoSeguro("data".$i."_fecha");?>').datepicker({
       format: 'yyyy-mm-dd',
        language: "es",
        weekStart: 1,
-       todayBtn:  1,
        autoclose: 1,
        daysOfWeekHighlighted: "0",
        todayHighlight: true,

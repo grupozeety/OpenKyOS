@@ -11,8 +11,6 @@ $estilo [$indice ++] = "jquery.auto-complete.css";
 $estilo [$indice ++] = "bootstrap-datepicker.min.css";
 $estilo [$indice ++] = "bootstrap-datetimepicker.min.css";
 $estilo [$indice ++] = "bootstrap-datepicker.css ";
-$estilo [$indice ++] = "bootstrap-datetimepicker.css ";
-$estilo [$indice ++] = "bootstrap-datetimepicker-standalone.css";
 $indice++;
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");

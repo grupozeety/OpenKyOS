@@ -40,13 +40,10 @@ class Entidad {
         include_once $this->ruta . "entidad/procesarAjax.php";
     }
 
-    public function validarInformacion() {
-        include_once $this->ruta . "entidad/validarInformacion.php";
+    public function calcularFactura() {
+        include_once $this->ruta . "entidad/procesarFormulario.php";
     }
 
-    public function cargarInformacion() {
-        include_once $this->ruta . "entidad/cargarInformacion.php";
-    }
     public function action() {
         $resultado = true;
 
@@ -62,12 +59,8 @@ class Entidad {
 
         switch ($_REQUEST['opcion']) {
             case 'calcularFactura':
-var_dump($_REQUEST);
-     echo "aqui estamos";
-     exit;
 
-            case 'generarContratoPDF':
-                $this->generarContratoPdf();
+                $this->calcularFactura();
                 break;
         }
 

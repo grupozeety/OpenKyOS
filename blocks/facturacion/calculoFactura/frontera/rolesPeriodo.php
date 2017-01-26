@@ -105,7 +105,7 @@ class Consultar {
 							
 							{
 								
-								$esteCampo = $values['id_rol'].'_periodo';
+								$esteCampo = 'data'.$values['id_rol'].'_periodo';
 								$atributos ['nombre'] = $esteCampo;
 								$atributos ['id'] = $esteCampo;
 								$atributos ['etiqueta'] = 'Periodo de Facturación';
@@ -138,7 +138,7 @@ class Consultar {
 								echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
 								unset ( $atributos );
 								
-								$esteCampo = $values['id_rol'].'_cantidad';
+								$esteCampo =  'data'.$values['id_rol'].'_cantidad';
 								$atributos['nombre'] = $esteCampo;
 								$atributos['tipo'] = "text";
 								$atributos['id'] = $esteCampo;
@@ -153,7 +153,7 @@ class Consultar {
 								$atributos['columnas'] = 1;
 								$atributos['tamanno'] = 1;
 								$atributos['placeholder'] = "Ingrese cantidad de la unidad";
-								$atributos['valor'] = "";
+								$atributos['valor'] = 1;
 								$atributos['ajax_function'] = "";
 								$atributos['ajax_control'] = $esteCampo;
 								$atributos['limitar'] = false;
@@ -165,7 +165,7 @@ class Consultar {
 								echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
 								unset($atributos);
 								
-								$esteCampo = $values['id_rol'].'_fecha';
+								$esteCampo = 'data'. $values['id_rol'].'_fecha';
 								$atributos['nombre'] = $esteCampo;
 								$atributos['tipo'] = "text";
 								$atributos['id'] = $esteCampo;
@@ -256,6 +256,8 @@ class Consultar {
 				$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 				$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 				$valorCodificado .= "&opcion=calcularFactura";
+				$valorCodificado .= "&roles=".base64_encode(json_encode($rolusuario));
+				$valorCodificado .= "&id_beneficiario=".$_REQUEST['id_beneficiario'];
 				
 				/**
 				 * SARA permite que los nombres de los campos sean dinámicos.

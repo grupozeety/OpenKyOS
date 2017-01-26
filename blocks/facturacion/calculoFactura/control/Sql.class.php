@@ -53,6 +53,29 @@ class Sql extends \Sql {
 				$cadenaSql .= " WHERE rel_parametro =27  ";
 				$cadenaSql .= " AND estado_registro=TRUE;";
 				break;
+			
+			case 'consultarReglas' :
+				$cadenaSql = " SELECT identificador, formula ";
+				$cadenaSql .= " FROM facturacion.metodos ";
+				$cadenaSql .= " JOIN facturacion.regla ON regla.id_regla=metodos.id_regla ";
+				$cadenaSql .= " WHERE id_rol=" . $variable . "";
+				$cadenaSql .= " AND regla.estado_registro=TRUE ";
+				$cadenaSql .= " AND metodos.estado_registro=TRUE ";
+				break;
+			
+			case 'consultarContrato' :
+				$cadenaSql = " SELECT valor_tarificacion as VM, fecha_contrato ";
+				$cadenaSql .= " FROM interoperacion.contrato ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+				$cadenaSql .= " AND estado_registro=TRUE ";
+				break;
+				
+			case 'consultarContrato' :
+				$cadenaSql = " SELECT valor_tarificacion as VM, fecha_contrato ";
+				$cadenaSql .= " FROM interoperacion.contrato ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+				$cadenaSql .= " AND estado_registro=TRUE ";
+				break;
 		}
 		
 		return $cadenaSql;
