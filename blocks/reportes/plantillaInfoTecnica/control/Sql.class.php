@@ -101,7 +101,7 @@ class Sql extends \Sql {
 				$cadenaSql .= "codigo_nodo,codigo_cabecera,departamento,municipio, urbanizacion, id_urbanizacion, ";
 				$cadenaSql .= "tipo_tecnologia, mac_master_eoc,ip_master_eoc,mac_onu_eoc,ip_onu_eoc, mac_hub_eoc,ip_hub_eoc, ";
 				$cadenaSql .= "mac_cpe_eoc,mac_celda,ip_celda,nombre_nodo, nombre_sectorial,ip_switch_celda, ";
-				$cadenaSql .= "mac_sm_celda,ip_sm_celda, mac_cpe_celda,estado_registro, latitud, longitud, macesclavo1,port_olt) VALUES (";
+				$cadenaSql .= "mac_sm_celda,ip_sm_celda, mac_cpe_celda, latitud, longitud, macesclavo1,port_olt) VALUES (";
 				$cadenaSql .= " '" . $variable ['codigo_nodo'] . "', ";
 				$cadenaSql .= " '" . $variable ['codigo_cabecera'] . "', ";
 				$cadenaSql .= " '" . $variable ['departamento'] . "', ";
@@ -124,7 +124,6 @@ class Sql extends \Sql {
 				$cadenaSql .= " '" . $variable ['mac_sm_celda'] . "', ";
 				$cadenaSql .= " '" . $variable ['ip_sm_celda'] . "', ";
 				$cadenaSql .= " '" . $variable ['mac_cpe_celda'] . "', ";
-				$cadenaSql .= " '" . $variable ['estado_registro'] . "', ";
 				$cadenaSql .= " '" . $variable ['latitud'] . "', ";
 				$cadenaSql .= " '" . $variable ['longitud'] . "', ";
 				$cadenaSql .= " '" . $variable ['macesclavo1'] . "', ";

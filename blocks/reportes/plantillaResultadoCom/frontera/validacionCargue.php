@@ -223,7 +223,7 @@ class Registrador {
 								$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
 								$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
 								$url .= '/archivos/generacionMasiva/plantillas/';
-								$url .= 'plantilla_pruebascomisionamiento_openkyos';
+								$url .= 'plantilla_pruebascomisionamiento_openkyos.xls';
 							}
 							
 							// -------------Control texto-----------------------

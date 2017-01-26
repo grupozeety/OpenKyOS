@@ -46,7 +46,7 @@ class Formulario {
             'opcion' => 'login',
         );
 
-        $sql_enlace = $this->miSql->getCadenaSql('enlacecomponente', $parametros);
+        $sql_enlace = $this->miSql->getCadenaSql('enlacecomponente', $parametros); 
         $enlace = $esteRecursoDB->ejecutarAcceso($sql_enlace, "busqueda");
         
         // -------------------------------------------------------------------------------------------------
