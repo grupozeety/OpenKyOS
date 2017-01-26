@@ -136,31 +136,30 @@ class FormProcessor {
 		$vm = $this->datosContrato ['vm'];
 		$dm = 0;
 		$contar = 0;
-		$formula = 0;
+		$formula_base = 0;
 		
 		do {
 			
 			foreach ( $this->rolesPeriodo as $key => $values ) {
 				foreach ( $values ['reglas'] as $variable => $c ) {
-					echo $c . "<br>";
+					
 					foreach ( $values ['reglas'] as $incognita => $d ) {
 						$incognita = preg_replace ( "/\b" . $incognita . "\b/", $d, $c, - 1, $contar );
-						
 						if ($contar == 1) {
-							$k = $incognita;
-							echo $this->rolesPeriodo [$key] ['reglas'] [$variable] = $incognita;
+							$this->rolesPeriodo [$key] ['reglas'] [$variable] = $incognita;
 							$termina = false;
 						}
-						echo "fuera".$this->rolesPeriodo [$key] ['reglas'] [$variable];		echo "<br>";
 					}
-					$formula_base [$key] = $formula . "+" . $this->rolesPeriodo [$key] ['reglas'] [$variable];
-					echo "<br><br>";
+					$formula_base = $formula_base . "+" . $this->rolesPeriodo [$key] ['reglas'] [$variable];
 				}
+				$formulaRol [$key] = $formula_base;
+				$formula_base = 0;
 			}
+			
 			$termina = true;
 		} while ( $termina == false );
 		
-		var_dump ( $formula_base );
+		var_dump ( $formulaRol );
 		
 		$total_factura = $total_factura;
 	}
