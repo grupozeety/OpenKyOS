@@ -470,7 +470,7 @@ class FormProcessor {
             }
 
             if ($total_filas > 500) {
-                echo "max ROWS";exit;
+
                 Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
             }
 
@@ -482,9 +482,17 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['fecha_entrega_portatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['mac_1'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
+                $mac_1 = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['mac_2'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
+                $mac_1 = ($mac_1 != 'Sin MAC 1') ? strtolower(str_replace(":", "", $mac_1)) : $mac_1;
+
+                $datos_beneficiario[$i]['mac_1'] = $mac_1;
+
+                $mac_2 = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
+
+                $mac_2 = ($mac_2 != 'Sin MAC 2') ? strtolower(str_replace(":", "", $mac_2)) : $mac_2;
+
+                $datos_beneficiario[$i]['mac_2'] = $mac_2;
 
                 $datos_beneficiario[$i]['serial_esclavo'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
 
@@ -504,7 +512,7 @@ class FormProcessor {
             $this->datos_beneficiario = $datos_beneficiario;
 
         } else {
-            echo "Error Cargar Informacion";exit;
+
             Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
 
         }
@@ -553,7 +561,7 @@ class FormProcessor {
             $archivo['rutaDirectorio'] = $ruta_absoluta;
 
             if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
-                echo "copiar archivo";exit;
+
                 Redireccionador::redireccionar("ErrorCargarArchivo");
             }
 
@@ -564,7 +572,7 @@ class FormProcessor {
             );
 
         } else {
-            echo "Archivo No Valido";exit;
+
             Redireccionador::redireccionar("ErrorArchivoNoValido");
         }
 
