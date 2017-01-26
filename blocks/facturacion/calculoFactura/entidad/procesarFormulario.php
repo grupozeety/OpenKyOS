@@ -63,6 +63,7 @@ class FormProcessor {
 		 * 4.
 		 * Calcular Valores
 		 */
+		$this->reducirFormula ();
 		
 		$this->calculoFactura ();
 		
@@ -128,13 +129,7 @@ class FormProcessor {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarContrato', $_REQUEST ['id_beneficiario'] );
 		$this->datosContrato = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 	}
-	public function calculoFactura() {
-		var_dump ( $this->rolesPeriodo );
-		var_dump ( $this->datosContrato );
-		$total_factura = 0;
-		
-		$vm = $this->datosContrato ['vm'];
-		$dm = 0;
+	public function reducirFormula() {
 		$contar = 0;
 		$formula_base = 0;
 		
@@ -159,9 +154,24 @@ class FormProcessor {
 			$termina = true;
 		} while ( $termina == false );
 		
-		var_dump ( $formulaRol );
+		$this->formularRolGlobal = $formulaRol;
+	}
+	public function calculoFactura() {
+		$total = 0;
+		$vm = $this->datosContrato ['vm'];
+		$dm = 0;
 		
-		$total_factura = $total_factura;
+		foreach ( $this->rolesPeriodo as $key => $values ) {
+			$total = 0;
+			foreach ( $values ['reglas'] as $variable => $c ) {
+				$a = preg_replace ( "/\bvm\b/", $vm, $c, - 1, $contar );
+				$b = preg_replace ( "/\bdm\b/", $dm, $a, - 1, $contar );
+				$valor = eval ( 'return (' . $b . ');' );
+				$this->rolesPeriodo [$key] ['valor'] [$variable] = $valor;
+				$total = $total + $this->rolesPeriodo [$key] ['valor'] [$variable];
+			}
+			$this->valoresFacturaRol [$key] = $total;
+		}
 	}
 	public function multiexplode($delimiters, $string) {
 		$ready = str_replace ( $delimiters, $delimiters [0], $string );
