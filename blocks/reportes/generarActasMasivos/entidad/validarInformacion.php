@@ -267,7 +267,7 @@ class FormProcessor {
 
             if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
-                $mensaje = " La IP del esclavo " . $value['ip'] . " que esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la IP del Esclavo .";
+                $mensaje = " La IP del esclavo " . $value['ip'] . " que esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la IP del Esclavo .";
 
                 $this->escribir_log($mensaje);
 
@@ -281,7 +281,7 @@ class FormProcessor {
 
             if (!is_null($mac_1_beneficiario) && $value['ip'] != 'Sin MAC 1' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
-                $mensaje = " La Mac del esclavo 1 <b>" . $value['mac_1'] . "<b> que esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la Mac del Esclavo 1 .";
+                $mensaje = " La Mac del esclavo 1 <b>" . $value['mac_1'] . "<b> que esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la Mac del Esclavo 1 .";
 
                 $this->escribir_log($mensaje);
 
@@ -295,7 +295,7 @@ class FormProcessor {
 
             if (!is_null($mac_2_beneficiario) && $value['ip'] != 'Sin MAC 2' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
-                $mensaje = " La Mac del esclavo 2 <b>" . $value['mac_2'] . "<b> que esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la Mac del Esclavo 2 .";
+                $mensaje = " La Mac del esclavo 2 <b>" . $value['mac_2'] . "<b> que esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la Mac del Esclavo 2 .";
 
                 $this->escribir_log($mensaje);
 
@@ -317,7 +317,7 @@ class FormProcessor {
 
             if (is_null($consulta) && $value['serial_portatil'] != 'Sin Serial Portatil') {
 
-                $mensaje = " El serial  del portatil " . $value['serial_portatil'] . " no exite en la base de datos  el cual esta relacionado con la indentificación  " . $value['identificacion_beneficiario'] . " . Sugerencia verifique serial de portatil o crear la referencia del mismo con el serial inexistente .";
+                $mensaje = " El serial  del portatil " . $value['serial_portatil'] . " no existe en la base de datos  el cual esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " . Sugerencia verifique serial de portatil o crear la referencia del mismo con el serial inexistente .";
 
                 $this->escribir_log($mensaje);
 
