@@ -61,7 +61,7 @@ class Registrador {
 
                 $esteCampo = 'AgrupacionBeneficiario';
                 $atributos['id'] = $esteCampo;
-                $atributos['leyenda'] = "Consulta de Beneficiario (Generación Cartel Acta)";
+                $atributos['leyenda'] = "Impresión Factura Beneficiario";
                 echo $this->miFormulario->agrupacion('inicio', $atributos);
                 unset($atributos);
 
@@ -89,7 +89,7 @@ class Registrador {
                     $atributos['limitar'] = false;
                     $atributos['anchoCaja'] = 10;
                     $atributos['miEvento'] = '';
-                    $atributos['validar'] = 'required';
+                    //$atributos['validar'] = 'required';
                     // Aplica atributos globales al control
                     $atributos = array_merge($atributos, $atributosGlobales);
                     echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
@@ -171,7 +171,7 @@ class Registrador {
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                $valorCodificado .= "&opcion=generarCartel";
+                $valorCodificado .= "&opcion=generarFactura";
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.

@@ -40,8 +40,8 @@ class Entidad {
         include_once $this->ruta . "entidad/procesarAjax.php";
     }
 
-    public function generarCartelPdf() {
-        include_once $this->ruta . "entidad/generarCartel.php";
+    public function generarDocumentoPdf() {
+        include_once $this->ruta . "entidad/generarDocumento.php";
     }
 
     public function action() {
@@ -60,9 +60,9 @@ class Entidad {
         if (isset($_REQUEST['opcion'])) {
             switch ($_REQUEST['opcion']) {
 
-                case 'generarCartel':
+                case 'generarFactura':
 
-                    $this->generarCartelPdf();
+                    $this->generarDocumentoPdf();
 
                     break;
 
