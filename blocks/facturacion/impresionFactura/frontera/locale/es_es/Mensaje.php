@@ -7,6 +7,6 @@ $this->idioma['noDefinido'] = 'Etiqueta No definida';
 
 $this->idioma["beneficiario"] = "Identificación Beneficiario";
 
-$this->idioma["botonGenerar"] = "Generar Cartel";
+$this->idioma["botonGenerar"] = "Generar Factura";
 
 ?>

@@ -81,11 +81,11 @@ class GenerarDocumento {
         ini_set('xdebug.var_display_max_children', 256);
         ini_set('xdebug.var_display_max_data', 1024);
 
-        $estrutura = simplexml_load_file($this->rutaXML);
+        $this->estruturaXML = simplexml_load_file($this->rutaXML);
 
 //            var_dump($nodo->titulo->attributes());
 
-        $estrutura = json_encode($estrutura);
+        $estrutura = json_encode($this->estruturaXML);
 
         $this->estructura = json_decode($estrutura, true);
 
@@ -108,13 +108,80 @@ class GenerarDocumento {
         1020px * 100%
          **/
 
-        $this->contenido = "<table  style='width:100%; border: 1px solid #000000; ' >";
+        $this->contenido = "<table  style='width:100%; border: none' >";
 
-        $numero_secciones = count($this->estructura['seccion']);
+        // Determina la utilización de colspan
+        $this->determinacionTipoColumna();
 
-        for ($i = 0; $i < $numero_secciones; $i++) {
+        $numero_secciones = count($this->estruturaXML);
 
-            $this->contenido .= "<tr><td  style='width:100%;height:245px;border: 1px solid #000000;border-collapse:initial;border-spacing: 0px;' >HOLA MUNDO</td></tr>";
+        switch ($numero_secciones) {
+            case 1:
+                $height = '1015px';
+                break;
+
+            case 2:
+                $height = '505px';
+                break;
+
+            case 3:
+                $height = '335px';
+                break;
+
+            case 4:
+                $height = '250px';
+                break;
+
+            default:
+                echo "Error Numero Secciones";
+                exit;
+                break;
+
+        }
+
+        foreach ($this->estruturaXML as $key => $seccion) {
+
+            $this->contenido .= "<tr>";
+
+            $numero_columnas = count($seccion->columna);
+
+            switch ($numero_columnas) {
+                case 1:
+                    $width = '100%';
+                    break;
+
+                case 2:
+                    $width = '50%';
+                    break;
+
+                default:
+                    echo "Error Numero columnas";
+                    exit;
+                    break;
+            }
+
+            foreach ($seccion as $key => $columna) {
+
+                if (isset($this->colspan) && $width == '100%') {
+
+                    $this->contenido .= "<td colspan='2' style='width:" . $width . ";height:" . $height . ";border:0.1px;font-size:100%'  nowrap >";
+
+                    // Permite generar el Contenido a unos Tipos de Parametros
+                    $this->caracterizacionContenido($columna);
+
+                    $this->contenido .= "</td>";
+
+                } else {
+
+                    $this->contenido .= "<td style='width:" . $width . ";height:" . $height . ";border:0.1px;font-size:80%'  nowrap >";
+                    $this->caracterizacionContenido($columna);
+
+                    $this->contenido .= "</td>";
+                }
+
+            }
+
+            $this->contenido .= "</tr>";
 
         }
 
@@ -122,6 +189,97 @@ class GenerarDocumento {
 
     }
 
+    public function caracterizacionContenido($objetoDatos) {
+
+        foreach ($objetoDatos as $key => $value) {
+
+            switch ($key) {
+                case 'titulo':
+                    $this->contenido .= "<div style='text-align:center;font-size:200%' ><b>" . strtoupper($value) . "</b></div>";
+                    break;
+
+                case 'texto':
+                    $this->contenido .= "<div style='text-align:justify'>" . $value . "</div>";
+                    break;
+
+                case 'codigoBarras':
+                    $this->contenido .= "<div style='text-align:center'><barcode type='CODABAR' value='" . $value . "' style='width:60mm; height:20mm; font-size: 2mm'></barcode></div>";
+                    break;
+
+                case 'imagen':
+                    $this->contenido .= "<div style='text-align:center'><img src='" . $value . "'  width='100' height='100'></div>";
+                    break;
+
+                case 'variable':
+
+                    //Ejecuta los procesos para obtener contenido de la variable
+                    $this->ejecutarContenidoVariable($value);
+                    break;
+
+            }
+            $this->contenido .= "<br>";
+        }
+
+        //exit;
+    }
+
+    public function ejecutarContenidoVariable($variable) {
+
+        switch ($variable) {
+            case 'Fecha Actual':
+                $this->contenido .= "<div style='text-align:center'>" . date('Y-m-d') . "</div>";
+                break;
+
+            case 'Informacion Pago':
+                $this->contenido .= "<div style='text-align:center'>INFORMACION DE PAGO</div>";
+                break;
+
+            case 'Informacion Pago Resumido':
+                $this->contenido .= "<div style='text-align:center'>INFORMACION DE PAGO RESUMIDO</div>";
+                break;
+
+            case 'Conceptos':
+                $this->contenido .= "<div style='text-align:center'>CONCEPTOS</div>";
+                break;
+
+            case 'Informacion Beneficiario':
+                $this->contenido .= "<div style='text-align:center'>INFORMACION DEL BENEFICIARIO</div>";
+                break;
+
+        }
+
+    }
+
+    public function determinacionTipoColumna() {
+
+        foreach ($this->estruturaXML as $key => $seccion) {
+
+            $numero_columnas = count($seccion);
+
+            switch ($numero_columnas) {
+                case 1:
+                    $columna_1 = true;
+                    break;
+
+                case 2:
+                    $columna_2 = true;
+                    break;
+
+                default:
+                    echo "Error Numero columnas";
+                    exit;
+                    break;
+            }
+
+        }
+
+        if ($columna_1 && $columna_2) {
+
+            $this->colspan = true;
+
+        }
+
+    }
 //----------------------------------------------------------------------
 
     public function obtenerInformacionBeneficiario() {
