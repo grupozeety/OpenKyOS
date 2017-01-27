@@ -51,6 +51,7 @@ class FormProcessor {
 		 */
 		
 		$this->reglasRol ();
+		$this->consultarUsuarioRol ();
 		
 		/**
 		 * 3.
@@ -64,17 +65,20 @@ class FormProcessor {
 		 * Calcular Valores
 		 */
 		$this->reducirFormula ();
-		
+		$this->calculoPeriodo ();
+		$this->registrarPeriodo ();
 		$this->calculoFactura ();
 		
 		/**
 		 * 5.
 		 * Guardar Conceptos de Facturación
 		 */
-		$this->consultarUsuarioRol ();
-		$this->guardarFactura ();
-		$this->guardarConceptos();
 		
+		$this->guardarFactura ();
+		$this->guardarConceptos ();
+		
+		
+		var_dump($this->rolesPeriodo);
 		/**
 		 * 6.
 		 * Revisar Resultado Proceso
@@ -126,6 +130,18 @@ class FormProcessor {
 			}
 		}
 	}
+	public function consultarUsuarioRol() {
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol', $_REQUEST ['id_beneficiario'] );
+		$this->idUsuarioRol = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		foreach ( $this->idUsuarioRol as $key => $values ) {
+			foreach ( $this->rolesPeriodo as $llave => $valores ) {
+				if ($this->idUsuarioRol [$key] ['id_rol'] == $llave) {
+					$this->rolesPeriodo [$llave] ['id_usuario_rol'] = $this->idUsuarioRol [$key] ['id_usuario_rol'];
+				}
+			}
+		}
+	}
 	public function datosContrato() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarContrato', $_REQUEST ['id_beneficiario'] );
 		$this->datosContrato = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
@@ -157,6 +173,29 @@ class FormProcessor {
 		
 		$this->formularRolGlobal = $formulaRol;
 	}
+	public function calculoPeriodo() {
+		foreach ( $this->rolesPeriodo as $key => $values ) {
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarPeriodo', $values ['periodo'] );
+			$periodoUnidad = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['valor'];
+			
+			$this->rolesPeriodo [$key] ['periodoValor'] = ( double ) ($periodoUnidad);
+		}
+	}
+	public function registrarPeriodo() {
+		foreach ( $this->rolesPeriodo as $key => $values ) {
+			
+			$usuariorolperiodo = array (
+					'id_usuario_rol' => $this->rolesPeriodo [$key] ['id_usuario_rol'],
+					'id_periodo' => $this->rolesPeriodo [$key] ['periodo'],
+					'inicio_periodo' => $this->rolesPeriodo [$key] ['fecha'] 
+			)
+			;
+			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarPeriodoRolUsuario', $usuariorolperiodo );
+			$periodoRolUsuario = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_usuario_rol_periodo'];
+			$this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] = $periodoRolUsuario;
+		}
+	}
 	public function calculoFactura() {
 		$total = 0;
 		$vm = $this->datosContrato ['vm'];
@@ -166,7 +205,7 @@ class FormProcessor {
 		foreach ( $this->rolesPeriodo as $key => $values ) {
 			$total = 0;
 			foreach ( $values ['reglas'] as $variable => $c ) {
-				$a = preg_replace ( "/\bvm\b/", $vm, $c, - 1, $contar );
+				$a = preg_replace ( "/\bvm\b/", ($vm / $values ['periodoValor']) * $values ['cantidad'], $c, - 1, $contar );
 				$b = preg_replace ( "/\bdm\b/", $dm, $a, - 1, $contar );
 				$valor = eval ( 'return (' . $b . ');' );
 				$this->rolesPeriodo [$key] ['valor'] [$variable] = $valor;
@@ -177,46 +216,34 @@ class FormProcessor {
 			$this->rolesPeriodo [$key] ['valor'] ['total'] = $total;
 		}
 	}
-	public function consultarUsuarioRol() {
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol', $_REQUEST ['id_beneficiario'] );
-		$this->idUsuarioRol = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-		
-		foreach ( $this->idUsuarioRol as $key => $values ) {
-			foreach ( $this->rolesPeriodo as $llave => $valores ) {
-				if ($this->idUsuarioRol [$key] ['id_rol'] == $llave) {
-					$this->rolesPeriodo [$llave] ['id_usuario_rol'] = $this->idUsuarioRol [$key] ['id_usuario_rol'];
-				}
-			}
-		}
-	}
 	public function guardarFactura() {
 		foreach ( $this->rolesPeriodo as $key => $values ) {
 			$informacion_factura = array (
 					'id_usuario_rol' => $this->rolesPeriodo [$key] ['id_usuario_rol'],
-					'total_factura' => $this->rolesPeriodo [$key] ['valor'] ['total'] 
+					'total_factura' => $this->rolesPeriodo [$key] ['valor'] ['total'],
+					'id_beneficiario' => $_REQUEST ['id_beneficiario'] 
 			);
-	
+			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFactura', $informacion_factura );
-			$this->registroFactura[$key]['factura'] = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0]['id_factura'];
+			$this->registroFactura [$key] ['factura'] = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_factura'];
 		}
 	}
-	
 	public function guardarConceptos() {
-
 		foreach ( $this->rolesPeriodo as $key => $values ) {
-			foreach ( $values['reglas'] as $llave => $valores ) {
+			foreach ( $values ['reglas'] as $llave => $valores ) {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarReglaID', $llave );
-				$reglaid = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" )[0]['id_regla'];
-
-				$registroConceptos=array(
-						'id_factura'=>$this->registroFactura[$key]['factura'],
-						'id_regla'=>$reglaid,
-						'valor_calculado'=>$values['valor'][$llave]
+				$reglaid = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_regla'];
+				
+				$registroConceptos = array (
+						'id_factura' => $this->registroFactura [$key] ['factura'],
+						'id_regla' => $reglaid,
+						'valor_calculado' => $values ['valor'] [$llave] ,
+						'id_usuario_rol_periodo'=>$this->rolesPeriodo[$key]['id_usuario_rol_periodo']
 				);
 				
-				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConceptos', $registroConceptos);
-				$this->registroConceptos[$key] = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
-			}			
+				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConceptos', $registroConceptos );
+				$this->registroConceptos [$key] = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+			}
 		}
 	}
 }

@@ -85,9 +85,9 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarFactura' :
-				$cadenaSql = " INSERT INTO facturacion.factura (id_usuario_rol, total_factura) ";
+				$cadenaSql = " INSERT INTO facturacion.factura (id_beneficiario, total_factura) ";
 				$cadenaSql .= " VALUES( ";
-				$cadenaSql .= " '" . $variable ['id_usuario_rol'] . "',";
+				$cadenaSql .= " '" . $variable ['id_beneficiario'] . "',";
 				$cadenaSql .= " " . $variable ['total_factura'] . " ) RETURNING id_factura;";
 				break;
 			
@@ -99,11 +99,27 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarConceptos' :
-				$cadenaSql = " INSERT INTO facturacion.conceptos (id_factura, id_regla,valor_calculado) ";
+				$cadenaSql = " INSERT INTO facturacion.conceptos (id_factura, id_regla,valor_calculado,id_usuario_rol_periodo) ";
 				$cadenaSql .= " VALUES( ";
 				$cadenaSql .= " '" . $variable ['id_factura'] . "',";
 				$cadenaSql .= " '" . $variable ['id_regla'] . "',";
-				$cadenaSql .= " " . $variable ['valor_calculado'] . " ) ;";
+				$cadenaSql .= " '" . $variable ['valor_calculado'] . "',";
+				$cadenaSql .= " '" . $variable ['id_usuario_rol_periodo'] . "' ) ;";
+				break;
+			
+			case 'consultarPeriodo' :
+				$cadenaSql = " SELECT valor ";
+				$cadenaSql .= " FROM facturacion.periodo ";
+				$cadenaSql .= " WHERE id_periodo='" . $variable . "'";
+				$cadenaSql .= " AND estado_registro=TRUE ";
+				break;
+			
+			case 'registrarPeriodoRolUsuario' :
+				$cadenaSql = " INSERT INTO facturacion.usuario_rol_periodo (id_usuario_rol, id_periodo,inicio_periodo) ";
+				$cadenaSql .= " VALUES( ";
+				$cadenaSql .= " '" . $variable ['id_usuario_rol'] . "',";
+				$cadenaSql .= " '" . $variable ['id_periodo'] . "',";
+				$cadenaSql .= " '" . $variable ['inicio_periodo'] . "' )  RETURNING id_usuario_rol_periodo ;";
 				break;
 		}
 		
