@@ -54,7 +54,7 @@ class Sql extends \Sql {
                 break;
 
             case 'consultarExitenciaMac1':
-                $cadenaSql = " SELECT aes.id_beneficiario,cn.numero_identificacion ";
+                $cadenaSql = " SELECT aes.id_beneficiario,cn.numero_identificacion,cn.urbanizacion ";
                 $cadenaSql .= " FROM interoperacion.acta_entrega_servicios aes";
                 $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=aes.id_beneficiario AND cn.estado_registro='TRUE'";
                 $cadenaSql .= " WHERE aes.estado_registro='TRUE'";
@@ -62,7 +62,7 @@ class Sql extends \Sql {
                 break;
 
             case 'consultarExitenciaMac2':
-                $cadenaSql = " SELECT aes.id_beneficiario,cn.numero_identificacion ";
+                $cadenaSql = " SELECT aes.id_beneficiario,cn.numero_identificacion,cn.urbanizacion ";
                 $cadenaSql .= " FROM interoperacion.acta_entrega_servicios aes";
                 $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=aes.id_beneficiario AND cn.estado_registro='TRUE'";
                 $cadenaSql .= " WHERE aes.estado_registro='TRUE'";

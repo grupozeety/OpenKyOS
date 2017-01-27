@@ -575,7 +575,11 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['serial_portatil'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
+                $serial_portatil = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
+
+                $serial_portatil = strtoupper($serial_portatil);
+
+                $datos_beneficiario[$i]['serial_portatil'] = $serial_portatil;
 
                 $datos_beneficiario[$i]['fecha_entrega_portatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
 
