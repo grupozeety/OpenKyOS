@@ -55,7 +55,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarReglas' :
-				$cadenaSql = " SELECT identificador, formula ";
+				$cadenaSql = " SELECT identificador, formula,regla.id_regla ";
 				$cadenaSql .= " FROM facturacion.metodos ";
 				$cadenaSql .= " JOIN facturacion.regla ON regla.id_regla=metodos.id_regla ";
 				$cadenaSql .= " WHERE id_rol=" . $variable . "";
@@ -69,12 +69,41 @@ class Sql extends \Sql {
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
 				$cadenaSql .= " AND estado_registro=TRUE ";
 				break;
-				
+			
 			case 'consultarContrato' :
 				$cadenaSql = " SELECT valor_tarificacion as VM, fecha_contrato ";
 				$cadenaSql .= " FROM interoperacion.contrato ";
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
 				$cadenaSql .= " AND estado_registro=TRUE ";
+				break;
+			
+			case 'consultarUsuarioRol' :
+				$cadenaSql = " SELECT id_usuario_rol, id_rol ";
+				$cadenaSql .= " FROM facturacion.usuario_rol ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+				$cadenaSql .= " AND estado_registro=TRUE ";
+				break;
+			
+			case 'registrarFactura' :
+				$cadenaSql = " INSERT INTO facturacion.factura (id_usuario_rol, total_factura) ";
+				$cadenaSql .= " VALUES( ";
+				$cadenaSql .= " '" . $variable ['id_usuario_rol'] . "',";
+				$cadenaSql .= " " . $variable ['total_factura'] . " ) RETURNING id_factura;";
+				break;
+			
+			case 'consultarReglaID' :
+				$cadenaSql = " SELECT id_regla ";
+				$cadenaSql .= " FROM facturacion.regla ";
+				$cadenaSql .= " WHERE identificador='" . $variable . "'";
+				$cadenaSql .= " AND estado_registro=TRUE ";
+				break;
+			
+			case 'registrarConceptos' :
+				$cadenaSql = " INSERT INTO facturacion.conceptos (id_factura, id_regla,valor_calculado) ";
+				$cadenaSql .= " VALUES( ";
+				$cadenaSql .= " '" . $variable ['id_factura'] . "',";
+				$cadenaSql .= " '" . $variable ['id_regla'] . "',";
+				$cadenaSql .= " " . $variable ['valor_calculado'] . " ) ;";
 				break;
 		}
 		
