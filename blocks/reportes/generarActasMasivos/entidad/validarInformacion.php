@@ -281,7 +281,7 @@ class FormProcessor {
 
             if (!is_null($mac_1_beneficiario) && $value['ip'] != 'Sin MAC 1' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
-                $mensaje = " La Mac del esclavo 1 <b>" . $value['mac_1'] . "<b> que esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la Mac del Esclavo 1 .";
+                $mensaje = " La Mac del esclavo 1 \"" . $value['mac_1'] . "\" que esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario con identificación " . $mac_1_beneficiario['numero_identificacion'] . " perteneciente al proyecto " . $mac_1_beneficiario['urbanizacion'] . ". Sugerencia verifique y corriga la Mac del Esclavo 1 .";
 
                 $this->escribir_log($mensaje);
 
@@ -295,7 +295,7 @@ class FormProcessor {
 
             if (!is_null($mac_2_beneficiario) && $value['ip'] != 'Sin MAC 2' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
-                $mensaje = " La Mac del esclavo 2 <b>" . $value['mac_2'] . "<b> que esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la Mac del Esclavo 2 .";
+                $mensaje = " La Mac del esclavo 2  \"" . $value['mac_2'] . "\" que esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario con identificación " . $mac_2_beneficiario['numero_identificacion'] . " perteneciente al proyecto " . $mac_2_beneficiario['urbanizacion'] . ". Sugerencia verifique y corriga la Mac del Esclavo 2 .";
 
                 $this->escribir_log($mensaje);
 
@@ -363,7 +363,7 @@ class FormProcessor {
 
                 if ($consulta && $value['identificacion_beneficiario'] != $consulta['numero_identificacion']) {
 
-                    $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " asociada con el serial " . $value['serial_portatil'] . " no es validad dado que este serial ya esta asociado a un acta con el beneficiario de identifiación " . $consulta['numero_identificacion'] . ". Sugerencia relacione otro serial de portatil o corrija el acta registrada.";
+                    $mensaje = " La identificación " . $value['identificacion_beneficiario'] . " asociada con el serial " . $value['serial_portatil'] . " no es validad dado que este serial ya esta asociado a un acta con el beneficiario de identificación " . $consulta['numero_identificacion'] . ". Sugerencia relacione otro serial de portatil o corrija el acta registrada.";
                     $this->escribir_log($mensaje);
 
                     $this->error = true;
@@ -478,7 +478,11 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['serial_portatil'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
+                $serial_portatil = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
+
+                $serial_portatil = strtoupper($serial_portatil);
+
+                $datos_beneficiario[$i]['serial_portatil'] = $serial_portatil;
 
                 $datos_beneficiario[$i]['fecha_entrega_portatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
 
