@@ -53,9 +53,9 @@ class Sql extends \Sql {
                 $cadenaSql .= " count(bp.estado_beneficiario) filter (where bp.estado_beneficiario='APROBACION') as aprobacion";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
                 $cadenaSql .= " LEFT JOIN interoperacion.contrato c ON c.id_beneficiario=bp.id_beneficiario AND bp.proyecto=c.urbanizacion";
-                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil ap on ap.id_beneficiario=bp.id_beneficiario AND ap.serial IS NOT NULL AND bp.proyecto=ap.urbanizacion";
-                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil apnull on apnull.id_beneficiario=bp.id_beneficiario";
-                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios aes on aes.id_beneficiario=bp.id_beneficiario AND aes.serial_esc IS NOT NULL";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil ap on ap.id_beneficiario=bp.id_beneficiario AND ap.serial IS NOT NULL AND ap.estado_registro='TRUE'";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil apnull on apnull.id_beneficiario=bp.id_beneficiario AND apnull.estado_registro='TRUE'";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios aes on aes.id_beneficiario=bp.id_beneficiario AND aes.serial_esc IS NOT NULL AND aes.estado_registro='TRUE'";
                 $cadenaSql .= " LEFT JOIN (SELECT distinct id_beneficiario, estado_registro FROM interoperacion.documentos_contrato) as revision on revision.id_beneficiario=bp.id_beneficiario and revision.estado_registro=TRUE";
                 $cadenaSql .= " WHERE bp.estado_registro=TRUE";
                 $cadenaSql .= " GROUP BY proyecto, id_proyecto) as total";
@@ -89,9 +89,9 @@ class Sql extends \Sql {
                 $cadenaSql .= " count(bp.estado_beneficiario) filter (where bp.estado_beneficiario='APROBACION') as aprobacion";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
                 $cadenaSql .= " LEFT JOIN interoperacion.contrato c ON c.id_beneficiario=bp.id_beneficiario AND bp.proyecto=c.urbanizacion";
-                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil ap on ap.id_beneficiario=bp.id_beneficiario AND ap.serial IS NOT NULL AND bp.proyecto=ap.urbanizacion";
-                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil apnull on apnull.id_beneficiario=bp.id_beneficiario";
-                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios aes on aes.id_beneficiario=bp.id_beneficiario AND aes.serial_esc IS NOT NULL";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil ap on ap.id_beneficiario=bp.id_beneficiario AND ap.serial IS NOT NULL AND ap.estado_registro='TRUE' ";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil apnull on apnull.id_beneficiario=bp.id_beneficiario AND apnull.estado_registro='TRUE'";
+                $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios aes on aes.id_beneficiario=bp.id_beneficiario AND aes.serial_esc IS NOT NULL AND aes.estado_registro='TRUE'";
                 $cadenaSql .= " LEFT JOIN (SELECT distinct id_beneficiario, estado_registro FROM interoperacion.documentos_contrato) as revision on revision.id_beneficiario=bp.id_beneficiario and revision.estado_registro=TRUE";
                 $cadenaSql .= " WHERE bp.estado_registro=TRUE";
                 $cadenaSql .= " GROUP BY proyecto, id_proyecto) as total";
