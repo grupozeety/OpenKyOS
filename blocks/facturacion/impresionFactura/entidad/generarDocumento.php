@@ -10,9 +10,10 @@ if (!isset($GLOBALS["autorizado"])) {
 $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
-include $ruta . "/plugin/html2pdf/html2pdf.class.php";
+require $ruta . "/plugin/html2pdf/html2pdf.class.php";
 
-class GenerarDocumento {
+class GenerarDocumento
+{
     public $miConfigurador;
     public $miSql;
     public $conexion;
@@ -24,7 +25,8 @@ class GenerarDocumento {
     public $rutaXML;
     public $estrutura;
     public $contenido;
-    public function __construct($lenguaje, $sql) {
+    public function __construct($lenguaje, $sql)
+    {
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -75,7 +77,8 @@ class GenerarDocumento {
 
     }
 
-    public function cargarEstructuraXML() {
+    public function cargarEstructuraXML()
+    {
 
         ini_set('xdebug.var_display_max_depth', 5);
         ini_set('xdebug.var_display_max_children', 256);
@@ -83,7 +86,7 @@ class GenerarDocumento {
 
         $this->estruturaXML = simplexml_load_file($this->rutaXML);
 
-//            var_dump($nodo->titulo->attributes());
+        //            var_dump($nodo->titulo->attributes());
 
         $estrutura = json_encode($this->estruturaXML);
 
@@ -91,9 +94,11 @@ class GenerarDocumento {
 
     }
 
-    public function parametrizacionPosicion() {
+    public function parametrizacionPosicion()
+    {
 
-        /** Configuracion Pagina Documento
+        /**
+ * Configuracion Pagina Documento
 
         _____________Columna 1    Columna 2
         Seccion 1 |            |            |
@@ -116,25 +121,25 @@ class GenerarDocumento {
         $numero_secciones = count($this->estruturaXML);
 
         switch ($numero_secciones) {
-            case 1:
-                $height = '1015px';
-                break;
+        case 1:
+            $height = '1015px';
+            break;
 
-            case 2:
-                $height = '505px';
-                break;
+        case 2:
+            $height = '505px';
+            break;
 
-            case 3:
-                $height = '335px';
-                break;
+        case 3:
+            $height = '335px';
+            break;
 
-            case 4:
-                $height = '250px';
-                break;
+        case 4:
+            $height = '250px';
+            break;
 
-            default:
-                echo "Error Numero Secciones";
-                exit;
+        default:
+            echo "Error Numero Secciones";
+            exit;
                 break;
 
         }
@@ -146,17 +151,17 @@ class GenerarDocumento {
             $numero_columnas = count($seccion->columna);
 
             switch ($numero_columnas) {
-                case 1:
-                    $width = '100%';
-                    break;
+            case 1:
+                $width = '100%';
+                break;
 
-                case 2:
-                    $width = '50%';
-                    break;
+            case 2:
+                $width = '50%';
+                break;
 
-                default:
-                    echo "Error Numero columnas";
-                    exit;
+            default:
+                echo "Error Numero columnas";
+                exit;
                     break;
             }
 
@@ -189,32 +194,36 @@ class GenerarDocumento {
 
     }
 
-    public function caracterizacionContenido($objetoDatos) {
+    public function caracterizacionContenido($objetoDatos)
+    {
 
         foreach ($objetoDatos as $key => $value) {
+            $this->atributos=$value->attributes();
 
             switch ($key) {
-                case 'titulo':
-                    $this->contenido .= "<div style='text-align:center;font-size:200%' ><b>" . strtoupper($value) . "</b></div>";
-                    break;
+            case 'titulo':
 
-                case 'texto':
-                    $this->contenido .= "<div style='text-align:justify'>" . $value . "</div>";
-                    break;
+                $this->contenido .= "<div style='".$this->atributos."'><b>" . strtoupper($value) . "</b></div>";
+                break;
 
-                case 'codigoBarras':
-                    $this->contenido .= "<div style='text-align:center'><barcode type='CODABAR' value='" . $value . "' style='width:60mm; height:20mm; font-size: 2mm'></barcode></div>";
-                    break;
+            case 'texto':
+                $this->contenido .= "<div style='".$this->atributos."'>" . $value . "</div>";
+                break;
 
-                case 'imagen':
-                    $this->contenido .= "<div style='text-align:center'><img src='" . $value . "'  width='100' height='100'></div>";
-                    break;
+            case 'codigoBarras':
+                $this->contenido .= "<div style='text-align:center'><barcode type='CODABAR' value='" . $value . "' style='width:60mm; height:20mm; font-size: 2mm'></barcode></div>";
+                break;
 
-                case 'variable':
+            case 'imagen':
+                $this->contenido .= "<div style='text-align:".$this->atributos['alineacionImagen'];
+                $this->contenido .= "'><img src='" . $value . "' ".$this->atributos['dimensionesImagen']."  ></div>";
+                break;
 
-                    //Ejecuta los procesos para obtener contenido de la variable
-                    $this->ejecutarContenidoVariable($value);
-                    break;
+            case 'variable':
+
+                //Ejecuta los procesos para obtener contenido de la variable
+                $this->ejecutarContenidoVariable($value);
+                break;
 
             }
             $this->contenido .= "<br>";
@@ -223,66 +232,69 @@ class GenerarDocumento {
         //exit;
     }
 
-    public function ejecutarContenidoVariable($variable) {
+    public function ejecutarContenidoVariable($variable)
+    {
 
         switch ($variable) {
-            case 'Fecha Actual':
-                $this->contenido .= "<div style='text-align:center'>" . date('Y-m-d') . "</div>";
-                break;
+        case 'Fecha Actual':
+            $this->contenido .= "<div style='".$this->atributos."'>" . date('Y-m-d') . "</div>";
+            break;
 
-            case 'Informacion Pago':
-                $this->contenido .= "<div style='text-align:center'>INFORMACION DE PAGO</div>";
-                break;
+        case 'Informacion Pago':
+            $this->contenido .= "<div style='".$this->atributos."'>INFORMACION DE PAGO</div>";
+            break;
 
-            case 'Informacion Pago Resumido':
-                $this->contenido .= "<div style='text-align:center'>INFORMACION DE PAGO RESUMIDO</div>";
-                break;
+        case 'Informacion Pago Resumido':
+            $this->contenido .= "<div style='".$this->atributos."'>INFORMACION DE PAGO RESUMIDO</div>";
+            break;
 
-            case 'Conceptos':
-                $this->contenido .= "<div style='text-align:center'>CONCEPTOS</div>";
-                break;
+        case 'Conceptos':
+            $this->contenido .= "<div style='".$this->atributos."'>CONCEPTOS</div>";
+            break;
 
-            case 'Informacion Beneficiario':
-                $this->contenido .= "<div style='text-align:center'>INFORMACION DEL BENEFICIARIO</div>";
-                break;
+        case 'Informacion Beneficiario':
+            $this->contenido .= "<div style='".$this->atributos."'>INFORMACION DEL BENEFICIARIO</div>";
+            break;
 
         }
 
     }
 
-    public function determinacionTipoColumna() {
+    public function determinacionTipoColumna()
+    {
 
         foreach ($this->estruturaXML as $key => $seccion) {
 
             $numero_columnas = count($seccion);
 
             switch ($numero_columnas) {
-                case 1:
-                    $columna_1 = true;
-                    break;
+            case 1:
+                $columna_1 = true;
+                break;
 
-                case 2:
-                    $columna_2 = true;
-                    break;
+            case 2:
+                $columna_2 = true;
+                break;
 
-                default:
-                    echo "Error Numero columnas";
-                    exit;
+            default:
+                echo "Error Numero columnas";
+                exit;
                     break;
             }
 
         }
 
-        if ($columna_1 && $columna_2) {
+        if (isset($columna_1) && isset($columna_2)) {
 
             $this->colspan = true;
 
         }
 
     }
-//----------------------------------------------------------------------
+    //----------------------------------------------------------------------
 
-    public function obtenerInformacionBeneficiario() {
+    public function obtenerInformacionBeneficiario()
+    {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificador');
         $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -290,21 +302,25 @@ class GenerarDocumento {
 
     }
 
-    public function crearPDF() {
+    public function crearPDF()
+    {
 
         ob_start();
-        $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
+        $html2pdf = new \HTML2PDF(
+            'P', 'LETTER', 'es', true, 'UTF-8', array(
             1,
             1,
             1,
             1,
-        ));
+            )
+        );
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
         $html2pdf->Output("Factura.pdf", 'D');
     }
 
-    public function estruturaDocumento() {
+    public function estruturaDocumento()
+    {
 
         $contenidoPagina = "<style type=\"text/css\">
                                 table {
