@@ -5,12 +5,14 @@ namespace facturacion\gestionReglas\frontera;
  * Por tanto en el archivo ready.php se declaran algunas funciones js
  * que lo complementan.
  */
-class Registrador {
+class Registrador
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -21,7 +23,8 @@ class Registrador {
 
         $this->miSql = $sql;
     }
-    public function seleccionarForm() {
+    public function seleccionarForm()
+    {
 
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
@@ -75,75 +78,30 @@ class Registrador {
 
                     {
 
-                        $esteCampo = 'tipo_datos';
-                        $atributos['nombre'] = $esteCampo;
-                        $atributos['id'] = $esteCampo;
-                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-                        $atributos["etiquetaObligatorio"] = true;
-                        $atributos['tab'] = $tab++;
-                        $atributos['anchoEtiqueta'] = 1;
-                        $atributos['evento'] = '';
-                        $atributos['seleccion'] = '1';
-                        $atributos['deshabilitado'] = false;
-                        $atributos['columnas'] = 1;
-                        $atributos['tamanno'] = 1;
-                        $atributos['ajax_function'] = "";
-                        $atributos['ajax_control'] = $esteCampo;
-                        $atributos['estilo'] = "bootstrap";
-                        $atributos['limitar'] = false;
-                        $atributos['anchoCaja'] = 3;
-                        $atributos['miEvento'] = '';
-                        $atributos['validar'] = 'required';
-                        $atributos['cadena_sql'] = 'required';
-                        $matrizItems = array(
-                            array(
-                                '1',
-                                'Porcentaje',
-                            ),
-                            array(
-                                '2',
-                                'Númerico',
-                            ),
-                        );
-                        $atributos['matrizItems'] = $matrizItems;
-                        // Aplica atributos globales al control
+                        // -----------------CONTROL: Botón ----------------------------------------------------------------
+                        $esteCampo = 'botonRegistro';
+                        $atributos["id"] = $esteCampo;
+                        $atributos["tabIndex"] = $tab;
+                        $atributos["tipo"] = 'boton';
+                        // submit: no se coloca si se desea un tipo button genérico
+                        $atributos['submit'] = true;
+                        $atributos["simple"] = true;
+                        $atributos["estiloMarco"] = '';
+                        $atributos["estiloBoton"] = 'info';
+                        $atributos["block"] = false;
+                        // verificar: true para verificar el formulario antes de pasarlo al servidor.
+                        $atributos["verificar"] = '';
+                        $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+                        $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+                        $atributos['nombreFormulario'] = $esteBloque['nombre'];
+                        $tab++;
 
-                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                        // Aplica atributos globales al control
+                        $atributos = array_merge($atributos);
+                        echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
                         unset($atributos);
 
-                        $esteCampo = 'metas';
-                        $atributos['nombre'] = $esteCampo;
-                        $atributos['id'] = $esteCampo;
-                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-                        $atributos["etiquetaObligatorio"] = true;
-                        $atributos['tab'] = $tab++;
-                        $atributos['anchoEtiqueta'] = 1;
-                        $atributos['evento'] = '';
-                        $atributos['seleccion'] = '0';
-                        $atributos['deshabilitado'] = false;
-                        $atributos['columnas'] = 1;
-                        $atributos['tamanno'] = 1;
-                        $atributos['ajax_function'] = "";
-                        $atributos['ajax_control'] = $esteCampo;
-                        $atributos['estilo'] = "bootstrap";
-                        $atributos['limitar'] = false;
-                        $atributos['anchoCaja'] = 3;
-                        $atributos['miEvento'] = '';
-                        $atributos['validar'] = 'required';
-                        $atributos['cadena_sql'] = 'required';
-                        $cadenaSql = $this->miSql->getCadenaSql('consultarMetas');
-                        $resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                        $arreglo = array(
-                            array(
-                                '0',
-                                'Todas las Metas',
-                            ),
-                        );
-                        $atributos['matrizItems'] = array_merge($resultado, $arreglo);
-                        // Aplica atributos globales al control
-
-                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
-                        unset($atributos);
+                        echo "<br><br>";
 
                         // ------------------Division para los botones-------------------------
                         $atributos["id"] = "porcentaje";
@@ -152,78 +110,25 @@ class Registrador {
                         echo $this->miFormulario->division("inicio", $atributos);
                         unset($atributos);
                         {
-                            echo '<table id="example_porcentaje" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th><center>Municipio<center></th>
-                                            <th><center>Proyecto<center></th>
-                                            <th><center>Beneficiarios<br>Meta<center></th>
-                                            <th><center>Beneficiarios<br>Sistema<center></th>
-                                            <th><center>Preventas(%)<center></th>
-                                            <th><center>Ventas(%)<center></th>
-                                            <th><center>Asignación de<br>Portatiles(%)<center></th>
-                                            <th><center>Asignación de<br>Equipos de Acceso(%)<center></th>
-                                            <th><center>Activación(%)<center></th>
-                                            <th><center>Revisión(%)<center></th>
-                                            <th><center>Aprobación(%)<center></th>
+                                            <th><center>N° Regla<center></th>
+                                            <th><center>Descripción Regla<center></th>
+                                            <th><center>Formula<center></th>
+                                            <th><center>Indetificador<center></th>
+                                            <th><center>Actualizar<center></th>
+                                            <th><center>Eliminar<center></th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th><center>Municipio<center></th>
-                                            <th><center>Proyecto<center></th>
-                                            <th><center>Beneficiarios<br>Meta<center></th>
-                                            <th><center>Beneficiarios<br>Sistema<center></th>
-                                            <th><center>Preventas(%)<center></th>
-                                            <th><center>Ventas(%)<center></th>
-                                            <th><center>Asignación de<br>Portatiles(%)<center></th>
-                                            <th><center>Asignación de<br>Equipos de Acceso(%)<center></th>
-                                            <th><center>Activación(%)<center></th>
-                                            <th><center>Revisión(%)<center></th>
-                                            <th><center>Aprobación(%)<center></th>
-                                        </tr>
-                                    </tfoot>
-                                  </table>';
-                        }
-                        //echo "</div>";
-                        echo $this->miFormulario->division("fin");
-                        unset($atributos);
-
-                        // ------------------Division para los botones-------------------------
-                        $atributos["id"] = "numerico";
-                        $atributos["estilo"] = " ";
-                        $atributos["estiloEnLinea"] = "display:none;";
-                        echo $this->miFormulario->division("inicio", $atributos);
-                        unset($atributos);
-                        {
-
-                            echo '<table id="example_numerico" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th><center>Municipio<center></th>
-                                            <th><center>Proyecto<center></th>
-                                            <th><center>Beneficiarios<br>Meta<center></th>
-                                            <th><center>Beneficiarios<br>Sistema<center></th>
-                                            <th><center>Contratos<center></th>
-                                            <th><center>Asignación de<br>Portatiles<center></th>
-                                            <th><center>Asignación de<br>Equipos de Acceso<center></th>
-                                            <th><center>Activación<center></th>
-                                            <th><center>Revisión<center></th>
-                                            <th><center>Aprobación<center></th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th><center>Municipio<center></th>
-                                            <th><center>Proyecto<center></th>
-                                            <th><center>Beneficiarios<br>Meta<center></th>
-                                            <th><center>Beneficiarios<br>Sistema<center></th>
-                                            <th><center>Contratos<center></th>
-                                            <th><center>Asignación de<br>Portatiles<center></th>
-                                            <th><center>Asignación de<br>Equipos de Acceso<center></th>
-                                            <th><center>Activación<center></th>
-                                            <th><center>Revisión<center></th>
-                                            <th><center>Aprobación<center></th>
+                                            <th><center>N° Regla<center></th>
+                                            <th><center>Descripción Regla<center></th>
+                                            <th><center>Formula<center></th>
+                                            <th><center>Indetificador<center></th>
+                                            <th><center>Actualizar<center></th>
+                                            <th><center>Eliminar<center></th>
                                         </tr>
                                     </tfoot>
                                   </table>';
@@ -244,6 +149,53 @@ class Registrador {
             unset($atributos);
 
         }
+        {
+
+        /**
+       * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
+       * SARA permite realizar esto a través de tres
+       * mecanismos:
+       * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
+       * la base de datos.
+       * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
+       * formsara, cuyo valor será una cadena codificada que contiene las variables.
+       * (c) a través de campos ocultos en los formularios. (deprecated)
+       */
+
+        // En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
+
+        // Paso 1: crear el listado de variables
+
+              // $valorCodificado = "action=" . $esteBloque["nombre"];
+
+              $valorCodificado = "actionBloque=" . $esteBloque["nombre"];
+              $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+              $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+              $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+              $valorCodificado .= "&opcion=registrarRegla";
+
+              /**
+             * SARA permite que los nombres de los campos sean dinámicos.
+             * Para ello utiliza la hora en que es creado el formulario para
+             * codificar el nombre de cada campo.
+             */
+              $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
+              // Paso 2: codificar la cadena resultante
+              $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);
+
+              $atributos["id"] = "formSaraData"; // No cambiar este nombre
+              $atributos["tipo"] = "hidden";
+              $atributos['estilo'] = '';
+              $atributos["obligatorio"] = false;
+              $atributos['marco'] = true;
+              $atributos["etiqueta"] = "";
+              $atributos["valor"] = $valorCodificado;
+              echo $this->miFormulario->campoCuadroTexto($atributos);
+              unset($atributos);
+
+
+
+        }
 
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
         // Se debe declarar el mismo atributo de marco con que se inició el formulario.
@@ -259,5 +211,3 @@ $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->
 $miSeleccionador->seleccionarForm();
 
 ?>
-
-

@@ -1,9 +1,11 @@
 <?php
 namespace facturacion\gestionReglas\entidad;
-class procesarAjax {
+class procesarAjax
+{
     public $miConfigurador;
     public $sql;
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("rutaBloque");
@@ -24,227 +26,75 @@ class procesarAjax {
 
         switch ($_REQUEST['funcion']) {
 
-            case 'consultaGeneral':
+        case 'consultaParticular':
 
-                switch ($_REQUEST['tipo']) {
+            $cadenaSql = $this->sql->getCadenaSql('consultaParticular');
 
-                case 'porcentaje':
-                        $cadenaSql = $this->sql->getCadenaSql('consultaGeneralBeneficiariosPorcentaje', $_REQUEST['metas']);
-                        $procesos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            $reglas = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-                        if ($procesos) {
-                            foreach ($procesos as $key => $valor) {
+            if ($reglas) {
+                foreach ($reglas as $key => $valor) {
 
-                                // Variables para Con
-                                $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
-                                $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
-                                $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                                $cadenaACodificar .= "&opcion=consultaParticular";
-                                $cadenaACodificar .= "&proyecto=" . $valor['proyecto'];
-                                $cadenaACodificar .= "&id_proyecto=" . $valor['id_proyecto'];
 
-                                // Codificar las variables
-                                $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-                                $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+                    /*
 
-                                // URL Consultar Proyectos
-                                $urlConsultarParticularEnlace = $url . $cadena;
-                                $link = "<a  target='_blank' href='" . $urlConsultarParticularEnlace . "'>" . $valor['proyecto'] . "</a>";
+                    { data :"numero_regla" },
+                    { data :"descripcion" },
+                    { data :"formula" },
+                    { data :"identificador_formula" },
+                    { data :"actualizar" },
+                    { data :"eliminar" }
 
-                                $resultadoFinal[] = array(
-                                    'municipio' => $valor['municipio'],
-                                    'proyecto' => $link,
-                                    'beneficiarios_meta' => "&nbsp;" . $valor['beneficiarios_meta'],
-                                    'beneficiarios_sistema' => "&nbsp;" . $valor['beneficiarios_sistema'],
-                                    'preventas' => $valor['preventas'],
-                                    'ventas' => $valor['ventas'],
-                                    'accPortatil' => $valor['asignacion_portatiles'],
-                                    'accServicio' => $valor['asignacion_servicios'],
-                                    'activacion' => $valor['activacion'],
-                                    'revision' => $valor['revision'],
-                                    'aprobacion' => $valor['aprobacion'],
 
-                                );
-                            }
+                    0 => string '1' (length=1)
+                    'id_regla' => string '1' (length=1)
+                    1 => string 'Calculo Intereses' (length=17)
+                    'decripcion' => string 'Calculo Intereses' (length=17)
+                    2 => string '15*vm' (length=5)
+                    'formula' => string '15*vm' (length=5)
+                    3 => string 't' (length=1)
+                    'estado_registro' => string 't' (length=1)
+                    4 => string '2017-01-31 01:25:06.544182' (length=26)
+                    'fecha_registro' => string '2017-01-31 01:25:06.544182' (length=26)
+                    5 => string 'Int' (length=3)
+                    'identificador' => string 'Int' (length=3)
+                    */
 
-                            $total = count($resultadoFinal);
 
-                            $resultado = json_encode($resultadoFinal);
+                    $resultadoFinal[] = array(
+                    'numero_regla' => $valor['id_regla'],
+                    'descripcion' => $valor['decripcion'],
+                    'formula' => $valor['formula'],
+                    'identificador_formula' => $valor['identificador'],
+                    'actualizar' => " ",
+                    'eliminar' => " ",
 
-                            $resultado = '{
-                                "recordsTotal":'         . $total . ',
-                                "recordsFiltered":'         . $total . ',
-                                "data":'         . $resultado . '}';
-                        } else {
-
-                            $resultado = '{
-                                "recordsTotal":0 ,
-                                "recordsFiltered":0 ,
-                                "data": 0 }'        ;
-                        }
-                        break;
-
-                case 'numerico':
-                        $cadenaSql = $this->sql->getCadenaSql('consultaGeneralBeneficiariosNumerico', $_REQUEST['metas']);
-
-                        $procesos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                        //var_dump($procesos);
-                        if ($procesos) {
-                            foreach ($procesos as $key => $valor) {
-
-                                // Variables para Con
-                                $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
-                                $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
-                                $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                                $cadenaACodificar .= "&opcion=consultaParticular";
-                                $cadenaACodificar .= "&proyecto=" . $valor['proyecto'];
-                                $cadenaACodificar .= "&id_proyecto=" . $valor['id_proyecto'];
-
-                                // Codificar las variables
-                                $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-                                $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
-
-                                // URL Consultar Proyectos
-                                $urlConsultarParticularEnlace = $url . $cadena;
-                                $link = "<a  target='_blank' href='" . $urlConsultarParticularEnlace . "'>" . $valor['proyecto'] . "</a>";
-
-                                $pc_contratos = ($valor['contratos'] / $valor['beneficiarios_meta']) * 100;
-                                $color_contrato = $this->colorCelda($pc_contratos);
-
-                                $pc_accPortatil = ($valor['asignacion_portatiles'] / $valor['beneficiarios_meta']) * 100;
-                                $color_pc_accPortatil = $this->colorCelda($pc_accPortatil);
-
-                                $pc_accServicio = ($valor['asignacion_servicios'] / $valor['beneficiarios_meta']) * 100;
-                                $color_pc_accServicio = $this->colorCelda($pc_accServicio);
-
-                                $pc_activacion = ($valor['activacion'] / $valor['beneficiarios_meta']) * 100;
-                                $color_pc_activacion = $this->colorCelda($pc_activacion);
-
-                                $pc_revision = ($valor['revision'] / $valor['beneficiarios_meta']) * 100;
-                                $color_pc_revision = $this->colorCelda($pc_revision);
-
-                                $pc_aprobacion = ($valor['aprobacion'] / $valor['beneficiarios_meta']) * 100;
-                                $color_pc_aprobacion = $this->colorCelda($pc_aprobacion);
-
-                                $resultadoFinal[] = array(
-                                    'municipio' => $valor['municipio'],
-                                    'proyecto' => $link,
-                                    'beneficiarios_meta' => "&nbsp;" . $valor['beneficiarios_meta'],
-                                    'beneficiarios_sistema' => "&nbsp;" . $valor['beneficiarios_sistema'],
-                                    'contratos' => "<div style='background-color:" . $color_contrato . "'>" . $valor['contratos'] . "</div>",
-                                    'accPortatil' => "<div style='background-color:" . $color_pc_accPortatil . "'>" . $valor['asignacion_portatiles'] . "</div>",
-                                    'accServicio' => "<div style='background-color:" . $color_pc_accServicio . "'>" . $valor['asignacion_servicios'] . "</div>",
-                                    'activacion' => "<div style='background-color:" . $color_pc_activacion . "'>" . $valor['activacion'] . "</div>",
-                                    'revision' => "<div style='background-color:" . $color_pc_revision . "'>" . $valor['revision'] . "</div>",
-                                    'aprobacion' => "<div style='background-color:" . $color_pc_aprobacion . "'>" . $valor['aprobacion'] . "</div>",
-
-                                );
-                            }
-
-                            $total = count($resultadoFinal);
-
-                            $resultado = json_encode($resultadoFinal);
-
-                            $resultado = '{
-                                "recordsTotal":'         . $total . ',
-                                "recordsFiltered":'         . $total . ',
-                                "data":'         . $resultado . '}';
-                        } else {
-
-                            $resultado = '{
-                                "recordsTotal":0 ,
-                                "recordsFiltered":0 ,
-                                "data": 0 }'        ;
-                        }
-                        break;
+                    );
                 }
 
-                //                var_dump($_REQUEST);
-                //              var_dump($procesos);exit;
+                $total = count($resultadoFinal);
 
-                echo $resultado;
+                $resultado = json_encode($resultadoFinal);
 
-                break;
-
-            case 'consultaParticular':
-
-                $cadenaSql = $this->sql->getCadenaSql('consultaParticularBeneficiarios', $_REQUEST['id_proyecto']);
-
-                $procesos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-                if ($procesos) {
-                    foreach ($procesos as $key => $valor) {
-
-                        $cadenaSql = $this->sql->getCadenaSql('consultarDocumentos', $valor['id_beneficiario']);
-                        $documento = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-                        // Variables para Con
-                        $cadenaACodificar = "pagina=generacionContrato";
-                        //$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
-                        //$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                        $cadenaACodificar .= "&opcion=validarRequisitos";
-                        $cadenaACodificar .= "&proceso=verificarRequisitos";
-                        $cadenaACodificar .= "&id_beneficiario=" . $valor['id_beneficiario'];
-
-                        // Codificar las variables
-                        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-                        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
-
-                        // URL Consultar Proyectos
-                        $urlConsultarRequisitos = $url . $cadena;
-                        $link1 = ($documento) ? "<a  target='_blank' href='" . $urlConsultarRequisitos . "'>Ver</a>" : "&nbsp;";
-
-                        // Variables para Con
-                        $cadenaACodificar = "pagina=gestionRequisitos";
-                        //$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
-                        //$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                        $cadenaACodificar .= "&opcion=validarRequisitos";
-                        $cadenaACodificar .= "&proceso=verificarRequisitos";
-                        $cadenaACodificar .= "&id_beneficiario=" . $valor['id_beneficiario'];
-
-                        // Codificar las variables
-                        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-                        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
-
-                        // URL Consultar Proyectos
-                        $urlConsultarRequisitos = $url . $cadena;
-                        $link2 = ($documento) ? "<a  target='_blank' href='" . $urlConsultarRequisitos . "'>Ver</a>" : "&nbsp;";
-
-                        $resultadoFinal[] = array(
-                            'beneficiario' => $valor['beneficiario'],
-                            'contratacion' => $link1,
-                            'comisionamiento' => $link2,
-                            'contrato' => $valor['contrato'],
-                            'accPortatil' => $valor['asignacion_portatiles'],
-                            'accServicio' => $valor['asignacion_servicios'],
-                            'activacion' => $valor['activacion'],
-                            'revision' => $valor['revision'],
-                            'aprobacion' => $valor['aprobacion'],
-                        );
-                    }
-
-                    $total = count($resultadoFinal);
-
-                    $resultado = json_encode($resultadoFinal);
-
-                    $resultado = '{
+                $resultado = '{
                                 "recordsTotal":'     . $total . ',
                                 "recordsFiltered":'     . $total . ',
                                 "data":'     . $resultado . '}';
-                } else {
+            } else {
 
-                    $resultado = '{
+                $resultado = '{
                                 "recordsTotal":0 ,
                                 "recordsFiltered":0 ,
                                 "data": 0 }'    ;
-                }
-                echo $resultado;
-                break;
+            }
+            echo $resultado;
+            break;
 
         }
     }
 
-    public function colorCelda($valor) {
+    public function colorCelda($valor)
+    {
 
         if ($valor >= 0 && $valor <= 20) {
             $color = "#F08080";
@@ -264,5 +114,3 @@ class procesarAjax {
 $miProcesarAjax = new procesarAjax($this->sql);
 exit;
 ?>
-
-

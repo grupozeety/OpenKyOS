@@ -7,3 +7,15 @@ text-align: center;
     padding: 0px;
 
 }
+
+div.dataTables_filter label {
+    float: right;
+}
+
+
+@media (max-height: 720px) {
+
+  div.example_paginate label {
+      text-align: right;
+  }
+}

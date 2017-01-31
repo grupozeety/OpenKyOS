@@ -5,8 +5,9 @@ if (!isset($GLOBALS["autorizado"])) {
     exit();
 }
 
-include_once "core/manager/Configurador.class.php";
-class Frontera {
+require_once "core/manager/Configurador.class.php";
+class Frontera
+{
     public $ruta;
     public $sql;
     public $miEntidad;
@@ -14,28 +15,36 @@ class Frontera {
     public $miFormulario;
     public $miConfigurador;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->miConfigurador = \Configurador::singleton();
     }
-    public function setRuta($unaRuta) {
+    public function setRuta($unaRuta)
+    {
         $this->ruta = $unaRuta;
     }
-    public function setLenguaje($lenguaje) {
+    public function setLenguaje($lenguaje)
+    {
         $this->lenguaje = $lenguaje;
     }
-    public function setFormulario($formulario) {
+    public function setFormulario($formulario)
+    {
         $this->miFormulario = $formulario;
     }
-    public function frontera() {
+    public function frontera()
+    {
         $this->html();
     }
-    public function setSql($a) {
+    public function setSql($a)
+    {
         $this->sql = $a;
     }
-    public function setEntidad($entidad) {
+    public function setEntidad($entidad)
+    {
         $this->miEntidad = $entidad;
     }
-    public function html() {
+    public function html()
+    {
         include_once "core/builder/FormularioHtml.class.php";
 
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("rutaBloque");
@@ -48,13 +57,13 @@ class Frontera {
 
             switch ($_REQUEST['opcion']) {
 
-                case 'consultaParticular':
-                    include_once $this->ruta . "frontera/consultaParticular.php";
-                    break;
+            case 'registrarRegla':
+                include_once $this->ruta . "frontera/crearActualizarRegla.php";
+                break;
 
-                default:
-                    include_once $this->ruta . "frontera/consultaGeneral.php";
-                    break;
+            default:
+                include_once $this->ruta . "frontera/consultaGeneral.php";
+                break;
             }
 
         } else {
@@ -65,6 +74,3 @@ class Frontera {
     }
 }
 ?>
-
-
-
