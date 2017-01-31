@@ -199,6 +199,7 @@ class GenerarDocumento
 
         foreach ($objetoDatos as $key => $value) {
             $this->atributos=$value->attributes();
+            $value= str_replace("%%", "<br>", $value);
 
             switch ($key) {
             case 'titulo':
@@ -221,7 +222,6 @@ class GenerarDocumento
                 break;
 
             case 'variable':
-
                 //Ejecuta los procesos para obtener contenido de la variable
                 $this->ejecutarContenidoVariable($value);
                 break;
@@ -230,22 +230,21 @@ class GenerarDocumento
             $this->contenido .= "<br>";
         }
 
-        //exit;
     }
 
     public function ejecutarContenidoVariable($variable)
     {
 
         switch ($variable) {
-        case 'Fecha Actual':
+        case 'FechaActual':
             $this->contenido .= "<div style='".$this->atributos."'>" . date('Y-m-d') . "</div>";
             break;
 
-        case 'Informacion Pago':
+        case 'InformacionPago':
             $this->contenido .= "<div style='".$this->atributos."'>INFORMACION DE PAGO</div>";
             break;
 
-        case 'Informacion Pago Resumido':
+        case 'InformacionPagoResumido':
             $this->contenido .= "<div style='".$this->atributos."'>INFORMACION DE PAGO RESUMIDO</div>";
             break;
 
@@ -253,7 +252,7 @@ class GenerarDocumento
             $this->contenido .= "<div style='".$this->atributos."'>CONCEPTOS</div>";
             break;
 
-        case 'Informacion Beneficiario':
+        case 'InformacionBeneficiario':
             $this->contenido .= "<div style='".$this->atributos."'>INFORMACION DEL BENEFICIARIO</div>";
             break;
 
@@ -305,7 +304,7 @@ class GenerarDocumento
 
     public function crearPDF()
     {
-
+        // EXIT;
         ob_start();
         $html2pdf = new \HTML2PDF(
             'P', 'LETTER', 'es', true, 'UTF-8', array(
@@ -346,6 +345,7 @@ class GenerarDocumento
                                     text-align: left;
 
                                 }
+
                             </style>";
 
         $contenidoPagina = "<page backtop='2mm' backbottom='2mm' backleft='2mm' backright='2mm'>";
