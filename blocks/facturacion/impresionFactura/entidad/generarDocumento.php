@@ -113,7 +113,7 @@ class GenerarDocumento
         1020px * 100%
          **/
 
-        $this->contenido = "<table  style='width:100%; border: none' >";
+        $this->contenido = "<table  style='width:100%; border: none; background-color: #f0f5ff' >";
 
         // Determina la utilización de colspan
         $this->determinacionTipoColumna();
@@ -242,6 +242,11 @@ class GenerarDocumento
 
         case 'InformacionPago':
             $this->contenido .= "<div style='".$this->atributos."'>INFORMACION DE PAGO</div>";
+            break;
+
+
+        case 'HistoricoConsumo':
+            $this->contenido .= "<div style='".$this->atributos."'>HISTORICO CONSUMO<BR>(GRAFICA)</div>";
             break;
 
         case 'InformacionPagoResumido':

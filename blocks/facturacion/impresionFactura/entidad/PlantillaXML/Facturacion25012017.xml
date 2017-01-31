@@ -2,29 +2,35 @@
 <factura>
 	<seccion>
 		<columna>
-			<titulo>Factura de Servicios</titulo>
-			<variable>Fecha Actual</variable>
-			<texto>Informacion Parroquial de empresa :  Entre LA CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA, en adelante POLITÉCNICA, entidad sin ánimo de lucro, domiciliada en la ciudad de Bogotá D.C, por una parte, y por la otra, la persona identificada como USUARIO, cuyos datos son los registrados a continuación, quien ha leído y aceptado en todos sus términos el presente documento y sus respectivos anexos, hemos convenido celebrar el presente CONTRATO DE SERVICIOS DE COMUNICACIONES, con el objeto de establecer las condiciones técnicas, jurídicas y económicas que regirán la prestación al USUARIO de servicios de Internet fijo, en condiciones de calidad y eficiencia, el cual se regirá por lo dispuesto en el Anexo Técnico del Contrato de Aporte N° 681 de 2015 y al documento de recomendaciones de la CRC “CONEXIONES DIGITALES Esquema para la implementación de subsidios e Incentivos para el acceso a Internet de Última milla”, la ley 1341/09, Resolución 3066/11 de la CRC, la regulación y reglamentación que expidan la CRC, el Min TIC y la SuperIndustria y Comercio, según su competencia, condiciones y anexos del presente contrato, en el marco del Contrato de Aporte N° 681 de 2015. y en las normas que la modifiquen o deroguen.</texto>
+			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='650' height='80'">/var/www/html/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/logos_contrato.png</imagen>
+			<titulo estilos="text-align:center;font-size:25px">FACTURA DE SERVICIOS</titulo>
+			<variable estilos="font-size:18px;text-align:center;">FechaActual</variable>
 		</columna>
 	</seccion>
 	<seccion>
 		<columna>
-			<variable>Informacion Pago</variable>
-			<variable>Informacion Beneficiario</variable>
+			<texto estilos="font-size:15px;text-align:left;">TOTAL A PAGAR:%%_______________________________$ 12.500%%%%PAGAR ANTES DE :%%_______________________________30/01/2017%%%%</texto>
+			<variable>InformacionBeneficiario</variable>
 		</columna>
 		<columna>
-			<imagen>/home/stiv/Imágenes/fray.jpg</imagen></columna>
+		<texto estilos="font-size:15px;text-align:left;">CONCEPTOS%%%%%%1. Valor Mensual Basico%%
+																		_______________________________________$ 10.000%%
+																		2. Valor  Hora de Maxima banda Ancha%%
+																		_______________________________________$ 11.500%%
+																		3. Valor  Mora %%
+																		_______________________________________$ 0%%
+																		4. Valor  Telefonia%%
+																		_______________________________________$ 7.500%%</texto>
+		</columna>
 	</seccion>
 	<seccion>
-		<columna>
-			<variable>Conceptos</variable>
+				<columna><variable estilos="font-size:18px;text-align:center;">HistoricoConsumo</variable>
 			</columna>
-		<columna><texto>Reglamentación De conformidad con lo establecido en el numeral 11.2 de la Resolución 3066 de 2011, con la firma del presente documento, el USUARIO autoriza expresamente a POLITÉCNICA a publicar en el portal web del Proyecto (http://conexionesdigitales.politecnica.edu.co/), las condiciones de prestación del (los) servicio (s), sus modificaciones y Anexos, los cuales entiende, acepta y declara conocer a cabalidad.  Así mismo, el USUARIO autoriza expresamente a POLITÉCNICA a remitir los anexos de este contrato a través de correo electrónico enviando a al cuenta registrada durante el proceso de contratación.  El USUARIO expresa su voluntad de aprobar el uso del correo electrónico registrado como mecanismo válido de intercambio de información en el marco del presente contrato de conformidad con los Términos y Condiciones de intercambio de Información que se encuentran publicados en el portal del Proyecto.</texto></columna></seccion>
-	<seccion>
-		<columna>
-			<codigoBarras>125155454</codigoBarras>
-		</columna>
-		<columna>
-			<variable>Informacion Pago Resumido</variable></columna>
 	</seccion>
+	<seccion>
+	<columna>
+			<codigoBarras alineacionCodigoBarras="center" dimensionesCodigoBarras="width:90mm; height:30mm;font-size:2mm">113145874123131313123131231231235884</codigoBarras>
+			<texto estilos="font-size:15px;text-align:left;">%%%%Información Metodos de Pago%%A._____________________%%B._____________________%%C._____________________</texto>
+		</columna>
+			<columna><variable estilos="font-size:18px;text-align:center;">InformacionPagoResumido</variable></columna></seccion>
 </factura>
