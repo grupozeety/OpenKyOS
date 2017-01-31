@@ -44,43 +44,14 @@ class FormProcessor
 
         $_REQUEST['tiempo'] = time();
 
-        switch ($_REQUEST['opcion']) {
-            case 'registrarReglaParticular':
-                $arreglo= array(
-                'descricion' =>$_REQUEST['descripcion'] ,
-                'formula' => $_REQUEST['formula'],
-                'identificador' => $_REQUEST['identificador_formula'],
-                    );
 
-                $cadenaSql = $this->miSql->getCadenaSql('registrarActualizarRegla', $arreglo);
-                $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        $cadenaSql = $this->miSql->getCadenaSql('eliminarRegla');
+        $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
-                if (isset($this->proceso) && $this->proceso != null) {
-                    Redireccionador::redireccionar("ExitoRegistro", $this->proceso);
-                } else {
-                    Redireccionador::redireccionar("ErrorRegistro");
-                }
-
-                break;
-
-            case 'actualizarReglaParticular':
-                $arreglo= array(
-                'id_regla' =>$_REQUEST['id_regla'] ,
-                'descricion' =>$_REQUEST['descripcion'] ,
-                'formula' => $_REQUEST['formula'],
-                'identificador' => $_REQUEST['identificador_formula'],
-                );
-
-                $cadenaSql = $this->miSql->getCadenaSql('registrarActualizarRegla', $arreglo);
-                $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-
-                if (isset($this->proceso) && $this->proceso != null) {
-                    Redireccionador::redireccionar("ExitoActualizacion", $this->proceso);
-                } else {
-                    Redireccionador::redireccionar("ErrorActualizacion");
-                }
-
-                break;
+        if (isset($this->proceso) && $this->proceso != null) {
+            Redireccionador::redireccionar("ExitoEliminar", $this->proceso);
+        } else {
+            Redireccionador::redireccionar("ErrorEliminar");
         }
     }
 }

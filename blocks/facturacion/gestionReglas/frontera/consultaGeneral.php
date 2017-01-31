@@ -1,5 +1,6 @@
 <?php
 namespace facturacion\gestionReglas\frontera;
+
 /**
  * IMPORTANTE: Este formulario está utilizando jquery.
  * Por tanto en el archivo ready.php se declaran algunas funciones js
@@ -57,9 +58,6 @@ class Registrador
         $atributos['tipoEtiqueta'] = 'inicio';
         echo $this->miFormulario->formulario($atributos);
         {
-
-                var_dump($_REQUEST);
-
             /**
              * Código Formulario
              */
@@ -204,7 +202,7 @@ class Registrador
         $atributos['marco'] = true;
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
-        if (isset($_REQUEST['mensaje']) ) {
+        if (isset($_REQUEST['mensaje'])) {
               $this->mensajeModal();
         }
     }
@@ -214,18 +212,35 @@ class Registrador
     {
 
         switch ($_REQUEST['mensaje']) {
+            case 'exitoRegistro':
+                $mensaje = "Exito<br>Regla Registrada";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
 
-        case 'exitoRegistro':
-            $mensaje = "Exito<br>Regla Registrada";
-            $atributos['estiloLinea'] = 'success';     //success,error,information,warning
-            break;
+            case 'errorRegistro':
+                $mensaje = "Error<br>Registro de la Regla";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
 
-        case 'errorRegistro':
-            $mensaje = "Error<br>Registro de la Regla";
-            $atributos['estiloLinea'] = 'error';     //success,error,information,warning
-            break;
+            case 'exitoActualizacion':
+                $mensaje = "Exito<br>Regla Actualizada";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
 
+            case 'errorActualizacion':
+                $mensaje = "Error<br>Actualización de la Regla";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
 
+            case 'exitoEliminar':
+                $mensaje = "Exito<br>Regla Eliminada";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
+            case 'errorEliminar':
+                $mensaje = "Error<br>Eliminar Regla";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
         }
 
         // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
@@ -252,14 +267,9 @@ class Registrador
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->modal($atributos);
         unset($atributos);
-
     }
-
-
 }
 
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->seleccionarForm();
-
-?>

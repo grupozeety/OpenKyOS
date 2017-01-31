@@ -14,20 +14,40 @@ class Redireccionador
         $miConfigurador = \Configurador::singleton();
 
         switch ($opcion) {
+            case 'ExitoRegistro':
+                $variable = 'pagina=gestionReglas';
+                $variable .= '&mensaje=exitoRegistro';
+                break;
 
-        case 'ExitoRegistro':
-            $variable = 'pagina=gestionReglas';
-            $variable .= '&mensaje=exitoRegistro';
-            break;
-
-        case "ErrorRegistro":
-            $variable = 'pagina=gestionReglas';
-            $variable .= '&mensaje=errorRegistro';
-            break;
+            case "ErrorRegistro":
+                $variable = 'pagina=gestionReglas';
+                $variable .= '&mensaje=errorRegistro';
+                break;
 
 
-        default:
-            $variable = '';
+            case 'ExitoActualizacion':
+                $variable = 'pagina=gestionReglas';
+                $variable .= '&mensaje=exitoActualizacion';
+                break;
+
+            case "ErrorActualizacion":
+                $variable = 'pagina=gestionReglas';
+                $variable .= '&mensaje=errorActualizacion';
+                break;
+
+            case 'ExitoEliminar':
+                $variable = 'pagina=gestionReglas';
+                $variable .= '&mensaje=exitoEliminar';
+                break;
+
+            case "ErrorEliminar":
+                $variable = 'pagina=gestionReglas';
+                $variable .= '&mensaje=errorEliminar';
+                break;
+
+
+            default:
+                $variable = '';
         }
         foreach ($_REQUEST as $clave => $valor) {
             unset($_REQUEST[$clave]);
@@ -43,6 +63,4 @@ class Redireccionador
 
         exit();
     }
-
 }
-?>

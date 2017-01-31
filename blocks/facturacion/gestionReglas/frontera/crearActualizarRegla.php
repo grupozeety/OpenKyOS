@@ -1,5 +1,6 @@
 <?php
 namespace facturacion\gestionReglas\frontera;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -49,12 +50,27 @@ class Reglas
     }
     public function gestionReglas()
     {
-        var_dump($_REQUEST);
+
         //Conexion a Base de Datos
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
 
+
+        if ($_REQUEST['opcion']=='actualizarRegla') {
+            $cadenaSql = $this->miSql->getCadenaSql('consultarReglaParticular');
+            $regla = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+            if ($regla && !is_null($regla)) {
+                $arrayName = array(
+                  'descripcion' =>$regla['decripcion'],
+                  'formula' =>$regla['formula'],
+                  'identificador_formula' =>$regla['identificador'],
+                 );
+                $_REQUEST=array_merge($_REQUEST, $arrayName);
+            }
+        }
+
+        var_dump($_REQUEST);
 
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
@@ -90,7 +106,13 @@ class Reglas
 
         $esteCampo = 'Agrupacion';
         $atributos['id'] = $esteCampo;
-        $atributos['leyenda'] = "<b>Registro Reglas</b>";
+
+
+        if ($_REQUEST['opcion']=='actualizarRegla') {
+            $atributos['leyenda'] = "<b>Actualización Regla</b>";
+        } else {
+            $atributos['leyenda'] = "<b>Registro Regla</b>";
+        }
         echo $this->miFormulario->agrupacion('inicio', $atributos);
         unset($atributos);
 
@@ -247,8 +269,9 @@ class Reglas
         $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
         $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
         $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-        if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'editarContrato') {
-            $valorCodificado .= "&opcion=edicionContrato";
+        if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'actualizarRegla') {
+            $valorCodificado .= "&opcion=actualizarReglaParticular";
+            $valorCodificado .= "&id_regla=".$_REQUEST['id_regla'];
         } else {
             $valorCodificado .= "&opcion=registrarReglaParticular";
         }
@@ -277,14 +300,7 @@ class Reglas
         $atributos['marco'] = true;
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
-
-
     }
-
-
-
 }
 
 $miSeleccionador = new Reglas($this->lenguaje, $this->miFormulario, $this->sql);
-
-?>

@@ -1,5 +1,6 @@
 <?php
 namespace facturacion\gestionReglas;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -52,25 +53,24 @@ class Frontera
 
         $miBloque = $this->miConfigurador->getVariableConfiguracion('esteBloque');
         $resultado = $this->miConfigurador->getVariableConfiguracion('errorFormulario');
-
+        
         if (isset($_REQUEST['opcion'])) {
-
             switch ($_REQUEST['opcion']) {
+                case 'registrarRegla':
+                    include_once $this->ruta . "frontera/crearActualizarRegla.php";
+                    break;
 
-            case 'registrarRegla':
-                include_once $this->ruta . "frontera/crearActualizarRegla.php";
-                break;
 
-            default:
-                include_once $this->ruta . "frontera/consultaGeneral.php";
-                break;
+                case 'actualizarRegla':
+                    include_once $this->ruta . "frontera/crearActualizarRegla.php";
+                    break;
+
+                default:
+                    include_once $this->ruta . "frontera/consultaGeneral.php";
+                    break;
             }
-
         } else {
-
             include_once $this->ruta . "frontera/consultaGeneral.php";
-
         }
     }
 }
-?>

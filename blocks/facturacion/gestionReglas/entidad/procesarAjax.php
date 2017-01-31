@@ -47,8 +47,12 @@ class procesarAjax
 
                         {
                         $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-                        $valorCodificado .= "&opcion=eliminar";
+                        $valorCodificado .= "&action=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                        $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                        $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                        $valorCodificado .= "&opcion=eliminarRegla";
                         $valorCodificado .= "&id_regla=" . $valor['id_regla'];
+
                         }
 
                         $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");

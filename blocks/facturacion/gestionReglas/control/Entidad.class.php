@@ -1,5 +1,6 @@
 <?php
 namespace facturacion\gestionReglas;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -54,9 +55,9 @@ class Entidad
         include_once $this->ruta . "entidad/registrarActualizar.php";
     }
 
-    public function eliminarProceso()
+    public function eliminar()
     {
-        include_once $this->ruta . "entidad/eliminarProceso.php";
+        include_once $this->ruta . "entidad/eliminar.php";
     }
     public function action()
     {
@@ -73,19 +74,17 @@ class Entidad
         }
 
         switch ($_REQUEST['opcion']) {
-        case 'registrarReglaParticular':
+            case 'registrarReglaParticular':
+                $this->cargarInformacion();
+                break;
 
-            $this->cargarInformacion();
+            case 'actualizarReglaParticular':
+                $this->cargarInformacion();
+                break;
 
-            break;
-
-        case 'generarContratoPDF':
-            $this->generarContratoPdf();
-            break;
-
-        case 'eliminarProceso':
-            $this->eliminarProceso();
-            break;
+            case 'eliminarRegla':
+                $this->eliminar();
+                break;
         }
 
         return $resultado;
@@ -102,7 +101,6 @@ class Entidad
         $this->miRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         if (!$this->miRecursoDB) {
-
             $this->miConfigurador->fabricaConexiones->setRecursoDB($conexion, "tabla");
             $this->miRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
         }
@@ -128,5 +126,3 @@ class Entidad
         $this->formulario = $formulario;
     }
 }
-
-?>

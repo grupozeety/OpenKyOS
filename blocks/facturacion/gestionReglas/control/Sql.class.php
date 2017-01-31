@@ -1,5 +1,6 @@
 <?php
 namespace facturacion\gestionReglas;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -30,25 +31,43 @@ class Sql extends \Sql
              */
 
 
-        case 'consultaParticular':
-            $cadenaSql=" SELECT *";
-            $cadenaSql.=" FROM facturacion.regla";
-            $cadenaSql.=" WHERE estado_registro='TRUE';";
-            break;
+            case 'consultaParticular':
+                $cadenaSql=" SELECT *";
+                $cadenaSql.=" FROM facturacion.regla";
+                $cadenaSql.=" WHERE estado_registro='TRUE';";
+                break;
 
-        case 'registrarActualizarRegla':
-            $cadenaSql=" INSERT INTO facturacion.regla(";
-            $cadenaSql.=" decripcion,";
-            $cadenaSql.=" formula, ";
-            $cadenaSql.=" identificador)";
-            $cadenaSql.=" VALUES ('".$variable['descricion']."', ";
-            $cadenaSql.=" '".$variable['formula']."',";
-            $cadenaSql.=" '".$variable['identificador']."');";
-            break;
+            case 'consultarReglaParticular':
+                $cadenaSql=" SELECT *";
+                $cadenaSql.=" FROM facturacion.regla";
+                $cadenaSql.=" WHERE estado_registro='TRUE'";
+                $cadenaSql.=" AND id_regla='".$_REQUEST['id_regla']."';";
+                break;
 
+            case 'registrarActualizarRegla':
+                if ($_REQUEST['opcion']=='actualizarReglaParticular') {
+                    $cadenaSql=" UPDATE facturacion.regla";
+                    $cadenaSql.=" SET estado_registro='FALSE'";
+                    $cadenaSql.=" WHERE id_regla='".$variable['id_regla']."';";
+                    $cadenaSql.=" INSERT INTO facturacion.regla(";
+                } else {
+                    $cadenaSql=" INSERT INTO facturacion.regla(";
+                }
+                $cadenaSql.=" decripcion,";
+                $cadenaSql.=" formula, ";
+                $cadenaSql.=" identificador)";
+                $cadenaSql.=" VALUES ('".$variable['descricion']."', ";
+                $cadenaSql.=" '".$variable['formula']."',";
+                $cadenaSql.=" '".$variable['identificador']."');";
+                break;
+
+            case 'eliminarRegla':
+                $cadenaSql=" UPDATE facturacion.regla";
+                $cadenaSql.=" SET estado_registro='FALSE'";
+                $cadenaSql.=" WHERE id_regla='".$_REQUEST['id_regla']."';";
+                break;
         }
 
         return $cadenaSql;
     }
 }
-?>
