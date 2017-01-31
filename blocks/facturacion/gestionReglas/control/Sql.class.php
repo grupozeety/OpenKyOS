@@ -36,6 +36,16 @@ class Sql extends \Sql
             $cadenaSql.=" WHERE estado_registro='TRUE';";
             break;
 
+        case 'registrarActualizarRegla':
+            $cadenaSql=" INSERT INTO facturacion.regla(";
+            $cadenaSql.=" decripcion,";
+            $cadenaSql.=" formula, ";
+            $cadenaSql.=" identificador)";
+            $cadenaSql.=" VALUES ('".$variable['descricion']."', ";
+            $cadenaSql.=" '".$variable['formula']."',";
+            $cadenaSql.=" '".$variable['identificador']."');";
+            break;
+
         }
 
         return $cadenaSql;

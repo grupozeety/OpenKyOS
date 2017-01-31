@@ -19,6 +19,8 @@ class Reglas
     public $rutaURL;
     public function __construct($lenguaje, $formulario, $sql)
     {
+
+
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -47,7 +49,7 @@ class Reglas
     }
     public function gestionReglas()
     {
-
+        var_dump($_REQUEST);
         //Conexion a Base de Datos
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
@@ -275,7 +277,11 @@ class Reglas
         $atributos['marco'] = true;
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
+
+
     }
+
+
 
 }
 

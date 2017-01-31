@@ -58,6 +58,8 @@ class Registrador
         echo $this->miFormulario->formulario($atributos);
         {
 
+                var_dump($_REQUEST);
+
             /**
              * Código Formulario
              */
@@ -202,7 +204,57 @@ class Registrador
         $atributos['marco'] = true;
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
+        if (isset($_REQUEST['mensaje']) ) {
+              $this->mensajeModal();
+        }
     }
+
+
+    public function mensajeModal()
+    {
+
+        switch ($_REQUEST['mensaje']) {
+
+        case 'exitoRegistro':
+            $mensaje = "Exito<br>Regla Registrada";
+            $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+            break;
+
+        case 'errorRegistro':
+            $mensaje = "Error<br>Registro de la Regla";
+            $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+            break;
+
+
+        }
+
+        // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+
+        $atributos['tipoEtiqueta'] = 'inicio';
+        $atributos['titulo'] = 'Mensaje';
+        $atributos['id'] = 'mensajeModal';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
+
+        echo '<p><h5>' . $mensaje . '</h5></p>';
+
+        echo '</div>';
+
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+
+        echo '<div style="text-align:center;">';
+
+        echo '</div>';
+
+        $atributos['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+    }
+
 
 }
 

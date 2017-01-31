@@ -1,5 +1,6 @@
 <?php
 namespace facturacion\gestionReglas\entidad;
+
 class procesarAjax
 {
     public $miConfigurador;
@@ -22,74 +23,66 @@ class procesarAjax
         $url .= $this->miConfigurador->getVariableConfiguracion("site");
         $url .= "/index.php?";
 
+
         $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
 
         switch ($_REQUEST['funcion']) {
+            case 'consultaParticular':
+                $cadenaSql = $this->sql->getCadenaSql('consultaParticular');
 
-        case 'consultaParticular':
+                $reglas = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-            $cadenaSql = $this->sql->getCadenaSql('consultaParticular');
+                if ($reglas) {
+                    foreach ($reglas as $key => $valor) {
+                        {
+                        $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                        $valorCodificado .= "&opcion=actualizarRegla";
+                        $valorCodificado .= "&id_regla=" . $valor['id_regla'];
+                        }
 
-            $reglas = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
-            if ($reglas) {
-                foreach ($reglas as $key => $valor) {
+                        $urlActualizarRegla = $url . $cadena;
 
+                        {
+                        $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                        $valorCodificado .= "&opcion=eliminar";
+                        $valorCodificado .= "&id_regla=" . $valor['id_regla'];
+                        }
 
-                    /*
+                        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
-                    { data :"numero_regla" },
-                    { data :"descripcion" },
-                    { data :"formula" },
-                    { data :"identificador_formula" },
-                    { data :"actualizar" },
-                    { data :"eliminar" }
+                        $urlEliminarRegla = $url . $cadena;
 
+                        $resultadoFinal[] = array(
+                        'numero_regla' => $valor['id_regla'],
+                        'descripcion' => $valor['decripcion'],
+                        'formula' => $valor['formula'],
+                        'identificador_formula' => $valor['identificador'],
+                        'actualizar' => "<b><a href='" . $urlActualizarRegla . "'><IMG  src='theme/basico/img/update.ico'  width='25' height='25' ></a></b>",
+                        'eliminar' => "<b><a href='" . $urlEliminarRegla . "'><IMG  src='theme/basico/img/delete.ico'  width='25' height='25' ></a></b>",
 
-                    0 => string '1' (length=1)
-                    'id_regla' => string '1' (length=1)
-                    1 => string 'Calculo Intereses' (length=17)
-                    'decripcion' => string 'Calculo Intereses' (length=17)
-                    2 => string '15*vm' (length=5)
-                    'formula' => string '15*vm' (length=5)
-                    3 => string 't' (length=1)
-                    'estado_registro' => string 't' (length=1)
-                    4 => string '2017-01-31 01:25:06.544182' (length=26)
-                    'fecha_registro' => string '2017-01-31 01:25:06.544182' (length=26)
-                    5 => string 'Int' (length=3)
-                    'identificador' => string 'Int' (length=3)
-                    */
+                        );
+                    }
 
+                    $total = count($resultadoFinal);
 
-                    $resultadoFinal[] = array(
-                    'numero_regla' => $valor['id_regla'],
-                    'descripcion' => $valor['decripcion'],
-                    'formula' => $valor['formula'],
-                    'identificador_formula' => $valor['identificador'],
-                    'actualizar' => " ",
-                    'eliminar' => " ",
+                    $resultado = json_encode($resultadoFinal);
 
-                    );
-                }
-
-                $total = count($resultadoFinal);
-
-                $resultado = json_encode($resultadoFinal);
-
-                $resultado = '{
+                    $resultado = '{
                                 "recordsTotal":'     . $total . ',
                                 "recordsFiltered":'     . $total . ',
                                 "data":'     . $resultado . '}';
-            } else {
-
-                $resultado = '{
+                } else {
+                    $resultado = '{
                                 "recordsTotal":0 ,
                                 "recordsFiltered":0 ,
                                 "data": 0 }'    ;
-            }
-            echo $resultado;
-            break;
-
+                }
+                    echo $resultado;
+                break;
         }
     }
 
@@ -98,13 +91,13 @@ class procesarAjax
 
         if ($valor >= 0 && $valor <= 20) {
             $color = "#F08080";
-        } else if ($valor >= 21 && $valor <= 50) {
+        } elseif ($valor >= 21 && $valor <= 50) {
             $color = "#f3aa51";
-        } else if ($valor >= 51 && $valor <= 80) {
+        } elseif ($valor >= 51 && $valor <= 80) {
             $color = "#f0ed80";
-        } else if ($valor >= 81 && $valor <= 99) {
+        } elseif ($valor >= 81 && $valor <= 99) {
             $color = "#b0e6c8";
-        } else if ($valor >= 100) {
+        } elseif ($valor >= 100) {
             $color = "#0d7b3e";
         }
 
@@ -112,5 +105,4 @@ class procesarAjax
     }
 }
 $miProcesarAjax = new procesarAjax($this->sql);
-exit;
-?>
+exit();

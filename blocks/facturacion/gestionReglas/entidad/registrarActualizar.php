@@ -1,5 +1,5 @@
 <?php
-namespace gestionBeneficiarios\generarContratosMasivos\entidad;
+namespace facturacion\gestionReglas\entidad;
 
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
@@ -53,21 +53,27 @@ class FormProcessor
 
         $_REQUEST['tiempo'] = time();
 
-        /**
-         *  1. Cargar Archivo en el Directorio
-         **/
-        var_dump($_REQUEST);exit;
 
+        switch ($_REQUEST['opcion']) {
+            case 'registrarReglaParticular':
+                $arreglo= array(
+                'descricion' =>$_REQUEST['descripcion'] ,
+                'formula' => $_REQUEST['formula'],
+                'identificador' => $_REQUEST['identificador_formula'],
+                    );
 
-        if (isset($this->proceso) && $this->proceso != null) {
-            Redireccionador::redireccionar("ExitoRegistroProceso", $this->proceso);
-        } else {
-            Redireccionador::redireccionar("ErrorRegistroProceso");
+                $cadenaSql = $this->miSql->getCadenaSql('registrarActualizarRegla', $arreglo);
+                $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "accesp");
+
+                if (isset($this->proceso) && $this->proceso != null) {
+                    Redireccionador::redireccionar("ExitoRegistro", $this->proceso);
+                } else {
+                    Redireccionador::redireccionar("ErrorRegistro");
+                }
+
+                break;
         }
-
     }
-
 }
 
 $miProcesador = new FormProcessor($this->lenguaje, $this->sql);
-?>
