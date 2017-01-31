@@ -211,7 +211,8 @@ class GenerarDocumento
                 break;
 
             case 'codigoBarras':
-                $this->contenido .= "<div style='text-align:center'><barcode type='CODABAR' value='" . $value . "' style='width:60mm; height:20mm; font-size: 2mm'></barcode></div>";
+                $this->contenido .= "<div style='text-align:".$this->atributos['alineacionCodigoBarras'];
+                $this->contenido .="'><barcode type='CODABAR' value='" . $value . "' style='".$this->atributos['dimensionesCodigoBarras']."'></barcode></div>";
                 break;
 
             case 'imagen':
