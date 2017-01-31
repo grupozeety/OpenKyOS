@@ -1,6 +1,6 @@
 <?php
 
-namespace reportes\plantillaInfoTecnica\entidad;
+namespace facturacion\calculoFactura\entidad;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "index.php";
@@ -13,58 +13,58 @@ class Redireccionador {
 		switch ($opcion) {
 			
 			case "ErrorFormatoArchivo" :
-				$variable = 'pagina=plantillaInfoTecnica';
+				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=errorFormatoArchivo';
 				break;
 			
 			case "ErrorArchivoNoValido" :
-				$variable = 'pagina=plantillaInfoTecnica';
+				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=errorArchivoNoValido';
 				break;
 			
 			case "ErrorCargarArchivo" :
-				$variable = 'pagina=plantillaInfoTecnica';
+				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=errorCargarArchivo';
 				break;
 			
 			case "ErrorNoCargaInformacionHojaCalculo" :
-				$variable = 'pagina=plantillaInfoTecnica';
+				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=errorCargarInformacion';
 				break;
 			
 			case "ErrorInformacionCargar" :
-				$variable = 'pagina=plantillaInfoTecnica';
+				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=errorInformacionCargar';
 				$variable .= '&log=' . $valor;
 				break;
 			
 			case "ExitoInformacion" :
-				$variable = 'pagina=plantillaInfoTecnica';
+				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=exitoInformacion';
 				break;
 			
 			case "ErrorCreacionContratos" :
-				$variable = 'pagina=plantillaInfoTecnica';
+				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=errorCreacionContratos';
 				break;
 			
 			case "ExitoRegistroProceso" :
-				$variable = 'pagina=plantillaInfoTecnica';
+				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=exitoRegistroProceso';
 				break;
 			
 			case "ErrorRegistroProceso" :
-				$variable = 'pagina=plantillaInfoTecnica';
+				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=errorRegistroProceso';
 				break;
 			
 			case "ErrorActualizacion" :
-				$variable = 'pagina=plantillaInfoTecnica';
+				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=errorActualizacion';
 				break;
 			
 			case "ErrorActualizacioncabecera" :
-				$variable = 'pagina=plantillaInfoTecnica';
+				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=errorActualizacionCab';
 				break;
 		}

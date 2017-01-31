@@ -65,8 +65,10 @@ class FormProcessor {
 		 * Calcular Valores
 		 */
 		$this->reducirFormula ();
+		
 		$this->calculoPeriodo ();
 		$this->registrarPeriodo ();
+		
 		$this->calculoFactura ();
 		
 		/**
@@ -77,17 +79,16 @@ class FormProcessor {
 		$this->guardarFactura ();
 		$this->guardarConceptos ();
 		
-		
-		var_dump($this->rolesPeriodo);
+		var_dump ( $this->rolesPeriodo );
 		/**
 		 * 6.
 		 * Revisar Resultado Proceso
 		 */
 		exit ();
 		if ($a == 0) {
-			Redireccionador::redireccionar ( "InsertoInformacionContrato" );
+			Redireccionador::redireccionar ( "InsertoInformacion" );
 		} else {
-			Redireccionador::redireccionar ( "NoInsertoInformacionContrato" );
+			Redireccionador::redireccionar ( "NoInsertoInformacion" );
 		}
 	}
 	public function ordenarInfoRoles() {
@@ -154,7 +155,6 @@ class FormProcessor {
 			
 			foreach ( $this->rolesPeriodo as $key => $values ) {
 				foreach ( $values ['reglas'] as $variable => $c ) {
-					
 					foreach ( $values ['reglas'] as $incognita => $d ) {
 						$incognita = preg_replace ( "/\b" . $incognita . "\b/", $d, $c, - 1, $contar );
 						if ($contar == 1) {
@@ -189,8 +189,7 @@ class FormProcessor {
 					'id_usuario_rol' => $this->rolesPeriodo [$key] ['id_usuario_rol'],
 					'id_periodo' => $this->rolesPeriodo [$key] ['periodo'],
 					'inicio_periodo' => $this->rolesPeriodo [$key] ['fecha'] 
-			)
-			;
+			);
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarPeriodoRolUsuario', $usuariorolperiodo );
 			$periodoRolUsuario = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_usuario_rol_periodo'];
 			$this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] = $periodoRolUsuario;
@@ -237,8 +236,8 @@ class FormProcessor {
 				$registroConceptos = array (
 						'id_factura' => $this->registroFactura [$key] ['factura'],
 						'id_regla' => $reglaid,
-						'valor_calculado' => $values ['valor'] [$llave] ,
-						'id_usuario_rol_periodo'=>$this->rolesPeriodo[$key]['id_usuario_rol_periodo']
+						'valor_calculado' => $values ['valor'] [$llave],
+						'id_usuario_rol_periodo' => $this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] 
 				);
 				
 				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConceptos', $registroConceptos );
