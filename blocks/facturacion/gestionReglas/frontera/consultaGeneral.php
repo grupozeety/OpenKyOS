@@ -64,7 +64,7 @@ class Registrador
 
             $esteCampo = 'Agrupacion';
             $atributos['id'] = $esteCampo;
-            $atributos['leyenda'] = "Consulta de Proyectos en Relación con los Beneficiarios";
+            $atributos['leyenda'] = "Gestión Reglas";
             echo $this->miFormulario->agrupacion('inicio', $atributos);
             unset($atributos);
             {

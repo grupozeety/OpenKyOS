@@ -70,8 +70,6 @@ class Reglas
             }
         }
 
-        var_dump($_REQUEST);
-
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 
