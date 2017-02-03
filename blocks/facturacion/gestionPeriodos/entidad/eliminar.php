@@ -44,8 +44,7 @@ class FormProcessor
 
         $_REQUEST['tiempo'] = time();
 
-
-        $cadenaSql = $this->miSql->getCadenaSql('eliminarRegla');
+        $cadenaSql = $this->miSql->getCadenaSql('eliminarPeriodo');
         $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
         if (isset($this->proceso) && $this->proceso != null) {

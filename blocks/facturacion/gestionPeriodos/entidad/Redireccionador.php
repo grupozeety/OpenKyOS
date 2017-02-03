@@ -15,36 +15,34 @@ class Redireccionador
 
         switch ($opcion) {
             case 'ExitoRegistro':
-                $variable = 'pagina=gestionReglas';
+                $variable = 'pagina=gestionPeriodos';
                 $variable .= '&mensaje=exitoRegistro';
                 break;
 
             case "ErrorRegistro":
-                $variable = 'pagina=gestionReglas';
+                $variable = 'pagina=gestionPeriodos';
                 $variable .= '&mensaje=errorRegistro';
                 break;
 
-
             case 'ExitoActualizacion':
-                $variable = 'pagina=gestionReglas';
+                $variable = 'pagina=gestionPeriodos';
                 $variable .= '&mensaje=exitoActualizacion';
                 break;
 
             case "ErrorActualizacion":
-                $variable = 'pagina=gestionReglas';
+                $variable = 'pagina=gestionPeriodos';
                 $variable .= '&mensaje=errorActualizacion';
                 break;
 
             case 'ExitoEliminar':
-                $variable = 'pagina=gestionReglas';
+                $variable = 'pagina=gestionPeriodos';
                 $variable .= '&mensaje=exitoEliminar';
                 break;
 
             case "ErrorEliminar":
-                $variable = 'pagina=gestionReglas';
+                $variable = 'pagina=gestionPeriodos';
                 $variable .= '&mensaje=errorEliminar';
                 break;
-
 
             default:
                 $variable = '';

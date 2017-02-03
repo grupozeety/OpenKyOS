@@ -53,16 +53,15 @@ class Frontera
 
         $miBloque = $this->miConfigurador->getVariableConfiguracion('esteBloque');
         $resultado = $this->miConfigurador->getVariableConfiguracion('errorFormulario');
-        
+
         if (isset($_REQUEST['opcion'])) {
             switch ($_REQUEST['opcion']) {
-                case 'registrarRegla':
-                    include_once $this->ruta . "frontera/crearActualizarRegla.php";
+                case 'registrarPeriodo':
+                    include_once $this->ruta . "frontera/crearActualizar.php";
                     break;
 
-
-                case 'actualizarRegla':
-                    include_once $this->ruta . "frontera/crearActualizarRegla.php";
+                case 'actualizarPeriodo':
+                    include_once $this->ruta . "frontera/crearActualizar.php";
                     break;
 
                 default:

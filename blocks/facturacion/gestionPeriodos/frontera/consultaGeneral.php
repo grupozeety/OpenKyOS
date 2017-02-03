@@ -113,20 +113,18 @@ class Registrador
                             echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th><center>N° Regla<center></th>
-                                            <th><center>Descripción Regla<center></th>
-                                            <th><center>Formula<center></th>
-                                            <th><center>Indetificador<center></th>
+                                            <th><center>Identificador<center></th>
+                                            <th><center>Unidad<center></th>
+                                            <th><center>Valor<center></th>
                                             <th><center>Actualizar<center></th>
                                             <th><center>Eliminar<center></th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th><center>N° Regla<center></th>
-                                            <th><center>Descripción Regla<center></th>
-                                            <th><center>Formula<center></th>
-                                            <th><center>Indetificador<center></th>
+                                            <th><center>Identificador<center></th>
+                                            <th><center>Unidad<center></th>
+                                            <th><center>Valor<center></th>
                                             <th><center>Actualizar<center></th>
                                             <th><center>Eliminar<center></th>
                                         </tr>
@@ -151,49 +149,47 @@ class Registrador
         }
         {
 
-        /**
-       * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
-       * SARA permite realizar esto a través de tres
-       * mecanismos:
-       * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
-       * la base de datos.
-       * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
-       * formsara, cuyo valor será una cadena codificada que contiene las variables.
-       * (c) a través de campos ocultos en los formularios. (deprecated)
-       */
+            /**
+             * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
+             * SARA permite realizar esto a través de tres
+             * mecanismos:
+             * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
+             * la base de datos.
+             * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
+             * formsara, cuyo valor será una cadena codificada que contiene las variables.
+             * (c) a través de campos ocultos en los formularios. (deprecated)
+             */
 
-        // En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
+            // En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
 
-        // Paso 1: crear el listado de variables
+            // Paso 1: crear el listado de variables
 
-              // $valorCodificado = "action=" . $esteBloque["nombre"];
+            // $valorCodificado = "action=" . $esteBloque["nombre"];
 
-              $valorCodificado = "actionBloque=" . $esteBloque["nombre"];
-              $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-              $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
-              $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-              $valorCodificado .= "&opcion=registrarRegla";
+            $valorCodificado = "actionBloque=" . $esteBloque["nombre"];
+            $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+            $valorCodificado .= "&opcion=registrarPeriodo";
 
-              /**
+            /**
              * SARA permite que los nombres de los campos sean dinámicos.
              * Para ello utiliza la hora en que es creado el formulario para
              * codificar el nombre de cada campo.
              */
-              $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
-              // Paso 2: codificar la cadena resultante
-              $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);
+            $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
+            // Paso 2: codificar la cadena resultante
+            $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);
 
-              $atributos["id"] = "formSaraData"; // No cambiar este nombre
-              $atributos["tipo"] = "hidden";
-              $atributos['estilo'] = '';
-              $atributos["obligatorio"] = false;
-              $atributos['marco'] = true;
-              $atributos["etiqueta"] = "";
-              $atributos["valor"] = $valorCodificado;
-              echo $this->miFormulario->campoCuadroTexto($atributos);
-              unset($atributos);
-
-
+            $atributos["id"] = "formSaraData"; // No cambiar este nombre
+            $atributos["tipo"] = "hidden";
+            $atributos['estilo'] = '';
+            $atributos["obligatorio"] = false;
+            $atributos['marco'] = true;
+            $atributos["etiqueta"] = "";
+            $atributos["valor"] = $valorCodificado;
+            echo $this->miFormulario->campoCuadroTexto($atributos);
+            unset($atributos);
 
         }
 
@@ -203,42 +199,41 @@ class Registrador
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
         if (isset($_REQUEST['mensaje'])) {
-              $this->mensajeModal();
+            $this->mensajeModal();
         }
     }
-
 
     public function mensajeModal()
     {
 
         switch ($_REQUEST['mensaje']) {
             case 'exitoRegistro':
-                $mensaje = "Exito<br>Regla Registrada";
+                $mensaje = "Exito<br>Periodo Registrado";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
 
             case 'errorRegistro':
-                $mensaje = "Error<br>Registro de la Regla";
+                $mensaje = "Error<br>Registro del Periodo";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
                 break;
 
             case 'exitoActualizacion':
-                $mensaje = "Exito<br>Regla Actualizada";
+                $mensaje = "Exito<br>Periodo Actualizado";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
 
             case 'errorActualizacion':
-                $mensaje = "Error<br>Actualización de la Regla";
+                $mensaje = "Error<br>Actualización del Periodo";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
                 break;
 
             case 'exitoEliminar':
-                $mensaje = "Exito<br>Regla Eliminada";
+                $mensaje = "Exito<br>Periodo Eliminado";
                 $atributos['estiloLinea'] = 'success';     //success,error,information,warning
                 break;
 
             case 'errorEliminar':
-                $mensaje = "Error<br>Eliminar Regla";
+                $mensaje = "Error<br>Eliminar Periodo";
                 $atributos['estiloLinea'] = 'error';     //success,error,information,warning
                 break;
         }

@@ -44,6 +44,8 @@ class procesarAjax
                         {
                             $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                             $valorCodificado .= "&action=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
                             $valorCodificado .= "&opcion=eliminarPeriodo";
                             $valorCodificado .= "&id_periodo=" . $valor['id_periodo'];
 
@@ -55,6 +57,7 @@ class procesarAjax
                         $urlEliminarPeriodo = $url . $cadena;
 
                         $resultadoFinal[] = array(
+                            'ident' => $valor['id_periodo'],
                             'unidad' => $valor['descripcion'],
                             'valor' => $valor['valor'],
                             'actualizar' => "<b><a href='" . $urlActualizarPeriodo . "'><IMG  src='theme/basico/img/update.ico'  width='25' height='25' ></a></b>",

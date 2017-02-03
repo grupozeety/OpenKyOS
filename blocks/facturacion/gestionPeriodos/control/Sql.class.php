@@ -30,41 +30,47 @@ class Sql extends \Sql
              * Clausulas específicas
              */
 
-
             case 'consultaParticular':
-                $cadenaSql=" SELECT *";
-                $cadenaSql.=" FROM facturacion.regla";
-                $cadenaSql.=" WHERE estado_registro='TRUE';";
+                $cadenaSql = " SELECT p.id_periodo,p.valor,p.tipo_unidad, pm.descripcion";
+                $cadenaSql .= " FROM facturacion.periodo p";
+                $cadenaSql .= " JOIN facturacion.parametros_generales pm ON pm.id=p.tipo_unidad::int AND pm.estado_registro='TRUE' AND pm.id_valor=2";
+                $cadenaSql .= " WHERE p.estado_registro='TRUE';";
                 break;
 
-            case 'consultarReglaParticular':
-                $cadenaSql=" SELECT *";
-                $cadenaSql.=" FROM facturacion.regla";
-                $cadenaSql.=" WHERE estado_registro='TRUE'";
-                $cadenaSql.=" AND id_regla='".$_REQUEST['id_regla']."';";
+            case 'consultaTipoUnidad':
+                $cadenaSql = " SELECT id, descripcion";
+                $cadenaSql .= " FROM facturacion.parametros_generales";
+                $cadenaSql .= " WHERE id_valor='2'";
+                $cadenaSql .= " AND estado_registro='TRUE';";
                 break;
 
-            case 'registrarActualizarRegla':
-                if ($_REQUEST['opcion']=='actualizarReglaParticular') {
-                    $cadenaSql=" UPDATE facturacion.regla";
-                    $cadenaSql.=" SET estado_registro='FALSE'";
-                    $cadenaSql.=" WHERE id_regla='".$variable['id_regla']."';";
-                    $cadenaSql.=" INSERT INTO facturacion.regla(";
+            case 'consultarPeriodoParticular':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM facturacion.periodo";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_periodo='" . $_REQUEST['id_periodo'] . "';";
+                break;
+
+            case 'registrarActualizarPeriodo':
+                if ($_REQUEST['opcion'] == 'actualizarPeriodoParticular') {
+                    $cadenaSql = " UPDATE facturacion.periodo";
+                    $cadenaSql .= " SET estado_registro='FALSE'";
+                    $cadenaSql .= " WHERE id_periodo='" . $variable['id_periodo'] . "';";
+                    $cadenaSql .= " INSERT INTO facturacion.periodo(";
                 } else {
-                    $cadenaSql=" INSERT INTO facturacion.regla(";
+                    $cadenaSql = " INSERT INTO facturacion.periodo(";
                 }
-                $cadenaSql.=" decripcion,";
-                $cadenaSql.=" formula, ";
-                $cadenaSql.=" identificador)";
-                $cadenaSql.=" VALUES ('".$variable['descricion']."', ";
-                $cadenaSql.=" '".$variable['formula']."',";
-                $cadenaSql.=" '".$variable['identificador']."');";
+                $cadenaSql .= " valor,";
+                $cadenaSql .= " tipo_unidad)";
+                $cadenaSql .= " VALUES ('" . $variable['valor'] . "', ";
+                $cadenaSql .= " '" . $variable['unidad'] . "');";
+
                 break;
 
-            case 'eliminarRegla':
-                $cadenaSql=" UPDATE facturacion.regla";
-                $cadenaSql.=" SET estado_registro='FALSE'";
-                $cadenaSql.=" WHERE id_regla='".$_REQUEST['id_regla']."';";
+            case 'eliminarPeriodo':
+                $cadenaSql = " UPDATE facturacion.periodo";
+                $cadenaSql .= " SET estado_registro='FALSE'";
+                $cadenaSql .= " WHERE id_periodo='" . $_REQUEST['id_periodo'] . "';";
                 break;
         }
 

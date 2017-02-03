@@ -65,6 +65,7 @@ $urlConsultaParticular = $url . $cadena;
                       dataSrc:"data"
                   },
                   columns: [
+                  { data :"ident" },
                   { data :"unidad" },
                   { data :"valor" },
                   { data :"actualizar" },

@@ -5,12 +5,10 @@
 
 $this->idioma['noDefinido'] = 'Etiqueta No definida';
 
-$this->idioma['botonRegistro'] = 'Registrar Regla';
+$this->idioma['botonRegistro'] = 'Registrar Periodo';
 
+$this->idioma['valor'] = 'Valor';
 
-$this->idioma['descripcion'] = 'Descripción:';
-$this->idioma['formula'] = 'Formula';
-$this->idioma['identificador_formula'] = 'Identificador Formula:';
+$this->idioma['unidad'] = 'Unidad de Tiempo';
+
 $this->idioma['botonGuardar'] = 'Guardar';
-
-?>
