@@ -15,58 +15,50 @@ class procesarAjax
 
         $conexion = "interoperacion";
 
-        //$conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
         // URL base
         $url = $this->miConfigurador->getVariableConfiguracion("host");
         $url .= $this->miConfigurador->getVariableConfiguracion("site");
         $url .= "/index.php?";
-
 
         $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
 
         switch ($_REQUEST['funcion']) {
             case 'consultaParticular':
                 $cadenaSql = $this->sql->getCadenaSql('consultaParticular');
+                $periodos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-                $reglas = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-                if ($reglas) {
-                    foreach ($reglas as $key => $valor) {
+                if ($periodos) {
+                    foreach ($periodos as $key => $valor) {
                         {
-                        $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-                        $valorCodificado .= "&opcion=actualizarRegla";
-                        $valorCodificado .= "&id_regla=" . $valor['id_regla'];
+                            $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&opcion=actualizarPeriodo";
+                            $valorCodificado .= "&id_periodo=" . $valor['id_periodo'];
                         }
 
                         $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
                         $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
-                        $urlActualizarRegla = $url . $cadena;
+                        $urlActualizarPeriodo = $url . $cadena;
 
                         {
-                        $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-                        $valorCodificado .= "&action=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-                        $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
-                        $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                        $valorCodificado .= "&opcion=eliminarRegla";
-                        $valorCodificado .= "&id_regla=" . $valor['id_regla'];
+                            $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&action=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&opcion=eliminarPeriodo";
+                            $valorCodificado .= "&id_periodo=" . $valor['id_periodo'];
 
                         }
 
                         $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
                         $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
-                        $urlEliminarRegla = $url . $cadena;
+                        $urlEliminarPeriodo = $url . $cadena;
 
                         $resultadoFinal[] = array(
-                        'numero_regla' => $valor['id_regla'],
-                        'descripcion' => $valor['decripcion'],
-                        'formula' => $valor['formula'],
-                        'identificador_formula' => $valor['identificador'],
-                        'actualizar' => "<b><a href='" . $urlActualizarRegla . "'><IMG  src='theme/basico/img/update.ico'  width='25' height='25' ></a></b>",
-                        'eliminar' => "<b><a href='" . $urlEliminarRegla . "'><IMG  src='theme/basico/img/delete.ico'  width='25' height='25' ></a></b>",
+                            'unidad' => $valor['descripcion'],
+                            'valor' => $valor['valor'],
+                            'actualizar' => "<b><a href='" . $urlActualizarPeriodo . "'><IMG  src='theme/basico/img/update.ico'  width='25' height='25' ></a></b>",
+                            'eliminar' => "<b><a href='" . $urlEliminarPeriodo . "'><IMG  src='theme/basico/img/delete.ico'  width='25' height='25' ></a></b>",
 
                         );
                     }
@@ -85,7 +77,7 @@ class procesarAjax
                                 "recordsFiltered":0 ,
                                 "data": 0 }'    ;
                 }
-                    echo $resultado;
+                echo $resultado;
                 break;
         }
     }

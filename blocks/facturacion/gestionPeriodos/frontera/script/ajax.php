@@ -16,14 +16,12 @@ $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
 $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
 $cadenaACodificar .= "&funcion=consultaParticular";
 
-
 // Codificar las variables
 $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
 $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
 
 // URL Consultar Proyectos
 $urlConsultaParticular = $url . $cadena;
-
 
 ?>
 <script type='text/javascript'>
@@ -67,10 +65,8 @@ $urlConsultaParticular = $url . $cadena;
                       dataSrc:"data"
                   },
                   columns: [
-                  { data :"numero_regla" },
-                  { data :"descripcion" },
-                  { data :"formula" },
-                  { data :"identificador_formula" },
+                  { data :"unidad" },
+                  { data :"valor" },
                   { data :"actualizar" },
                   { data :"eliminar" }
                            ]
