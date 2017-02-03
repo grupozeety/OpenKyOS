@@ -56,6 +56,51 @@ class Sql extends \Sql
                 $cadenaSql.=" AND identificacion IS NOT NULL;";
                 break;
 
+            case 'actulizarBeneficiarios':
+                $cadenaSql=" UPDATE interoperacion.contrato";
+                $cadenaSql.=" SET estado_registro='".$variable."'  ";
+                $cadenaSql .= " WHERE  numero_identificacion IN(";
+                $beneficiarios = explode(";", $_REQUEST['beneficiario']);
+
+                foreach ($beneficiarios as $key => $value) {
+                    if ($value == '') {
+                        unset($beneficiarios[$key]);
+                    }
+                }
+                if (count($beneficiarios) == 1) {
+                    $cadenaSql .= "'" . $beneficiarios[0] . "');";
+                } else {
+                    foreach ($beneficiarios as $key => $value) {
+                        $cadenaSql .= "'" . $value . "',";
+                    }
+
+                    $cadenaSql .= ") ";
+                }
+
+                $cadenaSql.=" UPDATE interoperacion.beneficiario_potencial";
+                $cadenaSql.=" SET estado_registro='".$variable."'  ";
+                $cadenaSql .= " WHERE  identificacion IN(";
+                $beneficiarios = explode(";", $_REQUEST['beneficiario']);
+
+                foreach ($beneficiarios as $key => $value) {
+                    if ($value == '') {
+                        unset($beneficiarios[$key]);
+                    }
+                }
+                if (count($beneficiarios) == 1) {
+                    $cadenaSql .= "'" . $beneficiarios[0] . "');";
+                } else {
+                    foreach ($beneficiarios as $key => $value) {
+                        $cadenaSql .= "'" . $value . "',";
+                    }
+
+                    $cadenaSql .= ") ";
+                }
+
+                $cadenaSql = str_replace("',)", "');", $cadenaSql);
+
+                break;
+
             // Consultas Particulares
 
             case 'consultaCantidadMujeresHogar':
