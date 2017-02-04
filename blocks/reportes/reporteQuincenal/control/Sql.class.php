@@ -158,7 +158,7 @@ JOIN `tabWarehouse` as destino on destino.`name`=t_warehouse
 WHERE `tabStock Entry Detail`.`docstatus`!=2 
 AND `tabStock Entry Detail`.`docstatus`!=0 
 AND `tabStock Entry`.`purpose`='Material Transfer'
-AND `tabStock Entry`.`tipo_devolutivo`=0 AND `posting_date` BETWEEN '".$variable."' AND '".$variable." 23:59:59'
+AND `tabStock Entry`.`tipo_devolutivo`=0 AND `posting_date` BETWEEN '2000-01-01' AND '".$variable." 23:59:59'
 GROUP BY item_code,`t_warehouse`, destino.project ORDER BY `tabStock Entry Detail`.`t_warehouse` ASC
 ) as purchase_items on purchase_items.project=`tabProductos a Proyectar`.`parent` AND purchase_items.item_code=`tabItem`.`item_code` 
 LEFT JOIN (
@@ -197,7 +197,7 @@ JOIN `tabWarehouse` as destino on destino.`name`=s_warehouse
 WHERE `tabStock Entry Detail`.`docstatus`!=2 
 AND `tabStock Entry Detail`.`docstatus`!=0 
 AND `tabStock Entry`.`purpose`='Material Issue'
-AND `tabStock Entry`.`tipo_devolutivo`=0 AND `posting_date` BETWEEN '".$variable."' AND '".$variable." 23:59:59'
+AND `tabStock Entry`.`tipo_devolutivo`=0 AND `posting_date` BETWEEN '2000-01-01' AND '".$variable." 23:59:59'
 GROUP BY item_code,`s_warehouse`, destino.project ORDER BY `tabStock Entry Detail`.`s_warehouse` ASC) as stock_detail on stock_detail.item_code=`tabItem`.`item_code` AND stock_detail.project=`tabProductos a Proyectar`.`parent`
 GROUP BY `tabProductos a Proyectar`.`parent`,`tabItem`.`item_code`
 ORDER By `tabProductos a Proyectar`.`parent` ASC, `tabItem`.`item_code`ASC
