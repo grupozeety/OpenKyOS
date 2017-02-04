@@ -158,7 +158,7 @@ JOIN `tabWarehouse` as destino on destino.`name`=t_warehouse
 WHERE `tabStock Entry Detail`.`docstatus`!=2 
 AND `tabStock Entry Detail`.`docstatus`!=0 
 AND `tabStock Entry`.`purpose`='Material Transfer'
-AND `tabStock Entry`.`tipo_devolutivo`=0
+AND `tabStock Entry`.`tipo_devolutivo`=0 AND `posting_date` BETWEEN '".$variable."' AND '".$variable." 23:59:59'
 GROUP BY item_code,`t_warehouse`, destino.project ORDER BY `tabStock Entry Detail`.`t_warehouse` ASC
 ) as purchase_items on purchase_items.project=`tabProductos a Proyectar`.`parent` AND purchase_items.item_code=`tabItem`.`item_code` 
 LEFT JOIN (
@@ -177,8 +177,8 @@ AND destino.project IS NULL
 AND destino.tipo_almacen='Maestra'
 GROUP BY item_code,`s_warehouse`, origen.project
 ORDER BY `tabStock Entry Detail`.`t_warehouse` ASC, `tabStock Entry Detail`.`parent` ASC ) as entradaso_items on entradaso_items.project=`tabProductos a Proyectar`.`parent` AND entradaso_items.item_code=`tabItem`.`item_code` 
-LEFT JOIN `tabPurchase Receipt Item` on `tabPurchase Receipt Item`.`item_code`=`tabItem`.`item_code` AND `tabPurchase Receipt Item`.creation<= '".$variable."'  
-LEFT JOIN `tabPurchase Receipt` on `tabPurchase Receipt`.`name`=`tabPurchase Receipt Item`.`parent`  AND `tabPurchase Receipt`.posting_date<= '".$variable."' 
+LEFT JOIN `tabPurchase Receipt Item` on `tabPurchase Receipt Item`.`item_code`=`tabItem`.`item_code`  
+LEFT JOIN `tabPurchase Receipt` on `tabPurchase Receipt`.`name`=`tabPurchase Receipt Item`.`parent`  
 LEFT JOIN 
 (SELECT DISTINCT item_code,`tabRegistro de Contrato`.`proveedor`, `tabRegistro de Contrato`.`num_contrato`, `tabRegistro de Contrato`.`estado_contrato`, project, cantidad
 FROM `tabRegistro de Contrato Item` 
@@ -197,7 +197,7 @@ JOIN `tabWarehouse` as destino on destino.`name`=s_warehouse
 WHERE `tabStock Entry Detail`.`docstatus`!=2 
 AND `tabStock Entry Detail`.`docstatus`!=0 
 AND `tabStock Entry`.`purpose`='Material Issue'
-AND `tabStock Entry`.`tipo_devolutivo`=0
+AND `tabStock Entry`.`tipo_devolutivo`=0 AND `posting_date` BETWEEN '".$variable."' AND '".$variable." 23:59:59'
 GROUP BY item_code,`s_warehouse`, destino.project ORDER BY `tabStock Entry Detail`.`s_warehouse` ASC) as stock_detail on stock_detail.item_code=`tabItem`.`item_code` AND stock_detail.project=`tabProductos a Proyectar`.`parent`
 GROUP BY `tabProductos a Proyectar`.`parent`,`tabItem`.`item_code`
 ORDER By `tabProductos a Proyectar`.`parent` ASC, `tabItem`.`item_code`ASC
