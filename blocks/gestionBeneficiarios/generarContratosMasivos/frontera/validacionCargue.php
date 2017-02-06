@@ -10,14 +10,16 @@ if (!isset($GLOBALS["autorizado"])) {
  * Por tanto en el archivo ready.php se declaran algunas funciones js
  * que lo complementan.
  */
-class Registrador {
+class Registrador
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
     public $ruta;
     public $rutaURL;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -41,7 +43,8 @@ class Registrador {
             $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
         }
     }
-    public function seleccionarForm() {
+    public function seleccionarForm()
+    {
         //var_dump($_REQUEST);
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
         $miPaginaActual = $this->miConfigurador->getVariableConfiguracion("pagina");
@@ -203,7 +206,8 @@ class Registrador {
                                                 1. No exista contrato generado con la identificaciones cargadas.<br>
                                                 2. Exista la información del beneficiario a generar contrato.<br>
                                                 3. El múmero de beneficiarios a cargar no puede sobre pasar a 500.<br>
-                                                4. Formatos permitidos:<br>
+                                                4. El simbolo (*) en la plantilla indica que son campos obligatorios.<br>
+                                                5. Formatos permitidos:<br>
                                                     &nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
                                                     &nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
                                                     &nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br><br>
@@ -502,7 +506,8 @@ class Registrador {
         echo $this->miFormulario->formulario($atributos);
     }
 
-    public function mensajeModal() {
+    public function mensajeModal()
+    {
 
         switch ($_REQUEST['mensajeModal']) {
 
@@ -590,7 +595,8 @@ class Registrador {
 
     }
 
-    public function mensaje() {
+    public function mensaje()
+    {
         // var_dump($_REQUEST);
         $atributos["mensaje"] = "";
         switch ($_REQUEST['mensaje']) {
@@ -662,6 +668,3 @@ class Registrador {
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->seleccionarForm();
-
-?>
-
