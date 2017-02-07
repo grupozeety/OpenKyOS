@@ -89,7 +89,8 @@ $("#mensaje").modal("show");
                   { data :"id_beneficiario"},
                   { data :"identificacion"},
                   { data :"nombre" },
-                  { data :"estado" }
+                  { data :"estado_interventoria" },
+                  { data :"estado_sistema" }
                            ]
     } );
 
