@@ -65,7 +65,7 @@ class Registrador
         echo $this->miFormulario->formulario($atributos);
         $esteCampo = 'Agrupacion';
         $atributos['id'] = $esteCampo;
-        $atributos['leyenda'] = "<b>Gesttión Estado Beneficiarios</b>";
+        $atributos['leyenda'] = "<b>Gestión Estado Beneficiarios</b>";
         echo $this->miFormulario->agrupacion('inicio', $atributos);
         unset($atributos);
 
