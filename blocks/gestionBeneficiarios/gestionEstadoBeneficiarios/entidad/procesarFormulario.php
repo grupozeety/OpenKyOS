@@ -33,28 +33,49 @@ class GenerarReporteInstalaciones
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 
-        if (isset($_REQUEST['beneficiario']) && $_REQUEST['beneficiario']=='') {
+        if (isset($_REQUEST['beneficiario']) && $_REQUEST['beneficiario'] == '') {
             Redireccionador::redireccionar('errorBeneficiario');
         }
 
-        if (isset($_REQUEST['proceso']) && $_REQUEST['proceso'] !='1' && $_REQUEST['proceso'] !='2') {
+        if (isset($_REQUEST['proceso']) && $_REQUEST['proceso'] != '1' && $_REQUEST['proceso'] != '2' && $_REQUEST['proceso'] != '3' && $_REQUEST['proceso'] != '4') {
             Redireccionador::redireccionar('errorProceso');
         }
 
         switch ($_REQUEST['proceso']) {
             case '1':
-              $estado='FALSE';
-              break;
+                $estado = 'FALSE';
+
+                $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiarios', $estado);
+
+                $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+                break;
 
             case '2':
-              $estado='TRUE';
-              break;
+                $estado = 'TRUE';
 
-          }
+                $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiarios', $estado);
 
-        $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiarios', $estado);
+                $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+                break;
 
-        $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            case '3':
+                $estado = 'REVISION';
+
+                $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiariosInterventoria', $estado);
+
+                $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+                break;
+
+            case '4':
+                $estado = 'APROBADO';
+
+                $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiariosInterventoria', $estado);
+
+                $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+                break;
+
+        }
 
         if ($this->beneficiario) {
             Redireccionador::redireccionar('exitoActualizacion');
