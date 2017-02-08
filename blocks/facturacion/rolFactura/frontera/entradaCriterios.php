@@ -65,6 +65,41 @@ class Consultar {
 				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 				unset ( $atributos );
 				
+				// ------------------Division para los botones-------------------------
+				$atributos ["id"] = "botones";
+				$atributos ["estilo"] = "marcoBotones";
+				$atributos ["estiloEnLinea"] = "display:block;";
+				echo $this->miFormulario->division ( "inicio", $atributos );
+				unset ( $atributos );
+				{
+					// -----------------CONTROL: Botón ----------------------------------------------------------------
+					$esteCampo = 'botonCrear';
+					$atributos ["id"] = $esteCampo;
+					$atributos ["tabIndex"] = $tab;
+					$atributos ["tipo"] = 'boton';
+					// submit: no se coloca si se desea un tipo button genérico
+					$atributos ['submit'] = true;
+					$atributos ["simple"] = true;
+					$atributos ["estiloMarco"] = '';
+					$atributos ["estiloBoton"] = 'info';
+					$atributos ["block"] = false;
+					// verificar: true para verificar el formulario antes de pasarlo al servidor.
+					$atributos ["verificar"] = '';
+					$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+					$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+					$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+					$tab ++;
+					
+					// Aplica atributos globales al control
+					$atributos = array_merge ( $atributos );
+					echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
+					unset ( $atributos );
+					// -----------------FIN CONTROL: Botón -----------------------------------------------------------
+				}
+				// ------------------Fin Division para los botones-------------------------
+				echo $this->miFormulario->division ( "fin" );
+				unset ( $atributos );
+				
 				{
 					echo '
         		<table id="example" class="display" cellspacing="0" width="100%">
@@ -77,40 +112,6 @@ class Consultar {
 			        </thead>
 			    </table>
         	';
-					// ------------------Division para los botones-------------------------
-					$atributos ["id"] = "botones";
-					$atributos ["estilo"] = "marcoBotones";
-					$atributos ["estiloEnLinea"] = "display:block;";
-					echo $this->miFormulario->division ( "inicio", $atributos );
-					unset ( $atributos );
-					{
-						// -----------------CONTROL: Botón ----------------------------------------------------------------
-						$esteCampo = 'botonCrear';
-						$atributos ["id"] = $esteCampo;
-						$atributos ["tabIndex"] = $tab;
-						$atributos ["tipo"] = 'boton';
-						// submit: no se coloca si se desea un tipo button genérico
-						$atributos ['submit'] = true;
-						$atributos ["simple"] = true;
-						$atributos ["estiloMarco"] = '';
-						$atributos ["estiloBoton"] = 'default';
-						$atributos ["block"] = false;
-						// verificar: true para verificar el formulario antes de pasarlo al servidor.
-						$atributos ["verificar"] = '';
-						$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-						$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-						$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-						$tab ++;
-						
-						// Aplica atributos globales al control
-						$atributos = array_merge ( $atributos, $atributosGlobales );
-						echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
-						unset ( $atributos );
-						// -----------------FIN CONTROL: Botón -----------------------------------------------------------
-					}
-					// ------------------Fin Division para los botones-------------------------
-					echo $this->miFormulario->division ( "fin" );
-					unset ( $atributos );
 				}
 				echo $this->miFormulario->agrupacion ( 'fin' );
 				unset ( $atributos );
@@ -171,7 +172,7 @@ class Consultar {
 		$atributos ['titulo'] = 'Confirmar Eliminación';
 		$atributos ['id'] = 'myModal';
 		echo $this->miFormulario->modal ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		
 		// ----------------INICIO CONTROL: Mapa--------------------------------------------------------
 		
@@ -180,7 +181,7 @@ class Consultar {
 		echo '<p><h5>' . $this->lenguaje->getCadena ( "eliminarCabecera" ) . '</h5></p>';
 		
 		echo '</div>';
-			
+		
 		// ----------------FIN CONTROL: Mapa--------------------------------------------------------
 		
 		echo '<div style="text-align:center;">';
@@ -206,11 +207,11 @@ class Consultar {
 		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
 		$tab ++;
-		 
+		
 		// Aplica atributos globales al control
-		//         $atributos = array_merge ( $atributos, $atributosGlobales );
+		// $atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		// -----------------CONTROL: Botón ----------------------------------------------------------------
@@ -234,18 +235,18 @@ class Consultar {
 		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
 		$tab ++;
-		 
+		
 		// Aplica atributos globales al control
-		//         $atributos = array_merge ( $atributos, $atributosGlobales );
+		// $atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		echo '</div>';
-		 
+		
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->modal ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		
 		// -----------------FIN CONTROL: Ventana Modal Confirmación Eliminar Cabecera -----------------------------------------------------------
 		
@@ -255,7 +256,7 @@ class Consultar {
 		$atributos ['titulo'] = 'Mensaje';
 		$atributos ['id'] = 'confirmacionElim';
 		echo $this->miFormulario->modal ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		
 		// ----------------INICIO CONTROL: Mapa--------------------------------------------------------
 		
@@ -264,7 +265,7 @@ class Consultar {
 		echo '<p><h5>' . $this->lenguaje->getCadena ( "cabeceraEliminado" ) . '</h5></p>';
 		
 		echo '</div>';
-		 
+		
 		// ----------------FIN CONTROL: Mapa--------------------------------------------------------
 		
 		echo '<div style="text-align:center;">';
@@ -290,18 +291,18 @@ class Consultar {
 		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
 		$tab ++;
-		 
+		
 		// Aplica atributos globales al control
-		//         $atributos = array_merge ( $atributos, $atributosGlobales );
+		// $atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		echo '</div>';
-		 
+		
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->modal ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		
 		// -----------------FIN CONTROL: Ventana Modal Cabecera Eliminado -----------------------------------------------------------
 		
@@ -311,7 +312,7 @@ class Consultar {
 		$atributos ['titulo'] = 'Mensaje';
 		$atributos ['id'] = 'confirmacionNoElim';
 		echo $this->miFormulario->modal ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		
 		// ----------------INICIO CONTROL: Mapa--------------------------------------------------------
 		
@@ -320,7 +321,7 @@ class Consultar {
 		echo '<p><h5>' . $this->lenguaje->getCadena ( "cabeceraNoEliminado" ) . '</h5></p>';
 		
 		echo '</div>';
-		 
+		
 		// ----------------FIN CONTROL: Mapa--------------------------------------------------------
 		
 		echo '<div style="text-align:center;">';
@@ -346,18 +347,18 @@ class Consultar {
 		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
 		$tab ++;
-		 
+		
 		// Aplica atributos globales al control
-		//         $atributos = array_merge ( $atributos, $atributosGlobales );
+		// $atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		echo '</div>';
-		 
+		
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->modal ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		
 		// -----------------FIN CONTROL: Ventana Modal Cabecera Eliminado -----------------------------------------------------------
 		
@@ -367,9 +368,9 @@ class Consultar {
 		$atributos ['titulo'] = 'Mensaje';
 		$atributos ['id'] = 'myModalMensaje';
 		echo $this->miFormulario->modal ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		
-		echo "<h5><p>". $this->lenguaje->getCadena ( $_REQUEST['mensaje'] ) . "</p></h5>";
+		echo "<h5><p>" . $this->lenguaje->getCadena ( $_REQUEST ['mensaje'] ) . "</p></h5>";
 		
 		// -----------------CONTROL: Botón ----------------------------------------------------------------
 		$esteCampo = 'regresarConsultar';
@@ -390,21 +391,18 @@ class Consultar {
 		$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
 		$tab ++;
-		 
+		
 		// Aplica atributos globales al control
-		//         $atributos = array_merge ( $atributos, $atributosGlobales );
+		// $atributos = array_merge ( $atributos, $atributosGlobales );
 		echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		$atributos ['tipoEtiqueta'] = 'fin';
 		echo $this->miFormulario->modal ( $atributos );
-		unset($atributos);
+		unset ( $atributos );
 		
 		// -----------------FIN CONTROL: Ventana Modal Mensaje -----------------------------------------------------------
-		
-		
-		
 		
 		if (isset ( $_REQUEST ['mensajeModal'] )) {
 			
