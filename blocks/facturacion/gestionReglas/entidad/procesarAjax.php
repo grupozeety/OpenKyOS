@@ -23,7 +23,6 @@ class procesarAjax
         $url .= $this->miConfigurador->getVariableConfiguracion("site");
         $url .= "/index.php?";
 
-
         $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
 
         switch ($_REQUEST['funcion']) {
@@ -35,9 +34,9 @@ class procesarAjax
                 if ($reglas) {
                     foreach ($reglas as $key => $valor) {
                         {
-                        $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-                        $valorCodificado .= "&opcion=actualizarRegla";
-                        $valorCodificado .= "&id_regla=" . $valor['id_regla'];
+                            $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&opcion=actualizarRegla";
+                            $valorCodificado .= "&id_regla=" . $valor['id_regla'];
                         }
 
                         $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
@@ -46,12 +45,12 @@ class procesarAjax
                         $urlActualizarRegla = $url . $cadena;
 
                         {
-                        $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-                        $valorCodificado .= "&action=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-                        $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
-                        $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                        $valorCodificado .= "&opcion=eliminarRegla";
-                        $valorCodificado .= "&id_regla=" . $valor['id_regla'];
+                            $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&action=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                            $valorCodificado .= "&opcion=eliminarRegla";
+                            $valorCodificado .= "&id_regla=" . $valor['id_regla'];
 
                         }
 
@@ -61,12 +60,12 @@ class procesarAjax
                         $urlEliminarRegla = $url . $cadena;
 
                         $resultadoFinal[] = array(
-                        'numero_regla' => $valor['id_regla'],
-                        'descripcion' => $valor['decripcion'],
-                        'formula' => $valor['formula'],
-                        'identificador_formula' => $valor['identificador'],
-                        'actualizar' => "<b><a href='" . $urlActualizarRegla . "'><IMG  src='theme/basico/img/update.ico'  width='25' height='25' ></a></b>",
-                        'eliminar' => "<b><a href='" . $urlEliminarRegla . "'><IMG  src='theme/basico/img/delete.ico'  width='25' height='25' ></a></b>",
+                            'numero_regla' => $valor['id_regla'],
+                            'descripcion' => $valor['descripcion'],
+                            'formula' => $valor['formula'],
+                            'identificador_formula' => $valor['identificador'],
+                            'actualizar' => "<b><a href='" . $urlActualizarRegla . "'><IMG  src='theme/basico/img/update.ico'  width='25' height='25' ></a></b>",
+                            'eliminar' => "<b><a href='" . $urlEliminarRegla . "'><IMG  src='theme/basico/img/delete.ico'  width='25' height='25' ></a></b>",
 
                         );
                     }
@@ -85,7 +84,7 @@ class procesarAjax
                                 "recordsFiltered":0 ,
                                 "data": 0 }'    ;
                 }
-                    echo $resultado;
+                echo $resultado;
                 break;
         }
     }
