@@ -1,15 +1,18 @@
 <?php
 namespace reportes\informacionBeneficiarios\frontera;
+
 /**
  * IMPORTANTE: Este formulario está utilizando jquery.
  * Por tanto en el archivo ready.php se declaran algunas funciones js
  * que lo complementan.
  */
-class Registrador {
+class Registrador
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -24,7 +27,8 @@ class Registrador {
         //$conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
     }
-    public function seleccionarForm() {
+    public function seleccionarForm()
+    {
 
         // Rescatar los datos de este bloque
 
@@ -458,6 +462,51 @@ class Registrador {
 
             {
 
+                // ------------------Division para los botones-------------------------
+                $atributos["id"] = "validacion";
+                $atributos["estilo"] = "marcoBotones";
+                $atributos["estiloEnLinea"] = "display:block;";
+                echo $this->miFormulario->division("inicio", $atributos);
+                unset($atributos);
+                {
+
+                    // ------------------Division para los botones-------------------------
+                    $atributos['id'] = 'divMensaje';
+                    $atributos['estilo'] = 'textoIzquierda';
+                    echo $this->miFormulario->division("inicio", $atributos);
+                    unset($atributos);
+                    {
+
+                        {
+                            // URL base
+                            $url = $this->miConfigurador->getVariableConfiguracion("host");
+                            $url .= $this->miConfigurador->getVariableConfiguracion("site");
+                            $url .= '/archivos/generacionMasiva/plantillas/';
+                            $url .= 'Plantilla_Actas_Masivas.xls';
+
+                        }
+
+                        // -------------Control texto-----------------------
+                        $esteCampo = 'mostrarMensaje';
+                        $atributos["tamanno"] = '';
+                        $atributos["etiqueta"] = '';
+                        $mensaje = 'Los paquetes de accesos tienen un tiempo vigencia de 5 días desde su creación, de lo contrario se eliminarán automáticamente.';
+
+                        $atributos["mensaje"] = $mensaje;
+                        $atributos["estilo"] = 'information'; // information,warning,error,validation
+                        $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+                        echo $this->miFormulario->campoMensaje($atributos);
+                        unset($atributos);
+                    }
+                    // ------------------Fin Division para los botones-------------------------
+                    echo $this->miFormulario->division("fin");
+                    unset($atributos);
+                }
+
+                // ------------------Fin Division para los botones-------------------------
+                echo $this->miFormulario->division("fin");
+                unset($atributos);
+
                 echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
@@ -549,7 +598,8 @@ class Registrador {
         }
 
     }
-    public function mensajeModal($tab = '', $nombreBloque = '') {
+    public function mensajeModal($tab = '', $nombreBloque = '')
+    {
 
         switch ($_REQUEST['mensaje']) {
             case 'SinResultado':
@@ -621,4 +671,3 @@ class Registrador {
 
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
 $miSeleccionador->seleccionarForm();
-?>
