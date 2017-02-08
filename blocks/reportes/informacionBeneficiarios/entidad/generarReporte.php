@@ -666,7 +666,7 @@ class GenerarReporteInstalaciones
 
                 $variable = explode(" ", $value);
 
-                $tamanio_archivo = $variable[count($variable) - 5];
+                $tamanio_archivo = $variable[count($variable) - 6];
             }
         }
 
