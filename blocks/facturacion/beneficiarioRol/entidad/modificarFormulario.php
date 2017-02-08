@@ -39,6 +39,8 @@ class FormProcessor {
 		$_REQUEST ['tiempo'] = time ();
 
 		$this->getMetodo ();
+		$this->revisarExistencia ();
+		
 		$this->actualizarMetodo ();
 		
 		exit ();
@@ -46,8 +48,20 @@ class FormProcessor {
 	public function getMetodo() {
 		$this->asociacion = array (
 				'id_rol' => $_REQUEST ['rol'],
-				'id_usuario_rol' => $_REQUEST ['idmetodo'] 
+				'id_usuario_rol' => $_REQUEST ['idmetodo'] ,
+				'id_beneficiario'=>$_REQUEST['id_beneficiario']
 		);
+	}
+	
+	public function revisarExistencia() {
+
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarAsociacion', $this->asociacion );
+		$asociacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+		if ( $asociacion !=FALSE) {
+			Redireccionador::redireccionar ( "ErrorConsulta" );
+			exit ();
+		}
 	}
 	public function actualizarMetodo() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarAsociacion', $this->asociacion );

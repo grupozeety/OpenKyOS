@@ -39,10 +39,10 @@ class Consultar {
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		$modificar = '';
-		
 		if (isset ( $_REQUEST ['opcion'] ) && $_REQUEST ['opcion'] == 'agregar') {
 			$cadenaSql = $this->sql->getCadenaSql ( 'consultarAsociacion_especifico', $_REQUEST ['id'] );
 			$asociacion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
+			
 			$modificar = 'Modificar';
 			
 		}
@@ -116,11 +116,7 @@ class Consultar {
 					$atributos["obligatorio"] = false;
 					$atributos['marco'] = true;
 					$atributos["etiqueta"] = "";
-					if (isset($_REQUEST[$esteCampo])) {
-						$atributos['valor'] = $_REQUEST[$esteCampo];
-					} else {
-						$atributos['valor'] = '';
-					}
+					$atributos ['valor'] = isset ( $asociacion ['id_beneficiario'] ) ? $asociacion ['id_beneficiario'] : '';
 					$atributos = array_merge($atributos, $atributosGlobales);
 					echo $this->miFormulario->campoCuadroTexto($atributos);
 					unset($atributos);
@@ -219,8 +215,9 @@ class Consultar {
 				$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 				$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 				if (isset ( $_REQUEST ['opcion'] ) && $_REQUEST ['opcion'] == 'agregar') {
-					$valorCodificado .= "&opcion=modificarMetodo";
-					$valorCodificado .= "&idmetodo=" . $_REQUEST ['id'];
+					$valorCodificado.= "&opcion=modificarMetodo";
+					$valorCodificado.= "&idmetodo=" . $_REQUEST ['id'];
+					
 				} else {
 					$valorCodificado .= "&opcion=guardarMetodo";
 				}
