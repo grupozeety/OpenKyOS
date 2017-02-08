@@ -1,5 +1,6 @@
 <?php
 namespace reportes\informacionBeneficiarios;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -10,9 +11,11 @@ include_once "core/connection/Sql.class.php";
 
 // Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 // en camel case precedida por la palabra sql
-class Sql extends \Sql {
+class Sql extends \Sql
+{
     public $miConfigurador;
-    public function getCadenaSql($tipo, $variable = '') {
+    public function getCadenaSql($tipo, $variable = '')
+    {
 
         /**
          * 1.
@@ -73,6 +76,12 @@ class Sql extends \Sql {
                 $cadenaSql = " UPDATE parametros.procesos_accesos";
                 $cadenaSql .= " SET estado_registro='FALSE'";
                 $cadenaSql .= " WHERE id_proceso='" . $_REQUEST['id_proceso'] . "'; ";
+                break;
+
+            case 'eliminarProcesoVencido':
+                $cadenaSql = " UPDATE parametros.procesos_accesos";
+                $cadenaSql .= " SET estado_registro='FALSE'";
+                $cadenaSql .= " WHERE nombre_archivo='" . $variable . "'; ";
                 break;
 
             /**
@@ -454,5 +463,3 @@ class Sql extends \Sql {
         return $cadenaSql;
     }
 }
-?>
-
