@@ -37,28 +37,28 @@ class Sql extends \Sql
                 $cadenaSql .= "(SELECT DISTINCT identificacion AS value, id_beneficiario AS data ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial  ";
                 $cadenaSql .= " WHERE nombre IS NOT NULL";
-                $cadenaSql.=" AND id_beneficiario IS NOT NULL";
-                $cadenaSql.=" AND identificacion IS NOT NULL";
+                $cadenaSql .= " AND id_beneficiario IS NOT NULL";
+                $cadenaSql .= " AND identificacion IS NOT NULL";
                 $cadenaSql .= " ) datos ";
                 $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "LIMIT 10; ";
                 break;
 
             case 'consultarBeneficiarios':
-                $cadenaSql=" SELECT id_beneficiario,";
-                $cadenaSql.=" identificacion,";
-                $cadenaSql.=" nombre||' '||primer_apellido||' '||(CASE WHEN segundo_apellido IS NOT NULL THEN segundo_apellido ELSE '' END) as nombre_beneficiario,";
-                $cadenaSql.=" (CASE WHEN estado_registro ='false' THEN 'Inactivo' ELSE 'Activo' END) estado_beneficiario,";
-                $cadenaSql.=" estado_registro";
-                $cadenaSql.=" FROM interoperacion.beneficiario_potencial";
-                $cadenaSql.=" WHERE nombre IS NOT NULL";
-                $cadenaSql.=" AND id_beneficiario IS NOT NULL";
-                $cadenaSql.=" AND identificacion IS NOT NULL;";
+                $cadenaSql = " SELECT id_beneficiario,";
+                $cadenaSql .= " identificacion,";
+                $cadenaSql .= " nombre||' '||primer_apellido||' '||(CASE WHEN segundo_apellido IS NOT NULL THEN segundo_apellido ELSE '' END) as nombre_beneficiario,";
+                $cadenaSql .= " (CASE WHEN estado_registro ='false' THEN 'Inactivo' ELSE 'Activo' END) estado_beneficiario,";
+                $cadenaSql .= " estado_registro,estado_beneficiario as estado_interventoria ";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial";
+                $cadenaSql .= " WHERE nombre IS NOT NULL";
+                $cadenaSql .= " AND id_beneficiario IS NOT NULL";
+                $cadenaSql .= " AND identificacion IS NOT NULL;";
                 break;
 
             case 'actulizarBeneficiarios':
-                $cadenaSql=" UPDATE interoperacion.contrato";
-                $cadenaSql.=" SET estado_registro='".$variable."'  ";
+                $cadenaSql = " UPDATE interoperacion.contrato";
+                $cadenaSql .= " SET estado_registro='" . $variable . "'  ";
                 $cadenaSql .= " WHERE  numero_identificacion IN(";
                 $beneficiarios = explode(";", $_REQUEST['beneficiario']);
 
@@ -77,8 +77,33 @@ class Sql extends \Sql
                     $cadenaSql .= ") ";
                 }
 
-                $cadenaSql.=" UPDATE interoperacion.beneficiario_potencial";
-                $cadenaSql.=" SET estado_registro='".$variable."'  ";
+                $cadenaSql .= " UPDATE interoperacion.beneficiario_potencial";
+                $cadenaSql .= " SET estado_registro='" . $variable . "'  ";
+                $cadenaSql .= " WHERE  identificacion IN(";
+                $beneficiarios = explode(";", $_REQUEST['beneficiario']);
+
+                foreach ($beneficiarios as $key => $value) {
+                    if ($value == '') {
+                        unset($beneficiarios[$key]);
+                    }
+                }
+                if (count($beneficiarios) == 1) {
+                    $cadenaSql .= "'" . $beneficiarios[0] . "');";
+                } else {
+                    foreach ($beneficiarios as $key => $value) {
+                        $cadenaSql .= "'" . $value . "',";
+                    }
+
+                    $cadenaSql .= ") ";
+                }
+
+                $cadenaSql = str_replace("',)", "');", $cadenaSql);
+
+                break;
+
+            case 'actulizarBeneficiariosInterventoria':
+                $cadenaSql = " UPDATE interoperacion.beneficiario_potencial";
+                $cadenaSql .= " SET estado_beneficiario='" . $variable . "'  ";
                 $cadenaSql .= " WHERE  identificacion IN(";
                 $beneficiarios = explode(";", $_REQUEST['beneficiario']);
 

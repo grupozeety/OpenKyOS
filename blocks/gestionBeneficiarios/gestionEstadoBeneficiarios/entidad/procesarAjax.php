@@ -46,8 +46,9 @@ class procesarAjax
                             'id_beneficiario' => "<center>" . $valor['id_beneficiario'] . "</center>",
                             'identificacion' => "<center>" . $valor['identificacion'] . "</center>",
                             'nombre' => "<center>" . $valor['nombre_beneficiario'] . "</center>",
-                            'estado' => "<center>" . $valor['estado_beneficiario'] . "</center>",
-                          );
+                            'estado_interventoria' => "<center>" . $valor['estado_interventoria'] . "</center>",
+                            'estado_sistema' => "<center>" . $valor['estado_beneficiario'] . "</center>",
+                        );
                     }
 
                     $total = count($resultadoFinal);

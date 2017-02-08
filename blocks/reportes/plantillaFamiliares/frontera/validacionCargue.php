@@ -11,14 +11,16 @@ if (!isset($GLOBALS["autorizado"])) {
  * Por tanto en el archivo ready.php se declaran algunas funciones js
  * que lo complementan.
  */
-class Registrador {
+class Registrador
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
     public $ruta;
     public $rutaURL;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -42,7 +44,8 @@ class Registrador {
             $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
         }
     }
-    public function seleccionarForm() {
+    public function seleccionarForm()
+    {
         // var_dump($_REQUEST);
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
         $miPaginaActual = $this->miConfigurador->getVariableConfiguracion("pagina");
@@ -239,7 +242,8 @@ class Registrador {
                                                 2. Que no se duplique la exitencia de un familiar basado en el numero de identificacion.<br>
                                                 3. El número de familiares de beneficiarios a cargar no sobrepase a 500.<br>
                                                 4. Al actualizar que exita el familiar basado en su identificacion y su correposndiente beneficiario.<br>
-                                                5. Formatos permitidos:<br>
+                                                5. El Simbolo (*) en la plantilla indica que son campos obligatorios.<br>
+                                                6. Formatos permitidos:<br>
                                                     &nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
                                                     &nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
                                                     &nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br><br>
@@ -466,7 +470,8 @@ class Registrador {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensajeModal() {
+    public function mensajeModal()
+    {
         switch ($_REQUEST['mensajeModal']) {
 
             case 'errorFormatoArchivo':
@@ -549,6 +554,3 @@ class Registrador {
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->seleccionarForm();
-
-?>
-

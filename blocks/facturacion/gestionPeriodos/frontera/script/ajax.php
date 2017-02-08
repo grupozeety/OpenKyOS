@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Código Correspondiente a las Url de la peticiones Ajax.
  */
@@ -11,46 +10,27 @@ $url .= "/index.php?";
 
 // Variables para Con
 $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
-$cadenaACodificar .= "&action=" . $this->miConfigurador->getVariableConfiguracion("pagina");
 $cadenaACodificar .= "&procesarAjax=true";
 $cadenaACodificar .= "&action=index.php";
 $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
 $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-$cadenaACodificar .= "&funcion=consultaBeneficiarios";
+$cadenaACodificar .= "&funcion=consultaParticular";
 
 // Codificar las variables
 $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
 $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
 
 // URL Consultar Proyectos
-$urlConsultarBeneficiarios = $url . $cadena;
-
-// Variables para Con
-$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
-$cadenaACodificar .= "&procesarAjax=true";
-$cadenaACodificar .= "&action=index.php";
-$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
-$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-$cadenaACodificar .= "&funcion=consultarProcesos";
-
-// Codificar las variables
-$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
-
-// URL Consultar Proyectos
-$urlConsultarProcesosAccesos = $url . $cadena;
+$urlConsultaParticular = $url . $cadena;
 
 ?>
 <script type='text/javascript'>
 
-$("#mensaje").modal("show");
-
 /**
- * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
+ * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax(Aprobación Contrato).
  */
 
-
-
+ $(document).ready(function() {
 
   $('#example').DataTable( {
         language: {
@@ -79,39 +59,27 @@ $("#mensaje").modal("show");
             }
 
               },
-
-                 responsive: true,
+              responsive: true,
                    ajax:{
-                      url:"<?php echo $urlConsultarProcesosAccesos;?>",
+                      url:"<?php echo $urlConsultaParticular;?>",
                       dataSrc:"data"
                   },
                   columns: [
-                  { data :"id_beneficiario"},
-                  { data :"identificacion"},
-                  { data :"nombre" },
-                  { data :"estado_interventoria" },
-                  { data :"estado_sistema" }
+                  { data :"ident" },
+                  { data :"unidad" },
+                  { data :"valor" },
+                  { data :"actualizar" },
+                  { data :"eliminar" }
                            ]
+
+//
     } );
 
 
 
-   $("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
-        minChars: 3,
-        serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
-        minChars:3,
-        multiple: true,
-        multipleSeparator: "",
-        delimiter: /(,|;)\s*/, // regex or character
-        maxHeight:1000,
-        width:1000,
-        zIndex: 9999,
-        deferRequestBy: 0, //miliseconds
-        noCache: false,
-        onSelect: function (suggestion) {
-            $("#<?php echo $this->campoSeguro('beneficiario');?>").val($("#<?php echo $this->campoSeguro('beneficiario');?>").val()+";");
-        }
 
-       });
+
+
+} );
 
 </script>

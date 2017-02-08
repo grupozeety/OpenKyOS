@@ -3,7 +3,8 @@ namespace reportes\informacionBeneficiarios\entidad;
 
 include_once 'Redireccionador.php';
 
-class GenerarReporteInstalaciones {
+class GenerarReporteInstalaciones
+{
 
     public $miConfigurador;
     public $lenguaje;
@@ -15,7 +16,8 @@ class GenerarReporteInstalaciones {
     public $directorio_archivos;
     public $ruta_directorio = '';
 
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -53,7 +55,49 @@ class GenerarReporteInstalaciones {
 
     }
 
-    public function consultarProceso() {
+    public function eliminarPaquetesProcesosVencidos()
+    {
+
+        $rutaAnalizar = $this->rutaAbsoluta . "/archivos/archivosDescargaAccesos";
+
+        $archivos = @scandir($rutaAnalizar);
+
+        $fecha_actual = time();
+
+        foreach ($archivos as $key => $archivo) {
+
+            $nombre_archivo = explode(".", $archivo);
+
+            if (is_numeric($nombre_archivo[0])) {
+
+                $fecha_archivo = date("Y-m-d", $nombre_archivo[0]);
+
+                $fecha_analizar = strtotime('+5 day', strtotime($fecha_archivo));
+
+                $fecha_final = date('Y-m-d', $fecha_analizar);
+
+                if ($fecha_analizar <= $fecha_actual) {
+
+                    $cadenaSql = $this->miSql->getCadenaSql('eliminarProcesoVencido', $archivos[$key]);
+                    $proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+                    $rutaArchivoEliminar = $rutaAnalizar . "/" . $archivo;
+
+                    unlink($rutaArchivoEliminar);
+
+                }
+
+            }
+
+        }
+
+    }
+
+    public function consultarProceso()
+    {
+
+        // Elimina Paquetes de de Reportes de Accesos que tengan mas de 5 dias de Creados
+        $this->eliminarPaquetesProcesosVencidos();
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarProcesoParticular');
         $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
@@ -95,14 +139,16 @@ class GenerarReporteInstalaciones {
     /**
      * Metodos Correspondientes al Trabajos del Crontab
      **/
-    public function crearTrabajosCrontab() {
+    public function crearTrabajosCrontab()
+    {
 
         exec('echo -e "`crontab -l`\n*/5 * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
         //exec('echo  "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
 
     }
 
-    public function eliminarTrabajoCrontab() {
+    public function eliminarTrabajoCrontab()
+    {
 
         exec('crontab -l', $crontab);
 
@@ -135,7 +181,8 @@ class GenerarReporteInstalaciones {
 
     }
 
-    public function crearUrlProceso() {
+    public function crearUrlProceso()
+    {
 
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 
@@ -163,7 +210,8 @@ class GenerarReporteInstalaciones {
 
     }
 
-    public function generarProceso() {
+    public function generarProceso()
+    {
 
         $arreglo = array(
             'departamento' => $_REQUEST['departamento'],
@@ -208,7 +256,8 @@ class GenerarReporteInstalaciones {
 
     }
 
-    public function actualizarAvance($avance) {
+    public function actualizarAvance($avance)
+    {
 
         $arreglo = array(
             'avance' => $avance,
@@ -222,7 +271,8 @@ class GenerarReporteInstalaciones {
         return $avanceproceso;
     }
 
-    public function eliminarInformacion() {
+    public function eliminarInformacion()
+    {
 
         switch ($_REQUEST['estado_documento']) {
             case '1':
@@ -271,7 +321,8 @@ class GenerarReporteInstalaciones {
 
     }
 
-    public function estruturarProyectos() {
+    public function estruturarProyectos()
+    {
         ini_set('xdebug.var_display_max_depth', 5);
         ini_set('xdebug.var_display_max_children', 256);
         ini_set('xdebug.var_display_max_data', 1024);
@@ -428,14 +479,16 @@ class GenerarReporteInstalaciones {
 
     }
 
-    public function directorio_beneficiario($ruta) {
+    public function directorio_beneficiario($ruta)
+    {
         $directorio_beneficiario = $ruta . "/" . $value['id_beneficiario'];
 
         mkdir($directorio_beneficiario, 0777, true);
         chmod($directorio_beneficiario, 0777);
     }
 
-    public function analizarCrearDirectorio($directorio) {
+    public function analizarCrearDirectorio($directorio)
+    {
 
         if (!is_dir($directorio)) {
             $partes = explode("/", $directorio);
@@ -465,7 +518,8 @@ class GenerarReporteInstalaciones {
 
     }
 
-    public function crearDirectorioArchivosBeneficiarios() {
+    public function crearDirectorioArchivosBeneficiarios()
+    {
 
         foreach ($this->beneficiarios as $key => $value) {
             $directorio_municipio = $this->ruta_dir_archivos . "/" . $value['municipio'];
@@ -507,7 +561,8 @@ class GenerarReporteInstalaciones {
 
     }
 
-    public function comprimir($rutaObjetivoContenido, $nombreComprimido, $nombreDirectorioComprimir, $rutaSalidaComprimido = '') {
+    public function comprimir($rutaObjetivoContenido, $nombreComprimido, $nombreDirectorioComprimir, $rutaSalidaComprimido = '')
+    {
 
         $ruta_actual = getcwd();
         chdir($rutaObjetivoContenido);
@@ -520,7 +575,8 @@ class GenerarReporteInstalaciones {
 
     }
 
-    public function eliminarDirectorioContenido($rutaAnalizar) {
+    public function eliminarDirectorioContenido($rutaAnalizar)
+    {
         foreach (glob($rutaAnalizar . "/*") as $archivos_carpeta) {
             if (is_dir($archivos_carpeta)) {
 
@@ -539,7 +595,8 @@ class GenerarReporteInstalaciones {
         }
         rmdir($rutaAnalizar);
     }
-    public function crearDirectorio() {
+    public function crearDirectorio()
+    {
 
         /**
          * 1. Crear Directorio
@@ -609,7 +666,7 @@ class GenerarReporteInstalaciones {
 
                 $variable = explode(" ", $value);
 
-                $tamanio_archivo = $variable[count($variable) - 5];
+                $tamanio_archivo = $variable[count($variable) - 6];
             }
         }
 
@@ -625,7 +682,8 @@ class GenerarReporteInstalaciones {
 
     }
 
-    public function crearHojaCalculo() {
+    public function crearHojaCalculo()
+    {
         include_once "crearDocumentoHojaCalculo.php";
 
     }
@@ -633,6 +691,3 @@ class GenerarReporteInstalaciones {
 }
 
 $miProcesador = new GenerarReporteInstalaciones($this->sql);
-
-?>
-
