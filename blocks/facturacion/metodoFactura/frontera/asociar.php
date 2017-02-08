@@ -85,7 +85,7 @@ class Consultar {
 						$atributos ['tab'] = $tab ++;
 						$atributos ['anchoEtiqueta'] = 2;
 						$atributos ['evento'] = '';
-						$atributos ['seleccion'] =  isset($asociacion [0] ['rol'])?$asociacion [0] ['rol']:1;
+						$atributos ['seleccion'] =  isset($asociacion [0] ['rol'])?$asociacion [0] ['rol']:-1;
 						$atributos ['deshabilitado'] = false;
 						$atributos ['columnas'] = 1;
 						$atributos ['tamanno'] = 1;
@@ -118,7 +118,7 @@ class Consultar {
 						$atributos ['tab'] = $tab ++;
 						$atributos ['anchoEtiqueta'] = 2;
 						$atributos ['evento'] = '';
-						$atributos ['seleccion'] = isset($asociacion [0] ['regla']);
+						$atributos ['seleccion'] =  isset($asociacion [0] ['regla'])?$asociacion [0] ['regla']:-1;
 						$atributos ['deshabilitado'] = false;
 						$atributos ['columnas'] = 1;
 						$atributos ['tamanno'] = 1;
