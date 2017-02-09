@@ -98,7 +98,7 @@ class GenerarDocumento
     {
 
         /**
- * Configuracion Pagina Documento
+         * Configuracion Pagina Documento
 
         _____________Columna 1    Columna 2
         Seccion 1 |            |            |
@@ -113,7 +113,7 @@ class GenerarDocumento
         1020px * 100%
          **/
 
-        $this->contenido = "<table  style='width:100%; border: none; background-color: #f0f5ff' >";
+        $this->contenido = "<table  style='width:100%; border: 0.1px; background-color: #f0f5ff' >";
 
         // Determina la utilización de colspan
         $this->determinacionTipoColumna();
@@ -121,25 +121,25 @@ class GenerarDocumento
         $numero_secciones = count($this->estruturaXML);
 
         switch ($numero_secciones) {
-        case 1:
-            $height = '1015px';
-            break;
+            case 1:
+                $height = '1015px';
+                break;
 
-        case 2:
-            $height = '505px';
-            break;
+            case 2:
+                $height = '505px';
+                break;
 
-        case 3:
-            $height = '335px';
-            break;
+            case 3:
+                $height = '335px';
+                break;
 
-        case 4:
-            $height = '250px';
-            break;
+            case 4:
+                $height = '250px';
+                break;
 
-        default:
-            echo "Error Numero Secciones";
-            exit;
+            default:
+                echo "Error Numero Secciones";
+                exit;
                 break;
 
         }
@@ -151,17 +151,17 @@ class GenerarDocumento
             $numero_columnas = count($seccion->columna);
 
             switch ($numero_columnas) {
-            case 1:
-                $width = '100%';
-                break;
+                case 1:
+                    $width = '100%';
+                    break;
 
-            case 2:
-                $width = '50%';
-                break;
+                case 2:
+                    $width = '45%';
+                    break;
 
-            default:
-                echo "Error Numero columnas";
-                exit;
+                default:
+                    echo "Error Numero columnas";
+                    exit;
                     break;
             }
 
@@ -169,7 +169,7 @@ class GenerarDocumento
 
                 if (isset($this->colspan) && $width == '100%') {
 
-                    $this->contenido .= "<td colspan='2' style='width:" . $width . ";height:" . $height . ";border:0.1px;font-size:100%'  nowrap >";
+                    $this->contenido .= "<td colspan='2' style='width:" . $width . ";height:" . $height . ";border:none;font-size:100%'  nowrap >";
 
                     // Permite generar el Contenido a unos Tipos de Parametros
                     $this->caracterizacionContenido($columna);
@@ -178,7 +178,7 @@ class GenerarDocumento
 
                 } else {
 
-                    $this->contenido .= "<td style='width:" . $width . ";height:" . $height . ";border:0.1px;font-size:80%'  nowrap >";
+                    $this->contenido .= "<td style='width:" . $width . ";height:" . $height . ";border:none;'  nowrap >";
                     $this->caracterizacionContenido($columna);
 
                     $this->contenido .= "</td>";
@@ -198,33 +198,33 @@ class GenerarDocumento
     {
 
         foreach ($objetoDatos as $key => $value) {
-            $this->atributos=$value->attributes();
-            $value= str_replace("%%", "<br>", $value);
+            $this->atributos = $value->attributes();
+            $value = str_replace("%%", "<br>", $value);
 
             switch ($key) {
-            case 'titulo':
+                case 'titulo':
 
-                $this->contenido .= "<div style='".$this->atributos."'><b>" . strtoupper($value) . "</b></div>";
-                break;
+                    $this->contenido .= "<div style='" . $this->atributos . "'><b>" . strtoupper($value) . "</b></div>";
+                    break;
 
-            case 'texto':
-                $this->contenido .= "<div style='".$this->atributos."'>" . $value . "</div>";
-                break;
+                case 'texto':
+                    $this->contenido .= "<div style='" . $this->atributos . "'>" . $value . "</div>";
+                    break;
 
-            case 'codigoBarras':
-                $this->contenido .= "<div style='text-align:".$this->atributos['alineacionCodigoBarras'];
-                $this->contenido .="'><barcode type='CODABAR' value='" . $value . "' style='".$this->atributos['dimensionesCodigoBarras']."'></barcode></div>";
-                break;
+                case 'codigoBarras':
+                    $this->contenido .= "<div style='text-align:" . $this->atributos['alineacionCodigoBarras'];
+                    $this->contenido .= "'><barcode type='CODABAR' value='" . $value . "' style='" . $this->atributos['dimensionesCodigoBarras'] . "'></barcode></div>";
+                    break;
 
-            case 'imagen':
-                $this->contenido .= "<div style='text-align:".$this->atributos['alineacionImagen'];
-                $this->contenido .= "'><img src='" . $value . "' ".$this->atributos['dimensionesImagen']."  ></div>";
-                break;
+                case 'imagen':
+                    $this->contenido .= "<div style='text-align:" . $this->atributos['alineacionImagen'];
+                    $this->contenido .= "'><img src='" . $value . "' " . $this->atributos['dimensionesImagen'] . "  ></div>";
+                    break;
 
-            case 'variable':
-                //Ejecuta los procesos para obtener contenido de la variable
-                $this->ejecutarContenidoVariable($value);
-                break;
+                case 'variable':
+                    //Ejecuta los procesos para obtener contenido de la variable
+                    $this->ejecutarContenidoVariable($value);
+                    break;
 
             }
             $this->contenido .= "<br>";
@@ -236,30 +236,87 @@ class GenerarDocumento
     {
 
         switch ($variable) {
-        case 'FechaActual':
-            $this->contenido .= "<div style='".$this->atributos."'>" . date('Y-m-d') . "</div>";
-            break;
+            case 'FechaActual':
+                $this->contenido .= "<div style='" . $this->atributos . "'>" . date('Y-m-d') . "</div>";
+                break;
 
-        case 'InformacionPago':
-            $this->contenido .= "<div style='".$this->atributos."'>INFORMACION DE PAGO</div>";
-            break;
+            case 'InformacionPago':
+                $this->contenido .= "<div style='" . $this->atributos . "'>INFORMACION DE PAGO</div>";
+                break;
 
+            case 'HistoricoConsumo':
+                $this->contenido .= "<div style='" . $this->atributos . "'>HISTORICO CONSUMO<BR>(GRAFICA)</div>";
+                break;
 
-        case 'HistoricoConsumo':
-            $this->contenido .= "<div style='".$this->atributos."'>HISTORICO CONSUMO<BR>(GRAFICA)</div>";
-            break;
+            case 'InformacionPagoResumido':
+                $this->contenido .= "<div style='" . $this->atributos . "'>INFORMACION DE PAGO RESUMIDO</div>";
+                break;
 
-        case 'InformacionPagoResumido':
-            $this->contenido .= "<div style='".$this->atributos."'>INFORMACION DE PAGO RESUMIDO</div>";
-            break;
+            case 'Conceptos':
+                $this->contenido .= "<div style='" . $this->atributos . "'>CONCEPTOS</div>";
+                break;
 
-        case 'Conceptos':
-            $this->contenido .= "<div style='".$this->atributos."'>CONCEPTOS</div>";
-            break;
+            case 'InformacionBeneficiario':
+                $this->contenido .= "<div style='" . $this->atributos . "'>";
 
-        case 'InformacionBeneficiario':
-            $this->contenido .= "<div style='".$this->atributos."'>INFORMACION DEL BENEFICIARIO</div>";
-            break;
+                $cadenaSql = $this->miSql->getCadenaSql('consultarBeneficiario', 'CE114');
+                $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                $table = "<table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
+                            <tr>
+                                <td style='height:13px;text-align:center;border:0.1px;'><b>DATOS ABONADO SUSCRIPTOR</b></td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;'><b>Indentificación Beneficiario: </b>"     . $beneficiario['numero_identificacion'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;'><b>Nombre Beneficiario: </b>"     . $beneficiario['nombre_beneficiario'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;'><b>Dirección Inmueble: </b>"     . $beneficiario['direccion_beneficiario'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;'><b>Departamento - Municipio: </b>"     . $beneficiario['departamento'] . " - " . $beneficiario['municipio'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;'><b>Estrato: </b>"     . $beneficiario['estrato'] . "</td>
+                            </tr>
+                        </table>"    ;
+
+                $this->contenido .= $table;
+                $this->contenido .= "</div>";
+                break;
+
+            case 'InformacionFacturacion':
+                $this->contenido .= "<div style='" . $this->atributos . "'>";
+
+                $cadenaSql = $this->miSql->getCadenaSql('consultarBeneficiario', 'CE114');
+                $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                $this->contenido .= "<table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
+                            <tr>
+                                <td style='height:13px;text-align:center;border:0.1px;'><b>DATOS ABONADO SUSCRIPTOR</b></td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;'><b>Fecha de Venta: </b>"     . $beneficiario['numero_identificacion'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;'><b>Fecha Factura: </b>"     . $beneficiario['nombre_beneficiario'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;'><b>Periodo: </b>"     . $beneficiario['direccion_beneficiario'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;'><b>Contrato-Ref.Pago: </b>"     . $beneficiario['departamento'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;'><b>Fecha Pago Oportuno: </b>"     . $beneficiario['municipio'] . "</td>
+                            </tr
+>
+                        </table>"    ;
+
+                $this->contenido .= "</div>";
+                break;
 
         }
 
@@ -273,17 +330,17 @@ class GenerarDocumento
             $numero_columnas = count($seccion);
 
             switch ($numero_columnas) {
-            case 1:
-                $columna_1 = true;
-                break;
+                case 1:
+                    $columna_1 = true;
+                    break;
 
-            case 2:
-                $columna_2 = true;
-                break;
+                case 2:
+                    $columna_2 = true;
+                    break;
 
-            default:
-                echo "Error Numero columnas";
-                exit;
+                default:
+                    echo "Error Numero columnas";
+                    exit;
                     break;
             }
 
@@ -313,10 +370,10 @@ class GenerarDocumento
         ob_start();
         $html2pdf = new \HTML2PDF(
             'P', 'LETTER', 'es', true, 'UTF-8', array(
-            1,
-            1,
-            1,
-            1,
+                1,
+                1,
+                1,
+                1,
             )
         );
         $html2pdf->pdf->SetDisplayMode('fullpage');
@@ -328,14 +385,14 @@ class GenerarDocumento
     {
 
         $contenidoPagina = "<style type=\"text/css\">
-                                table {
+                           table {
 
                                     font-family:Helvetica, Arial, sans-serif; /* Nicer font */
 
-                                    border-collapse:collapse; border-spacing: 0px;
+                                    border-collapse:collapse; border-spacing: 3px;
                                 }
                                 td, th {
-                                    border: 1px solid #000000;
+                                    border: 1px solid #CCC;
                                     height: 13px;
                                 } /* Make cells a bit taller */
 
@@ -343,12 +400,11 @@ class GenerarDocumento
 
                                     font-weight: bold; /* Make sure they're bold */
                                     text-align: center;
-                                    font-size:30px;
+                                    font-size:10px;
                                 }
                                 td {
 
                                     text-align: left;
-
                                 }
 
                             </style>";
@@ -365,5 +421,3 @@ class GenerarDocumento
 
 }
 $miDocumento = new GenerarDocumento($this->lenguaje, $this->sql);
-
-?>
