@@ -9,10 +9,10 @@
 	</seccion>
 	<seccion>
 		<columna>
-			<variable estilos="font-size:90%;">InformacionBeneficiario</variable>
+			<variable estilos="font-size:90%;text-align:center;">InformacionBeneficiario</variable>
 		</columna>
 		<columna>
-			<variable estilos="font-size:90%;">InformacionFacturacion</variable>
+			<variable estilos="font-size:93%;text-align:center;">InformacionFacturacion</variable>
 		</columna>
 	</seccion>
 	<seccion>
