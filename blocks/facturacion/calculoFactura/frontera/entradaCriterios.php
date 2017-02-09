@@ -66,6 +66,39 @@ class Consultar {
 				unset ( $atributos );
 				
 				{
+					
+					{
+						// ------------------Division para los botones-------------------------
+						$atributos['id'] = 'divMensaje';
+						$atributos['estilo'] = 'textoIzquierda';
+						echo $this->miFormulario->division("inicio", $atributos);
+						unset($atributos);
+						{
+					
+							{
+								// URL base
+								$url = $this->miConfigurador->getVariableConfiguracion("host");
+								$url .= $this->miConfigurador->getVariableConfiguracion("site");
+								$url .= '/archivos/generacionMasiva/plantillas/';
+								$url .= 'plantilla_cargueInfoTecnica.xls';
+							}
+					
+							// -------------Control texto-----------------------
+							$esteCampo = 'mostrarMensaje';
+							$atributos["tamanno"] = '';
+							$atributos["etiqueta"] = '';
+							$mensaje = '<center>Recuerde: Antes de Generar una Factura debe haber asociado roles de facturación para el usuario.</center>';
+					
+							$atributos["mensaje"] = $mensaje;
+							$atributos["estilo"] = 'information'; // information,warning,error,validation
+							$atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+							echo $this->miFormulario->campoMensaje($atributos);
+							unset($atributos);
+						}
+						// ------------------Fin Division para los botones-------------------------
+						echo $this->miFormulario->division("fin");
+						unset($atributos);
+					}
 					// ----------------INICIO CONTROL: Lista Proyectos---------------------------
 					
 					$esteCampo = 'beneficiario';
@@ -87,7 +120,7 @@ class Consultar {
 					$atributos ['ajax_function'] = "";
 					$atributos ['ajax_control'] = $esteCampo;
 					$atributos ['limitar'] = false;
-					$atributos ['anchoCaja'] = 10;
+					$atributos ['anchoCaja'] = 6;
 					$atributos ['miEvento'] = '';
 					$atributos ['validar'] = 'required';
 					// Aplica atributos globales al control
