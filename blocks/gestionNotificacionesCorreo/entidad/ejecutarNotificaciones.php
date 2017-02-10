@@ -21,6 +21,7 @@ class Notificaciones
     public $contenidoParametrizable = '';
     public $contenidoCorreo;
     public $designatariosCorreo;
+    public $asuntoCorreo;
 
     public function __construct($sql)
     {
@@ -63,6 +64,8 @@ class Notificaciones
                     '1' => 'gestoradministrativo',
                 );
                 $this->clasificarCorreoUsuarios($roles);
+
+                $this->asuntoCorreo = 'Estado Actual Proyectos  ' . date('Y-m-d');
                 $this->contenidoCorreo = 'Ingenieros  de manera atenta se informa el estado general del proceso de comisionamiento para el proyecto Conexiones Digitales II en Córdoba y Sucre, con base en el registros que se ha efectuado a la fecha en el sistema de información OPENKYOS . Esta notificación se efectuará cada tres días para que se evalué el avance de los subproyectos o urbanizaciones y se tomen las medidas o acciones correspondientes. <br><br>';
                 $this->estadoProyectos();
                 $this->contenidoCorreo .= $this->contenidoParametrizable;
@@ -345,16 +348,16 @@ class Notificaciones
         }
 
         // Set the subject line
-        $mail->Subject = 'Estados Actuales Proyectos';
+        $mail->Subject = $this->asuntoCorreo;
         $body = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
                         <html>
                         <head>
                           <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-                          <title>Estados Actuales Proyectos</title>
+                          <title>' . $this->asuntoCorreo . '</title>
                         </head>
                         <body>
                         <div style="width: 640px; font-family: Arial, Helvetica, sans-serif; font-size: 11px;">
-                          <h1>Estados Actuales Proyectos</h1>
+                          <h1>' . $this->asuntoCorreo . '</h1>
                           <p>' . $this->contenidoCorreo . '<br><br>Notificación de Sistema OpenKyOS</p>
                           <div align="center">
                           </div>
