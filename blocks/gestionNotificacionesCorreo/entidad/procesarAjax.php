@@ -18,10 +18,6 @@ class procesarAjax
 
         switch ($_REQUEST['funcion']) {
 
-            case 'consultarUsuarios':
-                include_once "consultarUsuarios.php";
-                break;
-
             case 'ejecutarNotificaciones':
                 include_once "ejecutarNotificaciones.php";
                 break;
