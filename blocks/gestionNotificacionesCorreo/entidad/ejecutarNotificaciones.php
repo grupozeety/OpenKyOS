@@ -37,7 +37,7 @@ class Notificaciones
         $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
 
         // Conexion a Base de Datos
-        $conexion = "produccion";
+        $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionApi', 'gmail');
@@ -66,8 +66,8 @@ class Notificaciones
                 );
                 $this->clasificarCorreoUsuarios($roles);
                 $this->contenidoCorreo = 'Ingenieros nos permitimos informales el estado general del proceso de comisionamiento a la fecha de los siguientes proyectos : <br>';
-                //$this->estadoProyectos();
-                //$this->contenidoCorreo .= $this->contenidoParametrizable;
+                $this->estadoProyectos();
+                $this->contenidoCorreo .= $this->contenidoParametrizable;
 
                 break;
         }

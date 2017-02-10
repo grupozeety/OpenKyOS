@@ -77,7 +77,7 @@ class Formulario
             // URL Consultar Proyectos
             $urlEjecutarProceso = $url . $cadena;
 
-            echo $urlEjecutarProceso;
+            echo "<b>Url Crontab : </b>" . $urlEjecutarProceso;
 
         }
 

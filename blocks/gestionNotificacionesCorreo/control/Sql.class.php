@@ -24,12 +24,6 @@ class Sql extends \Sql
     }
     public function getCadenaSql($tipo, $variable = '')
     {
-        $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
-
-        foreach ($info_usuario['description'] as $key => $rol) {
-
-            $info_usuario['rol'][] = $rol;
-        }
 
         /**
          * 1.
