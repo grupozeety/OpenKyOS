@@ -1,6 +1,6 @@
 <?php
 
-namespace facturacion\metodoFactura\frontera;
+namespace facturacion\beneficiarioRol\frontera;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "../index.php";
@@ -38,12 +38,15 @@ class Consultar {
 		$_REQUEST ['tiempo'] = time ();
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-		$modificar='';
+		$modificar = '';
 		if (isset ( $_REQUEST ['opcion'] ) && $_REQUEST ['opcion'] == 'agregar') {
-			$cadenaSql = $this->sql->getCadenaSql ( 'consultarMetodos_especifico', $_REQUEST ['id'] );
-			$asociacion = 		$esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-			$modificar='Modificar';
+			$cadenaSql = $this->sql->getCadenaSql ( 'consultarAsociacion_especifico', $_REQUEST ['id'] );
+			$asociacion = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
+			
+			$modificar = 'Modificar';
+			
 		}
+		
 		// -------------------------------------------------------------------------------------------------
 		
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -71,78 +74,86 @@ class Consultar {
 			{
 				$esteCampo = 'Agrupacion';
 				$atributos ['id'] = $esteCampo;
-				$atributos ['leyenda'] = $modificar. " Asociar Regla y Rol";
+				$atributos ['leyenda'] = $modificar . " Asociar Beneficiario y Rol";
 				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 				unset ( $atributos );
 				
 				{
-
-						$esteCampo = 'rol';
-						$atributos ['nombre'] = $esteCampo;
-						$atributos ['id'] = $esteCampo;
-						$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-						$atributos ["etiquetaObligatorio"] = true;
-						$atributos ['tab'] = $tab ++;
-						$atributos ['anchoEtiqueta'] = 2;
-						$atributos ['evento'] = '';
-						$atributos ['seleccion'] =  isset($asociacion [0] ['rol'])?$asociacion [0] ['rol']:-1;
-						$atributos ['deshabilitado'] = false;
-						$atributos ['columnas'] = 1;
-						$atributos ['tamanno'] = 1;
-						$atributos ['ajax_function'] = "";
-						$atributos ['ajax_control'] = $esteCampo;
-						$atributos ['estilo'] = "bootstrap";
-						$atributos ['limitar'] = false;
-						$atributos ['anchoCaja'] = 3;
-						$atributos ['miEvento'] = '';
-						// $atributos ['validar'] = '';
-						$atributos ['cadena_sql'] = $this->sql->getCadenaSql ( "parametroRol" );
-						$matrizItems = array (
-								array (
-										0,
-										' ' 
-								) 
-						);
-						$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-						$atributos ['matrizItems'] = $matrizItems;
-						// Aplica atributos globales al control
-						$atributos = array_merge ( $atributos, $atributosGlobales );
-						echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-						unset ( $atributos );
+					
+					// ----------------INICIO CONTROL: Lista Proyectos---------------------------
+					
+					$esteCampo = 'beneficiario';
+					$atributos['nombre'] = $esteCampo;
+					$atributos['tipo'] = "text";
+					$atributos['id'] = $esteCampo;
+					$atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+					$atributos["etiquetaObligatorio"] = true;
+					$atributos['tab'] = $tab++;
+					$atributos['anchoEtiqueta'] = 2;
+					$atributos['estilo'] = "bootstrap";
+					$atributos['evento'] = '';
+					$atributos['deshabilitado'] = false;
+										$atributos ['readonly'] = isset ( $asociacion ['beneficiario'] )? true:false;
+					$atributos['columnas'] = 1;
+					$atributos['tamanno'] = 1;
+					$atributos['placeholder'] = "Ingrese Mínimo 3 Caracteres de Busqueda";
+					$atributos ['valor'] = isset ( $asociacion ['beneficiario'] ) ? $asociacion ['beneficiario'] : '';
+					$atributos['ajax_function'] = "";
+					$atributos['ajax_control'] = $esteCampo;
+					$atributos['limitar'] = false;
+					$atributos['anchoCaja'] = 4;
+					$atributos['miEvento'] = '';
+					$atributos['validar'] = 'required';
+					// Aplica atributos globales al control
+					$atributos = array_merge($atributos, $atributosGlobales);
+					echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+					unset($atributos);
+					
+					$esteCampo = 'id_beneficiario';
+					$atributos["id"] = $esteCampo; // No cambiar este nombre
+					$atributos["tipo"] = "hidden";
+					$atributos['estilo'] = '';
+					$atributos["obligatorio"] = false;
+					$atributos['marco'] = true;
+					$atributos["etiqueta"] = "";
+					$atributos ['valor'] = isset ( $asociacion ['id_beneficiario'] ) ? $asociacion ['id_beneficiario'] : '';
+					$atributos = array_merge($atributos, $atributosGlobales);
+					echo $this->miFormulario->campoCuadroTexto($atributos);
+					unset($atributos);
 						
-						$esteCampo = 'regla';
-						$atributos ['nombre'] = $esteCampo;
-						$atributos ['id'] = $esteCampo;
-						$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-						$atributos ["etiquetaObligatorio"] = true;
-						$atributos ['tab'] = $tab ++;
-						$atributos ['anchoEtiqueta'] = 2;
-						$atributos ['evento'] = '';
-						$atributos ['seleccion'] =  isset($asociacion [0] ['regla'])?$asociacion [0] ['regla']:-1;
-						$atributos ['deshabilitado'] = false;
-						$atributos ['columnas'] = 1;
-						$atributos ['tamanno'] = 1;
-						$atributos ['ajax_function'] = "";
-						$atributos ['ajax_control'] = $esteCampo;
-						$atributos ['estilo'] = "bootstrap";
-						$atributos ['limitar'] = false;
-						$atributos ['anchoCaja'] = 3;
-						$atributos ['miEvento'] = '';
-						// $atributos ['validar'] = '';
-						$atributos ['cadena_sql'] = $this->sql->getCadenaSql ( "parametroRegla" );
-						$matrizItems = array (
-								array (
-										0,
-										' ' 
-								) 
-						);
-						$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-						$atributos ['matrizItems'] = $matrizItems;
-						// Aplica atributos globales al control
-						$atributos = array_merge ( $atributos, $atributosGlobales );
-						echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
-						unset ( $atributos );
-
+										
+					$esteCampo = 'rol';
+					$atributos ['nombre'] = $esteCampo;
+					$atributos ['id'] = $esteCampo;
+					$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+					$atributos ["etiquetaObligatorio"] = true;
+					$atributos ['tab'] = $tab ++;
+					$atributos ['anchoEtiqueta'] = 2;
+					$atributos ['evento'] = '';
+					$atributos ['seleccion'] = isset ( $asociacion ['id_rol'] ) ? $asociacion ['id_rol'] : 1;
+					$atributos ['deshabilitado'] = false;
+					$atributos ['columnas'] = 1;
+					$atributos ['tamanno'] = 1;
+					$atributos ['ajax_function'] = "";
+					$atributos ['ajax_control'] = $esteCampo;
+					$atributos ['estilo'] = "bootstrap";
+					$atributos ['limitar'] = false;
+					$atributos ['anchoCaja'] = 3;
+					$atributos ['miEvento'] = '';
+					// $atributos ['validar'] = '';
+					$atributos ['cadena_sql'] = $this->sql->getCadenaSql ( "parametroRol" );
+					$matrizItems = array (
+							array (
+									0,
+									' ' 
+							) 
+					);
+					$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+					$atributos ['matrizItems'] = $matrizItems;
+					// Aplica atributos globales al control
+					$atributos = array_merge ( $atributos, $atributosGlobales );
+					echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+					unset ( $atributos );
 					
 					// ------------------Division para los botones-------------------------
 					$atributos ["id"] = "botones";
@@ -204,8 +215,9 @@ class Consultar {
 				$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 				$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 				if (isset ( $_REQUEST ['opcion'] ) && $_REQUEST ['opcion'] == 'agregar') {
-					$valorCodificado .= "&opcion=modificarMetodo";
-					$valorCodificado .= "&idmetodo=".$_REQUEST['id'];
+					$valorCodificado.= "&opcion=modificarMetodo";
+					$valorCodificado.= "&idmetodo=" . $_REQUEST ['id'];
+					
 				} else {
 					$valorCodificado .= "&opcion=guardarMetodo";
 				}

@@ -1,6 +1,6 @@
 <?php
 
-namespace facturacion\calculoFactura\entidad;
+namespace facturacion\beneficiarioRol\entidad;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "index.php";
@@ -9,22 +9,33 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 class Redireccionador {
 	public static function redireccionar($opcion, $valor = "") {
 		$miConfigurador = \Configurador::singleton ();
-
-
+		
 		switch ($opcion) {
 			
-			case "ExitoInformacion" :
-				$variable = 'pagina=calculoFactura';
+			case "InsertoInformacion" :
+				$variable = 'pagina=beneficiarioRol';
 				$variable .= '&mensajeModal=exitoInformacion';
 				break;
 			
-			case "ErrorInformacion" :
-				$variable = 'pagina=calculoFactura';
-				$variable .= '&mensajeModal=errorInformacion';
-				$variable .= '&errores='.$valor;
+			case "UpdateInformacion" :
+				$variable = 'pagina=beneficiarioRol';
+				$variable .= '&mensajeModal=exitoActualizacion';
 				break;
 			
-		
+			case "NoUpdateInformacion" :
+				$variable = 'pagina=beneficiarioRol';
+				$variable .= '&mensajeModal=errorActualizacion';
+				break;
+			
+			case "ErrorConsulta" :
+				$variable = 'pagina=beneficiarioRol';
+				$variable .= '&mensajeModal=errorConsulta';
+				break;
+			
+			case "NoInsertoInformacion" :
+				$variable = 'pagina=beneficiarioRol';
+				$variable .= '&mensajeModal=errorCreacion';
+				break;
 		}
 		foreach ( $_REQUEST as $clave => $valor ) {
 			unset ( $_REQUEST [$clave] );

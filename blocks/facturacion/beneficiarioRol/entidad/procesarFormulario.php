@@ -1,6 +1,6 @@
 <?php
 
-namespace facturacion\metodoFactura\entidad;
+namespace facturacion\beneficiarioRol\entidad;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "../index.php";
@@ -8,6 +8,7 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 }
 
 include_once 'Redireccionador.php';
+
 class FormProcessor {
 	public $miConfigurador;
 	public $lenguaje;
@@ -38,40 +39,48 @@ class FormProcessor {
 		
 		$_REQUEST ['tiempo'] = time ();
 		
+		/**
+		 * 1.
+		 * Revisar Existencia Asociación
+		 */
+
 		$this->getMetodo ();
 		$this->revisarExistencia ();
 		
-		$this->actualizarMetodo ();
+		/**
+		 * 2.
+		 * Registrar Asociación
+		 */
+		
+		$this->registrarMetodo ();
 		
 		exit ();
 	}
 	public function getMetodo() {
 		$this->asociacion = array (
 				'id_rol' => $_REQUEST ['rol'],
-				'id_regla' => $_REQUEST ['regla'],
-				'id_metodo' => $_REQUEST ['idmetodo'] 
+				'id_beneficiario' => $_REQUEST ['id_beneficiario'] 
 		);
 	}
-	
 	public function revisarExistencia() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarAsociacion', $this->asociacion );
 		$asociacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-	
+
 		if ( $asociacion !=FALSE) {
 			Redireccionador::redireccionar ( "ErrorConsulta" );
 			exit ();
 		}
 	}
-	public function actualizarMetodo() {
-		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarMetodo', $this->asociacion );
+	public function registrarMetodo() {
+		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarAsociacion', $this->asociacion );
 		$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
-		
-		if ($registro == TRUE) {
-			Redireccionador::redireccionar ( "UpdateInformacion" );
-			exit ();
+
+		if ($registro==TRUE) {
+			Redireccionador::redireccionar ( "InsertoInformacion" );
+			exit();
 		} else {
-			Redireccionador::redireccionar ( "NoUpdateInformacion" );
-			exit ();
+			Redireccionador::redireccionar ( "NoInsertoInformacion" );
+			exit();
 		}
 	}
 }

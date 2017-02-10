@@ -1,6 +1,6 @@
 <?php
 
-namespace facturacion\metodoFactura\entidad;
+namespace facturacion\beneficiarioRol\entidad;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "../index.php";
@@ -37,7 +37,7 @@ class FormProcessor {
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		$_REQUEST ['tiempo'] = time ();
-		
+
 		$this->getMetodo ();
 		$this->revisarExistencia ();
 		
@@ -48,22 +48,23 @@ class FormProcessor {
 	public function getMetodo() {
 		$this->asociacion = array (
 				'id_rol' => $_REQUEST ['rol'],
-				'id_regla' => $_REQUEST ['regla'],
-				'id_metodo' => $_REQUEST ['idmetodo'] 
+				'id_usuario_rol' => $_REQUEST ['idmetodo'] ,
+				'id_beneficiario'=>$_REQUEST['id_beneficiario']
 		);
 	}
 	
 	public function revisarExistencia() {
+
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarAsociacion', $this->asociacion );
 		$asociacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-	
+
 		if ( $asociacion !=FALSE) {
 			Redireccionador::redireccionar ( "ErrorConsulta" );
 			exit ();
 		}
 	}
 	public function actualizarMetodo() {
-		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarMetodo', $this->asociacion );
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarAsociacion', $this->asociacion );
 		$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 		
 		if ($registro == TRUE) {

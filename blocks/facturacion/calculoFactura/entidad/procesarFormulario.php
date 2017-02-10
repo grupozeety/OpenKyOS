@@ -1,6 +1,6 @@
 <?php
 
-namespace facturacion\calculoFactura;
+namespace facturacion\calculoFactura\entidad;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "../index.php";
@@ -79,16 +79,15 @@ class FormProcessor {
 		$this->guardarFactura ();
 		$this->guardarConceptos ();
 		
-		var_dump ( $this->rolesPeriodo );
 		/**
 		 * 6.
 		 * Revisar Resultado Proceso
 		 */
-		exit ();
-		if ($a == 0) {
-			Redireccionador::redireccionar ( "InsertoInformacion" );
+		
+		if ($this->registroConceptos ['resultado'] == 0) {
+			Redireccionador::redireccionar ( "ExitoInformacion" );
 		} else {
-			Redireccionador::redireccionar ( "NoInsertoInformacion" );
+			Redireccionador::redireccionar ( "ErrorInformacion", $this->registroConceptos ['resultado'] );
 		}
 	}
 	public function ordenarInfoRoles() {
@@ -228,6 +227,9 @@ class FormProcessor {
 		}
 	}
 	public function guardarConceptos() {
+		$this->registroConceptos ['resultado'] = 0;
+		$a = 0;
+		
 		foreach ( $this->rolesPeriodo as $key => $values ) {
 			foreach ( $values ['reglas'] as $llave => $valores ) {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarReglaID', $llave );
@@ -241,9 +243,14 @@ class FormProcessor {
 				);
 				
 				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConceptos', $registroConceptos );
-				$this->registroConceptos [$key] = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+				echo $this->registroConceptos [$key] = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+
+				if ($this->registroConceptos [$key] == false) {
+					$a ++;
+				}
 			}
 		}
+		$this->registroConceptos ['resultado'] = $a;
 	}
 }
 
