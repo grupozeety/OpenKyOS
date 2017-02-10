@@ -186,6 +186,15 @@ class Notificaciones
 
             }
 
+            //Beneficiarios con Familiares sin Actaulizar
+
+            {
+                $cadenaSql = $this->miSql->getCadenaSql('cantidadSinFamiliaresActualizados', $value['id_proyecto']);
+                $cant_familiares_sin_actualizar = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+                $proyectos[$key]['cantidad_familiares_sin_actualizar'] = $cant_familiares_sin_actualizar['cant_beneficiarios'];
+
+            }
+
         }
 
         // Estruturar Contenido Parametrizable Correo
@@ -221,7 +230,9 @@ class Notificaciones
 
             $this->contenidoParametrizable .= 'Beneficiarios sin pruebas relacionadas : <b>' . $value['cantidad_sin_pruebas_asociadas'] . "</b><br>";
 
-            $this->contenidoParametrizable .= 'Beneficiarios sin información de familiares : <b>' . $value['cantidad_sin_familiares'] . "</b><br><br>";
+            $this->contenidoParametrizable .= 'Beneficiarios sin información de familiares : <b>' . $value['cantidad_sin_familiares'] . "</b><br>";
+
+            $this->contenidoParametrizable .= 'Beneficiarios con familiares sin informacion actualizada : <b>' . $value['cantidad_familiares_sin_actualizar'] . "</b><br><br>";
 
         }
 
