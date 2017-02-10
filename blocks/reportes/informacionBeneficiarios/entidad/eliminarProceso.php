@@ -38,7 +38,7 @@ class GenerarReporteInstalaciones
 
             if (isset($estadoproceso['nombre_archivo']) && $estadoproceso['estado'] == 'Finalizado') {
 
-                $archivo = $ruta_directorio_raiz . $estadoproceso['nombre_archivo'];
+                $archivo = $ruta_directorio_raiz . "/" . $estadoproceso['nombre_archivo'];
 
                 unlink($archivo);
             }
