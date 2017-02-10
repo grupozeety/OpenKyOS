@@ -152,6 +152,13 @@ class Sql extends \Sql
                 $cadenaSql .= " AND  acs.resultado_vs IS NULL";
                 $cadenaSql .= " AND  acs.resultado_vb IS NULL";
                 $cadenaSql .= " AND bp.id_proyecto='" . $variable . "';";
+
+                break;
+
+            case 'consultarInformacionApi':
+                $cadenaSql = " SELECT componente, host, usuario, password, token_codificado, ruta_cookie ";
+                $cadenaSql .= " FROM parametros.api_data";
+                $cadenaSql .= " WHERE componente ='" . $variable . "';";
                 break;
 
             //-------------------------------------------

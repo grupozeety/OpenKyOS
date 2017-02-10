@@ -21,6 +21,8 @@ class Notificaciones
     public $message;
     public $users;
     public $contenidoParametrizable = '';
+    public $contenidoCorreo;
+    public $designatariosCorreo;
 
     public function __construct($sql)
     {
@@ -30,14 +32,25 @@ class Notificaciones
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->miSesionSso = \SesionSso::singleton();
 
+        $this->ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+
         $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
 
         // Conexion a Base de Datos
         $conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
+        $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionApi', 'gmail');
+        $this->datosConexion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        // Consultar Informacón Usuarios
+        $this->consultarUsuarios();
+
         // Clasificar y Estruturar Notificacion
         $this->clasificarNotificacion($_REQUEST['notificacion']);
+
+        // Enviar Notificación
+        $this->enviarNotificacion();
 
     }
 
@@ -46,11 +59,46 @@ class Notificaciones
 
         switch ($notificacion) {
             case 'estadoProyectos':
-                $this->estadoProyectos();
+
+                $roles = array(
+                    '0' => 'supervisor',
+                    '1' => 'gestoradministrativo',
+                );
+                $this->clasificarCorreoUsuarios($roles);
+                $this->contenidoCorreo = 'Ingenieros nos permitimos informales el estado general del proceso de comisionamiento a la fecha de los siguientes proyectos : <br>';
+                //$this->estadoProyectos();
+                //$this->contenidoCorreo .= $this->contenidoParametrizable;
+
                 break;
         }
 
     }
+
+    public function clasificarCorreoUsuarios($roles = '')
+    {
+        foreach ($roles as $key => $value) {
+
+            $this->extraerCorreos($value);
+        }
+
+    }
+
+    public function extraerCorreos($rol = '')
+    {
+
+        unset($this->users['count']);
+
+        foreach ($this->users as $key => $value) {
+
+            if (isset($value['description'][0]) && $value['description'][0] == $rol) {
+                $this->designatariosCorreo[] = $value['mail'][0];
+
+            }
+
+        }
+
+    }
+
     public function estadoProyectos()
     {
 
@@ -76,9 +124,9 @@ class Notificaciones
             $proyectos[$key]['cantidad_sin_acta_portatil'] = $cant_sin_ac_portatil['cant_beneficiarios'];
 
             //Cantidad Beneficiarios Sin Acta Entrega Servicios
-            $cadenaSql = $this->miSql->getCadenaSql('cantidadSinActaPortatil', $value['id_proyecto']);
+            $cadenaSql = $this->miSql->getCadenaSql('cantidadSinActaServicios', $value['id_proyecto']);
             $cant_sin_ac_portatil = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-            $proyectos[$key]['cantidad_sin_acta_portatil'] = $cant_sin_ac_portatil['cant_beneficiarios'];
+            $proyectos[$key]['cantidad_sin_acta_servicios'] = $cant_sin_ac_portatil['cant_beneficiarios'];
 
             //Cantidad Beneficiarios Sin Portatil y Esclavo
             {
@@ -130,6 +178,7 @@ class Notificaciones
 
         }
 
+        //var_dump($proyectos);exit;
         // Estruturar Contenido Parametrizable Correo
 
         $meta = '';
@@ -137,13 +186,34 @@ class Notificaciones
         foreach ($proyectos as $key => $value) {
 
             if ($meta != $value['meta']) {
-                $this->contenidoParametrizable .= ' <b>Meta #' . $value['meta'] . "</b><br>";
+                $this->contenidoParametrizable .= ' <b>Meta #' . $value['meta'] . "</b><br><br>";
                 $meta = $value['meta'];
             }
 
+            $this->contenidoParametrizable .= 'Proyecto : <b>' . $value['proyecto'] . "</b><br><br>";
+
+            $this->contenidoParametrizable .= 'Total beneficiarios sistema : <b>' . $value['cantidad_beneficiarios'] . "</b><br>";
+
+            $this->contenidoParametrizable .= 'Beneficiarios sin contrato generado : <b>' . $value['cantidad_sin_contato'] . "</b><br>";
+
+            $this->contenidoParametrizable .= 'Beneficiarios sin actas de portatil : <b>' . $value['cantidad_sin_acta_portatil'] . "</b><br>";
+
+            $this->contenidoParametrizable .= 'Beneficiarios sin actas de servicio : <b>' . $value['cantidad_sin_acta_servicios'] . "</b><br>";
+
+            $this->contenidoParametrizable .= 'Beneficiarios sin portatil relacionado : <b>' . $value['cantidad_sin_portatil'] . "</b><br>";
+
+            $this->contenidoParametrizable .= 'Beneficiarios sin esclavo relacionado : <b>' . $value['cantidad_sin_esclavo'] . "</b><br>";
+
+            $this->contenidoParametrizable .= 'Beneficiarios sin documentacion subida al sistema de la fase de contratacion : <b>' . $value['cantidad_sin_documentacion_contratacion'] . "</b><br>";
+
+            $this->contenidoParametrizable .= 'Beneficiarios sin documentacion subida al sistema de la fase de comisionamiento : <b>' . $value['cantidad_sin_documentacion_comisionamiento'] . "</b><br>";
+
+            $this->contenidoParametrizable .= 'Beneficiarios sin información técnica relacionada : <b>' . $value['cantidad_sin_informacion_tecnica'] . "</b><br>";
+
+            $this->contenidoParametrizable .= 'Beneficiarios sin pruebas relacionadas : <b>' . $value['cantidad_sin_pruebas_asociadas'] . "</b><br><br>";
+
         }
 
-        echo $this->contenidoParametrizable;exit;
     }
     /**
      * LDAP PHP Change Password Webpage
@@ -196,49 +266,114 @@ class Notificaciones
 
         $this->users = ldap_get_entries($con, $sr);
 
-        $miConfigurador = \Configurador::singleton();
+    }
 
-        foreach ($this->users as $key => $user) {
+    public function enviarNotificacion()
+    {
 
-            $variable = 'pagina=gestionUsuarios';
-            $variable .= '&opcion=editarUsuario';
-            $variable .= '&nombre_usuario=' . $user['uid'][0];
-            $variable .= '&rol=' . $user['description'][0];
-            $variable .= '&nombre_completo=' . $user['givenname'][0];
-            $variable .= '&correo_electronico=' . $user['mail'][0];
-            $variable .= '&telefono=' . $user['telephonenumber'][0];
+        /**
+         * This example shows settings to use when sending via Google's Gmail servers.
+         */
 
-            $url = $miConfigurador->configuracion["host"] . $miConfigurador->configuracion["site"] . "/index.php?";
-            $enlace = $miConfigurador->configuracion['enlace'];
-            $variable = $miConfigurador->fabricaConexiones->crypto->codificar($variable);
-            $_REQUEST[$enlace] = $enlace . '=' . $variable;
-            $redireccion = $url . $_REQUEST[$enlace];
+        // SMTP needs accurate times, and the PHP time zone MUST be set
+        // This should be done in your php.ini, but this is how to do it if you don't have access to that
 
-            if ($key !== "count") {
-                if ($user['description'][0] == "inactivo") {
-                    $infoUser[$key]['uid'] = "<a id='inactivo' href='$redireccion'>" . $user['uid'][0] . "</a>";
-                } else {
-                    $infoUser[$key]['uid'] = "<a href='$redireccion'>" . $user['uid'][0] . "</a>";
-                }
-                $infoUser[$key]['description'] = $valores[$user['description'][0]];
-                $infoUser[$key]['mail'] = $user['mail'][0];
-                $infoUser[$key]['givenname'] = $user['givenname'][0];
-                $infoUser[$key]['telephonenumber'] = $user['telephonenumber'][0];
+        require $this->ruta . '/plugin/PHPMailer/PHPMailerAutoload.php';
+
+        // Create a new PHPMailer instance
+        $mail = new \PHPMailer();
+
+        $mail->CharSet = 'UTF-8';
+
+        // Tell PHPMailer to use SMTP
+        $mail->isSMTP();
+
+        // Enable SMTP debugging
+        // 0 = off (for production use)
+        // 1 = client messages
+        // 2 = client and server messages
+        $mail->SMTPDebug = 0;
+
+        // Ask for HTML-friendly debug output
+        $mail->Debugoutput = 'html';
+
+        // Set the hostname of the mail server
+        $mail->Host = 'smtp.gmail.com';
+        // use
+        // $mail->Host = gethostbyname('smtp.gmail.com');
+        // if your network does not support SMTP over IPv6
+
+        // Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+        $mail->Port = 587;
+
+        // Set the encryption system to use - ssl (deprecated) or tls
+        $mail->SMTPSecure = 'tls';
+
+        // Whether to use SMTP authentication
+        $mail->SMTPAuth = true;
+
+        // Username to use for SMTP authentication - use full email address for gmail
+        $mail->Username = $this->datosConexion['usuario'];
+
+        // Password to use for SMTP authentication
+        $mail->Password = $this->datosConexion['password'];
+
+        // Set who the message is to be sent from
+        $mail->setFrom($this->datosConexion['usuario'], 'Conexiones Digitales - Sistema OpenKyOS');
+
+        // Set an alternative reply-to address
+        // $mail->addReplyTo ( 'replyto@example.com', 'First Last' );
+
+        // Set who the message is to be sent to
+
+        if (is_array($this->designatariosCorreo) == true) {
+
+            foreach ($this->designatariosCorreo as $key => $value) {
+
+                $mail->addAddress($value);
             }
-
+        } else {
+            $mail->addAddress($this->designatariosCorreo);
         }
 
-        $total = count($infoUser);
+        // Set the subject line
+        $mail->Subject = 'Estados Actuales Proyectos';
+        $body = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+                        <html>
+                        <head>
+                          <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+                          <title>Estados Actuales Proyectos</title>
+                        </head>
+                        <body>
+                        <div style="width: 640px; font-family: Arial, Helvetica, sans-serif; font-size: 11px;">
+                          <h1>Estados Actuales Proyectos</h1>
+                          <p>' . $this->contenidoCorreo . '<br><br>Notificación de Sistema OpenKyOS</p>
+                          <div align="center">
+                          </div>
+                        </div>
+                        </body>
+                        </html>
+        ';
 
-        $resultado = json_encode($infoUser);
+        // Read an HTML message body from an external file, convert referenced images to embedded,
+        // convert HTML into a basic plain-text alternative body
+        $mail->msgHTML($body, dirname(__FILE__));
 
-        $resultado = '{
-                "recordsTotal":' . $total . ',
-                "recordsFiltered":' . $total . ',
-                "data":' . $resultado . '}';
+        // Replace the plain text body with one created manually
+        // $mail->AltBody = 'Hemos recibido una solicitud de restauración de contraseña, si usted realizo la solicitud de clic sobre el siguiente link . Si usted no realizo dicha solicitud por favor omita este mensaje';
 
-        echo $resultado;
+        // Attach an image file
+        // $mail->addAttachment ( $this->ruta . '/plugin/PHPMailer/examples/images/phpmailer_mini.png' );
 
+        // send the message, check for errors
+        if (!$mail->send()) {
+            echo "Mailer Error: " . $mail->ErrorInfo;
+        } else {
+            echo "Message sent!";
+        }
+
+        exit;
     }
+
 }
 $miDocumento = new Notificaciones($this->sql);
