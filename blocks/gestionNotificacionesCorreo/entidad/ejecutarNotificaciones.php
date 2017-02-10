@@ -7,8 +7,6 @@ if (!isset($GLOBALS["autorizado"])) {
     exit();
 }
 
-include_once 'Redireccionador.php';
-
 class Notificaciones
 {
     public $miConfigurador;
@@ -176,9 +174,17 @@ class Notificaciones
 
             }
 
+            //Beneficiarios sin información Familiar
+
+            {
+                $cadenaSql = $this->miSql->getCadenaSql('cantidadSinFamiliares', $value['id_proyecto']);
+                $cant_sin_familiares = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+                $proyectos[$key]['cantidad_sin_familiares'] = $cant_sin_familiares['cant_beneficiarios'];
+
+            }
+
         }
 
-        //var_dump($proyectos);exit;
         // Estruturar Contenido Parametrizable Correo
 
         $meta = '';
@@ -210,7 +216,9 @@ class Notificaciones
 
             $this->contenidoParametrizable .= 'Beneficiarios sin información técnica relacionada : <b>' . $value['cantidad_sin_informacion_tecnica'] . "</b><br>";
 
-            $this->contenidoParametrizable .= 'Beneficiarios sin pruebas relacionadas : <b>' . $value['cantidad_sin_pruebas_asociadas'] . "</b><br><br>";
+            $this->contenidoParametrizable .= 'Beneficiarios sin pruebas relacionadas : <b>' . $value['cantidad_sin_pruebas_asociadas'] . "</b><br>";
+
+            $this->contenidoParametrizable .= 'Beneficiarios sin información de familiares : <b>' . $value['cantidad_sin_familiares'] . "</b><br><br>";
 
         }
 

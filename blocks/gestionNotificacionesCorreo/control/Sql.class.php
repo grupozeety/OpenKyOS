@@ -60,6 +60,15 @@ class Sql extends \Sql
                 $cadenaSql .= " AND bp.id_proyecto='" . $variable . "';";
                 break;
 
+            case 'cantidadSinFamiliares':
+                $cadenaSql = " SELECT count(bp.id_beneficiario) cant_beneficiarios";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
+                $cadenaSql .= " LEFT JOIN interoperacion.familiar_beneficiario_potencial fm ON fm.id_beneficiario=bp.id_beneficiario AND fm.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE bp.estado_registro='TRUE'";
+                $cadenaSql .= " AND fm.id_beneficiario IS NULL";
+                $cadenaSql .= " AND bp.id_proyecto='" . $variable . "';";
+                break;
+
             case 'cantidadSinActaPortatil':
                 $cadenaSql = " SELECT count(bp.id_beneficiario) cant_beneficiarios";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
