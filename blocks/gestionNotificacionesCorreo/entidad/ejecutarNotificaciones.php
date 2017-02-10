@@ -65,7 +65,7 @@ class Notificaciones
                     '1' => 'gestoradministrativo',
                 );
                 $this->clasificarCorreoUsuarios($roles);
-                $this->contenidoCorreo = 'Ingenieros nos permitimos informales el estado general del proceso de comisionamiento a la fecha de los siguientes proyectos : <br>';
+                $this->contenidoCorreo = 'Ingenieros  de manera atenta se informa el estado general del proceso de comisionamiento para el proyecto Conexiones Digitales II en Córdoba y Sucre, con base en el registros que se ha efectuado a la fecha en el sistema de información OPENKYOS . Esta notificación se efectuará cada tres días para que se evalué el avance de los subproyectos o urbanizaciones y se tomen las medidas o acciones correspondientes. <br>';
                 $this->estadoProyectos();
                 $this->contenidoCorreo .= $this->contenidoParametrizable;
 
