@@ -656,7 +656,7 @@ class GenerarReporteInstalaciones
 
         exec('du -shc ' . $this->ruta_directorio_raiz . "/" . $this->nombre_archivo_zip, $lista);
 
-        $variable = explode("   ", $lista[0]);
+        $variable = explode("\t", $lista[0]);
 
         $tamanio_archivo = $variable[0];
 
