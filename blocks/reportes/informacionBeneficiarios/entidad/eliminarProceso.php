@@ -3,7 +3,8 @@ namespace reportes\informacionBeneficiarios\entidad;
 
 include_once 'Redireccionador.php';
 
-class GenerarReporteInstalaciones {
+class GenerarReporteInstalaciones
+{
 
     public $miConfigurador;
     public $lenguaje;
@@ -11,7 +12,8 @@ class GenerarReporteInstalaciones {
     public $miSql;
     public $conexion;
 
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -38,7 +40,7 @@ class GenerarReporteInstalaciones {
 
                 $archivo = $ruta_directorio_raiz . $estadoproceso['nombre_archivo'];
 
-                $archivo_del = (file_exists($archivo)) ? unlink($archivo) : "No Exite Archivo";
+                unlink($archivo);
             }
 
             $cadenaSql = $this->miSql->getCadenaSql('eliminarProceso');
@@ -55,6 +57,3 @@ class GenerarReporteInstalaciones {
 }
 
 $miProcesador = new GenerarReporteInstalaciones($this->sql);
-
-?>
-

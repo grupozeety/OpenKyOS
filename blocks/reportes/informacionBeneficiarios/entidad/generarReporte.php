@@ -654,21 +654,11 @@ class GenerarReporteInstalaciones
          * 4. Registrar Finalizacion Proceso
          **/
 
-        exec('ls -lh ' . $this->ruta_directorio_raiz, $lista);
+        exec('du -shc ' . $this->ruta_directorio_raiz . "/" . $this->nombre_archivo_zip, $lista);
 
-        foreach ($lista as $key => $value) {
+        $variable = explode("   ", $lista[0]);
 
-            $posicion_coincidencia = strrpos($value, $this->nombre_archivo_zip);
-
-            if ($posicion_coincidencia === false) {
-
-            } else {
-
-                $variable = explode(" ", $value);
-
-                $tamanio_archivo = $variable[count($variable) - 6];
-            }
-        }
+        $tamanio_archivo = $variable[0];
 
         $arreglo = array(
             "nombre_archivo" => $this->nombre_archivo_zip,
