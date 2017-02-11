@@ -191,8 +191,8 @@ class Notificaciones
 
             {
                 $cadenaSql = $this->miSql->getCadenaSql('cantidadSinFamiliaresActualizados', $value['id_proyecto']);
-                $cant_familiares_sin_actualizar = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-                $proyectos[$key]['cantidad_familiares_sin_actualizar'] = $cant_familiares_sin_actualizar['cant_beneficiarios'];
+                $cant_familiares_actualizar = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+                $proyectos[$key]['cantidad_familiares_actualizar'] = $cant_familiares_actualizar['cant_beneficiarios'];
 
             }
 
@@ -235,7 +235,7 @@ class Notificaciones
 
             $beneficiarios_con_familiares = $value['cantidad_beneficiarios'] - $value['cantidad_sin_familiares'];
 
-            $this->contenidoParametrizable .= 'Beneficiarios con familiares(<b>' . $beneficiarios_con_familiares . '</b>) de los cuales no tienen informacion actualizada : <b>' . $value['cantidad_familiares_sin_actualizar'] . "</b><br><br>";
+            $this->contenidoParametrizable .= 'Beneficiarios con familiares(<b>' . $beneficiarios_con_familiares . '</b>) de los cuales  tienen información actualizada : <b>' . $value['cantidad_familiares_actualizar'] . "</b><br><br>";
 
         }
 
