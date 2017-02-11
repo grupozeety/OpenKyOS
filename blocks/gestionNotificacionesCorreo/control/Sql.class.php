@@ -70,14 +70,18 @@ class Sql extends \Sql
                 break;
 
             case 'cantidadSinFamiliaresActualizados':
-                $cadenaSql = " SELECT count(bp.id_beneficiario) cant_beneficiarios";
+
+                $cadenaSql = " select count (*) as cant_beneficiarios";
+                $cadenaSql .= " from (";
+                $cadenaSql .= " SELECT distinct bp.id_beneficiario ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
                 $cadenaSql .= " LEFT JOIN interoperacion.familiar_beneficiario_potencial fm ON fm.id_beneficiario=bp.id_beneficiario AND fm.estado_registro='TRUE'";
                 $cadenaSql .= " WHERE bp.estado_registro='TRUE'";
                 $cadenaSql .= " AND fm.id_beneficiario IS NOT NULL";
-                $cadenaSql .= " AND fm.edad_familiar IS NULL";
-                $cadenaSql .= " AND fm.parentesco IS NULL";
-                $cadenaSql .= " AND bp.id_proyecto='" . $variable . "';";
+                $cadenaSql .= " AND fm.edad_familiar IS NOT NULL";
+                $cadenaSql .= " AND fm.parentesco IS NOT NULL";
+                $cadenaSql .= " AND bp.id_proyecto='" . $variable . "' ";
+                $cadenaSql .= " ) as resultado";
                 break;
 
             case 'cantidadSinActaPortatil':
