@@ -69,6 +69,17 @@ class Sql extends \Sql
                 $cadenaSql .= " AND bp.id_proyecto='" . $variable . "';";
                 break;
 
+            case 'cantidadSinFamiliaresActualizados':
+                $cadenaSql = " SELECT count(bp.id_beneficiario) cant_beneficiarios";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
+                $cadenaSql .= " LEFT JOIN interoperacion.familiar_beneficiario_potencial fm ON fm.id_beneficiario=bp.id_beneficiario AND fm.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE bp.estado_registro='TRUE'";
+                $cadenaSql .= " AND fm.id_beneficiario IS NOT NULL";
+                $cadenaSql .= " AND fm.edad_familiar IS NULL";
+                $cadenaSql .= " AND fm.parentesco IS NULL";
+                $cadenaSql .= " AND bp.id_proyecto='" . $variable . "';";
+                break;
+
             case 'cantidadSinActaPortatil':
                 $cadenaSql = " SELECT count(bp.id_beneficiario) cant_beneficiarios";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
@@ -90,9 +101,10 @@ class Sql extends \Sql
             case 'cantidadSinPortatilAsociado':
                 $cadenaSql = " SELECT count(bp.id_beneficiario) cant_beneficiarios";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
+                $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario AND cn.estado_registro='TRUE'";
                 $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil ac ON ac.id_beneficiario=bp.id_beneficiario AND ac.estado_registro='TRUE'";
                 $cadenaSql .= " WHERE bp.estado_registro='TRUE'";
-                $cadenaSql .= " AND ac.id_beneficiario IS NOT NULL";
+                $cadenaSql .= " AND cn.id_beneficiario IS NOT NULL";
                 $cadenaSql .= " AND ac.serial IS NULL";
                 $cadenaSql .= " AND bp.id_proyecto='" . $variable . "';";
                 break;
@@ -100,9 +112,10 @@ class Sql extends \Sql
             case 'cantidadSinEsclavoAsociado':
                 $cadenaSql = " SELECT count(bp.id_beneficiario) cant_beneficiarios";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
+                $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario AND cn.estado_registro='TRUE'";
                 $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios acs ON acs.id_beneficiario=bp.id_beneficiario AND acs.estado_registro='TRUE'";
                 $cadenaSql .= " WHERE bp.estado_registro='TRUE'";
-                $cadenaSql .= " AND acs.id_beneficiario IS NOT NULL";
+                $cadenaSql .= " AND cn.id_beneficiario IS NOT NULL";
                 $cadenaSql .= " AND acs.mac_esc IS NULL";
                 $cadenaSql .= " AND bp.id_proyecto='" . $variable . "';";
                 break;
