@@ -156,8 +156,6 @@ class Sql extends \Sql
                 $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios acs ON acs.id_beneficiario=bp.id_beneficiario AND acs.estado_registro='TRUE'";
                 $cadenaSql .= " LEFT JOIN interoperacion.nodo nd ON nd.macesclavo1=acs.mac_esc AND nd.estado_registro='TRUE'";
                 $cadenaSql .= " WHERE bp.estado_registro='TRUE'";
-                $cadenaSql .= " AND acs.id_beneficiario IS NOT NULL";
-                $cadenaSql .= " AND acs.mac_esc IS NOT NULL";
                 $cadenaSql .= " AND nd.macesclavo1 IS NULL";
                 $cadenaSql .= " AND bp.id_proyecto='" . $variable . "';";
 
@@ -168,7 +166,6 @@ class Sql extends \Sql
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
                 $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_servicios acs ON acs.id_beneficiario=bp.id_beneficiario AND acs.estado_registro='TRUE'";
                 $cadenaSql .= " WHERE bp.estado_registro='TRUE'";
-                $cadenaSql .= " AND acs.id_beneficiario IS NOT NULL";
                 $cadenaSql .= " AND  acs.resultado_vs IS NULL";
                 $cadenaSql .= " AND  acs.resultado_vb IS NULL";
                 $cadenaSql .= " AND bp.id_proyecto='" . $variable . "';";
