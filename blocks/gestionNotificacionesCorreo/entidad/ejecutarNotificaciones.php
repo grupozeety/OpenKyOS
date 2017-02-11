@@ -351,6 +351,8 @@ class Notificaciones
 
         // Set who the message is to be sent to
 
+        //$this->designatariosCorreo = array('0' => '', '1' => '');
+
         if (is_array($this->designatariosCorreo) == true) {
 
             foreach ($this->designatariosCorreo as $key => $value) {
