@@ -68,6 +68,35 @@ echo $this->miFormulario->division ( "inicio", $atributos );
 unset ( $atributos );
 {
 
+	{
+		// ------------------Division para los botones-------------------------
+		$atributos['id'] = 'divMensaje';
+		$atributos['estilo'] = 'textoIzquierda';
+		echo $this->miFormulario->division("inicio", $atributos);
+		unset($atributos);
+		{
+				
+			// -------------Control texto-----------------------
+			$esteCampo = 'mostrarMensaje';
+			$atributos["tamanno"] = '';
+			$atributos["etiqueta"] = '';
+			$mensaje = '<center><IMG  src="theme/basico/img/update.ico"  width="25" height="25" ></center> <br>
+					<center>Atento! Actualiza la página antes de iniciar tu registro.<br><br>  </center>Se puede realizar con una de las siguientes opciones:<br> <br>
+					          - Presionando la tecla F5<br> 
+							  - Click en el botón actualizar del Navegador<br> 
+					          - El comando Ctrl+R (presionar la tecla Ctrl de la esquina izquierda del teclado y seguidamente presione la tecla R).';
+				
+			$atributos["mensaje"] = $mensaje;
+			$atributos["estilo"] = 'information'; // information,warning,error,validation
+			$atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+			echo $this->miFormulario->campoMensaje($atributos);
+			unset($atributos);
+		}
+		// ------------------Fin Division para los botones-------------------------
+		echo $this->miFormulario->division("fin");
+		unset($atributos);
+	}
+	
 	echo '
 			<div class="row">
                 <div class="wizard">
