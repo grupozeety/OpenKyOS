@@ -192,6 +192,34 @@ function cargarAjax(){
 	
 	?>
 	
+		<?php
+	
+	/**
+	 * Código Correspondiente a las Url de la peticiones Ajax.
+	 */
+	
+	// URL base
+	$url = $this->miConfigurador->getVariableConfiguracion("host");
+	$url .= $this->miConfigurador->getVariableConfiguracion("site");
+	$url .= "/index.php?";
+	
+	// Variables para Consultar Proyectos
+	$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+	$cadenaACodificar .= "&procesarAjax=true";
+	$cadenaACodificar .= "&action=index.php";
+	$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+	$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+	$cadenaACodificar .= "&funcion=consultarExistencia";
+	
+	// Codificar las variables
+	$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+	$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+	
+	// URL Consultar Proyectos
+	$urlConsultarExistencia= $url . $cadena;
+	
+	?>
+	
 	<?php
 	
 	/**
@@ -614,6 +642,8 @@ function cargarAjax(){
 		
 		});
 		
+		
+		
 		$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
 		
 			if($("#<?php echo $this->campoSeguro('urbanizacion');?>").val() != ""){
@@ -678,6 +708,22 @@ function cargarAjax(){
 	
 		$("#mensaje").modal("show");
 	  
+	  $("#<?php echo $this->campoSeguro('identificacion_beneficiario');?>").change(function() {
+		
+				 	var id =$("#<?php echo $this->campoSeguro('identificacion_beneficiario');?>").val();
+				 	 			
+				 	$.ajax({
+				 		url: "<?php echo $urlConsultarExistencia?>",
+				 		dataType: "json",
+				 		data: { valor: id},
+				 		success: function(data){
+				 		if(data!=false){
+				            $("#modalVerificar").modal('show');
+				 			$( "#<?php echo $this->campoSeguro('identificacion_beneficiario');?>" ).val('');
+				 		}}
+				 	});
+		
+		});
 	 
 	});
   
