@@ -6,7 +6,8 @@ $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfi
 
 require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel.php";
 
-class GenerarReporteExcelInstalaciones {
+class GenerarReporteExcelInstalaciones
+{
 
     public $miConfigurador;
     public $lenguaje;
@@ -18,7 +19,8 @@ class GenerarReporteExcelInstalaciones {
     public $beneficiarios;
     public $ruta_directorio = '';
 
-    public function __construct($sql, $beneficiarios, $ruta_directorio) {
+    public function __construct($sql, $beneficiarios, $ruta_directorio)
+    {
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -48,7 +50,8 @@ class GenerarReporteExcelInstalaciones {
 
     }
 
-    public function estructurarInformacion() {
+    public function estructurarInformacion()
+    {
 
         // Estilos Celdas
         {
@@ -581,7 +584,17 @@ class GenerarReporteExcelInstalaciones {
                 $this->objCal2->setCellValue('B' . $i, $value['direccion_domicilio'] . " " . $anexo_dir)
                      ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
 
-                $this->objCal2->setCellValue('C' . $i, str_replace("-", "/", $value['fecha_instalacion']))
+                if (is_null($value['fecha_instalacion']) == true) {
+
+                    $fecha = $value['fecha_comisionamiento'];
+
+                } else {
+
+                    $fecha = $value['fecha_instalacion'];
+
+                }
+
+                $this->objCal2->setCellValue('C' . $i, str_replace("-", "/", $fecha))
                      ->getStyle('C' . $i)->applyFromArray($styleCentradoVertical);
 
                 $this->objCal2->setCellValue('D' . $i, $value['ip_esc'])
@@ -614,7 +627,8 @@ class GenerarReporteExcelInstalaciones {
 
     }
 
-    public function generarEsquemaDocumento() {
+    public function generarEsquemaDocumento()
+    {
 
         // Estilos Celdas
         {
@@ -1171,7 +1185,8 @@ class GenerarReporteExcelInstalaciones {
 
     }
 
-    public function configurarDocumento() {
+    public function configurarDocumento()
+    {
 
         $this->objCal = new \PHPExcel();
 
@@ -1190,7 +1205,8 @@ class GenerarReporteExcelInstalaciones {
 
     }
 
-    public function retornarDocumento() {
+    public function retornarDocumento()
+    {
 
         if ($_REQUEST['tipo_resultado'] == '1') {
             // Redirect output to a client’s web browser (Excel2007)
@@ -1222,6 +1238,3 @@ class GenerarReporteExcelInstalaciones {
 }
 
 $miProcesador = new GenerarReporteExcelInstalaciones($this->miSql, $this->beneficiarios, $this->ruta_directorio);
-
-?>
-
