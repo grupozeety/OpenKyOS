@@ -17,7 +17,8 @@ require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel/IOFactory.php";
 
 include_once 'Redireccionador.php';
 
-class FormProcessor {
+class FormProcessor
+{
 
     public $miConfigurador;
     public $lenguaje;
@@ -31,7 +32,8 @@ class FormProcessor {
     public $rutaAbsoluta;
     public $clausulas;
     public $registro_info_contrato;
-    public function __construct($lenguaje, $sql) {
+    public function __construct($lenguaje, $sql)
+    {
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -197,7 +199,8 @@ class FormProcessor {
 
     }
 
-    public function registroProceso() {
+    public function registroProceso()
+    {
 
         $this->urbanizaciones = array_unique($this->urbanizaciones);
         $arreglo_registro = array(
@@ -214,7 +217,8 @@ class FormProcessor {
 
     }
 
-    public function parametrizarNombre() {
+    public function parametrizarNombre()
+    {
         if (isset($this->datos_nombre_documento)) {
 
             foreach ($this->datos_nombre_documento as $key => $value) {
@@ -280,7 +284,8 @@ class FormProcessor {
 
     }
 
-    public function crearActas() {
+    public function crearActas()
+    {
 
         foreach ($this->informacion_registrar_portatil as $key => $value) {
 
@@ -304,7 +309,8 @@ class FormProcessor {
 
     }
 
-    public function procesarInformacionBeneficiario() {
+    public function procesarInformacionBeneficiario()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -328,13 +334,15 @@ class FormProcessor {
                 'cant_esc' => $value['cantidad_esclavo'],
                 'ip_esc' => $value['ip'],
                 'mac_esc2' => $value['mac_2'],
+                'fecha_instalacion' => $value['fecha_instalacion'],
             );
 
         }
 
     }
 
-    public function validarExistenciaActas() {
+    public function validarExistenciaActas()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -359,7 +367,8 @@ class FormProcessor {
 
     }
 
-    public function validarOtrosDatos() {
+    public function validarOtrosDatos()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -371,6 +380,17 @@ class FormProcessor {
                 $hiredate = $value['fecha_entrega_portatil'];
 
                 if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha') {
+                    Redireccionador::redireccionar("ErrorCreacion");
+                }
+            }
+
+            if (isset($value['fecha_instalacion'])) {
+
+                $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
+                $hiredate = $value['fecha_instalacion'];
+
+                if (!preg_match($date_regex, $hiredate) && $value['fecha_instalacion'] != 'Sin Fecha') {
+
                     Redireccionador::redireccionar("ErrorCreacion");
                 }
             }
@@ -409,7 +429,8 @@ class FormProcessor {
 
     }
 
-    public function validarIPyMAC() {
+    public function validarIPyMAC()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -446,7 +467,8 @@ class FormProcessor {
 
     }
 
-    public function validarDuplicidadActa() {
+    public function validarDuplicidadActa()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -462,7 +484,8 @@ class FormProcessor {
 
     }
 
-    public function validarExistenciaSerialPortatil() {
+    public function validarExistenciaSerialPortatil()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -479,7 +502,8 @@ class FormProcessor {
 
     }
 
-    public function validarDuplicidadPortatil() {
+    public function validarDuplicidadPortatil()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -503,7 +527,8 @@ class FormProcessor {
 
     }
 
-    public function validarBeneficiariosExistentes() {
+    public function validarBeneficiariosExistentes()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -521,7 +546,8 @@ class FormProcessor {
 
     }
 
-    public function validarContratosExistentes() {
+    public function validarContratosExistentes()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -539,7 +565,8 @@ class FormProcessor {
 
     }
 
-    public function cargarInformacionHojaCalculo() {
+    public function cargarInformacionHojaCalculo()
+    {
 
         ini_set('memory_limit', '1024M');
         ini_set('max_execution_time', 300);
@@ -607,6 +634,8 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['modelo_portatil'] = $informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue();
 
+                $datos_beneficiario[$i]['fecha_instalacion'] = $informacion->setActiveSheetIndex()->getCell('L' . $i)->getCalculatedValue();
+
             }
 
             $this->datos_beneficiario = $datos_beneficiario;
@@ -636,7 +665,8 @@ class FormProcessor {
 
     }
 
-    public function cargarArchivos() {
+    public function cargarArchivos()
+    {
 
         $archivo_datos = '';
         $archivo = $_FILES['archivo_actas'];
@@ -697,5 +727,3 @@ class FormProcessor {
 }
 
 $miProcesador = new FormProcessor($this->lenguaje, $this->sql);
-?>
-

@@ -1,5 +1,6 @@
 <?php
 namespace reportes\generarActasMasivos;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -10,9 +11,11 @@ include_once "core/connection/Sql.class.php";
 
 // Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 // en camel case precedida por la palabra sql
-class Sql extends \Sql {
+class Sql extends \Sql
+{
     public $miConfigurador;
-    public function getCadenaSql($tipo, $variable = '') {
+    public function getCadenaSql($tipo, $variable = '')
+    {
 
         /**
          * 1.
@@ -132,7 +135,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " marca_esc, ";
                 $cadenaSql .= " cant_esc, ";
                 $cadenaSql .= " ip_esc, ";
-                $cadenaSql .= " mac2_esc)";
+                $cadenaSql .= " mac2_esc,";
+                $cadenaSql .= " fecha_instalacion)";
                 $cadenaSql .= " VALUES (";
                 foreach ($variable as $key => $value) {
 
@@ -145,6 +149,8 @@ class Sql extends \Sql {
                     } else if ($key == 'marca_esc' && $value == 'Sin Marca Esclavo') {
                         $cadenaSql .= "NULL,";
                     } else if ($key == 'serial_esc' && $value == 'Sin Serial Esclavo') {
+                        $cadenaSql .= "NULL,";
+                    } else if ($key == 'fecha_instalacion' && $value == 'Sin Fecha') {
                         $cadenaSql .= "NULL,";
                     } else if ($key == 'cant_esc' && $value == 'Sin Cantidad') {
                         $cadenaSql .= "NULL,";
@@ -392,5 +398,3 @@ class Sql extends \Sql {
         return $cadenaSql;
     }
 }
-?>
-
