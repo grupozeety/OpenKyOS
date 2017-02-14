@@ -1,5 +1,4 @@
-ffech
-	<?php
+<?php
 /**
  * Código Correspondiente a las Url de la peticiones Ajax.
  */
