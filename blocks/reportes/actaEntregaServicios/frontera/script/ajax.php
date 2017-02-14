@@ -190,7 +190,7 @@ $urlConsultarProyectos = $url . $cadena;
 	    forceParse: 0
 	});
 
-	$('#<?php echo $this->campoSeguro("fecha_instalacion");?>').val(strDate);
+
 
 	if($("#<?php echo $this->campoSeguro('urbanizacion')?>").length > 0){
 		var urbanizacion;
