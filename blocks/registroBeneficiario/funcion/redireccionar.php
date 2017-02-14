@@ -18,18 +18,23 @@ class redireccion {
 				$variable .= "&mensaje=errorBeneficiario";
 				break;
 			
+			case "existeBen" :
+				$variable = "pagina=consultarBeneficiario";
+				$variable .= "&mensaje=existeBen";
+				break;
+			
 			case "multipleBeneficiario" :
 				$variable = "pagina=consultarBeneficiario";
 				$variable .= "&mensaje=errorMultipleBeneficiario";
 				$variable .= "&informacion=" . $valor;
 				break;
-			 
+			
 			case "inserto" :
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&mensaje=confirma";
 				$variable .= "&id=" . $valor;
 				break;
-			 
+			
 			case "noAlfresco" :
 				$variable = "pagina=" . $miPaginaActual;
 				$variable .= "&mensaje=noAlfresco";
