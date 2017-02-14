@@ -13,8 +13,6 @@ function cargarPHP(){
 }
 
 function cargar(){
-	cargarAjax();
-	cargarJS();
 	cargarPHP();
 }
 
