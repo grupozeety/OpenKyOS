@@ -187,7 +187,7 @@ class Sql extends \Sql
                 $cadenaSql .= " mac_sm_celda,mac_cpe_celda,";     //Nodo
                 $cadenaSql .= " mac_master_eoc,ip_master_eoc,ip_onu_eoc,mac_onu_eoc,ip_hub_eoc,mac_hub_eoc,mac_cpe_eoc,";     //Nodo HCF
                 $cadenaSql .= " aes.fecha_instalacion,aes.ip_esc,aes.mac_esc, aes.resultado_p1,aes.resultado_tr1, ";     //Nodo HCF
-                $cadenaSql .= " aes.resultado_tr2, aes.reporte_fallos, aes.acceso_reportando , ";
+                $cadenaSql .= " aes.resultado_tr2, aes.reporte_fallos, aes.acceso_reportando ,aes.fecha_comisionamiento, ";
                 $cadenaSql .= " CASE WHEN aes.id=NULL  THEN ''  ELSE 'www.mintic.gov.co;https://www.sivirtual.gov.co;https://www.wikipedia.org/'  END  AS paginas_visitadas";
                 $cadenaSql .= " FROM interoperacion.contrato AS cn ";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario AND bn.estado_registro='TRUE'";
