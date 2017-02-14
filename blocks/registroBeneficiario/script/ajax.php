@@ -474,22 +474,31 @@ $arreglo = array (
 				data: { valor: id},
 				success: function(data){
 					
-						<!--Se remueven los select2 de los select para realizar una clonación efectiva del campo -->
-$($( '#div_' + id + ' :input')[0]).select2("destroy"); $($( '#div_' + id
-+ ' :input')[5]).select2("destroy"); $($( '#div_' + id + '
-:input')[6]).select2("destroy"); $($( '#div_' + id + '
-:input')[9]).select2("destroy"); $($( '#div_' + id + '
-:input')[13]).select2("destroy"); $($( '#div_' + id + '
-:input')[14]).select2("destroy"); <!--Se clona el div --> $newClone =
-$('#div_' + id).clone(true); $newClone.attr("id",'div_' + (id + 1));
-$newClone.insertAfter($('#div_'+id)); $('#div_'+id + ' img').remove(
-"#botonAgregar" ); <!--Se restablecen los select2 --> $($( '#div_' + id
-+ ' :input')[0]).select2({width:'100%'}); $($( '#div_' + id + '
-:input')[5]).select2({width:'100%'}); $($( '#div_' + id + '
-:input')[6]).select2({width:'100%'}); $($( '#div_' + id + '
-:input')[9]).select2({width:'100%'}); $($( '#div_' + id + '
-:input')[13]).select2({width:'100%'}); $($( '#div_' + id + '
-:input')[14]).select2({width:'100%'}); <!--Se agregan los select2 a los campos clonados-->
+<!--Se remueven los select2 de los select para realizar una clonación efectiva del campo -->
+ 						$($( '#div_' + id + ' :input')[0]).select2("destroy");
+ 						$($( '#div_' + id + ' :input')[5]).select2("destroy");
+ 						$($( '#div_' + id + ' :input')[6]).select2("destroy");
+ 						$($( '#div_' + id + ' :input')[9]).select2("destroy");
+ 						$($( '#div_' + id + ' :input')[13]).select2("destroy");
+ 						$($( '#div_' + id + ' :input')[14]).select2("destroy");
+ 						
+ 						<!--Se clona el div -->
+ 						
+ 						$newClone = $('#div_' + id).clone(true);
+ 						$newClone.attr("id",'div_' + (id + 1));
+ 						$newClone.insertAfter($('#div_'+id));
+ 						
+ 						$('#div_'+id + ' img').remove( "#botonAgregar" );
+ 						
+ 						<!--Se restablecen los select2 -->
+ 						$($( '#div_' + id + ' :input')[0]).select2({width:'100%'});
+ 						$($( '#div_' + id + ' :input')[5]).select2({width:'100%'});
+ 						$($( '#div_' + id + ' :input')[6]).select2({width:'100%'});
+ 						$($( '#div_' + id + ' :input')[9]).select2({width:'100%'});
+ 						$($( '#div_' + id + ' :input')[13]).select2({width:'100%'});
+ 						$($( '#div_' + id + ' :input')[14]).select2({width:'100%'});
+ 						
+ 						<!--Se agregan los select2 a los campos clonados-->
 						$($( '#div_' + (id + 1) + ' :input')[0]).select2({width:'100%'});
 						$($( '#div_' + (id + 1) + ' :input')[5]).select2({width:'100%'});
 						$($( '#div_' + (id + 1) + ' :input')[6]).select2({width:'100%'});
@@ -609,7 +618,12 @@ $newClone.insertAfter($('#div_'+id)); $('#div_'+id + ' img').remove(
 		
 		});
 		
-
+	    $("#<?php echo $this->campoSeguro('identificacion_beneficiario');?>").change(function() {
+		
+		alert('cambio');
+		
+		});
+		
 		$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
 		
 			if($("#<?php echo $this->campoSeguro('urbanizacion');?>").val() != ""){
