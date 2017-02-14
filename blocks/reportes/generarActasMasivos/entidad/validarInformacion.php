@@ -17,7 +17,8 @@ require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel/IOFactory.php";
 
 include_once 'Redireccionador.php';
 
-class FormProcessor {
+class FormProcessor
+{
 
     public $miConfigurador;
     public $lenguaje;
@@ -31,7 +32,8 @@ class FormProcessor {
     public $rutaAbsoluta;
     public $clausulas;
     public $registro_info_contrato;
-    public function __construct($lenguaje, $sql) {
+    public function __construct($lenguaje, $sql)
+    {
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -157,7 +159,8 @@ class FormProcessor {
 
     }
 
-    public function validarExistenciaActas() {
+    public function validarExistenciaActas()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -191,7 +194,8 @@ class FormProcessor {
 
     }
 
-    public function validarOtrosDatos() {
+    public function validarOtrosDatos()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -205,6 +209,22 @@ class FormProcessor {
                 if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha') {
 
                     $mensaje = " La fecha de entrega de portatil  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna Fecha de entrega de portatil este en formato texto y con esl formato 'yyyy-mm-dd'.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+
+                }
+            }
+
+            //Fecha Valida
+
+            if (isset($value['fecha_instalacion'])) {
+
+                $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
+                $hiredate = $value['fecha_instalacion'];
+
+                if (!preg_match($date_regex, $hiredate) && $value['fecha_instalacion'] != 'Sin Fecha') {
+
+                    $mensaje = " La fecha de instalación asosicada al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna Fecha de entrega de portatil este en formato texto y con esl formato 'yyyy-mm-dd'.";
                     $this->escribir_log($mensaje);
                     $this->error = true;
 
@@ -257,7 +277,8 @@ class FormProcessor {
 
     }
 
-    public function validarIPyMAC() {
+    public function validarIPyMAC()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -307,7 +328,8 @@ class FormProcessor {
 
     }
 
-    public function validarExistenciaSerialPortatil() {
+    public function validarExistenciaSerialPortatil()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -329,7 +351,8 @@ class FormProcessor {
 
     }
 
-    public function validarDuplicidadActa() {
+    public function validarDuplicidadActa()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -348,7 +371,8 @@ class FormProcessor {
         }
 
     }
-    public function validarDuplicidadPortatil() {
+    public function validarDuplicidadPortatil()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -376,7 +400,8 @@ class FormProcessor {
 
     }
 
-    public function validarBeneficiariosExistentes() {
+    public function validarBeneficiariosExistentes()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -397,7 +422,8 @@ class FormProcessor {
 
     }
 
-    public function validarContratosExistentes() {
+    public function validarContratosExistentes()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -418,19 +444,22 @@ class FormProcessor {
 
     }
 
-    public function escribir_log($mensaje) {
+    public function escribir_log($mensaje)
+    {
 
         fwrite($this->log, $mensaje . PHP_EOL);
 
     }
 
-    public function cerrar_log() {
+    public function cerrar_log()
+    {
 
         fclose($this->log);
 
     }
 
-    public function creacion_log() {
+    public function creacion_log()
+    {
 
         $prefijo = substr(md5(uniqid(time())), 0, 6);
 
@@ -441,7 +470,8 @@ class FormProcessor {
         $this->log = fopen($this->ruta_absoluta_log, "w");
     }
 
-    public function cargarInformacionHojaCalculo() {
+    public function cargarInformacionHojaCalculo()
+    {
 
         ini_set('memory_limit', '1024M');
         ini_set('max_execution_time', 300);
@@ -510,6 +540,8 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['modelo_portatil'] = $informacion->setActiveSheetIndex()->getCell('K' . $i)->getCalculatedValue();
 
+                $datos_beneficiario[$i]['fecha_instalacion'] = $informacion->setActiveSheetIndex()->getCell('L' . $i)->getCalculatedValue();
+
             }
             unlink($this->archivo['ruta_archivo']);
 
@@ -523,7 +555,8 @@ class FormProcessor {
 
     }
 
-    public function cargarArchivos() {
+    public function cargarArchivos()
+    {
 
         $archivo_datos = '';
         $archivo = $_FILES['archivo_validacion'];
@@ -585,5 +618,3 @@ class FormProcessor {
 }
 
 $miProcesador = new FormProcessor($this->lenguaje, $this->sql);
-?>
-
