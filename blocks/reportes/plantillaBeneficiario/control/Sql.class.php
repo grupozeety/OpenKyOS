@@ -196,9 +196,6 @@ class Sql extends \Sql {
 				if (! is_null ( $variable ['barrio'] )) {
 					$cadenaSql .= "barrio=" . "'" . $variable ['barrio'] . "',";
 				}
-				if (! is_null ( $variable ['interior'] )) {
-					$cadenaSql .= "telefono=" . "'" . $variable ['telefono'] . "' ,";
-				}
 				if ($variable ['estrato'] != 0) {
 					$cadenaSql .= "estrato=" . "'" . $variable ['estrato'] . "'";
 				}
