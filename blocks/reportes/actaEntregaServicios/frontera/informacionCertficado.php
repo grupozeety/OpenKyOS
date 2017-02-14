@@ -6,14 +6,16 @@ if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
 }
-class Certificado {
+class Certificado
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
     public $ruta;
     public $rutaURL;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -37,7 +39,8 @@ class Certificado {
             $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
         }
     }
-    public function edicionCertificado() {
+    public function edicionCertificado()
+    {
 
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
@@ -416,7 +419,13 @@ class Certificado {
                     $atributos['columnas'] = 1;
                     $atributos['tamanno'] = 1;
                     $atributos['placeholder'] = "Seleccione la Fecha de Instalación";
-                    $atributos['valor'] = "";
+
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['valor'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['valor'] = "";
+                    }
+
                     $atributos['ajax_function'] = "";
                     $atributos['ajax_control'] = $esteCampo;
                     $atributos['limitar'] = false;
@@ -2321,7 +2330,8 @@ class Certificado {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensaje() {
+    public function mensaje()
+    {
         switch ($_REQUEST['mensaje']) {
             case 'inserto':
                 $estilo_mensaje = 'success';     // information,warning,error,validation
@@ -2360,5 +2370,3 @@ class Certificado {
 $miSeleccionador = new Certificado($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->edicionCertificado();
-
-?>
