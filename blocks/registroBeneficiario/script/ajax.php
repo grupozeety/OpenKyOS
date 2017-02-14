@@ -602,8 +602,7 @@ $arreglo = array (
 					urbanizacion = data;
 					
 					$.each(data , function(indice,valor){
-						$("<option value='"+data[ indice ].id+"'>" + data[ indice
-	].urbanizacion + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
+						$("<option value='"+data[ indice ].id+"'>" + data[indice].urbanizacion + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
 					});
 					
 					$("#<?php echo $this->campoSeguro('urbanizacion')?>").val($("#<?php echo $this->campoSeguro('id_urbanizacion')?>").val()).change();
