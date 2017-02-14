@@ -84,7 +84,9 @@ unset ( $atributos );
 					<center>Atento! Actualiza la página antes de iniciar tu registro.<br><br>  </center>Se puede realizar con una de las siguientes opciones:<br> <br>
 					          - Presionando la tecla F5<br> 
 							  - Click en el botón actualizar del Navegador<br> 
-					          - El comando Ctrl+R (presionar la tecla Ctrl de la esquina izquierda del teclado y seguidamente presione la tecla R).';
+					          - El comando Ctrl+R (presionar la tecla Ctrl de la esquina izquierda del teclado y seguidamente presione la tecla R).<br><br>
+					
+					<b><center>ADICIONALMENTE, valida que la cédula a registrar no exista en el sistema a través del módulo Gestión Estado Beneficiario.</center></b>';
 				
 			$atributos["mensaje"] = $mensaje;
 			$atributos["estilo"] = 'information'; // information,warning,error,validation
