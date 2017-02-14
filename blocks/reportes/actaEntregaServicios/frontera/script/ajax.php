@@ -1,58 +1,58 @@
-	
+ffech
 	<?php
-	/**
-	 * Código Correspondiente a las Url de la peticiones Ajax.
-	 */
-	
-	// URL base
-	$url = $this->miConfigurador->getVariableConfiguracion("host");
-	$url .= $this->miConfigurador->getVariableConfiguracion("site");
-	$url .= "/index.php?";
-	
-	// Variables para Con
-	$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
-	$cadenaACodificar .= "&procesarAjax=true";
-	$cadenaACodificar .= "&action=index.php";
-	$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
-	$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-	$cadenaACodificar .= "&funcion=consultaBeneficiarios";
-	
-	// Codificar las variables
-	$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-	$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
-	
-	// URL Consultar Proyectos
-	$urlConsultarBeneficiarios = $url . $cadena;
-	
-	?>
-	
+/**
+ * Código Correspondiente a las Url de la peticiones Ajax.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion("host");
+$url .= $this->miConfigurador->getVariableConfiguracion("site");
+$url .= "/index.php?";
+
+// Variables para Con
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultaBeneficiarios";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarBeneficiarios = $url . $cadena;
+
+?>
+
 	<?php
-	
-	/**
-	 * Código Correspondiente a las Url de la peticiones Ajax.
-	 */
-	
-	// URL base
-	$url = $this->miConfigurador->getVariableConfiguracion("host");
-	$url .= $this->miConfigurador->getVariableConfiguracion("site");
-	$url .= "/index.php?";
-	
-	// Variables para Consultar Proyectos
-	$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
-	$cadenaACodificar .= "&procesarAjax=true";
-	$cadenaACodificar .= "&action=index.php";
-	$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
-	$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-	$cadenaACodificar .= "&funcion=consultarProyectos";
-	
-	// Codificar las variables
-	$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-	$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
-	
-	// URL Consultar Proyectos
-	$urlConsultarProyectos = $url . $cadena;
-	
-	?>
+
+/**
+ * Código Correspondiente a las Url de la peticiones Ajax.
+ */
+
+// URL base
+$url = $this->miConfigurador->getVariableConfiguracion("host");
+$url .= $this->miConfigurador->getVariableConfiguracion("site");
+$url .= "/index.php?";
+
+// Variables para Consultar Proyectos
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultarProyectos";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarProyectos = $url . $cadena;
+
+?>
 <script type='text/javascript'>
 
 /**
@@ -65,21 +65,21 @@
 	$("#<?php echo $this->campoSeguro("geolocalizacion")?>").keydown(function(e){
 		e.preventDefault();
 	});
-		
+
 	$(function() {
 		$("#<?php echo $this->campoSeguro("geolocalizacion")?>").focus(function() {
 			 initMap();
 	        $("#myModal").modal("show");
-	       
+
 	    });
-	});	
-		
+	});
+
 	$("#botonAgregarLocalizacion").click(function( e ) {
 	    $("#<?php echo $this->campoSeguro("geolocalizacion")?>").val( $("#geomodal").val());
 		$("#<?php echo $this->campoSeguro("geolocalizacion")?>").change();
 		$('#myModal').modal('hide');
 	});
-		
+
  	var markers = [];
 	function initMap() {
 	    var map = new google.maps.Map(document.getElementById("map-canvas"), {
@@ -87,16 +87,16 @@
 	        zoom: 6
 	    });
 	    var infoWindow = new google.maps.InfoWindow({map: map});
-	
+
 	     if (navigator.geolocation) {
 	         navigator.geolocation.getCurrentPosition(function(position) {
 	         var pos = {
 	                 lat: position.coords.latitude,
 	                 lng: position.coords.longitude
 	         };
-	
+
 			$("#<?php echo $this->campoSeguro('geolocalizacion');?>").val(pos.lat + "," + pos.lng).change();
-	
+
 	         infoWindow.setPosition(pos);
 	         infoWindow.setContent("Localización Encontrada.");
 	         map.setCenter(pos);
@@ -107,31 +107,31 @@
 	         // Browser doesnt support Geolocation
 	         handleLocationError(false, infoWindow, map.getCenter());
 	 }
-	
+
 	    if(typeof document.getElementById("myModal")!==undefined){
 	        $("#myModal").on("shown.bs.modal", function () {
 	            initMap();
 	        });
 	    }
-	
+
 	    google.maps.event.addListener(map, "click", function (e) {
-	
+
 	        DeleteMarkers();
-	
+
 	        //lat and lng is available in e object
 	        var latLng = e.latLng;
-			
+
 			$("#geomodal").val(e.latLng.lat() + ", " + e.latLng.lng());
-			
+
 	        var marker=new google.maps.Marker({
 	            position:e.latLng,
 	        });
-	
+
 	        marker.setMap(map);
-	
+
 	        markers.push(marker);
 	    });
-	
+
 	    function DeleteMarkers() {
 	        //Loop through all the markers and remove
 	        for (var i = 0; i < markers.length; i++) {
@@ -140,7 +140,7 @@
 	        markers = [];
 	    };
 	}
-	
+
 	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	    infoWindow.setPosition(pos);
 	    infoWindow.setContent(browserHasGeolocation ?
@@ -148,19 +148,19 @@
 	          "Error: Your browser doesn\'t support geolocation.");
 	}
 
-	
+
  	$("#<?php echo $this->campoSeguro('tipo_documento_int')?>").select2({width:'100%',readonly: true});
  	$("#<?php echo $this->campoSeguro('tipo_documento_int')?>").prop('disabled', true);
- 	
+
 	$("#<?php echo $this->campoSeguro('tipo_beneficiario_int')?>").select2({width:'100%'});
 	$("#<?php echo $this->campoSeguro('tipo_beneficiario_int')?>").prop('disabled', true);
-	
+
 	$("#<?php echo $this->campoSeguro('estrato_int')?>").select2({width:'100%'});
 	$("#<?php echo $this->campoSeguro('estrato_int')?>").prop('disabled', true);
-	
+
 	$("#<?php echo $this->campoSeguro('tipo_tecnologia_int')?>").select2({width:'100%'});
 	$("#<?php echo $this->campoSeguro('tipo_tecnologia_int')?>").prop('disabled', true);
-	
+
  	$("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
 	   	minChars: 3,
 	   	serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
@@ -185,7 +185,7 @@
 	    weekStart: 1,
 	    todayBtn:  1,
 		autoclose: 1,
-	    todayHighlight: 1,
+	    todayHighlight: 0,
 	    startView: 2,
 	    minView: 2,
 	    forceParse: 0
@@ -198,13 +198,13 @@
 	}
 
 /*
-	
+
 	function urbanizacion(){
 		$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
 		$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
-				
+
 		$.ajax({
-			url: "<?php echo $urlConsultarProyectos; ?>",
+			url: "<?php echo $urlConsultarProyectos;?>",
 			dataType: "json",
 			data: { metodo:''},
 			success: function(data){
@@ -216,11 +216,11 @@
 			}
 		});
 	};
-	
+
 	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
 		$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val($("#<?php echo $this->campoSeguro('urbanizacion');?> option:selected").text());
 	});
-	
+
 	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
 		if($("#<?php echo $this->campoSeguro('urbanizacion');?>").val() != ""){
 			$.each(urbanizacion , function(indice,valor){
@@ -234,12 +234,12 @@
 			});
 		}
 	});
-	 
+
 	urbanizacion();
 */
 
 	$("#div1").hide();
-	
+
 	$("#<?php echo $this->campoSeguro('tipo_beneficiario');?>").change(function() {
 		if($("#<?php echo $this->campoSeguro('tipo_beneficiario');?>").val() == 3){
 			$("#div1").show();
@@ -295,6 +295,6 @@
  });
 
 
-	
+
 </script>
 
