@@ -57,6 +57,19 @@ if ($_REQUEST ['funcion'] == "consultarCodigo") {
 
 }
 
+if ($_REQUEST ['funcion'] == "consultarExistencia") {
+
+	$conexion = "interoperacion";
+	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+
+	$cadenaSql = $this->sql->getCadenaSql ( 'validarBen', $_REQUEST['valor']);
+	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+
+	echo json_encode($resultado);
+
+}
+
 if ($_REQUEST ['funcion'] == "cargarImagen") {
 	
 	$prefijo = substr(md5(uniqid(time())), 0, 6);
