@@ -755,9 +755,15 @@ class Sql extends \Sql {
 				$cadenaSql .= "ORDER BY id_beneficiario DESC LIMIT 1";
 				break;
 			
+			case 'validarBen' :
+				$cadenaSql = " select id_beneficiario ";
+				$cadenaSql .= "FROM interoperacion.beneficiario_potencial ";
+				$cadenaSql .= "WHERE identificacion= '" . $variable. "' ";
+				break;
+			
 			case 'sincronizarRapido' :
-				$cadenaSql = " DELETE FROM parametros.usuario_beneficiario WHERE usuario='".$info_usuario['mail'][0]."';";
-				$cadenaSql.= " INSERT INTO parametros.usuario_beneficiario VALUES ('".$info_usuario['mail'][0]."','".$variable['id']."','".$variable['documento']."');";
+				$cadenaSql = " DELETE FROM parametros.usuario_beneficiario WHERE usuario='" . $info_usuario ['mail'] [0] . "';";
+				$cadenaSql .= " INSERT INTO parametros.usuario_beneficiario VALUES ('" . $info_usuario ['mail'] [0] . "','" . $variable ['id'] . "','" . $variable ['documento'] . "');";
 				break;
 		}
 		
