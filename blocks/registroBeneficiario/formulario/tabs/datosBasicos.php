@@ -2014,9 +2014,41 @@ class Formulario {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->modal($atributos);
         unset($atributos);
+        
+        // ----------------INICIO CONTROL: Ventana Modal Mapa verificar---------------------------------
+        
+        $atributos['tipoEtiqueta'] = 'inicio';
+        $atributos['titulo'] = 'Error';
+        $atributos['id'] = 'modalVerificar';
+        $atributos ['estiloLinea'] = 'error'; // success,error,information,warning
+        $mensaje = "Identificación Existe en Sistema.<br><br>Verifique en Gestión Estado Beneficiario";
+        	
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+        
 
-        // -----------------FIN CONTROL: Ventana Modal Geolocalización -----------------------------------------------------------
-
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
+        	
+        echo '<p><h5>'.$mensaje.'</h5></p>';
+        	
+        echo '</div>';
+        	
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+        	
+        echo '<div style="text-align:center;">';
+        	
+        echo '</div>';
+        
+        // ----------------FIN CONTROL: Campo Texto Geolocalización------------------------------
+        
+        $atributos['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+        
+        // -----------------FIN CONTROL: Ventana Modal verificar-----------------------------------------------------------
+        
+        
         echo '  <script>
                     var markers = [];
                     function initMap() {
