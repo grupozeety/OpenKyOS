@@ -193,7 +193,7 @@ $urbanizacion = $urbanizacion[0];
             $fecha = explode("-", $_REQUEST['fecha_instalacion']);
             $dia = $fecha[0];
             $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-            $mes = $mes[$fecha[1]];
+            $mes = $mes[$fecha[1] + 0];
             $anno = $fecha[2];
 
             var_dump($fecha);exit;
