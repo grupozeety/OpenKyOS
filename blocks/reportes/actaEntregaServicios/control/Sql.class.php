@@ -145,7 +145,8 @@ class Sql extends \Sql
                 $cadenaSql .= " aes.nombre_documento,";
                 $cadenaSql .= " aes.reporte_fallos,";
                 $cadenaSql .= " aes.acceso_reportando,";
-                $cadenaSql .= " aes.paginas_visitadas ";
+                $cadenaSql .= " aes.paginas_visitadas,";
+                $cadenaSql .= " aes.fecha_comisionamiento ";
                 $cadenaSql .= " FROM interoperacion.contrato AS cn ";
                 $cadenaSql .= " FULL JOIN interoperacion.acta_entrega_servicios aes";
                 $cadenaSql .= " ON cn.id_beneficiario=aes.id_beneficiario AND aes.estado_registro='TRUE'";
