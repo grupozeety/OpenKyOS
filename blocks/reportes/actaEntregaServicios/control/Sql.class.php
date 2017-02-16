@@ -13,14 +13,17 @@ include_once "core/auth/SesionSso.class.php";
 
 // Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 // en camel case precedida por la palabra sql
-class Sql extends \Sql {
+class Sql extends \Sql
+{
     public $miConfigurador;
     public $miSesionSso;
-    public function __construct() {
+    public function __construct()
+    {
         $this->miConfigurador = \Configurador::singleton();
         $this->miSesionSso = \SesionSso::singleton();
     }
-    public function getCadenaSql($tipo, $variable = '') {
+    public function getCadenaSql($tipo, $variable = '')
+    {
         $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
 
         foreach ($info_usuario['description'] as $key => $rol) {
@@ -216,7 +219,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " aes.verificacion_tracert,";
                 $cadenaSql .= " aes.reporte_fallos,";
                 $cadenaSql .= " aes.acceso_reportando,";
-                $cadenaSql .= " aes.paginas_visitadas ";
+                $cadenaSql .= " aes.paginas_visitadas ,";
+                $cadenaSql .= " aes.fecha_comisionamiento ";
                 $cadenaSql .= " FROM interoperacion.contrato AS cn ";
                 $cadenaSql .= " FULL JOIN interoperacion.acta_entrega_servicios aes";
                 $cadenaSql .= " ON cn.id_beneficiario=aes.id_beneficiario";
@@ -300,7 +304,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " firmaBeneficiario,";
                 $cadenaSql .= " reporte_fallos,";
                 $cadenaSql .= " acceso_reportando,";
-                $cadenaSql .= " paginas_visitadas)";
+                $cadenaSql .= " paginas_visitadas,";
+                $cadenaSql .= " fecha_comisionamiento)";
                 $cadenaSql .= " VALUES ('" . $variable['id_beneficiario'] . "',";
                 $cadenaSql .= " '" . $variable['nombres'] . "',";
                 $cadenaSql .= " '" . $variable['primer_apellido'] . "',";
@@ -353,7 +358,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " '" . $variable['url_firma_beneficiario'] . "',";
                 $cadenaSql .= " '" . $variable['reporte_fallos'] . "',";
                 $cadenaSql .= " '" . $variable['acceso_reportando'] . "',";
-                $cadenaSql .= " '" . $variable['paginas_visitadas'] . "')";
+                $cadenaSql .= " '" . $variable['paginas_visitadas'] . "',";
+                $cadenaSql .= " '" . $variable['fecha_comisionamiento'] . "')";
                 break;
 
             case 'consultarParametro':
@@ -543,5 +549,3 @@ class Sql extends \Sql {
         return $cadenaSql;
     }
 }
-?>
-
