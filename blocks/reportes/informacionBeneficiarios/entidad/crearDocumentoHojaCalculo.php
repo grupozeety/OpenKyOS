@@ -75,8 +75,10 @@ class GenerarReporteExcelInstalaciones
                  ->setCellValue('A' . $i, 'Corporación Politécnica Nacional')
                  ->getStyle("A" . $i)->applyFromArray($styleCentrado);
 
+            $fecha_instalacion = new \DateTime($value['fecha_instalacion']);
+
             $this->objCal->setActiveSheetIndex(0)
-                 ->setCellValue('B' . $i, str_replace("-", "/", $value['fecha_instalacion']))
+                 ->setCellValue('B' . $i, str_replace("-", "/", $fecha_instalacion->format('d-m-Y')))
                  ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
 
             $this->objCal->setActiveSheetIndex(0)
@@ -579,6 +581,8 @@ class GenerarReporteExcelInstalaciones
 
                 $this->objCal2->setCellValue('B' . $i, $value['direccion_domicilio'] . " " . $anexo_dir)
                      ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
+
+                //$fecha_comisionamiento = new \DateTime($value['fecha_comisionamiento']);
 
                 $this->objCal2->setCellValue('C' . $i, str_replace("-", "/", $value['fecha_comisionamiento']))
                      ->getStyle('C' . $i)->applyFromArray($styleCentradoVertical);
