@@ -29,8 +29,8 @@ class Sql extends \Sql {
 				$cadenaSql = " SELECT id_nodo ";
 				$cadenaSql .= " FROM interoperacion.nodo ";
 				$cadenaSql .= " WHERE estado_registro='TRUE'";
-				$cadenaSql .= " AND codigo_nodo='" . $variable ['codigo_nodo'] . "' ";
-				$cadenaSql .= " AND codigo_cabecera='" . $variable ['codigo_cabecera'] . "' ";
+				//$cadenaSql .= " AND codigo_nodo='" . $variable ['codigo_nodo'] . "' ";
+				//$cadenaSql .= " AND codigo_cabecera='" . $variable ['codigo_cabecera'] . "' ";
 				$cadenaSql .= " AND macesclavo1='" . $variable ['macesclavo1'] . "' ";
 				break;
 			
@@ -38,8 +38,8 @@ class Sql extends \Sql {
 				$cadenaSql = " SELECT id_nodo ";
 				$cadenaSql .= " FROM interoperacion.nodo ";
 				$cadenaSql .= " WHERE estado_registro='TRUE'";
-				$cadenaSql .= " AND codigo_nodo='" . $variable ['codigo_nodo'] . "' ";
-				$cadenaSql .= " AND codigo_cabecera='" . $variable ['codigo_cabecera'] . "' ";
+				//$cadenaSql .= " AND codigo_nodo='" . $variable ['codigo_nodo'] . "' ";
+				//$cadenaSql .= " AND codigo_cabecera='" . $variable ['codigo_cabecera'] . "' ";
 				$cadenaSql .= " AND macesclavo1='" . $variable ['macesclavo1'] . "' ";
 				break;
 			
