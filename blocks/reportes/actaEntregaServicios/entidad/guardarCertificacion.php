@@ -10,7 +10,8 @@ if (!isset($GLOBALS["autorizado"])) {
 use reportes\actaEntregaServicios\entidad\Redireccionador;
 
 include_once 'Redireccionador.php';
-class FormProcessor {
+class FormProcessor
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
@@ -23,7 +24,8 @@ class FormProcessor {
     public $rutaAbsoluta;
     public $clausulas;
     public $registro_info_contrato;
-    public function __construct($lenguaje, $sql) {
+    public function __construct($lenguaje, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->lenguaje = $lenguaje;
@@ -71,7 +73,8 @@ class FormProcessor {
             Redireccionador::redireccionar("NoInsertoInformacionActa");
         }
     }
-    public function procesarInformacion() {
+    public function procesarInformacion()
+    {
         $url_firma_beneficiario = $_REQUEST['firmaBeneficiario'];
 
         $arreglo = array(
@@ -128,6 +131,7 @@ class FormProcessor {
             'reporte_fallos' => $_REQUEST['reporte_fallos'],
             'acceso_reportando' => $_REQUEST['acceso_reportando'],
             'paginas_visitadas' => $_REQUEST['paginas_visitadas'],
+            'fecha_comisionamiento' => $_REQUEST['fecha_comisionamiento'],
         );
 
         if ($_REQUEST['editar']) {
@@ -140,7 +144,8 @@ class FormProcessor {
         $this->registroActa = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
-    public function cargarArchivos() {
+    public function cargarArchivos()
+    {
         $archivo_datos = '';
         foreach ($_FILES as $key => $archivo) {
 
@@ -179,5 +184,3 @@ class FormProcessor {
 }
 
 $miProcesador = new FormProcessor($this->lenguaje, $this->sql);
-?>
-

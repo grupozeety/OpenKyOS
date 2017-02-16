@@ -192,6 +192,21 @@ $urlConsultarProyectos = $url . $cadena;
 
 
 
+
+	$('#<?php echo $this->campoSeguro("fecha_comisionamiento");?>').datetimepicker({
+		format: 'dd-mm-yyyy',
+	    language: "es",
+	    weekStart: 1,
+	    todayBtn:  1,
+		autoclose: 1,
+	    todayHighlight: 0,
+	    startView: 2,
+	    minView: 2,
+	    forceParse: 0
+	});
+
+
+
 	if($("#<?php echo $this->campoSeguro('urbanizacion')?>").length > 0){
 		var urbanizacion;
 	}
