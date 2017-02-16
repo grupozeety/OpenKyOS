@@ -104,11 +104,11 @@ $("#mensaje").modal("show");
                   { data :"id_proceso"},
                   { data :"descripcion"},
                   { data :"estado" },
-                  { data :"porcentaje_estado","sClass": "marca"},
-                  { data :"fecha","sClass": "marca"},
-                  { data :"tamanio_archivo","sClass": "marca"},
-                  { data :"archivo" ,"sClass": "marca"},
-                  { data :"finalizar","sClass": "marca"},
+                  { data :"porcentaje_estado"},
+                  { data :"fecha"},
+                  { data :"tamanio_archivo"},
+                  { data :"archivo" },
+                  { data :"finalizar"},
                            ]
     } );
 
