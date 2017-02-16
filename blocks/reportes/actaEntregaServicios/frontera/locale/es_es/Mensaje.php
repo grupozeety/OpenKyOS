@@ -39,6 +39,8 @@ $this->idioma['estrato_int'] = 'Estrato';
 
 $this->idioma['fecha_instalacion'] = 'Fecha de Instalación';
 
+$this->idioma['fecha_comisionamiento'] = 'Fecha de Comisionamiento';
+
 $this->idioma['direccion'] = 'Dirección';
 
 $this->idioma['urbanizacion'] = 'Urbanización';
@@ -138,5 +140,3 @@ $this->idioma['reporte_fallos'] = 'Reporte de Fallos';
 $this->idioma['acceso_reportando'] = 'El Acceso Reportando<br>Centro de Gestión';
 
 $this->idioma['paginas_visitadas'] = 'Paginas Visitadas del Gobierno para Verificar Navegancion (Separas con <b>";"</b>)';
-
-?>
