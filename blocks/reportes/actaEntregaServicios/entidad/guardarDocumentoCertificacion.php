@@ -195,6 +195,8 @@ $urbanizacion = $urbanizacion[0];
             $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             $mes = $mes[$fecha[1]];
             $anno = $fecha[2];
+
+            var_dump($fecha);exit;
         } else {
 
             $dia = '';
