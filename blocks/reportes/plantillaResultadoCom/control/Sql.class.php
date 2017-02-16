@@ -168,7 +168,7 @@ class Sql extends \Sql
                 $cadenaSql .= " observaciones_p1='" . $variable['observaciones_p1'] . "', ";
                 $cadenaSql .= " resultado_tr2='" . $variable['resultado_tr2'] . "', ";
                 $cadenaSql .= " resultado_tr1='" . $variable['resultado_tr1'] . "', ";
-                $cadenaSql .= " reporte_fallos='Fecha Comisionamiento " . $variable['fecha'] . ". " . $variable['reporte_fallos'] . "', ";
+                $cadenaSql .= " reporte_fallos='" . $variable['reporte_fallos'] . "', ";
                 $cadenaSql .= " acceso_reportando='" . $variable['acceso_reportando'] . "', ";
                 $cadenaSql .= " hora_prueba_vs='" . $variable['fecha'] . "', ";
                 $cadenaSql .= " hora_prueba_vb='" . $variable['fecha'] . "', ";
