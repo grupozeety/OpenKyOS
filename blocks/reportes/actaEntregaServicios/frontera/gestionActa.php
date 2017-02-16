@@ -7,14 +7,16 @@ if (!isset($GLOBALS["autorizado"])) {
     exit();
 }
 
-class GestionarContrato {
+class GestionarContrato
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
     public $ruta;
     public $rutaURL;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -38,7 +40,8 @@ class GestionarContrato {
             $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
         }
     }
-    public function formulario() {
+    public function formulario()
+    {
 
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
         $miPaginaActual = $this->miConfigurador->getVariableConfiguracion("pagina");
@@ -48,7 +51,7 @@ class GestionarContrato {
 
         // Consulta información
 
-    	$cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
         $infoCertificado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
         $_REQUEST['id'] = $_REQUEST['id_beneficiario'];
@@ -144,38 +147,36 @@ class GestionarContrato {
                         $url .= $this->miConfigurador->getVariableConfiguracion("site");
                         $url .= "/index.php?";
 
-                        
                         // ------------------Division para los botones-------------------------
                         $atributos["id"] = "botones_edit";
                         $atributos["estilo"] = "marcoBotones";
                         $atributos["estiloEnLinea"] = "display:block;";
                         echo $this->miFormulario->division("inicio", $atributos);
                         unset($atributos);
-                        
+
                         {
-                        
-                        	$valorCodificado = "action=" . $esteBloque["nombre"];
-                        	$valorCodificado = "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-                        	$valorCodificado .= "&bloque=" . $esteBloque['nombre'];
-                        	$valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                        	$valorCodificado .= "&id=" . $_REQUEST['id_beneficiario'];
-                        	$valorCodificado .= "&opcion=editarCertificacion";
-                        	$valorCodificado .= "&editar=editar";
-                        	 
-                        
-                        	$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-                        	$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
-                        
-                        	$urlpdfNoFirmas = $url . $cadena;
-                        
-                        	echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Editar Acta Entrega de Servicios Instalados</a></b>";
-                        
+
+                            $valorCodificado = "action=" . $esteBloque["nombre"];
+                            $valorCodificado = "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                            $valorCodificado .= "&id=" . $_REQUEST['id_beneficiario'];
+                            $valorCodificado .= "&opcion=editarCertificacion";
+                            $valorCodificado .= "&editar=editar";
+
+                            $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                            $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+                            $urlpdfNoFirmas = $url . $cadena;
+
+                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Editar Acta Entrega de Servicios Instalados</a></b>";
+
                         }
-                        
+
                         // ------------------Fin Division para los botones-------------------------
                         echo $this->miFormulario->division("fin");
                         unset($atributos);
-                        
+
                         // ------------------Division para los botones-------------------------
                         $atributos["id"] = "botones_sin";
                         $atributos["estilo"] = "marcoBotones";
@@ -185,7 +186,7 @@ class GestionarContrato {
 
                         {
 
- 							$valorCodificado = "action=" . $esteBloque["nombre"];
+                            $valorCodificado = "action=" . $esteBloque["nombre"];
                             $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                             $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                             $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
@@ -194,14 +195,13 @@ class GestionarContrato {
                             $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
                             $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
                             $valorCodificado .= "&estrato_socioeconomico=" . $infoBeneficiario['estrato_socioeconomico'];
-                        	
 
                             $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
                             $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
                             $urlpdfNoFirmas = $url . $cadena;
 
-                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Acta Entrega  de Servicios Instalados <br> Sin Firma</a></b>";
+                            echo "<b><a id='link_b' href='" . $urlpdfNoFirmas . "'>Descarga Acta Entrega  de Servicios Instalados <br> Sin Firma</a></b>";
 
                         }
 
@@ -209,8 +209,6 @@ class GestionarContrato {
                         echo $this->miFormulario->division("fin");
                         unset($atributos);
 
-                        
-                        
                         // ------------------Division para los botones-------------------------
                         $atributos["id"] = "botones_pdf";
                         $atributos["estilo"] = "marcoBotones";
@@ -219,7 +217,7 @@ class GestionarContrato {
                         unset($atributos);
 
                         {
-                            echo "<b><a id='link_a' target='_blank' href='" . $infoCertificado['ruta_documento'] . "'>Acta Entrega  de Servicios Instalados <br> Con Firma</a></b>";
+                            echo "<b><a id='link_a' target='_blank' href='" . $infoCertificado['ruta_documento'] . "'>Descarga Acta Entrega  de Servicios Instalados <br> Con Firma</a></b>";
                         }
 
                         // ------------------Fin Division para los botones-------------------------
@@ -244,7 +242,8 @@ class GestionarContrato {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensaje() {
+    public function mensaje()
+    {
 
         switch ($_REQUEST['mensaje']) {
 
@@ -279,7 +278,8 @@ class GestionarContrato {
 
     }
 
-    public function mensajeModal() {
+    public function mensajeModal()
+    {
 
         switch ($_REQUEST['mensaje']) {
 
@@ -327,5 +327,3 @@ class GestionarContrato {
 $miSeleccionador = new GestionarContrato($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->formulario();
-
-?>
