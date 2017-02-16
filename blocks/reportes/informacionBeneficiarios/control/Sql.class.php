@@ -269,7 +269,8 @@ class Sql extends \Sql
                 $cadenaSql = " SELECT DISTINCT departamento as valor, departamento";
                 $cadenaSql .= " FROM interoperacion.contrato";
                 $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND departamento IS NOT NULL;";
+                $cadenaSql .= " AND departamento IS NOT NULL";
+                $cadenaSql .= " AND departamento <> ''; ";
                 break;
 
             case 'consultarMunicipio':
@@ -277,7 +278,8 @@ class Sql extends \Sql
                 $cadenaSql = " SELECT DISTINCT municipio as valor, municipio ";
                 $cadenaSql .= " FROM interoperacion.contrato";
                 $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND municipio IS NOT NULL;";
+                $cadenaSql .= " AND municipio IS NOT NULL ";
+                $cadenaSql .= " AND municipio <> ''; ";
 
                 break;
 

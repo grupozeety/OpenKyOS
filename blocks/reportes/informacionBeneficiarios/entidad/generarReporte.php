@@ -27,7 +27,7 @@ class GenerarReporteInstalaciones
 
         $conexion = "interoperacion";
 
-//        $conexion = "produccion";
+        //$conexion = "produccion";
 
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
@@ -338,8 +338,11 @@ class GenerarReporteInstalaciones
 
         $this->eliminarInformacion();
 
-        //Actualizar Avance Progreso
-        $this->actualizarAvance(10);
+        if (isset($this->proceso['id_proceso'])) {
+            //Actualizar Avance Progreso
+            $this->actualizarAvance(10);
+
+        }
 
         if (isset($_REQUEST['estado_beneficiario'])) {
 
