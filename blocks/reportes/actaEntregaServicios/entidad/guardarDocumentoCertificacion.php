@@ -11,7 +11,8 @@ $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfi
 
 include $ruta . "/plugin/html2pdf/html2pdf.class.php";
 
-class GenerarDocumento {
+class GenerarDocumento
+{
     public $miConfigurador;
     public $elementos;
     public $miSql;
@@ -23,7 +24,8 @@ class GenerarDocumento {
     public $beneficiario;
     public $esteRecursoOP;
     public $rutaAbsoluta;
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
@@ -81,7 +83,8 @@ class GenerarDocumento {
         //$this->registroRequisito = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
     }
 
-    public function crearPDF() {
+    public function crearPDF()
+    {
         ob_start();
         $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
             2,
@@ -95,7 +98,8 @@ class GenerarDocumento {
 
     }
 
-    public function asosicarCodigoDocumento() {
+    public function asosicarCodigoDocumento()
+    {
 
         $this->prefijo = substr(md5(uniqid(time())), 0, 6);
         $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', '900');
@@ -106,7 +110,8 @@ class GenerarDocumento {
         $this->nombreDocumento = $_REQUEST['id_beneficiario'] . "_" . $nombre_archivo . "_" . $this->prefijo . '.pdf';
     }
 
-    public function estruturaDocumento() {
+    public function estruturaDocumento()
+    {
 /*
 $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->beneficiario['urbanizacion']);
 $urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
@@ -147,50 +152,57 @@ $urbanizacion = $urbanizacion[0];
         }
 
         {
-        		
-        	{
-        		$firmaBeneficiario = base64_decode ( $_REQUEST ['firmaBeneficiario'] );
-        		$firmaBeneficiario = str_replace ( "image/svg+xml,", '', $firmaBeneficiario );
-        		$firmaBeneficiario = str_replace ( '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario );
-        		$firmaBeneficiario = str_replace ( "svg", 'draw', $firmaBeneficiario );
-        	}
-        		
-        		
-        	$firmaBeneficiario = str_replace ( "height", 'height="30" pasos2', $firmaBeneficiario );
-        	$firmaBeneficiario = str_replace ( "width", 'width="80" pasos1', $firmaBeneficiario );
-        	//$firmacontratista = str_replace ( "height", 'height="30" pasos2', $firmacontratista );
-        	//$firmacontratista = str_replace ( "width", 'width="80" pasos1', $firmacontratista );
-        		
-        	$cadena = $_SERVER ['HTTP_USER_AGENT'];
-        	$resultado = stristr ( $cadena, "Android" );
-        		
-        	if ($resultado) {
-        		//$firmacontratista = str_replace ( "<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista );
-        		//$firmacontratista = str_replace ( "/>", ' /></g>', $firmacontratista );
-        		$firmaBeneficiario = str_replace ( "<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario );
-        		$firmaBeneficiario = str_replace ( "/>", ' /></g>', $firmaBeneficiario );
-        	} else {
-        		//$firmacontratista = str_replace ( "<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista );
-        		//$firmacontratista = str_replace ( "/>", ' /></g>', $firmacontratista );
-        		$firmaBeneficiario = str_replace ( "<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario );
-        		$firmaBeneficiario = str_replace ( "/>", ' /></g>', $firmaBeneficiario );
-        	}
-        }
-        
-        ini_set ( 'xdebug.var_display_max_depth', 20000 );
-        ini_set ( 'xdebug.var_display_max_children', 20000 );
-        ini_set ( 'xdebug.var_display_max_data', 20000 );
-        
-        $firma_beneficiario = $firmaBeneficiario;
-        
-        //$firma_contratista = $firmacontratista;
-        
-		 $fecha = explode("-", $_REQUEST['fecha_instalacion']);
 
-        $dia = $fecha[0];
-        $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-        $mes = $mes[$fecha[1]];
-        $anno = $fecha[2];
+            {
+                $firmaBeneficiario = base64_decode($_REQUEST['firmaBeneficiario']);
+                $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
+            }
+
+            $firmaBeneficiario = str_replace("height", 'height="30" pasos2', $firmaBeneficiario);
+            $firmaBeneficiario = str_replace("width", 'width="80" pasos1', $firmaBeneficiario);
+            //$firmacontratista = str_replace ( "height", 'height="30" pasos2', $firmacontratista );
+            //$firmacontratista = str_replace ( "width", 'width="80" pasos1', $firmacontratista );
+
+            $cadena = $_SERVER['HTTP_USER_AGENT'];
+            $resultado = stristr($cadena, "Android");
+
+            if ($resultado) {
+                //$firmacontratista = str_replace ( "<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista );
+                //$firmacontratista = str_replace ( "/>", ' /></g>', $firmacontratista );
+                $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+            } else {
+                //$firmacontratista = str_replace ( "<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista );
+                //$firmacontratista = str_replace ( "/>", ' /></g>', $firmacontratista );
+                $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+            }
+        }
+
+        ini_set('xdebug.var_display_max_depth', 20000);
+        ini_set('xdebug.var_display_max_children', 20000);
+        ini_set('xdebug.var_display_max_data', 20000);
+
+        $firma_beneficiario = $firmaBeneficiario;
+
+        //$firma_contratista = $firmacontratista;
+
+        if ($_REQUEST['fecha_instalacion'] != '') {
+            $fecha = explode("-", $_REQUEST['fecha_instalacion']);
+            $dia = $fecha[0];
+            $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            $mes = $mes[$fecha[1]];
+            $anno = $fecha[2];
+        } else {
+
+            $dia = '';
+            $mes = '';
+            $anno = '';
+
+        }
+
         {
             $tipo_vip = ($_REQUEST['tipo_beneficiario'] == "1") ? "<b>X</b>" : "";
             $tipo_residencial_1 = ($_REQUEST['tipo_beneficiario'] == "2") ? (($_REQUEST['estrato'] == "1") ? "<b>X</b>" : "") : "";
@@ -198,40 +210,39 @@ $urbanizacion = $urbanizacion[0];
         }
 
         $localizacion = explode(",", $_REQUEST['geolocalizacion']);
-        
-        if(count($localizacion)==2){
-        	$localizacion[0] = trim($localizacion[0]);
-        	$localizacion[1] = trim($localizacion[1]); 
-        }else{
-        	$localizacion[0] = '';
-        	$localizacion[1] = '';
+
+        if (count($localizacion) == 2) {
+            $localizacion[0] = trim($localizacion[0]);
+            $localizacion[1] = trim($localizacion[1]);
+        } else {
+            $localizacion[0] = '';
+            $localizacion[1] = '';
         }
-        
-        
+
         /**
          * Calculo Latitud GMS
          **/
         $latitud = $localizacion[0];
-        
+
         $latitud_grados = reset(explode(".", $latitud));
-        
+
         $latitud_minutos_dc = (((($latitud - $latitud_grados) * 60) < 0) ? (($latitud - $latitud_grados) * 60) * -1 : (($latitud - $latitud_grados) * 60));
-        
+
         $latitud_minutos = reset(explode(".", $latitud_minutos_dc));
-        
+
         $latitud_segundos = (($latitud_minutos_dc - $latitud_minutos) * 60 < 0) ? ($latitud_minutos_dc - $latitud_minutos) * 60 * -1 : ($latitud_minutos_dc - $latitud_minutos) * 60;
-        
+
         /**
          * Calculo longitud GMS
          **/
         $longitud = $localizacion[1];
-        
+
         $longitud_grados = reset(explode(".", $longitud));
-        
+
         $longitud_minutos_dc = (((($longitud - $longitud_grados) * 60) < 0) ? (($longitud - $longitud_grados) * 60) * -1 : (($longitud - $longitud_grados) * 60));
-        
+
         $longitud_minutos = reset(explode(".", $longitud_minutos_dc));
-        
+
         $longitud_segundos = (($longitud_minutos_dc - $longitud_minutos) * 60 < 0) ? ($longitud_minutos_dc - $longitud_minutos) * 60 * -1 : ($longitud_minutos_dc - $longitud_minutos) * 60;
         setlocale(LC_ALL, "es_CO.UTF-8");
 
@@ -338,86 +349,86 @@ $urbanizacion = $urbanizacion[0];
                                         </tr>
                             </table>
                             1. Que ha recibido a satisfacción los equipos y el servicio de acceso de banda ancha con las características descritas a continuación:<br>
-        		 	<table width:100%;>
+                    <table width:100%;>
                         <tr>
-	                        <td align='center'style='width:15%;'><b>EQUIPO</b></td>
-							<td align='center'style='width:20%;'><b>MAC</b></td>
-	                        <td align='center'style='width:21%;'><b>SERIAL</b></td>
-	                        <td align='center'style='width:14%;'><b>MARCA</b></td>
-	                        <td align='center'style='width:14%;'><b>CANT</b></td>
-					 		<td align='center'style='width:16%;'><b>IP</b></td>
-                       	</tr>
+                            <td align='center'style='width:15%;'><b>EQUIPO</b></td>
+                            <td align='center'style='width:20%;'><b>MAC</b></td>
+                            <td align='center'style='width:21%;'><b>SERIAL</b></td>
+                            <td align='center'style='width:14%;'><b>MARCA</b></td>
+                            <td align='center'style='width:14%;'><b>CANT</b></td>
+                            <td align='center'style='width:16%;'><b>IP</b></td>
+                        </tr>
                         <tr>
-                        	<td align='center'style='width:15%;'>ESCLAVO</td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['mac_esc'] . "<br>" . $_REQUEST['mac2_esc'] . " </td>
-                            <td align='center'style='width:21%;'>".  $_REQUEST['serial_esc'] . " </td>
-                            <td align='center'style='width:14%;'>".  $_REQUEST['marca_esc'] . " </td>
-				 			<td align='center'style='width:14%;'>".  $_REQUEST['cant_esc'] . " </td>
-							<td align='center'style='width:16%;'>".  $_REQUEST['ip_esc'] . " </td>
+                            <td align='center'style='width:15%;'>ESCLAVO</td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['mac_esc'] . "<br>" . $_REQUEST['mac2_esc'] . " </td>
+                            <td align='center'style='width:21%;'>" . $_REQUEST['serial_esc'] . " </td>
+                            <td align='center'style='width:14%;'>" . $_REQUEST['marca_esc'] . " </td>
+                            <td align='center'style='width:14%;'>" . $_REQUEST['cant_esc'] . " </td>
+                            <td align='center'style='width:16%;'>" . $_REQUEST['ip_esc'] . " </td>
                         </tr>
                     </table>
-					<br>
-					<b>Estado del Servicio</b>
-					<table width:100%;>
-						<tr>
-							<td align='rigth'style='width:20%;'><b>Tipo de Tecnología</b></td>
-							<td colspan='4' align='center'style='width:80%;'>" . $_REQUEST['tipo_tecnologia'] . "</td>
-						</tr>
+                    <br>
+                    <b>Estado del Servicio</b>
+                    <table width:100%;>
                         <tr>
-							<td align='rigth'style='width:20%;'><b></b></td>
-							<td align='center'style='width:15%;'><b>Hora de Prueba</b></td>
-	                        <td align='center'style='width:20%;'><b>Resultado</b></td>
-	                        <td align='center'style='width:20%;'><b>Unidad</b></td>
-							<td align='center'style='width:25%;'><b>Observaciones</b></td>
-                       	</tr>
+                            <td align='rigth'style='width:20%;'><b>Tipo de Tecnología</b></td>
+                            <td colspan='4' align='center'style='width:80%;'>" . $_REQUEST['tipo_tecnologia'] . "</td>
+                        </tr>
                         <tr>
-                        	<td align='rigth'style='width:20%;'><b>Velocidad de Subida</b></td>
-                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_vs'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_vs'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_vs'] . "</td>
-                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_vs'] . " </td>
+                            <td align='rigth'style='width:20%;'><b></b></td>
+                            <td align='center'style='width:15%;'><b>Hora de Prueba</b></td>
+                            <td align='center'style='width:20%;'><b>Resultado</b></td>
+                            <td align='center'style='width:20%;'><b>Unidad</b></td>
+                            <td align='center'style='width:25%;'><b>Observaciones</b></td>
                         </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Velocidad de Bajada</b></td>
-                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_vb'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_vb'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_vb'] . " </td>
-                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_vb'] . " </td>
+                        <tr>
+                            <td align='rigth'style='width:20%;'><b>Velocidad de Subida</b></td>
+                            <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_vs'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['resultado_vs'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['unidad_vs'] . "</td>
+                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_vs'] . " </td>
                         </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Ping 1</b></td>
-                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_p1'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_p1'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_p1'] . " </td>
-                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_p1'] . " </td>
+                        <tr>
+                            <td align='rigth'style='width:20%;'><b>Velocidad de Bajada</b></td>
+                            <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_vb'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['resultado_vb'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['unidad_vb'] . " </td>
+                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_vb'] . " </td>
                         </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Ping 2</b></td>
-                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_p2'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_p2'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_p2'] . "</td>
-                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_p2'] . " </td>
+                        <tr>
+                            <td align='rigth'style='width:20%;'><b>Ping 1</b></td>
+                            <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_p1'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['resultado_p1'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['unidad_p1'] . " </td>
+                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_p1'] . " </td>
                         </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Ping 3</b></td>
-                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_p3'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_p3'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_p3'] . " </td>
-                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_p3'] . "</td>
+                        <tr>
+                            <td align='rigth'style='width:20%;'><b>Ping 2</b></td>
+                            <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_p2'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['resultado_p2'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['unidad_p2'] . "</td>
+                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_p2'] . " </td>
                         </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Traceroute</b></td>
-                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_tr1'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_tr1'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_tr1'] . "</td>
-                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_tr1'] . "</td>
+                        <tr>
+                            <td align='rigth'style='width:20%;'><b>Ping 3</b></td>
+                            <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_p3'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['resultado_p3'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['unidad_p3'] . " </td>
+                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_p3'] . "</td>
                         </tr>
-						<tr>
-                        	<td align='rigth'style='width:20%;'><b>Traceroute</b></td>
-                        	<td align='center'style='width:15%;'>".  $_REQUEST['hora_prueba_tr2'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['resultado_tr2'] . " </td>
-                            <td align='center'style='width:20%;'>".  $_REQUEST['unidad_tr2'] . "</td>
-                            <td align='center'style='width:25%;'>".  $_REQUEST['observaciones_tr2'] . "</td>
+                        <tr>
+                            <td align='rigth'style='width:20%;'><b>Traceroute</b></td>
+                            <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_tr1'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['resultado_tr1'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['unidad_tr1'] . "</td>
+                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_tr1'] . "</td>
+                        </tr>
+                        <tr>
+                            <td align='rigth'style='width:20%;'><b>Traceroute</b></td>
+                            <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_tr2'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['resultado_tr2'] . " </td>
+                            <td align='center'style='width:20%;'>" . $_REQUEST['unidad_tr2'] . "</td>
+                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_tr2'] . "</td>
                         </tr>
                     </table>
                             2. Que las obras civiles realizadas en el proceso de instalación por parte del contratista fueron culminadas satisfactoriamente, sin afectar la infraestructura y la estética del lugar, cumpliendo con las observaciones realizadas durante la instalación.<br><br>
@@ -429,7 +440,7 @@ $urbanizacion = $urbanizacion[0];
                             <br>
                             <table width:100%;>
                                 <tr>
-                                    <td rowspan='2' style='width:50%;'>Firma:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;". $firma_beneficiario . "</td>
+                                    <td rowspan='2' style='width:50%;'>Firma:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $firma_beneficiario . "</td>
                                     <td style='width:50%;text-align:center;'><b>" . $_REQUEST['nombres'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b></td>
                                 </tr>
                                 <tr>
@@ -439,26 +450,24 @@ $urbanizacion = $urbanizacion[0];
 
 
                     ";
-		
-// 		if ($_REQUEST['soporte'] != '') {
-		
-// 			$contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
-//                                          <P style='text-align:center'><b>Soporte</b></P><br><br>";
-// 			$contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
-//                                             <tr>
-//                                                 <td style='text-align:center;border:none;width:100%'>
-//                                                     <img src='" . $_REQUEST['soporte'] . "'  width='500' height='500'>
-//                                                 </td>
-//                                             </tr>
-//                                         </table>
-//                                      ";
-// 		}
-		
-		$contenidoPagina .= "</page>";
-		
-		$this->contenidoPagina = $contenidoPagina;
+
+//         if ($_REQUEST['soporte'] != '') {
+
+//             $contenidoPagina .= "<br> <div style='page-break-after:always; clear:both'></div>
+        //                                          <P style='text-align:center'><b>Soporte</b></P><br><br>";
+        //             $contenidoPagina .= "<table style='text-align:center;width:100%;border:none'>
+        //                                             <tr>
+        //                                                 <td style='text-align:center;border:none;width:100%'>
+        //                                                     <img src='" . $_REQUEST['soporte'] . "'  width='500' height='500'>
+        //                                                 </td>
+        //                                             </tr>
+        //                                         </table>
+        //                                      ";
+        //         }
+
+        $contenidoPagina .= "</page>";
+
+        $this->contenidoPagina = $contenidoPagina;
     }
 }
 $miDocumento = new GenerarDocumento($this->miSql);
-
-?>
