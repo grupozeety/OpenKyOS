@@ -387,49 +387,49 @@ $urbanizacion = $urbanizacion[0];
                             <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_vs'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['resultado_vs'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['unidad_vs'] . "</td>
-                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_vs'] . " </td>
+                            <td align='center'style='width:25%;'>" . str_replace(";", "<br>", $_REQUEST['observaciones_vs']) . " </td>
                         </tr>
                         <tr>
                             <td align='rigth'style='width:20%;'><b>Velocidad de Bajada</b></td>
                             <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_vb'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['resultado_vb'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['unidad_vb'] . " </td>
-                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_vb'] . " </td>
+                            <td align='center'style='width:25%;'>" . str_replace(";", "<br>", $_REQUEST['observaciones_vb']) . " </td>
                         </tr>
                         <tr>
                             <td align='rigth'style='width:20%;'><b>Ping 1</b></td>
                             <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_p1'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['resultado_p1'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['unidad_p1'] . " </td>
-                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_p1'] . " </td>
+                            <td align='center'style='width:25%;'>" . str_replace(";", "<br>", $_REQUEST['observaciones_p1']) . " </td>
                         </tr>
                         <tr>
                             <td align='rigth'style='width:20%;'><b>Ping 2</b></td>
                             <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_p2'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['resultado_p2'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['unidad_p2'] . "</td>
-                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_p2'] . " </td>
+                            <td align='center'style='width:25%;'>" . str_replace(";", "<br>", $_REQUEST['observaciones_p2']) . " </td>
                         </tr>
                         <tr>
                             <td align='rigth'style='width:20%;'><b>Ping 3</b></td>
                             <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_p3'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['resultado_p3'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['unidad_p3'] . " </td>
-                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_p3'] . "</td>
+                            <td align='center'style='width:25%;'>" . str_replace(";", "<br>", $_REQUEST['observaciones_p3']) . "</td>
                         </tr>
                         <tr>
                             <td align='rigth'style='width:20%;'><b>Traceroute</b></td>
                             <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_tr1'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['resultado_tr1'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['unidad_tr1'] . "</td>
-                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_tr1'] . "</td>
+                            <td align='center'style='width:25%;'>" . str_replace(";", "<br>", $_REQUEST['observaciones_tr1']) . "</td>
                         </tr>
                         <tr>
                             <td align='rigth'style='width:20%;'><b>Traceroute</b></td>
                             <td align='center'style='width:15%;'>" . $_REQUEST['hora_prueba_tr2'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['resultado_tr2'] . " </td>
                             <td align='center'style='width:20%;'>" . $_REQUEST['unidad_tr2'] . "</td>
-                            <td align='center'style='width:25%;'>" . $_REQUEST['observaciones_tr2'] . "</td>
+                            <td align='center'style='width:25%;'>" . str_replace(";", "<br>", $_REQUEST['observaciones_tr2']) . "</td>
                         </tr>
                     </table>
                             2. Que las obras civiles realizadas en el proceso de instalación por parte del contratista fueron culminadas satisfactoriamente, sin afectar la infraestructura y la estética del lugar, cumpliendo con las observaciones realizadas durante la instalación.<br><br>
