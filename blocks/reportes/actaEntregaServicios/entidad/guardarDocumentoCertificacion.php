@@ -196,7 +196,6 @@ $urbanizacion = $urbanizacion[0];
             $mes = $mes[$fecha[1] + 0];
             $anno = $fecha[2];
 
-            var_dump($fecha);exit;
         } else {
 
             $dia = '';
