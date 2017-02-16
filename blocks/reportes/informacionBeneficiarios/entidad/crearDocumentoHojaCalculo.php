@@ -75,11 +75,9 @@ class GenerarReporteExcelInstalaciones
                  ->setCellValue('A' . $i, 'Corporación Politécnica Nacional')
                  ->getStyle("A" . $i)->applyFromArray($styleCentrado);
 
-            /*
             $this->objCal->setActiveSheetIndex(0)
-            ->setCellValue('B' . $i, (($contenido_CentroGestion != false) ? $contenido_CentroGestion : ""))
-            ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
-             */
+                 ->setCellValue('B' . $i, str_replace("-", "/", $value['fecha_instalacion']))
+                 ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
 
             $this->objCal->setActiveSheetIndex(0)
                  ->setCellValue('C' . $i, $value['departamento'])
@@ -139,11 +137,9 @@ class GenerarReporteExcelInstalaciones
                  ->setCellValue('I' . $i, $value['direccion_domicilio'] . " " . $anexo_dir)
                  ->getStyle('I' . $i)->applyFromArray($styleCentradoVertical);
 
-            /*
             $this->objCal->setActiveSheetIndex(0)
-            ->setCellValue('J' . $i, "")
-            ->getStyle('J' . $i)->applyFromArray($styleCentradoVertical);
-             */
+                 ->setCellValue('J' . $i, $value['estrato_socioeconomico'])
+                 ->getStyle('J' . $i)->applyFromArray($styleCentradoVertical);
 
             $this->objCal->setActiveSheetIndex(0)
                  ->setCellValue('K' . $i, $value['numero_identificacion'])
@@ -584,17 +580,7 @@ class GenerarReporteExcelInstalaciones
                 $this->objCal2->setCellValue('B' . $i, $value['direccion_domicilio'] . " " . $anexo_dir)
                      ->getStyle('B' . $i)->applyFromArray($styleCentradoVertical);
 
-                if (is_null($value['fecha_instalacion']) == true) {
-
-                    $fecha = $value['fecha_comisionamiento'];
-
-                } else {
-
-                    $fecha = $value['fecha_instalacion'];
-
-                }
-
-                $this->objCal2->setCellValue('C' . $i, str_replace("-", "/", $fecha))
+                $this->objCal2->setCellValue('C' . $i, str_replace("-", "/", $value['fecha_comisionamiento']))
                      ->getStyle('C' . $i)->applyFromArray($styleCentradoVertical);
 
                 $this->objCal2->setCellValue('D' . $i, $value['ip_esc'])

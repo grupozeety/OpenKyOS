@@ -286,7 +286,9 @@ class Sql extends \Sql
                 $cadenaSql = " SELECT DISTINCT urbanizacion as valor, urbanizacion";
                 $cadenaSql .= " FROM interoperacion.contrato";
                 $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND urbanizacion IS NOT NULL;";
+                $cadenaSql .= " AND urbanizacion IS NOT NULL";
+                $cadenaSql .= " AND urbanizacion <> '' ";
+                $cadenaSql .= " AND urbanizacion <> 'Seleccione .....' ;";
 
                 break;
 
