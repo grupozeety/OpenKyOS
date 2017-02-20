@@ -93,7 +93,7 @@ class FormProcessor
             'municipio' => $_REQUEST['municipio'],
             'geolocalizacion' => $_REQUEST['geolocalizacion'],
             'tipo_tecnologia' => $_REQUEST['tipo_tecnologia'],
-            'mac_esc' => strtolower(str_replace(":", "", $_REQUEST['mac2_esc'])),
+            'mac_esc' => strtolower(str_replace(":", "", $_REQUEST['mac_esc'])),
             'mac2_esc' => strtolower(str_replace(":", "", $_REQUEST['mac2_esc'])),
             'serial_esc' => $_REQUEST['serial_esc'],
             'marca_esc' => $_REQUEST['marca_esc'],
