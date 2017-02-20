@@ -6,7 +6,8 @@ $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
 require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel.php";
-class GenerarReporteExcelInstalaciones {
+class GenerarReporteExcelInstalaciones
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
@@ -14,7 +15,8 @@ class GenerarReporteExcelInstalaciones {
     public $conexion;
     public $informacion;
     public $objCal;
-    public function __construct($sql, $informacion) {
+    public function __construct($sql, $informacion)
+    {
         ini_set('memory_limit', '2048M');
         ini_set('max_execution_time', 10000);
         date_default_timezone_set('America/Bogota');
@@ -49,7 +51,8 @@ class GenerarReporteExcelInstalaciones {
         $this->retornarDocumento();
     }
 
-    public function estruturarInformacion() {
+    public function estruturarInformacion()
+    {
 
         // Estilos Celdas
         {
@@ -145,18 +148,18 @@ class GenerarReporteExcelInstalaciones {
 
     }
 
-    public function estruturarValor($valor) {
-
-        if ($valor == '1') {
-            return "SI";
-        }
+    public function estruturarValor($valor)
+    {
 
         if ($valor == '0') {
             return "NO";
+        } elseif ($valor > '0') {
+            return "SI";
         }
 
     }
-    public function generarEsquemaDocumento() {
+    public function generarEsquemaDocumento()
+    {
 
         // Estilos Celdas
         {
@@ -309,12 +312,14 @@ class GenerarReporteExcelInstalaciones {
         $this->objCal->setActiveSheetIndex(0)->setCellValue('AG1', 'Acta de Entrega de Servicios de Banda Ancha al Usuario')->getStyle("AG1")->applyFromArray($styleCentrado);
 
     }
-    public function configurarDocumento() {
+    public function configurarDocumento()
+    {
         $this->objCal = new \PHPExcel();
         // Set document properties
         $this->objCal->getProperties()->setCreator("OpenKyOS")->setLastModifiedBy("OpenKyOS")->setTitle("Reporte Beneficiario Vs Documentos")->setSubject("Reporte Beneficiario Vs Documentos")->setDescription("Reporte Beneficiario Vs Documentos")->setCategory("Reporte");
     }
-    public function retornarDocumento() {
+    public function retornarDocumento()
+    {
 
         //$fecha_inicio = $_REQUEST ['fecha_inicio'];
         // Redirect output to a client’s web browser (Excel2007)
@@ -340,6 +345,3 @@ class GenerarReporteExcelInstalaciones {
 }
 
 $miProcesador = new GenerarReporteExcelInstalaciones($this->miSql, $this->informacion);
-
-?>
-
