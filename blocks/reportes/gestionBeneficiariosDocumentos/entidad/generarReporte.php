@@ -20,7 +20,7 @@ class GenerarReporteInstalaciones
         $this->miSql = $sql;
 
         $conexion = "interoperacion";
-        $conexion = "produccion";
+//        $conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $_REQUEST['tiempo'] = time();
