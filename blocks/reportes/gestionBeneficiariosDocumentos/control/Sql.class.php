@@ -107,7 +107,7 @@ class Sql extends \Sql
                 }
 
                 $cadenaSql .= " JOIN parametros.municipio mn ON mn.codigo_mun=bn.municipio";
-                $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato dc ON dc.id_beneficiario=cn.id_beneficiario";
+                $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato dc ON dc.id_beneficiario=bn.id_beneficiario";
                 $cadenaSql .= " WHERE bn.estado_registro='TRUE'";
 
                 if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
