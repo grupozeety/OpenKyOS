@@ -14,7 +14,7 @@ class procesarAjax
         $this->sql = $sql;
 
         $conexion = "interoperacion";
-        $conexion = "produccion";
+        //$conexion = "produccion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         switch ($_REQUEST['funcion']) {
