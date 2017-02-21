@@ -26,6 +26,7 @@ class Registrador
         $this->miSql = $sql;
 
         $conexion = "interoperacion";
+        $conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
     }
@@ -221,7 +222,7 @@ class Registrador
             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
             $atributos["etiquetaObligatorio"] = true;
             $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 1;
+            $atributos['anchoEtiqueta'] = 2;
             $atributos['evento'] = '';
 
             if (isset($_REQUEST[$esteCampo])) {

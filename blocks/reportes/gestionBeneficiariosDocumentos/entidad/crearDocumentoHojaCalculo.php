@@ -112,7 +112,7 @@ class GenerarReporteExcelInstalaciones
 
             $this->objCal->setActiveSheetIndex(0)->setCellValue('S' . $i, $this->estruturarValor($value['Certificado del proyecto catalogado como VIP']))->getStyle("S" . $i)->applyFromArray($styleCentradoVertical);
 
-            $this->objCal->setActiveSheetIndex(0)->setCellValue('T' . $i, $this->estruturarValor($value['Documento que demuestra dirección de la vivienda del beneficiario']))->getStyle("T" . $i)->applyFromArray($styleCentradoVertical);
+            $this->objCal->setActiveSheetIndex(0)->setCellValue('T' . $i, $this->estruturarValor($value['Documento que demuestra dirección de la vivienda del beneficia']))->getStyle("T" . $i)->applyFromArray($styleCentradoVertical);
 
             $this->objCal->setActiveSheetIndex(0)->setCellValue('U' . $i, $this->estruturarValor($value['Certificado No Internet ultimos 6 meses']))->getStyle("U" . $i)->applyFromArray($styleCentradoVertical);
 

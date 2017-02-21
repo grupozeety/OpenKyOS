@@ -3,7 +3,8 @@
 namespace reportes\gestionBeneficiariosDocumentos\entidad;
 
 include_once 'Redireccionador.php';
-class GenerarReporteInstalaciones {
+class GenerarReporteInstalaciones
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
@@ -12,12 +13,14 @@ class GenerarReporteInstalaciones {
     public $informacion;
     public $encriptador;
     public $esteRecursoERP;
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
 
         $conexion = "interoperacion";
+        $conexion = "produccion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $_REQUEST['tiempo'] = time();
@@ -36,7 +39,8 @@ class GenerarReporteInstalaciones {
 
         $this->crearHojaCalculo();
     }
-    public function consultarInformacion() {
+    public function consultarInformacion()
+    {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacion');
 
@@ -48,12 +52,10 @@ class GenerarReporteInstalaciones {
         }
 
     }
-    public function crearHojaCalculo() {
+    public function crearHojaCalculo()
+    {
         include_once "crearDocumentoHojaCalculo.php";
     }
 }
 
 $miProcesador = new GenerarReporteInstalaciones($this->sql);
-
-?>
-
