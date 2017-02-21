@@ -1,9 +1,12 @@
 <?php
 namespace reportes\gestionBeneficiariosDocumentos\entidad;
-class procesarAjax {
+
+class procesarAjax
+{
     public $miConfigurador;
     public $sql;
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("rutaBloque");
@@ -11,6 +14,7 @@ class procesarAjax {
         $this->sql = $sql;
 
         $conexion = "interoperacion";
+        $conexion = "produccion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         switch ($_REQUEST['funcion']) {
@@ -38,5 +42,3 @@ class procesarAjax {
 }
 
 $miProcesarAjax = new procesarAjax($this->sql);
-
-?>

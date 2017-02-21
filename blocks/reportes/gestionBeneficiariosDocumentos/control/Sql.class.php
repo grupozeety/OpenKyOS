@@ -38,23 +38,26 @@ class Sql extends \Sql
 
             case 'consultarMunicipio':
 
-                $cadenaSql = " SELECT DISTINCT codigo_mun as valor, municipio";
-                $cadenaSql .= " FROM parametros.municipio;";
+                $cadenaSql = " SELECT DISTINCT mn.codigo_mun as valor, mn.municipio";
+                $cadenaSql .= " FROM parametros.municipio mn";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.municipio=mn.codigo_mun ";
 
                 break;
 
             case 'consultarUrbanizacion':
+
                 $cadenaSql = " SELECT id_urbanizacion as valor, urbanizacion";
                 $cadenaSql .= " FROM parametros.urbanizacion;";
+
                 break;
 
             case 'consultarInformacion':
 
                 $cadenaSql = " SELECT";
                 $cadenaSql .= " mn.municipio,";
-                $cadenaSql .= " bn.proyecto,";
+                $cadenaSql .= " bn.proyecto as urbanizacion,";
                 $cadenaSql .= " bn.id_beneficiario,";
-                $cadenaSql .= " bn.identificacion,";
+                $cadenaSql .= " bn.identificacion as numero_identificacion,";
                 $cadenaSql .= " bn.nombre||' '||bn.primer_apellido||' '|| CASE WHEN bn.segundo_apellido IS NULL THEN ' 'ELSE bn.segundo_apellido END as \"Nombre Beneficiario\",";
                 $cadenaSql .= " cn.numero_contrato,";
                 $cadenaSql .= " bn.direccion as direccion,";
@@ -116,7 +119,7 @@ class Sql extends \Sql
                 }
 
                 if (isset($_REQUEST['urbanizacion']) && $_REQUEST['urbanizacion'] != '') {
-                    $cadenaSql .= " AND cn.id_proyecto='" . $_REQUEST['urbanizacion'] . "'";
+                    $cadenaSql .= " AND bn.id_proyecto='" . $_REQUEST['urbanizacion'] . "'";
                 }
 
                 if (isset($_REQUEST['id_beneficiario']) && $_REQUEST['id_beneficiario'] != '') {
@@ -141,7 +144,7 @@ class Sql extends \Sql
                 $cadenaSql .= " bn.lote,";
                 $cadenaSql .= " bn.piso,";
                 $cadenaSql .= " bn.apartamento";
-                $cadenaSql .= " ORDER BY cn.numero_contrato;";
+                $cadenaSql .= " ORDER BY cn.numero_contrato ;";
 
                 break;
 
