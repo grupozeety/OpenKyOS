@@ -1,9 +1,12 @@
 <?php
 namespace reportes\estadoBeneficiarios\entidad;
-class procesarAjax {
+
+class procesarAjax
+{
     public $miConfigurador;
     public $sql;
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("rutaBloque");
@@ -88,7 +91,7 @@ class procesarAjax {
                         $cadenaSql = $this->sql->getCadenaSql('consultaGeneralBeneficiariosNumerico', $_REQUEST['metas']);
 
                         $procesos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                        //var_dump($procesos);
+
                         if ($procesos) {
                             foreach ($procesos as $key => $valor) {
 
@@ -244,17 +247,18 @@ class procesarAjax {
         }
     }
 
-    public function colorCelda($valor) {
+    public function colorCelda($valor)
+    {
 
         if ($valor >= 0 && $valor <= 20) {
             $color = "#F08080";
-        } else if ($valor >= 21 && $valor <= 50) {
+        } else if ($valor > 20 && $valor <= 50) {
             $color = "#f3aa51";
-        } else if ($valor >= 51 && $valor <= 80) {
+        } else if ($valor > 50 && $valor <= 80) {
             $color = "#f0ed80";
-        } else if ($valor >= 81 && $valor <= 99) {
+        } else if ($valor > 80 && $valor <= 99) {
             $color = "#b0e6c8";
-        } else if ($valor >= 100) {
+        } else if ($valor > 99) {
             $color = "#0d7b3e";
         }
 
@@ -263,6 +267,3 @@ class procesarAjax {
 }
 $miProcesarAjax = new procesarAjax($this->sql);
 exit;
-?>
-
-
