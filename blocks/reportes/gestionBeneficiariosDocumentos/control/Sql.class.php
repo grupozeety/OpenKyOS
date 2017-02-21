@@ -67,7 +67,7 @@ class Sql extends \Sql
                 $cadenaSql .= " bn.interior,";
                 $cadenaSql .= " bn.lote,";
                 $cadenaSql .= " bn.piso,";
-                $cadenaSql .= " bn.apartamento,";
+                $cadenaSql .= " bn.apartamento as casa_apartamento ,";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '130') as \"Cédula Beneficiario (Reverso)\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '142') as \"Pantallazo aprovisionamiento velocidad contratada\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '101') as \"Certificado del proyecto catalogado como VIP\",";
