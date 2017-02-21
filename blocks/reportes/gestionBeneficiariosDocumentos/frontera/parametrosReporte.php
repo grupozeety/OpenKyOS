@@ -1,17 +1,20 @@
 <?php
 namespace reportes\gestionBeneficiariosDocumentos\frontera;
+
 /**
  * IMPORTANTE: Este formulario está utilizando jquery.
  * Por tanto en el archivo ready.php se declaran algunas funciones js
  * que lo complementan.
  */
-class Registrador {
+class Registrador
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
     public $esteRecursoDB;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -26,7 +29,8 @@ class Registrador {
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
     }
-    public function seleccionarForm() {
+    public function seleccionarForm()
+    {
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 
@@ -211,6 +215,52 @@ class Registrador {
             echo $this->miFormulario->campoCuadroTexto($atributos);
             unset($atributos);
 
+            $esteCampo = 'contrato';
+            $atributos['nombre'] = $esteCampo;
+            $atributos['id'] = $esteCampo;
+            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+            $atributos["etiquetaObligatorio"] = true;
+            $atributos['tab'] = $tab++;
+            $atributos['anchoEtiqueta'] = 1;
+            $atributos['evento'] = '';
+
+            if (isset($_REQUEST[$esteCampo])) {
+                $atributos['seleccion'] = $_REQUEST[$esteCampo];
+            } else {
+                $atributos['seleccion'] = '1';
+            }
+            $atributos['deshabilitado'] = false;
+            $atributos['columnas'] = 1;
+            $atributos['tamanno'] = 1;
+            $atributos['ajax_function'] = "";
+            $atributos['ajax_control'] = $esteCampo;
+            $atributos['estilo'] = "bootstrap";
+            $atributos['limitar'] = false;
+            $atributos['anchoCaja'] = 3;
+            $atributos['miEvento'] = '';
+            //$atributos['validar'] = 'required';
+            $atributos['cadena_sql'] = 'required';
+            //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
+            //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            //"Cédula de Ciudadanía";"1"
+            //"Tarjeta de Identidad";"2"
+            $matrizItems = array(
+                array(
+                    '1',
+                    'Con Contrato',
+                ),
+                array(
+                    '0',
+                    'Sin Contrato',
+                ),
+
+            );
+            $atributos['matrizItems'] = $matrizItems;
+            // Aplica atributos globales al control
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+            unset($atributos);
+
             // ------------------Division para los botones-------------------------
             $atributos["id"] = "botones";
             $atributos["estilo"] = "marcoBotones";
@@ -303,7 +353,8 @@ class Registrador {
             $this->mensaje($tab, $esteBloque['nombre']);
         }
     }
-    public function mensaje($tab = '', $nombreBloque = '') {
+    public function mensaje($tab = '', $nombreBloque = '')
+    {
 
         switch ($_REQUEST['mensaje']) {
             case 'sinResultado':
@@ -343,5 +394,3 @@ class Registrador {
 
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
 $miSeleccionador->seleccionarForm();
-
-?>

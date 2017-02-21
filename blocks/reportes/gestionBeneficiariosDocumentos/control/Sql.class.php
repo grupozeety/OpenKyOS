@@ -12,9 +12,11 @@ include_once "core/connection/Sql.class.php";
 
 // Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 // en camel case precedida por la palabra sql
-class Sql extends \Sql {
+class Sql extends \Sql
+{
     public $miConfigurador;
-    public function getCadenaSql($tipo, $variable = '') {
+    public function getCadenaSql($tipo, $variable = '')
+    {
 
         /**
          * 1.
@@ -30,46 +32,39 @@ class Sql extends \Sql {
              */
             case 'consultarDepartamento':
 
-                $cadenaSql = " SELECT DISTINCT departamento as valor, departamento";
-                $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND departamento IS NOT NULL;";
+                $cadenaSql = " SELECT DISTINCT codigo_dep as valor, departamento";
+                $cadenaSql .= " FROM parametros.departamento;";
                 break;
 
             case 'consultarMunicipio':
 
-                $cadenaSql = " SELECT DISTINCT municipio as valor, municipio ";
-                $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND municipio IS NOT NULL;";
+                $cadenaSql = " SELECT DISTINCT codigo_mun as valor, municipio";
+                $cadenaSql .= " FROM parametros.municipio;";
 
                 break;
 
             case 'consultarUrbanizacion':
-
-                $cadenaSql = " SELECT DISTINCT urbanizacion as valor, urbanizacion";
-                $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND urbanizacion IS NOT NULL;";
-
+                $cadenaSql = " SELECT id_urbanizacion as valor, urbanizacion";
+                $cadenaSql .= " FROM parametros.urbanizacion;";
                 break;
 
             case 'consultarInformacion':
+
                 $cadenaSql = " SELECT";
-                $cadenaSql .= " cn.municipio,";
-                $cadenaSql .= " cn.urbanizacion,";
-                $cadenaSql .= " cn.id_beneficiario,";
-                $cadenaSql .= " cn.numero_identificacion,";
-                $cadenaSql .= " cn.nombres||' '||cn.primer_apellido||' '|| CASE WHEN cn.segundo_apellido IS NULL THEN ' 'ELSE cn.segundo_apellido END as \"Nombre Beneficiario\",";
+                $cadenaSql .= " mn.municipio,";
+                $cadenaSql .= " bn.proyecto,";
+                $cadenaSql .= " bn.id_beneficiario,";
+                $cadenaSql .= " bn.identificacion,";
+                $cadenaSql .= " bn.nombre||' '||bn.primer_apellido||' '|| CASE WHEN bn.segundo_apellido IS NULL THEN ' 'ELSE bn.segundo_apellido END as \"Nombre Beneficiario\",";
                 $cadenaSql .= " cn.numero_contrato,";
-                $cadenaSql .= " cn.direccion_domicilio as direccion,";
-                $cadenaSql .= " cn.manzana,";
-                $cadenaSql .= " cn.torre,";
-                $cadenaSql .= " cn.bloque,";
-                $cadenaSql .= " cn.interior,";
-                $cadenaSql .= " cn.lote,";
-                $cadenaSql .= " cn.piso,";
-                $cadenaSql .= " cn.casa_apartamento,";
+                $cadenaSql .= " bn.direccion as direccion,";
+                $cadenaSql .= " bn.manzana,";
+                $cadenaSql .= " bn.torre,";
+                $cadenaSql .= " bn.bloque,";
+                $cadenaSql .= " bn.interior,";
+                $cadenaSql .= " bn.lote,";
+                $cadenaSql .= " bn.piso,";
+                $cadenaSql .= " bn.apartamento,";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '130') as \"Cédula Beneficiario (Reverso)\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '142') as \"Pantallazo aprovisionamiento velocidad contratada\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '101') as \"Certificado del proyecto catalogado como VIP\",";
@@ -90,45 +85,62 @@ class Sql extends \Sql {
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '133') as \"Fotografias de los equipos instalados en la vivienda\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '139') as \"Fotografias del serial del computador\",";
                 $cadenaSql .= " count(dc.id) FILTER (WHERE dc.tipologia_documento = '102') as \"Documento que demuestre beneficiario acceso es el propietario\",";
-                $cadenaSql .= " CASE WHEN cn.ruta_documento_contrato IS NULL THEN 0 ELSE 1 END as \"Marco Contrato\"  ";
-                $cadenaSql .= " FROM interoperacion.contrato cn ";
+                $cadenaSql .= " CASE WHEN cn.ruta_documento_contrato IS NULL THEN 0 ELSE 1 END as \"Marco Contrato\" ";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn";
+
+                if ($_REQUEST['contrato'] == '1') {
+                    $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bn.id_beneficiario AND cn.estado_registro='TRUE' ";
+                    $cadenaSql .= " AND cn.numero_identificacion IS NOT NULL ";
+
+                } elseif ($_REQUEST['contrato'] == '0') {
+
+                    $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario=bn.id_beneficiario AND cn.estado_registro='TRUE' ";
+                    $cadenaSql .= " AND cn.numero_identificacion IS  NULL ";
+
+                } else {
+
+                    $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario=bn.id_beneficiario AND cn.estado_registro='TRUE' ";
+
+                }
+
+                $cadenaSql .= " JOIN parametros.municipio mn ON mn.codigo_mun=bn.municipio";
                 $cadenaSql .= " LEFT JOIN interoperacion.documentos_contrato dc ON dc.id_beneficiario=cn.id_beneficiario";
-                $cadenaSql .= " WHERE cn.numero_identificacion IS NOT NULL AND cn.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE bn.estado_registro='TRUE'";
 
                 if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
-                    $cadenaSql .= " AND cn.municipio='" . $_REQUEST['municipio'] . "'";
+                    $cadenaSql .= " AND bn.municipio='" . $_REQUEST['municipio'] . "'";
                 }
                 if (isset($_REQUEST['departamento']) && $_REQUEST['departamento'] != '') {
 
-                    $cadenaSql .= " AND cn.departamento='" . $_REQUEST['departamento'] . "'";
+                    $cadenaSql .= " AND bn.departamento='" . $_REQUEST['departamento'] . "'";
                 }
 
                 if (isset($_REQUEST['urbanizacion']) && $_REQUEST['urbanizacion'] != '') {
-                    $cadenaSql .= " AND cn.urbanizacion='" . $_REQUEST['urbanizacion'] . "'";
+                    $cadenaSql .= " AND cn.id_proyecto='" . $_REQUEST['urbanizacion'] . "'";
                 }
 
                 if (isset($_REQUEST['id_beneficiario']) && $_REQUEST['id_beneficiario'] != '') {
-                    $cadenaSql .= " AND cn.id_beneficiario='" . $_REQUEST['id_beneficiario'] . "'";
+                    $cadenaSql .= " AND bn.id_beneficiario='" . $_REQUEST['id_beneficiario'] . "'";
                 }
 
                 $cadenaSql .= " GROUP BY ";
-                $cadenaSql .= " cn.id_beneficiario,";
-                $cadenaSql .= " cn.numero_identificacion,";
+                $cadenaSql .= " bn.id_beneficiario,";
+                $cadenaSql .= " bn.identificacion,";
                 $cadenaSql .= " cn.numero_contrato,";
                 $cadenaSql .= " cn.ruta_documento_contrato,";
-                $cadenaSql .= " cn.nombres,";
-                $cadenaSql .= " cn.primer_apellido,";
-                $cadenaSql .= " cn.segundo_apellido,";
-                $cadenaSql .= " cn.municipio,";
-                $cadenaSql .= " cn.urbanizacion,";
-                $cadenaSql .= " cn.direccion_domicilio,";
-                $cadenaSql .= " cn.manzana,";
-                $cadenaSql .= " cn.torre,";
-                $cadenaSql .= " cn.bloque,";
-                $cadenaSql .= " cn.interior,";
-                $cadenaSql .= " cn.lote,";
-                $cadenaSql .= " cn.piso,";
-                $cadenaSql .= " cn.casa_apartamento";
+                $cadenaSql .= " bn.nombre,";
+                $cadenaSql .= " bn.primer_apellido,";
+                $cadenaSql .= " bn.segundo_apellido,";
+                $cadenaSql .= " mn.municipio,";
+                $cadenaSql .= " bn.proyecto,";
+                $cadenaSql .= " bn.direccion,";
+                $cadenaSql .= " bn.manzana,";
+                $cadenaSql .= " bn.torre,";
+                $cadenaSql .= " bn.bloque,";
+                $cadenaSql .= " bn.interior,";
+                $cadenaSql .= " bn.lote,";
+                $cadenaSql .= " bn.piso,";
+                $cadenaSql .= " bn.apartamento";
                 $cadenaSql .= " ORDER BY cn.numero_contrato;";
 
                 break;
@@ -136,11 +148,9 @@ class Sql extends \Sql {
             case 'consultarBeneficiariosPotenciales':
                 $cadenaSql = " SELECT value , data ";
                 $cadenaSql .= "FROM ";
-                $cadenaSql .= "(SELECT DISTINCT cn.numero_identificacion ||' - ('||cn.nombres||' '||cn.primer_apellido||' '||(CASE WHEN cn.segundo_apellido IS NULL THEN '' ELSE cn.segundo_apellido END)||')' AS value, bp.id_beneficiario AS data ";
+                $cadenaSql .= "(SELECT DISTINCT bp.identificacion ||' - ('||bp.nombre||' '||bp.primer_apellido||' '||(CASE WHEN bp.segundo_apellido IS NULL THEN '' ELSE bp.segundo_apellido END)||')' AS value, bp.id_beneficiario AS data ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp ";
-                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario ";
                 $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
-                $cadenaSql .= " AND cn.estado_registro=TRUE ";
                 $cadenaSql .= "     ) datos ";
                 $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "LIMIT 10; ";
@@ -151,5 +161,3 @@ class Sql extends \Sql {
         return $cadenaSql;
     }
 }
-?>
-
