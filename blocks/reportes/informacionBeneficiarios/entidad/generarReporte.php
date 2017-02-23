@@ -261,7 +261,7 @@ class GenerarReporteInstalaciones
 
         $arreglo = array(
             'avance' => $avance,
-            'proceso' => $this->proceso['id_proceso'],
+            'proceso' => isset($this->proceso['id_proceso'])? $this->proceso['id_proceso']:0,
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('actualizarProcesoParticularAvance', $arreglo);
