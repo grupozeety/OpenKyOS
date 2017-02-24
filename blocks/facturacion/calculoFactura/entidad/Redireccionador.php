@@ -23,6 +23,11 @@ class Redireccionador {
 				$variable .= '&mensajeModal=errorInformacion';
 				$variable .= '&errores='.$valor;
 				break;
+				
+				case "ErrorFactura" :
+					$variable = 'pagina=calculoFactura';
+					$variable .= '&mensajeModal=errorFactura';
+					break;
 			
 		
 		}
