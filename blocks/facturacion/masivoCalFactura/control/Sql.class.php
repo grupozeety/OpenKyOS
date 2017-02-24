@@ -80,10 +80,19 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarUsuarioRol' :
-				$cadenaSql = " SELECT id_usuario_rol, id_rol ";
+				$cadenaSql = " SELECT  usuario_rol.id_rol, rol.descripcion, id_usuario_rol ";
 				$cadenaSql .= " FROM facturacion.usuario_rol ";
+				$cadenaSql .= " JOIN facturacion.rol ON usuario_rol.id_rol=rol.id_rol ";
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
-				$cadenaSql .= " AND estado_registro=TRUE ";
+				$cadenaSql .= " AND usuario_rol.estado_registro=TRUE ";
+				break;
+			
+			case 'consultarUsuarioRol_predeterminado' :
+				$cadenaSql = " SELECT  id_valor as id_rol, rol.descripcion ";
+				$cadenaSql .= " FROM facturacion.parametros_generales ";
+				$cadenaSql .= " JOIN facturacion.rol ON id_rol=parametros_generales.id_valor ";
+				$cadenaSql .= " WHERE parametros_generales.descripcion='rol'";
+				$cadenaSql .= " AND parametros_generales.estado_registro=TRUE ";
 				break;
 			
 			case 'registrarFactura' :
@@ -165,6 +174,28 @@ class Sql extends \Sql {
 				if (isset ( $variable ['departamento'] )) {
 					$cadenaSql .= " AND bp.deparamento='" . $variable ['urbanizacion'] . "' ";
 				}
+				break;
+			
+			case 'registrarAsociacion' :
+				$cadenaSql = " INSERT INTO facturacion.usuario_rol (id_rol, id_beneficiario) ";
+				$cadenaSql .= " VALUES( ";
+				$cadenaSql .= " " . $variable ['id_rol'] . ",";
+				$cadenaSql .= " '" . $variable ['id_beneficiario'] . "' );";
+				break;
+			
+			case 'consultarUsuarioRolPeriodo' :
+				$cadenaSql = " SELECT fin_periodo ";
+				$cadenaSql .= " FROM facturacion.usuario_rol_periodo ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+				$cadenaSql .= " AND estado_registro=TRUE ";
+				$cadenaSql .= " ORDER BY id_usuario_rol_periodo DESC ";
+				break;
+			
+			case 'consultarFechaInicio' :
+				$cadenaSql = " SELECT fecha_instalacion ";
+				$cadenaSql .= " FROM interoperacion.acta_entrega_servicios ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+				$cadenaSql .= " AND estado_registro=TRUE ";
 				break;
 		}
 		
