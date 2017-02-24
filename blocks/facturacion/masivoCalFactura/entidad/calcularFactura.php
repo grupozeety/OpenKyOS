@@ -52,29 +52,50 @@ class Calcular {
 		$this->datosContrato ();
 		
 		/**
-		 * 4.
-		 * Calcular Valores
-		 */
-		$this->reducirFormula ();
-		
-		$this->calculoPeriodo ();
-		$this->registrarPeriodo ();
-		
-		$this->calculoFactura ();
-		
-		/**
-		 * 5.
-		 * Guardar Conceptos de Facturación
+		 * 3.
+		 * Verificar que no exista una factura para el rol para el periodo
 		 */
 		
-		$this->guardarFactura ();
-		$this->guardarConceptos ();
-		
-		/**
-		 * 6.
-		 * Revisar Resultado Proceso
-		 */
+		$resultado = $this->verificarFactura ();
+
+		if ($resultado >0) {
+			
+			/**
+			 * 6.
+			 * Revisar Resultado Proceso
+			 */
+
+			return $this->registroConceptos;
+		} else {
+			
 	
+			$this->datosContrato ();
+			/**
+			 * 4.
+			 * Calcular Valores
+			 */
+			$this->reducirFormula ();
+			
+			$this->calculoPeriodo ();
+			$this->registrarPeriodo ();
+			
+			$this->calculoFactura ();
+			
+			/**
+			 * 5.
+			 * Guardar Conceptos de Facturación
+			 */
+			
+			$this->guardarFactura ();
+			$this->guardarConceptos ();
+		
+			/**
+			 * 6.
+			 * Revisar Resultado Proceso
+			 */
+	
+			return $this->registroConceptos;
+		}
 	}
 	public function reglasRol() {
 		foreach ( $this->rolesPeriodo as $key => $vales ) {
@@ -98,10 +119,36 @@ class Calcular {
 			}
 		}
 	}
+	public function verificarFactura() {
+		
+		$res=0;
+		foreach ( $this->rolesPeriodo as $key => $vales ) {
+			foreach ( $this->rolesPeriodo as $llave => $valores ) {
+				
+				$ciclo = date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) );
+				$datos = array (
+						'id_usuario_rol' => $this->rolesPeriodo [$llave] ['id_usuario_rol'],
+						'id_ciclo' => $ciclo 
+				);
+				
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFactura', $datos );
+				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+				
+				if ($resultado != FALSE) {
+					$this->registroConceptos ['observaciones'] = 'Ya existe una factura para el ciclo ' . $ciclo;
+					$res++;
+				}else{
+					$res=0;
+				}
+			}
+		}
+
+		return $res;
+		
+	}
 	public function datosContrato() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarContrato', $_REQUEST ['id_beneficiario'] );
 		$this->datosContrato = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
-		
 	}
 	public function reducirFormula() {
 		$contar = 0;
@@ -128,7 +175,6 @@ class Calcular {
 		} while ( $termina == false );
 		
 		$this->formularRolGlobal = $formulaRol;
-	
 	}
 	public function calculoPeriodo() {
 		foreach ( $this->rolesPeriodo as $key => $values ) {
@@ -138,23 +184,36 @@ class Calcular {
 			
 			$this->rolesPeriodo [$key] ['periodoValor'] = ( double ) ($periodoUnidad);
 		}
-
 	}
+	// Registrar el ciclo de facturación de acuerdo al periodo seleccionado
 	public function registrarPeriodo() {
 		foreach ( $this->rolesPeriodo as $key => $values ) {
+			
+			if ($this->rolesPeriodo [$key] ['periodoValor'] == 1) {
+				$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 month' ) );
+			} elseif ($this->rolesPeriodo [$key] ['periodoValor'] == 720) {
+				$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+' . $values ['cantidad'] . ' hours' ) );
+			} elseif ($this->rolesPeriodo [$key] ['periodoValor'] == 30) {
+				$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+' . $values ['cantidad'] . ' days' ) );
+			} else {
+				$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 month' ) );
+			}
+			
+			// En un mundo ideal un float alcanzaría para dates basados en meses ((1 / $this->rolesPeriodo [$key] ['periodoValor']) * $values ['cantidad']);
 			
 			$usuariorolperiodo = array (
 					'id_usuario_rol' => $this->rolesPeriodo [$key] ['id_usuario_rol'],
 					'id_periodo' => $this->rolesPeriodo [$key] ['periodo'],
-					'inicio_periodo' => $this->rolesPeriodo [$key] ['fecha'] 
+					'inicio_periodo' => $this->rolesPeriodo [$key] ['fecha'],
+					'fin_periodo' => $fin,
+					'id_ciclo' => date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) 
 			);
+			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarPeriodoRolUsuario', $usuariorolperiodo );
 			$periodoRolUsuario = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_usuario_rol_periodo'];
 			$this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] = $periodoRolUsuario;
 		}
-		
 	}
-	
 	public function calculoFactura() {
 		$total = 0;
 		$vm = $this->datosContrato ['vm'];
@@ -212,7 +271,7 @@ class Calcular {
 			}
 		}
 		$this->registroConceptos ['resultado'] = $a;
-		}
+	}
 }
 
 ?>

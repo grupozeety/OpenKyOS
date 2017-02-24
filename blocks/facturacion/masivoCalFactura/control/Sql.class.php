@@ -126,11 +126,13 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarPeriodoRolUsuario' :
-				$cadenaSql = " INSERT INTO facturacion.usuario_rol_periodo (id_usuario_rol, id_periodo,inicio_periodo) ";
+				$cadenaSql = " INSERT INTO facturacion.usuario_rol_periodo (id_usuario_rol, id_periodo,inicio_periodo, fin_periodo, id_ciclo) ";
 				$cadenaSql .= " VALUES( ";
 				$cadenaSql .= " '" . $variable ['id_usuario_rol'] . "',";
 				$cadenaSql .= " '" . $variable ['id_periodo'] . "',";
-				$cadenaSql .= " '" . $variable ['inicio_periodo'] . "' )  RETURNING id_usuario_rol_periodo ;";
+				$cadenaSql .= " '" . $variable ['inicio_periodo'] . "',";
+				$cadenaSql .= " '" . $variable ['fin_periodo'] . "',";
+				$cadenaSql .= " '" . $variable ['id_ciclo'] . "' )  RETURNING id_usuario_rol_periodo ;";
 				break;
 			
 			/* Consultas Informativas */
@@ -196,6 +198,16 @@ class Sql extends \Sql {
 				$cadenaSql .= " FROM interoperacion.acta_entrega_servicios ";
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
 				$cadenaSql .= " AND estado_registro=TRUE ";
+				break;
+			
+			case 'consultarFactura' :
+				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, id_ciclo ";
+				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
+				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
+				$cadenaSql .= " WHERE urp.id_usuario_rol='".$variable['id_usuario_rol']."' ";
+				$cadenaSql .= " AND urp.estado_registro=TRUE ";
+				$cadenaSql .= " AND id_ciclo='".$variable['id_ciclo']."' ";
+				
 				break;
 		}
 		

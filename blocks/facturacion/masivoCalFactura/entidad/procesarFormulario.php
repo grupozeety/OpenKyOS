@@ -79,7 +79,7 @@ class FormProcessor {
 		 */
 		
 		foreach ( $this->beneficiarios as $key => $values ) {
-			
+
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $values ['id_beneficiario'] );
 			$actaActiva = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 			// Saber qué roles tiene asociados
@@ -105,21 +105,23 @@ class FormProcessor {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRolPeriodo', $values ['id_beneficiario'] );
 				$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				
+				
+	
 				if ($fechaFin == FALSE) {
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $values ['id_beneficiario'] );
 					$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				}
-				
+
 				foreach ( $roles as $data => $valor ) {
 					$rolPeriodo [$roles [$data] ['id_rol']] = array (
 							'periodo' => 1,
 							'cantidad' => 1,
-							'fecha' => date("Y/m/d", strtotime($fechaFin [0] [0])),
+							'fecha' => date("Y/m/d H:i:s", strtotime($fechaFin [0] [0])),
 							'reglas' => array () 
 					);
 				}
 				
-				$this->calcular->calcularFactura( $values ['id_beneficiario'], $rolPeriodo);
+				$resultado[$values['id_beneficiario']]=$this->calcular->calcularFactura( $values ['id_beneficiario'], $rolPeriodo);
 			
 				// Saber qué periodo aplica cada rol
 			} else {
@@ -127,7 +129,6 @@ class FormProcessor {
 				$this->escribir_log ( $mensaje );
 			}
 		}
-		
 exit;
 		
 		if ($this->registroConceptos ['resultado'] == 0) {
