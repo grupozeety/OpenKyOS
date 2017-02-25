@@ -1,5 +1,6 @@
 <?php
 namespace facturacion\impresionFactura\frontera;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -10,11 +11,13 @@ if (!isset($GLOBALS["autorizado"])) {
  * Por tanto en el archivo ready.php se declaran algunas funciones js
  * que lo complementan.
  */
-class Registrador {
+class Registrador
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
-    public function __construct($lenguaje, $formulario) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -22,8 +25,15 @@ class Registrador {
         $this->lenguaje = $lenguaje;
 
         $this->miFormulario = $formulario;
+
+        $this->miSql = $sql;
+
+        $conexion = "interoperacion";
+        //$conexion = "produccion";
+        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
     }
-    public function seleccionarForm() {
+    public function seleccionarForm()
+    {
 
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
@@ -66,49 +76,279 @@ class Registrador {
                 unset($atributos);
 
                 {
-                    // ----------------INICIO CONTROL: Lista Proyectos---------------------------
 
-                    $esteCampo = 'beneficiario';
+                    $esteCampo = 'seleccion_proceso';
                     $atributos['nombre'] = $esteCampo;
-                    $atributos['tipo'] = "text";
                     $atributos['id'] = $esteCampo;
                     $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                     $atributos["etiquetaObligatorio"] = true;
                     $atributos['tab'] = $tab++;
-                    $atributos['anchoEtiqueta'] = 2;
-                    $atributos['estilo'] = "bootstrap";
+                    $atributos['anchoEtiqueta'] = 1;
                     $atributos['evento'] = '';
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['seleccion'] = '1';
+                    }
                     $atributos['deshabilitado'] = false;
-                    $atributos['readonly'] = false;
                     $atributos['columnas'] = 1;
                     $atributos['tamanno'] = 1;
-                    $atributos['placeholder'] = "Ingrese Mínimo 3 Caracteres de Busqueda";
-                    $atributos['valor'] = "";
                     $atributos['ajax_function'] = "";
                     $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
                     $atributos['limitar'] = false;
-                    $atributos['anchoCaja'] = 10;
+                    $atributos['anchoCaja'] = 3;
                     $atributos['miEvento'] = '';
-                    //$atributos['validar'] = 'required';
+                    $atributos['validar'] = 'required';
+                    $atributos['cadena_sql'] = 'required';
+                    $matrizItems = array(
+                        array(
+                            '1',
+                            'Generar Consulta Facturación',
+                        ),
+
+                        array(
+                            '2',
+                            'Consultar Estado Generación Facturas',
+                        ),
+                    );
+                    $atributos['matrizItems'] = $matrizItems;
                     // Aplica atributos globales al control
                     $atributos = array_merge($atributos, $atributosGlobales);
-                    echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
 
-                    $esteCampo = 'id';
-                    $atributos["id"] = $esteCampo; // No cambiar este nombre
-                    $atributos["tipo"] = "hidden";
-                    $atributos['estilo'] = '';
-                    $atributos["obligatorio"] = false;
-                    $atributos['marco'] = true;
-                    $atributos["etiqueta"] = "";
-                    if (isset($_REQUEST[$esteCampo])) {
-                        $atributos['valor'] = $_REQUEST[$esteCampo];
-                    } else {
-                        $atributos['valor'] = '';
+                    // ------------------Division para los botones-------------------------
+                    $atributos["id"] = "generar_facturacion";
+                    $atributos["estilo"] = "marcoBotones";
+                    $atributos["estiloEnLinea"] = "display:block;";
+                    echo $this->miFormulario->division("inicio", $atributos);
+                    unset($atributos);
+                    {
+
+                        $esteCampo = 'departamento';
+                        $atributos['nombre'] = $esteCampo;
+                        $atributos['id'] = $esteCampo;
+                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                        $atributos["etiquetaObligatorio"] = true;
+                        $atributos['tab'] = $tab++;
+                        $atributos['anchoEtiqueta'] = 2;
+                        $atributos['evento'] = '';
+                        if (isset($_REQUEST[$esteCampo])) {
+                            $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                        } else {
+                            $atributos['seleccion'] = -1;
+                        }
+                        $atributos['deshabilitado'] = false;
+                        $atributos['columnas'] = 1;
+                        $atributos['tamanno'] = 1;
+                        $atributos['ajax_function'] = "";
+                        $atributos['ajax_control'] = $esteCampo;
+                        $atributos['estilo'] = "bootstrap";
+                        $atributos['limitar'] = false;
+                        $atributos['anchoCaja'] = 10;
+                        $atributos['miEvento'] = '';
+                        //$atributos['validar'] = '';
+                        $cadenaSql = $this->miSql->getCadenaSql('consultarDepartamento');
+                        $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                        $atributos['matrizItems'] = $resultado;
+
+                        // Aplica atributos globales al control
+                        $atributos = array_merge($atributos, $atributosGlobales);
+                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                        unset($atributos);
+
+                        $esteCampo = 'municipio';
+                        $atributos['nombre'] = $esteCampo;
+                        $atributos['id'] = $esteCampo;
+                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                        $atributos["etiquetaObligatorio"] = true;
+                        $atributos['tab'] = $tab++;
+                        $atributos['anchoEtiqueta'] = 2;
+                        $atributos['evento'] = '';
+
+                        if (isset($_REQUEST[$esteCampo])) {
+                            $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                        } else {
+                            $atributos['seleccion'] = '-1';
+                        }
+                        $atributos['deshabilitado'] = false;
+                        $atributos['columnas'] = 1;
+                        $atributos['tamanno'] = 1;
+                        $atributos['ajax_function'] = "";
+                        $atributos['ajax_control'] = $esteCampo;
+                        $atributos['estilo'] = "bootstrap";
+                        $atributos['limitar'] = false;
+                        $atributos['anchoCaja'] = 10;
+                        $atributos['miEvento'] = '';
+                        //$atributos['validar'] = '';
+                        $atributos['cadena_sql'] = ' ';
+                        $cadenaSql = $this->miSql->getCadenaSql('consultarMunicipio');
+                        $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                        $matrizItems = $resultado;
+                        $atributos['matrizItems'] = $matrizItems;
+                        // Aplica atributos globales al control
+                        $atributos = array_merge($atributos, $atributosGlobales);
+                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                        unset($atributos);
+
+                        $esteCampo = 'urbanizacion';
+                        $atributos['nombre'] = $esteCampo;
+                        $atributos['id'] = $esteCampo;
+                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                        $atributos["etiquetaObligatorio"] = true;
+                        $atributos['tab'] = $tab++;
+                        $atributos['anchoEtiqueta'] = 2;
+                        $atributos['evento'] = '';
+
+                        if (isset($_REQUEST[$esteCampo])) {
+                            $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                        } else {
+                            $atributos['seleccion'] = '-1';
+                        }
+                        $atributos['deshabilitado'] = false;
+                        $atributos['columnas'] = 1;
+                        $atributos['tamanno'] = 1;
+                        $atributos['ajax_function'] = "";
+                        $atributos['ajax_control'] = $esteCampo;
+                        $atributos['estilo'] = "bootstrap";
+                        $atributos['limitar'] = false;
+                        $atributos['anchoCaja'] = 10;
+                        $atributos['miEvento'] = '';
+                        //$atributos['validar'] = '';
+                        $atributos['cadena_sql'] = ' ';
+                        $cadenaSql = $this->miSql->getCadenaSql('consultarUrbanizacion');
+                        $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                        $matrizItems = $resultado;
+                        $atributos['matrizItems'] = $matrizItems;
+                        // Aplica atributos globales al control
+                        $atributos = array_merge($atributos, $atributosGlobales);
+                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                        unset($atributos);
+
+                        $esteCampo = "beneficiario";
+                        $atributos['nombre'] = $esteCampo;
+                        $atributos['id'] = $esteCampo;
+                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                        $atributos["etiquetaObligatorio"] = true;
+                        $atributos['tab'] = $tab++;
+                        if (isset($_REQUEST[$esteCampo])) {
+                            $atributos['valor'] = $_REQUEST[$esteCampo];
+                        } else {
+                            $atributos['valor'] = "";
+                        }
+                        //$atributos['validar'] = '';
+                        $atributos['filas'] = 3;
+                        // Aplica atributos globales al control
+                        $atributos = array_merge($atributos, $atributosGlobales);
+                        echo $this->miFormulario->campoTextAreaBootstrap($atributos);
+                        unset($atributos);
+
+                        // ------------------Division para los botones-------------------------
+                        $atributos["id"] = "botones";
+                        $atributos["estilo"] = "marcoBotones";
+                        $atributos["estiloEnLinea"] = "display:block;";
+                        echo $this->miFormulario->division("inicio", $atributos);
+                        unset($atributos);
+                        {
+                            // -----------------CONTROL: Botón ----------------------------------------------------------------
+                            $esteCampo = 'generar';
+                            $atributos["id"] = $esteCampo;
+                            $atributos["tabIndex"] = $tab;
+                            $atributos["tipo"] = 'boton';
+                            // submit: no se coloca si se desea un tipo button genérico
+                            $atributos['submit'] = true;
+                            $atributos["simple"] = true;
+                            $atributos["estiloMarco"] = '';
+                            $atributos["estiloBoton"] = 'default';
+                            $atributos["block"] = false;
+                            // verificar: true para verificar el formulario antes de pasarlo al servidor.
+                            $atributos["verificar"] = '';
+                            $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+                            $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
+                            $atributos['nombreFormulario'] = $esteBloque['nombre'];
+                            $tab++;
+
+                            // Aplica atributos globales al control
+                            $atributos = array_merge($atributos, $atributosGlobales);
+                            echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
+                            unset($atributos);
+                            // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+                        }
+                        // ------------------Fin Division para los botones-------------------------
+                        echo $this->miFormulario->division("fin");
+                        unset($atributos);
+
                     }
-                    $atributos = array_merge($atributos, $atributosGlobales);
-                    echo $this->miFormulario->campoCuadroTexto($atributos);
+                    echo "</div>";
+                    echo $this->miFormulario->division("fin");
+                    unset($atributos);
+
+                    // ------------------Division para los botones-------------------------
+                    $atributos["id"] = "consulta";
+                    $atributos["estilo"] = "marcoBotones";
+                    $atributos["estiloEnLinea"] = "display:none;";
+                    echo $this->miFormulario->division("inicio", $atributos);
+                    unset($atributos);
+                    {
+
+                        {
+                            // ------------------Division para los botones-------------------------
+                            $atributos['id'] = 'divMensaje';
+                            $atributos['estilo'] = 'marcoBotones';
+                            echo $this->miFormulario->division("inicio", $atributos);
+                            unset($atributos);
+                            {
+                                // -------------Control texto-----------------------
+                                $esteCampo = 'mostrarMensaje';
+                                $atributos["tamanno"] = '';
+                                $atributos["etiqueta"] = '';
+                                $mensaje = 'Consulta de Estado Generación Masiva Procesos';
+                                $atributos["mensaje"] = $mensaje;
+                                $atributos["estilo"] = 'information'; // information,warning,error,validation
+                                $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+                                echo $this->miFormulario->campoMensaje($atributos);
+                                unset($atributos);
+                                {
+
+                                    echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th><center>Proceso<center></th>
+                                            <th><center>Estado<center></th>
+                                            <th><center>Archivo Descarga<center></th>
+                                            <th><center>Tamaño Archivo<center></th>
+                                            <th><center>Parametro Inicio<br>Id Beneficiario<center></th>
+                                            <th><center>Parametro Final<br>Id Beneficiario<center></th>
+                                            <th><center>Urbanizaciones<center></th>
+                                            <th><center>Fecha de Generacion<center></th>
+                                            <th><center>Finalizar Proceso<center></th>
+                                        </tr>
+                                    </thead>
+                                           <tfoot>
+                                        <tr>
+                                            <th><center>Proceso<center></th>
+                                            <th><center>Estado<center></th>
+                                            <th><center>Archivo Descarga<center></th>
+                                            <th><center>Tamaño Archivo<center></th>
+                                            <th><center>Parametro Inicio<br>Id Beneficiario<center></th>
+                                            <th><center>Parametro Final<br>Id Beneficiario<center></th>
+                                            <th><center>Urbanizaciones<center></th>
+                                            <th><center>Fecha de Generacion<center></th>
+                                            <th><center>Finalizar Proceso<center></th>
+                                        </tr>
+                                    </tfoot>
+                                  </table>';
+                                }
+
+                            }
+                            // ------------------Fin Division para los botones-------------------------
+                            echo $this->miFormulario->division("fin");
+                            unset($atributos);
+                        }
+
+                    }
+                    echo $this->miFormulario->division("fin");
                     unset($atributos);
 
                 }
@@ -116,40 +356,6 @@ class Registrador {
                 echo $this->miFormulario->agrupacion('fin');
                 unset($atributos);
 
-                // ------------------Division para los botones-------------------------
-                $atributos["id"] = "botones";
-                $atributos["estilo"] = "marcoBotones";
-                $atributos["estiloEnLinea"] = "display:block;";
-                echo $this->miFormulario->division("inicio", $atributos);
-                unset($atributos);
-                {
-                    // -----------------CONTROL: Botón ----------------------------------------------------------------
-                    $esteCampo = 'botonGenerar';
-                    $atributos["id"] = $esteCampo;
-                    $atributos["tabIndex"] = $tab;
-                    $atributos["tipo"] = 'boton';
-                    // submit: no se coloca si se desea un tipo button genérico
-                    $atributos['submit'] = true;
-                    $atributos["simple"] = true;
-                    $atributos["estiloMarco"] = '';
-                    $atributos["estiloBoton"] = 'default';
-                    $atributos["block"] = false;
-                    // verificar: true para verificar el formulario antes de pasarlo al servidor.
-                    $atributos["verificar"] = '';
-                    $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-                    $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
-                    $atributos['nombreFormulario'] = $esteBloque['nombre'];
-                    $tab++;
-
-                    // Aplica atributos globales al control
-                    $atributos = array_merge($atributos, $atributosGlobales);
-                    echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
-                    unset($atributos);
-                    // -----------------FIN CONTROL: Botón -----------------------------------------------------------
-                }
-                // ------------------Fin Division para los botones-------------------------
-                echo $this->miFormulario->division("fin");
-                unset($atributos);
             }
 
             {
@@ -201,7 +407,8 @@ class Registrador {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensaje() {
+    public function mensaje()
+    {
 
         if (isset($_REQUEST['mensaje'])) {
             switch ($_REQUEST['mensaje']) {
@@ -237,10 +444,8 @@ class Registrador {
     }
 }
 
-$miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario);
+$miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->mensaje();
 
 $miSeleccionador->seleccionarForm();
-
-?>

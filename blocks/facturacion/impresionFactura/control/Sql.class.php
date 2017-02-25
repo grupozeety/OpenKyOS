@@ -44,23 +44,6 @@ class Sql extends \Sql
              * Clausulas específicas
              */
 
-            case 'consultarBeneficiariosPotenciales':
-                $cadenaSql = " SELECT value , data ";
-                $cadenaSql .= "FROM ";
-                $cadenaSql .= "(SELECT DISTINCT bp.identificacion ||' - ('||bp.nombre||' '||bp.primer_apellido||' '||bp.segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
-                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
-                $cadenaSql .= " LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bp.id_beneficiario ";
-                $cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bp.id_beneficiario=ba.id_beneficiario ";
-                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario ";
-                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
-                $cadenaSql .= " AND ba.estado_registro=TRUE ";
-                $cadenaSql .= " AND ba.carpeta_creada=TRUE ";
-                $cadenaSql .= $variable;
-                $cadenaSql .= "     ) datos ";
-                $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
-                $cadenaSql .= "LIMIT 10; ";
-                break;
-
             case 'consultarBeneficiario':
                 $cadenaSql = " SELECT";
                 $cadenaSql .= " cn.nombres||' '||cn.primer_apellido||' '||(CASE WHEN cn.segundo_apellido IS NOT NULL THEN cn.segundo_apellido ELSE '' END) as nombre_beneficiario,";
@@ -127,6 +110,56 @@ class Sql extends \Sql
                 $cadenaSql .= " ORDER BY fecha_registro DESC";
                 $cadenaSql .= " LIMIT 1";
                 $cadenaSql .= " );";
+                break;
+
+            case 'consultarDepartamento':
+
+                $cadenaSql = " SELECT DISTINCT departamento as valor, departamento";
+                $cadenaSql .= " FROM interoperacion.contrato";
+                $cadenaSql .= " WHERE estado_registro=TRUE";
+                $cadenaSql .= " AND departamento IS NOT NULL";
+                $cadenaSql .= " AND departamento <> ''; ";
+                break;
+
+            case 'consultarMunicipio':
+
+                $cadenaSql = " SELECT DISTINCT municipio as valor, municipio ";
+                $cadenaSql .= " FROM interoperacion.contrato";
+                $cadenaSql .= " WHERE estado_registro=TRUE";
+                $cadenaSql .= " AND municipio IS NOT NULL ";
+                $cadenaSql .= " AND municipio <> ''; ";
+
+                break;
+
+            case 'consultarUrbanizacion':
+
+                $cadenaSql = " SELECT DISTINCT urbanizacion as valor, urbanizacion";
+                $cadenaSql .= " FROM interoperacion.contrato";
+                $cadenaSql .= " WHERE estado_registro=TRUE";
+                $cadenaSql .= " AND urbanizacion IS NOT NULL";
+                $cadenaSql .= " AND urbanizacion <> '' ";
+                $cadenaSql .= " AND urbanizacion <> 'Seleccione .....' ;";
+
+                break;
+
+            case 'consultarBeneficiariosPotenciales':
+                $cadenaSql = " SELECT value,  data ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "(SELECT DISTINCT cn.numero_identificacion /*||' - ('||cn.nombres||' '||cn.primer_apellido||' '||(CASE WHEN cn.segundo_apellido IS NULL THEN '' ELSE cn.segundo_apellido END)||')'*/ AS value, bp.id_beneficiario AS data ";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND cn.estado_registro=TRUE ";
+                $cadenaSql .= "     ) datos ";
+                $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "LIMIT 10; ";
+                break;
+
+            case 'consultarProceso':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM parametros.procesos_accesos";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " ORDER BY id_proceso DESC;";
                 break;
 
         }
