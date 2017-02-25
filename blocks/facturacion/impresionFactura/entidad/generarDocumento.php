@@ -169,7 +169,7 @@ class GenerarDocumento
 
                 if (isset($this->colspan) && $width == '100%') {
 
-                    $this->contenido .= "<td colspan='2' style='width:" . $width . ";height:" . $height . ";border:none;font-size:100%'  nowrap >";
+                    $this->contenido .= "<td colspan='2' style='width:" . $width . ";height:" . $height . ";border:0.1px;font-size:100%'  nowrap >";
 
                     // Permite generar el Contenido a unos Tipos de Parametros
                     $this->caracterizacionContenido($columna);
@@ -178,7 +178,7 @@ class GenerarDocumento
 
                 } else {
 
-                    $this->contenido .= "<td style='width:" . $width . ";height:" . $height . ";border:none;'  nowrap >";
+                    $this->contenido .= "<td style='width:" . $width . ";height:" . $height . ";border:0.1px;'  nowrap >";
                     $this->caracterizacionContenido($columna);
 
                     $this->contenido .= "</td>";
@@ -211,11 +211,6 @@ class GenerarDocumento
                     $this->contenido .= "<div style='" . $this->atributos . "'>" . $value . "</div>";
                     break;
 
-                case 'codigoBarras':
-                    $this->contenido .= "<div style='text-align:" . $this->atributos['alineacionCodigoBarras'];
-                    $this->contenido .= "'><barcode type='CODABAR' value='" . $value . "' style='" . $this->atributos['dimensionesCodigoBarras'] . "'></barcode></div>";
-                    break;
-
                 case 'imagen':
                     $this->contenido .= "<div style='text-align:" . $this->atributos['alineacionImagen'];
                     $this->contenido .= "'><img src='" . $value . "' " . $this->atributos['dimensionesImagen'] . "  ></div>";
@@ -245,15 +240,77 @@ class GenerarDocumento
                 break;
 
             case 'HistoricoConsumo':
-                $this->contenido .= "<div style='" . $this->atributos . "'>HISTORICO CONSUMO<BR>(GRAFICA)</div>";
+                $this->contenido .= "<div style='" . $this->atributos . "'>Grafico Historico</div>";
                 break;
 
             case 'InformacionPagoResumido':
-                $this->contenido .= "<div style='" . $this->atributos . "'>INFORMACION DE PAGO RESUMIDO</div>";
+
+                $this->contenido .= "<div style='" . $this->atributos . "'>";
+
+                $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacion', 'CE114');
+                $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+                //var_dump($beneficiario);exit;
+
+                $this->contenido .= "<table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
+                            <tr>
+                                <td colspan='2' style='height:13px;text-align:center;border:0.1px;background-color:#97b5f4;'><br><b>INFORMACIÓN PAGO RESUMIDO</b><br><br></td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;width:50%'><b>Fecha de Venta: </b></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%'>"     . $beneficiario['fecha_venta'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Fecha Factura: </b></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>"     . $beneficiario['fecha_factura'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Periodo: </b></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'></td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Contrato-Ref.Pago: </b></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>"     . $beneficiario['numero_contrato'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Fecha Pago Oportuno: </b></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'></td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:0.1px;width:50%;background-color:#eb9e9e;'><br><b>VALOR TOTAL A PAGAR:</b><br></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'><br><b>$ "     . number_format($beneficiario['total_factura'], 2) . "</b><br><br></td>
+                            </tr>
+                        </table>"    ;
+
+                $this->contenido .= "</div>";
                 break;
 
             case 'Conceptos':
-                $this->contenido .= "<div style='" . $this->atributos . "'>CONCEPTOS</div>";
+                $this->contenido .= "<div style='" . $this->atributos . "'>";
+
+                $cadenaSql = $this->miSql->getCadenaSql('consultaValoresConceptos', 'CE114');
+
+                $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                $table = "<table style='border-collapse:collapse;border:0.1px;width:100%;' >
+                            <tr>
+                                <td colspan='3' style='height:13px;text-align:center;border:0.1px;background-color:#97b5f4;'><br><b>CONCEPTOS FACTURACIÓN</b><br><br></td>
+                            </tr>"    ;
+                $i = 1;
+                foreach ($beneficiario as $key => $value) {
+                    $table .= "<tr>
+                                  <td style='height:13px;text-align:center;border:none;width:20%;'><br><b>"     . $i . ".</b><br></td>
+                                  <td style='height:13px;text-align:left;border:none;width:60%;'><br><b>"     . $value['concepto'] . "</b><br></td>
+                                  <td style='height:13px;text-align:left;border:none;width:20%;'><br><b>$ "     . number_format($value['valor_concepto'], 2) . "</b><br></td>
+                               </tr>"    ;
+
+                    $i++;
+                }
+
+                $table .= "</table>";
+
+                $this->contenido .= $table;
+                $this->contenido .= "</div>";
+
                 break;
 
             case 'InformacionBeneficiario':
@@ -264,10 +321,10 @@ class GenerarDocumento
 
                 $table = "<table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
                             <tr>
-                                <td style='height:13px;text-align:center;border:0.1px;'><b>DATOS ABONADO SUSCRIPTOR</b></td>
+                                <td style='height:13px;text-align:center;border:0.1px;background-color:#97b5f4;'><br><b>DATOS ABONADO SUSCRIPTOR</b><br><br></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;'><b>Indentificación Beneficiario: </b>"     . $beneficiario['numero_identificacion'] . "</td>
+                                <td style='height:13px;text-align:left;border:0.1px;width:100%'><b>Indentificación Beneficiario: </b>"     . $beneficiario['numero_identificacion'] . "</td>
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:0.1px;'><b>Nombre Beneficiario: </b>"     . $beneficiario['nombre_beneficiario'] . "</td>
@@ -290,32 +347,51 @@ class GenerarDocumento
             case 'InformacionFacturacion':
                 $this->contenido .= "<div style='" . $this->atributos . "'>";
 
-                $cadenaSql = $this->miSql->getCadenaSql('consultarBeneficiario', 'CE114');
+                $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacion', 'CE114');
                 $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-
                 $this->contenido .= "<table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
                             <tr>
-                                <td style='height:13px;text-align:center;border:0.1px;'><b>DATOS ABONADO SUSCRIPTOR</b></td>
+                                <td colspan='2' style='height:13px;text-align:center;border:0.1px;background-color:#97b5f4;'><br><b>INFORMACIÓN PAGO RESUMIDO</b><br><br></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;'><b>Fecha de Venta: </b>"     . $beneficiario['numero_identificacion'] . "</td>
+                                <td style='height:13px;text-align:left;border:0.1px;width:50%'><b>Fecha de Venta: </b></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%'>"     . $beneficiario['fecha_venta'] . "</td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;'><b>Fecha Factura: </b>"     . $beneficiario['nombre_beneficiario'] . "</td>
+                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Fecha Factura: </b></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>"     . $beneficiario['fecha_factura'] . "</td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;'><b>Periodo: </b>"     . $beneficiario['direccion_beneficiario'] . "</td>
+                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Periodo: </b></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;'><b>Contrato-Ref.Pago: </b>"     . $beneficiario['departamento'] . "</td>
+                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Contrato-Ref.Pago: </b></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>"     . $beneficiario['numero_contrato'] . "</td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;'><b>Fecha Pago Oportuno: </b>"     . $beneficiario['municipio'] . "</td>
-                            </tr
->
-                        </table>"    ;
+                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Fecha Pago Oportuno: </b></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'></td>
+                            </tr>
+                          </table>"    ;
 
                 $this->contenido .= "</div>";
+                break;
+
+            case 'CodigoBarras':
+
+                $this->contenido .= "<div style='text-align:" . $this->atributos['alineacionCodigoBarras'];
+
+                $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacion', 'CE114');
+                $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                $fecha = str_replace('-', '', $beneficiario['fecha_factura']);
+
+                $valorCodigo = $fecha . $beneficiario['departamento'] . $beneficiario['municipio'] . $beneficiario['id_beneficiario'];
+
+                $valorCodigo = ereg_replace("[a-zA-Z]", "", $valorCodigo);
+
+                $this->contenido .= "'><barcode type='CODABAR' value='" . $valorCodigo . "' style='" . $this->atributos['dimensionesCodigoBarras'] . "'></barcode></div>";
                 break;
 
         }
@@ -366,7 +442,9 @@ class GenerarDocumento
 
     public function crearPDF()
     {
-        // EXIT;
+
+        //exit;
+
         ob_start();
         $html2pdf = new \HTML2PDF(
             'P', 'LETTER', 'es', true, 'UTF-8', array(

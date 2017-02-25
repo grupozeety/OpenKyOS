@@ -16,13 +16,13 @@
 		</columna>
 	</seccion>
 	<seccion>
-				<columna><variable estilos="font-size:18px;text-align:center;">HistoricoConsumo</variable>
+				<columna><variable estilos="font-size:13px;text-align:center;">Conceptos</variable>
 			</columna>
 	</seccion>
 	<seccion>
 	<columna>
-			<codigoBarras alineacionCodigoBarras="center" dimensionesCodigoBarras="width:90mm; height:30mm;font-size:2mm">113145874123131313123131231231235884</codigoBarras>
-			<texto estilos="font-size:15px;text-align:left;">%%%%Información Metodos de Pago%%A._____________________%%B._____________________%%C._____________________</texto>
+			<variable alineacionCodigoBarras="center" dimensionesCodigoBarras="width:106mm; height:25mm;font-size:2mm">CodigoBarras</variable>
+			<texto estilos="font-size:11px;text-align:justify;font-style:italic;">%%%%Genere su factura en línea y pague a través de los canales electrónicos Via Baloto, Efecty, Consignación Bancaria, Pago PSE</texto>
 		</columna>
-			<columna><variable estilos="font-size:18px;text-align:center;">InformacionPagoResumido</variable></columna></seccion>
+			<columna><variable estilos="font-size:14px;text-align:center;">InformacionPagoResumido</variable></columna></seccion>
 </factura>

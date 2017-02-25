@@ -81,6 +81,50 @@ class Sql extends \Sql
 
                 break;
 
+            case 'consultaInformacionFacturacion':
+                $cadenaSql = " SELECT ";
+                $cadenaSql .= " cn.numero_contrato, ";
+                $cadenaSql .= " to_date(aes.fecha_instalacion, 'DD-MM-YYYY') as fecha_venta,";
+                $cadenaSql .= " fc.estado_factura,";
+                $cadenaSql .= " to_char(fc.fecha_registro, 'YYYY-MM-DD')as fecha_factura,";
+                $cadenaSql .= " fc.total_factura,";
+                $cadenaSql .= " pb.municipio,";
+                $cadenaSql .= " pb.departamento,";
+                $cadenaSql .= " pb.id_beneficiario ";
+                $cadenaSql .= " FROM interoperacion.contrato cn";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN facturacion.factura fc ON fc.id_beneficiario=cn.id_beneficiario AND fc.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE cn.estado_registro='TRUE'";
+                $cadenaSql .= " AND cn.id_beneficiario='" . $variable . "' ";
+                $cadenaSql .= " ORDER BY fc.fecha_registro DESC";
+                $cadenaSql .= " LIMIT 1;";
+                break;
+
+            case 'consultaValoresConceptos':
+                $cadenaSql = " SELECT ";
+                $cadenaSql .= " fc.id_factura,";
+                $cadenaSql .= " cp.valor_calculado as valor_concepto,";
+                $cadenaSql .= " rl.descripcion as concepto";
+                $cadenaSql .= " FROM interoperacion.contrato cn";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN facturacion.factura fc ON fc.id_beneficiario=cn.id_beneficiario AND fc.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN facturacion.conceptos cp ON cp.id_factura=fc.id_factura AND cp.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN facturacion.regla rl ON rl.id_regla=cp.id_regla AND rl.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE cn.estado_registro='TRUE'";
+                $cadenaSql .= " AND cn.id_beneficiario='" . $variable . "' ";
+                $cadenaSql .= " AND fc.id_factura=";
+                $cadenaSql .= " (";
+                $cadenaSql .= " SELECT id_factura";
+                $cadenaSql .= " FROM facturacion.factura";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
+                $cadenaSql .= " ORDER BY fecha_registro DESC";
+                $cadenaSql .= " LIMIT 1";
+                $cadenaSql .= " );";
+                break;
+
         }
 
         return $cadenaSql;
