@@ -187,11 +187,13 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarUsuarioRolPeriodo' :
-				$cadenaSql = " SELECT fin_periodo ";
-				$cadenaSql .= " FROM facturacion.usuario_rol_periodo ";
-				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
-				$cadenaSql .= " AND estado_registro=TRUE ";
-				$cadenaSql .= " ORDER BY id_usuario_rol_periodo DESC ";
+				$cadenaSql = " SELECT DISTINCT  fin_periodo,urp.id_usuario_rol_periodo , urp.id_usuario_rol, urp.id_ciclo , id_beneficiario ";
+				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
+				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
+				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable  . "' ";
+				$cadenaSql .= " AND urp.estado_registro=TRUE ";
+				$cadenaSql .= " ORDER BY urp.id_usuario_rol_periodo DESC ";
 				break;
 			
 			case 'consultarFechaInicio' :
