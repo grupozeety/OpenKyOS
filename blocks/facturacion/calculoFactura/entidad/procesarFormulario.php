@@ -71,7 +71,7 @@ class FormProcessor {
 			
 			$this->calculoPeriodo ();
 			$this->registrarPeriodo ();
-			
+			$this->calculoMora ();
 			$this->calculoFactura ();
 			
 			/**
@@ -86,7 +86,7 @@ class FormProcessor {
 			 * 6.
 			 * Revisar Resultado Proceso
 			 */
-			exit ();
+
 			if ($this->registroConceptos ['resultado'] == 0) {
 				Redireccionador::redireccionar ( "ExitoInformacion" );
 			} else {
@@ -210,6 +210,20 @@ class FormProcessor {
 			$this->rolesPeriodo [$key] ['periodoValor'] = ( double ) ($periodoUnidad);
 		}
 	}
+		public function calculoMora() {
+		foreach ( $this->rolesPeriodo as $key => $values ) {
+				
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarMoras', $_REQUEST ['id_beneficiario'] );
+			$facturasVencidas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+			if ($facturasVencidas != FALSE) {
+				$dm = floor ( (time () - strtotime ( $facturasVencidas [0] ['fin_periodo'] )) / 86400 );
+			} else {
+				$dm = 0;
+			}
+			$this->rolesPeriodo [$key] ['mora'] = $dm;
+		}
+	}
 	
 	// Registrar el ciclo de facturación de acuerdo al periodo seleccionado
 	public function registrarPeriodo() {
@@ -243,20 +257,20 @@ class FormProcessor {
 	public function calculoFactura() {
 		$total = 0;
 		$vm = $this->datosContrato ['vm'];
-		$dm = 0;
 		$factura = 0;
 		
 		foreach ( $this->rolesPeriodo as $key => $values ) {
 			$total = 0;
 			foreach ( $values ['reglas'] as $variable => $c ) {
 				$a = preg_replace ( "/\bvm\b/", ($vm / $values ['periodoValor']) * $values ['cantidad'], $c, - 1, $contar );
-				$b = preg_replace ( "/\bdm\b/", $dm, $a, - 1, $contar );
+				$b = preg_replace ( "/\bdm\b/", $values ['mora'], $a, - 1, $contar );
 				$valor = eval ( 'return (' . $b . ');' );
 				$this->rolesPeriodo [$key] ['valor'] [$variable] = $valor;
 				$total = $total + $this->rolesPeriodo [$key] ['valor'] [$variable];
 			}
 			
 			$factura = $factura + $total;
+			$this->rolesPeriodo [$key] ['valor'] ['vm'] = $this->datosContrato ['vm'];
 			$this->rolesPeriodo [$key] ['valor'] ['total'] = $total;
 		}
 	}
@@ -265,7 +279,8 @@ class FormProcessor {
 			$informacion_factura = array (
 					'id_usuario_rol' => $this->rolesPeriodo [$key] ['id_usuario_rol'],
 					'total_factura' => $this->rolesPeriodo [$key] ['valor'] ['total'],
-					'id_beneficiario' => $_REQUEST ['id_beneficiario'] 
+					'id_beneficiario' => $_REQUEST ['id_beneficiario'] ,
+					'id_ciclo' => date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) )
 			);
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFactura', $informacion_factura );
@@ -273,7 +288,7 @@ class FormProcessor {
 		}
 	}
 	public function guardarConceptos() {
-		$this->registroConceptos ['resultado'] = 0;
+		$this->registroConceptos ['observaciones'] = '';
 		$a = 0;
 		
 		foreach ( $this->rolesPeriodo as $key => $values ) {
@@ -297,6 +312,12 @@ class FormProcessor {
 			}
 		}
 		$this->registroConceptos ['resultado'] = $a;
+		
+		if ($a == 0) {
+			$this->registroConceptos ['observaciones'] = 'Factura Generada Exitosamente';
+		} else {
+			$this->registroConceptos ['observaciones'] = 'Error en la generación de la factura';
+		}
 	}
 }
 
