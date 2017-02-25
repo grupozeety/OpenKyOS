@@ -13,9 +13,10 @@ class Redireccionador {
 
 		switch ($opcion) {
 			
-			case "ExitoInformacion" :
-				$variable = 'pagina=calculoFactura';
-				$variable .= '&mensajeModal=exitoInformacion';
+			case "Informacion" :
+				$variable = 'pagina=masivoCalFactura';
+				$variable .= '&mensajeModal=Informacion';
+				$variable .= '&log=' . $valor;
 				break;
 			
 			case "ErrorInformacion" :

@@ -27,7 +27,7 @@ class Calcular {
 		/**
 		 * Definir variables Gloables*
 		 */
-		$_REQUEST ['id_beneficiario'] = 'SI272';
+		$_REQUEST ['id_beneficiario'] = $beneficiario;
 		
 		/**
 		 * 1.
@@ -126,13 +126,13 @@ class Calcular {
 				
 				$ciclo = date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) );
 				$datos = array (
-						'id_usuario_rol' => $this->rolesPeriodo [$llave] ['id_usuario_rol'],
+						'id_beneficiario' => $_REQUEST ['id_beneficiario'],
 						'id_ciclo' => $ciclo 
 				);
 				
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFactura', $datos );
 				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-				
+
 				if ($resultado != FALSE) {
 					$this->registroConceptos ['observaciones'] = 'Ya existe una factura para el ciclo ' . $ciclo;
 					$res ++;
@@ -141,6 +141,8 @@ class Calcular {
 				}
 			}
 		}
+		
+
 		
 		return $res;
 	}
@@ -217,7 +219,7 @@ class Calcular {
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarMoras', $_REQUEST ['id_beneficiario'] );
 			$facturasVencidas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-			
+
 			if ($facturasVencidas != FALSE) {
 				$dm = floor ( (time () - strtotime ( $facturasVencidas [0] ['fin_periodo'] )) / 86400 );
 			} else {
@@ -246,6 +248,7 @@ class Calcular {
 			$this->rolesPeriodo [$key] ['valor'] ['vm'] = $this->datosContrato ['vm'];
 			$this->rolesPeriodo [$key] ['valor'] ['total'] = $total;
 		}
+		
 	}
 	public function guardarFactura() {
 		foreach ( $this->rolesPeriodo as $key => $values ) {
@@ -261,7 +264,7 @@ class Calcular {
 		}
 	}
 	public function guardarConceptos() {
-		$this->registroConceptos ['resultado'] = 0;
+		$this->registroConceptos ['observaciones'] = 'Sin observaciones';
 		$a = 0;
 		
 		foreach ( $this->rolesPeriodo as $key => $values ) {
@@ -284,8 +287,11 @@ class Calcular {
 				}
 			}
 		}
-		
-		$this->registroConceptos ['resultado'] = $a;
+		if($a==0){
+			$this->registroConceptos ['observaciones'] = 'Factura Generada Exitosamente';
+		}else{
+			$this->registroConceptos ['observaciones'] = 'Error en la generación de la factura';
+		}
 	}
 }
 

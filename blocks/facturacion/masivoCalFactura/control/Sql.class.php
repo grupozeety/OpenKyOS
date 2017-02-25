@@ -163,7 +163,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarBeneficiarios' :
-				$cadenaSql = " SELECT bp.id_beneficiario ";
+				$cadenaSql = " SELECT bp.id_beneficiario, bp.identificacion ";
 				$cadenaSql .= " FROM interoperacion.beneficiario_potencial bp ";
 				$cadenaSql .= " JOIN interoperacion.contrato con ON con.id_beneficiario=bp.id_beneficiario ";
 				$cadenaSql .= " WHERE con.estado_registro=TRUE ";
@@ -202,12 +202,13 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarFactura' :
-				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, id_ciclo ";
+				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, urp.id_ciclo , id_beneficiario ";
 				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
 				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
-				$cadenaSql .= " WHERE urp.id_usuario_rol='" . $variable ['id_usuario_rol'] . "' ";
+				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable ['id_beneficiario'] . "' ";
 				$cadenaSql .= " AND urp.estado_registro=TRUE ";
-				$cadenaSql .= " AND id_ciclo='" . $variable ['id_ciclo'] . "' ";
+				$cadenaSql .= " AND urp.id_ciclo='" . $variable ['id_ciclo'] . "' ";
 				break;
 			
 			case 'consultarMoras' :

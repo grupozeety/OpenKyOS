@@ -121,21 +121,17 @@ class FormProcessor {
 					);
 				}
 				
-				$resultado[$values['id_beneficiario']]=$this->calcular->calcularFactura( $values ['id_beneficiario'], $rolPeriodo);
-			
+				$resultado[$values['id_beneficiario']]['observaciones']=$this->calcular->calcularFactura( $values ['id_beneficiario'], $rolPeriodo);
+				$this->escribir_log ( $values ['identificacion'].':'.json_encode($resultado[$values['id_beneficiario']]['observaciones']) );
 				// Saber qué periodo aplica cada rol
 			} else {
 				$mensaje = $values ['id_beneficiario'] . ": Sin factura generada. No hay Acta Entrega de Servicios activa.";
 				$this->escribir_log ( $mensaje );
 			}
 		}
-exit;
 		
-		if ($this->registroConceptos ['resultado'] == 0) {
-			Redireccionador::redireccionar ( "ExitoInformacion" );
-		} else {
-			Redireccionador::redireccionar ( "ErrorInformacion", $this->registroConceptos ['resultado'] );
-		}
+				Redireccionador::redireccionar ( "Informacion", base64_encode ( $this->ruta_relativa_log ) );
+		
 	}
 	public function escribir_log($mensaje) {
 		fwrite ( $this->log, $mensaje . PHP_EOL );

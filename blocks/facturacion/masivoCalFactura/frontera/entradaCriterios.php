@@ -303,11 +303,11 @@ class Consultar {
 	public function mensajeModal() {
 		switch ($_REQUEST ['mensajeModal']) {
 				
-			case 'exitoInformacion' :
-				$mensaje = "Exito<br>Conceptos de Factura calculados y asociados.";
-				$atributos ['estiloLinea'] = 'success'; // success,error,information,warning
+			case 'Informacion' :
+				$mensaje = "Proceso Finalizado<br><br>Para ver resultado <b>REVISE<b> el log siguiente.<br><br>Visualizar Log : <a  target='_blank' href='" . base64_decode($_REQUEST['log']) . "'>Link Log Proceso</a>";
+				$atributos['estiloLinea'] = 'information';     // success,error,information,warning
 				break;
-			
+				
 			case 'errorInformacion' :
 				$mensaje = "Error<br>Hubo ".isset($_REQUEST['errores'])." error(es) en el cálculo de conceptos de factura.";
 				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
