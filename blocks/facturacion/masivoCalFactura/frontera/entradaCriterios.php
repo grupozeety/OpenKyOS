@@ -16,7 +16,8 @@ class Consultar {
 	public $miConfigurador;
 	public $lenguaje;
 	public $miFormulario;
-	public function __construct($lenguaje, $formulario) {
+	public $miSql;
+	public function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
@@ -24,6 +25,11 @@ class Consultar {
 		$this->lenguaje = $lenguaje;
 		
 		$this->miFormulario = $formulario;
+		$this->miSql = $sql;
+		
+		$conexion = "interoperacion";
+		//$conexion = "produccion";
+		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 	}
 	public function seleccionarForm() {
 		// Rescatar los datos de este bloque
@@ -61,7 +67,7 @@ class Consultar {
 			{
 				$esteCampo = 'Agrupacion';
 				$atributos ['id'] = $esteCampo;
-				$atributos ['leyenda'] = "Consultar Beneficiario Cálculo Conceptos de Factura";
+				$atributos ['leyenda'] = "Selección Beneficiarios Cálculo Conceptos de Factura";
 				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 				unset ( $atributos );
 				
@@ -69,80 +75,137 @@ class Consultar {
 					
 					{
 						// ------------------Division para los botones-------------------------
-						$atributos ['id'] = 'divMensaje';
-						$atributos ['estilo'] = 'textoIzquierda';
-						echo $this->miFormulario->division ( "inicio", $atributos );
-						unset ( $atributos );
+						$atributos['id'] = 'divMensaje';
+						$atributos['estilo'] = 'textoIzquierda';
+						echo $this->miFormulario->division("inicio", $atributos);
+						unset($atributos);
 						{
-							
+					
 							{
 								// URL base
-								$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
-								$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+								$url = $this->miConfigurador->getVariableConfiguracion("host");
+								$url .= $this->miConfigurador->getVariableConfiguracion("site");
 								$url .= '/archivos/generacionMasiva/plantillas/';
 								$url .= 'plantilla_cargueInfoTecnica.xls';
 							}
-							
+					
 							// -------------Control texto-----------------------
 							$esteCampo = 'mostrarMensaje';
-							$atributos ["tamanno"] = '';
-							$atributos ["etiqueta"] = '';
-							$mensaje = '<center>Recuerde: Antes de Generar una Factura debe haber asociado roles de facturación para el usuario.</center>';
-							
-							$atributos ["mensaje"] = $mensaje;
-							$atributos ["estilo"] = 'information'; // information,warning,error,validation
-							$atributos ["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-							echo $this->miFormulario->campoMensaje ( $atributos );
-							unset ( $atributos );
+							$atributos["tamanno"] = '';
+							$atributos["etiqueta"] = '';
+							$mensaje = '<center><b>Recuerde:</b><br><br> Antes de Generar una Factura debe haber asociado roles de facturación para el usuario.<br>De forma predeterminada el sistema asignará el rol de la configuración general.</center>';
+					
+							$atributos["mensaje"] = $mensaje;
+							$atributos["estilo"] = 'information'; // information,warning,error,validation
+							$atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+							echo $this->miFormulario->campoMensaje($atributos);
+							unset($atributos);
 						}
 						// ------------------Fin Division para los botones-------------------------
-						echo $this->miFormulario->division ( "fin" );
-						unset ( $atributos );
+						echo $this->miFormulario->division("fin");
+						unset($atributos);
 					}
 					// ----------------INICIO CONTROL: Lista Proyectos---------------------------
 					
-					$esteCampo = 'beneficiario';
-					$atributos ['nombre'] = $esteCampo;
-					$atributos ['tipo'] = "text";
-					$atributos ['id'] = $esteCampo;
-					$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-					$atributos ["etiquetaObligatorio"] = true;
-					$atributos ['tab'] = $tab ++;
-					$atributos ['anchoEtiqueta'] = 2;
-					$atributos ['estilo'] = "bootstrap";
-					$atributos ['evento'] = '';
-					$atributos ['deshabilitado'] = false;
-					$atributos ['readonly'] = false;
-					$atributos ['columnas'] = 1;
-					$atributos ['tamanno'] = 1;
-					$atributos ['placeholder'] = "Ingrese Mínimo 3 Caracteres de Busqueda";
-					$atributos ['valor'] = "";
-					$atributos ['ajax_function'] = "";
-					$atributos ['ajax_control'] = $esteCampo;
-					$atributos ['limitar'] = false;
-					$atributos ['anchoCaja'] = 6;
-					$atributos ['miEvento'] = '';
-					$atributos ['validar'] = 'required';
-					// Aplica atributos globales al control
-					$atributos = array_merge ( $atributos, $atributosGlobales );
-					echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
-					unset ( $atributos );
-					
-					$esteCampo = 'id_beneficiario';
-					$atributos ["id"] = $esteCampo; // No cambiar este nombre
-					$atributos ["tipo"] = "hidden";
-					$atributos ['estilo'] = '';
-					$atributos ["obligatorio"] = false;
-					$atributos ['marco'] = true;
-					$atributos ["etiqueta"] = "";
-					if (isset ( $_REQUEST [$esteCampo] )) {
-						$atributos ['valor'] = $_REQUEST [$esteCampo];
-					} else {
-						$atributos ['valor'] = '';
-					}
-					$atributos = array_merge ( $atributos, $atributosGlobales );
-					echo $this->miFormulario->campoCuadroTexto ( $atributos );
-					unset ( $atributos );
+					 $esteCampo = 'departamento';
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    $atributos['anchoEtiqueta'] = 2;
+                    $atributos['evento'] = '';
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['seleccion'] = -1;
+                    }
+                    $atributos['deshabilitado'] = false;
+                    $atributos['columnas'] = 1;
+                    $atributos['tamanno'] = 1;
+                    $atributos['ajax_function'] = "";
+                    $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
+                    $atributos['limitar'] = false;
+                    $atributos['anchoCaja'] = 5;
+                    $atributos['miEvento'] = '';
+                    //$atributos['validar'] = '';
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarDepartamento');
+                    $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $atributos['matrizItems'] = $resultado;
+
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                    unset($atributos);
+
+                    $esteCampo = 'municipio';
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    $atributos['anchoEtiqueta'] = 2;
+                    $atributos['evento'] = '';
+
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['seleccion'] = '-1';
+                    }
+                    $atributos['deshabilitado'] = false;
+                    $atributos['columnas'] = 1;
+                    $atributos['tamanno'] = 1;
+                    $atributos['ajax_function'] = "";
+                    $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
+                    $atributos['limitar'] = false;
+                    $atributos['anchoCaja'] = 5;
+                    $atributos['miEvento'] = '';
+                    //$atributos['validar'] = '';
+                    $atributos['cadena_sql'] = ' ';
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarMunicipio');
+                    $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $matrizItems = $resultado;
+                    $atributos['matrizItems'] = $matrizItems;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                    unset($atributos);
+
+                    $esteCampo = 'urbanizacion';
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    $atributos['anchoEtiqueta'] = 2;
+                    $atributos['evento'] = '';
+
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['seleccion'] = '-1';
+                    }
+                    $atributos['deshabilitado'] = false;
+                    $atributos['columnas'] = 1;
+                    $atributos['tamanno'] = 1;
+                    $atributos['ajax_function'] = "";
+                    $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
+                    $atributos['limitar'] = false;
+                    $atributos['anchoCaja'] = 5;
+                    $atributos['miEvento'] = '';
+                    //$atributos['validar'] = '';
+                    $atributos['cadena_sql'] = ' ';
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarUrbanizacion');
+                    $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                    $matrizItems = $resultado;
+                    $atributos['matrizItems'] = $matrizItems;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                    unset($atributos);
 					
 					// ------------------Division para los botones-------------------------
 					$atributos ["id"] = "botones";
@@ -199,11 +262,11 @@ class Consultar {
 				
 				// Paso 1: crear el listado de variables
 				
-				$valorCodificado = "actionBloque=" . $esteBloque ["nombre"];
+				$valorCodificado = "action=" . $esteBloque ["nombre"];
 				$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 				$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 				$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-				$valorCodificado .= "&opcion=verificarUsuario";
+				$valorCodificado .= "&opcion=calcularFactura";
 				
 				/**
 				 * SARA permite que los nombres de los campos sean dinámicos.
@@ -239,21 +302,17 @@ class Consultar {
 	}
 	public function mensajeModal() {
 		switch ($_REQUEST ['mensajeModal']) {
-			
-			case 'exitoInformacion' :
-				$mensaje = "Exito<br>Conceptos de Factura calculados y asociados.";
-				$atributos ['estiloLinea'] = 'success'; // success,error,information,warning
+				
+			case 'Informacion' :
+				$mensaje = "Proceso Finalizado<br><br>Para ver resultado <b>REVISE<b> el log siguiente.<br><br>Visualizar Log : <a  target='_blank' href='" . base64_decode($_REQUEST['log']) . "'>Link Log Proceso</a>";
+				$atributos['estiloLinea'] = 'information';     // success,error,information,warning
 				break;
-			
+				
 			case 'errorInformacion' :
-				$mensaje = "Error<br>Hubo " . isset ( $_REQUEST ['errores'] ) . " error(es) en el cálculo de conceptos de factura.";
+				$mensaje = "Error<br>Hubo ".isset($_REQUEST['errores'])." error(es) en el cálculo de conceptos de factura.";
 				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
 				break;
-			
-			case 'errorFactura' :
-				$mensaje = "Error<br>Existe una factura asociada al beneficiario y sus roles asociados en el ciclo a calcular.";
-				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
-				break;
+
 		}
 		
 		// ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
@@ -283,7 +342,7 @@ class Consultar {
 	}
 }
 
-$miSeleccionador = new Consultar ( $this->lenguaje, $this->miFormulario );
+$miSeleccionador = new Consultar ( $this->lenguaje, $this->miFormulario, $this->sql );
 
 $miSeleccionador->seleccionarForm ();
 

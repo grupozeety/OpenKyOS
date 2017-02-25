@@ -1,51 +1,40 @@
 <?php
 
-namespace facturacion\calculoFactura\entidad;
+namespace facturacion\masivoCalFactura\entidad;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "../index.php";
 	exit ();
 }
-
-include_once 'Redireccionador.php';
-class FormProcessor {
+class Calcular {
 	public $miConfigurador;
 	public $lenguaje;
 	public $miFormulario;
+	public $miFuncion;
 	public $miSql;
 	public $conexion;
-	public $esteRecursoDB;
 	public function __construct($lenguaje, $sql) {
-		date_default_timezone_set ( 'America/Bogota' );
-		
 		$this->miConfigurador = \Configurador::singleton ();
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
 		$this->lenguaje = $lenguaje;
 		$this->miSql = $sql;
 		
-		$this->rutaURL = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" );
-		
-		$this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion ( "raizDocumento" );
-		
-		if (! isset ( $_REQUEST ["bloqueGrupo"] ) || $_REQUEST ["bloqueGrupo"] == "") {
-			$this->rutaURL .= "/blocks/" . $_REQUEST ["bloque"] . "/";
-			$this->rutaAbsoluta .= "/blocks/" . $_REQUEST ["bloque"] . "/";
-		} else {
-			$this->rutaURL .= "/blocks/" . $_REQUEST ["bloqueGrupo"] . "/" . $_REQUEST ["bloque"] . "/";
-			$this->rutaAbsoluta .= "/blocks/" . $_REQUEST ["bloqueGrupo"] . "/" . $_REQUEST ["bloque"] . "/";
-		}
-		// Conexion a Base de Datos
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+	}
+	public function calcularFactura($beneficiario, $roles) {
 		
-		$_REQUEST ['tiempo'] = time ();
+		/**
+		 * Definir variables Gloables*
+		 */
+		$_REQUEST ['id_beneficiario'] = $beneficiario;
 		
 		/**
 		 * 1.
 		 * Organizar Información por Roles
 		 */
 		
-		$this->ordenarInfoRoles ();
+		$this->rolesPeriodo = $roles;
 		
 		/**
 		 * 2.
@@ -55,14 +44,31 @@ class FormProcessor {
 		$this->reglasRol ();
 		$this->consultarUsuarioRol ();
 		
+		/**
+		 * 3.
+		 * Obtener Datos del Contrato
+		 */
+		
+		$this->datosContrato ();
+		
+		/**
+		 * 3.
+		 * Verificar que no exista una factura para el rol para el periodo
+		 */
+		
 		$resultado = $this->verificarFactura ();
 		
 		if ($resultado > 0) {
-			//Mensaje de factura para el ciclo generada
-			Redireccionador::redireccionar ( "ErrorFactura",'');
-		} else {
-			$this->datosContrato ();
 			
+			/**
+			 * 6.
+			 * Revisar Resultado Proceso
+			 */
+			
+			return $this->registroConceptos;
+		} else {
+			
+			$this->datosContrato ();
 			/**
 			 * 4.
 			 * Calcular Valores
@@ -71,7 +77,7 @@ class FormProcessor {
 			
 			$this->calculoPeriodo ();
 			$this->registrarPeriodo ();
-			
+			$this->calculoMora ();
 			$this->calculoFactura ();
 			
 			/**
@@ -86,49 +92,16 @@ class FormProcessor {
 			 * 6.
 			 * Revisar Resultado Proceso
 			 */
-			exit ();
-			if ($this->registroConceptos ['resultado'] == 0) {
-				Redireccionador::redireccionar ( "ExitoInformacion" );
-			} else {
-				Redireccionador::redireccionar ( "ErrorInformacion", $this->registroConceptos ['resultado'] );
-			}
-		}
-	}
-	public function ordenarInfoRoles() {
-		$roles = json_decode ( base64_decode ( $_REQUEST ['roles'] ), true );
-		
-		foreach ( $roles as $data => $valor ) {
-			foreach ( $_REQUEST as $key => $values ) {
-				if (strncmp ( $key, "data", 4 ) === 0) {
-					if (strtok ( substr ( $key, 4 ), "_" ) === $roles [$data] ['id_rol']) {
-						if (strpos ( $key, 'periodo' ) !== false) {
-							$p = $values;
-						}
-						if (strpos ( $key, 'cantidad' ) !== false) {
-							$c = $values;
-						}
-						if (strpos ( $key, 'fecha' ) !== false) {
-							$f = $values;
-						}
-					}
-				}
-			}
 			
-			$rolPeriodo [$roles [$data] ['id_rol']] = array (
-					'periodo' => $p,
-					'cantidad' => $c,
-					'fecha' => date ( "Y/m/d H:i:s", strtotime ( $f ) ),
-					'reglas' => array () 
-			);
+			return $this->registroConceptos;
 		}
-		
-		$this->rolesPeriodo = $rolPeriodo;
 	}
 	public function reglasRol() {
 		foreach ( $this->rolesPeriodo as $key => $vales ) {
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarReglas', $key );
 			$reglas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
 			foreach ( $reglas as $a => $b ) {
 				$this->rolesPeriodo [$key] ['reglas'] [$reglas [$a] ['identificador']] = $reglas [$a] ['formula'];
 			}
@@ -153,13 +126,13 @@ class FormProcessor {
 				
 				$ciclo = date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) );
 				$datos = array (
-						'id_usuario_rol' => $this->rolesPeriodo [$llave] ['id_usuario_rol'],
+						'id_beneficiario' => $_REQUEST ['id_beneficiario'],
 						'id_ciclo' => $ciclo 
 				);
 				
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFactura', $datos );
 				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-				
+
 				if ($resultado != FALSE) {
 					$this->registroConceptos ['observaciones'] = 'Ya existe una factura para el ciclo ' . $ciclo;
 					$res ++;
@@ -168,6 +141,8 @@ class FormProcessor {
 				}
 			}
 		}
+		
+
 		
 		return $res;
 	}
@@ -210,7 +185,6 @@ class FormProcessor {
 			$this->rolesPeriodo [$key] ['periodoValor'] = ( double ) ($periodoUnidad);
 		}
 	}
-	
 	// Registrar el ciclo de facturación de acuerdo al periodo seleccionado
 	public function registrarPeriodo() {
 		foreach ( $this->rolesPeriodo as $key => $values ) {
@@ -240,32 +214,49 @@ class FormProcessor {
 			$this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] = $periodoRolUsuario;
 		}
 	}
+	public function calculoMora() {
+		foreach ( $this->rolesPeriodo as $key => $values ) {
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarMoras', $_REQUEST ['id_beneficiario'] );
+			$facturasVencidas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+			if ($facturasVencidas != FALSE) {
+				$dm = floor ( (time () - strtotime ( $facturasVencidas [0] ['fin_periodo'] )) / 86400 );
+			} else {
+				$dm = 0;
+			}
+			$this->rolesPeriodo [$key] ['mora'] = $dm;
+		}
+	}
 	public function calculoFactura() {
 		$total = 0;
 		$vm = $this->datosContrato ['vm'];
-		$dm = 0;
 		$factura = 0;
 		
 		foreach ( $this->rolesPeriodo as $key => $values ) {
+			
 			$total = 0;
 			foreach ( $values ['reglas'] as $variable => $c ) {
 				$a = preg_replace ( "/\bvm\b/", ($vm / $values ['periodoValor']) * $values ['cantidad'], $c, - 1, $contar );
-				$b = preg_replace ( "/\bdm\b/", $dm, $a, - 1, $contar );
+				$b = preg_replace ( "/\bdm\b/", $values ['mora'], $a, - 1, $contar );
 				$valor = eval ( 'return (' . $b . ');' );
 				$this->rolesPeriodo [$key] ['valor'] [$variable] = $valor;
 				$total = $total + $this->rolesPeriodo [$key] ['valor'] [$variable];
 			}
 			
 			$factura = $factura + $total;
+			$this->rolesPeriodo [$key] ['valor'] ['vm'] = $this->datosContrato ['vm'];
 			$this->rolesPeriodo [$key] ['valor'] ['total'] = $total;
 		}
+		
 	}
 	public function guardarFactura() {
 		foreach ( $this->rolesPeriodo as $key => $values ) {
 			$informacion_factura = array (
 					'id_usuario_rol' => $this->rolesPeriodo [$key] ['id_usuario_rol'],
 					'total_factura' => $this->rolesPeriodo [$key] ['valor'] ['total'],
-					'id_beneficiario' => $_REQUEST ['id_beneficiario'] 
+					'id_beneficiario' => $_REQUEST ['id_beneficiario'],
+					'id_ciclo' => date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) 
 			);
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFactura', $informacion_factura );
@@ -273,7 +264,7 @@ class FormProcessor {
 		}
 	}
 	public function guardarConceptos() {
-		$this->registroConceptos ['resultado'] = 0;
+		$this->registroConceptos ['observaciones'] = 'Sin observaciones';
 		$a = 0;
 		
 		foreach ( $this->rolesPeriodo as $key => $values ) {
@@ -296,10 +287,14 @@ class FormProcessor {
 				}
 			}
 		}
-		$this->registroConceptos ['resultado'] = $a;
+		if($a==0){
+			$this->registroConceptos ['observaciones'] = 'Factura Generada Exitosamente';
+		}else{
+			$this->registroConceptos ['observaciones'] = 'Error en la generación de la factura';
+		}
 	}
 }
 
-$miProcesador = new FormProcessor ( $this->lenguaje, $this->sql );
 ?>
+
 
