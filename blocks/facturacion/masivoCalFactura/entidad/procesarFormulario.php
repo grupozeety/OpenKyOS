@@ -19,7 +19,6 @@ class FormProcessor {
 	public $conexion;
 	public $esteRecursoDB;
 	public function __construct($lenguaje, $sql) {
-		
 		date_default_timezone_set ( 'America/Bogota' );
 		
 		$this->miConfigurador = \Configurador::singleton ();
@@ -31,7 +30,7 @@ class FormProcessor {
 		
 		$this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion ( "raizDocumento" );
 		
-		$this->calcular = new Calcular($lenguaje, $sql);
+		$this->calcular = new Calcular ( $lenguaje, $sql );
 		
 		if (! isset ( $_REQUEST ["bloqueGrupo"] ) || $_REQUEST ["bloqueGrupo"] == "") {
 			$this->rutaURL .= "/blocks/" . $_REQUEST ["bloque"] . "/";
@@ -79,7 +78,7 @@ class FormProcessor {
 		 */
 		
 		foreach ( $this->beneficiarios as $key => $values ) {
-
+			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $values ['id_beneficiario'] );
 			$actaActiva = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 			// Saber qué roles tiene asociados
@@ -105,24 +104,22 @@ class FormProcessor {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRolPeriodo', $values ['id_beneficiario'] );
 				$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				
-				
-	
 				if ($fechaFin == FALSE) {
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $values ['id_beneficiario'] );
 					$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				}
-
+				
 				foreach ( $roles as $data => $valor ) {
 					$rolPeriodo [$roles [$data] ['id_rol']] = array (
 							'periodo' => 1,
 							'cantidad' => 1,
-							'fecha' => date("Y/m/d H:i:s", strtotime($fechaFin [0] [0])),
+							'fecha' => date ( "Y/m/d H:i:s", strtotime ( $fechaFin [0] [0] ) ),
 							'reglas' => array () 
 					);
 				}
 				
-				$resultado[$values['id_beneficiario']]['observaciones']=$this->calcular->calcularFactura( $values ['id_beneficiario'], $rolPeriodo);
-				$this->escribir_log ( $values ['identificacion'].':'.json_encode($resultado[$values['id_beneficiario']]['observaciones']) );
+				$resultado [$values ['id_beneficiario']] ['observaciones'] = $this->calcular->calcularFactura ( $values ['id_beneficiario'], $rolPeriodo );
+				$this->escribir_log ( $values ['identificacion'] . ':' . json_encode ( $resultado [$values ['id_beneficiario']] ['observaciones'] ) );
 				// Saber qué periodo aplica cada rol
 			} else {
 				$mensaje = $values ['id_beneficiario'] . ": Sin factura generada. No hay Acta Entrega de Servicios activa.";
@@ -130,8 +127,7 @@ class FormProcessor {
 			}
 		}
 		
-				Redireccionador::redireccionar ( "Informacion", base64_encode ( $this->ruta_relativa_log ) );
-		
+		Redireccionador::redireccionar ( "Informacion", base64_encode ( $this->ruta_relativa_log ) );
 	}
 	public function escribir_log($mensaje) {
 		fwrite ( $this->log, $mensaje . PHP_EOL );
