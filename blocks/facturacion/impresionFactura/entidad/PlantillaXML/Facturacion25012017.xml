@@ -4,33 +4,25 @@
 		<columna>
 			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='650' height='80'">/var/www/html/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/logos_contrato.png</imagen>
 			<titulo estilos="text-align:center;font-size:25px">FACTURA DE SERVICIOS</titulo>
-			<variable estilos="font-size:18px;text-align:center;">FechaActual</variable>
+      		<titulo estilos="text-align:center;font-size:12px">CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA%%NIT 8301159934</titulo>
 		</columna>
 	</seccion>
 	<seccion>
 		<columna>
-			<texto estilos="font-size:15px;text-align:left;">TOTAL A PAGAR:%%_______________________________$ 12.500%%%%PAGAR ANTES DE :%%_______________________________30/01/2017%%%%</texto>
-			<variable>InformacionBeneficiario</variable>
+			<variable estilos="font-size:90%;text-align:center;">InformacionBeneficiario</variable>
 		</columna>
 		<columna>
-		<texto estilos="font-size:15px;text-align:left;">CONCEPTOS%%%%%%1. Valor Mensual Basico%%
-																		_______________________________________$ 10.000%%
-																		2. Valor  Hora de Maxima banda Ancha%%
-																		_______________________________________$ 11.500%%
-																		3. Valor  Mora %%
-																		_______________________________________$ 0%%
-																		4. Valor  Telefonia%%
-																		_______________________________________$ 7.500%%</texto>
+			<variable estilos="font-size:93%;text-align:center;">InformacionFacturacion</variable>
 		</columna>
 	</seccion>
 	<seccion>
-				<columna><variable estilos="font-size:18px;text-align:center;">HistoricoConsumo</variable>
+				<columna><variable estilos="font-size:13px;text-align:center;">Conceptos</variable>
 			</columna>
 	</seccion>
 	<seccion>
 	<columna>
-			<codigoBarras alineacionCodigoBarras="center" dimensionesCodigoBarras="width:90mm; height:30mm;font-size:2mm">113145874123131313123131231231235884</codigoBarras>
-			<texto estilos="font-size:15px;text-align:left;">%%%%Información Metodos de Pago%%A._____________________%%B._____________________%%C._____________________</texto>
+			<variable alineacionCodigoBarras="center" dimensionesCodigoBarras="width:106mm; height:25mm;font-size:2mm">CodigoBarras</variable>
+			<texto estilos="font-size:11px;text-align:justify;font-style:italic;">%%%%Genere su factura en línea y pague a través de los canales electrónicos Via Baloto, Efecty, Consignación Bancaria, Pago PSE</texto>
 		</columna>
-			<columna><variable estilos="font-size:18px;text-align:center;">InformacionPagoResumido</variable></columna></seccion>
+			<columna><variable estilos="font-size:14px;text-align:center;">InformacionPagoResumido</variable></columna></seccion>
 </factura>
