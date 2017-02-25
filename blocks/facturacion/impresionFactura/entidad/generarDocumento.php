@@ -169,7 +169,7 @@ class GenerarDocumento
 
                 if (isset($this->colspan) && $width == '100%') {
 
-                    $this->contenido .= "<td colspan='2' style='width:" . $width . ";height:" . $height . ";border:0.1px;font-size:100%'  nowrap >";
+                    $this->contenido .= "<td colspan='2' style='width:" . $width . ";height:" . $height . ";border:none;font-size:100%'  nowrap >";
 
                     // Permite generar el Contenido a unos Tipos de Parametros
                     $this->caracterizacionContenido($columna);
@@ -178,7 +178,7 @@ class GenerarDocumento
 
                 } else {
 
-                    $this->contenido .= "<td style='width:" . $width . ";height:" . $height . ";border:0.1px;'  nowrap >";
+                    $this->contenido .= "<td style='width:" . $width . ";height:" . $height . ";border:none;'  nowrap >";
                     $this->caracterizacionContenido($columna);
 
                     $this->contenido .= "</td>";
@@ -265,7 +265,7 @@ class GenerarDocumento
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Periodo: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>"     . $beneficiario['id_ciclo'] . "</td>
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Contrato-Ref.Pago: </b></td>
@@ -291,16 +291,26 @@ class GenerarDocumento
 
                 $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
+                //var_dump($beneficiario);exit;
+
                 $table = "<table style='border-collapse:collapse;border:0.1px;width:100%;' >
                             <tr>
-                                <td colspan='3' style='height:13px;text-align:center;border:0.1px;background-color:#97b5f4;'><br><b>CONCEPTOS FACTURACIÓN</b><br><br></td>
+                                <td colspan='4' style='height:13px;text-align:center;border:0.1px;background-color:#97b5f4;'><br><b>CONCEPTOS FACTURACIÓN</b><br><br></td>
                             </tr>"    ;
+
+                $table .= "<tr>
+                                  <td style='height:13px;text-align:center;border:0.1px;width:5%;'><br><b>N°</b><br></td>
+                                  <td style='height:13px;text-align:center;border:0.1px;width:25%;'><br><b>Periodo Facturado</b><br></td>
+                                  <td style='height:13px;text-align:center;border:0.1px;width:50%;'><br><b>Concepto</b><br></td>
+                                  <td style='height:13px;text-align:center;border:0.1px;width:20%;'><br><b>Valor</b><br></td>
+                               </tr>"    ;
                 $i = 1;
                 foreach ($beneficiario as $key => $value) {
                     $table .= "<tr>
-                                  <td style='height:13px;text-align:center;border:none;width:20%;'><br><b>"     . $i . ".</b><br></td>
-                                  <td style='height:13px;text-align:left;border:none;width:60%;'><br><b>"     . $value['concepto'] . "</b><br></td>
-                                  <td style='height:13px;text-align:left;border:none;width:20%;'><br><b>$ "     . number_format($value['valor_concepto'], 2) . "</b><br></td>
+                                  <td style='height:13px;text-align:center;border:0.1px;width:5%;'><br><b>"     . $i . ".</b><br></td>
+                                  <td style='height:13px;text-align:center;border:0.1px;width:25%;'><br><b>"     . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "</b><br></td>
+                                  <td style='height:13px;text-align:left;border:0.1px;width:50%;'><br><b>"     . $value['concepto'] . "</b><br></td>
+                                  <td style='height:13px;text-align:left;border:0.1px;width:20%;'><br><b>$ "     . number_format($value['valor_concepto'], 2) . "</b><br></td>
                                </tr>"    ;
 
                     $i++;
@@ -363,7 +373,7 @@ class GenerarDocumento
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Periodo: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'></td>
+                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>"     . $beneficiario['id_ciclo'] . "</td>
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Contrato-Ref.Pago: </b></td>
@@ -383,6 +393,7 @@ class GenerarDocumento
                 $this->contenido .= "<div style='text-align:" . $this->atributos['alineacionCodigoBarras'];
 
                 $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacion', 'CE114');
+
                 $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
                 $fecha = str_replace('-', '', $beneficiario['fecha_factura']);
