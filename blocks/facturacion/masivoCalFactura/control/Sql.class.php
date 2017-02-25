@@ -96,9 +96,10 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarFactura' :
-				$cadenaSql = " INSERT INTO facturacion.factura (id_beneficiario, total_factura) ";
+				$cadenaSql = " INSERT INTO facturacion.factura (id_beneficiario,  id_ciclo,total_factura) ";
 				$cadenaSql .= " VALUES( ";
 				$cadenaSql .= " '" . $variable ['id_beneficiario'] . "',";
+				$cadenaSql .= " '" . $variable ['id_ciclo'] . "',";
 				$cadenaSql .= " " . $variable ['total_factura'] . " ) RETURNING id_factura;";
 				break;
 			
@@ -204,9 +205,18 @@ class Sql extends \Sql {
 				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, id_ciclo ";
 				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
 				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
-				$cadenaSql .= " WHERE urp.id_usuario_rol='".$variable['id_usuario_rol']."' ";
+				$cadenaSql .= " WHERE urp.id_usuario_rol='" . $variable ['id_usuario_rol'] . "' ";
 				$cadenaSql .= " AND urp.estado_registro=TRUE ";
-				$cadenaSql .= " AND id_ciclo='".$variable['id_ciclo']."' ";
+				$cadenaSql .= " AND id_ciclo='" . $variable ['id_ciclo'] . "' ";
+				break;
+			
+			case 'consultarMoras' :
+				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, inicio_periodo, fin_periodo, conceptos.id_factura, estado_factura ";
+				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
+				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
+				$cadenaSql .= " JOIN facturacion.factura on factura.id_factura=conceptos.id_factura AND factura.estado_registro=TRUE AND estado_factura='Emitida' ";
+				$cadenaSql .= " WHERE factura.id_beneficiario='" . $variable . "' ";
+				$cadenaSql .= " AND urp.estado_registro=TRUE ";
 				
 				break;
 		}

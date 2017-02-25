@@ -27,7 +27,7 @@ class Calcular {
 		/**
 		 * Definir variables Gloables*
 		 */
-		$_REQUEST ['id_beneficiario'] = $beneficiario;
+		$_REQUEST ['id_beneficiario'] = 'SI272';
 		
 		/**
 		 * 1.
@@ -57,18 +57,17 @@ class Calcular {
 		 */
 		
 		$resultado = $this->verificarFactura ();
-
-		if ($resultado >0) {
+		
+		if ($resultado > 0) {
 			
 			/**
 			 * 6.
 			 * Revisar Resultado Proceso
 			 */
-
+			
 			return $this->registroConceptos;
 		} else {
 			
-	
 			$this->datosContrato ();
 			/**
 			 * 4.
@@ -78,7 +77,7 @@ class Calcular {
 			
 			$this->calculoPeriodo ();
 			$this->registrarPeriodo ();
-			
+			$this->calculoMora ();
 			$this->calculoFactura ();
 			
 			/**
@@ -88,12 +87,12 @@ class Calcular {
 			
 			$this->guardarFactura ();
 			$this->guardarConceptos ();
-		
+			
 			/**
 			 * 6.
 			 * Revisar Resultado Proceso
 			 */
-	
+			
 			return $this->registroConceptos;
 		}
 	}
@@ -102,6 +101,7 @@ class Calcular {
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarReglas', $key );
 			$reglas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
 			foreach ( $reglas as $a => $b ) {
 				$this->rolesPeriodo [$key] ['reglas'] [$reglas [$a] ['identificador']] = $reglas [$a] ['formula'];
 			}
@@ -120,8 +120,7 @@ class Calcular {
 		}
 	}
 	public function verificarFactura() {
-		
-		$res=0;
+		$res = 0;
 		foreach ( $this->rolesPeriodo as $key => $vales ) {
 			foreach ( $this->rolesPeriodo as $llave => $valores ) {
 				
@@ -136,15 +135,14 @@ class Calcular {
 				
 				if ($resultado != FALSE) {
 					$this->registroConceptos ['observaciones'] = 'Ya existe una factura para el ciclo ' . $ciclo;
-					$res++;
-				}else{
-					$res=0;
+					$res ++;
+				} else {
+					$res = 0;
 				}
 			}
 		}
-
-		return $res;
 		
+		return $res;
 	}
 	public function datosContrato() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarContrato', $_REQUEST ['id_beneficiario'] );
@@ -214,23 +212,38 @@ class Calcular {
 			$this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] = $periodoRolUsuario;
 		}
 	}
+	public function calculoMora() {
+		foreach ( $this->rolesPeriodo as $key => $values ) {
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarMoras', $_REQUEST ['id_beneficiario'] );
+			$facturasVencidas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			if ($facturasVencidas != FALSE) {
+				$dm = floor ( (time () - strtotime ( $facturasVencidas [0] ['fin_periodo'] )) / 86400 );
+			} else {
+				$dm = 0;
+			}
+			$this->rolesPeriodo [$key] ['mora'] = $dm;
+		}
+	}
 	public function calculoFactura() {
 		$total = 0;
 		$vm = $this->datosContrato ['vm'];
-		$dm = 0;
 		$factura = 0;
 		
 		foreach ( $this->rolesPeriodo as $key => $values ) {
+			
 			$total = 0;
 			foreach ( $values ['reglas'] as $variable => $c ) {
 				$a = preg_replace ( "/\bvm\b/", ($vm / $values ['periodoValor']) * $values ['cantidad'], $c, - 1, $contar );
-				$b = preg_replace ( "/\bdm\b/", $dm, $a, - 1, $contar );
+				$b = preg_replace ( "/\bdm\b/", $values ['mora'], $a, - 1, $contar );
 				$valor = eval ( 'return (' . $b . ');' );
 				$this->rolesPeriodo [$key] ['valor'] [$variable] = $valor;
 				$total = $total + $this->rolesPeriodo [$key] ['valor'] [$variable];
 			}
 			
 			$factura = $factura + $total;
+			$this->rolesPeriodo [$key] ['valor'] ['vm'] = $this->datosContrato ['vm'];
 			$this->rolesPeriodo [$key] ['valor'] ['total'] = $total;
 		}
 	}
@@ -239,7 +252,8 @@ class Calcular {
 			$informacion_factura = array (
 					'id_usuario_rol' => $this->rolesPeriodo [$key] ['id_usuario_rol'],
 					'total_factura' => $this->rolesPeriodo [$key] ['valor'] ['total'],
-					'id_beneficiario' => $_REQUEST ['id_beneficiario'] 
+					'id_beneficiario' => $_REQUEST ['id_beneficiario'],
+					'id_ciclo' => date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) 
 			);
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFactura', $informacion_factura );
@@ -270,6 +284,7 @@ class Calcular {
 				}
 			}
 		}
+		
 		$this->registroConceptos ['resultado'] = $a;
 	}
 }
