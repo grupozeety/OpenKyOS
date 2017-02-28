@@ -307,6 +307,15 @@ class Sql extends \Sql
                 $cadenaSql .= " SET estado='En Proceso'";
                 $cadenaSql .= " WHERE id_proceso='" . $variable . "';";
                 break;
+
+            case 'finalizarProceso':
+                $cadenaSql = " UPDATE parametros.procesos_masivos";
+                $cadenaSql .= " SET estado='Finalizado',";
+                $cadenaSql .= " ruta_archivo='" . $variable['ruta_archivo'] . "',";
+                $cadenaSql .= " nombre_ruta_archivo='" . $variable['nombre_archivo'] . "',";
+                $cadenaSql .= " peso_archivo='" . $variable['tamanio_archivo'] . "'";
+                $cadenaSql .= " WHERE id_proceso='" . $variable['id_proceso'] . "';";
+                break;
         }
 
         return $cadenaSql;

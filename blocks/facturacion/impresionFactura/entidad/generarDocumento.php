@@ -56,8 +56,6 @@ class GenerarDocumento
 
         $this->ruta_archivos = $ruta_archivos;
 
-        //var_dump($this->beneficiarios);exit;
-
         foreach ($this->beneficiarios as $key => $this->identificador_beneficiario) {
 
             if ($this->validarBeneficiario()) {
@@ -86,13 +84,9 @@ class GenerarDocumento
 
                 $this->crearPDF();
 
-                exit;
-
             }
 
         }
-
-        exit;
 
     }
 

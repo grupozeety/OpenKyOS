@@ -101,21 +101,11 @@ class FormProcessor
     public function registrarComprimido()
     {
 
-        exec('ls -lh ' . $this->rutaAbsolutaRaiz, $lista);
+        exec('du -shc ' . $this->rutaAbsolutaRaiz . "/" . $this->nombre_archivo_zip, $lista);
 
-        foreach ($lista as $key => $value) {
+        $variable = explode("\t", $lista[0]);
 
-            $posicion_coincidencia = strrpos($value, $this->nombre_archivo_zip);
-
-            if ($posicion_coincidencia === false) {
-
-            } else {
-
-                $variable = explode(" ", $value);
-
-                $tamanio_archivo = $variable[count($variable) - 5];
-            }
-        }
+        $tamanio_archivo = $variable[0];
 
         $arreglo = array(
             'id_proceso' => $this->proceso[0],
@@ -216,7 +206,7 @@ class FormProcessor
     {
 
         $cadenaSql = $this->miSql->getCadenaSql('actualizarProceso', $this->proceso['id_proceso']);
-        //$actualizacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        $actualizacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
@@ -271,7 +261,7 @@ class FormProcessor
 
                 $valor = ($value == '') ? '' : '`crontab -l`\n';
 
-                exec('echo -e "' . $valor . $value . '" | crontab -');
+                //exec('echo -e "' . $valor . $value . '" | crontab -');
                 exec('echo  "' . $valor . $value . '" | crontab -');
             }
 
@@ -303,7 +293,7 @@ class FormProcessor
         // URL Consultar Proyectos
         $this->UrlProceso = $url . $cadena;
 
-        $this->Url_ejecucion = "curl  " . $this->UrlProceso . "  #Actas ";
+        $this->Url_ejecucion = "curl  " . $this->UrlProceso . "  #Facturas ";
 
     }
 
