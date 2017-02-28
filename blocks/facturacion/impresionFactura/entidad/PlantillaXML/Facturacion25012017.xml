@@ -5,7 +5,7 @@
 			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='650' height='80'">/var/www/html/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/logos_contrato.png</imagen>
 			<titulo estilos="text-align:center;font-size:25px">FACTURA DE SERVICIOS</titulo>
       		<titulo estilos="text-align:center;font-size:12px">CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA%%NIT 8301159934</titulo>
-		</columna>
+		</columna>	
 	</seccion>
 	<seccion>
 		<columna>
@@ -16,8 +16,11 @@
 		</columna>
 	</seccion>
 	<seccion>
-				<columna><variable estilos="font-size:13px;text-align:center;">Conceptos</variable>
-			</columna>
+				<columna><variable estilos="font-size:10px;text-align:center;">Conceptos</variable></columna>
+				<columna>
+					<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='300' height='200'">/home/stiv/Imágenes/Selección_080.png</imagen>
+				</columna>
+
 	</seccion>
 	<seccion>
 	<columna>
