@@ -158,7 +158,7 @@ class Sql extends \Sql
             case 'consultarProceso':
                 $cadenaSql = " SELECT * ";
                 $cadenaSql .= " FROM parametros.procesos_masivos";
-                $cadenaSql .= " WHERE descripcion='Facturas'";
+                $cadenaSql .= " WHERE descripcion='Actas'";
                 $cadenaSql .= " AND  estado_registro='TRUE' ";
                 $cadenaSql .= " ORDER BY id_proceso DESC;";
                 break;

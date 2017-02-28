@@ -280,7 +280,6 @@ class Registrador
                         unset($atributos);
 
                     }
-                    echo "</div>";
                     echo $this->miFormulario->division("fin");
                     unset($atributos);
 
