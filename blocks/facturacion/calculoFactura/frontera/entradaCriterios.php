@@ -69,35 +69,35 @@ class Consultar {
 					
 					{
 						// ------------------Division para los botones-------------------------
-						$atributos['id'] = 'divMensaje';
-						$atributos['estilo'] = 'textoIzquierda';
-						echo $this->miFormulario->division("inicio", $atributos);
-						unset($atributos);
+						$atributos ['id'] = 'divMensaje';
+						$atributos ['estilo'] = 'textoIzquierda';
+						echo $this->miFormulario->division ( "inicio", $atributos );
+						unset ( $atributos );
 						{
-					
+							
 							{
 								// URL base
-								$url = $this->miConfigurador->getVariableConfiguracion("host");
-								$url .= $this->miConfigurador->getVariableConfiguracion("site");
+								$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+								$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
 								$url .= '/archivos/generacionMasiva/plantillas/';
 								$url .= 'plantilla_cargueInfoTecnica.xls';
 							}
-					
+							
 							// -------------Control texto-----------------------
 							$esteCampo = 'mostrarMensaje';
-							$atributos["tamanno"] = '';
-							$atributos["etiqueta"] = '';
+							$atributos ["tamanno"] = '';
+							$atributos ["etiqueta"] = '';
 							$mensaje = '<center>Recuerde: Antes de Generar una Factura debe haber asociado roles de facturación para el usuario.</center>';
-					
-							$atributos["mensaje"] = $mensaje;
-							$atributos["estilo"] = 'information'; // information,warning,error,validation
-							$atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-							echo $this->miFormulario->campoMensaje($atributos);
-							unset($atributos);
+							
+							$atributos ["mensaje"] = $mensaje;
+							$atributos ["estilo"] = 'information'; // information,warning,error,validation
+							$atributos ["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+							echo $this->miFormulario->campoMensaje ( $atributos );
+							unset ( $atributos );
 						}
 						// ------------------Fin Division para los botones-------------------------
-						echo $this->miFormulario->division("fin");
-						unset($atributos);
+						echo $this->miFormulario->division ( "fin" );
+						unset ( $atributos );
 					}
 					// ----------------INICIO CONTROL: Lista Proyectos---------------------------
 					
@@ -239,17 +239,21 @@ class Consultar {
 	}
 	public function mensajeModal() {
 		switch ($_REQUEST ['mensajeModal']) {
-				
+			
 			case 'exitoInformacion' :
 				$mensaje = "Exito<br>Conceptos de Factura calculados y asociados.";
 				$atributos ['estiloLinea'] = 'success'; // success,error,information,warning
 				break;
 			
 			case 'errorInformacion' :
-				$mensaje = "Error<br>Hubo ".isset($_REQUEST['errores'])." error(es) en el cálculo de conceptos de factura.";
+				$mensaje = "Error<br>Hubo " . isset ( $_REQUEST ['errores'] ) . " error(es) en el cálculo de conceptos de factura.";
 				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
 				break;
-
+			
+			case 'errorFactura' :
+				$mensaje = "Error<br>Existe una factura asociada al beneficiario y sus roles asociados en el ciclo a calcular.";
+				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
+				break;
 		}
 		
 		// ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------

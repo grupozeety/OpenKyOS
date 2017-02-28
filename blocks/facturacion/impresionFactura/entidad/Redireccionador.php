@@ -1,28 +1,43 @@
 <?php
 namespace facturacion\impresionFactura\entidad;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "index.php";
     exit();
 }
-class Redireccionador {
-    public static function redireccionar($opcion, $valor = "") {
+class Redireccionador
+{
+    public static function redireccionar($opcion, $valor = "")
+    {
 
         $miConfigurador = \Configurador::singleton();
 
         switch ($opcion) {
 
-            case "InsertoInformacionActa":
-                $variable = 'pagina=actaEntregaPortatil';
-                $variable .= '&opcion=resultadoActa';
-                $variable .= '&mensaje=insertoInformacionCertificado';
-                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+            case "ErrorRegistroProceso":
+                $variable = 'pagina=impresionFactura';
+                $variable .= '&mensaje=errorRegistroProceso';
                 break;
 
-            case "NoInsertoInformacionActa":
-                $variable = 'pagina=actaEntregaPortatil';
-                $variable .= '&opcion=resultadoActa';
-                $variable .= '&mensaje=noinsertoInformacionCertificado';
-                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+            case "ExitoRegistroProceso":
+                $variable = 'pagina=impresionFactura';
+                $variable .= '&mensaje=exitoRegistroProceso';
+                $variable .= '&proceso=' . $valor;
+                break;
+
+            case "SinResultado":
+                $variable = 'pagina=impresionFactura';
+                $variable .= '&mensaje=SinResultado';
+                break;
+
+            case "ErrorEliminarProceso":
+                $variable = 'pagina=impresionFactura';
+                $variable .= '&mensaje=errorEliminarProceso';
+                break;
+
+            case "ExitoEliminarProceso":
+                $variable = 'pagina=impresionFactura';
+                $variable .= '&mensaje=exitoEliminarProceso';
                 break;
 
         }
@@ -42,4 +57,3 @@ class Redireccionador {
         exit();
     }
 }
-?>

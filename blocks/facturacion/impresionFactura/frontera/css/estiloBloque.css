@@ -11,3 +11,14 @@ Código css correspondiente al Bloque.
 .col-xs-12 {
     text-align: left;
 }
+
+
+
+
+div.dataTables_filter label {
+    float: right;
+}
+
+
+
+

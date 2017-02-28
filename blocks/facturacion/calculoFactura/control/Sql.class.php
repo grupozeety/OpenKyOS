@@ -117,12 +117,14 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarPeriodoRolUsuario' :
-				$cadenaSql = " INSERT INTO facturacion.usuario_rol_periodo (id_usuario_rol, id_periodo,inicio_periodo) ";
+				$cadenaSql = " INSERT INTO facturacion.usuario_rol_periodo (id_usuario_rol, id_periodo,inicio_periodo, fin_periodo, id_ciclo) ";
 				$cadenaSql .= " VALUES( ";
 				$cadenaSql .= " '" . $variable ['id_usuario_rol'] . "',";
 				$cadenaSql .= " '" . $variable ['id_periodo'] . "',";
-				$cadenaSql .= " '" . $variable ['inicio_periodo'] . "' )  RETURNING id_usuario_rol_periodo ;";
-				break;
+				$cadenaSql .= " '" . $variable ['inicio_periodo'] . "',";
+				$cadenaSql .= " '" . $variable ['fin_periodo'] . "',";
+				$cadenaSql .= " '" . $variable ['id_ciclo'] . "' )  RETURNING id_usuario_rol_periodo ;";
+				break; 
 		}
 		
 		return $cadenaSql;
