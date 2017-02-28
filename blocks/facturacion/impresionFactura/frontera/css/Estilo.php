@@ -6,11 +6,9 @@ $indice = 0;
  */
 
 $estilo[$indice++] = "estiloBloque.css";
-
-$estilo [$indice ++] = "jquery.auto-complete.css";
-$estilo [$indice ++] = "select2.min.css";
-$estilo [$indice ++] = "modalLoad.css";
-
+$estilo[$indice++] = "modalLoad.css";
+$estilo[$indice++] = "jquery.auto-complete.css";
+$estilo[$indice++] = "responsive.bootstrap.min.css";
 $indice++;
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
@@ -25,5 +23,3 @@ if ($unBloque["grupo"] == "") {
 foreach ($estilo as $nombre) {
     echo "<link rel='stylesheet' type='text/css' href='" . $rutaBloque . "/frontera/css/" . $nombre . "'>\n";
 }
-?>
-

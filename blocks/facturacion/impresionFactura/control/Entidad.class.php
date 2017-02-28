@@ -1,5 +1,6 @@
 <?php
 namespace facturacion\impresionFactura;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -15,7 +16,8 @@ include_once "core/crypto/Encriptador.class.php";
 
 // Para evitar redefiniciones de clases el nombre de la clase del archivo funcion debe corresponder al nombre del bloque
 // en camel case precedido por la palabra Funcion
-class Entidad {
+class Entidad
+{
     public $sql;
     public $entidad;
     public $lenguaje;
@@ -24,7 +26,8 @@ class Entidad {
     public $error;
     public $miRecursoDB;
     public $crypto;
-    public function verificarCampos() {
+    public function verificarCampos()
+    {
         include_once $this->ruta . "/funcion/verificarCampos.php";
         if ($this->error == true) {
             return false;
@@ -32,19 +35,28 @@ class Entidad {
             return true;
         }
     }
-    public function redireccionar($opcion, $valor = "") {
+    public function redireccionar($opcion, $valor = "")
+    {
         include_once $this->ruta . "entidad/Redireccionador.php";
     }
 
-    public function procesarAjax() {
+    public function procesarAjax()
+    {
         include_once $this->ruta . "entidad/procesarAjax.php";
     }
 
-    public function generarDocumentoPdf() {
+    public function generarDocumentoPdf()
+    {
         include_once $this->ruta . "entidad/generarDocumento.php";
     }
 
-    public function action() {
+    public function cargarInformacionProceso()
+    {
+        include_once $this->ruta . "entidad/cargarInformacion.php";
+    }
+
+    public function action()
+    {
         $resultado = true;
 
         // Aquí se coloca el código que procesará los diferentes formularios que pertenecen al bloque
@@ -66,12 +78,19 @@ class Entidad {
 
                     break;
 
+                case 'cargarProceso':
+
+                    $this->cargarInformacionProceso();
+
+                    break;
+
             }
         }
 
         return $resultado;
     }
-    public function __construct() {
+    public function __construct()
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("rutaBloque");
@@ -87,22 +106,24 @@ class Entidad {
             $this->miRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
         }
     }
-    public function setRuta($unaRuta) {
+    public function setRuta($unaRuta)
+    {
         $this->ruta = $unaRuta;
     }
-    public function setSql($a) {
+    public function setSql($a)
+    {
         $this->sql = $a;
     }
-    public function setEntidad($entidad) {
+    public function setEntidad($entidad)
+    {
         $this->entidad = $entidad;
     }
-    public function setLenguaje($lenguaje) {
+    public function setLenguaje($lenguaje)
+    {
         $this->lenguaje = $lenguaje;
     }
-    public function setFormulario($formulario) {
+    public function setFormulario($formulario)
+    {
         $this->formulario = $formulario;
     }
 }
-
-?>
-

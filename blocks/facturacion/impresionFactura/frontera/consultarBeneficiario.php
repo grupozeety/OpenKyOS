@@ -308,9 +308,13 @@ class Registrador
                                 $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
                                 echo $this->miFormulario->campoMensaje($atributos);
                                 unset($atributos);
-                                {
 
-                                    echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            }
+                            // ------------------Fin Division para los botones-------------------------
+                            echo $this->miFormulario->division("fin");
+                            unset($atributos);
+
+                            echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th><center>Proceso<center></th>
@@ -338,12 +342,7 @@ class Registrador
                                         </tr>
                                     </tfoot>
                                   </table>';
-                                }
 
-                            }
-                            // ------------------Fin Division para los botones-------------------------
-                            echo $this->miFormulario->division("fin");
-                            unset($atributos);
                         }
 
                     }
@@ -376,7 +375,7 @@ class Registrador
                 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
-                $valorCodificado .= "&opcion=generarFactura";
+                $valorCodificado .= "&opcion=cargarProceso";
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.
