@@ -16,13 +16,8 @@ class FormProcessor
     public $miFormulario;
     public $miSql;
     public $conexion;
-    public $archivos_datos;
     public $esteRecursoDB;
-    public $datos_contrato;
-    public $rutaURL;
-    public $rutaAbsoluta;
-    public $clausulas;
-    public $registro_info_contrato;
+
     public function __construct($lenguaje, $sql)
     {
 
@@ -53,13 +48,14 @@ class FormProcessor
 
         $this->procesarInformacionBeneficiario();
 
-        $_REQUEST['tiempo'] = time();
+        /**
+         * 2.Registrar Proceso
+         **/
 
-        exit;
+        $this->registroProceso();
 
-        if (!is_null($this->id_beneficiario_acta_portatil) && !is_null($this->id_beneficiario_acta_servicio)) {
+        if (!is_null($this->proceso)) {
 
-            Redireccionador::redireccionar("ExitoActualizacionActas");
         } else {
             Redireccionador::redireccionar("ErrorCreacion");
         }
@@ -69,13 +65,11 @@ class FormProcessor
     public function registroProceso()
     {
 
-        $this->urbanizaciones = array_unique($this->urbanizaciones);
         $arreglo_registro = array(
-            'nombre' => $this->arreglo_nombre,
-            'inicio' => $this->id_beneficiario_acta_portatil[0],
-            'final' => end($this->id_beneficiario_acta_portatil),
-            'datos_adicionales' => implode(";", $this->id_beneficiario_acta_portatil),
-            'urbanizaciones' => implode("<br>", $this->urbanizaciones),
+            'inicio' => $this->Beneficiarios[0],
+            'final' => end($this->Beneficiarios),
+            'datos_adicionales' => implode(";", $this->Beneficiarios),
+            'urbanizaciones' => implode("<br>", $this->Urbanizaciones),
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarProceso', $arreglo_registro);
@@ -91,71 +85,28 @@ class FormProcessor
             'departamento' => $_REQUEST['departamento'],
             'municipio' => $_REQUEST['municipio'],
             'urbanizacion' => $_REQUEST['urbanizacion'],
-            'estado_beneficiario' => $_REQUEST['estado_beneficiario'],
             'beneficiario' => $_REQUEST['beneficiario'],
-            'estado_documento' => $_REQUEST['estado_documento'],
+
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaGeneralInformacion');
-        $this->Informacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $Beneficiarios = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-        if ($this->Informacion == false) {
+        $cadenaSql = $this->miSql->getCadenaSql('consultaGeneralInformacionUrbanizaciones');
+        $Urbanizaciones = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
+        if ($Beneficiarios == false) {
+
+            echo "Error Consulta Beneficiarios";exit;
             Redireccionador::redireccionar('SinResultado');
         }
 
-        $descripcion = '';
-        foreach ($this->Informacion as $key => $value) {
-
-            $descripcion .= ($key + 1) . ". " . $value['departamento'] . ", " . $value['municipio'] . ", " . trim(str_replace("URBANIZACION", "", $value['urbanizacion'])) . "<br>";
-
+        foreach ($Beneficiarios as $key => $value) {
+            $this->Beneficiarios[] = trim($value['id_beneficiario']);
         }
 
-        $arreglo = array(
-            'parametros' => base64_encode(json_encode($arreglo)),
-            'descripcion' => $descripcion,
-        );
-
-        $cadenaSql = $this->miSql->getCadenaSql('crearProceso', $arreglo);
-
-        $proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0][0];
-
-        if ($proceso) {
-
-            Redireccionador::redireccionar('exitoProceso', $proceso);
-        } else {
-
-            Redireccionador::redireccionar('errorProceso');
-        }
-
-    }
-    public function procesarInformacionBeneficiaasdadrio()
-    {
-
-        foreach ($this->datos_beneficiario as $key => $value) {
-
-            $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionBeneficiario', $value['identificacion_beneficiario']);
-
-            $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-
-            $this->urbanizaciones[] = $consulta['urbanizacion'];
-
-            $this->informacion_registrar_portatil[] = array(
-                'id_beneficiario' => $consulta['id_beneficiario'],
-                'fecha_entrega' => $value['fecha_entrega_portatil'],
-                'serial' => $value['serial_portatil'],
-            );
-
-            $this->informacion_registrar_acta_servicios[] = array(
-                'id_beneficiario' => $consulta['id_beneficiario'],
-                'mac_esc' => $value['mac_1'],
-                'serial_esc' => $value['serial_esclavo'],
-                'marca_esc' => $value['marca_esclavo'],
-                'cant_esc' => $value['cantidad_esclavo'],
-                'ip_esc' => $value['ip'],
-                'mac_esc2' => $value['mac_2'],
-            );
-
+        foreach ($Urbanizaciones as $key => $value) {
+            $this->Urbanizaciones[] = trim($value['urbanizacion']);
         }
 
     }
