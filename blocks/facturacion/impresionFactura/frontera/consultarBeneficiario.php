@@ -43,7 +43,32 @@ class Registrador
         $atributosGlobales['campoSeguro'] = 'true';
 
         $_REQUEST['tiempo'] = time();
-        // -------------------------------------------------------------------------------------------------
+        // -------------------------------------------------------------------------------------------------    // -------------------------------------------------------------------------------------------------
+        {
+
+            // URL base
+            $url = $this->miConfigurador->getVariableConfiguracion("host");
+            $url .= $this->miConfigurador->getVariableConfiguracion("site");
+            $url .= "/index.php?";
+
+            // Variables para Con
+            $cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+            $cadenaACodificar .= "&procesarAjax=true";
+            $cadenaACodificar .= "&action=index.php";
+            $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+            $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+            $cadenaACodificar .= "&funcion=ejecutarProcesos";
+
+            // Codificar las variables
+            $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+            $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+            // URL Consultar Proyectos
+            $urlEjecutarProceso = $url . $cadena;
+
+            echo $urlEjecutarProceso;
+
+        }
 
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
         $esteCampo = $esteBloque['nombre'];
@@ -404,46 +429,72 @@ class Registrador
         $atributos['marco'] = true;
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
-    }
-    public function mensaje()
-    {
 
         if (isset($_REQUEST['mensaje'])) {
-            switch ($_REQUEST['mensaje']) {
-
-                case 'errorBeneficiario':
-                    $estilo_mensaje = 'error';     //information,warning,error,validation
-                    $atributos["mensaje"] = 'Error no existe Beneficiario';
-                    break;
-
-                default:
-                    # code...
-                    break;
-            }
-            // ------------------Division para los botones-------------------------
-            $atributos['id'] = 'divMensaje';
-            $atributos['estilo'] = ' ';
-            // echo $this->miFormulario->division("inicio", $atributos);
-
-            // -------------Control texto-----------------------
-            $esteCampo = 'mostrarMensaje';
-            $atributos["tamanno"] = '';
-            $atributos["estilo"] = $estilo_mensaje;
-            $atributos["estiloEnLinea"] = "text-align: center;";
-            $atributos["etiqueta"] = '';
-            $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-            echo $this->miFormulario->campoMensaje($atributos);
-            unset($atributos);
-
-            // ------------------Fin Division para los botones-------------------------
-            echo $this->miFormulario->division("fin");
-            unset($atributos);
+            $this->mensajeModal($tab, $esteBloque['nombre']);
         }
+    }
+    public function mensajeModal($tab = '', $nombreBloque = '')
+    {
+
+        switch ($_REQUEST['mensaje']) {
+            case 'SinResultado':
+                $mensaje = "<b>No Se Genero Ningun Resultado<br>Verifique la combinacion de Parametros</b>";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                break;
+
+            case 'exitoRegistroProceso':
+                $mensaje = "Exito en el Registro del Proceso para la Generación de Facturas.<br><b>Proceso N° " . $_REQUEST['proceso'] . "</b><br>Verifique en estado del Proceso en la Opción \"Consultar Estado Generación Facturas\".<br>Recuerde que el tiempo para poder descargar depende del la cantidad de Facturas (Beneficiarios)que arroje la consulta.";
+                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                break;
+
+            case 'ErrorRegistroProceso':
+                $mensaje = "Error en el Registro del Proceso";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
+                break;
+
+            case 'errorEliminarProceso':
+                $mensaje = "Error al eliminar proceso de generación de reporte y documentos acceso.<br>Sugerencia para eliminar un proceso el estado del mismo debe estar <b>'No Iniciado' o 'Finalizado'</b><br>y tiene un tiempo límite de 5 minutos desde su registro para poderlo eliminar, si no exiten más procesos ejecutados.";
+                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+
+                break;
+
+            case 'exitoEliminarProceso':
+                $mensaje = "Exito en la eliminación proceso de generación de reporte y documentos acceso";
+                $atributos['estiloLinea'] = 'success';
+                break;
+
+        }
+
+        // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+
+        $atributos['tipoEtiqueta'] = 'inicio';
+        $atributos['titulo'] = 'Mensaje';
+        $atributos['id'] = 'mensaje';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
+
+        echo '<p><h5>' . $mensaje . '</h5></p>';
+
+        echo '</div>';
+
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+
+        echo '<div style="text-align:center;">';
+
+        echo '</div>';
+
+        $atributos['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
     }
 }
 
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
-
-$miSeleccionador->mensaje();
 
 $miSeleccionador->seleccionarForm();

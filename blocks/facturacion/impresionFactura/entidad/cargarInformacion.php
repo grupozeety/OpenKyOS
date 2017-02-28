@@ -56,8 +56,10 @@ class FormProcessor
 
         if (!is_null($this->proceso)) {
 
+            Redireccionador::redireccionar("ExitoRegistroProceso", $this->proceso);
+
         } else {
-            Redireccionador::redireccionar("ErrorCreacion");
+            Redireccionador::redireccionar("ErrorRegistroProceso");
         }
 
     }
@@ -97,7 +99,6 @@ class FormProcessor
 
         if ($Beneficiarios == false) {
 
-            echo "Error Consulta Beneficiarios";exit;
             Redireccionador::redireccionar('SinResultado');
         }
 

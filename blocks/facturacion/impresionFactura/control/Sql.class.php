@@ -212,7 +212,7 @@ class Sql extends \Sql
 
                 $cadenaSql .= " AND cn.departamento IS NOT NULL ";
                 $cadenaSql .= " AND cn.municipio IS NOT NULL ";
-                $cadenaSql .= " AND cn.urbanizacion IS NOT NULL LIMIT 40 ";
+                $cadenaSql .= " AND cn.urbanizacion IS NOT NULL ";
 
                 $cadenaSql = str_replace("',)", "')", $cadenaSql);
 
@@ -288,6 +288,24 @@ class Sql extends \Sql
                 $cadenaSql .= " '" . $variable['datos_adicionales'] . "',";
                 $cadenaSql .= " '" . $variable['urbanizaciones'] . "'";
                 $cadenaSql .= " )RETURNING id_proceso;";
+                break;
+
+            case 'consultarProcesoParticular':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM parametros.procesos_masivos";
+                $cadenaSql .= " WHERE id_proceso=(";
+                $cadenaSql .= " SELECT MIN(id_proceso) ";
+                $cadenaSql .= " FROM parametros.procesos_masivos";
+                $cadenaSql .= " WHERE estado_registro='TRUE' ";
+                $cadenaSql .= " AND estado='No Iniciado'";
+                $cadenaSql .= " AND descripcion='Facturas'";
+                $cadenaSql .= " );";
+                break;
+
+            case 'actualizarProceso':
+                $cadenaSql = " UPDATE parametros.procesos_masivos";
+                $cadenaSql .= " SET estado='En Proceso'";
+                $cadenaSql .= " WHERE id_proceso='" . $variable . "';";
                 break;
         }
 

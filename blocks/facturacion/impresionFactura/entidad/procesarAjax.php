@@ -100,6 +100,12 @@ class procesarAjax
                 echo $resultado;
                 break;
 
+            case 'ejecutarProcesos':
+
+                include_once "ejecutarProcesos.php";
+
+                break;
+
         }
     }
 }
