@@ -316,6 +316,21 @@ class Sql extends \Sql
                 $cadenaSql .= " peso_archivo='" . $variable['tamanio_archivo'] . "'";
                 $cadenaSql .= " WHERE id_proceso='" . $variable['id_proceso'] . "';";
                 break;
+
+            case 'consultarEstadoProceso':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM parametros.procesos_masivos";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_proceso='" . $_REQUEST['id_proceso'] . "' ";
+                $cadenaSql .= " AND estado IN ('No Iniciado','Finalizado'); ";
+                break;
+
+            case 'eliminarProceso':
+                $cadenaSql = " UPDATE parametros.procesos_masivos";
+                $cadenaSql .= " SET estado_registro='FALSE'";
+                $cadenaSql .= " WHERE id_proceso='" . $_REQUEST['id_proceso'] . "'; ";
+                break;
+
         }
 
         return $cadenaSql;

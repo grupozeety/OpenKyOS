@@ -55,6 +55,11 @@ class Entidad
         include_once $this->ruta . "entidad/cargarInformacion.php";
     }
 
+    public function eliminarProceso()
+    {
+        include_once $this->ruta . "entidad/eliminarProceso.php";
+    }
+
     public function action()
     {
         $resultado = true;
@@ -81,6 +86,12 @@ class Entidad
                 case 'cargarProceso':
 
                     $this->cargarInformacionProceso();
+
+                    break;
+
+                case 'eliminarProceso':
+
+                    $this->eliminarProceso();
 
                     break;
 

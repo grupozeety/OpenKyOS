@@ -30,6 +30,16 @@ class Redireccionador
                 $variable .= '&mensaje=SinResultado';
                 break;
 
+            case "ErrorEliminarProceso":
+                $variable = 'pagina=impresionFactura';
+                $variable .= '&mensaje=errorEliminarProceso';
+                break;
+
+            case "ExitoEliminarProceso":
+                $variable = 'pagina=impresionFactura';
+                $variable .= '&mensaje=exitoEliminarProceso';
+                break;
+
         }
 
         foreach ($_REQUEST as $clave => $valor) {
