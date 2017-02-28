@@ -156,9 +156,10 @@ class Sql extends \Sql
                 break;
 
             case 'consultarProceso':
-                $cadenaSql = " SELECT *";
-                $cadenaSql .= " FROM parametros.procesos_accesos";
-                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql = " SELECT * ";
+                $cadenaSql .= " FROM parametros.procesos_masivos";
+                $cadenaSql .= " WHERE descripcion='Facturas'";
+                $cadenaSql .= " AND  estado_registro='TRUE' ";
                 $cadenaSql .= " ORDER BY id_proceso DESC;";
                 break;
 

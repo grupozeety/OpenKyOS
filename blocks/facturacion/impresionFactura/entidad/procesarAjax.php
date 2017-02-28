@@ -31,18 +31,18 @@ class procesarAjax
                     $resultado[$key] = array_intersect_key($resultadoItems[$key], array_flip($keys));
                 }
                 echo '{"suggestions":' . json_encode($resultado) . '}';
-
                 break;
 
             case 'consultarProcesos':
 
                 $cadenaSql = $this->sql->getCadenaSql('consultarProceso');
+
                 $procesos = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
                 if ($procesos) {
                     foreach ($procesos as $key => $valor) {
 
-                        $archivo = (is_null($valor['nombre_archivo'])) ? " " : "<center><a href='" . $valor['ruta_relativa_archivo'] . "' target='_blank' >" . $valor['nombre_archivo'] . "</a></center>";
+                        $archivo = (is_null($valor['ruta_archivo'])) ? " " : "<center><a href='" . $valor['ruta_archivo'] . "' target='_blank' >" . $valor['nombre_ruta_archivo'] . "</a></center>";
 
                         {
 
@@ -62,6 +62,7 @@ class procesarAjax
                         }
 
                         $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+
                         $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
                         $urlEliminarProceso = $url . $cadena;
@@ -97,7 +98,6 @@ class procesarAjax
                                 "data": 0 }'    ;
                 }
                 echo $resultado;
-
                 break;
 
         }

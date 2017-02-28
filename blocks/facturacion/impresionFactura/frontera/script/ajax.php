@@ -22,7 +22,7 @@ $cadenaACodificar .= "&funcion=consultaBeneficiarios";
 $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
 $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
 
-// URL Consultar Proyectos
+// URL Consultar Beneficiarios
 $urlConsultarBeneficiarios = $url . $cadena;
 
 // Variables para Con
@@ -38,22 +38,7 @@ $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
 $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
 
 // URL Consultar Proyectos
-$urlConsultarProcesosAccesos = $url . $cadena;
-
-// Variables para Con
-$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
-$cadenaACodificar .= "&procesarAjax=true";
-$cadenaACodificar .= "&action=index.php";
-$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
-$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
-$cadenaACodificar .= "&funcion=consultarProcesos";
-
-// Codificar las variables
-$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
-$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
-
-// URL Consultar Proyectos
-$urlConsultarProcesosAccesos = $url . $cadena;
+$urlConsultarProcesos = $url . $cadena;
 
 ?>
 <script type='text/javascript'>
@@ -97,20 +82,22 @@ $("#mensaje").modal("show");
 
                  responsive: true,
                    ajax:{
-                      url:"<?php echo $urlConsultarProcesosAccesos;?>",
+                      url:"<?php echo $urlConsultarProcesos;?>",
                       dataSrc:"data"
                   },
-                  columns: [
-                  { data :"id_proceso"},
-                  { data :"descripcion"},
+                columns: [
+                  { data :"proceso"},
                   { data :"estado" },
-                  { data :"porcentaje_estado","sClass": "marca"},
-                  { data :"fecha","sClass": "marca"},
-                  { data :"tamanio_archivo","sClass": "marca"},
-                  { data :"archivo" ,"sClass": "marca"},
-                  { data :"finalizar","sClass": "marca"},
+                  { data :"archivo" },
+                  { data :"tamanio_archivo"},
+                  { data :"num_inicial","sClass": "marca"},
+                  { data :"num_final","sClass": "marca" },
+                  { data :"urbanizaciones"},
+                  { data :"fecha_generacion"},
+                  { data :"eliminar_proceso"},
                            ]
     } );
+
 
 
 
@@ -131,6 +118,9 @@ $("#mensaje").modal("show");
         }
 
        });
+
+
+
 
 </script>
 
