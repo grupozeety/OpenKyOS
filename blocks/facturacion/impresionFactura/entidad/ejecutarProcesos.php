@@ -230,8 +230,8 @@ class FormProcessor
     public function crearTrabajosCrontab()
     {
 
-        //exec('echo -e "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
-        exec('echo "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
+        exec('echo -e "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
+        //exec('echo "`crontab -l`\n* * * * * ' . $this->Url_ejecucion . '" | crontab -', $variable);
 
     }
 
@@ -261,8 +261,8 @@ class FormProcessor
 
                 $valor = ($value == '') ? '' : '`crontab -l`\n';
 
-                //exec('echo -e "' . $valor . $value . '" | crontab -');
-                exec('echo  "' . $valor . $value . '" | crontab -');
+                exec('echo -e "' . $valor . $value . '" | crontab -');
+                //  exec('echo  "' . $valor . $value . '" | crontab -');
             }
 
         }
