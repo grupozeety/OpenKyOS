@@ -165,12 +165,7 @@ class Consultar {
 				$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 				$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 				$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-				if (isset ( $_REQUEST ['opcion'] ) && $_REQUEST ['opcion'] == 'agregar') {
-					$valorCodificado .= "&opcion=modificarMetodo";
-					$valorCodificado .= "&idmetodo=" . $_REQUEST ['id'];
-				} else {
-					$valorCodificado .= "&opcion=guardarMetodo";
-				}
+				$valorCodificado .= "&opcion=guardarMetodo";
 				
 				/**
 				 * SARA permite que los nombres de los campos sean dinámicos.
@@ -206,31 +201,17 @@ class Consultar {
 	}
 	public function mensajeModal() {
 		switch ($_REQUEST ['mensajeModal']) {
-			
-			case 'errorConsulta' :
-				$mensaje = "Advertencia<br>El Método ya está registrado en el Sistema.";
-				$atributos ['estiloLinea'] = 'warning'; // success,error,information,warning
-				break;
-			
+						
 			case 'exitoInformacion' :
-				$mensaje = "Exito<br>Método Registrado.";
+				$mensaje = "Exito<br>Variable Actualizada.";
 				$atributos ['estiloLinea'] = 'success'; // success,error,information,warning
 				break;
 			
 			case 'errorCreacion' :
-				$mensaje = "Error<br>Método no Registrado.";
+				$mensaje = "Error<br>Variable no Actualizada.";
 				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
 				break;
-			
-			case 'errorActualizacion' :
-				$mensaje = "Error durante la actualización de registros, informe al Administrador del sistema.";
-				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
-				break;
-			
-			case 'exitoActualizacion' :
-				$mensaje = "Exito<br>Método Actualizado.";
-				$atributos ['estiloLinea'] = 'success'; // success,error,information,warning
-				break;
+	
 		}
 		
 		// ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------

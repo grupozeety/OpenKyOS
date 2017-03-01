@@ -16,22 +16,7 @@ class Redireccionador {
 				$variable = 'pagina=configuracionFactura';
 				$variable .= '&mensajeModal=exitoInformacion';
 				break;
-			
-			case "UpdateInformacion" :
-				$variable = 'pagina=configuracionFactura';
-				$variable .= '&mensajeModal=exitoActualizacion';
-				break;
-			
-			case "NoUpdateInformacion" :
-				$variable = 'pagina=configuracionFactura';
-				$variable .= '&mensajeModal=errorActualizacion';
-				break;
-			
-			case "ErrorConsulta" :
-				$variable = 'pagina=configuracionFactura';
-				$variable .= '&mensajeModal=errorConsulta';
-				break;
-			
+
 			case "NoInsertoInformacion" :
 				$variable = 'pagina=configuracionFactura';
 				$variable .= '&mensajeModal=errorCreacion';

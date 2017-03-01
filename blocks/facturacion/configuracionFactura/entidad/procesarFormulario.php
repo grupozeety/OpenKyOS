@@ -44,38 +44,18 @@ class FormProcessor {
 		 * Revisar Existencia Asociación
 		 */
 		
+		$this->actualizarRol ();
 
-		$this->getMetodo ();
-		$this->revisarExistencia ();
-		
-		/**
-		 * 2.
-		 * Registrar Asociación
-		 */
-		
-		$this->registrarMetodo ();
 		
 		exit ();
 	}
-	public function getMetodo() {
-		$this->asociacion = array (
-				'id_rol' => $_REQUEST ['rol'],
-				'id_regla' => $_REQUEST ['regla'] 
-		);
-	}
-	public function revisarExistencia() {
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarAsociacion', $this->asociacion );
-		$asociacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
-		if ( $asociacion !=FALSE) {
-			Redireccionador::redireccionar ( "ErrorConsulta" );
-			exit ();
-		}
-	}
-	public function registrarMetodo() {
-		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarMetodo', $this->asociacion );
+
+	public function actualizarRol() {
+		 $cadenaSql = $this->miSql->getCadenaSql ( 'actualizarRol', $_REQUEST['rol']);
 		$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 
+		
 		if ($registro==TRUE) {
 			Redireccionador::redireccionar ( "InsertoInformacion" );
 			exit();

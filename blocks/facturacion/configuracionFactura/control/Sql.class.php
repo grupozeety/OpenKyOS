@@ -32,11 +32,10 @@ class Sql extends \Sql {
 				$cadenaSql .= " WHERE rol.estado_registro=TRUE ORDER BY id_valor ASC;";
 				break;
 			
-			case 'actualizarMetodo' :
-				$cadenaSql = " UPDATE facturacion.metodos SET  ";
-				$cadenaSql .= " id_regla='" . $variable ['id_regla'] . "', ";
-				$cadenaSql .= " id_rol='" . $variable ['id_rol'] . "' ";
-				$cadenaSql .= " WHERE id_metodos='" . $variable ['id_metodo'] . "' ";
+			case 'actualizarRol' :
+				$cadenaSql = " UPDATE facturacion.parametros_generales SET  ";
+				$cadenaSql .= " id_valor='" . $variable . "' ";
+				$cadenaSql .= " WHERE descripcion='rol' ";
 				break;
 		}
 		
