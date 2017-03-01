@@ -47,20 +47,24 @@ class FormProcessor {
 		
 		if ($_REQUEST ['urbanizacion'] != '') {
 			$filtro = array (
-					'urbanizacion' => $_REQUEST ['urbanizacion'] 
+					'urbanizacion' => $_REQUEST ['urbanizacion'] ,
+				        0 => $_REQUEST ['urbanizacion'] ,
 			);
 		} elseif ($_REQUEST ['municipio'] != '') {
 			$filtro = array (
-					'municipio' => $_REQUEST ['municipio'] 
+					'municipio' => $_REQUEST ['municipio'] ,
+				         0 => $_REQUEST ['municipio'] 
 			);
 		} elseif ($_REQUEST ['departamento'] != '') {
 			$filtro = array (
-					'departamento' => $_REQUEST ['departamento'] 
+					'departamento' => $_REQUEST ['departamento'] ,
+				        0 => $_REQUEST ['departamento'] 
 			);
 		} else {
 			Redireccionador::redireccionar ( "ErrorInformacion", '' );
 		}
 		
+		$this->filtro=$filtro[0];
 		/**
 		 * Determinar Beneficiarios*
 		 */
@@ -138,9 +142,9 @@ class FormProcessor {
 	public function creacion_log() {
 		$prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
 		
-		$this->ruta_absoluta_log = $this->rutaAbsoluta . "/entidad/logs/Log_documento_validacion_" . $prefijo . ".log";
+		$this->ruta_absoluta_log = $this->rutaAbsoluta . "/entidad/logs/Log_".$this->filtro."_" . $prefijo . ".log";
 		
-		$this->ruta_relativa_log = $this->rutaURL . "/entidad/logs/Log_documento_validacion_" . $prefijo . ".log";
+		$this->ruta_relativa_log = $this->rutaURL . "/entidad/logs/Log_".$this->filtro."_" . $prefijo . ".log";
 		
 		$this->log = fopen ( $this->ruta_absoluta_log, "w" );
 	}
