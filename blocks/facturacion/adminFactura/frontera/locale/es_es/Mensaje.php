@@ -14,7 +14,7 @@ $this->idioma["eliminarCabecera"]="¿Realmente desea Cancelar la Factura?";
 $this->idioma["cabeceraEliminado"]="Ha sido Cancelada la Factura";
 $this->idioma["cabeceraNoEliminado"]="No ha sido posible cancelar el Factura. Una razón puede ser que sólo facturas en estado <b>Borrador<b> pueden eliminarse.";
 
-$this->idioma["botonAceptarElim"]="Eliminar";
+$this->idioma["botonAceptarElim"]="Cancelar";
 $this->idioma["botonCancelarElim"]="Cancelar";
 $this->idioma["botonCerrar"]="Aceptar";
 $this->idioma["botonCerrar2"]="Aceptar";
