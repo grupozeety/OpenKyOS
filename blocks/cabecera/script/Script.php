@@ -9,6 +9,7 @@ $funcion[$indice++] = "modalLoad.js";
 $funcion[$indice++] = "jquery.dataTables.min.js";
 $funcion[$indice++] = "dataTables.bootstrap.min.js";
 $funcion[$indice++] = "dataTables.responsive.min.js";
+$funcion[$indice++] = "bootstrap.min.js";
 
 $embebido[$indice] = true;
 $funcion[$indice++] = "ajax.php";
