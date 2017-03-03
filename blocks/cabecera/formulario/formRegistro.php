@@ -116,9 +116,10 @@ class Formulario
 
         if ($_REQUEST['opcion'] == 'actualizacion') {
             $titulo = 'Actualización ';
+            $deshabilitado = true;
         } else {
             $titulo = 'Registro ';
-
+            $deshabilitado = false;
         }
 
         $esteCampo = 'ficheros';
