@@ -1,69 +1,78 @@
 <?php
+namespace facturacion\gestionReglas\entidad;
 
-if ($_REQUEST ['funcion'] == "consultarCabecera") {
-	
-	$conexion = "interoperacion";
-	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-	
-	$cadenaSql = $this->sql->getCadenaSql ( 'consultarCabecera' );
-	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+class procesarAjax
+{
+    public $miConfigurador;
+    public $sql;
+    public function __construct($sql)
+    {
+        $this->miConfigurador = \Configurador::singleton();
 
-	for($i = 0; $i < count ( $resultado ); $i ++) {
-	
-		$resultadoFinal [] = array (
-				'codigo_cabecera' =>  $resultado [$i] ['codigo_cabecera'],
-				'descripcion' => $resultado [$i] ['descripcion'],
-				'departamento' => $resultado [$i] ['departamento'],
-				'municipio' => $resultado [$i] ['municipio'],
-				'urbanizacion' => $resultado [$i] ['urbanizacion']
-		);
-	}
-	
-	$total = count ( $resultadoFinal );
-	
-	$resultado = json_encode ( $resultadoFinal );
-	
-	$resultado = '{
+        $this->ruta = $this->miConfigurador->getVariableConfiguracion("rutaBloque");
+
+        $this->sql = $sql;
+
+        $conexion = "interoperacion";
+
+        //$conexion = "produccion";
+        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
+        // URL base
+        $url = $this->miConfigurador->getVariableConfiguracion("host");
+        $url .= $this->miConfigurador->getVariableConfiguracion("site");
+        $url .= "/index.php?";
+
+        $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
+
+        switch ($_REQUEST['funcion']) {
+            case 'consultarCabecera':
+
+                $cadenaSql = $this->sql->getCadenaSql('consultarCabecera');
+
+                $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                foreach ($resultado as $key => $value) {
+
+                    {
+
+                        $valorCodificado = "actionBloque=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                        $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                        $valorCodificado .= "&opcion=actualizacion";
+                        $valorCodificado .= "&id=" . $value['id_cabecera'];
+                    }
+
+                    $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                    $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+                    $urlActualizar = $url . $cadena;
+
+                    $resultadoFinal[] = array(
+                        'codigo_cabecera' => $value['codigo_cabecera'],
+                        'descripcion' => $value['descripcion'],
+                        'departamento' => $value['departamento'],
+                        'municipio' => $value['municipio'],
+                        'urbanizacion' => $value['urbanizacion'],
+                        'actualizacion' => "<center><b><a href='" . $urlActualizar . "'><IMG  src='theme/basico/img/update.ico'  width='25' height='25' ></a></b></center>",
+
+                    );
+                }
+
+                $total = count($resultadoFinal);
+
+                $resultado = json_encode($resultadoFinal);
+
+                $resultado = '{
                 "recordsTotal":' . $total . ',
                 "recordsFiltered":' . $total . ',
-				"data":' . $resultado . '}';
-	
-	echo $resultado;
-	
-}else if ($_REQUEST ['funcion'] == "inhabilitarCabecera"){
-	
-	$conexion = "interoperacion";
-	$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-	
-	$cadenaSql = $this->sql->getCadenaSql ( 'inhabilitarCabecera', $_REQUEST ['valor'] );
-	$resultado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
-				
-	echo $resultado;
-	
-}else if ($_REQUEST ['funcion'] == "redireccionar"){
-	
-	include_once ("core/builder/FormularioHtml.class.php");
-	
-	$miFormulario = new \FormularioHtml();
-	
-	if(!isset($_REQUEST['tiempo'])){
-		$_REQUEST['tiempo']=time();
-	}
-	//Estas funciones se llaman desde ajax.php y estas a la vez realizan las consultas de Sql.class.php 
-	
-	$_REQUEST['ready']= true;
-	
-	$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $_REQUEST ['valor'] . $_REQUEST ['id']);
-	
-	$enlace = $_REQUEST ['directorio'] . '=' . $valorCodificado;
-	
-	echo json_encode($enlace);
-		
-}else if($_REQUEST['funcion'] == 'consultarProyectos') {
+                "data":' . $resultado . '}';
 
-	include_once "consultarProyectos.php";
+                echo $resultado;
+
+                break;
+        }
+    }
 
 }
-
-	
-?>
+$miProcesarAjax = new procesarAjax($this->sql);
+exit();
