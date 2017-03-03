@@ -200,7 +200,7 @@ class Sql extends \Sql {
 				$cadenaSql = " SELECT fecha_instalacion ";
 				$cadenaSql .= " FROM interoperacion.acta_entrega_servicios ";
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
-				$cadenaSql .= " AND estado_registro=TRUE ";
+				$cadenaSql .= " AND estado_registro=TRUE AND fecha_instalacion IS NOT NULL AND fecha_instalacion!='' ";
 				break;
 			
 			case 'consultarFactura' :
