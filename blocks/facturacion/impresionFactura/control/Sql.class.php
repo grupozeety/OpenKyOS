@@ -41,8 +41,14 @@ class Sql extends \Sql
         switch ($tipo) {
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
+
+            case 'consultarInformacionApi':
+                $cadenaSql = " SELECT componente, host, usuario, password, token_codificado, ruta_cookie ";
+                $cadenaSql .= " FROM parametros.api_data";
+                $cadenaSql .= " WHERE componente ='" . $variable . "';";
+                break;
 
             case 'consultarBeneficiario':
                 $cadenaSql = " SELECT";
@@ -74,7 +80,9 @@ class Sql extends \Sql
                 $cadenaSql .= " fc.id_ciclo,";
                 $cadenaSql .= " pb.municipio,";
                 $cadenaSql .= " pb.departamento,";
-                $cadenaSql .= " pb.id_beneficiario ";
+                $cadenaSql .= " pb.id_beneficiario, ";
+                $cadenaSql .= " pb.correo_institucional, ";
+                $cadenaSql .= " pb.correo ";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";

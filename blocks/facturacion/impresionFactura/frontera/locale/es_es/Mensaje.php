@@ -26,3 +26,5 @@ $this->idioma['generar'] = 'Generar Documentos Facturación';
 $this->idioma['seleccion_proceso'] = 'Proceso';
 
 $this->idioma['estado_documento'] = 'Documentos Exitentes';
+
+$this->idioma['correo'] = 'Emisión Factura Correo';
