@@ -106,7 +106,7 @@ class Registrador
                     $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                     $atributos["etiquetaObligatorio"] = true;
                     $atributos['tab'] = $tab++;
-                    $atributos['anchoEtiqueta'] = 1;
+                    $atributos['anchoEtiqueta'] = 2;
                     $atributos['evento'] = '';
                     if (isset($_REQUEST[$esteCampo])) {
                         $atributos['seleccion'] = $_REQUEST[$esteCampo];
@@ -141,130 +141,182 @@ class Registrador
                     echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
 
+                    $esteCampo = 'correo';
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    $atributos['anchoEtiqueta'] = 2;
+                    $atributos['evento'] = '';
+                    if (isset($_REQUEST[$esteCampo])) {
+                        $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                    } else {
+                        $atributos['seleccion'] = '0';
+                    }
+                    $atributos['deshabilitado'] = false;
+                    $atributos['columnas'] = 1;
+                    $atributos['tamanno'] = 1;
+                    $atributos['ajax_function'] = "";
+                    $atributos['ajax_control'] = $esteCampo;
+                    $atributos['estilo'] = "bootstrap";
+                    $atributos['limitar'] = false;
+                    $atributos['anchoCaja'] = 3;
+                    $atributos['miEvento'] = '';
+                    $atributos['validar'] = 'required';
+                    $atributos['cadena_sql'] = 'required';
+                    $matrizItems = array(
+                        array(
+                            '1',
+                            'SI',
+                        ),
+
+                        array(
+                            '0',
+                            'NO',
+                        ),
+                    );
+                    $atributos['matrizItems'] = $matrizItems;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                    unset($atributos);
+
                     // ------------------Division para los botones-------------------------
                     $atributos["id"] = "generar_facturacion";
-                    $atributos["estilo"] = "marcoBotones";
+                    $atributos["estilo"] = "";
                     $atributos["estiloEnLinea"] = "display:block;";
                     echo $this->miFormulario->division("inicio", $atributos);
                     unset($atributos);
                     {
 
-                        $esteCampo = 'departamento';
-                        $atributos['nombre'] = $esteCampo;
+                        $esteCampo = 'AgrupacionBeneficiario';
                         $atributos['id'] = $esteCampo;
-                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-                        $atributos["etiquetaObligatorio"] = true;
-                        $atributos['tab'] = $tab++;
-                        $atributos['anchoEtiqueta'] = 2;
-                        $atributos['evento'] = '';
-                        if (isset($_REQUEST[$esteCampo])) {
-                            $atributos['seleccion'] = $_REQUEST[$esteCampo];
-                        } else {
-                            $atributos['seleccion'] = -1;
-                        }
-                        $atributos['deshabilitado'] = false;
-                        $atributos['columnas'] = 1;
-                        $atributos['tamanno'] = 1;
-                        $atributos['ajax_function'] = "";
-                        $atributos['ajax_control'] = $esteCampo;
-                        $atributos['estilo'] = "bootstrap";
-                        $atributos['limitar'] = false;
-                        $atributos['anchoCaja'] = 10;
-                        $atributos['miEvento'] = '';
-                        //$atributos['validar'] = '';
-                        $cadenaSql = $this->miSql->getCadenaSql('consultarDepartamento');
-                        $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                        $atributos['matrizItems'] = $resultado;
-
-                        // Aplica atributos globales al control
-                        $atributos = array_merge($atributos, $atributosGlobales);
-                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                        $atributos['leyenda'] = "Parametros";
+                        echo $this->miFormulario->agrupacion('inicio', $atributos);
                         unset($atributos);
 
-                        $esteCampo = 'municipio';
-                        $atributos['nombre'] = $esteCampo;
-                        $atributos['id'] = $esteCampo;
-                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-                        $atributos["etiquetaObligatorio"] = true;
-                        $atributos['tab'] = $tab++;
-                        $atributos['anchoEtiqueta'] = 2;
-                        $atributos['evento'] = '';
+                        {
+                            $esteCampo = 'departamento';
+                            $atributos['nombre'] = $esteCampo;
+                            $atributos['id'] = $esteCampo;
+                            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                            $atributos["etiquetaObligatorio"] = true;
+                            $atributos['tab'] = $tab++;
+                            $atributos['anchoEtiqueta'] = 2;
+                            $atributos['evento'] = '';
+                            if (isset($_REQUEST[$esteCampo])) {
+                                $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                            } else {
+                                $atributos['seleccion'] = -1;
+                            }
+                            $atributos['deshabilitado'] = false;
+                            $atributos['columnas'] = 1;
+                            $atributos['tamanno'] = 1;
+                            $atributos['ajax_function'] = "";
+                            $atributos['ajax_control'] = $esteCampo;
+                            $atributos['estilo'] = "bootstrap";
+                            $atributos['limitar'] = false;
+                            $atributos['anchoCaja'] = 10;
+                            $atributos['miEvento'] = '';
+                            //$atributos['validar'] = '';
+                            $cadenaSql = $this->miSql->getCadenaSql('consultarDepartamento');
+                            $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                            $atributos['matrizItems'] = $resultado;
 
-                        if (isset($_REQUEST[$esteCampo])) {
-                            $atributos['seleccion'] = $_REQUEST[$esteCampo];
-                        } else {
-                            $atributos['seleccion'] = '-1';
+                            // Aplica atributos globales al control
+                            $atributos = array_merge($atributos, $atributosGlobales);
+                            echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                            unset($atributos);
+
+                            $esteCampo = 'municipio';
+                            $atributos['nombre'] = $esteCampo;
+                            $atributos['id'] = $esteCampo;
+                            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                            $atributos["etiquetaObligatorio"] = true;
+                            $atributos['tab'] = $tab++;
+                            $atributos['anchoEtiqueta'] = 2;
+                            $atributos['evento'] = '';
+
+                            if (isset($_REQUEST[$esteCampo])) {
+                                $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                            } else {
+                                $atributos['seleccion'] = '-1';
+                            }
+                            $atributos['deshabilitado'] = false;
+                            $atributos['columnas'] = 1;
+                            $atributos['tamanno'] = 1;
+                            $atributos['ajax_function'] = "";
+                            $atributos['ajax_control'] = $esteCampo;
+                            $atributos['estilo'] = "bootstrap";
+                            $atributos['limitar'] = false;
+                            $atributos['anchoCaja'] = 10;
+                            $atributos['miEvento'] = '';
+                            //$atributos['validar'] = '';
+                            $atributos['cadena_sql'] = ' ';
+                            $cadenaSql = $this->miSql->getCadenaSql('consultarMunicipio');
+                            $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                            $matrizItems = $resultado;
+                            $atributos['matrizItems'] = $matrizItems;
+                            // Aplica atributos globales al control
+                            $atributos = array_merge($atributos, $atributosGlobales);
+                            echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                            unset($atributos);
+
+                            $esteCampo = 'urbanizacion';
+                            $atributos['nombre'] = $esteCampo;
+                            $atributos['id'] = $esteCampo;
+                            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                            $atributos["etiquetaObligatorio"] = true;
+                            $atributos['tab'] = $tab++;
+                            $atributos['anchoEtiqueta'] = 2;
+                            $atributos['evento'] = '';
+
+                            if (isset($_REQUEST[$esteCampo])) {
+                                $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                            } else {
+                                $atributos['seleccion'] = '-1';
+                            }
+                            $atributos['deshabilitado'] = false;
+                            $atributos['columnas'] = 1;
+                            $atributos['tamanno'] = 1;
+                            $atributos['ajax_function'] = "";
+                            $atributos['ajax_control'] = $esteCampo;
+                            $atributos['estilo'] = "bootstrap";
+                            $atributos['limitar'] = false;
+                            $atributos['anchoCaja'] = 10;
+                            $atributos['miEvento'] = '';
+                            //$atributos['validar'] = '';
+                            $atributos['cadena_sql'] = ' ';
+                            $cadenaSql = $this->miSql->getCadenaSql('consultarUrbanizacion');
+                            $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                            $matrizItems = $resultado;
+                            $atributos['matrizItems'] = $matrizItems;
+                            // Aplica atributos globales al control
+                            $atributos = array_merge($atributos, $atributosGlobales);
+                            echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+                            unset($atributos);
+
+                            $esteCampo = "beneficiario";
+                            $atributos['nombre'] = $esteCampo;
+                            $atributos['id'] = $esteCampo;
+                            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                            $atributos["etiquetaObligatorio"] = true;
+                            $atributos['tab'] = $tab++;
+                            if (isset($_REQUEST[$esteCampo])) {
+                                $atributos['valor'] = $_REQUEST[$esteCampo];
+                            } else {
+                                $atributos['valor'] = "";
+                            }
+                            //$atributos['validar'] = '';
+                            $atributos['filas'] = 3;
+                            // Aplica atributos globales al control
+                            $atributos = array_merge($atributos, $atributosGlobales);
+                            echo $this->miFormulario->campoTextAreaBootstrap($atributos);
+                            unset($atributos);
                         }
-                        $atributos['deshabilitado'] = false;
-                        $atributos['columnas'] = 1;
-                        $atributos['tamanno'] = 1;
-                        $atributos['ajax_function'] = "";
-                        $atributos['ajax_control'] = $esteCampo;
-                        $atributos['estilo'] = "bootstrap";
-                        $atributos['limitar'] = false;
-                        $atributos['anchoCaja'] = 10;
-                        $atributos['miEvento'] = '';
-                        //$atributos['validar'] = '';
-                        $atributos['cadena_sql'] = ' ';
-                        $cadenaSql = $this->miSql->getCadenaSql('consultarMunicipio');
-                        $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                        $matrizItems = $resultado;
-                        $atributos['matrizItems'] = $matrizItems;
-                        // Aplica atributos globales al control
-                        $atributos = array_merge($atributos, $atributosGlobales);
-                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
-                        unset($atributos);
 
-                        $esteCampo = 'urbanizacion';
-                        $atributos['nombre'] = $esteCampo;
-                        $atributos['id'] = $esteCampo;
-                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-                        $atributos["etiquetaObligatorio"] = true;
-                        $atributos['tab'] = $tab++;
-                        $atributos['anchoEtiqueta'] = 2;
-                        $atributos['evento'] = '';
-
-                        if (isset($_REQUEST[$esteCampo])) {
-                            $atributos['seleccion'] = $_REQUEST[$esteCampo];
-                        } else {
-                            $atributos['seleccion'] = '-1';
-                        }
-                        $atributos['deshabilitado'] = false;
-                        $atributos['columnas'] = 1;
-                        $atributos['tamanno'] = 1;
-                        $atributos['ajax_function'] = "";
-                        $atributos['ajax_control'] = $esteCampo;
-                        $atributos['estilo'] = "bootstrap";
-                        $atributos['limitar'] = false;
-                        $atributos['anchoCaja'] = 10;
-                        $atributos['miEvento'] = '';
-                        //$atributos['validar'] = '';
-                        $atributos['cadena_sql'] = ' ';
-                        $cadenaSql = $this->miSql->getCadenaSql('consultarUrbanizacion');
-                        $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                        $matrizItems = $resultado;
-                        $atributos['matrizItems'] = $matrizItems;
-                        // Aplica atributos globales al control
-                        $atributos = array_merge($atributos, $atributosGlobales);
-                        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
-                        unset($atributos);
-
-                        $esteCampo = "beneficiario";
-                        $atributos['nombre'] = $esteCampo;
-                        $atributos['id'] = $esteCampo;
-                        $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-                        $atributos["etiquetaObligatorio"] = true;
-                        $atributos['tab'] = $tab++;
-                        if (isset($_REQUEST[$esteCampo])) {
-                            $atributos['valor'] = $_REQUEST[$esteCampo];
-                        } else {
-                            $atributos['valor'] = "";
-                        }
-                        //$atributos['validar'] = '';
-                        $atributos['filas'] = 3;
-                        // Aplica atributos globales al control
-                        $atributos = array_merge($atributos, $atributosGlobales);
-                        echo $this->miFormulario->campoTextAreaBootstrap($atributos);
+                        echo $this->miFormulario->agrupacion('fin');
                         unset($atributos);
 
                         // ------------------Division para los botones-------------------------
@@ -438,23 +490,23 @@ class Registrador
         switch ($_REQUEST['mensaje']) {
             case 'SinResultado':
                 $mensaje = "<b>No Se Genero Ningun Resultado<br>Verifique la combinacion de Parametros</b>";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'exitoRegistroProceso':
                 $mensaje = "Exito en el Registro del Proceso para la Generación de Facturas.<br><b>Proceso N° " . $_REQUEST['proceso'] . "</b><br>Verifique en estado del Proceso en la Opción \"Consultar Estado Generación Facturas\".<br>Recuerde que el tiempo para poder descargar depende del la cantidad de Facturas (Beneficiarios)que arroje la consulta.";
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
             case 'ErrorRegistroProceso':
                 $mensaje = "Error en el Registro del Proceso";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
                 break;
 
             case 'errorEliminarProceso':
                 $mensaje = "Error al eliminar proceso de generación de Facturas.<br>Sugerencia para eliminar un proceso el estado del mismo debe estar <b>'No Iniciado' o 'Finalizado'</b><br>y tiene un tiempo límite de 5 minutos desde su registro para poderlo eliminar, si no exiten más procesos ejecutados.";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
                 break;
 

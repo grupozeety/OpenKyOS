@@ -67,10 +67,16 @@ class FormProcessor
     public function registroProceso()
     {
 
+        if ($_REQUEST['correo'] == '1') {
+            $datos_adicionales = implode(";", $this->Beneficiarios) . '&correo';
+        } elseif ($_REQUEST['correo'] == '0') {
+            $datos_adicionales = implode(";", $this->Beneficiarios);
+        }
+
         $arreglo_registro = array(
             'inicio' => $this->Beneficiarios[0],
             'final' => end($this->Beneficiarios),
-            'datos_adicionales' => implode(";", $this->Beneficiarios),
+            'datos_adicionales' => $datos_adicionales,
             'urbanizaciones' => implode("<br>", $this->Urbanizaciones),
         );
 
