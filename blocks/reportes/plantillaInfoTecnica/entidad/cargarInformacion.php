@@ -117,7 +117,7 @@ class FormProcessor {
 				$this->resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 			}
 		}
-
+		
 		if ($this->resultado != true) {
 			Redireccionador::redireccionar ( "ErrorActualizacion" );
 			exit ();
@@ -157,7 +157,7 @@ class FormProcessor {
 			);
 			
 			// wMAN
-			if ($value ['tipo_tecnologia'] == '96') {
+			if ($_REQUEST ['tecnologia'] == 2) {
 				
 				$this->informacion_registrar [] = array (
 						'codigo_nodo' => $value ['codigo_nodo'],
@@ -182,13 +182,12 @@ class FormProcessor {
 						'mac_sm_celda' => $value ['wman_macsmcelda'],
 						'ip_sm_celda' => $value ['wman_ipsmcelda'],
 						'mac_cpe_celda' => $value ['wman_maccpecelda'],
-						'estado_registro' => $value ['estado'],
 						'latitud' => $value ['latitud'],
 						'longitud' => $value ['longitud'],
 						'macesclavo1' => $value ['macesclavo1'],
 						'port_olt' => $value ['port'] 
 				);
-			} elseif ($value ['tipo_tecnologia'] == '95') {
+			} elseif ($_REQUEST ['tecnologia'] == 1) {
 				$this->informacion_registrar [] = array (
 						'codigo_nodo' => $value ['codigo_nodo'],
 						'codigo_cabecera' => $value ['codigo_cabecera'],
@@ -212,7 +211,6 @@ class FormProcessor {
 						'mac_sm_celda' => 'N/A',
 						'ip_sm_celda' => 'N/A',
 						'mac_cpe_celda' => 'N/A',
-						'estado_registro' => $value ['estado'],
 						'latitud' => $value ['latitud'],
 						'longitud' => $value ['longitud'],
 						'macesclavo1' => $value ['macesclavo1'],
@@ -226,7 +224,7 @@ class FormProcessor {
 	public function validarInfoExistentes() {
 		foreach ( $this->datos_infotecnica as $key => $value ) {
 			
-			if ($value ['tipo_tecnologia'] == '96') {
+			if ($_REQUEST ['tecnologia'] == 1) {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoHFC', $value );
 				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 				
@@ -234,7 +232,7 @@ class FormProcessor {
 					Redireccionador::redireccionar ( "ErrorCreacionContratos" );
 					exit ();
 				}
-			} elseif ($value ['tipo_tecnologia'] == '95') {
+			} elseif ($_REQUEST ['tecnologia'] == 2) {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoWMAN', $value );
 				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 				if (is_null ( $consulta )) {
@@ -249,7 +247,7 @@ class FormProcessor {
 	}
 	public function validarInfoExistentesRegistro() {
 		foreach ( $this->datos_infotecnica as $key => $value ) {
-			if ($value ['tipo_tecnologia'] == '95') {
+			if ($_REQUEST ['tecnologia'] == 1) {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoHFC', $value );
 				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 				
@@ -257,7 +255,7 @@ class FormProcessor {
 					Redireccionador::redireccionar ( "ErrorCreacionContratos" );
 					exit ();
 				}
-			} elseif ($value ['tipo_tecnologia'] == '96') {
+			} elseif ($_REQUEST ['tecnologia'] == 2) {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarExistenciaInfoWMAN', $value );
 				$consulta = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0];
 				if (! is_null ( $consulta )) {
@@ -294,7 +292,7 @@ class FormProcessor {
 				exit ();
 			} else {
 				
-				if ($value ['tipo_tecnologia'] == '95') {
+				if ($_REQUEST ['tecnologia'] == 1) {
 					if (is_null ( $value ['hfc_macmaster'] )) {
 						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
 						exit ();
@@ -318,7 +316,7 @@ class FormProcessor {
 						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
 						exit ();
 					}
-				} elseif ($value ['tipo_tecnologia'] == '96') {
+				} elseif ($_REQUEST ['tecnologia'] == 2) {
 					if (is_null ( $value ['wman_maccelda'] )) {
 						Redireccionador::redireccionar ( "ErrorCreacionContratos" );
 						exit ();
@@ -372,7 +370,6 @@ class FormProcessor {
 			}
 			
 			for($i = 2; $i <= $total_filas; $i ++) {
-				
 				$datos_beneficiario [$i] ['codigo_nodo'] = $informacion->setActiveSheetIndex ()->getCell ( 'A' . $i )->getCalculatedValue ();
 				
 				$datos_beneficiario [$i] ['codigo_cabecera'] = $informacion->setActiveSheetIndex ()->getCell ( 'B' . $i )->getCalculatedValue ();
@@ -381,51 +378,57 @@ class FormProcessor {
 				
 				$datos_beneficiario [$i] ['municipio'] = $informacion->setActiveSheetIndex ()->getCell ( 'D' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['id_proyecto'] = $informacion->setActiveSheetIndex ()->getCell ( 'F' . $i )->getCalculatedValue ();
-				
 				$datos_beneficiario [$i] ['proyecto'] = $informacion->setActiveSheetIndex ()->getCell ( 'E' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['tipo_tecnologia'] = $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['id_proyecto'] = $informacion->setActiveSheetIndex ()->getCell ( 'F' . $i )->getCalculatedValue ();
 				
-				$datos_beneficiario [$i] ['hfc_macmaster'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'H' . $i )->getCalculatedValue () );
+				$datos_beneficiario [$i] ['latitud'] = (is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue () )) ? 0 : str_replace ( "'", "`", $informacion->setActiveSheetIndex ()->getCell ( 'G' . $i )->getCalculatedValue () );
 				
-				$datos_beneficiario [$i] ['hfc_ipmaster'] = $informacion->setActiveSheetIndex ()->getCell ( 'I' . $i )->getCalculatedValue ();
+				$datos_beneficiario [$i] ['longitud'] = (is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'H' . $i )->getCalculatedValue () )) ? 0 : str_replace ( "'", "`", $informacion->setActiveSheetIndex ()->getCell ( 'H' . $i )->getCalculatedValue () );
 				
-				$datos_beneficiario [$i] ['hfc_maconu'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'J' . $i )->getCalculatedValue () );
+				$datos_beneficiario [$i] ['macesclavo1'] = (is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'I' . $i )->getCalculatedValue () )) ? 0 : strtolower ( str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'I' . $i )->getCalculatedValue () ) );
 				
-				$datos_beneficiario [$i] ['hfc_iponu'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () : 0;
+				$datos_beneficiario [$i] ['port'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'J' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'J' . $i )->getCalculatedValue () : 0;
 				
-				$datos_beneficiario [$i] ['hfc_machub'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () )) ? str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue () ) : 0;
-				
-				$datos_beneficiario [$i] ['hfc_iphub'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () : 0;
-				
-				$datos_beneficiario [$i] ['hfc_maccpe'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'N' . $i )->getCalculatedValue () );
-				
-				$datos_beneficiario [$i] ['wman_maccelda'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () )) ? str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () ) : 0;
-				
-				$datos_beneficiario [$i] ['wman_ipcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'P' . $i )->getCalculatedValue ();
-				
-				$datos_beneficiario [$i] ['wman_nombrenodo'] = $informacion->setActiveSheetIndex ()->getCell ( 'Q' . $i )->getCalculatedValue ();
-				
-				$datos_beneficiario [$i] ['wman_nombresectorial'] = $informacion->setActiveSheetIndex ()->getCell ( 'R' . $i )->getCalculatedValue ();
-				
-				$datos_beneficiario [$i] ['wman_ipswitchcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'S' . $i )->getCalculatedValue ();
-				
-				$datos_beneficiario [$i] ['wman_macsmcelda'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'T' . $i )->getCalculatedValue () );
-				
-				$datos_beneficiario [$i] ['wman_ipsmcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'U' . $i )->getCalculatedValue ();
-				
-				$datos_beneficiario [$i] ['wman_maccpecelda'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'V' . $i )->getCalculatedValue () );
-				
-				$datos_beneficiario [$i] ['estado'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'W' . $i )->getCalculatedValue () : 'TRUE';
-				
-				$datos_beneficiario [$i] ['latitud'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () )) ? str_replace ( "'", "`", $informacion->setActiveSheetIndex ()->getCell ( 'X' . $i )->getCalculatedValue () ) : 0;
-				
-				$datos_beneficiario [$i] ['longitud'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue () )) ? str_replace ( "'", "`", $informacion->setActiveSheetIndex ()->getCell ( 'Y' . $i )->getCalculatedValue () ) : 0;
-				
-				$datos_beneficiario [$i] ['macesclavo1'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () )) ? strtolower(str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'Z' . $i )->getCalculatedValue () )) : 0;
-				
-				$datos_beneficiario [$i] ['port'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'AA' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'AA' . $i )->getCalculatedValue () : 0;
+				if ($_REQUEST ['tecnologia'] == 1) {
+					
+					$datos_beneficiario [$i] ['tipo_tecnologia'] = '95';
+					
+					$datos_beneficiario [$i] ['hfc_macmaster'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () );
+					
+					$datos_beneficiario [$i] ['hfc_ipmaster'] = $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue ();
+					
+					$datos_beneficiario [$i] ['hfc_maconu'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue () );
+					
+					$datos_beneficiario [$i] ['hfc_iponu'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'N' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'N' . $i )->getCalculatedValue () : 0;
+					
+					$datos_beneficiario [$i] ['hfc_machub'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () )) ? str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue () ) : 0;
+					
+					$datos_beneficiario [$i] ['hfc_iphub'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'P' . $i )->getCalculatedValue () )) ? $informacion->setActiveSheetIndex ()->getCell ( 'P' . $i )->getCalculatedValue () : 0;
+					
+					$datos_beneficiario [$i] ['hfc_maccpe'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'Q' . $i )->getCalculatedValue () );
+				} elseif ($_REQUEST ['tecnologia'] == 2) {
+					
+					$datos_beneficiario [$i] ['tipo_tecnologia'] = '96';
+					
+					$datos_beneficiario [$i] ['wman_maccelda'] = (! is_null ( $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () )) ? str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'K' . $i )->getCalculatedValue () ) : 0;
+					
+					$datos_beneficiario [$i] ['wman_ipcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'L' . $i )->getCalculatedValue ();
+					
+					$datos_beneficiario [$i] ['wman_nombrenodo'] = $informacion->setActiveSheetIndex ()->getCell ( 'M' . $i )->getCalculatedValue ();
+					
+					$datos_beneficiario [$i] ['wman_nombresectorial'] = $informacion->setActiveSheetIndex ()->getCell ( 'N' . $i )->getCalculatedValue ();
+					
+					$datos_beneficiario [$i] ['wman_ipswitchcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'O' . $i )->getCalculatedValue ();
+					
+					$datos_beneficiario [$i] ['wman_macsmcelda'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'P' . $i )->getCalculatedValue () );
+					
+					$datos_beneficiario [$i] ['wman_ipsmcelda'] = $informacion->setActiveSheetIndex ()->getCell ( 'Q' . $i )->getCalculatedValue ();
+					
+					$datos_beneficiario [$i] ['wman_maccpecelda'] = str_replace ( ':', '', $informacion->setActiveSheetIndex ()->getCell ( 'R' . $i )->getCalculatedValue () );
+				} else {
+					Redireccionador::redireccionar ( "ErrorNoCargaInformacionHojaCalculo" );
+				}
 			}
 			
 			$this->datos_infotecnica = $datos_beneficiario;

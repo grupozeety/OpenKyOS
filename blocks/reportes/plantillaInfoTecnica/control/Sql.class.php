@@ -86,7 +86,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " mac_sm_celda='" . $variable ['mac_sm_celda'] . "', ";
 				$cadenaSql .= " ip_sm_celda='" . $variable ['ip_sm_celda'] . "', ";
 				$cadenaSql .= " mac_cpe_celda='" . $variable ['mac_cpe_celda'] . "', ";
-				$cadenaSql .= " estado_registro='" . $variable ['estado_registro'] . "', ";
+				//$cadenaSql .= " estado_registro='" . $variable ['estado_registro'] . "', ";
 				$cadenaSql .= " latitud='" . $variable ['latitud'] . "', ";
 				$cadenaSql .= " longitud='" . $variable ['longitud'] . "', ";
 				$cadenaSql .= " macesclavo1='" . $variable ['macesclavo1'] . "', ";
