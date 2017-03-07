@@ -9,7 +9,7 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 class Redireccionador {
 	public static function redireccionar($opcion, $valor = "") {
 		$miConfigurador = \Configurador::singleton ();
-
+		
 		switch ($opcion) {
 			
 			case "ErrorFormatoArchivo" :
@@ -36,6 +36,12 @@ class Redireccionador {
 				$variable = 'pagina=plantillaInfoTecnica';
 				$variable .= '&mensajeModal=errorInformacionCargar';
 				$variable .= '&log=' . $valor;
+				break;
+			
+			case "ErrorTecnologia" :
+				$variable = 'pagina=plantillaInfoTecnica';
+				$variable .= '&mensajeModal=errorTecnologia';
+				
 				break;
 			
 			case "ExitoInformacion" :
