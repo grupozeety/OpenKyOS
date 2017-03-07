@@ -211,7 +211,7 @@ class FormProcessor
 
                 if (!preg_match($date_regex, $hiredate) && $value['fecha_comisionamiento'] != 'Sin Fecha') {
 
-                    $mensaje = " La fecha de comisionamiento  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna Fecha de entrega de portatil este en formato texto y con esl formato 'yyyy-mm-dd'.";
+                    $mensaje = " La fecha de comisionamiento  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna fecha de comisionamiento  este en formato texto y con el formato 'yyyy-mm-dd'.";
                     $this->escribir_log($mensaje);
                     $this->error = true;
 
