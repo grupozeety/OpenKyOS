@@ -23,6 +23,9 @@ class Formulario
         $this->miFormulario = $formulario;
 
         $this->miSql = $sql;
+
+        $conexion = "interoperacion";
+        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
     }
     public function formulario()
     {
@@ -32,8 +35,11 @@ class Formulario
          * Por tanto en el archivo script/ready.php y script/ready.js se declaran
          * algunas funciones js que lo complementan.
          */
-        $conexion = "estructura";
-        $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarBeneficiario');
+        $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+        $_REQUEST = array_merge($_REQUEST, $beneficiario);
 
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
@@ -192,7 +198,7 @@ class Formulario
                                     </thead>
                                     <tfoot>
                                         <tr>
-										   <th><center>Fecha Factura</center></th>
+                                           <th><center>Fecha Factura</center></th>
                                            <th><center>Periodo Facturado</center></th>
                                            <th><center>Valor Factura($)</center></th>
                                         </tr>

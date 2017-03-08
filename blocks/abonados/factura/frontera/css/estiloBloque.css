@@ -1,3 +1,17 @@
 div.dataTables_filter label {
     float: right;
 }
+#example_paginate{
+    text-align: right;
+}
+
+
+
+@media (max-height: 767px) {
+
+#example_paginate{
+text-align: center;
+}
+
+}
+

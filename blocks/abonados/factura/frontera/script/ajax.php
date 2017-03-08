@@ -16,6 +16,7 @@ $cadenaACodificar .= "&action=index.php";
 $cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
 $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
 $cadenaACodificar .= "&funcion=consultarFacturas";
+$cadenaACodificar .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
 
 // Codificar las variables
 $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
