@@ -1,9 +1,12 @@
 <?php
 namespace cambioClave\entidad;
-class procesarAjax {
+
+class procesarAjax
+{
     public $miConfigurador;
     public $sql;
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("rutaBloque");
@@ -15,28 +18,68 @@ class procesarAjax {
 
         switch ($_REQUEST['funcion']) {
 
-            case 'consultaBeneficiarios':
-                $cadenaSql = $this->sql->getCadenaSql('consultarBeneficiariosPotenciales');
+            case 'consultarFacturas':
 
-                $resultadoItems = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                $cadenaSql = $this->sql->getCadenaSql('consultarProceso');
+                $procesos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-                foreach ($resultadoItems as $key => $values) {
-                    $keys = array(
-                        'value',
-                        'data',
-                    );
-                    $resultado[$key] = array_intersect_key($resultadoItems[$key], array_flip($keys));
+                if ($procesos) {
+                    foreach ($procesos as $key => $valor) {
+
+                        $archivo = (is_null($valor['ruta_archivo'])) ? " " : "<center><a href='" . $valor['ruta_archivo'] . "' target='_blank' >" . $valor['nombre_ruta_archivo'] . "</a></center>";
+
+                        {
+
+                            $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
+
+                            $url = $this->miConfigurador->getVariableConfiguracion("host");
+                            $url .= $this->miConfigurador->getVariableConfiguracion("site");
+                            $url .= "/index.php?";
+
+                            $valorCodificado = "pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&action=" . $this->miConfigurador->getVariableConfiguracion('pagina');
+                            $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
+                            $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
+                            $valorCodificado .= "&opcion=eliminarProceso";
+                            $valorCodificado .= "&id_proceso=" . $valor['id_proceso'];
+
+                        }
+
+                        $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+                        $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
+
+                        $urlEliminarProceso = $url . $cadena;
+
+                        $url_eliminar = ($valor['estado'] == 'No Iniciado' || $valor['estado'] == 'Finalizado') ? '<a href="' . $urlEliminarProceso . '">Eliminar Proceso</a>' : " ";
+
+                        $resultadoFinal[] = array(
+                            'proceso' => "<center>" . $valor['id_proceso'] . "</center>",
+                            'estado' => "<center>" . $valor['estado'] . "</center>",
+                            'archivo' => "<center>" . $archivo . "</center>",
+                        );
+                    }
+
+                    $total = count($resultadoFinal);
+
+                    $resultado = json_encode($resultadoFinal);
+
+                    $resultado = '{
+                                "recordsTotal":' . $total . ',
+                                "recordsFiltered":' . $total . ',
+                                "data":' . $resultado . '}';
+                } else {
+
+                    $resultado = '{
+                                "recordsTotal":0 ,
+                                "recordsFiltered":0 ,
+                                "data": 0 }';
                 }
-                echo '{"suggestions":' . json_encode($resultado) . '}';
+                echo $resultado;
+
                 break;
-                
-            case 'consultarProyectos':
-               	include_once "consultarProyectos.php";
-                break;	
+
         }
     }
 }
 
 $miProcesarAjax = new procesarAjax($this->sql);
-
-?>
