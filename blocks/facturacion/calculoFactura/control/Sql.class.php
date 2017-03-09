@@ -87,10 +87,11 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarFactura' :
-				$cadenaSql = " INSERT INTO facturacion.factura (id_beneficiario, total_factura) ";
+				$cadenaSql = " INSERT INTO facturacion.factura (id_beneficiario, total_factura, id_ciclo) ";
 				$cadenaSql .= " VALUES( ";
 				$cadenaSql .= " '" . $variable ['id_beneficiario'] . "',";
-				$cadenaSql .= " " . $variable ['total_factura'] . " ) RETURNING id_factura;";
+				$cadenaSql .= " '" . $variable ['total_factura'] . "',";
+				$cadenaSql .= " '" . $variable ['id_ciclo'] . "' ) RETURNING id_factura;";
 				break;
 			
 			case 'consultarReglaID' :
