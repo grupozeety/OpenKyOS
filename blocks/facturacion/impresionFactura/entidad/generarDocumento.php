@@ -478,8 +478,6 @@ class GenerarDocumento
     public function crearPDF()
     {
 
-        //exit;
-
         ob_start();
         $html2pdf = new \HTML2PDF(
             'P', 'LETTER', 'es', true, 'UTF-8', array(
@@ -492,8 +490,20 @@ class GenerarDocumento
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
 
-        $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
-        $html2pdf->Output($this->archivo_adjunto, 'F');
+        if (isset($_REQUEST['documento_intantaneo'])) {
+
+            $html2pdf->Output('Factura_actual.pdf', 'D');
+
+            echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
+
+            exit;
+
+        } else {
+
+            $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
+            $html2pdf->Output($this->archivo_adjunto, 'F');
+
+        }
 
     }
 
