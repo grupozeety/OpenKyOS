@@ -43,8 +43,6 @@ class FormProcessor {
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-		$this->creacion_log ();
-		
 		if ($_REQUEST ['urbanizacion'] != '') {
 			$filtro = array (
 					'urbanizacion' => $_REQUEST ['urbanizacion'] ,
@@ -63,8 +61,9 @@ class FormProcessor {
 		} else {
 			Redireccionador::redireccionar ( "ErrorInformacion", '' );
 		}
-		
+
 		$this->filtro=$filtro[0];
+                $this->creacion_log ();
 		/**
 		 * Determinar Beneficiarios*
 		 */
@@ -130,7 +129,7 @@ class FormProcessor {
 				$this->escribir_log ( $mensaje );
 			}
 		}
-		
+
 		Redireccionador::redireccionar ( "Informacion", base64_encode ( $this->ruta_relativa_log ) );
 	}
 	public function escribir_log($mensaje) {
