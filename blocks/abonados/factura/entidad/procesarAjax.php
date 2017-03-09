@@ -1,9 +1,12 @@
 <?php
 namespace cambioClave\entidad;
-class procesarAjax {
+
+class procesarAjax
+{
     public $miConfigurador;
     public $sql;
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("rutaBloque");
@@ -11,32 +14,46 @@ class procesarAjax {
         $this->sql = $sql;
 
         $conexion = "interoperacion";
-        $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         switch ($_REQUEST['funcion']) {
 
-            case 'consultaBeneficiarios':
-                $cadenaSql = $this->sql->getCadenaSql('consultarBeneficiariosPotenciales');
+            case 'consultarFacturas':
 
-                $resultadoItems = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                $cadenaSql = $this->sql->getCadenaSql('consultaInformacionFacturacion', $_REQUEST['id_beneficiario']);
+                $informacionFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-                foreach ($resultadoItems as $key => $values) {
-                    $keys = array(
-                        'value',
-                        'data',
-                    );
-                    $resultado[$key] = array_intersect_key($resultadoItems[$key], array_flip($keys));
+                if ($informacionFactura) {
+                    foreach ($informacionFactura as $key => $valor) {
+
+                        $resultadoFinal[] = array(
+                            'fecha_factura' => "<center>" . $valor['fecha_factura'] . "</center>",
+                            'periodo_facturado' => "<center>" . $valor['id_ciclo'] . "</center>",
+                            'valor_factura' => "<center><b>$ " . number_format($valor['total_factura'], 2) . "</b></center>",
+                        );
+                    }
+
+                    $total = count($resultadoFinal);
+
+                    $resultado = json_encode($resultadoFinal);
+
+                    $resultado = '{
+                                "recordsTotal":' . $total . ',
+                                "recordsFiltered":' . $total . ',
+                                "data":' . $resultado . '}';
+                } else {
+
+                    $resultado = '{
+                                "recordsTotal":0 ,
+                                "recordsFiltered":0 ,
+                                "data": 0 }';
                 }
-                echo '{"suggestions":' . json_encode($resultado) . '}';
+                echo $resultado;
+
                 break;
-                
-            case 'consultarProyectos':
-               	include_once "consultarProyectos.php";
-                break;	
+
         }
     }
 }
 
 $miProcesarAjax = new procesarAjax($this->sql);
-
-?>
