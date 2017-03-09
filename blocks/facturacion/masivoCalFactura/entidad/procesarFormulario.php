@@ -43,7 +43,7 @@ class FormProcessor {
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
-		$this->creacion_log ();
+
 		
 		if ($_REQUEST ['urbanizacion'] != '') {
 			$filtro = array (
@@ -63,8 +63,11 @@ class FormProcessor {
 		} else {
 			Redireccionador::redireccionar ( "ErrorInformacion", '' );
 		}
-		
 		$this->filtro=$filtro[0];
+		
+		$this->creacion_log ();
+
+
 		/**
 		 * Determinar Beneficiarios*
 		 */
@@ -108,11 +111,12 @@ class FormProcessor {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRolPeriodo', $values ['id_beneficiario'] );
 				$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				
+
 				if ($fechaFin == FALSE) {
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $values ['id_beneficiario'] );
 					$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				}
-				
+			
 				foreach ( $roles as $data => $valor ) {
 					$rolPeriodo [$roles [$data] ['id_rol']] = array (
 							'periodo' => 1,
