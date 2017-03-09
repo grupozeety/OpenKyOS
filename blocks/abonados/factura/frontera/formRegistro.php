@@ -73,6 +73,32 @@ class Formulario
             $_REQUEST['tiempo'] = time();
         }
 
+        {
+
+            // URL base
+            $url = $this->miConfigurador->getVariableConfiguracion("host");
+            $url .= $this->miConfigurador->getVariableConfiguracion("site");
+            $url .= "/index.php?";
+
+            // Variables para Con
+            $cadenaACodificar = "pagina=impresionFactura";
+            $cadenaACodificar .= "&procesarAjax=true";
+            $cadenaACodificar .= "&action=impresionFactura";
+            $cadenaACodificar .= "&bloqueNombre=impresionFactura";
+            $cadenaACodificar .= "&bloqueGrupo=facturacion";
+            $cadenaACodificar .= "&funcion=ejecutarProcesos";
+            $cadenaACodificar .= "&documento_intantaneo=true";
+            $cadenaACodificar .= "&id_beneficiario=" . $_REQUEST['id_beneficiario'];
+
+            // Codificar las variables
+            $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+            $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+            // URL Consultar Proyectos
+            $urlDocumento = $url . $cadena;
+
+        }
+
         // -------------------------------------------------------------------------------------------------
 
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -117,6 +143,21 @@ class Formulario
 
                             echo '<div class="row">';
                             {
+
+                                // -------------Control texto-----------------------
+                                $esteCampo = 'mostrarMensaje';
+                                $atributos["tamanno"] = '';
+                                $atributos["etiqueta"] = '';
+                                $mensaje = '<center>
+                                            <b>Descarga de Última Factura</b><br>
+                                            <a href="' . $urlDocumento . '"  target="_blank" ><img src="theme/basico/img/DecargaPDF.png"></a>
+                                            </center>';
+                                $atributos["mensaje"] = $mensaje;
+                                $atributos["estilo"] = 'information'; // information,warning,error,validation
+                                $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+                                echo $this->miFormulario->campoMensaje($atributos);
+                                unset($atributos);
+
                                 echo $this->tablaDatos();
                             }
                             echo '</div>';
