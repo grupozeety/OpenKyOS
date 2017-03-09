@@ -163,6 +163,7 @@ class FormProcessor
             );
         }
     }
+
     public function validarBeneficiariosExistentes()
     {
         foreach ($this->datos_beneficiario as $key => $value) {
@@ -198,10 +199,7 @@ class FormProcessor
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if (is_null($consulta)) {
-                $mensaje = " El beneficiario con identificación " . $value['identificacion_beneficiario'] . " no tiene un equipo instalado. Sugerencia registrar el kit correspondiente.";
-                $this->escribir_log($mensaje);
-
-                $this->error = true;
+                Redireccionador::redireccionar("ErrorCreacionContratos");
             }
 
             if (isset($value['fecha_comisionamiento'])) {
@@ -211,15 +209,42 @@ class FormProcessor
 
                 if (!preg_match($date_regex, $hiredate) && $value['fecha_comisionamiento'] != 'Sin Fecha') {
 
-                    $mensaje = " La fecha de comisionamiento  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna fecha de comisionamiento  este en formato texto y con el formato 'yyyy-mm-dd'.";
-                    $this->escribir_log($mensaje);
-                    $this->error = true;
+                    Redireccionador::redireccionar("ErrorCreacionContratos");
 
                 }
             }
 
         }
     }
+
+    public function validarNumeros()
+    {
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            if (!is_numeric($value['subida'])) {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+            } elseif ($value['subida'] > 10 || $value['subida'] < 0.1) {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+            }
+
+            if (!is_numeric($value['bajada'])) {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+            } elseif ($value['bajada'] > 10 || $value['bajada'] < 0.1) {
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+            }
+
+            if (!is_numeric($value['latencia'])) {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+            }
+
+        }
+
+    }
+
     public function cargarInformacionHojaCalculo()
     {
         ini_set('memory_limit', '1024M');
@@ -246,7 +271,7 @@ class FormProcessor
 
                 $datos_beneficiario[$i]['fecha_comisionamiento'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getFormattedValue();
 
-                $datos_beneficiario[$i]['latencia'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['latencia'] = str_replace(',', '.', $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue());
 
                 $datos_beneficiario[$i]['tracert'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
 
@@ -256,9 +281,10 @@ class FormProcessor
 
                 $datos_beneficiario[$i]['pagina'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['subida'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['subida'] = str_replace(',', '.', $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue());
 
-                $datos_beneficiario[$i]['bajada'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['bajada'] = str_replace(',', '.', $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue());
+
             }
 
             $this->datos_beneficiario = $datos_beneficiario;

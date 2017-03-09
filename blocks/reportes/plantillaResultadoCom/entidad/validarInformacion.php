@@ -100,6 +100,13 @@ class FormProcessor
 
         /**
          * 7.
+         * Validar Existencia Acta de Servicio
+         */
+
+        $this->validarNumeros();
+
+        /**
+         * 8.
          * Cerrar Log
          */
 
@@ -111,12 +118,48 @@ class FormProcessor
             Redireccionador::redireccionar("ExitoInformacion");
         }
     }
-    public function validarOtrosDatos()
+    public function validarNumeros()
     {
         foreach ($this->datos_beneficiario as $key => $value) {
 
-            $mensaje = null;
+            if (!is_numeric($value['subida'])) {
+
+                $mensaje = " La velocidad de subida asociada a la identificación del beneficiario " . $value['identificacion_beneficiario'] . " no es valida dado que este velocidad de subida debe ser númerica con decimales separados por coma.";
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+            } elseif ($value['subida'] > 10 || $value['subida'] < 0.1) {
+
+                echo "numero_no valido subida";
+                $mensaje = " La velocidad de subida asociada a la identificación del beneficiario " . $value['identificacion_beneficiario'] . " no es valida dado que este velocidad de subida no puede ser mayor a 10 y menor que 0.1 ";
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+            }
+
+            if (!is_numeric($value['bajada'])) {
+
+                $mensaje = " La velocidad de bajada asociada a la identificación del beneficiario " . $value['identificacion_beneficiario'] . " no es valida dado que este velocidad de bajada debe ser númerica  con decimales separados por coma.";
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+            } elseif ($value['bajada'] > 10 || $value['bajada'] < 0.1) {
+                $mensaje = " La velocidad de bajada asociada a la identificación del beneficiario " . $value['identificacion_beneficiario'] . " no es valida dado que este velocidad de bajada no puede ser mayor a 10 y menor que 0.1 ";
+                echo "numero_no valido bajada";
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+            }
+
+            if (!is_numeric($value['latencia'])) {
+
+                $mensaje = " La latencia asociada a la identificación del beneficiario " . $value['identificacion_beneficiario'] . " no es valida dado que la latencia  debe ser númerica  con decimales separados por coma.";
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+            }
         }
+
     }
     public function validarDuplicidadActa()
     {
@@ -265,7 +308,7 @@ class FormProcessor
 
                 $datos_beneficiario[$i]['fecha_comisionamiento'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['latencia'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['latencia'] = str_replace(',', '.', $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue());
 
                 $datos_beneficiario[$i]['tracert'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
 
@@ -273,11 +316,11 @@ class FormProcessor
 
                 $datos_beneficiario[$i]['pagina'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['subida'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['paginas_visitadas'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['bajada'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['subida'] = str_replace(',', '.', $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue());
 
-                $datos_beneficiario[$i]['observaciones'] = $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['bajada'] = str_replace(',', '.', $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue());
             }
 
             unlink($this->archivo['ruta_archivo']);
