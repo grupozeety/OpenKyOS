@@ -87,10 +87,11 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarFactura' :
-				$cadenaSql = " INSERT INTO facturacion.factura (id_beneficiario, total_factura) ";
+				$cadenaSql = " INSERT INTO facturacion.factura (id_beneficiario, total_factura, id_ciclo) ";
 				$cadenaSql .= " VALUES( ";
 				$cadenaSql .= " '" . $variable ['id_beneficiario'] . "',";
-				$cadenaSql .= " " . $variable ['total_factura'] . " ) RETURNING id_factura;";
+				$cadenaSql .= " '" . $variable ['total_factura'] . "',";
+				$cadenaSql .= " '" . $variable ['id_ciclo'] . "' ) RETURNING id_factura;";
 				break;
 			
 			case 'consultarReglaID' :
@@ -124,7 +125,34 @@ class Sql extends \Sql {
 				$cadenaSql .= " '" . $variable ['inicio_periodo'] . "',";
 				$cadenaSql .= " '" . $variable ['fin_periodo'] . "',";
 				$cadenaSql .= " '" . $variable ['id_ciclo'] . "' )  RETURNING id_usuario_rol_periodo ;";
-				break; 
+				break;
+			
+			case 'consultarFechaInicio' :
+				$cadenaSql = " SELECT fecha_instalacion ";
+				$cadenaSql .= " FROM interoperacion.acta_entrega_servicios ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+				$cadenaSql .= " AND estado_registro=TRUE AND fecha_instalacion IS NOT NULL AND fecha_instalacion!='' ";
+				break;
+			
+			case 'consultarFactura' :
+				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, urp.id_ciclo , id_beneficiario ";
+				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
+				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
+				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable ['id_beneficiario'] . "' ";
+				$cadenaSql .= " AND urp.estado_registro=TRUE ";
+				$cadenaSql .= " AND urp.id_ciclo='" . $variable ['id_ciclo'] . "' ";
+				break;
+			
+			case 'consultarMoras' :
+				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, inicio_periodo, fin_periodo, conceptos.id_factura, estado_factura ";
+				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
+				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
+				$cadenaSql .= " JOIN facturacion.factura on factura.id_factura=conceptos.id_factura AND factura.estado_registro=TRUE AND estado_factura='Emitida' ";
+				$cadenaSql .= " WHERE factura.id_beneficiario='" . $variable . "' ";
+				$cadenaSql .= " AND urp.estado_registro=TRUE ";
+				
+				break;
 		}
 		
 		return $cadenaSql;

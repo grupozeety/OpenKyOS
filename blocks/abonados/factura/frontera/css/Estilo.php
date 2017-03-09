@@ -7,7 +7,7 @@ $indice = 0;
 
 $estilo[$indice++] = "estiloBloque.css";
 
-$indice++;
+$estilo[$indice++] = "responsive.bootstrap.min.css";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");
@@ -21,5 +21,3 @@ if ($unBloque["grupo"] == "") {
 foreach ($estilo as $nombre) {
     echo "<link rel='stylesheet' type='text/css' href='" . $rutaBloque . "/frontera/css/" . $nombre . "'>\n";
 }
-?>
-

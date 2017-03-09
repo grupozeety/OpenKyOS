@@ -42,59 +42,75 @@ class FormProcessor
 
         $_REQUEST['tiempo'] = time();
 
-        /**
-         *  0. Crear Url Procesos
-         **/
+        if (!isset($_REQUEST['documento_intantaneo']) && !isset($_REQUEST['id_beneficiario'])) {
 
-        $this->crearUrlProcesos();
+            /**
+             *  0. Crear Url Procesos
+             **/
 
-        /**
-         *  1. Consultar Proceso
-         **/
+            $this->crearUrlProcesos();
 
-        $this->consultarProceso();
+            /**
+             *  1. Consultar Proceso
+             **/
 
-        /**
-         *  2. Cambiar Estado Proceso
-         **/
+            $this->consultarProceso();
 
-        $this->actualizarEstadoProceso();
+            /**
+             *  2. Cambiar Estado Proceso
+             **/
 
-        /**
-         *  3. Creacion Directorio
-         **/
+            $this->actualizarEstadoProceso();
 
-        $this->crearDirectorio();
+            /**
+             *  3. Creacion Directorio
+             **/
 
-        /**
-         *  4. Creación Documentos
-         **/
+            $this->crearDirectorio();
 
-        $this->creacionDocumentos();
+            /**
+             *  4. Creación Documentos
+             **/
 
-        /**
-         *  5. Generar Comprimido
-         **/
+            $this->creacionDocumentos();
 
-        $this->generarComprimido();
+            /**
+             *  5. Generar Comprimido
+             **/
 
-        /**
-         *  6. Limpiar Directorio
-         **/
+            $this->generarComprimido();
 
-        $this->limpiarDirectorio();
+            /**
+             *  6. Limpiar Directorio
+             **/
 
-        /**
-         *  6. Regitrar Comprimido
-         **/
+            $this->limpiarDirectorio();
 
-        $this->registrarComprimido();
+            /**
+             *  6. Regitrar Comprimido
+             **/
 
-        /**
-         *  7. Validar Existencia Beneficiarios
-         **/
+            $this->registrarComprimido();
 
-        $this->crearTrabajosCrontab();
+            /**
+             *  7. Validar Existencia Beneficiarios
+             **/
+
+            $this->crearTrabajosCrontab();
+
+        } else {
+
+            $this->proceso['datos_adicionales'] = $_REQUEST['id_beneficiario'];
+
+            $this->rutaAbsoluta_archivos = '';
+
+            /**
+             *  1. Creación Documento
+             **/
+
+            $this->creacionDocumentos();
+
+        }
 
     }
 
@@ -179,13 +195,7 @@ class FormProcessor
     public function creacionDocumentos()
     {
 
-        switch ($this->proceso['descripcion']) {
-
-            case 'Facturas':
-                include_once "generarDocumento.php";
-                break;
-
-        }
+        include_once "generarDocumento.php";
 
     }
 

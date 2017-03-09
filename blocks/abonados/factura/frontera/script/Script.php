@@ -12,7 +12,9 @@ $indice = 0;
 
 //$funcion [$indice ++] = " ";
 
-$funcion[$indice++] = "";
+$funcion[$indice++] = "jquery.dataTables.min.js";
+$funcion[$indice++] = "dataTables.bootstrap.min.js";
+$funcion[$indice++] = "dataTables.responsive.min.js";
 
 $rutaBloque = $this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque .= $this->miConfigurador->getVariableConfiguracion("site");
@@ -37,6 +39,3 @@ if (isset($funcion[0])) {
  * Procesar las funciones requeridas en ajax
  */
 include "ajax.php";
-
-?>
-
