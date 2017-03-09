@@ -86,7 +86,7 @@ class FormProcessor {
 			 * 6.
 			 * Revisar Resultado Proceso
 			 */
-			exit ();
+	
 			if ($this->registroConceptos ['resultado'] == 0) {
 				Redireccionador::redireccionar ( "ExitoInformacion" );
 			} else {
