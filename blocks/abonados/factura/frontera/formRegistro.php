@@ -35,11 +35,16 @@ class Formulario
          * Por tanto en el archivo script/ready.php y script/ready.js se declaran
          * algunas funciones js que lo complementan.
          */
-
+        // Datos Beneficiario
         $cadenaSql = $this->miSql->getCadenaSql('consultarBeneficiario');
         $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
         $_REQUEST = array_merge($_REQUEST, $beneficiario);
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacion', $_REQUEST['id_beneficiario']);
+        $facturacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        // Datos Factura
 
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
@@ -148,12 +153,19 @@ class Formulario
                                 $esteCampo = 'mostrarMensaje';
                                 $atributos["tamanno"] = '';
                                 $atributos["etiqueta"] = '';
-                                $mensaje = '<center>
+
+                                if ($facturacion) {
+                                    $mensaje = '<center>
                                             <b>Descarga de Última Factura</b><br>
                                             <a href="' . $urlDocumento . '"  target="_blank" ><img src="theme/basico/img/DecargaPDF.png"></a>
                                             </center>';
+                                    $atributos["estilo"] = 'information'; // information,warning,error,validation
+                                } else {
+                                    $mensaje = '<center><b>Sin Factura para Descargar</a></center>';
+                                    $atributos["estilo"] = 'warning'; // information,warning,error,validation
+                                }
                                 $atributos["mensaje"] = $mensaje;
-                                $atributos["estilo"] = 'information'; // information,warning,error,validation
+
                                 $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
                                 echo $this->miFormulario->campoMensaje($atributos);
                                 unset($atributos);
