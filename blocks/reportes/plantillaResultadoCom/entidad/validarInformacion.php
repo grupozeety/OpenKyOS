@@ -130,7 +130,6 @@ class FormProcessor
                 $this->error = true;
             } elseif ($value['subida'] > 10 || $value['subida'] < 0.1) {
 
-                echo "numero_no valido subida";
                 $mensaje = " La velocidad de subida asociada a la identificación del beneficiario " . $value['identificacion_beneficiario'] . " no es valida dado que este velocidad de subida no puede ser mayor a 10 y menor que 0.1 ";
                 $this->escribir_log($mensaje);
 
@@ -145,7 +144,7 @@ class FormProcessor
                 $this->error = true;
             } elseif ($value['bajada'] > 10 || $value['bajada'] < 0.1) {
                 $mensaje = " La velocidad de bajada asociada a la identificación del beneficiario " . $value['identificacion_beneficiario'] . " no es valida dado que este velocidad de bajada no puede ser mayor a 10 y menor que 0.1 ";
-                echo "numero_no valido bajada";
+
                 $this->escribir_log($mensaje);
 
                 $this->error = true;
