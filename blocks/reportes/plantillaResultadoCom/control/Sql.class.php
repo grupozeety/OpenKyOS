@@ -28,8 +28,8 @@ class Sql extends \Sql
         switch ($tipo) {
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
 
             // Validaciones
 

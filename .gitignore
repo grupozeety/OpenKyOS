@@ -11,3 +11,4 @@ blocks/reportes/generarActasMasivos/entidad/logs/*
 blocks/reportes/plantillaFamiliares/entidad/logs/*
 vendor/*
 blocks/reportes/plantillaInfoTecnica/entidad/logs/*
+blocks/reportes/plantillaResultadoCom/entidad/logs/*
