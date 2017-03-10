@@ -312,9 +312,9 @@ class FormProcessor
 
                 $datos_beneficiario[$i]['tracert'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['estado'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['observaciones'] = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['pagina'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['estado'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
 
                 $datos_beneficiario[$i]['paginas_visitadas'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
 
