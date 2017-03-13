@@ -34,7 +34,7 @@ class Registrador
     }
     public function seleccionarForm()
     {
-
+    	
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 
@@ -486,7 +486,7 @@ class Registrador
     }
     public function mensajeModal($tab = '', $nombreBloque = '')
     {
-
+    	
         switch ($_REQUEST['mensaje']) {
             case 'SinResultado':
                 $mensaje = "<b>No Se Genero Ningun Resultado<br>Verifique la combinacion de Parametros</b>";
@@ -498,7 +498,7 @@ class Registrador
                 $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
-            case 'ErrorRegistroProceso':
+            case 'errorRegistroProceso':
                 $mensaje = "Error en el Registro del Proceso";
                 $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
