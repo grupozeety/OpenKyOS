@@ -334,14 +334,14 @@ class GenerarDocumento {
                 		    </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px><b>Factura </b> " . $this->InformacionFacturacion ['id_factura'] . " </td>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap ( $this->InformacionBeneficiario ['nombre_beneficiario'], 40, "<br>\n" ) . "</b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap ( $this->InformacionBeneficiario ['nombre_beneficiario'], 35, "<br>\n" ) . "</b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'>" . wordwrap ( $this->InformacionBeneficiario ['direccion_beneficiario'], 42, "<br>\n" ) . "</td>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap ( $this->InformacionBeneficiario ['departamento'] . " - " . $this->InformacionBeneficiario ['municipio'], 40, "<br>\n" ) . "</b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'>" . wordwrap ( $this->InformacionBeneficiario ['direccion_beneficiario'], 35, "<br>\n" ) . "</td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap ( $this->InformacionBeneficiario ['departamento'] . " - " . $this->InformacionBeneficiario ['municipio'], 35, "<br>\n" ) . "</b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 5px'><b>" . wordwrap ( $this->InformacionBeneficiario ['departamento'] . " - " . $this->InformacionBeneficiario ['municipio'], 40, "<br>\n" ) . "</b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 5px'><b>" . wordwrap ( $this->InformacionBeneficiario ['departamento'] . " - " . $this->InformacionBeneficiario ['municipio'], 35, "<br>\n" ) . "</b></td>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 5px'><b>Estrato " . $this->InformacionBeneficiario ['estrato'] . "</b></td>
                             </tr>
                         </table>";
