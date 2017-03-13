@@ -2,9 +2,8 @@
 <factura>
 	<seccion>
 		<columna>
-			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='650' height='80'">http://54.89.86.82/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/logos_contrato.png</imagen>
-			<titulo estilos="text-align:center;font-size:25px">FACTURA DE SERVICIOS</titulo>
-      		<titulo estilos="text-align:center;font-size:12px">CORPORACIÓN POLITÉCNICA NACIONAL DE COLOMBIA%%NIT 8301159934</titulo>
+			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='780' height='50'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/encabezado_factura.png</imagen>
+			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='700' height='200'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/mensaje_factura.png</imagen>
 		</columna>	
 	</seccion>
 	<seccion>
@@ -18,14 +17,24 @@
 	<seccion>
 				<columna><variable estilos="font-size:10px;text-align:center;">Conceptos</variable></columna>
 				<columna>
-					<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='300' height='200'">http://conexionesdigitales.politecnica.edu.co/images/main-feature.png</imagen>
+					<variable estilos="font-size:10px;text-align:center;">Conceptos</variable>
 				</columna>
 
 	</seccion>
 	<seccion>
-	<columna>
-			<variable alineacionCodigoBarras="center" dimensionesCodigoBarras="width:106mm; height:25mm;font-size:2mm">CodigoBarras</variable>
-			<texto estilos="font-size:11px;text-align:justify;font-style:italic;">%%%%Genere su factura en línea y pague a través de los canales electrónicos Via Baloto, Efecty, Consignación Bancaria, Pago PSE</texto>
+	<!--columna><variable estilos="font-size:14px;text-align:center;">InformacionPagoResumido</variable></columna-->
+		<columna>
+			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='332' height='57'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/forma_pago.png</imagen>
+			<texto estilos="color:#808080;font-size:11px;text-align:justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum, ex eget gravida
+cursus, ex tellus condimentum lectus, sit amet finibus nisl urna nec lectus. Nullam fringilla, lacus
+ac viverra rhoncus, sem elit vestibulum nibh, quis feugiat ex ligula ac nisi. Proin consectetur
+volutpat purus eget congue. Suspendisse id pellentesque lorem. Donec porttitor mauris nulla, sit
+amet scelerisque neque venenatis nec. Maecenas id nisl sit amet felis sagittis elementum eu
+maximus lacus. Suspendisse potenti. Cras fringilla lorem dui, nec rhoncus nibh efficitur eu.
+volutpat.</texto>
 		</columna>
-			<columna><variable estilos="font-size:14px;text-align:center;">InformacionPagoResumido</variable></columna></seccion>
+	<columna>
+			<variable alineacionCodigoBarras="center" dimensionesCodigoBarras="width:95mm; height:25mm;font-size:2mm">CodigoBarras</variable>
+	</columna>
+			</seccion>
 </factura>

@@ -71,7 +71,7 @@ class Sql extends \Sql
                 break;
 
             case 'consultaInformacionFacturacion':
-                $cadenaSql = " SELECT ";
+                $cadenaSql = " SELECT fc.id_factura, ";
                 $cadenaSql .= " cn.numero_contrato, ";
                 $cadenaSql .= " to_date(aes.fecha_instalacion, 'DD-MM-YYYY') as fecha_venta,";
                 $cadenaSql .= " fc.estado_factura,";
