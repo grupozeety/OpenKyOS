@@ -2,8 +2,8 @@
 <factura>
 	<seccion>
 		<columna>
-			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='780' height='50'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/encabezado_factura.png</imagen>
-			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='700' height='200'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/mensaje_factura.png</imagen>
+			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='650' height='40'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/encabezado_factura.png</imagen>
+			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='550' height='185'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/mensaje_factura.png</imagen>
 		</columna>	
 	</seccion>
 	<seccion>
@@ -17,20 +17,17 @@
 	<seccion>
 				<columna><variable estilos="font-size:10px;text-align:center;">Conceptos</variable></columna>
 				<columna>
-					<variable estilos="font-size:10px;text-align:center;">Conceptos</variable>
+					<variable estilos="font-size:10px;text-align:center;">InformacionPagoResumido</variable>
 				</columna>
 
 	</seccion>
 	<seccion>
 	<!--columna><variable estilos="font-size:14px;text-align:center;">InformacionPagoResumido</variable></columna-->
 		<columna>
-			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='332' height='57'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/forma_pago.png</imagen>
+			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='310' height='47'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/forma_pago.png</imagen>
 			<texto estilos="color:#808080;font-size:11px;text-align:justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum, ex eget gravida
 cursus, ex tellus condimentum lectus, sit amet finibus nisl urna nec lectus. Nullam fringilla, lacus
-ac viverra rhoncus, sem elit vestibulum nibh, quis feugiat ex ligula ac nisi. Proin consectetur
-volutpat purus eget congue. Suspendisse id pellentesque lorem. Donec porttitor mauris nulla, sit
-amet scelerisque neque venenatis nec. Maecenas id nisl sit amet felis sagittis elementum eu
-maximus lacus. Suspendisse potenti. Cras fringilla lorem dui, nec rhoncus nibh efficitur eu.
+ac viverra rhoncus, sem elit vestibulum nibh, quis feugiat ex ligula ac nisi.
 volutpat.</texto>
 		</columna>
 	<columna>
