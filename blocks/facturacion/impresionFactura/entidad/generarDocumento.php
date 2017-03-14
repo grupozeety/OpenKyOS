@@ -102,7 +102,7 @@ class GenerarDocumento
                  * Actualizar Factura Beneficiario
                  */
                 $cadenaSql = $this->miSql->getCadenaSql('actualizarFacturaBeneficiario', $this->identificador_beneficiario);
-                $this->InformacionFacturacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+                $actualizacionEstadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
                 if (isset($_REQUEST['correo'])) {
 
@@ -295,13 +295,13 @@ class GenerarDocumento
                                 <td style='height:18px;font-size:16px;text-align:left;border:none;width:50%;background-color:#bfbfbf;color:#fff'><b>Cuota Mes </b></td>
                                 <td style='height:18px;font-size:16px;text-align:right;border:none;width:50%;background-color:#bfbfbf;color:#fff'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . " </td>
                             </tr>
-                      		<tr>
+                            <tr>
                                 <td style='vertical-align:middle;font-size:20px;height:22px;text-align:left;border:none;width:50%;background-color:#009933;color:#fff'><b>Total a pagar</b></td>
                                 <td style='vertical-align:middle;height:22px;font-size:20px;text-align:right;border:none;width:50%;background-color:#009933;color:#fff'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
                             </tr>
                            <tr>
                                 <td style='font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#bfbfbf;color:#444444'><b>Cuenta o Ref. Pago </b></td>
-                                <td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#bfbfbf;color:#444444'>".$this->InformacionBeneficiario ['numero_identificacion'] ."</td>
+                                <td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#bfbfbf;color:#444444'>" . $this->InformacionBeneficiario['numero_identificacion'] . "</td>
                             </tr>
                         </table>";
 
@@ -347,8 +347,8 @@ class GenerarDocumento
                 $table = "<table style='margin: 0 auto;border-collapse:collapse;border:1px;width:100%;' nowrap >
                             <tr>
                                 <td style='font-size: 14px;height:20px;text-align:left;border:0.1px;background-color:#4766cc;border-top-left-radius: 4px; border-bottom-left-radius: 4px; color:#fff'><b>Fecha Oportuna de Pago</b></td>
-                		        <td style='height:15px;text-align:left;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;'><b></b></td>
-                		    </tr>
+                                <td style='height:15px;text-align:left;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;'><b></b></td>
+                            </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px><b>Factura </b> " . $this->InformacionFacturacion['id_factura'] . " </td>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap($this->InformacionBeneficiario['nombre_beneficiario'], 35, "<br>\n") . "</b></td>
@@ -392,11 +392,11 @@ class GenerarDocumento
                                 <td style='height:13px;text-align:left;border:none;width:50%;'><b>Factura</b></td>
                                 <td style='height:13px;text-align:right;border:none;width:50%;'>" . $this->InformacionFacturacion['id_factura'] . "</td>
                             </tr>
-							<tr>
+                            <tr>
                                 <td style='height:13px;text-align:left;border:none;width:50%;'><b>Valor</b></td>
                                 <td style='height:13px;text-align:right;border:none;width:50%;'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
                             </tr>
-							<tr>
+                            <tr>
                                 <td style='height:13px;text-align:left;border:none;width:50%;'><b>IVA</b></td>
                                 <td style='height:13px;text-align:right;border:none;width:50%;'></td>
                             </tr>
