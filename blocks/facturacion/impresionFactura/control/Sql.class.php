@@ -339,6 +339,18 @@ class Sql extends \Sql
                 $cadenaSql .= " WHERE id_proceso='" . $_REQUEST['id_proceso'] . "'; ";
                 break;
 
+            case 'actualizarFacturaBeneficiario':
+                $cadenaSql = " UPDATE ";
+                $cadenaSql .= " SET estado_factura='Aprobado'";
+                $cadenaSql .= " WHERE id_factura=(";
+                $cadenaSql .= " SELECT id_factura ";
+                $cadenaSql .= " FROM facturacion.factura";
+                $cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " ORDER BY id_factura DESC ";
+                $cadenaSql .= " LIMIT 1";
+                $cadenaSql .= " );";
+                break;
+
         }
 
         return $cadenaSql;
