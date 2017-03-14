@@ -340,7 +340,7 @@ class Sql extends \Sql
                 break;
 
             case 'actualizarFacturaBeneficiario':
-                $cadenaSql = " UPDATE ";
+                $cadenaSql = " UPDATE facturacion.factura ";
                 $cadenaSql .= " SET estado_factura='Aprobado'";
                 $cadenaSql .= " WHERE id_factura=(";
                 $cadenaSql .= " SELECT id_factura ";
