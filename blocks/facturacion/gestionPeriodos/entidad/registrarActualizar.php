@@ -51,7 +51,8 @@ class FormProcessor
                     'valor' => $_REQUEST['valor'],
                 );
 
-                $cadenaSql = $this->miSql->getCadenaSql('registrarActualizarPeriodo', $arreglo);
+                $cadenaSql = $this->miSql->getCadenaSql('registrarPeriodo', $arreglo);
+
                 $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
                 if (isset($this->proceso) && $this->proceso != null) {
@@ -70,7 +71,8 @@ class FormProcessor
                     'id_periodo' => $_REQUEST['id_periodo'],
                 );
 
-                $cadenaSql = $this->miSql->getCadenaSql('registrarActualizarPeriodo', $arreglo);
+                $cadenaSql = $this->miSql->getCadenaSql('actualizarPeriodo', $arreglo);
+
                 $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
                 if (isset($this->proceso) && $this->proceso != null) {
