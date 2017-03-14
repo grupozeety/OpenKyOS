@@ -21,7 +21,6 @@ class Reglas
     public function __construct($lenguaje, $formulario, $sql)
     {
 
-
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -45,8 +44,7 @@ class Reglas
             $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
         }
 
-
-            $this->gestionReglas();
+        $this->gestionReglas();
     }
     public function gestionReglas()
     {
@@ -55,18 +53,16 @@ class Reglas
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-
-
-        if ($_REQUEST['opcion']=='actualizarRegla') {
+        if ($_REQUEST['opcion'] == 'actualizarRegla') {
             $cadenaSql = $this->miSql->getCadenaSql('consultarReglaParticular');
             $regla = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
             if ($regla && !is_null($regla)) {
                 $arrayName = array(
-                  'descripcion' =>$regla['decripcion'],
-                  'formula' =>$regla['formula'],
-                  'identificador_formula' =>$regla['identificador'],
-                 );
-                $_REQUEST=array_merge($_REQUEST, $arrayName);
+                    'descripcion' => $regla['descripcion'],
+                    'formula' => $regla['formula'],
+                    'identificador_formula' => $regla['identificador'],
+                );
+                $_REQUEST = array_merge($_REQUEST, $arrayName);
             }
         }
 
@@ -101,20 +97,16 @@ class Reglas
         $atributos['tipoEtiqueta'] = 'inicio';
         echo $this->miFormulario->formulario($atributos);
 
-
         $esteCampo = 'Agrupacion';
         $atributos['id'] = $esteCampo;
 
-
-        if ($_REQUEST['opcion']=='actualizarRegla') {
+        if ($_REQUEST['opcion'] == 'actualizarRegla') {
             $atributos['leyenda'] = "<b>Actualización Regla</b>";
         } else {
             $atributos['leyenda'] = "<b>Registro Regla</b>";
         }
         echo $this->miFormulario->agrupacion('inicio', $atributos);
         unset($atributos);
-
-
 
         $esteCampo = 'descripcion';
         $atributos['nombre'] = $esteCampo;
@@ -134,7 +126,7 @@ class Reglas
         if (isset($_REQUEST[$esteCampo])) {
             $atributos['valor'] = $_REQUEST[$esteCampo];
         } else {
-            $atributos['valor'] ="";
+            $atributos['valor'] = "";
         }
         $atributos['ajax_function'] = "";
         $atributos['ajax_control'] = $esteCampo;
@@ -209,14 +201,12 @@ class Reglas
         echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
         unset($atributos);
 
-
         // ------------------Division para los botones-------------------------
         $atributos["id"] = "botones";
         $atributos["estilo"] = "marcoBotones";
         $atributos["estiloEnLinea"] = "";
         echo $this->miFormulario->division("inicio", $atributos);
         unset($atributos);
-
 
         // -----------------CONTROL: Botón ----------------------------------------------------------------
         $esteCampo = 'botonGuardar';
@@ -242,7 +232,6 @@ class Reglas
         unset($atributos);
         // -----------------FIN CONTROL: Botón -----------------------------------------------------------
 
-
         // ------------------Fin Division para los botones-------------------------
         echo $this->miFormulario->division("fin");
         unset($atributos);
@@ -250,15 +239,15 @@ class Reglas
         echo $this->miFormulario->agrupacion('fin');
         unset($atributos);
         /**
-       * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
-       * SARA permite realizar esto a través de tres
-       * mecanismos:
-       * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
-       * la base de datos.
-       * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
-       * formsara, cuyo valor será una cadena codificada que contiene las variables.
-       * (c) a través de campos ocultos en los formularios. (deprecated)
-       **/
+         * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
+         * SARA permite realizar esto a través de tres
+         * mecanismos:
+         * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
+         * la base de datos.
+         * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
+         * formsara, cuyo valor será una cadena codificada que contiene las variables.
+         * (c) a través de campos ocultos en los formularios. (deprecated)
+         **/
 
         // En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
         // Paso 1: crear el listado de variables
@@ -269,17 +258,16 @@ class Reglas
         $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
         if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'actualizarRegla') {
             $valorCodificado .= "&opcion=actualizarReglaParticular";
-            $valorCodificado .= "&id_regla=".$_REQUEST['id_regla'];
+            $valorCodificado .= "&id_regla=" . $_REQUEST['id_regla'];
         } else {
             $valorCodificado .= "&opcion=registrarReglaParticular";
         }
 
-
         /**
-             * SARA permite que los nombres de los campos sean dinámicos.
-             * Para ello utiliza la hora en que es creado el formulario para
-             * codificar el nombre de cada campo.
-             **/
+         * SARA permite que los nombres de los campos sean dinámicos.
+         * Para ello utiliza la hora en que es creado el formulario para
+         * codificar el nombre de cada campo.
+         **/
         $valorCodificado .= "&campoSeguro=" . $_REQUEST['tiempo'];
         // Paso 2: codificar la cadena resultante
         $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);

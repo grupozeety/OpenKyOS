@@ -27,8 +27,8 @@ class Sql extends \Sql
         switch ($tipo) {
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
 
             case 'consultaParticular':
                 $cadenaSql = " SELECT *";
@@ -43,21 +43,24 @@ class Sql extends \Sql
                 $cadenaSql .= " AND id_regla='" . $_REQUEST['id_regla'] . "';";
                 break;
 
-            case 'registrarActualizarRegla':
-                if ($_REQUEST['opcion'] == 'actualizarReglaParticular') {
-                    $cadenaSql = " UPDATE facturacion.regla";
-                    $cadenaSql .= " SET estado_registro='FALSE'";
-                    $cadenaSql .= " WHERE id_regla='" . $variable['id_regla'] . "';";
-                    $cadenaSql .= " INSERT INTO facturacion.regla(";
-                } else {
-                    $cadenaSql = " INSERT INTO facturacion.regla(";
-                }
+            case 'registrarRegla':
+
+                $cadenaSql = " INSERT INTO facturacion.regla(";
                 $cadenaSql .= " descripcion,";
                 $cadenaSql .= " formula, ";
                 $cadenaSql .= " identificador)";
                 $cadenaSql .= " VALUES ('" . $variable['descricion'] . "', ";
                 $cadenaSql .= " '" . $variable['formula'] . "',";
                 $cadenaSql .= " '" . $variable['identificador'] . "');";
+
+                break;
+
+            case 'actualizarRegla':
+                $cadenaSql = " UPDATE facturacion.regla";
+                $cadenaSql .= " SET descripcion='" . $variable['descricion'] . "', ";
+                $cadenaSql .= " formula='" . $variable['formula'] . "',";
+                $cadenaSql .= " identificador='" . $variable['identificador'] . "'";
+                $cadenaSql .= " WHERE id_regla='" . $variable['id_regla'] . "';";
                 break;
 
             case 'eliminarRegla':
