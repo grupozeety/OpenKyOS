@@ -286,6 +286,10 @@ class GenerarDocumento {
                                 <td style='vertical-align:middle;font-size:20px;height:22px;text-align:left;border:none;width:50%;background-color:#009933;color:#fff'><b>Total a pagar</b></td>
                                 <td style='vertical-align:middle;height:22px;font-size:20px;text-align:right;border:none;width:50%;background-color:#009933;color:#fff'>$ " . number_format ( $this->InformacionFacturacion ['total_factura'], 2 ) . "</td>
                             </tr>
+                           <tr>
+                                <td style='font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#bfbfbf;color:#444444'><b>Cuenta o Ref. Pago </b></td>
+                                <td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#bfbfbf;color:#444444'>".$this->InformacionBeneficiario ['numero_identificacion'] ."</td>
+                            </tr>
                         </table>";
 				
 				$this->contenido .= "</div>";
