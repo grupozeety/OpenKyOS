@@ -11,7 +11,6 @@ $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
 require $ruta . "/plugin/html2pdf/html2pdf.class.php";
-
 class GenerarDocumento
 {
     public $miConfigurador;
@@ -27,6 +26,7 @@ class GenerarDocumento
     public $contenido;
     public function __construct($sql, $beneficiarios, $ruta_archivos)
     {
+        date_default_timezone_set('America/Bogota');
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -37,7 +37,7 @@ class GenerarDocumento
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        //Datos Para envio de Correo
+        // Datos Para envio de Correo
         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionApi', 'gmail');
         $this->datosConexion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
@@ -58,7 +58,7 @@ class GenerarDocumento
         // Ruta XML para Creación PDF
         $this->rutaXML = $this->rutaAbsoluta . 'entidad/PlantillaXML/Facturacion25012017.xml';
 
-        //Procedimiento
+        // Procedimiento
 
         $opciones = explode("&", $beneficiarios);
 
@@ -76,43 +76,43 @@ class GenerarDocumento
 
                 /**
                  * Cargar Estructura XML
-                 **/
+                 */
 
                 $this->cargarEstructuraXML();
 
                 /**
                  * Parametrizacioón Posición
-                 **/
+                 */
 
                 $this->parametrizacionPosicion();
 
                 /**
                  * Parametrizacioón Posición
-                 **/
+                 */
 
                 $this->estruturaDocumento();
 
                 /**
                  * Parametrizacioón Posición
-                 **/
+                 */
 
                 $this->crearPDF();
+
+                /**
+                 * Actualizar Factura Beneficiario
+                 */
+                $cadenaSql = $this->miSql->getCadenaSql('actualizarFacturaBeneficiario', $this->identificador_beneficiario);
+                $actualizacionEstadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
                 if (isset($_REQUEST['correo'])) {
 
                     $this->enviarNotificacion();
-
                 }
-
             }
-
         }
-
     }
-
     public function validarBeneficiario()
     {
-
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacion', $this->identificador_beneficiario);
         $this->InformacionFacturacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
@@ -127,45 +127,40 @@ class GenerarDocumento
         } else {
             return false;
         }
-
     }
     public function cargarEstructuraXML()
     {
-
         ini_set('xdebug.var_display_max_depth', 5);
         ini_set('xdebug.var_display_max_children', 256);
         ini_set('xdebug.var_display_max_data', 1024);
 
         $this->estruturaXML = simplexml_load_file($this->rutaXML);
 
-        //            var_dump($nodo->titulo->attributes());
+        // var_dump($nodo->titulo->attributes());
 
         $estrutura = json_encode($this->estruturaXML);
 
         $this->estructura = json_decode($estrutura, true);
-
     }
-
     public function parametrizacionPosicion()
     {
 
         /**
          * Configuracion Pagina Documento
-
-        _____________Columna 1    Columna 2
-        Seccion 1 |            |            |
-        _____________________________________
-        Seccion 2 |            |            |
-        _____________________________________
-        Seccion 3 |            |            |
-        _____________________________________
-        Seccion 4 |            |            |
-        _____________________________________
-
-        1020px * 100%
-         **/
-
-        $this->contenido = "<table  style='width:100%; border: 0.1px; background-color: #f0f5ff' >";
+         *
+         * _____________Columna 1 Columna 2
+         * Seccion 1 | | |
+         * _____________________________________
+         * Seccion 2 | | |
+         * _____________________________________
+         * Seccion 3 | | |
+         * _____________________________________
+         * Seccion 4 | | |
+         * _____________________________________
+         *
+         * 1020px * 100%
+         */
+        $this->contenido = "<table  style='width:100%; border: 0.1px; background-color: #fff' >";
 
         // Determina la utilización de colspan
         $this->determinacionTipoColumna();
@@ -191,9 +186,8 @@ class GenerarDocumento
 
             default:
                 echo "Error Numero Secciones";
-                exit;
+                exit();
                 break;
-
         }
 
         foreach ($this->estruturaXML as $key => $seccion) {
@@ -213,7 +207,7 @@ class GenerarDocumento
 
                 default:
                     echo "Error Numero columnas";
-                    exit;
+                    exit();
                     break;
             }
 
@@ -227,7 +221,6 @@ class GenerarDocumento
                     $this->caracterizacionContenido($columna);
 
                     $this->contenido .= "</td>";
-
                 } else {
 
                     $this->contenido .= "<td style='width:" . $width . ";height:" . $height . ";border:none;'  nowrap >";
@@ -235,20 +228,15 @@ class GenerarDocumento
 
                     $this->contenido .= "</td>";
                 }
-
             }
 
             $this->contenido .= "</tr>";
-
         }
 
         $this->contenido .= "</table>";
-
     }
-
     public function caracterizacionContenido($objetoDatos)
     {
-
         foreach ($objetoDatos as $key => $value) {
             $this->atributos = $value->attributes();
             $value = str_replace("%%", "<br>", $value);
@@ -269,19 +257,15 @@ class GenerarDocumento
                     break;
 
                 case 'variable':
-                    //Ejecuta los procesos para obtener contenido de la variable
+                    // Ejecuta los procesos para obtener contenido de la variable
                     $this->ejecutarContenidoVariable($value);
                     break;
-
             }
             $this->contenido .= "<br>";
         }
-
     }
-
     public function ejecutarContenidoVariable($variable)
     {
-
         switch ($variable) {
             case 'FechaActual':
                 $this->contenido .= "<div style='" . $this->atributos . "'>" . date('Y-m-d') . "</div>";
@@ -292,7 +276,7 @@ class GenerarDocumento
                 break;
 
             case 'HistoricoConsumo':
-                $this->contenido .= "<div style='" . $this->atributos . "'>Grafico Historico</div>";
+                $this->contenido .= "<div style='" . $this->atributos . "'>Gráfico Histórico</div>";
                 break;
 
             case 'InformacionPagoResumido':
@@ -301,31 +285,23 @@ class GenerarDocumento
 
                 $this->contenido .= "<table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
                             <tr>
-                                <td colspan='2' style='height:13px;text-align:center;border:0.1px;background-color:#97b5f4;'><br><b>INFORMACIÓN PAGO RESUMIDO</b><br><br></td>
+                                <td colspan='2' style='vertical-align:middle;font-size:24px;height:30px;text-align:left;border:none;background-color:#bfbfbf;color:#fff'><b>Resumen</b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:50%'><b>Fecha de Venta: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%'>" . $this->InformacionFacturacion['fecha_venta'] . "</td>
+                                <td style='font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#bfbfbf;color:#fff'><b>Deuda Anterior </b></td>
+                                <td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#bfbfbf;color:#fff'>0</td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Fecha Factura: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>" . $this->InformacionFacturacion['fecha_factura'] . "</td>
+                                <td style='height:18px;font-size:16px;text-align:left;border:none;width:50%;background-color:#bfbfbf;color:#fff'><b>Cuota Mes </b></td>
+                                <td style='height:18px;font-size:16px;text-align:right;border:none;width:50%;background-color:#bfbfbf;color:#fff'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . " </td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Periodo: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>" . $this->InformacionFacturacion['id_ciclo'] . "</td>
+                                <td style='vertical-align:middle;font-size:20px;height:22px;text-align:left;border:none;width:50%;background-color:#009933;color:#fff'><b>Total a pagar</b></td>
+                                <td style='vertical-align:middle;height:22px;font-size:20px;text-align:right;border:none;width:50%;background-color:#009933;color:#fff'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
                             </tr>
-                            <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Contrato-Ref.Pago: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>" . $this->InformacionFacturacion['numero_contrato'] . "</td>
-                            </tr>
-                            <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Fecha Pago Oportuno: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'></td>
-                            </tr>
-                            <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:50%;background-color:#eb9e9e;'><br><b>VALOR TOTAL A PAGAR:</b><br></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'><br><b>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</b><br><br></td>
+                           <tr>
+                                <td style='font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#bfbfbf;color:#444444'><b>Cuenta o Ref. Pago </b></td>
+                                <td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#bfbfbf;color:#444444'>" . $this->InformacionBeneficiario['numero_identificacion'] . "</td>
                             </tr>
                         </table>";
 
@@ -337,22 +313,22 @@ class GenerarDocumento
 
                 $table = "<table style='border-collapse:collapse;border:0.1px;width:100%;' >
                             <tr>
-                                <td colspan='4' style='height:13px;text-align:center;border:0.1px;background-color:#97b5f4;'><br><b>CONCEPTOS FACTURACIÓN</b><br><br></td>
+                                <td colspan='4' style='margin: 0 auto;font-size:16px;height:18px;text-align:left;border:0.1px;'><b>Descripción</b></td>
                             </tr>";
 
-                $table .= "<tr>
-                                  <td style='height:13px;text-align:center;border:0.1px;width:5%;'><br><b>N°</b><br></td>
-                                  <td style='height:13px;text-align:center;border:0.1px;width:25%;'><br><b>Periodo Facturado</b><br></td>
-                                  <td style='height:13px;text-align:center;border:0.1px;width:50%;'><br><b>Concepto</b><br></td>
-                                  <td style='height:13px;text-align:center;border:0.1px;width:20%;'><br><b>Valor</b><br></td>
-                               </tr>";
+                /*$table .= "<tr>
+                <td style='height:13px;text-align:center;border:none;width:5%;'><br><b>N°</b><br></td>
+                <td style='height:13px;text-align:center;border:none;width:25%;'><br><b>Periodo Facturado</b><br></td>
+                <td style='height:13px;text-align:center;border:none;width:50%;'><br><b>Concepto</b><br></td>
+                <td style='height:13px;text-align:center;border:none;width:20%;'><br><b>Valor</b><br></td>
+                </tr>";*/
                 $i = 1;
                 foreach ($this->Conceptos as $key => $value) {
                     $table .= "<tr>
-                                  <td style='height:13px;text-align:center;border:0.1px;width:5%;'><br><b>" . $i . ".</b><br></td>
-                                  <td style='height:13px;text-align:center;border:0.1px;width:25%;'><br><b>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "</b><br></td>
-                                  <td style='height:13px;text-align:left;border:0.1px;width:50%;'><br><b>" . $value['concepto'] . "</b><br></td>
-                                  <td style='height:13px;text-align:left;border:0.1px;width:20%;'><br><b>$ " . number_format($value['valor_concepto'], 2) . "</b><br></td>
+                                  <td style='height:13px;text-align:center;border:none;width:5%;'><br>" . $i . ".<br></td>
+                                  <td style='height:13px;text-align:center;border:none;width:25%;'><br>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "<br></td>
+                                  <td style='height:13px;text-align:left;border:none;width:50%;'><br>" . $value['concepto'] . "<br></td>
+                                  <td style='height:13px;text-align:left;border:none;width:20%;'><br>$ " . number_format($value['valor_concepto'], 2) . "<br></td>
                                </tr>";
 
                     $i++;
@@ -368,24 +344,22 @@ class GenerarDocumento
             case 'InformacionBeneficiario':
                 $this->contenido .= "<div style='" . $this->atributos . "'>";
 
-                $table = "<table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
+                $table = "<table style='margin: 0 auto;border-collapse:collapse;border:1px;width:100%;' nowrap >
                             <tr>
-                                <td style='height:13px;text-align:center;border:0.1px;background-color:#97b5f4;'><br><b>DATOS ABONADO SUSCRIPTOR</b><br><br></td>
+                                <td style='font-size: 14px;height:20px;text-align:left;border:0.1px;background-color:#4766cc;border-top-left-radius: 4px; border-bottom-left-radius: 4px; color:#fff'><b>Fecha Oportuna de Pago</b></td>
+                                <td style='height:15px;text-align:left;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;'><b></b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:100%'><b>Indentificación Beneficiario: </b>" . $this->InformacionBeneficiario['numero_identificacion'] . "</td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px><b>Factura </b> " . $this->InformacionFacturacion['id_factura'] . " </td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap($this->InformacionBeneficiario['nombre_beneficiario'], 35, "<br>\n") . "</b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;'><b>Nombre Beneficiario: </b>" . $this->InformacionBeneficiario['nombre_beneficiario'] . "</td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'>" . wordwrap($this->InformacionBeneficiario['direccion_beneficiario'], 35, "<br>\n") . "</td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap($this->InformacionBeneficiario['departamento'] . " - " . $this->InformacionBeneficiario['municipio'], 35, "<br>\n") . "</b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;'><b>Dirección Inmueble: </b>" . $this->InformacionBeneficiario['direccion_beneficiario'] . "</td>
-                            </tr>
-                            <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;'><b>Departamento - Municipio: </b>" . $this->InformacionBeneficiario['departamento'] . " - " . $this->InformacionBeneficiario['municipio'] . "</td>
-                            </tr>
-                            <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;'><b>Estrato: </b>" . $this->InformacionBeneficiario['estrato'] . "</td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 5px'><b>" . wordwrap($this->InformacionBeneficiario['departamento'] . " - " . $this->InformacionBeneficiario['municipio'], 35, "<br>\n") . "</b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 5px'><b>Estrato " . $this->InformacionBeneficiario['estrato'] . "</b></td>
                             </tr>
                         </table>";
 
@@ -398,30 +372,65 @@ class GenerarDocumento
 
                 $this->contenido .= "<table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
                             <tr>
-                                <td colspan='2' style='height:13px;text-align:center;border:0.1px;background-color:#97b5f4;'><br><b>INFORMACIÓN PAGO RESUMIDO</b><br><br></td>
+                                <td colspan='2' style='font-size: 16px;height:20px;text-align:left;border:none;background-color:#ff1a75;border-top-left-radius: 4px; border-top-right-radius:4px;border-bottom-right-radius:4px;border-bottom-left-radius: 4px;color:#fff'><b>Estado de Cuenta</b><br></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:50%'><b>Fecha de Venta: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%'>" . $this->InformacionFacturacion['fecha_venta'] . "</td>
+                                <td style='height:13px;text-align:left;border:none;width:50%;font-style:italic;'><b>En Mora </b></td>
+                                <td style='height:13px;text-align:right;border:none;width:50%;'>0</td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Fecha Factura: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>" . $this->InformacionFacturacion['fecha_factura'] . "</td>
-                            </tr>
-                            <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Periodo: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>" . $this->InformacionFacturacion['id_ciclo'] . "</td>
-                            </tr>
-                            <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Contrato-Ref.Pago: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'>" . $this->InformacionFacturacion['numero_contrato'] . "</td>
-                            </tr>
-                            <tr>
-                                <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Fecha Pago Oportuno: </b></td>
-                                <td style='height:13px;text-align:right;border:0.1px;width:50%;'></td>
+                                <td style='height:13px;text-align:left;border:none;width:50%;border-top-left-radius: 4px; border-bottom-left-radius: 4px;color:#444444;border-spacing: 3px'><b>Saldo Vencido </b></td>
+                                <td style='height:13px;text-align:right;border:none;width:50%;border-top-right-radius:4px;border-bottom-right-radius:4px;color:#444444'>0</td>
                             </tr>
                           </table>";
 
+                $this->contenido .= "<br><br><table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
+                            <tr>
+                                <td colspan='2' style='font-size: 16px;height:20px;text-align:left;border:0.1px;background-color:#4766cc;border-top-left-radius: 4px; border-top-right-radius:4px;border-bottom-right-radius:4px;border-bottom-left-radius: 4px;color:#fff'><b>Cuota de Mes  </b>" . $this->InformacionFacturacion['id_ciclo'] . "<br></td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:none;width:50%;'><b>Factura</b></td>
+                                <td style='height:13px;text-align:right;border:none;width:50%;'>" . $this->InformacionFacturacion['id_factura'] . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:none;width:50%;'><b>Valor</b></td>
+                                <td style='height:13px;text-align:right;border:none;width:50%;'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:none;width:50%;'><b>IVA</b></td>
+                                <td style='height:13px;text-align:right;border:none;width:50%;'></td>
+                            </tr>
+                          </table>";
+
+                /**
+                 * $this->contenido .
+                 *
+                 * = "<table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
+                 * <tr>
+                 * <td colspan='2' style='height:13px;text-align:center;border:0.1px;background-color:#97b5f4;'><b>INFORMACIÓN PAGO RESUMIDO</b><br></td>
+                 * </tr>
+                 * <tr>
+                 * <td style='height:13px;text-align:left;border:0.1px;width:50%'><b>Fecha de Venta: </b></td>
+                 * <td style='height:13px;text-align:right;border:0.1px;width:50%'>" . $this->InformacionFacturacion['fecha_venta'] . "</td>
+                 * </tr>
+                 * <tr>
+                 * <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Fecha Factura: </b></td>
+                 * <td style='height:13px;text-align:right;border:0.1px;width:50%;'>" . $this->InformacionFacturacion['fecha_factura'] . "</td>
+                 * </tr>
+                 * <tr>
+                 * <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Periodo: </b></td>
+                 * <td style='height:13px;text-align:right;border:0.1px;width:50%;'>" . $this->InformacionFacturacion['id_ciclo'] . "</td>
+                 * </tr>
+                 * <tr>
+                 * <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Contrato-Ref.Pago: </b></td>
+                 * <td style='height:13px;text-align:right;border:0.1px;width:50%;'>" . $this->InformacionFacturacion['numero_contrato'] . "</td>
+                 * </tr>
+                 * <tr>
+                 * <td style='height:13px;text-align:left;border:0.1px;width:50%;'><b>Fecha Pago Oportuno: </b></td>
+                 * <td style='height:13px;text-align:right;border:0.1px;width:50%;'></td>
+                 * </tr>
+                 * </table>";
+                 */
                 $this->contenido .= "</div>";
                 break;
 
@@ -437,14 +446,10 @@ class GenerarDocumento
 
                 $this->contenido .= "'><barcode type='CODABAR' value='" . $valorCodigo . "' style='" . $this->atributos['dimensionesCodigoBarras'] . "'></barcode></div>";
                 break;
-
         }
-
     }
-
     public function determinacionTipoColumna()
     {
-
         foreach ($this->estruturaXML as $key => $seccion) {
 
             $numero_columnas = count($seccion);
@@ -460,33 +465,26 @@ class GenerarDocumento
 
                 default:
                     echo "Error Numero columnas";
-                    exit;
+                    exit();
                     break;
             }
-
         }
 
         if (isset($columna_1) && isset($columna_2)) {
 
             $this->colspan = true;
-
         }
-
     }
-    //----------------------------------------------------------------------
-
+    // ----------------------------------------------------------------------
     public function crearPDF()
     {
-
         ob_start();
-        $html2pdf = new \HTML2PDF(
-            'P', 'LETTER', 'es', true, 'UTF-8', array(
-                1,
-                1,
-                1,
-                1,
-            )
-        );
+        $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
+            1,
+            1,
+            1,
+            1,
+        ));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
 
@@ -496,20 +494,15 @@ class GenerarDocumento
 
             echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
 
-            exit;
-
+            exit();
         } else {
 
             $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
             $html2pdf->Output($this->archivo_adjunto, 'F');
-
         }
-
     }
-
     public function estruturaDocumento()
     {
-
         $contenidoPagina = "<style type=\"text/css\">
                            table {
 
@@ -542,9 +535,7 @@ class GenerarDocumento
         $contenidoPagina .= "</page>";
 
         $this->contenidoPagina = $contenidoPagina;
-
     }
-
     public function enviarNotificacion()
     {
 
@@ -554,7 +545,6 @@ class GenerarDocumento
 
         // SMTP needs accurate times, and the PHP time zone MUST be set
         // This should be done in your php.ini, but this is how to do it if you don't have access to that
-
         require $this->ruta . '/plugin/PHPMailer/PHPMailerAutoload.php';
 
         // Create a new PHPMailer instance
@@ -615,7 +605,6 @@ class GenerarDocumento
                 if (!is_null($value) && $value != '') {
                     $mail->addAddress($value);
                 }
-
             }
         }
         // Set the subject line
@@ -637,7 +626,7 @@ class GenerarDocumento
                         </html>
         ';
 
-        //Archivo Adjunto
+        // Archivo Adjunto
         $mail->addAttachment($this->archivo_adjunto, 'Factura.pdf');
 
         // Read an HTML message body from an external file, convert referenced images to embedded,
@@ -653,6 +642,5 @@ class GenerarDocumento
         // send the message, check for errors
         $mail->send();
     }
-
 }
 $miDocumento = new GenerarDocumento($this->miSql, $this->proceso['datos_adicionales'], $this->rutaAbsoluta_archivos);

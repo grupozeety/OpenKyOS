@@ -71,7 +71,7 @@ class Sql extends \Sql
                 break;
 
             case 'consultaInformacionFacturacion':
-                $cadenaSql = " SELECT ";
+                $cadenaSql = " SELECT fc.id_factura, ";
                 $cadenaSql .= " cn.numero_contrato, ";
                 $cadenaSql .= " to_date(aes.fecha_instalacion, 'DD-MM-YYYY') as fecha_venta,";
                 $cadenaSql .= " fc.estado_factura,";
@@ -337,6 +337,18 @@ class Sql extends \Sql
                 $cadenaSql = " UPDATE parametros.procesos_masivos";
                 $cadenaSql .= " SET estado_registro='FALSE'";
                 $cadenaSql .= " WHERE id_proceso='" . $_REQUEST['id_proceso'] . "'; ";
+                break;
+
+            case 'actualizarFacturaBeneficiario':
+                $cadenaSql = " UPDATE facturacion.factura ";
+                $cadenaSql .= " SET estado_factura='Aprobado'";
+                $cadenaSql .= " WHERE id_factura=(";
+                $cadenaSql .= " SELECT id_factura ";
+                $cadenaSql .= " FROM facturacion.factura";
+                $cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " ORDER BY id_factura DESC ";
+                $cadenaSql .= " LIMIT 1";
+                $cadenaSql .= " );";
                 break;
 
         }

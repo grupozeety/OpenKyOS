@@ -143,7 +143,7 @@ class Sql extends \Sql
                 $cadenaSql .= "'" . $variable['minvi'] . "',";
                 $cadenaSql .= "'" . $variable['barrio'] . "',";
                 $cadenaSql .= "'" . $variable['piso'] . "',";
-                if ($variable['geolocalizacion'] != 0) {
+                if (!is_null($variable['geolocalizacion'])) {
                     $cadenaSql .= "'" . $variable['geolocalizacion'] . "'";
                 } else {
                     $cadenaSql .= "NULL";
@@ -154,9 +154,7 @@ class Sql extends \Sql
 
             case 'actualizarBeneficiario':
                 $cadenaSql = "UPDATE interoperacion.beneficiario_potencial SET ";
-                // $cadenaSql .= "tipo_beneficiario=" . "'" . $variable ['tipo_beneficiario'] . "',";
-                // $cadenaSql .= "tipo_documento=" . "'" . $variable ['tipo_documento'] . "',";
-                // $cadenaSql .= "identificacion=" . "'" . $variable ['identificacion_beneficiario'] . "',";
+
                 if (!is_null($variable['nombre_beneficiario'])) {
                     $cadenaSql .= "nombre=" . "'" . $variable['nombre_beneficiario'] . "',";
                 }
@@ -166,16 +164,16 @@ class Sql extends \Sql
                 if (!is_null($variable['segundo_apellido'])) {
                     $cadenaSql .= "segundo_apellido=" . "'" . $variable['segundo_apellido'] . "',";
                 }
-                if ($variable['genero_beneficiario'] != 0) {
+                if (!is_null($variable['genero_beneficiario'])) {
                     $cadenaSql .= "genero=" . "'" . $variable['genero_beneficiario'] . "',";
                 }
-                if ($variable['edad_beneficiario'] != 0) {
+                if (!is_null($variable['edad_beneficiario'])) {
                     $cadenaSql .= "edad=" . "'" . $variable['edad_beneficiario'] . "',";
                 }
-                if ($variable['nivel_estudio'] != 0) {
+                if (!is_null($variable['nivel_estudio'])) {
                     $cadenaSql .= "nivel_estudio=" . "'" . $variable['nivel_estudio'] . "',";
                 }
-                if ($variable['telefono'] != 0) {
+                if (!is_null($variable['telefono'])) {
                     $cadenaSql .= "telefono=" . "'" . $variable['telefono'] . "',";
                 }
                 if (!is_null($variable['correo'])) {
@@ -205,20 +203,18 @@ class Sql extends \Sql
                 if (!is_null($variable['barrio'])) {
                     $cadenaSql .= "barrio=" . "'" . $variable['barrio'] . "',";
                 }
-                if ($variable['estrato'] != 0) {
+                if (!is_null($variable['estrato'])) {
                     $cadenaSql .= "estrato='" . $variable['estrato'] . "',";
-                } else {
-                    $cadenaSql .= "estrato=NULL, ";
                 }
 
-                if ($variable['geolocalizacion'] != 0) {
-                    $cadenaSql .= "geolocalizacion='" . $variable['geolocalizacion'] . "' ";
-                } else {
-                    $cadenaSql .= "geolocalizacion=NULL ";
+                if (!is_null($variable['geolocalizacion'])) {
+                    $cadenaSql .= "geolocalizacion='" . $variable['geolocalizacion'] . "',";
                 }
-
                 $cadenaSql .= " WHERE identificacion='" . $variable['identificacion_beneficiario'] . "' ";
                 $cadenaSql .= " AND estado_registro='TRUE' ;";
+
+                $cadenaSql = str_replace("', W", "' W", $cadenaSql);
+
                 break;
 
             case 'consultarConsecutivo':

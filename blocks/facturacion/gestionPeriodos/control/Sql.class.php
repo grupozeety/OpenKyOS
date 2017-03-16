@@ -27,8 +27,8 @@ class Sql extends \Sql
         switch ($tipo) {
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
 
             case 'consultaParticular':
                 $cadenaSql = " SELECT p.id_periodo,p.valor,p.tipo_unidad, pm.descripcion";
@@ -51,20 +51,21 @@ class Sql extends \Sql
                 $cadenaSql .= " AND id_periodo='" . $_REQUEST['id_periodo'] . "';";
                 break;
 
-            case 'registrarActualizarPeriodo':
-                if ($_REQUEST['opcion'] == 'actualizarPeriodoParticular') {
-                    $cadenaSql = " UPDATE facturacion.periodo";
-                    $cadenaSql .= " SET estado_registro='FALSE'";
-                    $cadenaSql .= " WHERE id_periodo='" . $variable['id_periodo'] . "';";
-                    $cadenaSql .= " INSERT INTO facturacion.periodo(";
-                } else {
-                    $cadenaSql = " INSERT INTO facturacion.periodo(";
-                }
+            case 'registrarPeriodo':
+
+                $cadenaSql = " INSERT INTO facturacion.periodo(";
                 $cadenaSql .= " valor,";
                 $cadenaSql .= " tipo_unidad)";
                 $cadenaSql .= " VALUES ('" . $variable['valor'] . "', ";
                 $cadenaSql .= " '" . $variable['unidad'] . "');";
 
+                break;
+
+            case 'actualizarPeriodo':
+                $cadenaSql = " UPDATE facturacion.periodo";
+                $cadenaSql .= " SET valor='" . $variable['valor'] . "', ";
+                $cadenaSql .= " tipo_unidad='" . $variable['unidad'] . "'";
+                $cadenaSql .= " WHERE id_periodo='" . $variable['id_periodo'] . "';";
                 break;
 
             case 'eliminarPeriodo':

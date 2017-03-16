@@ -46,13 +46,14 @@ class FormProcessor
 
         switch ($_REQUEST['opcion']) {
             case 'registrarReglaParticular':
-                $arreglo= array(
-                'descricion' =>$_REQUEST['descripcion'] ,
-                'formula' => $_REQUEST['formula'],
-                'identificador' => $_REQUEST['identificador_formula'],
-                    );
+                $arreglo = array(
+                    'descricion' => $_REQUEST['descripcion'],
+                    'formula' => $_REQUEST['formula'],
+                    'identificador' => $_REQUEST['identificador_formula'],
+                );
 
-                $cadenaSql = $this->miSql->getCadenaSql('registrarActualizarRegla', $arreglo);
+                $cadenaSql = $this->miSql->getCadenaSql('registrarRegla', $arreglo);
+
                 $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
                 if (isset($this->proceso) && $this->proceso != null) {
@@ -64,14 +65,15 @@ class FormProcessor
                 break;
 
             case 'actualizarReglaParticular':
-                $arreglo= array(
-                'id_regla' =>$_REQUEST['id_regla'] ,
-                'descricion' =>$_REQUEST['descripcion'] ,
-                'formula' => $_REQUEST['formula'],
-                'identificador' => $_REQUEST['identificador_formula'],
+                $arreglo = array(
+                    'id_regla' => $_REQUEST['id_regla'],
+                    'descricion' => $_REQUEST['descripcion'],
+                    'formula' => $_REQUEST['formula'],
+                    'identificador' => $_REQUEST['identificador_formula'],
                 );
 
-                $cadenaSql = $this->miSql->getCadenaSql('registrarActualizarRegla', $arreglo);
+                $cadenaSql = $this->miSql->getCadenaSql('actualizarRegla', $arreglo);
+
                 $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
                 if (isset($this->proceso) && $this->proceso != null) {
