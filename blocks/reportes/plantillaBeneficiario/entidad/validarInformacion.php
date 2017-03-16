@@ -86,6 +86,13 @@ class FormProcessor
 
         /**
          * 4.
+         * Validar que no  Valores Númericos
+         */
+
+        $this->validarNumeros();
+
+        /**
+         * 5.
          * Validar Existencia Beneficiarios
          */
 
@@ -94,13 +101,6 @@ class FormProcessor
         } else {
             $this->validarBeneficiariosExistentes();
         }
-
-        /**
-         * 5.
-         * Validar que no  Valores Númericos
-         */
-
-        $this->validarNumeros();
 
         /**
          * 6.
@@ -122,7 +122,7 @@ class FormProcessor
 
             if ($value['longitud'] != 'Sin Longitud') {
 
-                if (!is_numeric($value['longitud'])) {
+                if (!is_numeric($value['longitud']) && $value['longitud'] != 'NULL') {
 
                     $mensaje = " La longitud con respecto a la ubicacion asociada a la identificación del beneficiario " . $value['identificacion_beneficiario'] . " no es valida dado que  la longitud debe ser númerica con decimales separados por coma.";
                     $this->escribir_log($mensaje);
@@ -136,7 +136,7 @@ class FormProcessor
                 }
 
             }
-            if ($value['longitud'] != 'Sin Latitud') {
+            if ($value['longitud'] != 'Sin Latitud' && $value['latitud'] != 'NULL') {
                 if (!is_numeric($value['latitud'])) {
                     $mensaje = " La latitud con respecto a la ubicación asociada a la identificación del beneficiario " . $value['identificacion_beneficiario'] . " no es valida dado que la latitud debe ser númerica  con decimales separados por coma.";
                     $this->escribir_log($mensaje);
@@ -198,8 +198,8 @@ class FormProcessor
                 $this->error = true;
             }
 
-            if (is_null($value['identificacion_beneficiario'])) {
-                $mensaje = "Existe un campo de identificación vacío. La identificación del beneficiario es obligatoria.";
+            if (is_null($value['identificacion_beneficiario']) || $value['identificacion_beneficiario'] == 'NULL') {
+                $mensaje = "Existe un campo de identificación vacío o nulo. La identificación del beneficiario es obligatoria.";
                 $this->escribir_log($mensaje);
                 $this->error = true;
             }

@@ -239,10 +239,11 @@ class Registrador
                             $atributos["etiqueta"] = '';
                             $mensaje = 'Cargar Formato para Validar que:<br>
                                                 1. En caso de registros nuevos, no exista información previamente registrada.<br>
-												2. En caso de actualización de registro, la existencia de los beneficiarios relacionados.<br>
+                                                2. En caso de actualización de registro, la existencia de los beneficiarios relacionados.<br>
                                                 3. El número de beneficiarios a cargar no sobrepase a 500.<br>
                                                 4. El Simbolo (*) en la plantilla indica que son campos obligatorios.<br>
-                                                5. Formatos permitidos:<br>
+                                                5. En la actualizacion, los campos que contengan la palabra <b>"NULL"</b> no seran actualizados.<br>
+                                                6. Formatos permitidos:<br>
                                                     &nbsp;&nbsp;&nbsp;- BIFF 5-8 (.xls) Excel 95<br>
                                                     &nbsp;&nbsp;&nbsp;- Office Open XML (.xlsx) Excel 2007 o mayores<br>
                                                     &nbsp;&nbsp;&nbsp;- Open Document Format/OASIS (.ods)<br><br>
@@ -475,55 +476,55 @@ class Registrador
 
             case 'errorFormatoArchivo':
                 $mensaje = "Error<br>Formato Archivo Invalido";
-                $atributos['estiloLinea'] = 'error';     // success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; // success,error,information,warning
                 break;
 
             case 'errorArchivoNoValido':
                 $mensaje = "Error<br>Archivo No Valido";
-                $atributos['estiloLinea'] = 'error';     // success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; // success,error,information,warning
                 break;
 
             case 'errorCargarArchivo':
                 $mensaje = "Error<br>Al Cargar Archivo";
-                $atributos['estiloLinea'] = 'error';     // success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; // success,error,information,warning
                 break;
 
             case 'errorCargarInformacion':
                 $mensaje = "Error al Cargar Información de la hoja de Cálculo. Límite permitido excedido";
-                $atributos['estiloLinea'] = 'error';     // success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; // success,error,information,warning
                 break;
 
             case 'errorInformacionCargar':
                 $mensaje = "Error<br>Existen Inconsistencias en la Información a Cargar.<br>Para más Informacion Visualizar Log : <a  target='_blank' href='" . base64_decode($_REQUEST['log']) . "'>Link Log Errores</a>";
-                $atributos['estiloLinea'] = 'error';     // success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; // success,error,information,warning
                 break;
 
             case 'exitoInformacion':
                 $mensaje = "Exito<br>Información Correctamente Validada y sin Errores.<br>Dirigirse al Proceso \"Cargar Registros\" ";
-                $atributos['estiloLinea'] = 'success';     // success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; // success,error,information,warning
                 break;
 
-            case 'errorCreacionContratos':
+            case 'errorCreacionBeneficiarios':
                 $mensaje = "Error<br>Existen Inconsistencias en la Información a Cargar.<br>Para más Informacion Validar el Archivo en la Opción \"Validar Formato de Información\"";
-                $atributos['estiloLinea'] = 'error';     // success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; // success,error,information,warning
                 break;
 
             case 'exitoRegistroProceso':
                 $mensaje = "Exito<br>Se ha Registrado con exito el proceso solicitado.<br>";
-                $atributos['estiloLinea'] = 'success';     // success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; // success,error,information,warning
                 break;
 
             case 'errorRegistroProceso':
 
                 $mensaje = "Error<br>Error en el Registro del Proceso";
-                $atributos['estiloLinea'] = 'error';     // success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; // success,error,information,warning
 
                 break;
 
             case 'errorActualizacion':
 
                 $mensaje = "Error durante la actualización de registros, informe al Administrador del sistema.";
-                $atributos['estiloLinea'] = 'error';     // success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; // success,error,information,warning
 
                 break;
         }

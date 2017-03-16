@@ -75,12 +75,21 @@ class FormProcessor
         $this->validarNulo();
 
         /**
+         * 4.
+         * Validar que no  Valores Númericos
+         */
+
+        $this->validarNumeros();
+
+        /**
          * 5.
          * Validar Existencia Beneficiarios
          */
 
         if ($_REQUEST['funcionalidad'] == 3) {
             $this->validarBeneficiariosExistentes();
+
+            $this->transformacionValoresNulos();
         } else {
             $this->validarBeneficiariosExistentesRegistro();
         }
@@ -126,14 +135,16 @@ class FormProcessor
     {
         foreach ($this->datos_beneficiario as $key => $value) {
 
-            if ($value['estrato'] == 0) {
-                Redireccionador::redireccionar("ErrorCreacionContratos");
-                exit();
+            if ($value['estrato'] === 0) {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+
             }
 
-            if (is_null($value['identificacion_beneficiario'])) {
-                Redireccionador::redireccionar("ErrorCreacionContratos");
-                exit();
+            if (is_null($value['identificacion_beneficiario']) || $value['identificacion_beneficiario'] == 'NULL') {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+
             }
         }
     }
@@ -146,7 +157,7 @@ class FormProcessor
             if (is_numeric($value['latitud']) && is_numeric($value['longitud'])) {
                 $geolocalizacion = $value['latitud'] . "," . $value['longitud'];
             } else {
-                $geolocalizacion = 0;
+                $geolocalizacion = null;
             }
 
             // Funcionalidad 3 es Actualización de Registros
@@ -315,23 +326,50 @@ class FormProcessor
         }
     }
 
+    public function transformacionValoresNulos()
+    {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            foreach ($value as $llave => $valor) {
+
+                if ($valor == 'NULL') {
+
+                    $valor = null;
+
+                }
+
+                $value[$llave] = $valor;
+
+                $this->datos_beneficiario[$key] = $value;
+
+            }
+
+        }
+
+    }
+
     public function validarNumeros()
     {
         foreach ($this->datos_beneficiario as $key => $value) {
 
-            if ($value['longitud'] != 'Sin Longitud') {
+            if ($value['longitud'] != 'Sin Longitud' && $value['longitud'] != 'NULL') {
                 if (!is_numeric($value['longitud'])) {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
+
+                    Redireccionador::redireccionar("ErrorCreacion");
                 } elseif ($value['longitud'] < -77 || $value['longitud'] > -73) {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
+
+                    Redireccionador::redireccionar("ErrorCreacion");
                 }
             }
 
-            if ($value['longitud'] != 'Sin Latitud') {
+            if ($value['latitud'] != 'Sin Latitud' && $value['latitud'] != 'NULL') {
                 if (!is_numeric($value['latitud'])) {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
+
+                    Redireccionador::redireccionar("ErrorCreacion");
                 } elseif ($value['latitud'] > 10 || $value['latitud'] < 6) {
-                    Redireccionador::redireccionar("ErrorCreacionContratos");
+
+                    Redireccionador::redireccionar("ErrorCreacion");
                 }
             }
 
@@ -348,7 +386,7 @@ class FormProcessor
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if (is_null($consulta)) {
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
                 exit();
             }
         }
@@ -361,7 +399,7 @@ class FormProcessor
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if (!is_null($consulta)) {
-                Redireccionador::redireccionar("ErrorCreacionContratos");
+                Redireccionador::redireccionar("ErrorCreacion");
                 exit();
             }
         }
@@ -444,6 +482,8 @@ class FormProcessor
                 $datos_beneficiario[$i]['latitud'] = str_replace(',', '.', $informacion->setActiveSheetIndex()->getCell('AB' . $i)->getCalculatedValue());
 
             }
+
+            //var_dump($datos_beneficiario);exit;
 
             $this->datos_beneficiario = $datos_beneficiario;
 
