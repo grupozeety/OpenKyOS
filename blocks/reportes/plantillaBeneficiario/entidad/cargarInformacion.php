@@ -420,7 +420,7 @@ class FormProcessor
                 $total_filas = $informacion_general[0]['totalRows'];
             }
 
-            if ($total_filas > 501) {
+            if ($total_filas > 1001) {
                 Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
             }
 
