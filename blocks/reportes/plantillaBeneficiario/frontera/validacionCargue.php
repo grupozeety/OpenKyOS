@@ -240,7 +240,7 @@ class Registrador
                             $mensaje = 'Cargar Formato para Validar que:<br>
                                                 1. En caso de registros nuevos, no exista información previamente registrada.<br>
                                                 2. En caso de actualización de registro, la existencia de los beneficiarios relacionados.<br>
-                                                3. El número de beneficiarios a cargar no sobrepase a 500.<br>
+                                                3. El número de beneficiarios a cargar no sobrepase a 1000.<br>
                                                 4. El Simbolo (*) en la plantilla indica que son campos obligatorios.<br>
                                                 5. En la actualizacion, los campos que contengan la palabra <b>"NULL"</b> no seran actualizados.<br>
                                                 6. Formatos permitidos:<br>

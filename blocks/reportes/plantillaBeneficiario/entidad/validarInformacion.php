@@ -192,7 +192,7 @@ class FormProcessor
     {
         foreach ($this->datos_beneficiario as $key => $value) {
 
-            if ($value['estrato'] == 0) {
+            if ($value['estrato'] === 0) {
                 $mensaje = " La identificación " . $value['identificacion_beneficiario'] . ", posee un estrato vacío.";
                 $this->escribir_log($mensaje);
                 $this->error = true;
@@ -237,7 +237,7 @@ class FormProcessor
 
             $total_filas = $informacion_general[0]['totalRows'];
 
-            if ($total_filas > 501) {
+            if ($total_filas > 1001) {
                 Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
             }
 
