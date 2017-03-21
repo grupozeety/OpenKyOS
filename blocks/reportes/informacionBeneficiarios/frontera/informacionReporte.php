@@ -54,7 +54,7 @@ class Registrador
             $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
             $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
-            $urlProceso = $url . $cadena;
+            echo $urlProceso = $url . $cadena;
 
         }
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
@@ -188,6 +188,10 @@ class Registrador
                         array(
                             '2',
                             'Reporte y Documentos Beneficiarios',
+                        ),
+                        array(
+                            '4',
+                            'Documentos Beneficiarios',
                         ),
 
                     );
@@ -604,33 +608,33 @@ class Registrador
         switch ($_REQUEST['mensaje']) {
             case 'SinResultado':
                 $mensaje = "<b>No Se Genero Ningun Resultado<br>Verifique la combinacion de Parametros</b>";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'archivoGenerado':
                 $mensaje = "Exito en la Generación del Reporte y Estructuración de Documentos de los Beneficiarios<br> Link de Archivo : <a target='_blank' href='" . $_REQUEST['archivo'] . "'  >Descargar Reporte y Documentos</a>";
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
             case 'errorGenerarArchivo':
                 $mensaje = "Error en la Generación del Reporte y/o en la Etructuración de los Documentos de los Beneficiarios";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
                 break;
 
             case 'exitoProceso':
                 $mensaje = "Exito en el Registro del Proceso para la Descarga de los Accesos.<br><b>Proceso N° " . $_REQUEST['identificacion_proceso'] . "</b><br>Verifique en estado del Proceso en la Opción \"Estado Procesos Accesos\".<br>Recuerde que el tiempo para poder descargar depende del la cantidad de Accesos (Beneficiarios)que arroje la consulta.";
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
             case 'errorProceso':
                 $mensaje = "Error en el Registro del Proceso para la Descarga de los Accesos";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
                 break;
 
             case 'errorEliminarProceso':
                 $mensaje = "Error al eliminar proceso de generación de reporte y documentos acceso.<br>Sugerencia para eliminar un proceso el estado del mismo debe estar <b>'No Iniciado' o 'Finalizado'</b><br>y tiene un tiempo límite de 5 minutos desde su registro para poderlo eliminar, si no exiten más procesos ejecutados.";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
                 break;
 

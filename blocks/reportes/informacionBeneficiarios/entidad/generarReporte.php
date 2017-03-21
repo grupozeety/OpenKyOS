@@ -36,7 +36,6 @@ class GenerarReporteInstalaciones
 
         switch ($_REQUEST['tipo_resultado']) {
             case '1':
-
                 $this->estruturarProyectos();
                 $this->crearHojaCalculo();
                 break;
@@ -46,11 +45,12 @@ class GenerarReporteInstalaciones
                 break;
 
             case '3':
-
                 $this->consultarProceso();
-
                 break;
 
+            case '4':
+                $this->generarProceso();
+                break;
         }
 
     }
@@ -213,6 +213,18 @@ class GenerarReporteInstalaciones
     public function generarProceso()
     {
 
+        switch ($_REQUEST['tipo_resultado']) {
+
+            case '2':
+                $opcion = 'ReporteDocumentos';
+                break;
+
+            case '4':
+                $opcion = 'Documentos';
+                break;
+
+        }
+
         $arreglo = array(
             'departamento' => $_REQUEST['departamento'],
             'municipio' => $_REQUEST['municipio'],
@@ -220,6 +232,8 @@ class GenerarReporteInstalaciones
             'estado_beneficiario' => $_REQUEST['estado_beneficiario'],
             'beneficiario' => $_REQUEST['beneficiario'],
             'estado_documento' => $_REQUEST['estado_documento'],
+            'opcion_general' => $opcion,
+
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaGeneralInformacion');
@@ -261,7 +275,7 @@ class GenerarReporteInstalaciones
 
         $arreglo = array(
             'avance' => $avance,
-            'proceso' => isset($this->proceso['id_proceso'])? $this->proceso['id_proceso']:0,
+            'proceso' => isset($this->proceso['id_proceso']) ? $this->proceso['id_proceso'] : 0,
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('actualizarProcesoParticularAvance', $arreglo);
@@ -626,7 +640,10 @@ class GenerarReporteInstalaciones
          * 2. Crear Documento Hoja de Calculo(Reporte)
          **/
 
-        $this->crearHojaCalculo();
+        if (isset($_REQUEST['opcion_general']) && $_REQUEST['opcion_general'] == 'ReporteDocumentos') {
+
+            $this->crearHojaCalculo();
+        }
 
         //Actualizar Avance Progreso
         $this->actualizarAvance(50);
