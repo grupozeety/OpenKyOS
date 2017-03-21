@@ -84,8 +84,8 @@ class Sql extends \Sql
                 break;
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
 
             case 'consultarProceso':
                 $cadenaSql = " SELECT *";
@@ -134,15 +134,15 @@ class Sql extends \Sql
                 }
 
                 if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
-                    $cadenaSql .= " AND cn.municipio='" . $_REQUEST['municipio'] . "'";
+                    $cadenaSql .= " AND bn.municipio='" . $_REQUEST['municipio'] . "'";
                 }
                 if (isset($_REQUEST['departamento']) && $_REQUEST['departamento'] != '') {
 
-                    $cadenaSql .= " AND cn.departamento='" . $_REQUEST['departamento'] . "'";
+                    $cadenaSql .= " AND bn.departamento='" . $_REQUEST['departamento'] . "'";
                 }
 
                 if (isset($_REQUEST['urbanizacion']) && $_REQUEST['urbanizacion'] != '') {
-                    $cadenaSql .= " AND cn.urbanizacion='" . $_REQUEST['urbanizacion'] . "'";
+                    $cadenaSql .= " AND bn.id_proyecto='" . $_REQUEST['urbanizacion'] . "'";
                 }
 
                 if (isset($_REQUEST['beneficiario']) && $_REQUEST['beneficiario'] != '') {
@@ -182,11 +182,11 @@ class Sql extends \Sql
                 $cadenaSql = " SELECT DISTINCT case when aep.estado_registro=TRUE THEN 'SI' ELSE 'NO' END as computador, ";
                 $cadenaSql .= " cn.* , pm.meta,pmr.descripcion as descripcion_tipo_tegnologia, ";
                 $cadenaSql .= " aes.resultado_vs as velocidad_subida, aes.resultado_vb as velocidad_bajada,";
-                $cadenaSql .= " ip_olt,mac_olt, nd.port_olt,nombre_olt, puerto_olt,";     //Cabecera
-                $cadenaSql .= " ip_celda,mac_celda,nombre_nodo,nombre_sectorial,ip_switch_celda,ip_sm_celda,";     //Nodo
-                $cadenaSql .= " mac_sm_celda,mac_cpe_celda,";     //Nodo
-                $cadenaSql .= " mac_master_eoc,ip_master_eoc,ip_onu_eoc,mac_onu_eoc,ip_hub_eoc,mac_hub_eoc,mac_cpe_eoc,";     //Nodo HCF
-                $cadenaSql .= " aes.fecha_instalacion,aes.ip_esc,aes.mac_esc, aes.resultado_p1,aes.resultado_tr1, ";     //Nodo HCF
+                $cadenaSql .= " ip_olt,mac_olt, nd.port_olt,nombre_olt, puerto_olt,"; //Cabecera
+                $cadenaSql .= " ip_celda,mac_celda,nombre_nodo,nombre_sectorial,ip_switch_celda,ip_sm_celda,"; //Nodo
+                $cadenaSql .= " mac_sm_celda,mac_cpe_celda,"; //Nodo
+                $cadenaSql .= " mac_master_eoc,ip_master_eoc,ip_onu_eoc,mac_onu_eoc,ip_hub_eoc,mac_hub_eoc,mac_cpe_eoc,"; //Nodo HCF
+                $cadenaSql .= " aes.fecha_instalacion,aes.ip_esc,aes.mac_esc, aes.resultado_p1,aes.resultado_tr1, "; //Nodo HCF
                 $cadenaSql .= " aes.resultado_tr2, aes.reporte_fallos, aes.acceso_reportando ,aes.fecha_comisionamiento, ";
                 $cadenaSql .= " CASE WHEN aes.id=NULL  THEN ''  ELSE 'www.mintic.gov.co;https://www.sivirtual.gov.co;https://www.wikipedia.org/'  END  AS paginas_visitadas";
                 $cadenaSql .= " FROM interoperacion.contrato AS cn ";
@@ -200,7 +200,7 @@ class Sql extends \Sql
                 $cadenaSql .= " LEFT JOIN interoperacion.cabecera AS cab ON cab.codigo_cabecera=nd.codigo_cabecera AND cab.estado_registro='TRUE'";
 
                 $cadenaSql .= " LEFT JOIN interoperacion.acta_entrega_portatil AS aep ON aep.id_beneficiario=cn.id_beneficiario AND aep.estado_registro='TRUE' ";
-                
+
                 if (isset($_REQUEST['estado_beneficiario']) && $_REQUEST['estado_beneficiario'] == '1') {
                     $cadenaSql .= " JOIN interoperacion.documentos_contrato dr  ON dr.id_beneficiario=cn.id_beneficiario AND dr.estado_registro='TRUE' AND dr.tipologia_documento='132' ";
                 }
@@ -218,15 +218,15 @@ class Sql extends \Sql
                 }
 
                 if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
-                    $cadenaSql .= " AND cn.municipio='" . $_REQUEST['municipio'] . "'";
+                    $cadenaSql .= " AND bn.municipio='" . $_REQUEST['municipio'] . "'";
                 }
                 if (isset($_REQUEST['departamento']) && $_REQUEST['departamento'] != '') {
 
-                    $cadenaSql .= " AND cn.departamento='" . $_REQUEST['departamento'] . "'";
+                    $cadenaSql .= " AND bn.departamento='" . $_REQUEST['departamento'] . "'";
                 }
 
                 if (isset($_REQUEST['urbanizacion']) && $_REQUEST['urbanizacion'] != '') {
-                    $cadenaSql .= " AND cn.urbanizacion='" . $_REQUEST['urbanizacion'] . "'";
+                    $cadenaSql .= " AND bn.id_proyecto='" . $_REQUEST['urbanizacion'] . "'";
                 }
 
                 if (isset($_REQUEST['beneficiario']) && $_REQUEST['beneficiario'] != '') {
@@ -264,35 +264,29 @@ class Sql extends \Sql
                 break;
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
             case 'consultarDepartamento':
 
-                $cadenaSql = " SELECT DISTINCT departamento as valor, departamento";
-                $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND departamento IS NOT NULL";
-                $cadenaSql .= " AND departamento <> ''; ";
+                $cadenaSql = " SELECT DISTINCT dp.codigo_dep, dp.departamento";
+                $cadenaSql .= " FROM parametros.departamento dp";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.departamento=dp.codigo_dep AND estado_registro='TRUE';";
                 break;
 
             case 'consultarMunicipio':
-
-                $cadenaSql = " SELECT DISTINCT municipio as valor, municipio ";
-                $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND municipio IS NOT NULL ";
-                $cadenaSql .= " AND municipio <> ''; ";
+                $cadenaSql = " SELECT DISTINCT mn.codigo_mun, mn.municipio";
+                $cadenaSql .= " FROM parametros.municipio mn";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.municipio=mn.codigo_mun AND bn.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bn.id_beneficiario AND cn.estado_registro='TRUE';";
 
                 break;
 
             case 'consultarUrbanizacion':
 
-                $cadenaSql = " SELECT DISTINCT urbanizacion as valor, urbanizacion";
-                $cadenaSql .= " FROM interoperacion.contrato";
-                $cadenaSql .= " WHERE estado_registro=TRUE";
-                $cadenaSql .= " AND urbanizacion IS NOT NULL";
-                $cadenaSql .= " AND urbanizacion <> '' ";
-                $cadenaSql .= " AND urbanizacion <> 'Seleccione .....' ;";
+                $cadenaSql = " SELECT DISTINCT urb.id_urbanizacion, urb.urbanizacion";
+                $cadenaSql .= " FROM parametros.urbanizacion urb";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.id_proyecto=urb.id_urbanizacion AND bn.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bn.id_beneficiario AND cn.estado_registro='TRUE';";
 
                 break;
 
@@ -387,7 +381,7 @@ class Sql extends \Sql
                 $cadenaSql .= " AND ocupacion_familiar='1';";
                 break;
 
-            case 'consultaCantidadTrabajoInformal':    // Corregir
+            case 'consultaCantidadTrabajoInformal': // Corregir
                 $cadenaSql = " SELECT COUNT(consecutivo)";
                 $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
@@ -427,7 +421,7 @@ class Sql extends \Sql
                 $cadenaSql .= " AND ocupacion_familiar='14';";
                 break;
 
-            case 'consultaCantidadNoTrabaja':    //Corregir
+            case 'consultaCantidadNoTrabaja': //Corregir
                 $cadenaSql = " SELECT COUNT(consecutivo)";
                 $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
