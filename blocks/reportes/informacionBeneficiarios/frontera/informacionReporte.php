@@ -54,7 +54,7 @@ class Registrador
             $enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
             $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($valorCodificado, $enlace);
 
-            echo $urlProceso = $url . $cadena;
+            $urlProceso = $url . $cadena;
 
         }
         // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
