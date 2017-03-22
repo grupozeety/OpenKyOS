@@ -1,5 +1,6 @@
 <?php
 namespace reportes\beneficiarios;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -10,9 +11,11 @@ include_once "core/connection/Sql.class.php";
 
 // Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 // en camel case precedida por la palabra sql
-class Sql extends \Sql {
+class Sql extends \Sql
+{
     public $miConfigurador;
-    public function getCadenaSql($tipo, $variable = '') {
+    public function getCadenaSql($tipo, $variable = '')
+    {
 
         /**
          * 1.
@@ -76,8 +79,8 @@ class Sql extends \Sql {
                 break;
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
 
             case 'consultarProceso':
                 $cadenaSql = " SELECT *";
@@ -131,7 +134,9 @@ class Sql extends \Sql {
                 $cadenaSql .= " bn.lote,";
                 $cadenaSql .= " bn.interior,";
                 $cadenaSql .= " bn.piso,";
-                $cadenaSql .= " bn.barrio ";
+                $cadenaSql .= " bn.barrio, ";
+                $cadenaSql .= " (CASE WHEN bn.geolocalizacion IS NULL THEN '0' WHEN bn.geolocalizacion IS NOT NULL THEN split_part(bn.geolocalizacion, ',', 1) END) as latitud,";
+                $cadenaSql .= " (CASE WHEN bn.geolocalizacion IS NULL THEN '0' WHEN bn.geolocalizacion IS NOT NULL THEN split_part(bn.geolocalizacion, ',', 2) END) as longitud , bn.geolocalizacion  ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial AS bn";
                 $cadenaSql .= " JOIN parametros.departamento AS dp ON dp.codigo_dep = bn.departamento";
                 $cadenaSql .= " JOIN parametros.municipio AS mn ON mn.codigo_mun = bn.municipio";
@@ -211,8 +216,8 @@ class Sql extends \Sql {
                 break;
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
             case 'consultarDepartamento':
 
                 $cadenaSql = " SELECT DISTINCT bn.departamento as valor,dp.departamento";
@@ -332,7 +337,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND ocupacion_familiar='1';";
                 break;
 
-            case 'consultaCantidadTrabajoInformal':    // Corregir
+            case 'consultaCantidadTrabajoInformal': // Corregir
                 $cadenaSql = " SELECT COUNT(consecutivo)";
                 $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
@@ -372,7 +377,7 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND ocupacion_familiar='14';";
                 break;
 
-            case 'consultaCantidadNoTrabaja':    //Corregir
+            case 'consultaCantidadNoTrabaja': //Corregir
                 $cadenaSql = " SELECT COUNT(consecutivo)";
                 $cadenaSql .= " FROM interoperacion.familiar_beneficiario_potencial";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
@@ -413,5 +418,3 @@ class Sql extends \Sql {
         return $cadenaSql;
     }
 }
-?>
-
