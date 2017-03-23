@@ -76,21 +76,28 @@ class FormProcessor
         $this->creacion_log();
 
         /**
-         * 3.
+         * 4. Duplicidad en la Plantilla
+         *
+         */
+
+        $this->validarDuplicidad();
+
+        /**
+         * 4.
          * Validar que no hayan nulos
          */
 
         $this->validarNulo();
 
         /**
-         * 4.
+         * 5.
          * Validar Numeros
          */
 
         $this->validarNumeros();
 
         /**
-         * 5.
+         * 6.
          * Validar Existencia Beneficiarios
          */
 
@@ -101,7 +108,7 @@ class FormProcessor
         }
 
         /**
-         * 6.
+         * 7.
          * Cerrar Log
          */
 
@@ -112,6 +119,25 @@ class FormProcessor
         } else {
             Redireccionador::redireccionar("ExitoInformacion");
         }
+    }
+
+    public function validarDuplicidad()
+    {
+
+        $conteo = array_count_values($this->mac_esclavo);
+
+        foreach ($conteo as $key => $value) {
+
+            if ($value > 1) {
+
+                $mensaje = " El mac esclavo '" . $key . "' esta duplicado en la plantilla.";
+                $this->escribir_log($mensaje);
+                $this->error = true;
+
+            }
+
+        }
+
     }
 
     public function validarNumeros()
@@ -369,6 +395,8 @@ class FormProcessor
                 $datos_infotecnica[$i]['longitud'] = str_replace(',', '.', $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue());
 
                 $datos_infotecnica[$i]['macesclavo1'] = (is_null($informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue())) ? 0 : strtolower(str_replace(':', '', $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue()));
+
+                $this->mac_esclavo[] = (is_null($informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue())) ? 0 : strtolower(str_replace(':', '', $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue()));
 
                 $datos_infotecnica[$i]['port'] = (!is_null($informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue())) ? $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue() : 0;
 
