@@ -70,6 +70,13 @@ class FormProcessor
         $this->cargarInformacionHojaCalculo();
 
         /**
+         * 3. Duplicidad en la Plantilla
+         *
+         */
+
+        $this->validarDuplicidad();
+
+        /**
          *  4. Validar Existencia Contratos Beneficiarios
          **/
 
@@ -84,49 +91,49 @@ class FormProcessor
         switch ($_REQUEST['funcionalidad']) {
             case '3':
 
-            /**
-             *  5.1. Validar que no exitan actas a Actualizar
-             **/
+                /**
+                 *  5.1. Validar que no exitan actas a Actualizar
+                 **/
                 $this->validarExistenciaActas();
 
-            /**
-             *  5.3. Validar existencia serial portatil
-             **/
+                /**
+                 *  5.3. Validar existencia serial portatil
+                 **/
                 $this->validarExistenciaSerialPortatil();
 
-            /**
-             *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
-             **/
+                /**
+                 *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
+                 **/
 
                 $this->validarDuplicidadPortatil();
 
-            /**
-             *  5.4. Validar duplicidad IP y MAC Esclavos
-             **/
+                /**
+                 *  5.4. Validar duplicidad IP y MAC Esclavos
+                 **/
                 $this->validarIPyMAC();
 
                 break;
 
             default:
 
-            /**
-             *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
-             **/
+                /**
+                 *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
+                 **/
                 $this->validarDuplicidadPortatil();
 
-            /**
-             *  5.2. Validar que no exitan registradas actas con las identificaciones de los Beneficiaciarios
-             **/
+                /**
+                 *  5.2. Validar que no exitan registradas actas con las identificaciones de los Beneficiaciarios
+                 **/
                 $this->validarDuplicidadActa();
 
-            /**
-             *  5.3. Validar existencia serial portatil
-             **/
+                /**
+                 *  5.3. Validar existencia serial portatil
+                 **/
                 $this->validarExistenciaSerialPortatil();
 
-            /**
-             *  5.4. Validar duplicidad IP y MAC Esclavos
-             **/
+                /**
+                 *  5.4. Validar duplicidad IP y MAC Esclavos
+                 **/
                 $this->validarIPyMAC();
 
                 break;
@@ -166,15 +173,15 @@ class FormProcessor
 
             case '2':
 
-            /**
-             *  8. Parametrizacion Nombre Contrato
-             **/
+                /**
+                 *  8. Parametrizacion Nombre Contrato
+                 **/
 
                 $this->parametrizarNombre();
 
-            /**
-             *  9. Registrar Tarea o Proceso de Generación Pdf Contratos
-             **/
+                /**
+                 *  9. Registrar Tarea o Proceso de Generación Pdf Contratos
+                 **/
 
                 $this->registroProceso();
 
@@ -336,6 +343,33 @@ class FormProcessor
                 'mac_esc2' => $value['mac_2'],
                 'fecha_instalacion' => $value['fecha_instalacion'],
             );
+
+        }
+
+    }
+
+    public function validarDuplicidad()
+    {
+
+        $conteo_serial_portatil = array_count_values($this->serial_portatil);
+
+        foreach ($conteo_serial_portatil as $key => $value) {
+
+            if ($value > 1) {
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
+
+        }
+
+        $conteo_mac = array_count_values($this->mac_esclavo);
+
+        foreach ($conteo_mac as $key => $value) {
+
+            if ($value > 1) {
+                Redireccionador::redireccionar("ErrorCreacion");
+
+            }
 
         }
 
@@ -608,6 +642,8 @@ class FormProcessor
 
                 $datos_beneficiario[$i]['serial_portatil'] = $serial_portatil;
 
+                $this->serial_portatil[] = $serial_portatil;
+
                 $datos_beneficiario[$i]['fecha_entrega_portatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
 
                 $mac_1 = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
@@ -615,6 +651,8 @@ class FormProcessor
                 $mac_1 = ($mac_1 != 'Sin MAC 1') ? strtolower(str_replace(":", "", $mac_1)) : $mac_1;
 
                 $datos_beneficiario[$i]['mac_1'] = $mac_1;
+
+                $this->mac_esclavo[] = $mac_1;
 
                 $mac_2 = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
 
