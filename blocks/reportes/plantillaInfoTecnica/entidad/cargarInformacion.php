@@ -68,21 +68,28 @@ class FormProcessor
         $this->cargarInformacionHojaCalculo();
 
         /**
-         * 3.
+         * 3. Duplicidad en la Plantilla
+         *
+         */
+
+        $this->validarDuplicidad();
+
+        /**
+         * 4.
          * Validar que no hayan nulos
          */
 
         $this->validarNulo();
 
         /**
-         * 4.
+         * 5.
          * Validar Datos Númericos
          */
 
         $this->validarNumeros();
 
         /**
-         * 5.
+         * 6.
          * Validar Existencia Beneficiarios
          */
 
@@ -93,20 +100,20 @@ class FormProcessor
         }
 
         /**
-         * 6.
+         * 7.
          * Procesar Información
          */
 
         $this->procesarInformacion();
 
         /**
-         * 7.
+         * 8.
          * Procesar Cabecera
          */
 
         $this->procesarCabecera();
         /**
-         * 8.
+         * 9.
          * Actualizar o Registrar
          */
 
@@ -232,6 +239,23 @@ class FormProcessor
         }
 
         $this->info_cabecera = $this->unique_multidim_array($cabecera, 'codigo_cabecera');
+    }
+
+    public function validarDuplicidad()
+    {
+
+        $conteo = array_count_values($this->mac_esclavo);
+
+        foreach ($conteo as $key => $value) {
+
+            if ($value > 1) {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+
+            }
+
+        }
+
     }
 
     public function validarNumeros()
@@ -430,6 +454,8 @@ class FormProcessor
                 $datos_beneficiario[$i]['longitud'] = (is_null($informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue())) ? 0 : str_replace("'", "`", $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue());
 
                 $datos_beneficiario[$i]['macesclavo1'] = (is_null($informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue())) ? 0 : strtolower(str_replace(':', '', $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue()));
+
+                $this->mac_esclavo[] = (is_null($informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue())) ? 0 : strtolower(str_replace(':', '', $informacion->setActiveSheetIndex()->getCell('I' . $i)->getCalculatedValue()));
 
                 $datos_beneficiario[$i]['port'] = (!is_null($informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue())) ? $informacion->setActiveSheetIndex()->getCell('J' . $i)->getCalculatedValue() : 0;
 
