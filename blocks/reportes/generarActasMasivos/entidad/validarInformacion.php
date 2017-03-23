@@ -76,13 +76,20 @@ class FormProcessor
         $this->creacion_log();
 
         /**
-         *  4. Validar Existencia Beneficiarios
+         * 4. Duplicidad en la Plantilla
+         *
+         */
+
+        $this->validarDuplicidad();
+
+        /**
+         *  5. Validar Existencia Beneficiarios
          **/
 
         $this->validarBeneficiariosExistentes();
 
         /**
-         *  5. Validar Existencia Contratos Beneficiarios
+         *  6. Validar Existencia Contratos Beneficiarios
          **/
 
         $this->validarContratosExistentes();
@@ -90,49 +97,49 @@ class FormProcessor
         switch ($_REQUEST['funcionalidad']) {
             case '3':
 
-            /**
-             *  5.1. Validar que no exitan actas a Actualizar
-             **/
+                /**
+                 *  6.1. Validar que no exitan actas a Actualizar
+                 **/
                 $this->validarExistenciaActas();
 
-            /**
-             *  5.3. Validar existencia serial portatil
-             **/
+                /**
+                 *  6.2. Validar existencia serial portatil
+                 **/
                 $this->validarExistenciaSerialPortatil();
 
-            /**
-             *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
-             **/
+                /**
+                 *  6.3. Validar que no exitan registradas actas con lo seriales a registrar
+                 **/
 
                 $this->validarDuplicidadPortatil();
 
-            /**
-             *  5.4. Validar duplicidad IP y MAC Esclavos
-             **/
+                /**
+                 *  6.4. Validar duplicidad IP y MAC Esclavos
+                 **/
                 $this->validarIPyMAC();
 
                 break;
 
             default:
 
-            /**
-             *  5.1. Validar que no exitan registradas actas con lo seriales a registrar
-             **/
+                /**
+                 *  6.1. Validar que no exitan registradas actas con lo seriales a registrar
+                 **/
                 $this->validarDuplicidadPortatil();
 
-            /**
-             *  5.2. Validar que no exitan registradas actas con las identificaciones de los Beneficiaciarios
-             **/
+                /**
+                 *  6.2. Validar que no exitan registradas actas con las identificaciones de los Beneficiaciarios
+                 **/
                 $this->validarDuplicidadActa();
 
-            /**
-             *  5.3. Validar existencia serial portatil
-             **/
+                /**
+                 *  6.3. Validar existencia serial portatil
+                 **/
                 $this->validarExistenciaSerialPortatil();
 
-            /**
-             *  5.4. Validar duplicidad IP y MAC Esclavos
-             **/
+                /**
+                 *  6.4. Validar duplicidad IP y MAC Esclavos
+                 **/
                 $this->validarIPyMAC();
 
                 break;
@@ -140,13 +147,13 @@ class FormProcessor
         }
 
         /**
-         *  6. Validar otros Datos
+         *  7. Validar otros Datos
          **/
 
         $this->validarOtrosDatos();
 
         /**
-         *  7. Cerrar Log
+         *  8. Cerrar Log
          **/
 
         $this->cerrar_log();
@@ -155,6 +162,39 @@ class FormProcessor
             Redireccionador::redireccionar("ErrorInformacionCargar", base64_encode($this->ruta_relativa_log));
         } else {
             Redireccionador::redireccionar("ExitoInformacion");
+        }
+
+    }
+
+    public function validarDuplicidad()
+    {
+
+        $conteo_serial_portatil = array_count_values($this->serial_portatil);
+
+        foreach ($conteo_serial_portatil as $key => $value) {
+
+            if ($value > 1) {
+
+                $mensaje = " El serial portatil '" . $key . "' esta duplicado en la plantilla.";
+                $this->escribir_log($mensaje);
+                $this->error = true;
+
+            }
+
+        }
+
+        $conteo_mac = array_count_values($this->mac_esclavo);
+
+        foreach ($conteo_mac as $key => $value) {
+
+            if ($value > 1) {
+
+                $mensaje = " El MAC 1  '" . $key . "' esta duplicado en la plantilla.";
+                $this->escribir_log($mensaje);
+                $this->error = true;
+
+            }
+
         }
 
     }
@@ -514,6 +554,8 @@ class FormProcessor
 
                 $datos_beneficiario[$i]['serial_portatil'] = $serial_portatil;
 
+                $this->serial_portatil[] = $serial_portatil;
+
                 $datos_beneficiario[$i]['fecha_entrega_portatil'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
 
                 $mac_1 = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
@@ -521,6 +563,8 @@ class FormProcessor
                 $mac_1 = ($mac_1 != 'Sin MAC 1') ? strtolower(str_replace(":", "", $mac_1)) : $mac_1;
 
                 $datos_beneficiario[$i]['mac_1'] = $mac_1;
+
+                $this->mac_esclavo[] = $mac_1;
 
                 $mac_2 = $informacion->setActiveSheetIndex()->getCell('E' . $i)->getCalculatedValue();
 
