@@ -17,7 +17,8 @@ require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel.php";
 require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel/IOFactory.php";
 
 include_once 'Redireccionador.php';
-class FormProcessor {
+class FormProcessor
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
@@ -26,7 +27,8 @@ class FormProcessor {
     public $esteRecursoDB;
     public $rutaURL;
     public $rutaAbsoluta;
-    public function __construct($lenguaje, $sql) {
+    public function __construct($lenguaje, $sql)
+    {
         date_default_timezone_set('America/Bogota');
 
         $this->miConfigurador = \Configurador::singleton();
@@ -74,10 +76,10 @@ class FormProcessor {
 
         switch ($_REQUEST['funcionalidad']) {
             case '2':
-            /**
-             * 5.
-             * Validar Existencia Beneficiarios
-             */
+                /**
+                 * 5.
+                 * Validar Existencia Beneficiarios
+                 */
 
                 $this->validarDuplicidadFamiliares();
 
@@ -85,10 +87,10 @@ class FormProcessor {
 
             case '3':
 
-            /**
-             * 5.
-             * Validar Existencia Familiares
-             */
+                /**
+                 * 5.
+                 * Validar Existencia Familiares
+                 */
 
                 $this->validarExistenciaFamiliares();
 
@@ -147,7 +149,8 @@ class FormProcessor {
     /**
      * Funcionalidades Específicas
      */
-    public function informacionBeneficiario() {
+    public function informacionBeneficiario()
+    {
         foreach ($this->informacion_registrar as $key => $value) {
 
             $cadenaSql = $this->miSql->getCadenaSql('registroFamiliares', $value);
@@ -158,7 +161,8 @@ class FormProcessor {
 
     }
 
-    public function procesarInformacionBeneficiario() {
+    public function procesarInformacionBeneficiario()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -188,7 +192,8 @@ class FormProcessor {
 
     }
 
-    public function validarOtrosDatos() {
+    public function validarOtrosDatos()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -352,7 +357,8 @@ class FormProcessor {
         }
     }
 
-    public function validarBeneficiariosExistentes() {
+    public function validarBeneficiariosExistentes()
+    {
         foreach ($this->datos_beneficiario as $key => $value) {
 
             $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaBeneficiario', $value['identificacion_beneficiario']);
@@ -367,7 +373,23 @@ class FormProcessor {
 
     }
 
-    public function validarDuplicidadFamiliares() {
+    public function validarDuplicidad()
+    {
+
+        $conteo_identificaciones = array_count_values($this->identificaciones_familiares);
+
+        foreach ($conteo_identificaciones as $key => $value) {
+
+            if ($value > 1) {
+                Redireccionador::redireccionar("ErrorCreacion");
+            }
+
+        }
+
+    }
+
+    public function validarDuplicidadFamiliares()
+    {
         foreach ($this->datos_beneficiario as $key => $value) {
 
             if (is_null($value['identificacion_fm'])) {
@@ -386,7 +408,8 @@ class FormProcessor {
 
     }
 
-    public function validarExistenciaFamiliares() {
+    public function validarExistenciaFamiliares()
+    {
         foreach ($this->datos_beneficiario as $key => $value) {
 
             if (is_null($value['identificacion_fm'])) {
@@ -411,7 +434,8 @@ class FormProcessor {
 
     }
 
-    public function validarBeneficiariosExistentesRegistro() {
+    public function validarBeneficiariosExistentesRegistro()
+    {
         foreach ($this->datos_beneficiario as $key => $value) {
 
             $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaBeneficiario', $value['identificacion_beneficiario']);
@@ -423,7 +447,8 @@ class FormProcessor {
             }
         }
     }
-    public function cargarInformacionHojaCalculo() {
+    public function cargarInformacionHojaCalculo()
+    {
         ini_set('memory_limit', '1024M');
         ini_set('max_execution_time', 300);
 
@@ -446,7 +471,9 @@ class FormProcessor {
 
                 $datos_beneficiario[$i]['tipo_identificacion_fm'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['identificacion_fm'] = $informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['identificacion_fm'] = trim($informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue());
+
+                $this->identificaciones_familiares[] = trim($informacion->setActiveSheetIndex()->getCell('C' . $i)->getCalculatedValue());
 
                 $datos_beneficiario[$i]['nombre_fm'] = $informacion->setActiveSheetIndex()->getCell('D' . $i)->getCalculatedValue();
 
@@ -481,7 +508,8 @@ class FormProcessor {
             Redireccionador::redireccionar("ErrorNoCargaInformacionHojaCalculo");
         }
     }
-    public function cargarArchivos() {
+    public function cargarArchivos()
+    {
         $archivo_datos = '';
         $archivo = $_FILES['archivo_informacion'];
 
@@ -537,5 +565,3 @@ class FormProcessor {
 }
 
 $miProcesador = new FormProcessor($this->lenguaje, $this->sql);
-?>
-
