@@ -76,23 +76,29 @@ class FormProcessor
          */
 
         $this->creacion_log();
+        /**
+         * 4.
+         * Validar Duplicidad
+         */
+
+        $this->validarDuplicidad();
 
         /**
-         * 3.
+         * 5.
          * Validar que no hayan nulos
          */
 
         $this->validarNulo();
 
         /**
-         * 4.
+         * 6.
          * Validar que no  Valores Númericos
          */
 
         $this->validarNumeros();
 
         /**
-         * 5.
+         * 7.
          * Validar Existencia Beneficiarios
          */
 
@@ -103,7 +109,7 @@ class FormProcessor
         }
 
         /**
-         * 6.
+         * 8.
          * Cerrar Log
          */
 
@@ -114,6 +120,25 @@ class FormProcessor
         } else {
             Redireccionador::redireccionar("ExitoInformacion");
         }
+    }
+
+    public function validarDuplicidad()
+    {
+
+        $conteo_identificaciones = array_count_values($this->identificaciones);
+
+        foreach ($conteo_identificaciones as $key => $value) {
+
+            if ($value > 1) {
+
+                $mensaje = " La identificación '" . $key . "' esta duplicada en la plantilla.";
+                $this->escribir_log($mensaje);
+                $this->error = true;
+
+            }
+
+        }
+
     }
 
     public function validarNumeros()
@@ -255,7 +280,9 @@ class FormProcessor
 
                 $datos_beneficiario[$i]['tipo_documento'] = $informacion->setActiveSheetIndex()->getCell('F' . $i)->getCalculatedValue();
 
-                $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['identificacion_beneficiario'] = trim($informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue());
+
+                $this->identificaciones[] = trim($informacion->setActiveSheetIndex()->getCell('G' . $i)->getCalculatedValue());
 
                 $datos_beneficiario[$i]['nombre'] = $informacion->setActiveSheetIndex()->getCell('H' . $i)->getCalculatedValue();
 

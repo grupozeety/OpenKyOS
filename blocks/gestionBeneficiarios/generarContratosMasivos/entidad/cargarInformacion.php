@@ -17,7 +17,8 @@ require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel/IOFactory.php";
 
 include_once 'Redireccionador.php';
 
-class FormProcessor {
+class FormProcessor
+{
 
     public $miConfigurador;
     public $lenguaje;
@@ -32,7 +33,8 @@ class FormProcessor {
     public $clausulas;
     public $registro_info_contrato;
     public $urbanizaciones = null;
-    public function __construct($lenguaje, $sql) {
+    public function __construct($lenguaje, $sql)
+    {
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -67,6 +69,12 @@ class FormProcessor {
          **/
 
         $this->cargarInformacionHojaCalculo();
+
+        /**
+         *  3. Validar Duplicidad Plantilla
+         **/
+
+        $this->validarDuplicidad();
 
         /**
          *  4. Validar Existencia Contratos Beneficiarios
@@ -118,7 +126,8 @@ class FormProcessor {
 
     }
 
-    public function registroProceso() {
+    public function registroProceso()
+    {
 
         $this->urbanizaciones = array_unique($this->urbanizaciones);
 
@@ -135,7 +144,8 @@ class FormProcessor {
 
     }
 
-    public function parametrizarNombreContratos() {
+    public function parametrizarNombreContratos()
+    {
         if (isset($this->datos_nombre_documento)) {
 
             foreach ($this->datos_nombre_documento as $key => $value) {
@@ -205,7 +215,8 @@ class FormProcessor {
 
     }
 
-    public function crearContrato() {
+    public function crearContrato()
+    {
 
         foreach ($this->informacion_registrar as $key => $value) {
 
@@ -219,7 +230,8 @@ class FormProcessor {
 
     }
 
-    public function procesarInformacionBeneficiario() {
+    public function procesarInformacionBeneficiario()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -295,7 +307,25 @@ class FormProcessor {
 
     }
 
-    public function validarOtrosDatos() {
+    public function validarDuplicidad()
+    {
+
+        $conteo_identificaciones = array_count_values($this->identificaciones);
+
+        foreach ($conteo_identificaciones as $key => $value) {
+
+            if ($value > 1) {
+
+                Redireccionador::redireccionar("ErrorCreacionContratos");
+
+            }
+
+        }
+
+    }
+
+    public function validarOtrosDatos()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -355,7 +385,8 @@ class FormProcessor {
 
     }
 
-    public function validarBeneficiariosExistentes() {
+    public function validarBeneficiariosExistentes()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -373,7 +404,8 @@ class FormProcessor {
 
     }
 
-    public function validarContratosExistentes() {
+    public function validarContratosExistentes()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -391,7 +423,8 @@ class FormProcessor {
 
     }
 
-    public function cargarInformacionHojaCalculo() {
+    public function cargarInformacionHojaCalculo()
+    {
 
         ini_set('memory_limit', '1024M');
         ini_set('max_execution_time', 300);
@@ -425,7 +458,9 @@ class FormProcessor {
 
             for ($i = 2; $i <= $total_filas; $i++) {
 
-                $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['identificacion_beneficiario'] = trim($informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue());
+
+                $this->identificaciones[] = trim($informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue());
 
                 $datos_beneficiario[$i]['telefono'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
 
@@ -488,7 +523,8 @@ class FormProcessor {
 
     }
 
-    public function cargarArchivos() {
+    public function cargarArchivos()
+    {
 
         $archivo_datos = '';
         $archivo = $_FILES['archivo_contratos'];
@@ -549,5 +585,3 @@ class FormProcessor {
 }
 
 $miProcesador = new FormProcessor($this->lenguaje, $this->sql);
-?>
-
