@@ -17,7 +17,8 @@ require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel/IOFactory.php";
 
 include_once 'Redireccionador.php';
 
-class FormProcessor {
+class FormProcessor
+{
 
     public $miConfigurador;
     public $lenguaje;
@@ -31,7 +32,8 @@ class FormProcessor {
     public $rutaAbsoluta;
     public $clausulas;
     public $registro_info_contrato;
-    public function __construct($lenguaje, $sql) {
+    public function __construct($lenguaje, $sql)
+    {
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -74,25 +76,31 @@ class FormProcessor {
         $this->creacion_log();
 
         /**
-         *  4. Validar Existencia Contratos Beneficiarios
+         *  4. Validar Duplicidad Plantilla
+         **/
+
+        $this->validarDuplicidad();
+
+        /**
+         *  5. Validar Existencia Contratos Beneficiarios
          **/
 
         $this->validarContratosExistentes();
 
         /**
-         *  5. Validar Existencia Beneficiarios
+         *  6. Validar Existencia Beneficiarios
          **/
 
         $this->validarBeneficiariosExistentes();
 
         /**
-         *  6. Validar otros Datos
+         *  7. Validar otros Datos
          **/
 
         $this->validarOtrosDatos();
 
         /**
-         *  7. Cerrar Log
+         *  8. Cerrar Log
          **/
 
         $this->cerrar_log();
@@ -105,7 +113,27 @@ class FormProcessor {
 
     }
 
-    public function validarOtrosDatos() {
+    public function validarDuplicidad()
+    {
+
+        $conteo_identificaciones = array_count_values($this->identificaciones);
+
+        foreach ($conteo_identificaciones as $key => $value) {
+
+            if ($value > 1) {
+
+                $mensaje = " La identificación  '" . $key . "' esta duplicada en la plantilla.";
+                $this->escribir_log($mensaje);
+                $this->error = true;
+
+            }
+
+        }
+
+    }
+
+    public function validarOtrosDatos()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -181,7 +209,8 @@ class FormProcessor {
 
     }
 
-    public function validarBeneficiariosExistentes() {
+    public function validarBeneficiariosExistentes()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -202,7 +231,8 @@ class FormProcessor {
 
     }
 
-    public function validarContratosExistentes() {
+    public function validarContratosExistentes()
+    {
 
         foreach ($this->datos_beneficiario as $key => $value) {
 
@@ -223,19 +253,22 @@ class FormProcessor {
 
     }
 
-    public function escribir_log($mensaje) {
+    public function escribir_log($mensaje)
+    {
 
         fwrite($this->log, $mensaje . PHP_EOL);
 
     }
 
-    public function cerrar_log() {
+    public function cerrar_log()
+    {
 
         fclose($this->log);
 
     }
 
-    public function creacion_log() {
+    public function creacion_log()
+    {
 
         $prefijo = substr(md5(uniqid(time())), 0, 6);
 
@@ -246,7 +279,8 @@ class FormProcessor {
         $this->log = fopen($this->ruta_absoluta_log, "w");
     }
 
-    public function cargarInformacionHojaCalculo() {
+    public function cargarInformacionHojaCalculo()
+    {
 
         ini_set('memory_limit', '1024M');
         ini_set('max_execution_time', 300);
@@ -280,7 +314,9 @@ class FormProcessor {
 
             for ($i = 2; $i <= $total_filas; $i++) {
 
-                $datos_beneficiario[$i]['identificacion_beneficiario'] = $informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue();
+                $datos_beneficiario[$i]['identificacion_beneficiario'] = trim($informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue());
+
+                $this->identificaciones[] = trim($informacion->setActiveSheetIndex()->getCell('A' . $i)->getCalculatedValue());
 
                 $datos_beneficiario[$i]['telefono'] = $informacion->setActiveSheetIndex()->getCell('B' . $i)->getCalculatedValue();
 
@@ -326,7 +362,8 @@ class FormProcessor {
 
     }
 
-    public function cargarArchivos() {
+    public function cargarArchivos()
+    {
 
         $archivo_datos = '';
         $archivo = $_FILES['archivo_validacion'];
@@ -387,5 +424,3 @@ class FormProcessor {
 }
 
 $miProcesador = new FormProcessor($this->lenguaje, $this->sql);
-?>
-
