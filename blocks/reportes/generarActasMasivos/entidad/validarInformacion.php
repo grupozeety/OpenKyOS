@@ -168,30 +168,64 @@ class FormProcessor
 
     public function validarDuplicidad()
     {
+        /**
+         *Validación Seriales Portatiles
+         **/
+        foreach ($this->serial_portatil as $key => $value) {
 
-        $conteo_serial_portatil = array_count_values($this->serial_portatil);
+            if ($value == 'Sin Serial Portatil') {
 
-        foreach ($conteo_serial_portatil as $key => $value) {
-
-            if ($value > 1) {
-
-                $mensaje = " El serial portatil '" . $key . "' esta duplicado en la plantilla.";
-                $this->escribir_log($mensaje);
-                $this->error = true;
+                unset($this->serial_portatil[$key]);
 
             }
 
         }
 
-        $conteo_mac = array_count_values($this->mac_esclavo);
+        if (!empty($this->serial_portatil)) {
 
-        foreach ($conteo_mac as $key => $value) {
+            $conteo_serial_portatil = array_count_values($this->serial_portatil);
 
-            if ($value > 1) {
+            foreach ($conteo_serial_portatil as $key => $value) {
 
-                $mensaje = " El MAC 1  '" . $key . "' esta duplicado en la plantilla.";
-                $this->escribir_log($mensaje);
-                $this->error = true;
+                if ($value > 1) {
+
+                    $mensaje = " El serial portatil '" . $key . "' esta duplicado en la plantilla.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+
+                }
+
+            }
+
+        }
+
+        /**
+         *Validación Mac Esclavo 1
+         **/
+
+        foreach ($this->mac_esclavo as $key => $value) {
+
+            if ($value == 'Sin MAC 1') {
+
+                unset($this->mac_esclavo[$key]);
+
+            }
+
+        }
+
+        if (!empty($this->mac_esclavo)) {
+
+            $conteo_mac = array_count_values($this->mac_esclavo);
+
+            foreach ($conteo_mac as $key => $value) {
+
+                if ($value > 1) {
+
+                    $mensaje = " El MAC 1  '" . $key . "' esta duplicado en la plantilla.";
+                    $this->escribir_log($mensaje);
+                    $this->error = true;
+
+                }
 
             }
 
