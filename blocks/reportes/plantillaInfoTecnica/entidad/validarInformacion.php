@@ -124,6 +124,19 @@ class FormProcessor
     public function validarDuplicidad()
     {
 
+        /**
+         *Validación Mac Esclavos
+         **/
+        foreach ($this->mac_esclavo as $key => $value) {
+
+            if ($value == 0) {
+
+                unset($this->mac_esclavo[$key]);
+
+            }
+
+        }
+
         $conteo = array_count_values($this->mac_esclavo);
 
         foreach ($conteo as $key => $value) {
