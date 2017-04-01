@@ -208,7 +208,6 @@ class Enviar
 
         // send the message, check for errors
 
-        var_dump($mail);exit;
         if (!$mail->send()) {
             echo "Mailer Error: " . $mail->ErrorInfo;
         } else {

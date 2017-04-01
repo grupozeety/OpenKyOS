@@ -126,7 +126,7 @@ class GenerarDocumento
 
         // URL definitiva
         $urlApi = $url . $cadena;
-        echo $urlApi;exit;
+
         return $urlApi;
     }
 
