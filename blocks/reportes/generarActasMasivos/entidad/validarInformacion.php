@@ -179,6 +179,12 @@ class FormProcessor
 
             }
 
+            if ($value == 'NULL') {
+
+                unset($this->serial_portatil[$key]);
+
+            }
+
         }
 
         if (!empty($this->serial_portatil)) {
@@ -206,6 +212,12 @@ class FormProcessor
         foreach ($this->mac_esclavo as $key => $value) {
 
             if ($value == 'Sin MAC 1') {
+
+                unset($this->mac_esclavo[$key]);
+
+            }
+
+            if ($value == 'NULL' || $value == 'null') {
 
                 unset($this->mac_esclavo[$key]);
 
@@ -280,7 +292,7 @@ class FormProcessor
                 $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
                 $hiredate = $value['fecha_entrega_portatil'];
 
-                if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha') {
+                if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha' && $value['fecha_entrega_portatil'] != 'NULL') {
 
                     $mensaje = " La fecha de entrega de portatil  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna Fecha de entrega de portatil este en formato texto y con esl formato 'yyyy-mm-dd'.";
                     $this->escribir_log($mensaje);
@@ -296,7 +308,7 @@ class FormProcessor
                 $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
                 $hiredate = $value['fecha_instalacion'];
 
-                if (!preg_match($date_regex, $hiredate) && $value['fecha_instalacion'] != 'Sin Fecha') {
+                if (!preg_match($date_regex, $hiredate) && $value['fecha_instalacion'] != 'Sin Fecha' && $value['fecha_instalacion'] != 'NULL') {
 
                     $mensaje = " La fecha de instalación asosicada al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que la columna Fecha de entrega de portatil este en formato texto y con esl formato 'yyyy-mm-dd'.";
                     $this->escribir_log($mensaje);
@@ -317,7 +329,7 @@ class FormProcessor
 
                     }
 
-                } elseif ($value['cantidad_esclavo'] != 'Sin Cantidad') {
+                } elseif ($value['cantidad_esclavo'] != 'Sin Cantidad' && $value['cantidad_esclavo'] != 'NULL') {
 
                     $mensaje = " La cantidad del esclavo  asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valida.Sugerencia verifique que sea un campo númerico.";
                     $this->escribir_log($mensaje);
@@ -328,7 +340,7 @@ class FormProcessor
 
             if (isset($value['marca_portatil']) && isset($value['modelo_portatil'])) {
 
-                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['marca_portatil'] != 'Hewlett Packard') {
+                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['serial_portatil'] != 'NULL' && $value['marca_portatil'] != 'Hewlett Packard' && $value['marca_portatil'] != 'NULL') {
 
                     $mensaje = " La marca y el modelo del portatil asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique marca y modelo portatil .";
                     $this->escribir_log($mensaje);
@@ -336,7 +348,7 @@ class FormProcessor
 
                 }
 
-                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['modelo_portatil'] != 'HP 245 G4 Notebook PC') {
+                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['serial_portatil'] != 'NULL' && $value['modelo_portatil'] != 'HP 245 G4 Notebook PC' && $value['marca_portatil'] != 'NULL') {
 
                     $mensaje = " La marca y el modelo del portatil asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique marca y modelo portatil .";
                     $this->escribir_log($mensaje);
@@ -360,7 +372,7 @@ class FormProcessor
 
             $ip_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+            if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP' && $value['ip'] != 'NULL' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
                 $mensaje = " La IP del esclavo " . $value['ip'] . " que esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario. Sugerencia verifique y corriga la IP del Esclavo .";
 
@@ -374,7 +386,7 @@ class FormProcessor
 
             $mac_1_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (!is_null($mac_1_beneficiario) && $value['ip'] != 'Sin MAC 1' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+            if (!is_null($mac_1_beneficiario) && $value['mac_1'] != 'Sin MAC 1' && $value['mac_1'] != 'NULL' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
                 $mensaje = " La Mac del esclavo 1 \"" . $value['mac_1'] . "\" que esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario con identificación " . $mac_1_beneficiario['numero_identificacion'] . " perteneciente al proyecto " . $mac_1_beneficiario['urbanizacion'] . ". Sugerencia verifique y corriga la Mac del Esclavo 1 .";
 
@@ -388,7 +400,7 @@ class FormProcessor
 
             $mac_2_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (!is_null($mac_2_beneficiario) && $value['ip'] != 'Sin MAC 2' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+            if (!is_null($mac_2_beneficiario) && $value['mac_2'] != 'Sin MAC 2' && $value['mac_2'] != 'NULL' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
                 $mensaje = " La Mac del esclavo 2  \"" . $value['mac_2'] . "\" que esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " ya existe relacionada a otro beneficiario con identificación " . $mac_2_beneficiario['numero_identificacion'] . " perteneciente al proyecto " . $mac_2_beneficiario['urbanizacion'] . ". Sugerencia verifique y corriga la Mac del Esclavo 2 .";
 
@@ -411,7 +423,7 @@ class FormProcessor
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (is_null($consulta) && $value['serial_portatil'] != 'Sin Serial Portatil') {
+            if (is_null($consulta) && $value['serial_portatil'] != 'Sin Serial Portatil' && $value['serial_portatil'] != 'NULL') {
 
                 $mensaje = " El serial  del portatil " . $value['serial_portatil'] . " no existe en la base de datos  el cual esta relacionado con la identificación  " . $value['identificacion_beneficiario'] . " . Sugerencia verifique serial de portatil o crear la referencia del mismo con el serial inexistente .";
 
@@ -455,7 +467,7 @@ class FormProcessor
                 'serial_portatil' => $value['serial_portatil'],
             );
 
-            if ($value['serial_portatil'] != 'Sin Serial Portatil') {
+            if ($value['serial_portatil'] != 'Sin Serial Portatil' && $value['serial_portatil'] != 'NULL') {
                 $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialPortatil', $arreglo);
                 $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
