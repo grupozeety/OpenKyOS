@@ -27,8 +27,8 @@ class Sql extends \Sql
         switch ($tipo) {
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
 
             //Validaciones
 
@@ -120,15 +120,7 @@ class Sql extends \Sql
             //Registros
             case 'registrarActaServicios':
 
-                if ($_REQUEST['funcionalidad'] == '3') {
-                    $cadenaSql = " UPDATE interoperacion.acta_entrega_servicios";
-                    $cadenaSql .= " SET estado_registro='FALSE'";
-                    $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "';";
-                    $cadenaSql .= " INSERT INTO interoperacion.acta_entrega_servicios(";
-                } else {
-                    $cadenaSql = " INSERT INTO interoperacion.acta_entrega_servicios(";
-                }
-
+                $cadenaSql = " INSERT INTO interoperacion.acta_entrega_servicios(";
                 $cadenaSql .= " id_beneficiario,";
                 $cadenaSql .= " mac_esc, ";
                 $cadenaSql .= " serial_esc, ";
@@ -167,15 +159,7 @@ class Sql extends \Sql
 
             case 'registrarActaPortatil':
 
-                if ($_REQUEST['funcionalidad'] == '3') {
-
-                    $cadenaSql = " UPDATE interoperacion.acta_entrega_portatil";
-                    $cadenaSql .= " SET estado_registro='FALSE'";
-                    $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "';";
-                    $cadenaSql .= " INSERT INTO interoperacion.acta_entrega_portatil(";
-                } else {
-                    $cadenaSql = " INSERT INTO interoperacion.acta_entrega_portatil(";
-                }
+                $cadenaSql = " INSERT INTO interoperacion.acta_entrega_portatil(";
                 $cadenaSql .= " id_beneficiario,";
                 $cadenaSql .= " fecha_entrega,";
                 $cadenaSql .= " serial)";
@@ -196,6 +180,66 @@ class Sql extends \Sql
 
                 $cadenaSql .= ")RETURNING id_beneficiario;";
                 break;
+
+            case 'actualizarActaPortatil':
+                $cadenaSql = " UPDATE interoperacion.acta_entrega_portatil";
+                $cadenaSql .= " SET";
+
+                if (!is_null($variable['fecha_entrega'])) {
+
+                    $cadenaSql .= " fecha_entrega='" . $variable['fecha_entrega'] . "',";
+                }
+
+                if (!is_null($variable['serial'])) {
+
+                    $cadenaSql .= " serial='" . $variable['serial'] . "',";
+                }
+
+                $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "'";
+                $cadenaSql .= " AND estado_registro='TRUE';";
+
+                $cadenaSql = str_replace("', W", "' W", $cadenaSql);
+
+                break;
+
+            case 'actualizarActaServicios':
+                $cadenaSql = " UPDATE interoperacion.acta_entrega_servicios";
+                $cadenaSql .= " SET";
+
+                if (!is_null($variable['mac_esc'])) {
+                    $cadenaSql .= " mac_esc='" . $variable['mac_esc'] . "',";
+                }
+
+                if (!is_null($variable['serial_esc'])) {
+                    $cadenaSql .= " serial_esc='" . $variable['serial_esc'] . "',";
+                }
+
+                if (!is_null($variable['marca_esc'])) {
+                    $cadenaSql .= " marca_esc='" . $variable['marca_esc'] . "',";
+                }
+                if (!is_null($variable['cant_esc'])) {
+                    $cadenaSql .= " cant_esc='" . $variable['cant_esc'] . "',";
+                }
+
+                if (!is_null($variable['ip_esc'])) {
+                    $cadenaSql .= " ip_esc='" . $variable['ip_esc'] . "',";
+                }
+
+                if (!is_null($variable['mac_esc2'])) {
+                    $cadenaSql .= " mac2_esc='" . $variable['mac_esc2'] . "',";
+                }
+
+                if (!is_null($variable['fecha_instalacion'])) {
+                    $cadenaSql .= " fecha_instalacion='" . $variable['fecha_instalacion'] . "',";
+                }
+
+                $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "'";
+                $cadenaSql .= " AND estado_registro='TRUE';";
+
+                $cadenaSql = str_replace("', W", "' W", $cadenaSql);
+
+                break;
+
             // Registro Procesos
             case 'registrarProceso':
                 $cadenaSql = " INSERT INTO parametros.procesos_masivos(";

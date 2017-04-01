@@ -112,6 +112,11 @@ class FormProcessor
                  **/
                 $this->validarIPyMAC();
 
+                /**
+                 *  5.5. Transformar Datos Nulos
+                 **/
+                $this->transformacionNulos();
+
                 break;
 
             default:
@@ -197,6 +202,7 @@ class FormProcessor
 
                     Redireccionador::redireccionar("ExitoActualizacionActas");
                 } else {
+
                     Redireccionador::redireccionar("ErrorCreacion");
                 }
 
@@ -296,21 +302,57 @@ class FormProcessor
 
         foreach ($this->informacion_registrar_portatil as $key => $value) {
 
-            $cadenaSql = $this->miSql->getCadenaSql('registrarActaPortatil', $value);
+            if ($_REQUEST['funcionalidad'] == '3') {
 
-            $cadenaSql = str_replace(",)", ")", $cadenaSql);
+                $cadenaSql = $this->miSql->getCadenaSql('actualizarActaPortatil', $value);
 
-            $this->id_beneficiario_acta_portatil[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_beneficiario'];
+                $servicios_portatil = strpos($cadenaSql, 'SET WHERE');
+
+                if ($servicios_portatil === false) {
+
+                    $this->id_beneficiario_acta_portatil[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_beneficiario'];
+
+                } else {
+                    $this->id_beneficiario_acta_portatil[] = true;
+
+                }
+
+            } else {
+
+                $cadenaSql = $this->miSql->getCadenaSql('registrarActaPortatil', $value);
+
+                $cadenaSql = str_replace(",)", ")", $cadenaSql);
+
+                $this->id_beneficiario_acta_portatil[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_beneficiario'];
+
+            }
 
         }
 
         foreach ($this->informacion_registrar_acta_servicios as $key => $value) {
 
-            $cadenaSql = $this->miSql->getCadenaSql('registrarActaServicios', $value);
+            if ($_REQUEST['funcionalidad'] == '3') {
+                $cadenaSql = $this->miSql->getCadenaSql('actualizarActaServicios', $value);
 
-            $cadenaSql = str_replace(",)", ")", $cadenaSql);
+                $servicios_servicio = strpos($cadenaSql, 'SET WHERE');
 
-            $this->id_beneficiario_acta_servicio[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_beneficiario'];
+                if ($servicios_servicio === false) {
+
+                    $this->id_beneficiario_acta_servicio[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_beneficiario'];
+
+                } else {
+
+                    $this->id_beneficiario_acta_servicio[] = true;
+                }
+
+            } else {
+                $cadenaSql = $this->miSql->getCadenaSql('registrarActaServicios', $value);
+
+                $cadenaSql = str_replace(",)", ")", $cadenaSql);
+
+                $this->id_beneficiario_acta_servicio[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_beneficiario'];
+
+            }
 
         }
 
@@ -348,6 +390,26 @@ class FormProcessor
 
     }
 
+    public function transformacionNulos()
+    {
+
+        foreach ($this->datos_beneficiario as $key => $value) {
+
+            foreach ($value as $llave => $valor) {
+
+                if ($valor == 'null' || $valor == 'NULL') {
+
+                    $value[$llave] = null;
+
+                    $this->datos_beneficiario[$key] = $value;
+                }
+
+            }
+
+        }
+
+    }
+
     public function validarDuplicidad()
     {
         /**
@@ -356,6 +418,12 @@ class FormProcessor
         foreach ($this->serial_portatil as $key => $value) {
 
             if ($value == 'Sin Serial Portatil') {
+
+                unset($this->serial_portatil[$key]);
+
+            }
+
+            if ($value == 'NULL') {
 
                 unset($this->serial_portatil[$key]);
 
@@ -385,6 +453,12 @@ class FormProcessor
         foreach ($this->mac_esclavo as $key => $value) {
 
             if ($value == 'Sin MAC 1') {
+
+                unset($this->mac_esclavo[$key]);
+
+            }
+
+            if ($value == 'NULL' || $value == 'null') {
 
                 unset($this->mac_esclavo[$key]);
 
@@ -448,7 +522,7 @@ class FormProcessor
                 $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
                 $hiredate = $value['fecha_entrega_portatil'];
 
-                if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha') {
+                if (!preg_match($date_regex, $hiredate) && $value['fecha_entrega_portatil'] != 'Sin Fecha' && $value['fecha_entrega_portatil'] != 'NULL') {
                     Redireccionador::redireccionar("ErrorCreacion");
                 }
             }
@@ -458,7 +532,7 @@ class FormProcessor
                 $date_regex = '/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/';
                 $hiredate = $value['fecha_instalacion'];
 
-                if (!preg_match($date_regex, $hiredate) && $value['fecha_instalacion'] != 'Sin Fecha') {
+                if (!preg_match($date_regex, $hiredate) && $value['fecha_instalacion'] != 'Sin Fecha' && $value['fecha_instalacion'] != 'NULL') {
 
                     Redireccionador::redireccionar("ErrorCreacion");
                 }
@@ -472,7 +546,7 @@ class FormProcessor
                         Redireccionador::redireccionar("ErrorCreacion");
                     }
 
-                } elseif ($value['cantidad_esclavo'] != 'Sin Cantidad') {
+                } elseif ($value['cantidad_esclavo'] != 'Sin Cantidad' && $value['cantidad_esclavo'] != 'NULL') {
 
                     Redireccionador::redireccionar("ErrorCreacion");
                 }
@@ -480,12 +554,12 @@ class FormProcessor
 
             if (isset($value['marca_portatil']) && isset($value['modelo_portatil'])) {
 
-                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['marca_portatil'] != 'Hewlett Packard') {
+                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['serial_portatil'] != 'NULL' && $value['marca_portatil'] != 'Hewlett Packard' && $value['marca_portatil'] != 'NULL') {
                     Redireccionador::redireccionar("ErrorCreacion");
 
                 }
 
-                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['modelo_portatil'] != 'HP 245 G4 Notebook PC') {
+                if ($value['serial_portatil'] == 'Sin Serial Portatil' && $value['serial_portatil'] != 'NULL' && $value['modelo_portatil'] != 'HP 245 G4 Notebook PC' && $value['marca_portatil'] != 'NULL') {
 
                     Redireccionador::redireccionar("ErrorCreacion");
 
@@ -507,7 +581,7 @@ class FormProcessor
 
             $ip_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+            if (!is_null($ip_beneficiario) && $value['ip'] != 'Sin IP' && $value['ip'] != 'NULL' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
                 Redireccionador::redireccionar("ErrorCreacion");
 
@@ -517,7 +591,7 @@ class FormProcessor
 
             $mac_1_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (!is_null($mac_1_beneficiario) && $value['ip'] != 'Sin MAC 1' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+            if (!is_null($mac_1_beneficiario) && $value['mac_1'] != 'Sin MAC 1' && $value['mac_1'] != 'NULL' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
 
                 Redireccionador::redireccionar("ErrorCreacion");
 
@@ -527,7 +601,7 @@ class FormProcessor
 
             $mac_2_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (!is_null($mac_2_beneficiario) && $value['ip'] != 'Sin MAC 2' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
+            if (!is_null($mac_2_beneficiario) && $value['mac_2'] != 'Sin MAC 2' && $value['mac_2'] != 'NULL' && $value['identificacion_beneficiario'] != $ip_beneficiario['numero_identificacion']) {
                 Redireccionador::redireccionar("ErrorCreacion");
 
             }
@@ -562,7 +636,7 @@ class FormProcessor
 
             $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (is_null($consulta) && $value['serial_portatil'] != 'Sin Serial Portatil') {
+            if (is_null($consulta) && $value['serial_portatil'] != 'Sin Serial Portatil' && $value['serial_portatil'] != 'NULL') {
                 Redireccionador::redireccionar("ErrorCreacion");
 
             }
@@ -581,7 +655,7 @@ class FormProcessor
                 'serial_portatil' => $value['serial_portatil'],
             );
 
-            if ($value['serial_portatil'] != 'Sin Serial Portatil') {
+            if ($value['serial_portatil'] != 'Sin Serial Portatil' && $value['serial_portatil'] != 'NULL') {
                 $cadenaSql = $this->miSql->getCadenaSql('consultarExitenciaSerialPortatil', $arreglo);
                 $consulta = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
