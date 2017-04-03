@@ -23,6 +23,21 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($caden
 // URL Consultar Proyectos
 $urlConsultaParticular = $url . $cadena;
 
+// Variables para Con
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultaBeneficiarios";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarBeneficiarios = $url . $cadena;
+
 ?>
 <script type='text/javascript'>
 
@@ -31,6 +46,40 @@ $urlConsultaParticular = $url . $cadena;
  */
 
  $(document).ready(function() {
+
+
+
+
+
+
+
+
+  $("#<?php echo $this->campoSeguro('beneficiario'); ?>").autocomplete({
+      minChars: 3,
+      serviceUrl: '<?php echo $urlConsultarBeneficiarios; ?>',
+      onSelect: function (suggestion) {
+      $("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val(suggestion.data);
+    }
+  });
+
+
+  $("#<?php echo $this->campoSeguro('beneficiario'); ?>").autocomplete({
+      minChars: 3,
+      serviceUrl: '<?php echo $urlConsultarBeneficiarios; ?>',
+      onSelect: function (suggestion) {
+      $("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val(suggestion.data);
+    }
+  });
+
+
+
+  $("#<?php echo $this->campoSeguro('beneficiario'); ?>").change(function() {
+    if($("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val()==''){
+        $("#<?php echo $this->campoSeguro('beneficiario'); ?>").val('NO ASIGNADO');
+      }
+  });
+
+
 
   $('#example').DataTable( {
         language: {
@@ -61,7 +110,7 @@ $urlConsultaParticular = $url . $cadena;
               },
               responsive: true,
                    ajax:{
-                      url:"<?php echo $urlConsultaParticular;?>",
+                      url:"<?php echo $urlConsultaParticular; ?>",
                       dataSrc:"data"
                   },
                   columns: [

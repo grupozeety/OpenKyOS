@@ -30,6 +30,32 @@ class Sql extends \Sql
                  * Clausulas específicas
                  */
 
+            case 'consultaDepartamento':
+                $cadenaSql = " SELECT codigo_dep,codigo_dep ||' - '||departamento as departamento";
+                $cadenaSql .= " FROM parametros.departamento;";
+                break;
+
+            case 'consultaMunicipio':
+                $cadenaSql = " SELECT codigo_mun,codigo_mun||' - '||municipio as municipio";
+                $cadenaSql .= " FROM parametros.municipio;";
+                break;
+
+            case 'consultarBeneficiariosPotenciales':
+                $cadenaSql = " SELECT value , data ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "(SELECT DISTINCT bp.identificacion ||' - ('||bp.nombre||' '||bp.primer_apellido||' '||bp.segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND cn.estado_registro=TRUE ";
+                $cadenaSql .= $variable;
+                $cadenaSql .= "     ) datos ";
+                $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "LIMIT 10; ";
+                break;
+
+            //----------------------------------------------
+
             case 'consultaParticular':
                 $cadenaSql = " SELECT p.id_periodo,p.valor,p.tipo_unidad, pm.descripcion";
                 $cadenaSql .= " FROM facturacion.periodo p";
