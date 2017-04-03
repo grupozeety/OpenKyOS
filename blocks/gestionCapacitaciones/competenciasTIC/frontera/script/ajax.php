@@ -49,19 +49,74 @@ $urlConsultarBeneficiarios = $url . $cadena;
 
 
 
+function IsValidTime(timeString)
+{
+
+  var regex = new RegExp('([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])');
+  if (regex.test(timeString)) {
+      return true;
+  } else {
+      return false;
+  }
+
+}
+
+
+
+
+function Check_Date_Time(date_time)
+{
+
+
+console.log(date_time);
+  var regex = new RegExp('/([0-2][0-9]{3})\-([0-1][0-9])\-([0-3][0-9]) ([0-5][0-9])\:([0-5][0-9])\:([0-5][0-9])(Z|([\-\+]([0-1][0-9])\:00))/');
+  if (regex.test(date_time)) {
+
+     return true;
+   }else{
+     return false;
+     }
+}
 
 
 
 
 
-  $("#<?php echo $this->campoSeguro('beneficiario'); ?>").autocomplete({
-      minChars: 3,
-      serviceUrl: '<?php echo $urlConsultarBeneficiarios; ?>',
-      onSelect: function (suggestion) {
-      $("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val(suggestion.data);
-    }
+
+  $("#<?php echo $this->campoSeguro('horas'); ?>").change(function() {
+    if($("#<?php echo $this->campoSeguro('horas'); ?>").val()!=''){
+        var validar=IsValidTime($("#<?php echo $this->campoSeguro('horas'); ?>").val());
+        if(validar===false){
+          $("#<?php echo $this->campoSeguro('horas'); ?>").val("");
+        }
+
+      }
   });
 
+
+
+
+      $('#<?php echo $this->campoSeguro("fechaCapacitacion"); ?>').datetimepicker({
+             format: 'yyyy-mm-dd HH:ii:00',
+              language: "es",
+
+            });
+
+
+
+
+
+/*
+  $("#<?php echo $this->campoSeguro('fechaCapacitacion'); ?>").change(function() {
+    if($("#<?php echo $this->campoSeguro('fechaCapacitacion'); ?>").val()!=''){
+        var validar=Check_Date_Time($("#<?php echo $this->campoSeguro('fechaCapacitacion'); ?>").val());
+        console.log(validar);
+        if(validar===false){
+          $("#<?php echo $this->campoSeguro('fechaCapacitacion'); ?>").val("");
+        }
+
+      }
+  });*/
 
   $("#<?php echo $this->campoSeguro('beneficiario'); ?>").autocomplete({
       minChars: 3,
@@ -76,8 +131,15 @@ $urlConsultarBeneficiarios = $url . $cadena;
   $("#<?php echo $this->campoSeguro('beneficiario'); ?>").change(function() {
     if($("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val()==''){
         $("#<?php echo $this->campoSeguro('beneficiario'); ?>").val('NO ASIGNADO');
+        $("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val('NO ASIGNADO');
       }
   });
+
+
+
+
+
+
 
 
 

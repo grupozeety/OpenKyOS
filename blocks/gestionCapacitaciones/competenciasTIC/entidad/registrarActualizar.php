@@ -39,19 +39,44 @@ class FormProcessor
             $this->rutaAbsoluta .= "/blocks/" . $_REQUEST["bloqueGrupo"] . "/" . $_REQUEST["bloque"] . "/";
         }
         //Conexion a Base de Datos
-        $conexion = "interoperacion";
+        $conexion = "otunWs";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $_REQUEST['tiempo'] = time();
 
         switch ($_REQUEST['opcion']) {
-            case 'registrarPeriodoParticular':
+            case 'registrarCompetencia':
+
                 $arreglo = array(
-                    'unidad' => $_REQUEST['unidad'],
-                    'valor' => $_REQUEST['valor'],
+                    'anio' => 2015,
+                    'nit_operador' => "8301159934",
+                    'id_capacitado' => $_REQUEST['identificacion'],
+                    'dane_centro_poblado' => "NA",
+                    'dane_departamento' => $_REQUEST['departamento'],
+                    'dane_institucion' => "NO APLICA",
+                    'dane_municipio' => $_REQUEST['municipio'],
+                    'nombre_capacitado' => $_REQUEST['nombre'],
+                    'correo_capacitado' => $_REQUEST['correo'],
+                    'telefono_contacto' => $_REQUEST['telefono'],
+                    'genero' => $_REQUEST['genero'],
+                    'pertenecia_etnica' => $_REQUEST['pertenenciaEtnica'],
+                    'nivel_educativo' => $_REQUEST['nivelEducativo'],
+                    'servicio_capacitacion' => $_REQUEST['servicio'],
+                    'detalle_servicio' => $_REQUEST['detalleServicio'],
+                    'ocupacion' => $_REQUEST['ocupacion'],
+                    'edad' => $_REQUEST['edad'],
+                    'estrato' => $_REQUEST['estrato'],
+                    'deserto' => $_REQUEST['desercion'],
+                    'fecha_capacitacion' => $_REQUEST['fechaCapacitacion'],
+                    'horas_capacitacion' => $_REQUEST['horas'],
+                    'id_actividad' => $_REQUEST['identificadorActividad'],
+                    'id_beneficiario' => $_REQUEST['id_beneficiario'],
+                    'numero_contrato' => 681,
+                    'codigo_simona' => "NO APLICA",
+                    'region' => "KVD-R6",
                 );
 
-                $cadenaSql = $this->miSql->getCadenaSql('registrarPeriodo', $arreglo);
+                $cadenaSql = $this->miSql->getCadenaSql('registroCompetencia', $arreglo);
 
                 $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
@@ -63,7 +88,7 @@ class FormProcessor
 
                 break;
 
-            case 'actualizarPeriodoParticular':
+            case 'actualizarCompetencia':
 
                 $arreglo = array(
                     'unidad' => $_REQUEST['unidad'],

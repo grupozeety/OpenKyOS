@@ -54,6 +54,83 @@ class Sql extends \Sql
                 $cadenaSql .= "LIMIT 10; ";
                 break;
 
+            case 'consultarPerteneciaEtnica':
+                $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
+                $cadenaSql .= " FROM parametros.generales";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND tipo='PertenenciaEtnica';";
+                break;
+
+            case 'consultarOcupacion':
+                $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
+                $cadenaSql .= " FROM parametros.generales";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND tipo='Ocupacion';";
+                break;
+
+            case 'consultarNivelEducativo':
+                $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
+                $cadenaSql .= " FROM parametros.generales";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND tipo='NivelEducativo';";
+                break;
+
+            case 'consultarServicio':
+                $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
+                $cadenaSql .= " FROM parametros.generales";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND tipo='ServicioCapacitacion';";
+                break;
+
+            case 'consultarDetalleServicio':
+                $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
+                $cadenaSql .= " FROM parametros.generales";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND tipo='DetalleServicio';";
+                break;
+
+            case "registroCompetencia":
+
+                $cadenaSql = " INSERT INTO logica.info_compe(";
+                $cadenaSql .= " anio, ";
+                $cadenaSql .= " nit_operador, ";
+                $cadenaSql .= " id_capacitado, ";
+                $cadenaSql .= " dane_centro_poblado, ";
+                $cadenaSql .= " dane_departamento, ";
+                $cadenaSql .= " dane_institucion, ";
+                $cadenaSql .= " dane_municipio, ";
+                $cadenaSql .= " nombre_capacitado, ";
+                $cadenaSql .= " correo_capacitado, ";
+                $cadenaSql .= " telefono_contacto,";
+                $cadenaSql .= " genero, ";
+                $cadenaSql .= " pertenecia_etnica, ";
+                $cadenaSql .= " nivel_educativo, ";
+                $cadenaSql .= " servicio_capacitacion, ";
+                $cadenaSql .= " detalle_servicio, ";
+                $cadenaSql .= " ocupacion, ";
+                $cadenaSql .= " edad, ";
+                $cadenaSql .= " estrato, ";
+                $cadenaSql .= " deserto, ";
+                $cadenaSql .= " fecha_capacitacion, ";
+                $cadenaSql .= " horas_capacitacion, ";
+                $cadenaSql .= " id_actividad, ";
+                $cadenaSql .= " id_beneficiario, ";
+                $cadenaSql .= " numero_contrato, ";
+                $cadenaSql .= " codigo_simona, ";
+                $cadenaSql .= " region)";
+                $cadenaSql .= " VALUES (";
+                foreach ($variable as $key => $value) {
+
+                    $cadenaSql .= "'" . $value . "',";
+
+                }
+
+                $cadenaSql .= ");";
+
+                $cadenaSql = str_replace(",)", ")", $cadenaSql);
+
+                break;
+
             //----------------------------------------------
 
             case 'consultaParticular':
