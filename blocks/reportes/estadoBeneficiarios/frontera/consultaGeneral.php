@@ -1,16 +1,19 @@
 <?php
 namespace reportes\estadoBeneficiarios\frontera;
+
 /**
  * IMPORTANTE: Este formulario está utilizando jquery.
  * Por tanto en el archivo ready.php se declaran algunas funciones js
  * que lo complementan.
  */
-class Registrador {
+class Registrador
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -21,7 +24,8 @@ class Registrador {
 
         $this->miSql = $sql;
     }
-    public function seleccionarForm() {
+    public function seleccionarForm()
+    {
 
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
@@ -159,13 +163,13 @@ class Registrador {
                                             <th><center>Proyecto<center></th>
                                             <th><center>Beneficiarios<br>Meta<center></th>
                                             <th><center>Beneficiarios<br>Sistema<center></th>
-                                            <th><center>Preventas(%)<center></th>
-                                            <th><center>Ventas(%)<center></th>
-                                            <th><center>Asignación de<br>Portatiles(%)<center></th>
-                                            <th><center>Asignación de<br>Equipos de Acceso(%)<center></th>
-                                            <th><center>Activación(%)<center></th>
-                                            <th><center>Revisión(%)<center></th>
-                                            <th><center>Aprobación(%)<center></th>
+                                            <th><center>Preventas(%)<br># Beneficiarios Sistema <br>__________________<br># Beneficiarios Meta<center></th>
+                                            <th><center>Ventas(%)<br># Beneficiarios con Contrato<br>__________________<br># Beneficiarios Meta<center></th>
+                                            <th><center>Asignación de<br>Portatiles(%)<br># Beneficiarios con Portatil <br>__________________<br># Beneficiarios Meta<center></th>
+                                            <th><center>Asignación de<br>Equipos de Acceso(%)<br># Beneficiarios con Servicio <br>__________________<br># Beneficiarios Meta<center></th>
+                                            <th><center>Activación(%)<br># Beneficiarios Acta Portatil <br>__________________<br># Beneficiarios Meta<<center></th>
+                                            <th><center>Revisión(%))<br># Beneficiarios con Documentos <br>__________________<br># Beneficiarios Meta<center></th>
+                                            <th><center>Aprobación(%)<br># Beneficiarios Aprobados Interventoria <br>__________________<br># Beneficiarios Meta<center></th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -204,12 +208,12 @@ class Registrador {
                                             <th><center>Proyecto<center></th>
                                             <th><center>Beneficiarios<br>Meta<center></th>
                                             <th><center>Beneficiarios<br>Sistema<center></th>
-                                            <th><center>Contratos<center></th>
-                                            <th><center>Asignación de<br>Portatiles<center></th>
-                                            <th><center>Asignación de<br>Equipos de Acceso<center></th>
-                                            <th><center>Activación<center></th>
-                                            <th><center>Revisión<center></th>
-                                            <th><center>Aprobación<center></th>
+                                            <th><center>Contratos<br>#Beneficiarios Contratos<center></th>
+                                            <th><center>Asignación de<br>Portatiles<br># Beneficiarios con Portatil<center></th>
+                                            <th><center>Asignación de<br>Equipos de Acceso<br># Beneficiarios con Servicio<center></th>
+                                            <th><center>Activación<br># Beneficiarios con Acta Entrega Portatil<center></th>
+                                            <th><center>Revisión<br># Beneficiarios con Documentos<center></th>
+                                            <th><center>Aprobación<br># Beneficiarios con Aprobados Interventoria<center></th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -257,7 +261,3 @@ class Registrador {
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->seleccionarForm();
-
-?>
-
-
