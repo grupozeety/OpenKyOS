@@ -45,4 +45,6 @@ $this->idioma['servicio'] = 'Servicio';
 
 $this->idioma['detalleServicio'] = 'Detalle Servicio';
 
+$this->idioma['actividad'] = 'Actividad';
+
 $this->idioma['botonGuardar'] = 'Guardar';

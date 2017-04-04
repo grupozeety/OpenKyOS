@@ -47,6 +47,22 @@ class FormProcessor
         switch ($_REQUEST['opcion']) {
             case 'registrarCompetencia':
 
+                if ($_REQUEST['identificadorActividad'] == '') {
+
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarIdentificadorActividad');
+
+                    $id_actividad = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                    if (is_null($id_actividad['max'])) {
+                        $_REQUEST['identificadorActividad'] = 1;
+
+                    } else {
+
+                        $_REQUEST['identificadorActividad'] = $id_actividad['max'] + 1;
+                    }
+
+                }
+
                 $arreglo = array(
                     'anio' => 2015,
                     'nit_operador' => "8301159934",
@@ -70,6 +86,7 @@ class FormProcessor
                     'fecha_capacitacion' => $_REQUEST['fechaCapacitacion'],
                     'horas_capacitacion' => $_REQUEST['horas'],
                     'id_actividad' => $_REQUEST['identificadorActividad'],
+                    'actividad' => $_REQUEST['actividad'],
                     'id_beneficiario' => $_REQUEST['id_beneficiario'],
                     'numero_contrato' => 681,
                     'codigo_simona' => "NO APLICA",

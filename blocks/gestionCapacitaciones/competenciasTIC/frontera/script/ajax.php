@@ -38,6 +38,36 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($caden
 // URL Consultar Proyectos
 $urlConsultarBeneficiarios = $url . $cadena;
 
+// Variables para Con
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultaInformacionBeneficiarios";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarInformacionBeneficiarios = $url . $cadena;
+
+// Variables para Con
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultarActividad";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarActividad = $url . $cadena;
+
 ?>
 <script type='text/javascript'>
 
@@ -45,38 +75,61 @@ $urlConsultarBeneficiarios = $url . $cadena;
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax(Aprobación Contrato).
  */
 
+
+
+
+
+
+function informacionBeneficiario(elem, request, response){
+      $.ajax({
+        url: "<?php echo $urlConsultarInformacionBeneficiarios; ?>",
+        dataType: "json",
+        data: { beneficiario:$("#<?php echo $this->campoSeguro('id_beneficiario') ?>").val() },
+        success: function(data){
+            if(data){
+                $("#<?php echo $this->campoSeguro('nombre') ?>").val(data.nombre_beneficiario);
+                $("#<?php echo $this->campoSeguro('identificacion') ?>").val(data.numero_identificacion);
+                $("#<?php echo $this->campoSeguro('edad') ?>").val(data.edad);
+                $("#<?php echo $this->campoSeguro('correo') ?>").val(data.correo);
+                $("#<?php echo $this->campoSeguro('telefono') ?>").val(data.telefono);
+                if(data.genero){
+                    document.getElementById('<?php echo $this->campoSeguro('genero') ?>').value=data.genero;
+
+                }
+
+
+
+              }else{
+
+                $("#<?php echo $this->campoSeguro('id_beneficiario') ?>").val('NO ASIGNADO');
+                $("#<?php echo $this->campoSeguro('beneficiario') ?>").val('NO ASIGNADO');
+
+
+              }
+
+           }
+
+       });
+    };
+
+
+
  $(document).ready(function() {
 
 
 
-function IsValidTime(timeString)
-{
+  function IsValidTime(timeString)
+  {
 
-  var regex = new RegExp('([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])');
-  if (regex.test(timeString)) {
-      return true;
-  } else {
-      return false;
+    var regex = new RegExp('([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])');
+    if (regex.test(timeString)) {
+        return true;
+    } else {
+        return false;
+    }
+
   }
 
-}
-
-
-
-
-function Check_Date_Time(date_time)
-{
-
-
-console.log(date_time);
-  var regex = new RegExp('/([0-2][0-9]{3})\-([0-1][0-9])\-([0-3][0-9]) ([0-5][0-9])\:([0-5][0-9])\:([0-5][0-9])(Z|([\-\+]([0-1][0-9])\:00))/');
-  if (regex.test(date_time)) {
-
-     return true;
-   }else{
-     return false;
-     }
-}
 
 
 
@@ -98,7 +151,7 @@ console.log(date_time);
 
       $('#<?php echo $this->campoSeguro("fechaCapacitacion"); ?>').datetimepicker({
              format: 'yyyy-mm-dd HH:ii:00',
-              language: "es",
+              language: "es"
 
             });
 
@@ -106,30 +159,30 @@ console.log(date_time);
 
 
 
-/*
-  $("#<?php echo $this->campoSeguro('fechaCapacitacion'); ?>").change(function() {
-    if($("#<?php echo $this->campoSeguro('fechaCapacitacion'); ?>").val()!=''){
-        var validar=Check_Date_Time($("#<?php echo $this->campoSeguro('fechaCapacitacion'); ?>").val());
-        console.log(validar);
-        if(validar===false){
-          $("#<?php echo $this->campoSeguro('fechaCapacitacion'); ?>").val("");
-        }
-
-      }
-  });*/
-
   $("#<?php echo $this->campoSeguro('beneficiario'); ?>").autocomplete({
       minChars: 3,
       serviceUrl: '<?php echo $urlConsultarBeneficiarios; ?>',
       onSelect: function (suggestion) {
+
+      if(suggestion){
       $("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val(suggestion.data);
+      informacionBeneficiario();
+
+      }else{
+        $("#<?php echo $this->campoSeguro('id_beneficiario') ?>").val('NO ASIGNADO');
+        $("#<?php echo $this->campoSeguro('beneficiario') ?>").val('NO ASIGNADO');
+
+
+
+      }
+
     }
   });
 
 
 
   $("#<?php echo $this->campoSeguro('beneficiario'); ?>").change(function() {
-    if($("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val()==''){
+    if($("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val()=='NO ASIGNADO'){
         $("#<?php echo $this->campoSeguro('beneficiario'); ?>").val('NO ASIGNADO');
         $("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val('NO ASIGNADO');
       }
@@ -137,8 +190,16 @@ console.log(date_time);
 
 
 
+  $("#<?php echo $this->campoSeguro('actividad'); ?>").autocomplete({
+      minChars: 1,
+      serviceUrl: '<?php echo $urlConsultarActividad; ?>',
+      onSelect: function (suggestion) {
+      if(suggestion.data){
+      $("#<?php echo $this->campoSeguro('identificadorActividad'); ?>").val(suggestion.data);
+      }
 
-
+    }
+  });
 
 
 
