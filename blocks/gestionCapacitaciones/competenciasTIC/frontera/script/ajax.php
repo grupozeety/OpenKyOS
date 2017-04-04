@@ -68,6 +68,21 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($caden
 // URL Consultar Proyectos
 $urlConsultarActividad = $url . $cadena;
 
+// Variables para Con
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultarInformacionCapacitacion";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarInformacionCapacitacion = $url . $cadena;
+
 ?>
 <script type='text/javascript'>
 
@@ -76,6 +91,41 @@ $urlConsultarActividad = $url . $cadena;
  */
 
 
+
+
+
+function informacionCapacitacion(elem, request, response){
+      $.ajax({
+        url: "<?php echo $urlConsultarInformacionCapacitacion; ?>",
+        dataType: "json",
+        data: { idActividad:$("#<?php echo $this->campoSeguro('identificadorActividad') ?>").val() },
+        success: function(data){
+            if(data){
+                $("#<?php echo $this->campoSeguro('fechaCapacitacion') ?>").val(data.fecha_capacitacion);
+                $("#<?php echo $this->campoSeguro('horas') ?>").val(data.horas_capacitacion);
+
+                if(data.detalle_servicio){
+                    document.getElementById('<?php echo $this->campoSeguro('detalleServicio') ?>').value=data.detalle_servicio;
+                }
+
+                if(data.servicio_capacitacion){
+                    document.getElementById('<?php echo $this->campoSeguro('servicio') ?>').value=data.servicio_capacitacion;
+
+                }
+
+              }else{
+
+                $("#<?php echo $this->campoSeguro('fechaCapacitacion') ?>").val('');
+                $("#<?php echo $this->campoSeguro('horas') ?>").val('');
+                document.getElementById('<?php echo $this->campoSeguro('servicio') ?>').value='';
+                document.getElementById('<?php echo $this->campoSeguro('detalleServicio') ?>').value='';
+
+              }
+
+           }
+
+       });
+    };
 
 
 
@@ -115,6 +165,18 @@ function informacionBeneficiario(elem, request, response){
 
 
  $(document).ready(function() {
+
+
+
+  $('#limpiarBn').bind('click', function(e){
+                $("#<?php echo $this->campoSeguro('fechaCapacitacion') ?>").val('');
+                $("#<?php echo $this->campoSeguro('horas') ?>").val('');
+                document.getElementById('<?php echo $this->campoSeguro('servicio') ?>').value='';
+                document.getElementById('<?php echo $this->campoSeguro('detalleServicio') ?>').value='';
+                $("#<?php echo $this->campoSeguro('actividad') ?>").val('');
+                $("#<?php echo $this->campoSeguro('identificadorActividad') ?>").val('');
+  });
+
 
 
 
@@ -196,6 +258,7 @@ function informacionBeneficiario(elem, request, response){
       onSelect: function (suggestion) {
       if(suggestion.data){
       $("#<?php echo $this->campoSeguro('identificadorActividad'); ?>").val(suggestion.data);
+      informacionCapacitacion();
       }
 
     }

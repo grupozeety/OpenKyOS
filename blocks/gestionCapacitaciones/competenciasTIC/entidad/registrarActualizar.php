@@ -95,10 +95,10 @@ class FormProcessor
 
                 $cadenaSql = $this->miSql->getCadenaSql('registroCompetencia', $arreglo);
 
-                $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+                $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
                 if (isset($this->proceso) && $this->proceso != null) {
-                    Redireccionador::redireccionar("ExitoRegistro", $this->proceso);
+                    Redireccionador::redireccionar("ExitoRegistro", $this->proceso[0][0]);
                 } else {
                     Redireccionador::redireccionar("ErrorRegistro");
                 }

@@ -17,6 +17,8 @@ class Redireccionador
             case 'ExitoRegistro':
                 $variable = 'pagina=competenciasTIC';
                 $variable .= '&mensaje=exitoRegistro';
+                $variable .= '&idActividad=' . $valor;
+
                 break;
 
             case "ErrorRegistro":

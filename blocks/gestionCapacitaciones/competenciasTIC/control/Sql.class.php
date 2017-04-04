@@ -126,7 +126,7 @@ class Sql extends \Sql
 
                 }
 
-                $cadenaSql .= ");";
+                $cadenaSql .= ") RETURNING id_actividad;";
 
                 $cadenaSql = str_replace(",)", ")", $cadenaSql);
 
@@ -160,6 +160,22 @@ class Sql extends \Sql
                 $cadenaSql .= " AND actividad ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= " LIMIT 10; ";
 
+                break;
+
+            case 'consultarInformacionCapacitacion':
+                $cadenaSql = " SELECT DISTINCT";
+                $cadenaSql .= " id_info_compe,";
+                $cadenaSql .= " servicio_capacitacion,";
+                $cadenaSql .= " detalle_servicio,";
+                $cadenaSql .= " fecha_capacitacion,";
+                $cadenaSql .= " horas_capacitacion,";
+                $cadenaSql .= " actividad,";
+                $cadenaSql .= " id_actividad";
+                $cadenaSql .= " FROM logica.info_compe";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_actividad='" . $variable . "'";
+                $cadenaSql .= " ORDER BY id_info_compe ASC";
+                $cadenaSql .= " LIMIT 1;";
                 break;
 
         }

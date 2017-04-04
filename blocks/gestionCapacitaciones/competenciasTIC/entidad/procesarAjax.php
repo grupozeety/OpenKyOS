@@ -29,6 +29,16 @@ class procesarAjax
 
         switch ($_REQUEST['funcion']) {
 
+            case 'consultarInformacionCapacitacion':
+
+                $cadenaSql = $this->sql->getCadenaSql('consultarInformacionCapacitacion', $_REQUEST['idActividad']);
+
+                $informacion = $this->esteRecursoDBOtunWS->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                echo json_encode($informacion);
+
+                break;
+
             case 'consultarActividad':
 
                 $cadenaSql = $this->sql->getCadenaSql('consultarActividad');

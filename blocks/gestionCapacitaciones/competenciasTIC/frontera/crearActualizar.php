@@ -69,6 +69,30 @@ class Periodos
             }
         }
 
+        if (isset($_REQUEST['idActividad']) && $_REQUEST['idActividad'] != '') {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionCapacitacion', $_REQUEST['idActividad']);
+
+            $capacitacion = $esteRecursoDBOtunWS->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            if ($capacitacion) {
+
+                $arreglo_capacitacion = array(
+                    'actividad' => $capacitacion['actividad'],
+                    'identificadorActividad' => $capacitacion['id_actividad'],
+                    'fechaCapacitacion' => $capacitacion['fecha_capacitacion'],
+                    'horas' => $capacitacion['horas_capacitacion'],
+                    'servicio' => $capacitacion['servicio_capacitacion'],
+                    'detalleServicio' => $capacitacion['detalle_servicio'],
+
+                );
+
+                $_REQUEST = array_merge($_REQUEST, $arreglo_capacitacion);
+
+            }
+
+        }
+
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 
@@ -315,6 +339,8 @@ class Periodos
 
         }
 
+        echo "<input type='button' id='limpiarBn' style='float:right' class='btn btn-default' value='Limpiar Capacitación'>";
+
         echo $this->miFormulario->agrupacion('fin');
         unset($atributos);
 
@@ -324,72 +350,6 @@ class Periodos
         echo $this->miFormulario->agrupacion('inicio', $atributos);
         unset($atributos);
         {
-
-            $esteCampo = 'departamento';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
-            $atributos['evento'] = '';
-
-            if (isset($_REQUEST[$esteCampo])) {
-                $atributos['seleccion'] = $_REQUEST[$esteCampo];
-            } else {
-                $atributos['seleccion'] = '1';
-            }
-            $atributos['deshabilitado'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
-            $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
-            $atributos['cadena_sql'] = 'required';
-            $cadenaSql = $this->miSql->getCadenaSql('consultaDepartamento');
-            $matrizItems = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-            $atributos['matrizItems'] = $matrizItems;
-            // Aplica atributos globales al control
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
-            unset($atributos);
-
-            $esteCampo = 'municipio';
-            $atributos['nombre'] = $esteCampo;
-            $atributos['id'] = $esteCampo;
-            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-            $atributos["etiquetaObligatorio"] = true;
-            $atributos['tab'] = $tab++;
-            $atributos['anchoEtiqueta'] = 2;
-            $atributos['evento'] = '';
-
-            if (isset($_REQUEST[$esteCampo])) {
-                $atributos['seleccion'] = $_REQUEST[$esteCampo];
-            } else {
-                $atributos['seleccion'] = '1';
-            }
-            $atributos['deshabilitado'] = false;
-            $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
-            $atributos['ajax_function'] = "";
-            $atributos['ajax_control'] = $esteCampo;
-            $atributos['estilo'] = "bootstrap";
-            $atributos['limitar'] = false;
-            $atributos['anchoCaja'] = 10;
-            $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
-            $atributos['cadena_sql'] = 'required';
-            $cadenaSql = $this->miSql->getCadenaSql('consultaMunicipio');
-            $matrizItems = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-            $atributos['matrizItems'] = $matrizItems;
-            // Aplica atributos globales al control
-            $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
-            unset($atributos);
 
             // ----------------INICIO CONTROL: Lista Proyectos---------------------------
 
@@ -651,6 +611,72 @@ class Periodos
             // Aplica atributos globales al control
             $atributos = array_merge($atributos, $atributosGlobales);
             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+            unset($atributos);
+
+            $esteCampo = 'departamento';
+            $atributos['nombre'] = $esteCampo;
+            $atributos['id'] = $esteCampo;
+            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+            $atributos["etiquetaObligatorio"] = true;
+            $atributos['tab'] = $tab++;
+            $atributos['anchoEtiqueta'] = 2;
+            $atributos['evento'] = '';
+
+            if (isset($_REQUEST[$esteCampo])) {
+                $atributos['seleccion'] = $_REQUEST[$esteCampo];
+            } else {
+                $atributos['seleccion'] = '1';
+            }
+            $atributos['deshabilitado'] = false;
+            $atributos['columnas'] = 1;
+            $atributos['tamanno'] = 1;
+            $atributos['ajax_function'] = "";
+            $atributos['ajax_control'] = $esteCampo;
+            $atributos['estilo'] = "bootstrap";
+            $atributos['limitar'] = false;
+            $atributos['anchoCaja'] = 10;
+            $atributos['miEvento'] = '';
+            $atributos['validar'] = 'required';
+            $atributos['cadena_sql'] = 'required';
+            $cadenaSql = $this->miSql->getCadenaSql('consultaDepartamento');
+            $matrizItems = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            $atributos['matrizItems'] = $matrizItems;
+            // Aplica atributos globales al control
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
+            unset($atributos);
+
+            $esteCampo = 'municipio';
+            $atributos['nombre'] = $esteCampo;
+            $atributos['id'] = $esteCampo;
+            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+            $atributos["etiquetaObligatorio"] = true;
+            $atributos['tab'] = $tab++;
+            $atributos['anchoEtiqueta'] = 2;
+            $atributos['evento'] = '';
+
+            if (isset($_REQUEST[$esteCampo])) {
+                $atributos['seleccion'] = $_REQUEST[$esteCampo];
+            } else {
+                $atributos['seleccion'] = '1';
+            }
+            $atributos['deshabilitado'] = false;
+            $atributos['columnas'] = 1;
+            $atributos['tamanno'] = 1;
+            $atributos['ajax_function'] = "";
+            $atributos['ajax_control'] = $esteCampo;
+            $atributos['estilo'] = "bootstrap";
+            $atributos['limitar'] = false;
+            $atributos['anchoCaja'] = 10;
+            $atributos['miEvento'] = '';
+            $atributos['validar'] = 'required';
+            $atributos['cadena_sql'] = 'required';
+            $cadenaSql = $this->miSql->getCadenaSql('consultaMunicipio');
+            $matrizItems = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+            $atributos['matrizItems'] = $matrizItems;
+            // Aplica atributos globales al control
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
             unset($atributos);
 
             $esteCampo = 'pertenenciaEtnica';
