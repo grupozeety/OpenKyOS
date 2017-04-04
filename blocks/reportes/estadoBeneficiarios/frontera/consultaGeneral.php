@@ -167,7 +167,7 @@ class Registrador
                                             <th><center>Ventas(%)<br># Beneficiarios con Contrato<br>__________________<br># Beneficiarios Meta<center></th>
                                             <th><center>Asignación de<br>Portatiles(%)<br># Beneficiarios con Portatil <br>__________________<br># Beneficiarios Meta<center></th>
                                             <th><center>Asignación de<br>Equipos de Acceso(%)<br># Beneficiarios con Servicio <br>__________________<br># Beneficiarios Meta<center></th>
-                                            <th><center>Activación(%)<br># Beneficiarios Acta Portatil <br>__________________<br># Beneficiarios Meta<<center></th>
+                                            <th><center>Activación(%)<br># Beneficiarios Acta Portatil <br>__________________<br># Beneficiarios Meta<center></th>
                                             <th><center>Revisión(%))<br># Beneficiarios con Documentos <br>__________________<br># Beneficiarios Meta<center></th>
                                             <th><center>Aprobación(%)<br># Beneficiarios Aprobados Interventoria <br>__________________<br># Beneficiarios Meta<center></th>
                                         </tr>
