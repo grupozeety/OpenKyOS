@@ -26,6 +26,13 @@ class Redireccionador
                 $variable .= '&mensaje=errorRegistro';
                 break;
 
+            case "ErrorAsociacionActividad":
+                $variable = 'pagina=competenciasTIC';
+                $variable .= '&mensaje=errorAsociacionActividad';
+                $variable .= '&idActividad=' . $valor;
+                break;
+
+            //____________________________________________________
             case 'ExitoActualizacion':
                 $variable = 'pagina=competenciasTIC';
                 $variable .= '&mensaje=exitoActualizacion';

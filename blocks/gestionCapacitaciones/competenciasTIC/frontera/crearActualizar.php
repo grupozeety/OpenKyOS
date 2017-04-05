@@ -965,6 +965,12 @@ class Periodos
                 $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
+            case 'errorAsociacionActividad':
+                $mensaje = "Error<br><b>Ya existe asociada la indentificación del capacitado a la actividad  de Competencia TIC</b>";
+                $atributos['estiloLinea'] = 'error'; //
+                break;
+
+            //-------------------------------------------------
             case 'exitoActualizacion':
                 $mensaje = "Exito<br>Periodo Actualizado";
                 $atributos['estiloLinea'] = 'success'; //success,error,information,warning

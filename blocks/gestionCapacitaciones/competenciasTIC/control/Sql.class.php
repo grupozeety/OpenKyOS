@@ -140,12 +140,22 @@ class Sql extends \Sql
                 $cadenaSql .= " (CASE WHEN bp.edad > 0 THEN bp.edad ELSE null END) as edad,";
                 $cadenaSql .= " (CASE WHEN bp.correo='NA' THEN null WHEN bp.correo IS NOT NULL THEN bp.correo ELSE null END) as correo,";
                 $cadenaSql .= " (CASE WHEN bp.celular IS NOT NULL THEN replace( bp.celular, ' ', '') ELSE null END) as telefono,";
-                $cadenaSql .= " (CASE WHEN bp.genero = 2 THEN 'M' WHEN bp.genero= 1 THEN 'F' ELSE null END) as genero";
+                $cadenaSql .= " (CASE WHEN bp.genero = 2 THEN 'M' WHEN bp.genero= 1 THEN 'F' ELSE null END) as genero,";
+                $cadenaSql .= " bp.municipio,";
+                $cadenaSql .= " bp.departamento,";
+                $cadenaSql .= " cn.estrato_socioeconomico as estrato,";
+                $cadenaSql .= " nv.codigo_homologacion as nivel_estudio,";
+                $cadenaSql .= " op.codigo_homologacion as ocupacion,";
+                $cadenaSql .= " pe.codigo_homologacion as pertencia_etnica";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
                 $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario AND cn.estado_registro='TRUE'";
+                $cadenaSql .= " LEFT JOIN parametros.parametros nv ON nv.codigo::int=bp.nivel_estudio AND nv.rel_parametro='3' AND nv.estado_registro='TRUE'";
+                $cadenaSql .= " LEFT JOIN parametros.parametros op ON op.codigo::int=bp.ocupacion AND op.rel_parametro='9' AND op.estado_registro='TRUE'";
+                $cadenaSql .= " LEFT JOIN parametros.parametros pe ON pe.codigo::int=bp.pertenencia_etnica AND pe.rel_parametro='8' AND pe.estado_registro='TRUE'";
                 $cadenaSql .= " WHERE bp.estado_registro='TRUE'";
                 $cadenaSql .= " AND cn.numero_identificacion is not null";
                 $cadenaSql .= " AND bp.id_beneficiario='" . $variable . "';";
+
                 break;
 
             case 'consultarIdentificadorActividad':
@@ -176,6 +186,41 @@ class Sql extends \Sql
                 $cadenaSql .= " AND id_actividad='" . $variable . "'";
                 $cadenaSql .= " ORDER BY id_info_compe ASC";
                 $cadenaSql .= " LIMIT 1;";
+                break;
+
+            case 'consultarCodigoParametro':
+                $cadenaSql = " SELECT codigo";
+                $cadenaSql .= " FROM parametros.parametros";
+                $cadenaSql .= " WHERE codigo_homologacion='" . $variable . "';";
+                break;
+
+            case 'actualizarBeneficiario':
+                $cadenaSql = " UPDATE interoperacion.beneficiario_potencial";
+                $cadenaSql .= " SET genero='" . $variable['genero'] . "', ";
+                $cadenaSql .= " nivel_estudio='" . $variable['nivelEducacion'] . "',";
+                $cadenaSql .= " pertenencia_etnica='" . $variable['pertenenciaEtnica'] . "', ";
+                $cadenaSql .= " ocupacion='" . $variable['ocupacion'] . "',";
+                $cadenaSql .= " correo='" . $variable['correo'] . "',";
+                $cadenaSql .= " edad='" . $variable['edad'] . "',";
+                $cadenaSql .= " celular='" . $variable['telefono'] . "'";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable['idBeneficiario'] . "';";
+                break;
+
+            case 'actualizarContrato':
+                $cadenaSql = " UPDATE interoperacion.contrato";
+                $cadenaSql .= " SET estrato_socioeconomico='" . $variable['estrato'] . "' ";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_beneficiario='" . $variable['idBeneficiario'] . "';";
+                break;
+
+            case 'consultarActividadValidar':
+                $cadenaSql = " SELECT  id_actividad,id_capacitado";
+                $cadenaSql .= " FROM logica.info_compe";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_actividad='" . $variable['id_actividad'] . "'";
+                $cadenaSql .= " AND id_capacitado='" . $variable['identificacion'] . "';";
+
                 break;
 
         }

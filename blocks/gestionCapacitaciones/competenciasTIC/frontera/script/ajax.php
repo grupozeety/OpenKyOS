@@ -142,8 +142,36 @@ function informacionBeneficiario(elem, request, response){
                 $("#<?php echo $this->campoSeguro('edad') ?>").val(data.edad);
                 $("#<?php echo $this->campoSeguro('correo') ?>").val(data.correo);
                 $("#<?php echo $this->campoSeguro('telefono') ?>").val(data.telefono);
+                $("#<?php echo $this->campoSeguro('estrato') ?>").val(data.estrato);
                 if(data.genero){
                     document.getElementById('<?php echo $this->campoSeguro('genero') ?>').value=data.genero;
+
+                }
+
+                if(data.nivel_estudio){
+                    document.getElementById('<?php echo $this->campoSeguro('nivelEducativo') ?>').value=data.nivel_estudio;
+
+                }
+
+                if(data.ocupacion){
+                    document.getElementById('<?php echo $this->campoSeguro('ocupacion') ?>').value=data.ocupacion;
+
+                }
+
+                if(data.pertencia_etnica){
+                    document.getElementById('<?php echo $this->campoSeguro('pertenenciaEtnica') ?>').value=data.pertencia_etnica;
+
+                }
+
+
+
+                if(data.municipio){
+                    document.getElementById('<?php echo $this->campoSeguro('municipio') ?>').value=data.municipio;
+
+                }
+
+                if(data.departamento){
+                    document.getElementById('<?php echo $this->campoSeguro('departamento') ?>').value=data.departamento;
 
                 }
 
