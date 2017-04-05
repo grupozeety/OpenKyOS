@@ -17,6 +17,7 @@ $funcion[$indice++] = "dataTables.responsive.min.js";
 $funcion[$indice++] = "jquery.autocomplete.min.js";
 $funcion[$indice++] = "jquery.autocomplete.js";
 $funcion[$indice++] = "momento.js";
+$funcion[$indice++] = "ready.js";
 
 $embebido [$indice] = true;
 $funcion [$indice ++] = "ajax.php";
@@ -29,6 +30,7 @@ if ($esteBloque["grupo"] == "") {
     $rutaBloque .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"];
 }
 $_REQUEST['tiempo'] = time();
+
 if (isset($funcion[0])) {
     foreach ($funcion as $clave => $nombre) {
         if (!isset($embebido[$clave])) {

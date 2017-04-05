@@ -40,7 +40,7 @@ class Entidad {
 	public function procesarAjax() {
 		include_once $this->ruta . "entidad/procesarAjax.php";
 	}
-	public function guardarMetodo() {
+	public function registrarPago() {
 		include_once $this->ruta . "entidad/procesarFormulario.php";
 	}
 	
@@ -61,9 +61,9 @@ class Entidad {
 		}
 		
 		switch ($_REQUEST ['opcion']) {
-			case 'guardarMetodo' :
+			case 'registrarPago' :
 				
-				$this->guardarMetodo ();
+				$this->registrarPago();
 				break;
 			
 			case 'modificarMetodo' :

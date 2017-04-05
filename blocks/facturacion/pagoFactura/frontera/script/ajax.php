@@ -151,6 +151,8 @@ $valorCodificado2 .= "&id=";
  	    }
  });
  
+ 
+ 
 $(document).ready(function() {
     $('#example2').DataTable();
 } );
@@ -215,18 +217,6 @@ $(document).ready(function() {
 	    } );
 	    
 	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-//		$("div.toolbar").html('<button type="button" id="agregarCabecera" class="btn btn-primary">Agregar Cabecera</button>'); 
-		    
 	    $('#example tbody').on( 'click', '.optionPagar', function () {
 	    	var data = table.row( $(this).parents('tr') ).data();
 	        id = data['id_factura'];
@@ -251,25 +241,6 @@ $(document).ready(function() {
 				$("#myModal").modal("hide");
 			});
 		});
-		
-		function eliminarCabecera(){
-	
-			$.ajax({
-				url: "<?php echo $urlEliminarMetodo;?>",
-				dataType: "json",
-				data: { valor: id},
-				success: function(data){
-					if(data == true){
-						table.ajax.reload();
-						$("#confirmacionElim").modal("show");
-					}else{
-						table.ajax.reload();
-						$("#confirmacionNoElim").modal("show");
-					}
-				}
-				
-			});
-		};
 		
 		function generarEnlace(){
 	
@@ -314,9 +285,7 @@ $(document).ready(function() {
 				$("#confirmacionNoElim").modal("hide");
 			});
 		});
-		
-		
-		
+	
 	
 	});
 	

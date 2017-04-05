@@ -24,7 +24,7 @@ class Sql extends \Sql {
 		$idSesion = $this->miConfigurador->getVariableConfiguracion ( "id_sesion" );
 		
 		switch ($tipo) {
-
+			
 			case 'consultarBeneficiariosPotenciales' :
 				$cadenaSql = " SELECT value , data ";
 				$cadenaSql .= "FROM ";
@@ -40,14 +40,14 @@ class Sql extends \Sql {
 				$cadenaSql .= "WHERE value ILIKE '%" . $_GET ['query'] . "%' ";
 				$cadenaSql .= "LIMIT 10; ";
 				break;
-				
+			
 			case 'consultarFactura' :
 				$cadenaSql = " SELECT id_factura, total_factura, estado_factura, id_ciclo, fac.id_beneficiario, identificacion||' - '|| nombre ||' '|| primer_apellido ||' '||segundo_apellido as nombres ";
 				$cadenaSql .= " FROM facturacion.factura fac";
 				$cadenaSql .= " JOIN interoperacion.beneficiario_potencial bp on bp.id_beneficiario=fac.id_beneficiario";
 				$cadenaSql .= " WHERE 1=1";
 				$cadenaSql .= " AND fac.estado_registro=TRUE";
-				$cadenaSql .= " AND fac.id_beneficiario='".$variable."' AND fac.estado_factura='Emitida' ";
+				$cadenaSql .= " AND fac.id_beneficiario='" . $variable . "' AND fac.estado_factura='Emitida' ";
 				$cadenaSql .= " AND bp.estado_registro=TRUE ORDER BY id_factura ASC ";
 				break;
 			
@@ -76,13 +76,35 @@ class Sql extends \Sql {
 				$cadenaSql .= " WHERE 1=1 ";
 				$cadenaSql .= " AND fac.estado_registro=TRUE ";
 				$cadenaSql .= " AND bp.estado_registro=TRUE ";
-				$cadenaSql .= " AND fac.id_factura='".$variable."' ORDER BY rol.descripcion ASC, regla.descripcion ASC ";
+				$cadenaSql .= " AND fac.id_factura='" . $variable . "' ORDER BY rol.descripcion ASC, regla.descripcion ASC ";
 				break;
 			
-			case 'inhabilitarFactura' :
-				$cadenaSql = " UPDATE facturacion.factura SET  ";
-				$cadenaSql .= " estado_factura='Cancelada' ";
-				$cadenaSql .= " WHERE id_factura='" . $variable . "' AND estado_factura='Borrador'";
+			case 'consultarTipoPago' :
+				$cadenaSql = " SELECT codigo as id_parametro, descripcion ";
+				$cadenaSql .= " from parametros.parametros ";
+				$cadenaSql .= " WHERE rel_parametro=29 AND estado_registro=TRUE";
+				break;
+			
+			case 'registrarPago' :
+				$cadenaSql = " INSERT INTO facturacion.pago_factura( ";
+				$cadenaSql .= " id_factura,  ";
+				$cadenaSql .= " valor_pagado,  ";
+				$cadenaSql .= " valor_recibido,  ";
+				$cadenaSql .= " usuario_recibe,  ";
+				$cadenaSql .= " medio_pago)  ";
+				$cadenaSql .= " VALUES ( ";
+				$cadenaSql .= " '".$variable['id_factura']."',";
+				$cadenaSql .= " '".$variable['valor_pagado']."',";
+				$cadenaSql .= " '".$variable['valor_recibido']."',";
+				$cadenaSql .= " '".$variable['usuario']."',";
+				$cadenaSql .= " '".$variable['medio_pago']."'";
+				$cadenaSql .= "  );";
+				break;
+			
+			case 'actualizarFactura' :
+				$cadenaSql = " UPDATE facturacion.factura ";
+				$cadenaSql .= " SET estado_factura='Pagada' ";
+				$cadenaSql .= " WHERE id_factura='".$variable."'";
 				break;
 		}
 		

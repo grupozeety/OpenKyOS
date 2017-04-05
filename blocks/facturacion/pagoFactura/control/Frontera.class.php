@@ -44,17 +44,15 @@ class Frontera {
 		
 		$miBloque = $this->miConfigurador->getVariableConfiguracion ( 'esteBloque' );
 		$resultado = $this->miConfigurador->getVariableConfiguracion ( 'errorFormulario' );
-		
+	
 		if (isset ( $_REQUEST ['opcion'] )) {
 			switch ($_REQUEST ['opcion']) {
-				
+	
 				case "agregar" :
 					include_once ($this->ruta . "/frontera/asociar.php");
 					break;
 				
 				case "pagar" :
-					echo "asdasd";
-					exit;
 					include_once ($this->ruta . "/frontera/pagar.php");
 					break;
 				

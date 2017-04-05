@@ -76,17 +76,17 @@ class Consultar {
 						unset ( $atributos );
 						{
 							
-// 							// -------------Control texto-----------------------
-// 							$esteCampo = 'mostrarMensaje';
-// 							$atributos ["tamanno"] = '';
-// 							$atributos ["etiqueta"] = '';
-// 							$mensaje = '<center>Recuerde: Antes de Generar una Factura debe haber asociado roles de facturación para el usuario.</center>';
+							// // -------------Control texto-----------------------
+							// $esteCampo = 'mostrarMensaje';
+							// $atributos ["tamanno"] = '';
+							// $atributos ["etiqueta"] = '';
+							// $mensaje = '<center>Recuerde: Antes de Generar una Factura debe haber asociado roles de facturación para el usuario.</center>';
 							
-// 							$atributos ["mensaje"] = $mensaje;
-// 							$atributos ["estilo"] = 'information'; // information,warning,error,validation
-// 							$atributos ["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-// 							echo $this->miFormulario->campoMensaje ( $atributos );
-// 							unset ( $atributos );
+							// $atributos ["mensaje"] = $mensaje;
+							// $atributos ["estilo"] = 'information'; // information,warning,error,validation
+							// $atributos ["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+							// echo $this->miFormulario->campoMensaje ( $atributos );
+							// unset ( $atributos );
 						}
 						// ------------------Fin Division para los botones-------------------------
 						echo $this->miFormulario->division ( "fin" );
@@ -238,13 +238,18 @@ class Consultar {
 				$atributos ['estiloLinea'] = 'success'; // success,error,information,warning
 				break;
 			
-			case 'errorInformacion' :
-				$mensaje = "Error<br>Hubo " . isset ( $_REQUEST ['errores'] ) . " error(es) en el cálculo de conceptos de factura.";
+			case 'errorCreacion' :
+				$mensaje = "Error<br> No fue posible registrar el pago a la factura.";
 				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
 				break;
 			
-			case 'errorFactura' :
-				$mensaje = "Error<br>Existe una factura asociada al beneficiario y sus roles asociados en el ciclo a calcular.";
+			case 'errorActualizacion' :
+				$mensaje = "Error<br> Se realizó el registro del pago pero NO fue posible actualizar el estado de factura. Avíse al administrador del sistema.";
+				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
+				break;
+			
+			case 'errorValor' :
+				$mensaje = "Error<br>El valor recibido no cubre el valor de la deuda para la Factura.";
 				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
 				break;
 		}

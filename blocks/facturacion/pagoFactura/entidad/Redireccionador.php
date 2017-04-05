@@ -27,14 +27,19 @@ class Redireccionador {
 				$variable .= '&mensajeModal=errorActualizacion';
 				break;
 			
-			case "ErrorConsulta" :
+			case "ErrorValor" :
 				$variable = 'pagina=pagoFactura';
-				$variable .= '&mensajeModal=errorConsulta';
+				$variable .= '&mensajeModal=errorValor';
 				break;
 			
-			case "NoInsertoInformacion" :
+			case "ErrorPago" :
 				$variable = 'pagina=pagoFactura';
 				$variable .= '&mensajeModal=errorCreacion';
+				break;
+			
+			case "ErrorUpdate" :
+				$variable = 'pagina=pagoFactura';
+				$variable .= '&mensajeModal=errorActualizacion';
 				break;
 		}
 		foreach ( $_REQUEST as $clave => $valor ) {

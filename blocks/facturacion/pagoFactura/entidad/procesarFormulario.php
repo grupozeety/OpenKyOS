@@ -8,7 +8,6 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 }
 
 include_once 'Redireccionador.php';
-
 class FormProcessor {
 	public $miConfigurador;
 	public $lenguaje;
@@ -39,50 +38,75 @@ class FormProcessor {
 		
 		$_REQUEST ['tiempo'] = time ();
 		
+		var_dump ( $_REQUEST );
+		
 		/**
 		 * 1.
-		 * Revisar Existencia Asociación
+		 * Revisar Valor de Factura Coincida con el Pago
 		 */
 		
-
-		$this->getMetodo ();
-		$this->revisarExistencia ();
+		$this->revisarFactura ();
 		
 		/**
 		 * 2.
-		 * Registrar Asociación
+		 * Registrar Pago
 		 */
 		
-		$this->registrarMetodo ();
+		$resultado = $this->registrarPago ();
+		
+		if ($resultado == TRUE) {
+			$update = $this->actualizarFactura ();
+		} else {
+			Redireccionador::redireccionar ( "ErrorPago" );
+			exit ();
+		}
+		/**
+		 * 3.
+		 * Generar Comprobante
+		 */
+		
+		if ($update == TRUE) {
+			$this->generarComprobante ();
+		} else {
+			Redireccionador::redireccionar ( "ErrorUpdate" );
+			exit ();
+		}
 		
 		exit ();
 	}
-	public function getMetodo() {
-		$this->asociacion = array (
-				'id_rol' => $_REQUEST ['rol'],
-				'id_regla' => $_REQUEST ['regla'] 
-		);
-	}
-	public function revisarExistencia() {
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarAsociacion', $this->asociacion );
-		$asociacion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-
-		if ( $asociacion !=FALSE) {
-			Redireccionador::redireccionar ( "ErrorConsulta" );
+	public function revisarFactura() {
+		$valor_recibido = $_REQUEST ['valor_recibido'];
+		$valor_factura = $_REQUEST ['valor_factura'];
+		
+		if ($valor_recibido - $valor_factura < 0) {
+			Redireccionador::redireccionar ( "ErrorValor" );
 			exit ();
 		}
 	}
-	public function registrarMetodo() {
-		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarMetodo', $this->asociacion );
+	public function registrarPago() {
+		$this->asociacion = array (
+				'id_factura' => $_REQUEST ['id_factura'],
+				'valor_pagado' => $_REQUEST ['valor_factura'],
+				'valor_recibido' => $_REQUEST ['valor_recibido'],
+				'usuario' => $_REQUEST ['usuario'],
+				'medio_pago' => $_REQUEST ['medio_pago'] 
+		);
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarPago', $this->asociacion );
 		$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
-
-		if ($registro==TRUE) {
-			Redireccionador::redireccionar ( "InsertoInformacion" );
-			exit();
-		} else {
-			Redireccionador::redireccionar ( "NoInsertoInformacion" );
-			exit();
-		}
+		
+		return $registro;
+	}
+	public function actualizarFactura() {
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFactura', $_REQUEST ['id_factura'] );
+		$update = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+		
+		return $update;
+	}
+	
+	public function generarComprobante(){
+		echo "generar comprobante";
+		exit;
 	}
 }
 

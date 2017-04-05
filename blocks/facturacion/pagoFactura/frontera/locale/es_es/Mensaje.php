@@ -5,8 +5,9 @@
 
 $this->idioma['noDefinido'] = 'Etiqueta No definida';
 
-$this->idioma['regla'] = 'Regla';
-$this->idioma['rol'] = 'Rol';
+$this->idioma['valor_recibido'] = 'Valor Recibido';
+$this->idioma['valor_recibidoTitulo'] = 'Valor Recibido';
+$this->idioma['medio_pago'] = 'Método de Pago';
 $this->idioma['botonCrear'] = 'Registrar Nuevo Método';
 $this->idioma['botonCalcular'] = 'Guardar Datos';
 
@@ -16,6 +17,7 @@ $this->idioma["cabeceraNoEliminado"]="No ha sido posible cancelar el Factura. Un
 
 $this->idioma["botonValidar"]="Validar";
 $this->idioma["botonPagar"]="Pagar Factura";
+$this->idioma["botonPagarTitulo"]="Pagar Factura";
 $this->idioma["botonAceptarElim"]="Cancelar Factura";
 $this->idioma["botonCancelarElim"]="Atrás";
 $this->idioma["botonCerrar"]="Aceptar";

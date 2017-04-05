@@ -208,7 +208,7 @@ class Consultar {
 						$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
 						$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
 						$tab ++;
-					
+						
 						// Aplica atributos globales al control
 						$atributos = array_merge ( $atributos, $atributosGlobales );
 						echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
@@ -218,9 +218,8 @@ class Consultar {
 					// ------------------Fin Division para los botones-------------------------
 					echo $this->miFormulario->division ( "fin" );
 					unset ( $atributos );
-					
 				}
-			
+				
 				echo $this->miFormulario->agrupacion ( 'fin' );
 				unset ( $atributos );
 				
@@ -262,7 +261,6 @@ class Consultar {
 					
 					echo $tabla;
 				}
-		
 				
 				echo $this->miFormulario->agrupacion ( 'fin' );
 				unset ( $atributos );
@@ -284,16 +282,12 @@ class Consultar {
 				
 				// Paso 1: crear el listado de variables
 				
-				$valorCodificado = "action=" . $esteBloque ["nombre"];
+				$valorCodificado = "actionBloque=" . $esteBloque ["nombre"];
 				$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
 				$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 				$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-				if (isset ( $_REQUEST ['opcion'] ) && $_REQUEST ['opcion'] == 'agregar') {
-					$valorCodificado .= "&opcion=modificarMetodo";
-					$valorCodificado .= "&idmetodo=" . $_REQUEST ['id'];
-				} else {
-					$valorCodificado .= "&opcion=guardarMetodo";
-				}
+				$valorCodificado .= "&opcion=pagar";
+				$valorCodificado .= "&id=".$_REQUEST ['id'];
 				
 				/**
 				 * SARA permite que los nombres de los campos sean dinámicos.
