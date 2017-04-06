@@ -42,10 +42,52 @@ class FormProcessor
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
+        //Conexion a Base de Datos OtunWs
+        $conexion = "otunWs";
+        $this->esteRecursoDBOtunWS = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
         $_REQUEST['tiempo'] = time();
 
         switch ($_REQUEST['opcion']) {
-            case 'registrarPeriodoParticular':
+            case 'registrarApropiacion':
+                var_dump($_REQUEST);exit;
+                if ($_REQUEST['identificadorActividad'] != '') {
+
+                    $arregloValidar = array(
+                        'id_actividad' => $_REQUEST['identificadorActividad'],
+                        'identificacion' => $_REQUEST['identificacion'],
+
+                    );
+
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarActividadValidar', $arregloValidar);
+
+                    $validar_actividad = $this->esteRecursoDBOtunWs->ejecutarAcceso($cadenaSql, "busqueda");
+                    if ($validar_actividad != false) {
+
+                        Redireccionador::redireccionar("ErrorAsociacionActividad", $_REQUEST['identificadorActividad']);
+
+                    }
+
+                }
+
+                // Creación identificador actividad
+
+                if ($_REQUEST['identificadorActividad'] == '') {
+
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarIdentificadorActividad');
+
+                    $id_actividad = $this->esteRecursoDBOtunWs->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                    if (is_null($id_actividad['max'])) {
+                        $_REQUEST['identificadorActividad'] = 1;
+
+                    } else {
+
+                        $_REQUEST['identificadorActividad'] = $id_actividad['max'] + 1;
+                    }
+
+                }
+
                 $arreglo = array(
                     'unidad' => $_REQUEST['unidad'],
                     'valor' => $_REQUEST['valor'],
@@ -63,7 +105,7 @@ class FormProcessor
 
                 break;
 
-            case 'actualizarPeriodoParticular':
+            case 'actualizarApropiacion':
 
                 $arreglo = array(
                     'unidad' => $_REQUEST['unidad'],
