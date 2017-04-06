@@ -24,6 +24,34 @@ class procesarAjax
         $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
 
         switch ($_REQUEST['funcion']) {
+
+            case 'consultaInformacionBeneficiarios':
+
+                $cadenaSql = $this->sql->getCadenaSql('consultarInformacionBeneficiario', $_REQUEST['beneficiario']);
+
+                $informacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                echo json_encode($informacion);
+
+                break;
+
+            case 'consultaBeneficiarios':
+
+                $cadenaSql = $this->sql->getCadenaSql('consultarBeneficiariosPotenciales');
+
+                $resultadoItems = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                foreach ($resultadoItems as $key => $values) {
+                    $keys = array(
+                        'value',
+                        'data',
+                    );
+                    $resultado[$key] = array_intersect_key($resultadoItems[$key], array_flip($keys));
+                }
+                echo '{"suggestions":' . json_encode($resultado) . '}';
+
+                break;
+
             case 'consultaParticular':
                 $cadenaSql = $this->sql->getCadenaSql('consultaParticular');
                 $periodos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");

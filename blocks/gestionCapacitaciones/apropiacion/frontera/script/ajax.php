@@ -23,6 +23,36 @@ $cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($caden
 // URL Consultar Proyectos
 $urlConsultaParticular = $url . $cadena;
 
+// Variables para Con
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultaBeneficiarios";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarBeneficiarios = $url . $cadena;
+
+// Variables para Con
+$cadenaACodificar = "pagina=" . $this->miConfigurador->getVariableConfiguracion("pagina");
+$cadenaACodificar .= "&procesarAjax=true";
+$cadenaACodificar .= "&action=index.php";
+$cadenaACodificar .= "&bloqueNombre=" . $esteBloque["nombre"];
+$cadenaACodificar .= "&bloqueGrupo=" . $esteBloque["grupo"];
+$cadenaACodificar .= "&funcion=consultaInformacionBeneficiarios";
+
+// Codificar las variables
+$enlace = $this->miConfigurador->getVariableConfiguracion("enlace");
+$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url($cadenaACodificar, $enlace);
+
+// URL Consultar Proyectos
+$urlConsultarInformacionBeneficiarios = $url . $cadena;
+
 ?>
 <script type='text/javascript'>
 
@@ -30,7 +60,111 @@ $urlConsultaParticular = $url . $cadena;
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax(Aprobación Contrato).
  */
 
+
+
+function informacionBeneficiario(elem, request, response){
+      $.ajax({
+        url: "<?php echo $urlConsultarInformacionBeneficiarios; ?>",
+        dataType: "json",
+        data: { beneficiario:$("#<?php echo $this->campoSeguro('id_beneficiario') ?>").val() },
+        success: function(data){
+            if(data){
+
+                if(data.municipio){
+                    document.getElementById('<?php echo $this->campoSeguro('municipio') ?>').value=data.municipio;
+                }
+
+                if(data.departamento){
+                    document.getElementById('<?php echo $this->campoSeguro('departamento') ?>').value=data.departamento;
+
+                }
+              }else{
+
+                $("#<?php echo $this->campoSeguro('id_beneficiario') ?>").val('NO ASIGNADO');
+                $("#<?php echo $this->campoSeguro('beneficiario') ?>").val('NO ASIGNADO');
+
+
+              }
+
+           }
+
+       });
+    };
+
+
+
  $(document).ready(function() {
+
+
+
+
+  function IsValidDate(Fecha)
+  {
+
+    var regex = new RegExp('/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/');
+    if (regex.test(Fecha)) {
+        return true;
+    } else {
+        return false;
+    }
+
+  }
+
+      $('#<?php echo $this->campoSeguro("fechaApropiacion"); ?>').datetimepicker({
+                format: 'yyyy-mm-dd',
+                language: "es",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0
+             });
+
+
+  $("#<?php echo $this->campoSeguro('fechaApropiacion'); ?>").blur(function() {
+    if($("#<?php echo $this->campoSeguro('fechaApropiacion'); ?>").val()!=''){
+        var validar=IsValidDate($("#<?php echo $this->campoSeguro('fechaApropiacion'); ?>").val());
+        if(validar===false){
+          $("#<?php echo $this->campoSeguro('fechaApropiacion'); ?>").val("");
+        }
+
+      }
+  });
+
+
+
+   $("#<?php echo $this->campoSeguro('beneficiario'); ?>").autocomplete({
+      minChars: 3,
+      serviceUrl: '<?php echo $urlConsultarBeneficiarios; ?>',
+      onSelect: function (suggestion) {
+
+      if(suggestion){
+      $("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val(suggestion.data);
+      informacionBeneficiario();
+
+      }else{
+        $("#<?php echo $this->campoSeguro('id_beneficiario') ?>").val('NO ASIGNADO');
+        $("#<?php echo $this->campoSeguro('beneficiario') ?>").val('NO ASIGNADO');
+
+
+
+      }
+
+    }
+  });
+
+
+
+  $("#<?php echo $this->campoSeguro('beneficiario'); ?>").change(function() {
+    if($("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val()=='NO ASIGNADO'){
+        $("#<?php echo $this->campoSeguro('beneficiario'); ?>").val('NO ASIGNADO');
+        $("#<?php echo $this->campoSeguro('id_beneficiario'); ?>").val('NO ASIGNADO');
+      }
+  });
+
+
 
   $('#example').DataTable( {
         language: {
@@ -61,7 +195,7 @@ $urlConsultaParticular = $url . $cadena;
               },
               responsive: true,
                    ajax:{
-                      url:"<?php echo $urlConsultaParticular;?>",
+                      url:"<?php echo $urlConsultaParticular; ?>",
                       dataSrc:"data"
                   },
                   columns: [

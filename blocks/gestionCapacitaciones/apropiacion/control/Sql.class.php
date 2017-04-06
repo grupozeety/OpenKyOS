@@ -29,49 +29,61 @@ class Sql extends \Sql
             /**
                  * Clausulas específicas
                  */
-
-            case 'consultaParticular':
-                $cadenaSql = " SELECT p.id_periodo,p.valor,p.tipo_unidad, pm.descripcion";
-                $cadenaSql .= " FROM facturacion.periodo p";
-                $cadenaSql .= " JOIN facturacion.parametros_generales pm ON pm.id=p.tipo_unidad::int AND pm.estado_registro='TRUE' AND pm.id_valor=2";
-                $cadenaSql .= " WHERE p.estado_registro='TRUE';";
-                break;
-
-            case 'consultaTipoUnidad':
-                $cadenaSql = " SELECT id, descripcion";
-                $cadenaSql .= " FROM facturacion.parametros_generales";
-                $cadenaSql .= " WHERE id_valor='2'";
-                $cadenaSql .= " AND estado_registro='TRUE';";
-                break;
-
-            case 'consultarPeriodoParticular':
-                $cadenaSql = " SELECT *";
-                $cadenaSql .= " FROM facturacion.periodo";
+            case 'consultarTipoActividad':
+                $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
+                $cadenaSql .= " FROM parametros.generales";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND id_periodo='" . $_REQUEST['id_periodo'] . "';";
+                $cadenaSql .= " AND tipo='TipoActividad';";
                 break;
 
-            case 'registrarPeriodo':
-
-                $cadenaSql = " INSERT INTO facturacion.periodo(";
-                $cadenaSql .= " valor,";
-                $cadenaSql .= " tipo_unidad)";
-                $cadenaSql .= " VALUES ('" . $variable['valor'] . "', ";
-                $cadenaSql .= " '" . $variable['unidad'] . "');";
-
+            case 'consultaDepartamento':
+                $cadenaSql = " SELECT codigo_dep,codigo_dep ||' - '||departamento as departamento";
+                $cadenaSql .= " FROM parametros.departamento;";
                 break;
 
-            case 'actualizarPeriodo':
-                $cadenaSql = " UPDATE facturacion.periodo";
-                $cadenaSql .= " SET valor='" . $variable['valor'] . "', ";
-                $cadenaSql .= " tipo_unidad='" . $variable['unidad'] . "'";
-                $cadenaSql .= " WHERE id_periodo='" . $variable['id_periodo'] . "';";
+            case 'consultaMunicipio':
+                $cadenaSql = " SELECT codigo_mun,codigo_mun||' - '||municipio as municipio";
+                $cadenaSql .= " FROM parametros.municipio;";
                 break;
 
-            case 'eliminarPeriodo':
-                $cadenaSql = " UPDATE facturacion.periodo";
-                $cadenaSql .= " SET estado_registro='FALSE'";
-                $cadenaSql .= " WHERE id_periodo='" . $_REQUEST['id_periodo'] . "';";
+            case 'consultarBeneficiariosPotenciales':
+                $cadenaSql = " SELECT value , data ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "(SELECT DISTINCT bp.identificacion ||' - ('||bp.nombre||' '||bp.primer_apellido||' '||bp.segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND cn.estado_registro=TRUE ";
+                $cadenaSql .= $variable;
+                $cadenaSql .= "     ) datos ";
+                $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= "LIMIT 10; ";
+                break;
+
+            case 'consultarInformacionBeneficiario':
+                $cadenaSql = " SELECT";
+                $cadenaSql .= " cn.id_beneficiario,";
+                $cadenaSql .= " cn.nombres||' '||cn.primer_apellido||' '||(CASE WHEN cn.segundo_apellido IS NOT NULL THEN cn.segundo_apellido ELSE '' END) as nombre_beneficiario,";
+                $cadenaSql .= " cn.numero_identificacion,";
+                $cadenaSql .= " (CASE WHEN bp.edad > 0 THEN bp.edad ELSE null END) as edad,";
+                $cadenaSql .= " (CASE WHEN bp.correo='NA' THEN null WHEN bp.correo IS NOT NULL THEN bp.correo ELSE null END) as correo,";
+                $cadenaSql .= " (CASE WHEN bp.celular IS NOT NULL THEN replace( bp.celular, ' ', '') ELSE null END) as telefono,";
+                $cadenaSql .= " (CASE WHEN bp.genero = 2 THEN 'M' WHEN bp.genero= 1 THEN 'F' ELSE null END) as genero,";
+                $cadenaSql .= " bp.municipio,";
+                $cadenaSql .= " bp.departamento,";
+                $cadenaSql .= " cn.estrato_socioeconomico as estrato,";
+                $cadenaSql .= " nv.codigo_homologacion as nivel_estudio,";
+                $cadenaSql .= " op.codigo_homologacion as ocupacion,";
+                $cadenaSql .= " pe.codigo_homologacion as pertencia_etnica";
+                $cadenaSql .= " FROM interoperacion.beneficiario_potencial bp";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario AND cn.estado_registro='TRUE'";
+                $cadenaSql .= " LEFT JOIN parametros.parametros nv ON nv.codigo::int=bp.nivel_estudio AND nv.rel_parametro='3' AND nv.estado_registro='TRUE'";
+                $cadenaSql .= " LEFT JOIN parametros.parametros op ON op.codigo::int=bp.ocupacion AND op.rel_parametro='9' AND op.estado_registro='TRUE'";
+                $cadenaSql .= " LEFT JOIN parametros.parametros pe ON pe.codigo::int=bp.pertenencia_etnica AND pe.rel_parametro='8' AND pe.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE bp.estado_registro='TRUE'";
+                $cadenaSql .= " AND cn.numero_identificacion is not null";
+                $cadenaSql .= " AND bp.id_beneficiario='" . $variable . "';";
+
                 break;
         }
 

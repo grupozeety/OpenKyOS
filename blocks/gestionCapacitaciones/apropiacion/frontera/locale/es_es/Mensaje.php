@@ -5,10 +5,22 @@
 
 $this->idioma['noDefinido'] = 'Etiqueta No definida';
 
-$this->idioma['botonRegistro'] = 'Registrar Periodo';
+$this->idioma['departamento'] = 'Departamento';
 
-$this->idioma['valor'] = 'Valor';
+$this->idioma['municipio'] = 'Municipio';
 
-$this->idioma['unidad'] = 'Unidad de Tiempo';
+$this->idioma['beneficiario'] = 'Beneficiario Asociado';
+
+$this->idioma['identificadorActividad'] = 'Identificador Actividad';
+
+$this->idioma['fechaApropiacion'] = 'Fecha Apropiación';
+
+$this->idioma['actividad'] = 'Actividad';
+
+$this->idioma['tipoActividad'] = 'Tipo Actividad';
+
+$this->idioma['numeroAsistentes'] = 'Número Asistentes';
+
+$this->idioma['numeroPersonasVisitadas'] = 'Número de Personas Visitadas';
 
 $this->idioma['botonGuardar'] = 'Guardar';

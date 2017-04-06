@@ -65,11 +65,11 @@ class Frontera
                     break;
 
                 default:
-                    include_once $this->ruta . "frontera/consultaGeneral.php";
+                    include_once $this->ruta . "frontera/crearActualizar.php";
                     break;
             }
         } else {
-            include_once $this->ruta . "frontera/consultaGeneral.php";
+            include_once $this->ruta . "frontera/crearActualizar.php";
         }
     }
 }

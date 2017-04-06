@@ -1,6 +1,19 @@
 /*
 Código css correspondiente al Bloque.
 */
+
+
+
+.col-lg-2 {
+    text-align: left;
+}
+
+
+.col-xs-2 {
+    text-align: left;
+}
+
+
 .td{
 
 text-align: center;
