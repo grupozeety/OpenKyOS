@@ -436,13 +436,20 @@ class GenerarDocumento
 
             case 'CodigoBarras':
 
-                $this->contenido .= "<div style='text-align:" . $this->atributos['alineacionCodigoBarras'];
+                $this->contenido .= "<div style='font-size: 40%;text-align:" . $this->atributos['alineacionCodigoBarras'];
 
-                $fecha = str_replace('-', '', $this->InformacionFacturacion['fecha_factura']);
+                $fecha = str_replace('-', '', $this->InformacionFacturacion['id_ciclo']);
 
-                $valorCodigo = $fecha . $this->InformacionFacturacion['departamento'] . $this->InformacionFacturacion['municipio'] . $this->InformacionFacturacion['id_beneficiario'];
+                $arreglo = array(
+                    str_replace('-', '', $this->InformacionFacturacion['id_ciclo']),
+                    $this->InformacionFacturacion['departamento'],
+                    $this->InformacionFacturacion['municipio'],
+                    $this->InformacionFacturacion['numero_identificacion'],
+                );
 
-                $valorCodigo = ereg_replace("[a-zA-Z]", "", $valorCodigo);
+                $valorCodigo = implode('000', $arreglo);
+
+                //$valorCodigo = explode('0000', $valorCodigo);
 
                 $this->contenido .= "'><barcode type='CODABAR' value='" . $valorCodigo . "' style='" . $this->atributos['dimensionesCodigoBarras'] . "'></barcode></div>";
                 break;
