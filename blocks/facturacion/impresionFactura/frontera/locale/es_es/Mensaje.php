@@ -27,4 +27,6 @@ $this->idioma['seleccion_proceso'] = 'Proceso';
 
 $this->idioma['estado_documento'] = 'Documentos Exitentes';
 
+$this->idioma['fecha_oportuna_pago'] = 'Fecha Oportuna Pago';
+
 $this->idioma['correo'] = 'Emisión Factura Correo';

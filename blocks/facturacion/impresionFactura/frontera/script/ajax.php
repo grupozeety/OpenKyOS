@@ -43,6 +43,52 @@ $urlConsultarProcesos = $url . $cadena;
 ?>
 <script type='text/javascript'>
 
+  function IsValidDate(Fecha)
+  {
+
+    var regex = new RegExp('/^(19|20)\d\d[\-\/.](0[1-9]|1[012])[\-\/.](0[1-9]|[12][0-9]|3[01])$/');
+    if (regex.test(Fecha)) {
+        return true;
+    } else {
+        return false;
+    }
+
+  }
+
+
+      $('#<?php echo $this->campoSeguro("fecha_oportuna_pago"); ?>').datetimepicker({
+                format: 'yyyy-mm-dd',
+                language: "es",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                });
+
+
+  $("#<?php echo $this->campoSeguro('fecha_oportuna_pago'); ?>").blur(function() {
+    if($("#<?php echo $this->campoSeguro('fecha_oportuna_pago'); ?>").val()!=''){
+        var validar=IsValidDate($("#<?php echo $this->campoSeguro('fecha_oportuna_pago'); ?>").val());
+        if(validar===false){
+          $("#<?php echo $this->campoSeguro('fecha_oportuna_pago'); ?>").val("");
+        }
+
+      }
+  });
+
+
+
+        $('#<?php echo $this->campoSeguro("fecha_oportuna_pago"); ?>').datetimepicker('setStartDate', new Date());
+
+
+
+
+
+
+
 $("#mensaje").modal("show");
 
 /**
@@ -82,7 +128,7 @@ $("#mensaje").modal("show");
 
                  responsive: true,
                    ajax:{
-                      url:"<?php echo $urlConsultarProcesos;?>",
+                      url:"<?php echo $urlConsultarProcesos; ?>",
                       dataSrc:"data"
                   },
                 columns: [
@@ -101,9 +147,9 @@ $("#mensaje").modal("show");
 
 
 
-   $("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
+   $("#<?php echo $this->campoSeguro('beneficiario'); ?>").autocomplete({
         minChars: 3,
-        serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
+        serviceUrl: '<?php echo $urlConsultarBeneficiarios; ?>',
         minChars:3,
         multiple: true,
         multipleSeparator: "",
@@ -114,7 +160,7 @@ $("#mensaje").modal("show");
         deferRequestBy: 0, //miliseconds
         noCache: false,
         onSelect: function (suggestion) {
-            $("#<?php echo $this->campoSeguro('beneficiario');?>").val($("#<?php echo $this->campoSeguro('beneficiario');?>").val()+";");
+            $("#<?php echo $this->campoSeguro('beneficiario'); ?>").val($("#<?php echo $this->campoSeguro('beneficiario'); ?>").val()+";");
         }
 
        });
