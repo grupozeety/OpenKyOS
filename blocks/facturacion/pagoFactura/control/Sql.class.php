@@ -93,18 +93,24 @@ class Sql extends \Sql {
 				$cadenaSql .= " usuario_recibe,  ";
 				$cadenaSql .= " medio_pago)  ";
 				$cadenaSql .= " VALUES ( ";
-				$cadenaSql .= " '".$variable['id_factura']."',";
-				$cadenaSql .= " '".$variable['valor_pagado']."',";
-				$cadenaSql .= " '".$variable['valor_recibido']."',";
-				$cadenaSql .= " '".$variable['usuario']."',";
-				$cadenaSql .= " '".$variable['medio_pago']."'";
-				$cadenaSql .= "  );";
+				$cadenaSql .= " '" . $variable ['id_factura'] . "',";
+				$cadenaSql .= " '" . $variable ['valor_pagado'] . "',";
+				$cadenaSql .= " '" . $variable ['valor_recibido'] . "',";
+				$cadenaSql .= " '" . $variable ['usuario'] . "',";
+				$cadenaSql .= " '" . $variable ['medio_pago'] . "'";
+				$cadenaSql .= "  ) RETURNING id_pago;";
 				break;
 			
 			case 'actualizarFactura' :
 				$cadenaSql = " UPDATE facturacion.factura ";
 				$cadenaSql .= " SET estado_factura='Pagada' ";
-				$cadenaSql .= " WHERE id_factura='".$variable."'";
+				$cadenaSql .= " WHERE id_factura='" . $variable . "'";
+				break;
+			
+			case 'medioPago' :
+				$cadenaSql = " SELECT  descripcion ";
+				$cadenaSql .= " from parametros.parametros ";
+				$cadenaSql .= " WHERE rel_parametro=29 AND estado_registro=TRUE AND codigo='".$variable."'";
 				break;
 		}
 		

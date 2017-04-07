@@ -8,6 +8,7 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 }
 
 include_once 'Redireccionador.php';
+include_once 'comprobante.php';
 class FormProcessor {
 	public $miConfigurador;
 	public $lenguaje;
@@ -25,6 +26,8 @@ class FormProcessor {
 		
 		$this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion ( "raizDocumento" );
 		
+		$this->comprobante= new GenerarDocumento($lenguaje,$sql);
+		
 		if (! isset ( $_REQUEST ["bloqueGrupo"] ) || $_REQUEST ["bloqueGrupo"] == "") {
 			$this->rutaURL .= "/blocks/" . $_REQUEST ["bloque"] . "/";
 			$this->rutaAbsoluta .= "/blocks/" . $_REQUEST ["bloque"] . "/";
@@ -37,10 +40,8 @@ class FormProcessor {
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		$_REQUEST ['tiempo'] = time ();
-		
-		var_dump ( $_REQUEST );
-		
-		/**
+	
+				/**
 		 * 1.
 		 * Revisar Valor de Factura Coincida con el Pago
 		 */
@@ -52,13 +53,15 @@ class FormProcessor {
 		 * Registrar Pago
 		 */
 		
-		$resultado = $this->registrarPago ();
+		$this->medioPago($_REQUEST['medio_pago']);
 		
-		if ($resultado == TRUE) {
-			$update = $this->actualizarFactura ();
-		} else {
+		$resultado = $this->registrarPago ();
+
+		if ($resultado == FALSE) {
 			Redireccionador::redireccionar ( "ErrorPago" );
 			exit ();
+		} else {
+			$update = $this->actualizarFactura ();
 		}
 		/**
 		 * 3.
@@ -83,6 +86,18 @@ class FormProcessor {
 			exit ();
 		}
 	}
+	
+	public function medioPago($id) {
+	
+		$cadenaSql = $this->miSql->getCadenaSql ( 'medioPago', $id );
+		$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+		$_REQUEST['medioTexto']=$registro[0][0];
+	
+		return $registro;
+	}
+	
+	
 	public function registrarPago() {
 		$this->asociacion = array (
 				'id_factura' => $_REQUEST ['id_factura'],
@@ -92,21 +107,22 @@ class FormProcessor {
 				'medio_pago' => $_REQUEST ['medio_pago'] 
 		);
 		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarPago', $this->asociacion );
-		$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+	    $cadenaSql = $this->miSql->getCadenaSql ( 'registrarPago', $this->asociacion );
+		$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
+		$_REQUEST['idPago']=$registro[0][0];
+
 		return $registro;
 	}
 	public function actualizarFactura() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFactura', $_REQUEST ['id_factura'] );
 		$update = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
-		
+
 		return $update;
 	}
-	
-	public function generarComprobante(){
-		echo "generar comprobante";
-		exit;
+	public function generarComprobante() {
+		$this->comprobante->comprobante();
+		exit ();
 	}
 }
 

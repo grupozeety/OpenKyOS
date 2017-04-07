@@ -51,7 +51,6 @@ class Periodos {
 	public function pagoFactura() {
 		
 		$respuesta = $this->miSesionSso->getParametrosSesionAbierta ();
-
 		// Conexion a Base de Datos
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
@@ -322,8 +321,10 @@ class Periodos {
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=registrarPago";
 		$valorCodificado .= "&usuario=".$respuesta['mail'][0];
+		$valorCodificado .= "&usuarioN=".$respuesta['givenName'][0];
 		$valorCodificado .= "&valor_factura=".$factura[0]['total_factura'];
 		$valorCodificado .= "&id_factura=".$_REQUEST ['id'];
+		$valorCodificado .= "&beneficiario=".$factura [0] ['nombres'];
 		
 		
 		/**
