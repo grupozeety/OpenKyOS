@@ -82,7 +82,7 @@ class Sql extends \Sql
                 $cadenaSql .= " pb.departamento,";
                 $cadenaSql .= " pb.id_beneficiario, ";
                 $cadenaSql .= " pb.correo_institucional, ";
-                $cadenaSql .= " pb.correo ";
+                $cadenaSql .= " pb.correo,cn.numero_identificacion ";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
