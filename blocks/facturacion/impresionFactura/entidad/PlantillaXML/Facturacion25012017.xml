@@ -31,7 +31,7 @@ ac viverra rhoncus, sem elit vestibulum nibh, quis feugiat ex ligula ac nisi.
 volutpat.</texto>
 		</columna>
 	<columna>
-			<variable alineacionCodigoBarras="center" dimensionesCodigoBarras="width:100mm; height:25mm;font-size:2mm">CodigoBarras</variable>
+			<variable alineacionCodigoBarras="center" dimensionesCodigoBarras="width:95mm; height:25mm;font-size:2mm">CodigoBarras</variable>
 	</columna>
 			</seccion>
 </factura>
