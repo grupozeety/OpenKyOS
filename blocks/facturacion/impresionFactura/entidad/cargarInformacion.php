@@ -59,13 +59,14 @@ class FormProcessor
     }
     public function registroProceso()
     {
-        if ($_REQUEST['correo'] == '1') {
-            $datos_adicionales = implode(";", $this->Beneficiarios) . '&correo';
-        } elseif ($_REQUEST['correo'] == '0') {
-            $datos_adicionales = implode(";", $this->Beneficiarios);
-        }
 
-        var_dump($datos_adicionales);exit;
+        $fechaOportuna = '&fecha_oportuna_pago=' . $_REQUEST['fecha_oportuna_pago'];
+
+        if ($_REQUEST['correo'] == '1') {
+            $datos_adicionales = implode(";", $this->Beneficiarios) . $fechaOportuna . '&correo';
+        } elseif ($_REQUEST['correo'] == '0') {
+            $datos_adicionales = implode(";", $this->Beneficiarios) . $fechaOportuna;
+        }
 
         $arreglo_registro = array(
             'inicio' => $this->Beneficiarios[0],

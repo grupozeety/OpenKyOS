@@ -66,6 +66,19 @@ class GenerarDocumento
             $_REQUEST['correo'] = true;
         }
 
+        foreach ($opciones as $key => $value) {
+
+            $pos = strpos($value, 'oportuna_pago');
+
+            if ($pos != false) {
+                $arreglo = explode("=", $value);
+
+                $_REQUEST['fecha_oportuna_pago'] = end($arreglo);
+
+            }
+
+        }
+
         $this->beneficiarios = explode(";", $opciones[0]);
 
         $this->ruta_archivos = $ruta_archivos;
@@ -101,7 +114,14 @@ class GenerarDocumento
                 /**
                  * Actualizar Factura Beneficiario
                  */
-                $cadenaSql = $this->miSql->getCadenaSql('actualizarFacturaBeneficiario', $this->identificador_beneficiario);
+
+                $arreglo = array(
+                    'id_beneficiario' => $this->identificador_beneficiario,
+                    'fecha_oportuna_pago' => $_REQUEST['fecha_oportuna_pago'],
+
+                );
+
+                $cadenaSql = $this->miSql->getCadenaSql('actualizarFacturaBeneficiario', $arreglo);
                 $actualizacionEstadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
                 if (isset($_REQUEST['correo'])) {
@@ -113,6 +133,7 @@ class GenerarDocumento
     }
     public function validarBeneficiario()
     {
+
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacion', $this->identificador_beneficiario);
         $this->InformacionFacturacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
@@ -342,12 +363,23 @@ class GenerarDocumento
                 break;
 
             case 'InformacionBeneficiario':
+
+                //var_dump($this->InformacionFacturacion);exit;
+
                 $this->contenido .= "<div style='" . $this->atributos . "'>";
+
+                if (isset($_REQUEST['fecha_oportuna_pago'])) {
+                    $fechaOportuna = $_REQUEST['fecha_oportuna_pago'];
+                } else {
+
+                    $fechaOportuna = $this->InformacionFacturacion['fecha_pago_oportuno'];
+
+                }
 
                 $table = "<table style='margin: 0 auto;border-collapse:collapse;border:1px;width:100%;' nowrap >
                             <tr>
                                 <td style='font-size: 14px;height:20px;text-align:left;border:0.1px;background-color:#4766cc;border-top-left-radius: 4px; border-bottom-left-radius: 4px; color:#fff'><b>Fecha Oportuna de Pago</b></td>
-                                <td style='height:15px;text-align:left;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;'><b></b></td>
+                                <td style='height:15px;text-align:center;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;'><b>" . $fechaOportuna . "</b></td>
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px><b>Factura </b> " . $this->InformacionFacturacion['id_factura'] . " </td>

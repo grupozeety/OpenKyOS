@@ -66,6 +66,8 @@ class Registrador
             // URL Consultar Proyectos
             $urlEjecutarProceso = $url . $cadena;
 
+            echo $urlEjecutarProceso;
+
         }
 
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------

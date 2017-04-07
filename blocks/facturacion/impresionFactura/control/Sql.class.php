@@ -82,7 +82,7 @@ class Sql extends \Sql
                 $cadenaSql .= " pb.departamento,";
                 $cadenaSql .= " pb.id_beneficiario, ";
                 $cadenaSql .= " pb.correo_institucional, ";
-                $cadenaSql .= " pb.correo,cn.numero_identificacion ";
+                $cadenaSql .= " pb.correo,cn.numero_identificacion,fc.fecha_pago_oportuno ";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
@@ -341,11 +341,12 @@ class Sql extends \Sql
 
             case 'actualizarFacturaBeneficiario':
                 $cadenaSql = " UPDATE facturacion.factura ";
-                $cadenaSql .= " SET estado_factura='Aprobado'";
+                $cadenaSql .= " SET estado_factura='Aprobado',";
+                $cadenaSql .= "  fecha_pago_oportuno='" . $variable['fecha_oportuna_pago'] . "'";
                 $cadenaSql .= " WHERE id_factura=(";
                 $cadenaSql .= " SELECT id_factura ";
                 $cadenaSql .= " FROM facturacion.factura";
-                $cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "'";
                 $cadenaSql .= " ORDER BY id_factura DESC ";
                 $cadenaSql .= " LIMIT 1";
                 $cadenaSql .= " );";
