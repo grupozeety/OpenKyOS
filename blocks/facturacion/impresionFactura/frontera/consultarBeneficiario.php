@@ -34,7 +34,7 @@ class Registrador
     }
     public function seleccionarForm()
     {
-    	
+
         // Rescatar los datos de este bloque
         $esteBloque = $this->miConfigurador->getVariableConfiguracion("esteBloque");
 
@@ -197,6 +197,38 @@ class Registrador
                         unset($atributos);
 
                         {
+
+                            $esteCampo = 'fecha_oportuna_pago';
+                            $atributos['nombre'] = $esteCampo;
+                            $atributos['tipo'] = "text";
+                            $atributos['id'] = $esteCampo;
+                            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                            $atributos["etiquetaObligatorio"] = true;
+                            $atributos['tab'] = $tab++;
+                            $atributos['anchoEtiqueta'] = 2;
+                            $atributos['estilo'] = "bootstrap";
+                            $atributos['evento'] = '';
+                            $atributos['deshabilitado'] = false;
+                            $atributos['readonly'] = false;
+                            $atributos['columnas'] = 1;
+                            $atributos['tamanno'] = 1;
+                            $atributos['placeholder'] = "Ingrese Fecha Pago Oportuno";
+                            if (isset($_REQUEST[$esteCampo])) {
+                                $atributos['valor'] = $_REQUEST[$esteCampo];
+                            } else {
+                                $atributos['valor'] = "";
+                            }
+                            $atributos['ajax_function'] = "";
+                            $atributos['ajax_control'] = $esteCampo;
+                            $atributos['limitar'] = false;
+                            $atributos['anchoCaja'] = 10;
+                            $atributos['miEvento'] = '';
+                            $atributos['validar'] = 'required';
+                            // Aplica atributos globales al control
+                            $atributos = array_merge($atributos, $atributosGlobales);
+                            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                            unset($atributos);
+
                             $esteCampo = 'departamento';
                             $atributos['nombre'] = $esteCampo;
                             $atributos['id'] = $esteCampo;
@@ -486,7 +518,7 @@ class Registrador
     }
     public function mensajeModal($tab = '', $nombreBloque = '')
     {
-    	
+
         switch ($_REQUEST['mensaje']) {
             case 'SinResultado':
                 $mensaje = "<b>No Se Genero Ningun Resultado<br>Verifique la combinacion de Parametros</b>";
