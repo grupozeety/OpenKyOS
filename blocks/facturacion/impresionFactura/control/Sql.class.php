@@ -82,7 +82,8 @@ class Sql extends \Sql
                 $cadenaSql .= " pb.departamento,";
                 $cadenaSql .= " pb.id_beneficiario, ";
                 $cadenaSql .= " pb.correo_institucional, ";
-                $cadenaSql .= " pb.correo,cn.numero_identificacion,fc.fecha_pago_oportuno ";
+                $cadenaSql .= " pb.correo,cn.numero_identificacion,fc.fecha_pago_oportuno, ";
+                $cadenaSql .= " numeracion_facturacion,indice_facturacion ";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
@@ -172,7 +173,7 @@ class Sql extends \Sql
                 break;
 
             case 'consultaGeneralInformacion':
-                $cadenaSql = " SELECT DISTINCT cn.id_beneficiario ";
+                $cadenaSql = " SELECT DISTINCT cn.id_beneficiario,bn.departamento ";
                 $cadenaSql .= " FROM interoperacion.contrato AS cn ";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial AS bn ON bn.id_beneficiario =cn.id_beneficiario";
                 $cadenaSql .= " JOIN parametros.proyectos_metas AS pm ON pm.id_proyecto =bn.id_proyecto";
@@ -342,7 +343,10 @@ class Sql extends \Sql
             case 'actualizarFacturaBeneficiario':
                 $cadenaSql = " UPDATE facturacion.factura ";
                 $cadenaSql .= " SET estado_factura='Aprobado',";
-                $cadenaSql .= "  fecha_pago_oportuno='" . $variable['fecha_oportuna_pago'] . "'";
+                $cadenaSql .= "  fecha_pago_oportuno='" . $variable['fecha_oportuna_pago'] . "',";
+                $cadenaSql .= "  indice_facturacion='" . $variable['indice_facturacion'] . "',";
+                $cadenaSql .= "  numeracion_facturacion='" . $variable['numeracion_facturacion'] . "',";
+                $cadenaSql .= "  codigo_barras='" . $variable['codigo_barras'] . "' ";
                 $cadenaSql .= " WHERE id_factura=(";
                 $cadenaSql .= " SELECT id_factura ";
                 $cadenaSql .= " FROM facturacion.factura";
@@ -352,8 +356,26 @@ class Sql extends \Sql
                 $cadenaSql .= " );";
                 break;
 
+            case 'consultarNumeracionFactura':
+                $cadenaSql = " SELECT max(numeracion_facturacion) as numeracion";
+                $cadenaSql .= " FROM facturacion.factura";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND estado_factura='Aprobado'";
+                $cadenaSql .= " AND indice_facturacion='" . $variable . "';";
+                break;
+
+            case 'consultarNumeracionFacturaActual':
+                $cadenaSql = " SELECT max(numeracion_facturacion) as numeracion";
+                $cadenaSql .= " FROM facturacion.factura";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND estado_factura='Aprobado'";
+                $cadenaSql .= " AND indice_facturacion='" . $variable . "';";
+                break;
+
         }
 
         return $cadenaSql;
+
     }
+
 }

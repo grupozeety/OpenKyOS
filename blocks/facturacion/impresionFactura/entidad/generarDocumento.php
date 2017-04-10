@@ -88,6 +88,16 @@ class GenerarDocumento
             if ($this->validarBeneficiario()) {
 
                 /**
+                 * Númeracion Facturación
+                 */
+
+                if (is_null($this->InformacionFacturacion['numeracion_facturacion']) && is_null($this->InformacionFacturacion['indice_facturacion'])) {
+                    $this->parametrizacionNumeracionFacturacion();
+                } else {
+                    $this->InformacionFacturacion['numeracion_facturacion'] = sprintf("%'.06d", $this->InformacionFacturacion['numeracion_facturacion']);
+                }
+
+                /**
                  * Cargar Estructura XML
                  */
 
@@ -118,6 +128,9 @@ class GenerarDocumento
                 $arreglo = array(
                     'id_beneficiario' => $this->identificador_beneficiario,
                     'fecha_oportuna_pago' => $_REQUEST['fecha_oportuna_pago'],
+                    'indice_facturacion' => $this->InformacionFacturacion['indice_facturacion'],
+                    'numeracion_facturacion' => $this->InformacionFacturacion['numeracion_facturacion'],
+                    'codigo_barras' => $this->InformacionFacturacion['codigo_barras'],
 
                 );
 
@@ -148,6 +161,44 @@ class GenerarDocumento
         } else {
             return false;
         }
+
+    }
+
+    public function parametrizacionNumeracionFacturacion()
+    {
+
+        switch ($this->InformacionFacturacion['departamento']) {
+            case '23':
+
+                $this->InformacionFacturacion['indice_facturacion'] = 'FCO';
+
+                $cadenaSql = $this->miSql->getCadenaSql('consultarNumeracionFactura', 'FCO');
+                $numeracion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                break;
+
+            case '70':
+
+                $this->InformacionFacturacion['indice_facturacion'] = 'FSU';
+
+                $cadenaSql = $this->miSql->getCadenaSql('consultarNumeracionFactura', 'FSU');
+                $numeracion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                break;
+
+        }
+
+        if (is_null($numeracion[0]['numeracion'])) {
+
+            $numero_factura = 1;
+
+        } else {
+
+            $numero_factura = $numeracion[0]['numeracion'] + 1;
+        }
+
+        $this->InformacionFacturacion['numeracion_facturacion'] = sprintf("%'.06d", $numero_factura);
+
     }
     public function cargarEstructuraXML()
     {
@@ -269,7 +320,7 @@ class GenerarDocumento
                     break;
 
                 case 'texto':
-                    $this->contenido .= "<div style='" . $this->atributos . "'>" . $value . "</div>";
+                    $this->contenido .= "<div style='" . $this->atributos . "'>" . $this->reemplazarTextos($value) . "</div>";
                     break;
 
                 case 'imagen':
@@ -285,6 +336,34 @@ class GenerarDocumento
             $this->contenido .= "<br>";
         }
     }
+
+    public function reemplazarTextos($variable)
+    {
+        $texto_variable = ['$numero_factura', '$fecha_factura_letras'];
+
+        foreach ($texto_variable as $key => $value) {
+
+            switch ($value) {
+                case '$numero_factura':
+                    $variable = str_replace($value, $this->InformacionFacturacion['indice_facturacion'] . $this->InformacionFacturacion['numeracion_facturacion'], $variable);
+                    break;
+
+                case '$fecha_factura_letras':
+
+                    setlocale(LC_ALL, "es_CO.UTF-8");
+
+                    $fecha_actual = strftime("%d de %B de %Y", time());
+
+                    $variable = str_replace($value, $fecha_actual, $variable);
+                    break;
+            }
+
+        }
+
+        return $variable;
+
+    }
+
     public function ejecutarContenidoVariable($variable)
     {
         switch ($variable) {
@@ -364,8 +443,6 @@ class GenerarDocumento
 
             case 'InformacionBeneficiario':
 
-                //var_dump($this->InformacionFacturacion);exit;
-
                 $this->contenido .= "<div style='" . $this->atributos . "'>";
 
                 if (isset($_REQUEST['fecha_oportuna_pago'])) {
@@ -382,7 +459,7 @@ class GenerarDocumento
                                 <td style='height:15px;text-align:center;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;'><b>" . $fechaOportuna . "</b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px><b>Factura </b> " . $this->InformacionFacturacion['id_factura'] . " </td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px><b>Factura </b> " . $this->InformacionFacturacion['indice_facturacion'] . $this->InformacionFacturacion['numeracion_facturacion'] . " </td>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap($this->InformacionBeneficiario['nombre_beneficiario'], 35, "<br>\n") . "</b></td>
                             </tr>
                             <tr>
@@ -422,7 +499,7 @@ class GenerarDocumento
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;width:50%;'><b>Factura</b></td>
-                                <td style='height:13px;text-align:right;border:none;width:50%;'>" . $this->InformacionFacturacion['id_factura'] . "</td>
+                                <td style='height:13px;text-align:right;border:none;width:50%;'>" . $this->InformacionFacturacion['indice_facturacion'] . $this->InformacionFacturacion['numeracion_facturacion'] . "</td>
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;width:50%;'><b>Valor</b></td>
@@ -430,7 +507,7 @@ class GenerarDocumento
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;width:50%;'><b>IVA</b></td>
-                                <td style='height:13px;text-align:right;border:none;width:50%;'></td>
+                                <td style='height:13px;text-align:right;border:none;width:50%;'>$ 0.00</td>
                             </tr>
                           </table>";
 
@@ -477,11 +554,12 @@ class GenerarDocumento
                     $this->InformacionFacturacion['departamento'],
                     $this->InformacionFacturacion['municipio'],
                     $this->InformacionFacturacion['numero_identificacion'],
+                    $this->InformacionFacturacion['total_factura'],
                 );
 
                 $valorCodigo = implode('000', $arreglo);
 
-                //$valorCodigo = explode('0000', $valorCodigo);
+                $this->InformacionFacturacion['codigo_barras'] = $valorCodigo;
 
                 $this->contenido .= "'><barcode type='CODABAR' value='" . $valorCodigo . "' style='" . $this->atributos['dimensionesCodigoBarras'] . "'></barcode></div>";
                 break;
@@ -539,6 +617,7 @@ class GenerarDocumento
             $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
             $html2pdf->Output($this->archivo_adjunto, 'F');
         }
+
     }
     public function estruturaDocumento()
     {

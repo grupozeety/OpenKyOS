@@ -547,6 +547,18 @@ class Registrador
                 $atributos['estiloLinea'] = 'success';
                 break;
 
+            case 'errorNumeracionFacturacion':
+                $mensaje = "Error intentar crear proceso de facturación. La facturación superon a N°500000";
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
+
+                break;
+
+            case 'ErrorNumeroBeneficiariosFacturar':
+                $mensaje = "Error intentar crear proceso de facturación. No existen suficientes numeración par asignarle a la factura";
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
+
+                break;
+
         }
 
         // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------

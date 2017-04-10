@@ -46,7 +46,13 @@ class FormProcessor
         $this->procesarInformacionBeneficiario();
 
         /**
-         * 2.Registrar Proceso
+         * 2.Validar Numeros de Factura Actuales
+         */
+
+        $this->validarNumerosFacturasActuales();
+
+        /**
+         * 3.Registrar Proceso
          */
 
         $this->registroProceso();
@@ -79,6 +85,69 @@ class FormProcessor
 
         $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['id_proceso'];
     }
+
+    public function validarNumerosFacturasActuales()
+    {
+
+        var_dump($this->BeneficiariosValidar);exit;
+        $departamento_validar = ['FSU', 'FCO'];
+
+        foreach ($departamento_validar as $key => $value) {
+
+            $cadenaSql = $this->miSql->getCadenaSql('consultarNumeracionFactura', $value);
+
+            $numeracion_actual = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['numeracion'];
+
+            if (!is_null($numeracion_actual) && $numeracion_actual < 500000) {
+                switch ($value) {
+                    case 'FSU':
+
+                        $numero_beneficiarios_facturar = $this->contarBeneficiarioPorDepartamento('70');
+
+                        break;
+
+                    case 'FCO':
+                        $numero_beneficiarios_facturar = $this->contarBeneficiarioPorDepartamento('23');
+                        break;
+
+                }
+
+                if ((500000 - $numeracion_actual) < $numero_beneficiarios_facturar) {
+
+                    Redireccionador::redireccionar("ErrorNumeroBeneficiariosFacturar");
+                }
+
+            } else if (!($numeracion_actual < 500000)) {
+
+                echo "error_numero_fac";
+
+                Redireccionador::redireccionar("ErrorNumeracionFacturacion");
+
+            }
+
+        }
+
+        exit;
+
+    }
+
+    public function contarBeneficiarioPorDepartamento($departamento)
+    {
+        $i = 0;
+        foreach ($this->BeneficiariosValidar as $key => $value) {
+
+            if ($value['departamento'] == $departamento) {
+
+                $i++;
+
+            }
+
+        }
+
+        return $i;
+
+    }
+
     public function procesarInformacionBeneficiario()
     {
         $arreglo = array(
@@ -102,6 +171,14 @@ class FormProcessor
 
         foreach ($Beneficiarios as $key => $value) {
             $this->Beneficiarios[] = trim($value['id_beneficiario']);
+        }
+
+        foreach ($Beneficiarios as $key => $value) {
+            $this->BeneficiariosValidar[] = array(
+                'id_beneficiario' => trim($value['id_beneficiario']),
+                'departamento' => $value['departamento'],
+
+            );
         }
 
         foreach ($Urbanizaciones as $key => $value) {
