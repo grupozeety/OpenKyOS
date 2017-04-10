@@ -24,11 +24,8 @@
 	<seccion>
 	<!--columna><variable estilos="font-size:14px;text-align:center;">InformacionPagoResumido</variable></columna-->
 		<columna>
-			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='310' height='47'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/forma_pago.png</imagen>
-			<texto estilos="color:#808080;font-size:11px;text-align:justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum, ex eget gravida
-cursus, ex tellus condimentum lectus, sit amet finibus nisl urna nec lectus. Nullam fringilla, lacus
-ac viverra rhoncus, sem elit vestibulum nibh, quis feugiat ex ligula ac nisi.
-volutpat.</texto>
+			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='290' height='47'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/forma_pago_2.png</imagen>
+			<texto estilos="color:#808080;font-size:11px;text-align:justify;">En cuanto a concepto tributario incluir únicamente lo siguiente " No somos grandes contribuyentes, ni agentes de retención en la fuente, Autorización DIAN para facturación electrónica No.$numero_factura del $fecha_factura_letras Autoriza Ty Habilita desde xxxxx hasta xxxxxx,.Actividad Económica Código CIIU 7210 Actividades de consultaría informática y actividades de administración de instalaciones informáticas tarifa 6.9 por 1.000. En virtud de la Ley 1341 de 2009, atendiendo los artículos 10 y 15 de la misma, el Decreto 4948 de 2009 y el Decreto 2618 de 2012 el Ministerio de Tecnologías de la Información y las Comunicaciones incorporo para la provisión de redes y/o servicios de Telecomunicaciones bajo el registro de TIC RTIC96001882 de fecha 2013-12-11, Según la nueva reforma tributaria Ley 1819 de 2016 Art 481 Bienes Exentos " Los servicios de conexión y acceso a Internet desde redes fijas de los suscriptores residenciales de los estratos 1 y 2".</texto>
 		</columna>
 	<columna>
 			<variable alineacionCodigoBarras="center" dimensionesCodigoBarras="width:95mm; height:25mm;font-size:2mm">CodigoBarras</variable>

@@ -40,6 +40,16 @@ class Redireccionador
                 $variable .= '&mensaje=exitoEliminarProceso';
                 break;
 
+            case "ErrorNumeracionFacturacion":
+                $variable = 'pagina=impresionFactura';
+                $variable .= '&mensaje=errorNumeracionFacturacion';
+                break;
+
+            case "ErrorNumeroBeneficiariosFacturar":
+                $variable = 'pagina=impresionFactura';
+                $variable .= '&mensaje=errorNumeroBeneficiariosFacturar';
+                break;
+
         }
 
         foreach ($_REQUEST as $clave => $valor) {
