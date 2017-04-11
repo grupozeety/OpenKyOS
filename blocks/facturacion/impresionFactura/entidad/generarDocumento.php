@@ -413,7 +413,7 @@ class GenerarDocumento
 
                 $table = "<table style='border-collapse:collapse;border:0.1px;width:100%;' >
                             <tr>
-                                <td colspan='4' style='margin: 0 auto;font-size:16px;height:18px;text-align:left;border:0.1px;'><b>Descripción</b></td>
+                                <td colspan='4' style='margin: 0 auto;font-size:16px;height:18px;text-align:left;border:0.1px;'><b>Descripción Conceptos</b></td>
                             </tr>";
 
                 /*$table .= "<tr>
@@ -463,12 +463,12 @@ class GenerarDocumento
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap($this->InformacionBeneficiario['nombre_beneficiario'], 35, "<br>\n") . "</b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'>" . wordwrap($this->InformacionBeneficiario['direccion_beneficiario'], 35, "<br>\n") . "</td>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap($this->InformacionBeneficiario['departamento'] . " - " . $this->InformacionBeneficiario['municipio'], 35, "<br>\n") . "</b></td>
+                                <td  style='height:13px;text-align:left;border:none;border-spacing: 3px;width:50%'>" . $this->InformacionBeneficiario['direccion_beneficiario'] . "</td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;font-size:10px;width:50%'><b>URBANIZACIÓN " . $this->InformacionBeneficiario['urbanizacion'] . "</b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 5px'><b>" . wordwrap($this->InformacionBeneficiario['departamento'] . " - " . $this->InformacionBeneficiario['municipio'], 35, "<br>\n") . "</b></td>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 5px'><b>Estrato " . $this->InformacionBeneficiario['estrato'] . "</b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap($this->InformacionBeneficiario['departamento'] . " - " . $this->InformacionBeneficiario['municipio'], 35, "<br>\n") . "</b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 5px'><b>Estrato " . $this->InformacionFacturacion['tipo_beneficiario'] . "</b></td>
                             </tr>
                         </table>";
 
@@ -495,7 +495,7 @@ class GenerarDocumento
 
                 $this->contenido .= "<br><br><table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
                             <tr>
-                                <td colspan='2' style='font-size: 16px;height:20px;text-align:left;border:0.1px;background-color:#4766cc;border-top-left-radius: 4px; border-top-right-radius:4px;border-bottom-right-radius:4px;border-bottom-left-radius: 4px;color:#fff'><b>Cuota de Mes  </b>" . $this->InformacionFacturacion['id_ciclo'] . "<br></td>
+                                <td colspan='2' style='font-size: 16px;height:20px;text-align:left;border:0.1px;background-color:#4766cc;border-top-left-radius: 4px; border-top-right-radius:4px;border-bottom-right-radius:4px;border-bottom-left-radius: 4px;color:#fff'><b>Periodo Facturado </b>" . $this->InformacionFacturacion['id_ciclo'] . "<br></td>
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;width:50%;'><b>Factura</b></td>
