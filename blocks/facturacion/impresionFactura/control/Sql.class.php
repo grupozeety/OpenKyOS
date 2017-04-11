@@ -56,15 +56,21 @@ class Sql extends \Sql
                 $cadenaSql .= " cn.numero_identificacion,";
                 $cadenaSql .= " cn.direccion_domicilio||";
                 $cadenaSql .= " (CASE WHEN cn.manzana <> '0' THEN ' Manzana # '||cn.manzana ELSE '' END)||";
+                $cadenaSql .= " (CASE WHEN cn.bloque <> '0' THEN ' Bloque # '||cn.bloque ELSE '' END)||";
                 $cadenaSql .= " (CASE WHEN cn.torre <> '0' THEN ' Torre # '||cn.manzana ELSE '' END)||";
                 $cadenaSql .= " (CASE WHEN cn.casa_apartamento <>'0' THEN ' Casa/Apartamento # '||cn.casa_apartamento ELSE '' END)||";
                 $cadenaSql .= " (CASE WHEN cn.interior <>'0' THEN ' Interior # '||cn.interior ELSE '' END)||";
                 $cadenaSql .= " (CASE WHEN cn.lote <>'0' THEN ' Lote # '||cn.lote ELSE '' END)||";
+                $cadenaSql .= " (CASE WHEN cn.piso <>'0' THEN ' Piso # '||cn.piso ELSE '' END)||";
                 $cadenaSql .= " (CASE WHEN cn.barrio IS NOT NULL THEN ' Barrio '||cn.barrio ELSE '' END)as direccion_beneficiario,";
                 $cadenaSql .= " cn.municipio,";
                 $cadenaSql .= " cn.departamento,";
+                $cadenaSql .= " upper(trim(replace(replace(urb.urbanizacion, 'URBANIZACIÓN', ''), 'URBANIZACION', ''))) as urbanizacion,";
                 $cadenaSql .= " (CASE WHEN cn.estrato_socioeconomico::text IS NULL THEN 'No Caracterizado' ELSE cn.estrato_socioeconomico::text END) as estrato";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
+
+                $cadenaSql .= " JOIN parametros.urbanizacion urb ON urb.id_urbanizacion=pb.id_proyecto ";
                 $cadenaSql .= " WHERE cn.estado_registro='TRUE'";
                 $cadenaSql .= " AND cn.id_beneficiario='" . $variable . "';";
 
@@ -83,11 +89,13 @@ class Sql extends \Sql
                 $cadenaSql .= " pb.id_beneficiario, ";
                 $cadenaSql .= " pb.correo_institucional, ";
                 $cadenaSql .= " pb.correo,cn.numero_identificacion,fc.fecha_pago_oportuno, ";
-                $cadenaSql .= " numeracion_facturacion,indice_facturacion ";
+                $cadenaSql .= " numeracion_facturacion,indice_facturacion,";
+                $cadenaSql .= " tb.descripcion as tipo_beneficiario";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN facturacion.factura fc ON fc.id_beneficiario=cn.id_beneficiario AND fc.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN parametros.parametros tb ON tb.codigo::int=pb.tipo_beneficiario AND tb.estado_registro='TRUE' AND tb.rel_parametro='1' ";
                 $cadenaSql .= " WHERE cn.estado_registro='TRUE'";
                 $cadenaSql .= " AND cn.id_beneficiario='" . $variable . "' ";
                 $cadenaSql .= " ORDER BY fc.fecha_registro DESC";

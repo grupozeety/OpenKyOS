@@ -89,7 +89,6 @@ class FormProcessor
     public function validarNumerosFacturasActuales()
     {
 
-        var_dump($this->BeneficiariosValidar);exit;
         $departamento_validar = ['FSU', 'FCO'];
 
         foreach ($departamento_validar as $key => $value) {
@@ -126,8 +125,6 @@ class FormProcessor
             }
 
         }
-
-        exit;
 
     }
 
