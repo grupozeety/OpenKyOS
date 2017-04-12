@@ -83,8 +83,39 @@ class Sql extends \Sql
                 $cadenaSql .= " WHERE bp.estado_registro='TRUE'";
                 $cadenaSql .= " AND cn.numero_identificacion is not null";
                 $cadenaSql .= " AND bp.id_beneficiario='" . $variable . "';";
-
                 break;
+
+            case 'consultarIdentificadorActividad':
+                $cadenaSql = " SELECT max(id_actividad) ";
+                $cadenaSql .= " FROM logica.info_aprop;";
+                break;
+
+            case "registrarApropiacion":
+                $cadenaSql = " INSERT INTO logica.info_aprop(";
+                $cadenaSql .= " anio,";
+                $cadenaSql .= " nit_operador, ";
+                $cadenaSql .= " dane_centro_poblado, ";
+                $cadenaSql .= " dane_departamento, ";
+                $cadenaSql .= " dane_institucion, ";
+                $cadenaSql .= " dane_municipio, ";
+                $cadenaSql .= " tipo_actividad,";
+                $cadenaSql .= " actividad, ";
+                $cadenaSql .= " id_actividad, ";
+                $cadenaSql .= " asistentes_actividad, ";
+                $cadenaSql .= " fecha_actividad, ";
+                $cadenaSql .= " personas_visitadas, ";
+                $cadenaSql .= " id_beneficiario, ";
+                $cadenaSql .= " numero_contrato, ";
+                $cadenaSql .= " region, ";
+                $cadenaSql .= " codigo_simona)";
+                $cadenaSql .= " VALUES (";
+                foreach ($variable as $key => $value) {
+                    $cadenaSql .= "'" . $value . "',";
+                }
+                $cadenaSql .= ") RETURNING id_actividad;";
+                $cadenaSql = str_replace(",)", ")", $cadenaSql);
+                break;
+
         }
 
         return $cadenaSql;

@@ -50,12 +50,14 @@ class FormProcessor
 
         switch ($_REQUEST['opcion']) {
             case 'registrarApropiacion':
-                var_dump($_REQUEST);exit;
+                var_dump($_REQUEST);
+                //Validación Actividad
                 if ($_REQUEST['identificadorActividad'] != '') {
 
                     $arregloValidar = array(
                         'id_actividad' => $_REQUEST['identificadorActividad'],
                         'identificacion' => $_REQUEST['identificacion'],
+                        'fecha_actividad' => $_REQUEST['fechaApropiacion'],
 
                     );
 
@@ -76,7 +78,7 @@ class FormProcessor
 
                     $cadenaSql = $this->miSql->getCadenaSql('consultarIdentificadorActividad');
 
-                    $id_actividad = $this->esteRecursoDBOtunWs->ejecutarAcceso($cadenaSql, "busqueda")[0];
+                    $id_actividad = $this->esteRecursoDBOtunWS->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
                     if (is_null($id_actividad['max'])) {
                         $_REQUEST['identificadorActividad'] = 1;
@@ -89,13 +91,27 @@ class FormProcessor
                 }
 
                 $arreglo = array(
-                    'unidad' => $_REQUEST['unidad'],
-                    'valor' => $_REQUEST['valor'],
+                    'anio' => 2015,
+                    'nit_operador' => "8301159934",
+                    'dane_centro_poblado' => 'NA',
+                    'dane_departamento' => $_REQUEST['departamento'],
+                    'dane_institucion' => "NO APLICA",
+                    'dane_municipio' => $_REQUEST['municipio'],
+                    'tipo_actividad' => $_REQUEST['tipoActividad'],
+                    'actividad' => $_REQUEST['actividad'],
+                    'id_actividad' => $_REQUEST['identificadorActividad'],
+                    'asistentes_actividad' => $_REQUEST['numeroAsistentes'],
+                    'fecha_actividad' => $_REQUEST['fechaApropiacion'],
+                    'personas_visitadas' => $_REQUEST['numeroPersonasVisitadas'],
+                    'id_beneficiario' => $_REQUEST['id_beneficiario'],
+                    'numero_contrato' => 681,
+                    'region' => "KVD-R6",
+                    'codigo_simona' => "NO APLICA",
                 );
 
-                $cadenaSql = $this->miSql->getCadenaSql('registrarPeriodo', $arreglo);
+                $cadenaSql = $this->miSql->getCadenaSql('registrarApropiacion', $arreglo);
 
-                $this->proceso = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+                $this->proceso = $this->esteRecursoDBOtunWS->ejecutarAcceso($cadenaSql, "busqueda");
 
                 if (isset($this->proceso) && $this->proceso != null) {
                     Redireccionador::redireccionar("ExitoRegistro", $this->proceso);
