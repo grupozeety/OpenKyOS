@@ -413,22 +413,22 @@ class GenerarDocumento
 
                 $table = "<table style='border-collapse:collapse;border:0.1px;width:100%;' >
                             <tr>
-                                <td colspan='4' style='margin: 0 auto;font-size:16px;height:18px;text-align:left;border:0.1px;'><b>Descripción Conceptos</b></td>
+                                <td colspan='4' style='margin: 0 auto;font-size:16px;height:18px;text-align:left;border:0.1px;background-color:#4766cc;color:#fff'><b>Detalle de Cargos Facturados</b></td>
                             </tr>";
 
-                /*$table .= "<tr>
-                <td style='height:13px;text-align:center;border:none;width:5%;'><br><b>N°</b><br></td>
-                <td style='height:13px;text-align:center;border:none;width:25%;'><br><b>Periodo Facturado</b><br></td>
-                <td style='height:13px;text-align:center;border:none;width:50%;'><br><b>Concepto</b><br></td>
-                <td style='height:13px;text-align:center;border:none;width:20%;'><br><b>Valor</b><br></td>
-                </tr>";*/
+                $table .= "<tr>
+                <td style='height:13px;text-align:center;border:0.1px;width:5%;'><br><b>N°</b><br></td>
+                <td style='height:13px;text-align:center;border:0.1px;width:25%;'><br><b>Periodo Facturado</b><br></td>
+                <td style='height:13px;text-align:center;border:0.1px;width:50%;'><br><b>Concepto</b><br></td>
+                <td style='height:13px;text-align:center;border:0.1px;width:20%;'><br><b>Valor</b><br></td>
+                </tr>";
                 $i = 1;
                 foreach ($this->Conceptos as $key => $value) {
                     $table .= "<tr>
-                                  <td style='height:13px;text-align:center;border:none;width:5%;'><br>" . $i . ".<br></td>
-                                  <td style='height:13px;text-align:center;border:none;width:25%;'><br>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "<br></td>
-                                  <td style='height:13px;text-align:left;border:none;width:50%;'><br>" . $value['concepto'] . "<br></td>
-                                  <td style='height:13px;text-align:left;border:none;width:20%;'><br>$ " . number_format($value['valor_concepto'], 2) . "<br></td>
+                                  <td style='height:13px;text-align:center;border:0.1px;width:5%;'><br>" . $i . ".<br></td>
+                                  <td style='height:13px;text-align:center;border:0.1px;width:25%;'><br>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "<br></td>
+                                  <td style='height:13px;text-align:left;border:0.1px;width:50%;'><br>" . $value['concepto'] . "<br></td>
+                                  <td style='height:13px;text-align:left;border:0.1px;width:20%;'><br>$ " . number_format($value['valor_concepto'], 2) . "<br></td>
                                </tr>";
 
                     $i++;
@@ -455,22 +455,44 @@ class GenerarDocumento
 
                 $table = "<table style='margin: 0 auto;border-collapse:collapse;border:1px;width:100%;' nowrap >
                             <tr>
-                                <td style='font-size: 14px;height:20px;text-align:left;border:0.1px;background-color:#4766cc;border-top-left-radius: 4px; border-bottom-left-radius: 4px; color:#fff'><b>Fecha Oportuna de Pago</b></td>
-                                <td style='height:15px;text-align:center;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;'><b>" . $fechaOportuna . "</b></td>
+                                <td style='font-size: 14px;height:20px;text-align:left;border:0.1px;background-color:#4766cc;border-top-left-radius: 4px; border-bottom-left-radius: 4px; color:#fff;width:50%'><b>Fecha Oportuna de Pago</b></td>
+                                <td style='height:15px;text-align:center;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;width:50%'><b>" . $fechaOportuna . "</b></td>
+                            </tr>
+                            </table>
+                            <br>
+                            <br>
+                            <table style='margin: 0 auto;border-collapse:collapse;border:1px;width:100%;' nowrap>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:30%'><b>Cliente No: </b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>" . $this->InformacionBeneficiario['id_beneficiario'] . "</b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px><b>Factura </b> " . $this->InformacionFacturacion['indice_facturacion'] . $this->InformacionFacturacion['numeracion_facturacion'] . " </td>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap($this->InformacionBeneficiario['nombre_beneficiario'], 35, "<br>\n") . "</b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:30%'><b>Beneficiario: </b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>" . trim($this->InformacionBeneficiario['nombre_beneficiario']) . "</b></td>
                             </tr>
                             <tr>
-                                <td  style='height:13px;text-align:left;border:none;border-spacing: 3px;width:50%'>" . $this->InformacionBeneficiario['direccion_beneficiario'] . "</td>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;font-size:10px;width:50%'><b>URBANIZACIÓN " . $this->InformacionBeneficiario['urbanizacion'] . "</b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:30%'><b>Identificación: </b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>" . $this->InformacionBeneficiario['numero_identificacion'] . "</b></td>
+                            </tr>
+                             <tr>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:30%'><b>Dirección: </b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>" . $this->InformacionBeneficiario['direccion_beneficiario'] . " Urbanización " . $this->InformacionBeneficiario['urbanizacion'] . "</b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px'><b>" . wordwrap($this->InformacionBeneficiario['departamento'] . " - " . $this->InformacionBeneficiario['municipio'], 35, "<br>\n") . "</b></td>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 5px'><b>Estrato " . $this->InformacionFacturacion['tipo_beneficiario'] . "</b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:30%'><b>Departamento: </b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>" . $this->InformacionBeneficiario['departamento'] . "</b></td>
                             </tr>
-                        </table>";
+                            <tr>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:30%'><b>Municipio: </b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>" . $this->InformacionBeneficiario['municipio'] . "</b></td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:30%'><b>Factura de Venta: </b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>No " . $this->InformacionFacturacion['indice_facturacion'] . $this->InformacionFacturacion['numeracion_facturacion'] . "</b></td>
+                            </tr>
+                            </table>
+
+                        ";
 
                 $this->contenido .= $table;
                 $this->contenido .= "</div>";

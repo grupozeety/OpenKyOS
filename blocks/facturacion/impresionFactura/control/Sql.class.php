@@ -66,7 +66,8 @@ class Sql extends \Sql
                 $cadenaSql .= " cn.municipio,";
                 $cadenaSql .= " cn.departamento,";
                 $cadenaSql .= " upper(trim(replace(replace(urb.urbanizacion, 'URBANIZACIÓN', ''), 'URBANIZACION', ''))) as urbanizacion,";
-                $cadenaSql .= " (CASE WHEN cn.estrato_socioeconomico::text IS NULL THEN 'No Caracterizado' ELSE cn.estrato_socioeconomico::text END) as estrato";
+                $cadenaSql .= " (CASE WHEN cn.estrato_socioeconomico::text IS NULL THEN 'No Caracterizado' ELSE cn.estrato_socioeconomico::text END) as estrato,";
+                $cadenaSql .= " pb.id_beneficiario,(CASE WHEN  cn.celular='0' THEN NULL ELSE cn.celular END) as telefono ";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
 
