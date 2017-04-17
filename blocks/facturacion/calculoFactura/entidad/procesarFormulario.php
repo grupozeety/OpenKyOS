@@ -8,6 +8,8 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 }
 
 include_once 'Redireccionador.php';
+include_once 'RestClient.class.php';
+
 class FormProcessor {
 	public $miConfigurador;
 	public $lenguaje;
@@ -82,11 +84,26 @@ class FormProcessor {
 			$this->guardarFactura ();
 			$this->guardarConceptos ();
 			
+			
+			/**
+			 * 
+			 * Crear Cliente
+			 */
+			
+			// // Crear el cliente
+			echo $clienteURL = $this->crearUrlCliente ($_REQUEST ['id_beneficiario'] );
+			$clienteCrear = $this->crearCliente ( $clienteURL );
+			
+			var_dump($clienteCrear);
+			exit;  
+			
 			/**
 			 * 6.
 			 * Revisar Resultado Proceso
 			 */
 	
+			
+			
 			if ($this->registroConceptos ['resultado'] == 0) {
 				Redireccionador::redireccionar ( "ExitoInformacion" );
 			} else {
@@ -343,6 +360,62 @@ class FormProcessor {
 		} else {
 			$this->registroConceptos ['observaciones'] = 'Error en la generación de la factura';
 		}
+	}
+	
+	public function crearUrlCliente($parametros = '') {
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiario', $_REQUEST ['id_beneficiario'] );
+		$ben= $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+		$base = array (
+				"customer_name" => $ben[0][0],
+				"customer_type" => "Individual",
+				"customer_group" => $ben[0][2],
+				"territory" => "Colombia",
+				"customer_details"=>$ben[0][2]
+		);
+	
+		// URL base
+		$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+		$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+		$url .= "/index.php?";
+		// Variables
+		$variable = "pagina=openKyosApi";
+		$variable .= "&procesarAjax=true";
+		$variable .= "&action=index.php";
+		$variable .= "&bloqueNombre=" . "llamarApi";
+		$variable .= "&bloqueGrupo=" . "";
+		$variable .= "&tiempo=" . $_REQUEST ['tiempo'];
+		$variable .= "&metodo=crearCliente";
+		$variable .= "&variables=" . json_encode ( $base );
+		// Codificar las variables
+		$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+		$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $enlace );
+		// URL definitiva
+		$material = $url . $cadena;
+	
+		return $material;
+	}
+	
+	public function crearCliente($url) {
+		$variable = array (
+				'estado' => 1,
+				'mensaje' => "Error creando Cliente en ERPNext"
+		);
+	
+		$operar = file_get_contents ( $url );
+		$validacion = strpos ( $operar, 'modified_by' );
+	
+		echo ($operar);
+		exit;
+		if (is_numeric ( $validacion )) {
+			$variable = array (
+					'estado' => 0,
+					'mensaje' => "Cliente Creado con Éxito"
+			);
+		}
+	
+		return $variable;
 	}
 }
 
