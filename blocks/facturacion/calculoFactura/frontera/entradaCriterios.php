@@ -241,7 +241,7 @@ class Consultar {
 		switch ($_REQUEST ['mensajeModal']) {
 			
 			case 'exitoInformacion' :
-				$mensaje = "Exito<br>Conceptos de Factura calculados y asociados.";
+				$mensaje = "Exito<br>Conceptos de Factura calculados y asociados.<br>" .$_REQUEST['cliente'];
 				$atributos ['estiloLinea'] = 'success'; // success,error,information,warning
 				break;
 			
