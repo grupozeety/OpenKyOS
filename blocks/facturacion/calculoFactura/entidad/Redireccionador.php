@@ -10,12 +10,12 @@ class Redireccionador {
 	public static function redireccionar($opcion, $valor = "") {
 		$miConfigurador = \Configurador::singleton ();
 
-
 		switch ($opcion) {
 			
 			case "ExitoInformacion" :
 				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=exitoInformacion';
+				$variable .= '&cliente='.$valor;
 				break;
 			
 			case "ErrorInformacion" :
