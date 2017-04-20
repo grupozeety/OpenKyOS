@@ -464,6 +464,12 @@ class FormProcessor
 
             }
 
+            if ($value == '') {
+
+                unset($this->mac_esclavo[$key])
+
+            }
+
         }
 
         if (!empty($this->mac_esclavo)) {
