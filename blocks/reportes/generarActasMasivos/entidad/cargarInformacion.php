@@ -466,7 +466,7 @@ class FormProcessor
 
             if ($value == '') {
 
-                unset($this->mac_esclavo[$key])
+                unset($this->mac_esclavo[$key]);
 
             }
 
