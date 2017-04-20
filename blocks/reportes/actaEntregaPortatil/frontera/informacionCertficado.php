@@ -6,14 +6,16 @@ if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
 }
-class Certificado {
+class Certificado
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
     public $ruta;
     public $rutaURL;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -37,12 +39,10 @@ class Certificado {
             $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
         }
     }
-    public function edicionCertificado() {
+    public function edicionCertificado()
+    {
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
-        $conexion = "openproject";
-        $esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $_REQUEST['id_beneficiario'] = $_REQUEST['id'];
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
@@ -234,7 +234,7 @@ class Certificado {
                         $atributos['estilo'] = "bootstrap";
                         $atributos['evento'] = '';
                         $atributos['deshabilitado'] = false;
-                        $atributos['readonly'] = TRUE;
+                        $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Ingrese Nombres";
@@ -265,7 +265,7 @@ class Certificado {
                         $atributos['estilo'] = "bootstrap";
                         $atributos['evento'] = '';
                         $atributos['deshabilitado'] = false;
-                        $atributos['readonly'] = TRUE;
+                        $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Ingrese Primer Apellido";
@@ -296,7 +296,7 @@ class Certificado {
                         $atributos['estilo'] = "bootstrap";
                         $atributos['evento'] = '';
                         $atributos['deshabilitado'] = false;
-                        $atributos['readonly'] = TRUE;
+                        $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Ingrese Segundo Apellido";
@@ -330,7 +330,7 @@ class Certificado {
                         } else {
                             $atributos['seleccion'] = '-1';
                         }
-                        $atributos['deshabilitado'] = TRUE;
+                        $atributos['deshabilitado'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['ajax_function'] = "";
@@ -370,7 +370,7 @@ class Certificado {
                         $atributos['estilo'] = "bootstrap";
                         $atributos['evento'] = '';
                         $atributos['deshabilitado'] = false;
-                        $atributos['readonly'] = TRUE;
+                        $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Ingrese Número Identificacion";
@@ -401,7 +401,7 @@ class Certificado {
                         $atributos['estilo'] = "bootstrap";
                         $atributos['evento'] = '';
                         $atributos['deshabilitado'] = false;
-                        $atributos['readonly'] = TRUE;
+                        $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "";
@@ -1253,15 +1253,16 @@ class Certificado {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensaje() {
+    public function mensaje()
+    {
         switch ($_REQUEST['mensaje']) {
             case 'inserto':
-                $estilo_mensaje = 'success';     // information,warning,error,validation
+                $estilo_mensaje = 'success'; // information,warning,error,validation
                 $atributos["mensaje"] = 'Requisitos Correctamente Validados<br>Se ha Habilitado la Opcion de Descargar Borrador del Contrato';
                 break;
 
             case 'noinserto':
-                $estilo_mensaje = 'error';     // information,warning,error,validation
+                $estilo_mensaje = 'error'; // information,warning,error,validation
                 $atributos["mensaje"] = 'Error al validar los Requisitos.<br>Verifique los Documentos de Requisitos';
                 break;
 
@@ -1292,5 +1293,3 @@ class Certificado {
 $miSeleccionador = new Certificado($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->edicionCertificado();
-
-?>

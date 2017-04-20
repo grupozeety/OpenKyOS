@@ -11,7 +11,8 @@ $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
 include $ruta . "/plugin/html2pdf/html2pdf.class.php";
-class GenerarDocumento {
+class GenerarDocumento
+{
     public $miConfigurador;
     public $elementos;
     public $miSql;
@@ -21,9 +22,10 @@ class GenerarDocumento {
     public $esteRecursoDB;
     public $clausulas;
     public $beneficiario;
-    public $esteRecursoOP;
+
     public $rutaAbsoluta;
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
@@ -33,9 +35,6 @@ class GenerarDocumento {
         $conexion = "interoperacion";
 
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
-        $conexion = "openproject";
-        $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
@@ -61,7 +60,8 @@ class GenerarDocumento {
          */
         $this->crearPDF();
     }
-    public function crearPDF() {
+    public function crearPDF()
+    {
         ob_start();
         $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
             2,
@@ -69,11 +69,13 @@ class GenerarDocumento {
             2,
             10,
         ));
+
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
         $html2pdf->Output('Acta_Entrega_servicio_CC_' . $this->infoCertificado['identificacion'] . '_' . date('Y-m-d') . '.pdf', 'D');
     }
-    public function estruturaDocumento() {
+    public function estruturaDocumento()
+    {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
         $infoCertificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
@@ -90,9 +92,14 @@ class GenerarDocumento {
             $mes = $mes[$fecha[1]];
             $anno = $fecha[2];
             $fecha_letra = $dia . " de " . $mes . " de " . $anno . ".";
+
+            $_REQUEST['fecha_entrega'] = $this->infoCertificado['fecha_entrega'];
+
         } else {
 
             $fecha_letra = "__________________________________________.";
+
+            $_REQUEST['fecha_entrega'] = '';
 
         }
 
@@ -195,39 +202,29 @@ class GenerarDocumento {
                             <br>
                             <table width:100%;>
                                 <tr>
-                                    <td style='width:25%;'><b>Contrato de Servicio</b></td>
-                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . $_REQUEST['numero_contrato'] . "</b></td>
+                                    <td style='width:20%;'><b>Nombres y Apellidos</b></td>
+                                    <td style='width:30%;'><b>" . $_REQUEST['nombre_contrato'] . " " . $_REQUEST['primer_apellido_contrato'] . " " . $_REQUEST['segundo_apellido_contrato'] . "</b></td>
+                                    <td style='width:20%;'><b>Fecha Entrega</b></td>
+                                    <td colspan='2' style='width:30%;'><b>" . $_REQUEST['fecha_entrega'] . "</b></td>
+                                </tr>
+
+                                <tr>
+                                    <td style='width:20%;'><b>Dirección</b></td>
+                                    <td style='width:30%;'><b>" . $_REQUEST['direccion'] . " " . $anexo_dir . "</b></td>
+                                    <td style='width:20%;'><b>Cedula</b></td>
+                                    <td colspan='2' style='width:30%;'><b>" . number_format($_REQUEST['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
                                 </tr>
                                 <tr>
-                                    <td style='width:25%;'>Beneficiario</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . $_REQUEST['nombre_contrato'] . " " . $_REQUEST['primer_apellido_contrato'] . " " . $_REQUEST['segundo_apellido_contrato'] . "</b></td>
+                                    <td rowspan='2' style='width:20%;'><b>Urbanización</b></td>
+                                    <td rowspan='2' style='width:30%;'><b>" . $this->limpiar_caracteres_especiales($_REQUEST['nombre_urbanizacion']) . "</b></td>
+                                    <td style='width:20%;'><b>Municipio</b></td>
+                                    <td colspan='2' style='width:30%;'><b></b></td>
                                 </tr>
+
                                 <tr>
-                                    <td style='width:25%;'>No de Identificación</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . number_format($_REQUEST['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
-                                </tr>
-                                <tr>
-                                    <td colspan='4'><b>Datos de Vivienda</b></td>
-                                </tr>
-                                <tr>
-                                    <td style='width:25%;'>Tipo</td>
-                                    <td style='width:25%;text-align:center;'>VIP (" . $tipo_vip . ")</td>
-                                    <td style='width:25%;text-align:center;'>Estrato 1 (" . $tipo_residencial_1 . ")</td>
-                                    <td style='width:25%;text-align:center;'>Estrato 2 (" . $tipo_residencial_2 . ")</td>
-                                </tr>
-                                <tr>
-                                    <td style='width:25%;'>Dirección</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['direccion'] . " " . $anexo_dir . "</td>
-                                </tr>
-                                <tr>
-                                    <td style='width:25%;'>Departamento</td>
-                                    <td style='width:25%;text-align:center;'>" . $_REQUEST['nombre_departamento'] . "</td>
-                                    <td style='width:25%;'>Municipio</td>
-                                    <td style='width:25%;text-align:center;'>" . $_REQUEST['nombre_municipio'] . "</td>
-                                </tr>
-                                <tr>
-                                    <td style='width:25%;'>Urbanización</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['nombre_urbanizacion'] . "</td>
+                                    <td style='width:20%;'><b>Departamento</b></td>
+                                    <td style='width:15%;'>CORDOBA(<b></b>)</td>
+                                    <td style='width:15%;'>SUCRE(<b></b>)</td>
                                 </tr>
                             </table>
                             <br>
@@ -322,7 +319,25 @@ class GenerarDocumento {
 
         $this->contenidoPagina = $contenidoPagina;
     }
+
+    public function limpiar_caracteres_especiales($s)
+    {
+        $s = ereg_replace("[áàâãª]", "a", $s);
+        $s = ereg_replace("[ÁÀÂÃ]", "A", $s);
+        $s = ereg_replace("[éèê]", "e", $s);
+        $s = ereg_replace("[ÉÈÊ]", "E", $s);
+        $s = ereg_replace("[íìî]", "i", $s);
+        $s = ereg_replace("[ÍÌÎ]", "I", $s);
+        $s = ereg_replace("[óòôõº]", "o", $s);
+        $s = ereg_replace("[ÓÒÔÕ]", "O", $s);
+        $s = ereg_replace("[úùû]", "u", $s);
+        $s = ereg_replace("[ÚÙÛ]", "U", $s);
+        $s = str_replace(" ", "-", $s);
+        $s = str_replace("ñ", "n", $s);
+        $s = str_replace("Ñ", "N", $s);
+        //para ampliar los caracteres a reemplazar agregar lineas de este tipo:
+        //$s = str_replace("caracter-que-queremos-cambiar","caracter-por-el-cual-lo-vamos-a-cambiar",$s);
+        return strtolower($s);
+    }
 }
 $miDocumento = new GenerarDocumento($this->sql);
-
-?>
