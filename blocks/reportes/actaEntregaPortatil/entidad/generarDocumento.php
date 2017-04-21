@@ -212,12 +212,7 @@ class GenerarDocumento
                         </page_header>
                        ";
 
-        $contenidoPagina .= "
-                            <br>
-                            <br>
-                            El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:
-                            <br>
-                            <br>
+        $contenidoPagina .= "El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:
                             <table width:100%;>
                                 <tr>
                                     <td style='width:20%;'><b>Nombres y Apellidos</b></td>
@@ -248,83 +243,207 @@ class GenerarDocumento
                             <p style='text-align:justify'>
                             El contratista entrega un computador portátil Marca HP 245 G4 Notebook PC nuevo, a título de uso, goce y disfrute hasta la terminación del contrato de aporte suscrito entre el Fondo TIC y Corporación Politécnica. En consecuencia, el computador no puede ser vendido, arrendado, trasferido, dado en prenda, servir de garantía, so pena de perder el beneficio. Tal como mis datos aparecen en la parte superior de este formato, confirmo que, recibí en comodato el computador portátil con las siguientes características:
                             </p>
-                                   <table style='width:100%;border;none;'>
+                                   <table style='width:100%;border;none;font-size:70%'>
                                         <tr>
-                                            <td align='left'  style='width:48%;border:none;'>
-
+                                            <td align='left'  style='width:49%;border:none;'>
+                                               <table style='width:100%;border;0.1px;'>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>¿El Operador realizó la Entrega del Computador?</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Serial: </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Procesador</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Arquitectura</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Memoria RAM</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Compatibilidad</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Tecnologia</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>ANTIVIRUS</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Disco duro protegido contrao impacto</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Monitor</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Teclado</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                </table>
+                                           </td>
+                                           <td align='center'  style='width:2%;border:none;'>
                                             </td>
-                                            <td align='center'  style='width:4%;border:none;'>
-                                            </td>
-                                            <td align='rigth' style='width:48%;border:none;'>
+                                            <td align='rigth' style='width:49%;border:none;'>
+                                                <table style='width:100%;border;0.1px;'>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Baterías</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Fuente Alimentación</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Salida Video</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Tarjeta Memoria</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Rango Voltaje<br>Frecuencia</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Puerto USB</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Autonomía</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Disco Duro</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Targeta de audio, micrófono y parlantes</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Software</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                </table>
                                             </td>
                                         </tr>
                                     </table>
-                                    <br>
-                                    <br>
-                                    <table width:100%;>
-                                        <tr>
-                                            <td align='rigth'  style=' width:20%;'><b>Marca</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['marca'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Modelo</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['modelo'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Serial</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['serial'] . "</td>
-                                            <td align='rigth' style=' width:20%;'>Procesador</td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['procesador'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Memoria RAM</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['memoria_ram'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Disco Duro</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['disco_duro'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Sistema Operativo</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['sistema_operativo'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Cámara</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['camara'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Audio</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['audio'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Batería</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['bateria'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Tarjeta de Red (Alámbrica)</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['targeta_red_alambrica'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Tarjeta de Red (Inalámbrica)</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['targeta_red_inalambrica'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Cargador</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['cargador'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Pantalla</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['pantalla'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth'  style=' width:20%;'><b>Sitio web de soporte</b></td>
-                                            <td align='rigth' colspan='3' style='width:80%;'>" . $_REQUEST['web_soporte'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth'  style=' width:20%;'><b>Teléfono de soporte</b></td>
-                                            <td align='rigth' colspan='3' style='width:80%;'>" . $_REQUEST['telefono_soporte'] . "</td>
-                                        </tr>
+                                    <table style='width:100%;border;0.1px;font-size:70%'>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Dispositivo Apuntador</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Cámara</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Conectividad Inalámabrica</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Otro</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td align='center'  style='width:42.5%;border:0.1px;'>El software y el hardware del Equipo funciona correctamente</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>La Carcaza del PC o portátil se encuentra personalizada con los logos del ministerio</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Estado del Regulador que alimenta el Equipo</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>El equipo se entregó embalado, garantizando la integridad del mismo</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan='3' align='center'  style='width:100%;border:0.1px;'>Tener en cuenta las consideraciones generales, condiciones del software y personalización, garantía y condiciones de entrega</td>
+                                                    </tr>
+                                                </table>
+                                    <p style='text-align:justify'>Respecto al computador portátil descrito se deja constancia que para la entrega no se me cobró ningún tipo de cargo como usuario beneficiado del Proyecto Conexiones Digitales II y que el equipo fue entregado embalado, garantizando la integridad del mismo. Además certifico que se realizaron las siguientes pruebas de funcionalidad:</p>
+                                    <table align='center' style='width:85%;border:0.1px;'>
+                                            <tr>
+                                                <td align='center'  style='width:40%;border:0.1px;'>Correcto encendido/apagado</td>
+                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
+                                                <td align='center'  style='width:40%;border:0.1px;'>Equipo funcionando y navegando</td>
+                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
+                                            </tr>
+                                            <tr>
+                                                <td align='center' colspan='3' style='width:90%;border:0.1px;'>Funcionamiento de los periféricos, (teclado, parlante, touchpad)</td>
+                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
+                                            </tr>
                                     </table>
-                                    <br>
-                            2. Que el computador recibido no presenta rayones, roturas, hendiduras o elementos sueltos.<br><br>
-                            3. Que entiende que el computador recibido no tiene costo adicional y se encuentra incorporado al contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br><br>
-                            4. Que se compromete a velar por la seguridad del equipo y a cuidarlo para mantener su capacidad de uso y goce en el marco del contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br>
-                                <br>
-                            5. Que se compromete a participar en por lo menos 20 horas de  capacitación sobre el manejo del equipo y/o aplicativos de uso productivo de esta herramienta como parte del proceso de apropiación social contemplado en el Anexo Técnico del proyecto Conexiones Digitales II<br><br><br>
-
-                            Para constancia de lo anterior, firma en la ciudad de " . $_REQUEST['municipio'] . ", municipio de " . $_REQUEST['municipio'] . ", departamento de " . $_REQUEST['departamento'] . ", el día " . $fecha_letra . "
-                            <br>
-                            <br>
-                            <br>
-                            <br>
+                                    <p style='text-align:justify'>A continuación, se detalla información importante en caso tal que se requiera soporte técnico para el equipo portátil entregado:</p>
+                                    <table align='center' style='width:100%;border:0.1px;'>
+                                            <tr>
+                                                <td align='center'  style='width:50%;border:0.1px;'>Garantía del equipo: Un año a partir de la fecha en que se firma la recepción</td>
+                                                <td align='center'  style='width:50%;border:0.1px;'>Mantenimiento Preventivo: 1 visitas por año</td>
+                                            </tr>
+                                            <tr>
+                                                <td align='center'  style='width:50%;border:0.1px;'>Contacto Garantía: Corporación Politécnica</td>
+                                                <td align='center'  style='width:50%;border:0.1px;'>Teléfono: 018000 961 016</td>
+                                            </tr>
+                                    </table>
+                                    <p style='text-align:justify'>Advertencia: Con el fin de no perder la garantía del fabricante en la eventualidad de presentarse fallas, el beneficiario ni un tercero no autorizado por el fabricante, puede manipular el equipo tratando de resolver el problema presentado.En caso de daño, hurto, el usuario de hacer el reporte a la mesa de ayuda al número 018000 961016, lo cual debe quedar consignado en
+un ticket para la gestión y seguimiento del mismo. En caso de hurto o pérdida no habrá reposición del equipo.Luego de la verificación de funcionamiento pleno del computador portátil y de sus características y accesorios, manifiesto mi entera
+conformidad y satisfacción del bien que recibo en la fecha, y me obligo a realizar su correcto uso, custodia y conservación, autorizando al prestador del servicio Corporación Politécnica a, para que ejerza el seguimiento y control sobre el adecuado y correcto uso, custodia y conservación del mismo.<br>A la terminación del plazo de ejecución de este contrato de comodato, tendré la opción de adquirir el bien antes descrito entregado en comodato. Para constancia de lo anterior, firmo con copia de mi documento de identidad hoy día _______ del mes de ____________ del año ______. En el municipio de __________________, Departamento ________________.</p>
 
                             <table width:100%;>
                                 <tr>
