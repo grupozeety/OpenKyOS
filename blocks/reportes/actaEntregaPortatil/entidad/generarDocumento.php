@@ -146,6 +146,24 @@ class GenerarDocumento
 
         }
 
+        // Caraterizacioón Codigo Departamento
+
+        if ($_REQUEST['codigo_departamento'] == '23') {
+
+            $departamento_cordoba = 'X';
+            $departamento_sucre = '';
+
+        } elseif ($_REQUEST['codigo_departamento'] == '70') {
+
+            $departamento_cordoba = ' ';
+            $departamento_sucre = 'X';
+
+        } else {
+            $departamento_cordoba = ' ';
+            $departamento_sucre = ' ';
+
+        }
+
         $contenidoPagina = "
                             <style type=\"text/css\">
                                 table {
@@ -193,7 +211,7 @@ class GenerarDocumento
 
                         </page_header>
                        ";
-//var_dump($_REQUEST);exit;
+
         $contenidoPagina .= "
                             <br>
                             <br>
@@ -203,40 +221,46 @@ class GenerarDocumento
                             <table width:100%;>
                                 <tr>
                                     <td style='width:20%;'><b>Nombres y Apellidos</b></td>
-                                    <td style='width:30%;'><b>" . $_REQUEST['nombre_contrato'] . " " . $_REQUEST['primer_apellido_contrato'] . " " . $_REQUEST['segundo_apellido_contrato'] . "</b></td>
-                                    <td style='width:20%;'><b>Fecha Entrega</b></td>
-                                    <td colspan='2' style='width:30%;'><b>" . $_REQUEST['fecha_entrega'] . "</b></td>
+                                    <td style='width:35%;'><b>" . $_REQUEST['nombre_contrato'] . " " . $_REQUEST['primer_apellido_contrato'] . " " . $_REQUEST['segundo_apellido_contrato'] . "</b></td>
+                                    <td style='width:15%;'><b>Fecha Entrega</b></td>
+                                    <td colspan='2' style='width:30%;'>" . $_REQUEST['fecha_entrega'] . "</td>
                                 </tr>
 
                                 <tr>
                                     <td style='width:20%;'><b>Dirección</b></td>
-                                    <td style='width:30%;'><b>" . $_REQUEST['direccion'] . " " . $anexo_dir . "</b></td>
-                                    <td style='width:20%;'><b>Cedula</b></td>
+                                    <td style='width:35%;'>" . $_REQUEST['direccion'] . " " . $anexo_dir . "</td>
+                                    <td style='width:15%;'><b>Cedula</b></td>
                                     <td colspan='2' style='width:30%;'><b>" . number_format($_REQUEST['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
                                 </tr>
                                 <tr>
                                     <td rowspan='2' style='width:20%;'><b>Urbanización</b></td>
-                                    <td rowspan='2' style='width:30%;'><b>" . $this->limpiar_caracteres_especiales($_REQUEST['nombre_urbanizacion']) . "</b></td>
-                                    <td style='width:20%;'><b>Municipio</b></td>
-                                    <td colspan='2' style='width:30%;'><b></b></td>
+                                    <td rowspan='2' style='width:35%;'>" . $this->limpiar_caracteres_especiales($_REQUEST['nombre_urbanizacion']) . "</td>
+                                    <td style='width:15%;'><b>Municipio</b></td>
+                                    <td colspan='2' style='width:30%;'>" . $_REQUEST['municipio'] . "</td>
                                 </tr>
 
                                 <tr>
-                                    <td style='width:20%;'><b>Departamento</b></td>
-                                    <td style='width:15%;'>CORDOBA(<b></b>)</td>
-                                    <td style='width:15%;'>SUCRE(<b></b>)</td>
+                                    <td style='width:15%;'><b>Departamento</b></td>
+                                    <td style='width:15%;'>CORDOBA(<b>" . $departamento_cordoba . "</b>)</td>
+                                    <td style='width:15%;'>SUCRE(<b>" . $departamento_sucre . "</b>)</td>
                                 </tr>
                             </table>
-                            <br>
-                            <table  style='width:100%;' >
-                                          <tr>
-                                                <td align='center' style='width:100%;border=none;' ><b>CERTIFICA BAJO GRAVEDAD DE JURAMENTO</b></td>
+                            <p style='text-align:justify'>
+                            El contratista entrega un computador portátil Marca HP 245 G4 Notebook PC nuevo, a título de uso, goce y disfrute hasta la terminación del contrato de aporte suscrito entre el Fondo TIC y Corporación Politécnica. En consecuencia, el computador no puede ser vendido, arrendado, trasferido, dado en prenda, servir de garantía, so pena de perder el beneficio. Tal como mis datos aparecen en la parte superior de este formato, confirmo que, recibí en comodato el computador portátil con las siguientes características:
+                            </p>
+                                   <table style='width:100%;border;none;'>
+                                        <tr>
+                                            <td align='left'  style='width:48%;border:none;'>
 
+                                            </td>
+                                            <td align='center'  style='width:4%;border:none;'>
+                                            </td>
+                                            <td align='rigth' style='width:48%;border:none;'>
+                                            </td>
                                         </tr>
-                            </table>
-                             <br>
-                            1. Que recibe un computador portátil NUEVO, sin uso, original de fábrica y en perfecto estado de funcionamiento, con las siguientes características:<br>
-                            <br>
+                                    </table>
+                                    <br>
+                                    <br>
                                     <table width:100%;>
                                         <tr>
                                             <td align='rigth'  style=' width:20%;'><b>Marca</b></td>
@@ -332,12 +356,13 @@ class GenerarDocumento
         $s = ereg_replace("[ÓÒÔÕ]", "O", $s);
         $s = ereg_replace("[úùû]", "u", $s);
         $s = ereg_replace("[ÚÙÛ]", "U", $s);
-        $s = str_replace(" ", "-", $s);
         $s = str_replace("ñ", "n", $s);
         $s = str_replace("Ñ", "N", $s);
         //para ampliar los caracteres a reemplazar agregar lineas de este tipo:
         //$s = str_replace("caracter-que-queremos-cambiar","caracter-por-el-cual-lo-vamos-a-cambiar",$s);
-        return strtolower($s);
+        $s = str_replace("urbanizacion", "", strtolower($s));
+
+        return trim(strtoupper($s));
     }
 }
 $miDocumento = new GenerarDocumento($this->sql);

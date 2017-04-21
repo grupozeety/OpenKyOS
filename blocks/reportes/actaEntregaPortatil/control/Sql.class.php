@@ -13,14 +13,17 @@ include_once "core/auth/SesionSso.class.php";
 
 // Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 // en camel case precedida por la palabra sql
-class Sql extends \Sql {
+class Sql extends \Sql
+{
     public $miConfigurador;
     public $miSesionSso;
-    public function __construct() {
+    public function __construct()
+    {
         $this->miConfigurador = \Configurador::singleton();
         $this->miSesionSso = \SesionSso::singleton();
     }
-    public function getCadenaSql($tipo, $variable = '') {
+    public function getCadenaSql($tipo, $variable = '')
+    {
         $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
 
         foreach ($info_usuario['description'] as $key => $rol) {
@@ -38,8 +41,8 @@ class Sql extends \Sql {
         switch ($tipo) {
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
 
             case 'consultaInformacionBeneficiario':
                 $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ,cn.urbanizacion as nombre_urbanizacion, cn.departamento as nombre_departamento, cn.municipio as nombre_municipio,cn.direccion_domicilio, cn.manzana as manzana_contrato, cn.bloque as bloque_contrato,
@@ -50,7 +53,7 @@ class Sql extends \Sql {
                     cn.tipo_documento as tipo_documento_contrato,
                     cn.numero_identificacion as numero_identificacion_contrato,
                     cn.celular as celular_contrato
-                             "    ;
+                             ";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
                 $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
                 $cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
@@ -162,9 +165,12 @@ class Sql extends \Sql {
                 $cadenaSql .= " cn.estrato_socioeconomico as estrato_socioeconomico_contrato,";
                 $cadenaSql .= " cn.urbanizacion as nombre_urbanizacion,";
                 $cadenaSql .= " cn.departamento as nombre_departamento,";
-                $cadenaSql .= " cn.municipio as nombre_municipio";
+                $cadenaSql .= " cn.municipio as nombre_municipio,";
+                $cadenaSql .= " bp.departamento as codigo_departamento,";
+                $cadenaSql .= " bp.municipio as codigo_municipio";
                 $cadenaSql .= " FROM interoperacion.acta_entrega_portatil pr";
                 $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=pr.id_beneficiario AND cn.estado_registro='TRUE' ";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bp ON bp.id_beneficiario=cn.id_beneficiario AND bp.estado_registro='TRUE' ";
                 $cadenaSql .= " WHERE pr.id_beneficiario ='" . $_REQUEST['id_beneficiario'] . "'";
                 $cadenaSql .= " AND pr.estado_registro='TRUE' ";
                 $cadenaSql .= " /*AND pr.serial IS NOT NULL*/ ";
@@ -313,5 +319,3 @@ class Sql extends \Sql {
         return $cadenaSql;
     }
 }
-?>
-
