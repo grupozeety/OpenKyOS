@@ -91,13 +91,13 @@ class GenerarDocumento
             $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             $mes = $mes[$fecha[1]];
             $anno = $fecha[2];
-            $fecha_letra = $dia . " de " . $mes . " de " . $anno . ".";
+            $fecha_letra = $dia . " del mes de " . $mes . " del Año " . $anno;
 
             $_REQUEST['fecha_entrega'] = $this->infoCertificado['fecha_entrega'];
 
         } else {
 
-            $fecha_letra = "__________________________________________.";
+            $fecha_letra = "_________ del mes de _________ del Año _________";
 
             $_REQUEST['fecha_entrega'] = '';
 
@@ -188,6 +188,10 @@ class GenerarDocumento
                                     text-align: left;
 
                                 }
+                                page{
+                                    font-size:9px;
+
+                                }
                             </style>
 
 
@@ -212,7 +216,7 @@ class GenerarDocumento
                         </page_header>
                        ";
 
-        $contenidoPagina .= "El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:
+        $contenidoPagina .= "<p>El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:</p>
                             <table width:100%;>
                                 <tr>
                                     <td style='width:20%;'><b>Nombres y Apellidos</b></td>
@@ -243,7 +247,7 @@ class GenerarDocumento
                             <p style='text-align:justify'>
                             El contratista entrega un computador portátil Marca HP 245 G4 Notebook PC nuevo, a título de uso, goce y disfrute hasta la terminación del contrato de aporte suscrito entre el Fondo TIC y Corporación Politécnica. En consecuencia, el computador no puede ser vendido, arrendado, trasferido, dado en prenda, servir de garantía, so pena de perder el beneficio. Tal como mis datos aparecen en la parte superior de este formato, confirmo que, recibí en comodato el computador portátil con las siguientes características:
                             </p>
-                                   <table style='width:100%;border;none;font-size:70%'>
+                                   <table style='width:100%;border;none;font-size:100%'>
                                         <tr>
                                             <td align='left'  style='width:49%;border:none;'>
                                                <table style='width:100%;border;0.1px;'>
@@ -367,7 +371,7 @@ class GenerarDocumento
                                             </td>
                                         </tr>
                                     </table>
-                                    <table style='width:100%;border;0.1px;font-size:70%'>
+                                    <table style='width:100%;border;0.1px;font-size:100%'>
                                                     <tr>
                                                         <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
                                                         <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
@@ -443,16 +447,34 @@ class GenerarDocumento
                                     </table>
                                     <p style='text-align:justify'>Advertencia: Con el fin de no perder la garantía del fabricante en la eventualidad de presentarse fallas, el beneficiario ni un tercero no autorizado por el fabricante, puede manipular el equipo tratando de resolver el problema presentado.En caso de daño, hurto, el usuario de hacer el reporte a la mesa de ayuda al número 018000 961016, lo cual debe quedar consignado en
 un ticket para la gestión y seguimiento del mismo. En caso de hurto o pérdida no habrá reposición del equipo.Luego de la verificación de funcionamiento pleno del computador portátil y de sus características y accesorios, manifiesto mi entera
-conformidad y satisfacción del bien que recibo en la fecha, y me obligo a realizar su correcto uso, custodia y conservación, autorizando al prestador del servicio Corporación Politécnica a, para que ejerza el seguimiento y control sobre el adecuado y correcto uso, custodia y conservación del mismo.<br>A la terminación del plazo de ejecución de este contrato de comodato, tendré la opción de adquirir el bien antes descrito entregado en comodato. Para constancia de lo anterior, firmo con copia de mi documento de identidad hoy día _______ del mes de ____________ del año ______. En el municipio de __________________, Departamento ________________.</p>
-
+conformidad y satisfacción del bien que recibo en la fecha, y me obligo a realizar su correcto uso, custodia y conservación, autorizando al prestador del servicio Corporación Politécnica a, para que ejerza el seguimiento y control sobre el adecuado y correcto uso, custodia y conservación del mismo.<br>A la terminación del plazo de ejecución de este contrato de comodato, tendré la opción de adquirir el bien antes descrito entregado en comodato. Para constancia de lo anterior, firmo con copia de mi documento de identidad hoy día " . $fecha_letra . ". En el municipio de <b>" . $_REQUEST['municipio'] . "</b>, Departamento <b>" . $_REQUEST['departamento'] . "</b>.</p>
+<br>
+<br>
                             <table width:100%;>
-                                <tr>
-                                    <td rowspan='2' style='width:50%;'>Firma: </td>
-                                    <td style='width:50%;text-align:center;'><b>" . $_REQUEST['nombre_contrato'] . " " . $_REQUEST['primer_apellido_contrato'] . " " . $_REQUEST['segundo_apellido_contrato'] . "</b></td>
-                                </tr>
-                                <tr>
-                                    <td style='width:50%;text-align:center;'><b>" . number_format($_REQUEST['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
-                                </tr>
+                             <tr>
+                                <td align='center' colspan='2' style='width:45%;border:none;'>________________________________</td>
+                                <td align='center'  style='width:10%;border:none;'> </td>
+                                <td align='center' colspan='2' style='width:45%;border:none;'>________________________________</td>
+                             </tr>
+                             <tr>
+                                <td align='center' colspan='2' style='width:45%;border:none;'>Firma Beneficiario</td>
+                                <td align='center'  style='width:10%;border:none;'> </td>
+                                <td align='center' colspan='2' style='width:45%;border:none;'>Firma Representante<br>Operador</td>
+                             </tr>
+                             <tr>
+                                <td align='center'  style='width:10%;border:none;'>Nombre</td>
+                                <td align='center'  style='width:35%;border:none;font-size:6px'><b>" . $_REQUEST['nombre_contrato'] . " " . $_REQUEST['primer_apellido_contrato'] . " " . $_REQUEST['segundo_apellido_contrato'] . "</b></td>
+                                <td align='center'  style='width:10%;border:none;'> </td>
+                                <td align='center'  style='width:10%;border:none;'>Nombre</td>
+                                <td align='center'  style='width:35%;border:none;'>_________________________</td>
+                             </tr>
+                             <tr>
+                                <td align='center'  style='width:10%;border:none;'>Cedula</td>
+                                <td align='center'  style='width:35%;border:none;font-size:6px'><b>" . $_REQUEST['numero_identificacion_contrato'] . "</b></td>
+                                <td align='center'  style='width:10%;border:none;'> </td>
+                                <td align='center'  style='width:10%;border:none;'>Cedula</td>
+                                <td align='center'  style='width:35%;border:none;'>_________________________</td>
+                             </tr>
                             </table>
 
 
