@@ -11,7 +11,8 @@ $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfi
 
 include $ruta . "/plugin/html2pdf/html2pdf.class.php";
 
-class GenerarDocumento {
+class GenerarDocumento
+{
     public $miConfigurador;
     public $elementos;
     public $miSql;
@@ -30,7 +31,8 @@ class GenerarDocumento {
     public $nombre_contrato;
     public $miProceso;
     public $ruta_archivos;
-    public function __construct($sql, $proceso, $ruta_archivos) {
+    public function __construct($sql, $proceso, $ruta_archivos)
+    {
         $this->miConfigurador = \Configurador::singleton();
         $this->miSesionSso = \SesionSso::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -73,21 +75,22 @@ class GenerarDocumento {
             $this->asosicarNombreArchivo($value);
             $this->crearPDF();
             unset($this->contenidoPagina);
-            $this->contenidoPagina = NULL;
+            $this->contenidoPagina = null;
             unset($this->nombreContrato);
-            $this->nombreContrato = NULL;
-            $value = NULL;
+            $this->nombreContrato = null;
+            $value = null;
 
         }
 
     }
 
-    public function asosicarNombreArchivo($beneficiario) {
+    public function asosicarNombreArchivo($beneficiario)
+    {
         $this->nombreContrato = '';
         foreach ($this->nombre as $key => $value) {
 
             $this->nombreContrato .= $beneficiario[$value] . "_";
-            $value = NULL;
+            $value = null;
 
         }
 
@@ -96,18 +99,37 @@ class GenerarDocumento {
 
     }
 
-    public function obtenerInformacionBeneficiario() {
-        $arreglo = array(
-            'Inicio' => $this->miProceso['parametro_inicio'],
-            'Fin' => $this->miProceso['parametro_fin'],
-        );
+    public function obtenerInformacionBeneficiario()
+    {
 
-        $cadenaSql = $this->miSql->getCadenaSql('ConsultaBeneficiarios', $arreglo);
-        $this->beneficiario = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda");
+        if (is_null($this->miProceso['parametro_fin']) && is_null($this->miProceso['parametro_inicio'])) {
+
+            $beneficiario = explode(";", $this->miProceso['datos_adicionales']);
+
+            $parametro_beneficiario = '';
+            foreach ($beneficiario as $key => $value) {
+                $parametro_beneficiario .= "'" . $value . "',";
+            }
+
+            $cadenaSql = $this->miSql->getCadenaSql('ConsultaBeneficiariosIndentificadores', $parametro_beneficiario);
+            $this->beneficiario = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda");
+
+        } else {
+
+            $arreglo = array(
+                'Inicio' => $this->miProceso['parametro_inicio'],
+                'Fin' => $this->miProceso['parametro_fin'],
+            );
+
+            $cadenaSql = $this->miSql->getCadenaSql('ConsultaBeneficiarios', $arreglo);
+            $this->beneficiario = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda");
+
+        }
 
     }
 
-    public function crearPDF() {
+    public function crearPDF()
+    {
         ob_start();
         $html2pdf = new \HTML2PDF('P', 'LEGAL', 'es', true, 'UTF-8', array(
             2,
@@ -120,7 +142,8 @@ class GenerarDocumento {
         $html2pdf->Output($this->ruta_archivos . "/" . $this->nombreContrato, 'F');
 
     }
-    public function estruturaDocumento($beneficiario) {
+    public function estruturaDocumento($beneficiario)
+    {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Cédula de Ciudadanía");
         $CodigoCedula = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda");
@@ -530,11 +553,9 @@ class GenerarDocumento {
 
         $this->contenidoPagina = $contenidoPagina;
         unset($contenidoPagina);
-        $contenidoPagina = NULL;
+        $contenidoPagina = null;
         unset($beneficiario);
-        $beneficiario = NULL;
+        $beneficiario = null;
     }
 }
 $miDocumento = new GenerarDocumento($this->miSql, $this->proceso, $this->rutaAbsoluta_archivos);
-
-?>

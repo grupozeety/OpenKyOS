@@ -1,5 +1,6 @@
 <?php
 namespace gestionBeneficiarios\generarContratosMasivos;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -10,9 +11,11 @@ include_once "core/connection/Sql.class.php";
 
 // Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 // en camel case precedida por la palabra sql
-class Sql extends \Sql {
+class Sql extends \Sql
+{
     public $miConfigurador;
-    public function getCadenaSql($tipo, $variable = '') {
+    public function getCadenaSql($tipo, $variable = '')
+    {
 
         /**
          * 1.
@@ -24,8 +27,8 @@ class Sql extends \Sql {
         switch ($tipo) {
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
             case 'consultarBloques':
 
                 $cadenaSql = " SELECT id_bloque, nombre, descripcion, grupo ";
@@ -193,6 +196,15 @@ class Sql extends \Sql {
                 $cadenaSql .= " ORDER BY numero_contrato ;";
                 break;
 
+            case 'ConsultaBeneficiariosIndentificadores':
+                $cadenaSql = " SELECT *";
+                $cadenaSql .= " FROM interoperacion.contrato";
+                $cadenaSql .= " WHERE id_beneficiario IN (" . $variable . ")";
+                $cadenaSql .= " ORDER BY numero_contrato ;";
+                $cadenaSql = str_replace(",)", ")", $cadenaSql);
+
+                break;
+
             case 'consultarTipoDocumento':
                 $cadenaSql = " SELECT pr.id_parametro,pr.codigo, pr.descripcion ";
                 $cadenaSql .= " FROM parametros.parametros pr";
@@ -230,5 +242,3 @@ class Sql extends \Sql {
         return $cadenaSql;
     }
 }
-?>
-
