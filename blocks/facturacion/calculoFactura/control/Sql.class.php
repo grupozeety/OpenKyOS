@@ -161,12 +161,12 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarMoras' :
-				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, inicio_periodo, fin_periodo, conceptos.id_factura, estado_factura ";
+				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, inicio_periodo, fin_periodo, conceptos.id_factura, estado_factura , factura.id_ciclo, factura.total_factura ";
 				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
 				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
-				$cadenaSql .= " JOIN facturacion.factura on factura.id_factura=conceptos.id_factura AND factura.estado_registro=TRUE AND estado_factura='Emitida' ";
+				$cadenaSql .= " JOIN facturacion.factura on factura.id_factura=conceptos.id_factura AND factura.estado_registro=TRUE AND estado_factura='Aprobado' ";
 				$cadenaSql .= " WHERE factura.id_beneficiario='" . $variable . "' ";
-				$cadenaSql .= " AND urp.estado_registro=TRUE ";
+				$cadenaSql .= " AND urp.estado_registro=TRUE ORDER BY urp.id_usuario_rol ASC ";
 				
 				break;
 			
