@@ -84,6 +84,10 @@ class GenerarDocumento
 
         $_REQUEST = array_merge($_REQUEST, $infoCertificado);
 
+        $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $_REQUEST['serial']);
+        $this->infoPortatil = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+        var_dump($this->infoPortatil);
+
         if (!is_null($this->infoCertificado['fecha_entrega']) && $this->infoCertificado['fecha_entrega'] != '') {
 
             $fecha = explode("-", $this->infoCertificado['fecha_entrega']);
@@ -388,13 +392,18 @@ class GenerarDocumento
                                                         <td align='center'  style='width:15%;border:0.1px;'>SI</td>
                                                     </tr>
                                                     <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Conectividad a Red (Alámbrica)</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>WiFi Integrada, Estándar IEEE 802.11 b/g/n, Encriptación WEP 64/128,Compatibilidad IPV4 / IPV6, Bluetooth 4.0</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
                                                         <td align='center'  style='width:42.5%;border:0.1px;'>Conectividad Inalámabrica</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>WiFi Integrada, Estándar IEEE 802.11 b/g/n, Encriptación WEP 64/128,Compatibilidad IPV4 / IPV6, Bluetooth 4.0</td>
                                                         <td align='center'  style='width:15%;border:0.1px;'>SI</td>
                                                     </tr>
                                                     <tr>
                                                         <td align='center'  style='width:42.5%;border:0.1px;'>Otro</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'> </td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Opción de Activación / Desactivación desde teclado por tecla o combinación de teclas o desde funcionalidad directa externa. Ajuste automático de potencia</td>
                                                         <td align='center'  style='width:15%;border:0.1px;'>SI</td>
                                                     </tr>
                                                     <tr>
