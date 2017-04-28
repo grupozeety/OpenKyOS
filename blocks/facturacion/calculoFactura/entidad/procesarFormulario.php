@@ -72,6 +72,7 @@ class FormProcessor {
 			
 			$this->calculoPeriodo ();
 			$this->registrarPeriodo ();
+			$this->revisarMora ();
 			$this->calculoMora ();
 			$this->calculoFactura ();
 			
@@ -81,13 +82,14 @@ class FormProcessor {
 			 */
 			
 			$this->guardarFactura ();
-			$this->guardarConceptos ();
 			
+			$this->guardarConceptos ();
+				
 			/**
 			 * Crear Cliente
 			 */
 			$this->consultarCliente ();
-						
+			
 			if ($this->registroConceptos ['resultado'] == 0 && $this->clienteEstado == 'f') {
 				// // Crear el cliente
 				$clienteURL = $this->crearUrlCliente ( $_REQUEST ['id_beneficiario'] );
@@ -150,6 +152,8 @@ class FormProcessor {
 			$reglas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 			foreach ( $reglas as $a => $b ) {
 				$this->rolesPeriodo [$key] ['reglas'] [$reglas [$a] ['identificador']] = $reglas [$a] ['formula'];
+				$this->rolesPeriodo [$key] ['mora'] = 0;
+				$this->rolesPeriodo [$key] ['totalMora'] = 0;
 			}
 		}
 	}
@@ -231,17 +235,32 @@ class FormProcessor {
 		}
 	}
 	public function calculoMora() {
-		foreach ( $this->rolesPeriodo as $key => $values ) {
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarMoras', $_REQUEST ['id_beneficiario'] );
+		$facturasVencidas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		$dm = 0;
+		
+		if ($facturasVencidas != FALSE) {
 			
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarMoras', $_REQUEST ['id_beneficiario'] );
-			$facturasVencidas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-			
-			if ($facturasVencidas != FALSE) {
-				$dm = floor ( (time () - strtotime ( $facturasVencidas [0] ['fin_periodo'] )) / 86400 );
-			} else {
-				$dm = 0;
+			foreach ( $facturasVencidas as $llave => $valor ) {
+				foreach ( $this->rolesPeriodo as $key => $values ) {
+					
+					if ($values ['id_usuario_rol'] == $facturasVencidas [$llave] ['id_usuario_rol']) {
+						$fin = new \DateTime ( $facturasVencidas [$llave] ['fin_periodo'] );
+						$inicio = new \DateTime ( $facturasVencidas [$llave] ['inicio_periodo'] );
+						$dm_calculo = $fin->diff ( $inicio );
+						$dias = $dm_calculo->d;
+						
+						$this->rolesPeriodo [$key] ['mora'] = $this->rolesPeriodo [$key] ['mora'] + $dias;
+						$this->rolesPeriodo [$key] ['facturasMora'] [$facturasVencidas [$llave] ['id_factura'] . "(" . $facturasVencidas [$llave] ['id_ciclo'] . ")"] = $facturasVencidas [$llave] ['total_factura'];
+						$this->rolesPeriodo [$key] ['totalMora'] = $this->rolesPeriodo [$key] ['totalMora'] + $facturasVencidas [$llave] ['total_factura'];
+					}
+				}
 			}
-			$this->rolesPeriodo [$key] ['mora'] = $dm;
+		} else {
+			foreach ( $this->rolesPeriodo as $key => $values ) {
+				$this->rolesPeriodo [$key] ['mora'] = 0;
+			}
 		}
 	}
 	
@@ -317,7 +336,13 @@ class FormProcessor {
 		$total = 0;
 		
 		foreach ( $this->rolesPeriodo as $key => $values ) {
-			$total = $this->rolesPeriodo [$key] ['valor'] ['total'] + $total;
+			$mora = $this->rolesPeriodo [$key] ['totalMora'];
+			break;
+		}
+		
+		foreach ( $this->rolesPeriodo as $key => $values ) {
+			
+			$total = $this->rolesPeriodo [$key] ['valor'] ['total'] + $total + $mora;
 			$ciclo = date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) );
 		}
 		
@@ -343,7 +368,8 @@ class FormProcessor {
 						'id_factura' => $this->registroFactura ['factura'],
 						'id_regla' => $reglaid,
 						'valor_calculado' => $values ['valor'] [$llave],
-						'id_usuario_rol_periodo' => $this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] 
+						'id_usuario_rol_periodo' => $this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] ,
+						'observacion'=>''
 				);
 				
 				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConceptos', $registroConceptos );
@@ -354,6 +380,31 @@ class FormProcessor {
 				}
 			}
 		}
+		
+		foreach ( $this->rolesPeriodo as $key => $values ) {
+			foreach ( $values ['facturasMora'] as $llave => $valores ) {
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarReglaID', 'facturasMora' );
+				$reglaid = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_regla'];
+					
+				$registroConceptos = array (
+						'id_factura' => $this->registroFactura ['factura'],
+						'id_regla' => $reglaid,
+						'valor_calculado' => $valores,
+						'id_usuario_rol_periodo' => $this->rolesPeriodo [$key] ['id_usuario_rol_periodo'],
+						'observacion'=>$llave
+				);
+		
+				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConceptos', $registroConceptos );
+				$this->registroConceptos [$key] = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+					
+				if ($this->registroConceptos [$key] == false) {
+					$a ++;
+				}
+				
+			}
+			break;
+		}
+
 		$this->registroConceptos ['resultado'] = $a;
 		
 		if ($a == 0) {
@@ -414,11 +465,14 @@ class FormProcessor {
 		return $variable;
 	}
 	public function consultarCliente() {
-		
-		$this->registroConceptos ['cliente']='';
+		$this->registroConceptos ['cliente'] = '';
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'estadoCliente', $_REQUEST ['id_beneficiario'] );
 		$this->clienteEstado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] [0];
+	}
+	public function revisarMora() {
+		$cadenaSql = $this->miSql->getCadenaSql ( 'revisarMora', $_REQUEST ['id_beneficiario'] );
+		$moras = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 	}
 }
 
