@@ -65,7 +65,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarConceptos_especifico' :
-				$cadenaSql = " SELECT fac.id_factura,fac.id_beneficiario,regla.descripcion regla, conceptos.valor_calculado, rol.descripcion, conceptos.id_usuario_rol_periodo, inicio_periodo, fin_periodo ";
+				$cadenaSql = " SELECT fac.id_factura,fac.id_beneficiario,regla.descripcion||' '||conceptos.observacion as regla, conceptos.valor_calculado, rol.descripcion, conceptos.id_usuario_rol_periodo, inicio_periodo, fin_periodo ";
 				$cadenaSql .= " FROM facturacion.factura fac ";
 				$cadenaSql .= " JOIN interoperacion.beneficiario_potencial bp on bp.id_beneficiario=fac.id_beneficiario ";
 				$cadenaSql .= " JOIN facturacion.conceptos on conceptos.id_factura=fac.id_factura AND conceptos.estado_registro=TRUE ";
