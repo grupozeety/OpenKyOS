@@ -118,11 +118,12 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarConceptos' :
-				$cadenaSql = " INSERT INTO facturacion.conceptos (id_factura, id_regla,valor_calculado,id_usuario_rol_periodo) ";
+				$cadenaSql = " INSERT INTO facturacion.conceptos (id_factura, id_regla,valor_calculado,observacion, id_usuario_rol_periodo) ";
 				$cadenaSql .= " VALUES( ";
 				$cadenaSql .= " '" . $variable ['id_factura'] . "',";
 				$cadenaSql .= " '" . $variable ['id_regla'] . "',";
 				$cadenaSql .= " '" . $variable ['valor_calculado'] . "',";
+				$cadenaSql .= " '" . $variable ['observacion'] . "',";
 				$cadenaSql .= " '" . $variable ['id_usuario_rol_periodo'] . "' ) ;";
 				break;
 			
