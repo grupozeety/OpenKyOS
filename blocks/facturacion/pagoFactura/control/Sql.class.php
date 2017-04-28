@@ -47,7 +47,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " JOIN interoperacion.beneficiario_potencial bp on bp.id_beneficiario=fac.id_beneficiario";
 				$cadenaSql .= " WHERE 1=1";
 				$cadenaSql .= " AND fac.estado_registro=TRUE";
-				$cadenaSql .= " AND fac.id_beneficiario='" . $variable . "' AND fac.estado_factura='Aprobado' ";
+				$cadenaSql .= " AND fac.id_beneficiario='" . $variable . "' AND fac.estado_factura IN ('Aprobado','Mora') ";
 				$cadenaSql .= " AND bp.estado_registro=TRUE ORDER BY id_factura ASC ";
 				break;
 			
