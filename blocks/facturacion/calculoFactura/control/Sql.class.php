@@ -164,9 +164,19 @@ class Sql extends \Sql {
 				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, inicio_periodo, fin_periodo, conceptos.id_factura, estado_factura , factura.id_ciclo, factura.total_factura ";
 				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
 				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
-				$cadenaSql .= " JOIN facturacion.factura on factura.id_factura=conceptos.id_factura AND factura.estado_registro=TRUE AND estado_factura='Aprobado' ";
+				$cadenaSql .= " JOIN facturacion.factura on factura.id_factura=conceptos.id_factura AND factura.estado_registro=TRUE AND estado_factura='Mora' ";
 				$cadenaSql .= " WHERE factura.id_beneficiario='" . $variable . "' ";
 				$cadenaSql .= " AND urp.estado_registro=TRUE ORDER BY urp.id_usuario_rol ASC ";
+				
+				break;
+			
+			case 'revisarMora' :
+				$cadenaSql = " UPDATE facturacion.factura SET estado_factura='Mora' WHERE id_factura IN (SELECT id_factura ";
+				$cadenaSql .= " FROM facturacion.factura WHERE 1=1  ";
+				$cadenaSql .= " AND estado_factura='Aprobado'  ";
+				$cadenaSql .= " AND estado_registro=TRUE  ";
+				$cadenaSql .= " AND factura.id_beneficiario='" . $variable . "' ";
+				$cadenaSql .= " AND fecha_pago_oportuno::date < CURRENT_DATE) ";
 				
 				break;
 			
