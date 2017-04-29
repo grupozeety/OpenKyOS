@@ -51,7 +51,7 @@ class GenerarDocumentoActaAdicional
 
     public function retornarNombreDocumento()
     {
-        return $this->ruta_archivo . "doc2.pdf";
+        return "doc2.pdf";
     }
 
     public function crearPDF()

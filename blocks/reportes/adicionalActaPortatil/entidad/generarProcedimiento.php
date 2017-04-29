@@ -77,7 +77,7 @@ class GenerarDocumento
 
             $arreglo = explode('.', $value['nombre_documento']);
             $tipo_archivo = strtolower(end($arreglo));
-            $nombreArhivo = $arreglo[0];
+            $this->nombreArhivo = $arreglo[0];
 
             if (in_array($tipo_archivo, $tipos_imagenes)) {
 
@@ -101,12 +101,28 @@ class GenerarDocumento
 
             $objDocumentoAdicional = new GenerarDocumentoActaAdicional($this->beneficiario, $this->rutaAbsoluta);
 
-            $this->documento_pagina_1 = $objDocumento->retornarNombreDocumento();
+            $this->documento_pagina_2 = $objDocumentoAdicional->retornarNombreDocumento();
+
+            /**
+             * x.Unir DocumentosPDF
+             **/
+
+            echo $this->unirDocumentos();
 
         }
 
     }
 
+    public function unirDocumentos()
+    {
+
+        $sentencia_linux = 'pdftk ' . $this->documento_pagina_1 . ' ' . $this->documento_pagina_2 . '  cat output ' . $this->nombreArhivo . 'RW01.pdf';
+
+        shell_exec($sentencia_linux);
+
+        return $this->nombreArhivo . 'RW01.pdf';
+
+    }
     public function consultarBeneficiario($id_beneficiario = '')
     {
 
