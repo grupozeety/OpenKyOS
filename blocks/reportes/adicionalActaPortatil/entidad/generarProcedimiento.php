@@ -93,13 +93,15 @@ class GenerarDocumento
              * x.Consultar Beneficiario
              **/
 
-            //$this->consultarBeneficiario();
+            $this->consultarBeneficiario($value['id_beneficiario']);
 
             /**
              * x.Crear Documento Adicional
              **/
 
-            $this->consultarBeneficiario();
+            $objDocumentoAdicional = new GenerarDocumentoActaAdicional($this->beneficiario, $this->rutaAbsoluta);
+
+            $this->documento_pagina_1 = $objDocumento->retornarNombreDocumento();
 
         }
 
@@ -109,7 +111,7 @@ class GenerarDocumento
     {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario', $id_beneficiario);
-        $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+        $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
     }
 

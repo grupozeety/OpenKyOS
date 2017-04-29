@@ -26,11 +26,6 @@ class Sql extends \Sql
     {
         $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
 
-        foreach ($info_usuario['description'] as $key => $rol) {
-
-            $info_usuario['rol'][] = $rol;
-        }
-
         /**
          * 1.
          * Revisar las variables para evitar SQL Injection
@@ -50,6 +45,20 @@ class Sql extends \Sql
                 $cadenaSql .= " WHERE tipologia_documento='131'";
                 $cadenaSql .= " AND estado_registro='TRUE';";
                 break;
+
+            case 'consultaInformacionBeneficiario':
+
+                $cadenaSql = " SELECT cn.*, bn.tipo_beneficiario,dp.departamento as nombre_departamento,mn.municipio as nombre_municipio, pm.proyecto as proyecto_urbanizacion ";
+                $cadenaSql .= " FROM interoperacion.contrato cn";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.id_beneficiario=cn.id_beneficiario AND bn.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN parametros.departamento dp ON dp.codigo_dep=bn.departamento ";
+                $cadenaSql .= " JOIN parametros.municipio mn ON mn.codigo_mun=bn.municipio ";
+                $cadenaSql .= " JOIN parametros.proyectos_metas pm ON pm.id_proyecto=bn.id_proyecto ";
+                $cadenaSql .= " WHERE cn.id_beneficiario='" . $variable . "' ";
+                $cadenaSql .= " AND cn.estado_registro=TRUE;";
+
+                break;
+
         }
 
         return $cadenaSql;
