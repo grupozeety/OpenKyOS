@@ -14,18 +14,10 @@ class Redireccionador
 
         switch ($opcion) {
 
-            case "InsertoInformacionActa":
+            case "RegistrosProcesados":
                 $variable = 'pagina=actaEntregaPortatil';
-                $variable .= '&opcion=resultadoActa';
-                $variable .= '&mensaje=insertoInformacionCertificado';
-                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
-                break;
-
-            case "NoInsertoInformacionActa":
-                $variable = 'pagina=actaEntregaPortatil';
-                $variable .= '&opcion=resultadoActa';
-                $variable .= '&mensaje=noinsertoInformacionCertificado';
-                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+                $variable .= '&mensaje=registrosProcesados';
+                $variable .= '&cantidad_registros=' . $valor;
                 break;
 
         }

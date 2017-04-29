@@ -6,7 +6,7 @@ if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
 }
-
+include_once 'Redireccionador.php';
 include_once 'generarDocumentoActa.php';
 include_once 'generarDocumentoActaAdicional.php';
 
@@ -27,7 +27,7 @@ class GenerarDocumento
     {
 
         $this->miConfigurador = \Configurador::singleton();
-        $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
+        $this->miConfigurador->fabricaConexiones->setRecursoDB('interoperacion');
         $this->miSql = $sql;
         $this->lenguaje = $lenguaje;
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
@@ -36,7 +36,7 @@ class GenerarDocumento
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/archivos/";
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento") . "/archivos/";
 
         /**
@@ -63,7 +63,11 @@ class GenerarDocumento
 
         $this->crearDocumentoTipoArchivo();
 
-        exit();
+        /**
+         * x.Redireccionar
+         **/
+
+        Redireccionador::redireccionar("RegistrosProcesados", count($this->registro_actualizados));
 
     }
     public function crearDocumentoTipoArchivo()
@@ -74,7 +78,6 @@ class GenerarDocumento
         $tipos_documento = array("pdf");
 
         foreach ($this->documentos as $key => $value) {
-
             $arreglo = explode('.', $value['nombre_documento']);
             $tipo_archivo = strtolower(end($arreglo));
             $this->nombreArhivo = $arreglo[0];
@@ -107,9 +110,31 @@ class GenerarDocumento
              * x.Unir DocumentosPDF
              **/
 
-            echo $this->unirDocumentos();
+            $this->nombre_nuevo_documento = $this->unirDocumentos();
+
+            /**
+             * x.Actualizar Registro de Documento
+             **/
+
+            $this->actualizarRegistroDocumento($value['id_beneficiario'], $value['id']);
 
         }
+
+    }
+
+    public function actualizarRegistroDocumento($id_beneficiario, $id_documento)
+    {
+
+        $arreglo = array(
+            'nombre_documento' => $this->nombre_nuevo_documento,
+            'ruta_relativa' => $this->rutaURL . $this->nombre_nuevo_documento,
+            'id_beneficiario' => $id_beneficiario,
+            'id_documento' => $id_documento,
+        );
+
+        $cadenaSql = $this->miSql->getCadenaSql('actualizarRegistroDocumento', $arreglo);
+
+        $this->registro_actualizados[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
 
@@ -139,6 +164,13 @@ class GenerarDocumento
             if (!file_exists($this->rutaAbsoluta . $value['nombre_documento'])) {
                 unset($this->documentos[$key]);
             }
+
+            $busqueda = strrpos($value['nombre_documento'], "RW01");
+
+            if ($busqueda != false) {
+                unset($this->documentos[$key]);
+            }
+
         }
 
     }

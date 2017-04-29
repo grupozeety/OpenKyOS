@@ -175,46 +175,56 @@ class Registrador
         $atributos['marco'] = true;
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
-    }
-    public function mensaje()
-    {
 
         if (isset($_REQUEST['mensaje'])) {
-            switch ($_REQUEST['mensaje']) {
 
-                case 'errorBeneficiario':
-                    $estilo_mensaje = 'error'; //information,warning,error,validation
-                    $atributos["mensaje"] = 'Error no existe Beneficiario';
-                    break;
+            $this->mensajeModal();
 
-                default:
-                    # code...
-                    break;
-            }
-            // ------------------Division para los botones-------------------------
-            $atributos['id'] = 'divMensaje';
-            $atributos['estilo'] = ' ';
-            // echo $this->miFormulario->division("inicio", $atributos);
-
-            // -------------Control texto-----------------------
-            $esteCampo = 'mostrarMensaje';
-            $atributos["tamanno"] = '';
-            $atributos["estilo"] = $estilo_mensaje;
-            $atributos["estiloEnLinea"] = "text-align: center;";
-            $atributos["etiqueta"] = '';
-            $atributos["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
-            echo $this->miFormulario->campoMensaje($atributos);
-            unset($atributos);
-
-            // ------------------Fin Division para los botones-------------------------
-            echo $this->miFormulario->division("fin");
-            unset($atributos);
         }
+
     }
+
+    public function mensajeModal()
+    {
+
+        switch ($_REQUEST['mensajeModal']) {
+
+            case 'registrosProcesados':
+                $mensaje = "Exito en Procedimiento<br>Registros Procesados : <b>" . $cantidad_registros . "</b>";
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
+                break;
+
+        }
+
+        // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+
+        $atributos['tipoEtiqueta'] = 'inicio';
+        $atributos['titulo'] = 'Mensaje';
+        $atributos['id'] = 'mensajeModal';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
+
+        echo '<p><h5>' . $mensaje . '</h5></p>';
+
+        echo '</div>';
+
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+
+        echo '<div style="text-align:center;">';
+
+        echo '</div>';
+
+        $atributos['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+    }
+
 }
 
 $miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario);
-
-$miSeleccionador->mensaje();
 
 $miSeleccionador->seleccionarForm();

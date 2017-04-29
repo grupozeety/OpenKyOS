@@ -56,7 +56,17 @@ class Sql extends \Sql
                 $cadenaSql .= " JOIN parametros.proyectos_metas pm ON pm.id_proyecto=bn.id_proyecto ";
                 $cadenaSql .= " WHERE cn.id_beneficiario='" . $variable . "' ";
                 $cadenaSql .= " AND cn.estado_registro=TRUE;";
+                break;
 
+            case 'actualizarRegistroDocumento':
+                $cadenaSql = " UPDATE interoperacion.documentos_contrato";
+                $cadenaSql .= " SET ";
+                $cadenaSql .= " nombre_documento='" . $variable['nombre_documento'] . "', ";
+                $cadenaSql .= " ruta_relativa='" . $variable['ruta_relativa'] . "'";
+                $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "'";
+                $cadenaSql .= " AND id='" . $variable['id_documento'] . "'";
+                $cadenaSql .= " AND tipologia_documento='131'";
+                $cadenaSql .= " AND estado_registro='TRUE';";
                 break;
 
         }
