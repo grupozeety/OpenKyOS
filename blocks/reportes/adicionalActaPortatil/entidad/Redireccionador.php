@@ -15,7 +15,7 @@ class Redireccionador
         switch ($opcion) {
 
             case "RegistrosProcesados":
-                $variable = 'pagina=actaEntregaPortatil';
+                $variable = 'pagina=adicionalActaPortatil';
                 $variable .= '&mensaje=registrosProcesados';
                 $variable .= '&cantidad_registros=' . $valor;
                 break;

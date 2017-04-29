@@ -76,10 +76,10 @@ class Registrador
                     $atributos["tamanno"] = '';
                     $atributos["etiqueta"] = '';
                     $mensaje = '<b>ATENCIÓN se tendra en cuenta lo siguiente</b>:<br>
-                                                1. <b>Se modificaran todas las actas de entrega registradas en el sistema</b>.<br>
-                                                2. Debe existir la Acta de entrega de portatil ya registrada.<br>
+                                                1. <b>Se modificaran todas las actas de entrega  de portatil registradas en el sistema que no fueron procesadas anteriormente</b>.<br>
+                                                2. Debe existir la acta de entrega de portatil ya registrada.<br>
                                                 3. Debe existir el archivo en el servidor.<br>
-                                                4. Se tendran en cuanta los formtaos PDF, PNG,JPG, JPGE.<br>';
+                                                4. Se tendran en cuenta los formatos PDF, PNG,JPG, JPGE.<br>';
 
                     $atributos["mensaje"] = $mensaje;
                     $atributos["estilo"] = 'information'; // information,warning,error,validation
@@ -187,10 +187,10 @@ class Registrador
     public function mensajeModal()
     {
 
-        switch ($_REQUEST['mensajeModal']) {
+        switch ($_REQUEST['mensaje']) {
 
             case 'registrosProcesados':
-                $mensaje = "Exito en Procedimiento<br>Registros Procesados : <b>" . $cantidad_registros . "</b>";
+                $mensaje = "Exito en Procedimiento<br>Registros Procesados : <b>" . $_REQUEST['cantidad_registros'] . "</b>";
                 $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
