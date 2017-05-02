@@ -67,7 +67,14 @@ class GenerarDocumento
          * x.Redireccionar
          **/
 
-        Redireccionador::redireccionar("RegistrosProcesados", count($this->registro_actualizados));
+        if (isset($this->registro_actualizados)) {
+
+            Redireccionador::redireccionar("RegistrosProcesados", count($this->registro_actualizados));
+
+        } else {
+            Redireccionador::redireccionar("SinRegistrosProcesados");
+
+        }
 
     }
     public function crearDocumentoTipoArchivo()
