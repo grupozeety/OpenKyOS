@@ -25,6 +25,11 @@ class Redireccionador
                 $variable .= '&mensaje=sinResultadosDocumentos';
                 break;
 
+            case 'SinRegistrosProcesados':
+                $variable = 'pagina=adicionalActaPortatil';
+                $variable .= '&mensaje=sinRegistrosProcesados';
+                break;
+
         }
 
         foreach ($_REQUEST as $clave => $valor) {
