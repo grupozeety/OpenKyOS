@@ -239,6 +239,11 @@ class Registrador
                 $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
+            case 'sinRegistrosProcesados':
+                $mensaje = "Error<br>No se procesaron los documentos dado que no existen en el servidor o ya se procesaron las actas del municipio";
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
+                break;
+
         }
 
         // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
