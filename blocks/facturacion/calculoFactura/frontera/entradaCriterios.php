@@ -238,10 +238,13 @@ class Consultar {
 		}
 	}
 	public function mensajeModal() {
+		
+		$_REQUEST['cliente']=(json_decode($_REQUEST['cliente'],true));
+		
 		switch ($_REQUEST ['mensajeModal']) {
 			
 			case 'exitoInformacion' :
-				$mensaje = "Exito<br>Conceptos de Factura calculados y asociados.<br>" .$_REQUEST['cliente'];
+				$mensaje = "Exito<br>Conceptos de Factura calculados y asociados.<br>" .$_REQUEST['cliente'][0]."<br>".$_REQUEST['cliente'][1];
 				$atributos ['estiloLinea'] = 'success'; // success,error,information,warning
 				break;
 			
