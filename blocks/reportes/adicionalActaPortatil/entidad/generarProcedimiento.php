@@ -93,10 +93,10 @@ class GenerarDocumento
 
                 $objDocumento = new GenerarDocumentoActa($this->rutaAbsoluta . $value['nombre_documento'], $this->rutaAbsoluta);
 
-                $this->documento_pagina_1 = $objDocumento->retornarNombreDocumento();
+                $this->documento_pagina_2 = $objDocumento->retornarNombreDocumento();
 
             } elseif (in_array($tipo_archivo, $tipos_documento)) {
-                $this->documento_pagina_1 = $this->rutaAbsoluta . $value['nombre_documento'];
+                $this->documento_pagina_2 = $this->rutaAbsoluta . $value['nombre_documento'];
             }
 
             /**
@@ -111,7 +111,7 @@ class GenerarDocumento
 
             $objDocumentoAdicional = new GenerarDocumentoActaAdicional($this->beneficiario, $this->rutaAbsoluta);
 
-            $this->documento_pagina_2 = $objDocumentoAdicional->retornarNombreDocumento();
+            $this->documento_pagina_1 = $objDocumentoAdicional->retornarNombreDocumento();
 
             /**
              * x.Unir DocumentosPDF
