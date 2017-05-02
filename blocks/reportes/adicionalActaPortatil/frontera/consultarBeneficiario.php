@@ -16,7 +16,7 @@ class Registrador
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
-    public function __construct($lenguaje, $formulario)
+    public function __construct($lenguaje, $formulario, $sql)
     {
         $this->miConfigurador = \Configurador::singleton();
 
@@ -25,6 +25,12 @@ class Registrador
         $this->lenguaje = $lenguaje;
 
         $this->miFormulario = $formulario;
+
+        $this->miSql = $sql;
+
+        $conexion = "interoperacion";
+        //$conexion = "produccion";
+        $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
     }
     public function seleccionarForm()
     {
@@ -89,6 +95,40 @@ class Registrador
                 }
 
                 echo $this->miFormulario->agrupacion('fin');
+                unset($atributos);
+
+                $esteCampo = 'municipio';
+                $atributos['nombre'] = $esteCampo;
+                $atributos['id'] = $esteCampo;
+                $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                $atributos["etiquetaObligatorio"] = true;
+                $atributos['tab'] = $tab++;
+                $atributos['anchoEtiqueta'] = 2;
+                $atributos['evento'] = '';
+
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['seleccion'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['seleccion'] = '-1';
+                }
+                $atributos['deshabilitado'] = false;
+                $atributos['columnas'] = 1;
+                $atributos['tamanno'] = 1;
+                $atributos['ajax_function'] = "";
+                $atributos['ajax_control'] = $esteCampo;
+                $atributos['estilo'] = "bootstrap";
+                $atributos['limitar'] = false;
+                $atributos['anchoCaja'] = 10;
+                $atributos['miEvento'] = '';
+                $atributos['validar'] = 'required';
+                $atributos['cadena_sql'] = ' ';
+                $cadenaSql = $this->miSql->getCadenaSql('consultarMunicipio');
+                $resultado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+                $matrizItems = $resultado;
+                $atributos['matrizItems'] = $matrizItems;
+                // Aplica atributos globales al control
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                 unset($atributos);
 
                 // ------------------Division para los botones-------------------------
@@ -194,6 +234,11 @@ class Registrador
                 $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
+            case 'sinResultadosDocumentos':
+                $mensaje = "Error<br>No Existen Documentos de Ata de Portatil Asociados al Municipio";
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
+                break;
+
         }
 
         // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
@@ -225,6 +270,6 @@ class Registrador
 
 }
 
-$miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario);
+$miSeleccionador = new Registrador($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->seleccionarForm();

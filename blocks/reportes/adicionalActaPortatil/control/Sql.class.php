@@ -40,10 +40,12 @@ class Sql extends \Sql
                  */
 
             case 'consultaInformacionDocumentos':
-                $cadenaSql = " SELECT *";
-                $cadenaSql .= " FROM interoperacion.documentos_contrato";
-                $cadenaSql .= " WHERE tipologia_documento='131'";
-                $cadenaSql .= " AND estado_registro='TRUE';";
+                $cadenaSql = " SELECT dc.*";
+                $cadenaSql .= " FROM interoperacion.documentos_contrato dc";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.id_beneficiario=dc.id_beneficiario AND bn.estado_registro='TRUE' AND bn.municipio='" . $_REQUEST['municipio'] . "'";
+                $cadenaSql .= " WHERE dc.tipologia_documento='131'";
+                $cadenaSql .= " AND dc.estado_registro='TRUE'; ";
+
                 break;
 
             case 'consultaInformacionBeneficiario':
@@ -67,6 +69,12 @@ class Sql extends \Sql
                 $cadenaSql .= " AND id='" . $variable['id_documento'] . "'";
                 $cadenaSql .= " AND tipologia_documento='131'";
                 $cadenaSql .= " AND estado_registro='TRUE';";
+                break;
+
+            case 'consultarMunicipio':
+                $cadenaSql = " SELECT DISTINCT mn.codigo_mun, mn.municipio";
+                $cadenaSql .= " FROM parametros.municipio mn";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.municipio= mn.codigo_mun;";
                 break;
 
         }
