@@ -181,6 +181,12 @@ class GenerarDocumento
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionDocumentos');
         $this->documentos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
+        if ($this->documentos === false) {
+
+            Redireccionador::redireccionar("SinResultados");
+
+        }
+
     }
 
     public function cambiarDirectorioTrabajo()

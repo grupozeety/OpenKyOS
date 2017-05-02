@@ -20,6 +20,11 @@ class Redireccionador
                 $variable .= '&cantidad_registros=' . $valor;
                 break;
 
+            case 'SinResultados':
+                $variable = 'pagina=adicionalActaPortatil';
+                $variable .= '&mensaje=sinResultadosDocumentos';
+                break;
+
         }
 
         foreach ($_REQUEST as $clave => $valor) {
