@@ -95,9 +95,11 @@ class GenerarDocumento
             2,
             10,
         ));
+
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
         $html2pdf->Output($this->rutaAbsoluta . $this->nombreDocumento, 'F');
+
     }
     public function asosicarCodigoDocumento()
     {
@@ -112,43 +114,26 @@ class GenerarDocumento
     public function estruturaDocumento()
     {
 
-        var_dump($_REQUEST);exit;
         /*
          * $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->beneficiario['urbanizacion']);
          * $urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
          * $urbanizacion = $urbanizacion[0];
          */
-        $archivo_datos = '';
-        foreach ($_FILES as $key => $archivo) {
 
-            if ($archivo['error'] == 0) {
+        if (!is_null($_REQUEST['serial']) && $_REQUEST['serial'] != '') {
 
-                $this->prefijo = substr(md5(uniqid(time())), 0, 6);
-                /*
-                 * obtenemos los datos del Fichero
-                 */
-                $tamano = $archivo['size'];
-                $tipo = $archivo['type'];
-                $nombre_archivo = str_replace(" ", "", $archivo['name']);
-                /*
-                 * guardamos el fichero en el Directorio
-                 */
-                $ruta_absoluta = $this->rutaAbsoluta . "/entidad/firmas/" . $this->prefijo . "_" . $nombre_archivo;
+            $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $_REQUEST['serial']);
+            $this->infoPortatil = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-                $ruta_relativa = $this->rutaURL . "/entidad/firmas/" . $this->prefijo . "_" . $nombre_archivo;
-
-                $archivo['rutaDirectorio'] = $ruta_absoluta;
-
-                if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
-                }
-
-                $archivo_datos = array(
-                    'ruta_archivo' => $ruta_relativa,
-                    'nombre_archivo' => $archivo['name'],
-                    'campo' => $key,
-                );
+            foreach ($this->infoPortatil as $key => $value) {
+                $this->infoPortatil[$key] = trim($value);
             }
+
+        } else {
+            $this->informacionEstandarPortatil();
         }
+
+        $archivo_datos = '';
 
         {
 
@@ -157,34 +142,38 @@ class GenerarDocumento
                 $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
                 $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
                 $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
+
+                $firmaBeneficiario = str_replace("height", 'height="20" pasos2', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("width", 'width="62" pasos1', $firmaBeneficiario);
+
             }
 
-            /* {
+            if ($_REQUEST['firmaInstalador'] != '') {
 
-            $firmacontratista = base64_decode($_REQUEST['firmaInstalador']);
-            $firmacontratista = str_replace("image/svg+xml,", '', $firmacontratista);
-            $firmacontratista = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista);
-            $firmacontratista = str_replace("svg", 'draw', $firmacontratista);
-            }*/
+                $firmacontratista = base64_decode($_REQUEST['firmaInstalador']);
+                $firmacontratista = str_replace("image/svg+xml,", '', $firmacontratista);
+                $firmacontratista = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista);
+                $firmacontratista = str_replace("svg", 'draw', $firmacontratista);
 
-            $firmaBeneficiario = str_replace("height", 'height="40" pasos2', $firmaBeneficiario);
-            $firmaBeneficiario = str_replace("width", 'width="125" pasos1', $firmaBeneficiario);
+                $firmacontratista = str_replace("height", 'height="20" pasos2', $firmacontratista);
+                $firmacontratista = str_replace("width", 'width="62" pasos1', $firmacontratista);
 
-            /*
-            $firmacontratista = str_replace("height", 'height="40" pasos2', $firmacontratista);
-            $firmacontratista = str_replace("width", 'width="125" pasos1', $firmacontratista);*/
+            } else {
+
+                $firmacontratista = '________________________________';
+            }
 
             $cadena = $_SERVER['HTTP_USER_AGENT'];
             $resultado = stristr($cadena, "Android");
 
             if ($resultado) {
-                // $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista);
-                // $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista);
+                $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
                 $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario);
                 $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
             } else {
-                //$firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista);
-                //$firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista);
+                $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
                 $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario);
                 $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
             }
@@ -194,36 +183,47 @@ class GenerarDocumento
         ini_set('xdebug.var_display_max_children', 20000);
         ini_set('xdebug.var_display_max_data', 20000);
 
-        $firma_beneficiario = $firmaBeneficiario;
+        if (!is_null($_REQUEST['fecha_entrega']) && $_REQUEST['fecha_entrega'] != '') {
 
-        //$firma_contratista = $firmacontratista;
+            $fecha = explode("-", $_REQUEST['fecha_entrega']);
 
-        $fecha = explode("-", $_REQUEST['fecha_entrega']);
+            $dia = $fecha[2];
+            $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            $mes = $mes[$fecha[1] + 0];
+            $anno = $fecha[0];
+            $fecha_letra = $dia . " del mes de " . $mes . " del Año " . $anno;
 
-        $dia = $fecha[0];
-        $mes = [
-            "",
-            "Enero",
-            "Febrero",
-            "Marzo",
-            "Abril",
-            "Mayo",
-            "Junio",
-            "Julio",
-            "Agosto",
-            "Septiembre",
-            "Octubre",
-            "Noviembre",
-            "Diciembre",
-        ];
-        $mes = $mes[$fecha[1]];
-        $anno = $fecha[2];
+        } else {
+
+            $fecha_letra = "_________ del mes de _________ del Año _________";
+
+        }
 
         {
 
-            $tipo_vip = ($_REQUEST['tipo_beneficiario'] == "1") ? "<b>X</b>" : "";
-            $tipo_residencial_1 = ($_REQUEST['tipo_beneficiario'] == "2") ? (($_REQUEST['estrato_socioeconomico'] == "1") ? "<b>X</b>" : "") : "";
-            $tipo_residencial_2 = ($_REQUEST['tipo_beneficiario'] == "2") ? (($_REQUEST['estrato_socioeconomico'] == "2") ? "<b>X</b>" : "") : "";
+            $tipo_vip = ($_REQUEST['tipo_beneficiario_contrato'] == "1") ? "<b>X</b>" : "";
+            $tipo_residencial_1 = ($_REQUEST['tipo_beneficiario_contrato'] == "2") ? (($_REQUEST['estrato_socioeconomico_contrato'] == "1") ? "<b>X</b>" : "") : "";
+            $tipo_residencial_2 = ($_REQUEST['tipo_beneficiario_contrato'] == "2") ? (($_REQUEST['estrato_socioeconomico_contrato'] == "2") ? "<b>X</b>" : "") : "";
+        }
+
+        setlocale(LC_ALL, "es_CO.UTF-8");
+
+        // Caraterizacioón Codigo Departamento
+
+        if ($_REQUEST['codigo_departamento'] == '23') {
+
+            $departamento_cordoba = 'X';
+            $departamento_sucre = '';
+
+        } elseif ($_REQUEST['codigo_departamento'] == '70') {
+
+            $departamento_cordoba = ' ';
+            $departamento_sucre = 'X';
+
+        } else {
+            $departamento_cordoba = ' ';
+            $departamento_sucre = ' ';
+
         }
 
         setlocale(LC_ALL, "es_CO.UTF-8");
@@ -252,6 +252,11 @@ class GenerarDocumento
                                     text-align: left;
 
                                 }
+
+                                 page{
+                                    font-size:9px;
+
+                                }
                             </style>
 
 
@@ -275,141 +280,360 @@ class GenerarDocumento
 
                         </page_header>
                        ";
-//var_dump($_REQUEST);exit;
-        $contenidoPagina .= "
-                            <br>
-                            <br>
-                            El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:
-                            <br>
-                            <br>
+
+        $contenidoPagina .= "<p>El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:</p>
                             <table width:100%;>
                                 <tr>
-                                    <td style='width:25%;'><b>Contrato de Servicio</b></td>
-                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . $_REQUEST['numero_contrato'] . "</b></td>
+                                    <td style='width:20%;'><b>Nombres y Apellidos</b></td>
+                                    <td style='width:35%;'><b>" . $_REQUEST['nombres'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b></td>
+                                    <td style='width:15%;'><b>Fecha Entrega</b></td>
+                                    <td colspan='2' style='width:30%;'>" . $_REQUEST['fecha_entrega'] . "</td>
                                 </tr>
-                                <tr>
-                                    <td style='width:25%;'>Beneficiario</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . $_REQUEST['nombres'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b></td>
-                                </tr>
-                                <tr>
-                                    <td style='width:25%;'>No de Identificación</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . number_format($_REQUEST['numero_identificacion'], 0, '', '.') . "</b></td>
-                                </tr>
-                                <tr>
-                                    <td colspan='4'><b>Datos de Vivienda</b></td>
-                                </tr>
-                                <tr>
-                                    <td style='width:25%;'>Tipo</td>
-                                    <td style='width:25%;text-align:center;'>VIP (" . $tipo_vip . ")</td>
-                                    <td style='width:25%;text-align:center;'>Estrato 1 (" . $tipo_residencial_1 . ")</td>
-                                    <td style='width:25%;text-align:center;'>Estrato 2 (" . $tipo_residencial_2 . ")</td>
-                                </tr>
-                                <tr>
-                                    <td style='width:25%;'>Dirección</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['direccion'] . "</td>
-                                </tr>
-                                <tr>
-                                    <td style='width:25%;'>Departamento</td>
-                                    <td style='width:25%;text-align:center;'>" . $_REQUEST['departamento'] . "</td>
-                                    <td style='width:25%;'>Municipio</td>
-                                    <td style='width:25%;text-align:center;'>" . $_REQUEST['municipio'] . "</td>
-                                </tr>
-                                <tr>
-                                    <td style='width:25%;'>Urbanización</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'>" . $_REQUEST['urbanizacion'] . "</td>
-                                </tr>
-                            </table>
-                            <br>
-                            <table  style='width:100%;' >
-                                          <tr>
-                                                <td align='center' style='width:100%;border=none;' ><b>CERTIFICA BAJO GRAVEDAD DE JURAMENTO</b></td>
 
-                                        </tr>
+                                <tr>
+                                    <td style='width:20%;'><b>Dirección</b></td>
+                                    <td style='width:35%;'>" . $_REQUEST['direccion'] . "</td>
+                                    <td style='width:15%;'><b>Cedula</b></td>
+                                    <td colspan='2' style='width:30%;'><b>" . number_format($_REQUEST['numero_identificacion'], 0, '', '.') . "</b></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan='2' style='width:20%;'><b>Urbanización</b></td>
+                                    <td rowspan='2' style='width:35%;'>" . $this->limpiar_caracteres_especiales($_REQUEST['urbanizacion']) . "</td>
+                                    <td style='width:15%;'><b>Municipio</b></td>
+                                    <td colspan='2' style='width:30%;'>" . $_REQUEST['municipio'] . "</td>
+                                </tr>
+
+                                <tr>
+                                    <td style='width:15%;'><b>Departamento</b></td>
+                                    <td style='width:15%;'>CORDOBA(<b>" . $departamento_cordoba . "</b>)</td>
+                                    <td style='width:15%;'>SUCRE(<b>" . $departamento_sucre . "</b>)</td>
+                                </tr>
                             </table>
-                             <br>
-                            1. Que recibe un computador portátil NUEVO, sin uso, original de fábrica y en perfecto estado de funcionamiento, con las siguientes características:<br>
-                            <br>
-                                    <table width:100%;>
+                            <p style='text-align:justify'>
+                            El contratista entrega un computador portátil Marca HP 245 G4 Notebook PC nuevo, a título de uso, goce y disfrute hasta la terminación del contrato de aporte suscrito entre el Fondo TIC y Corporación Politécnica. En consecuencia, el computador no puede ser vendido, arrendado, trasferido, dado en prenda, servir de garantía, so pena de perder el beneficio. Tal como mis datos aparecen en la parte superior de este formato, confirmo que, recibí en comodato el computador portátil con las siguientes características:
+                            </p>
+                                   <table style='width:100%;border;none;font-size:90%'>
                                         <tr>
-                                            <td align='rigth'  style=' width:20%;'><b>Marca</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['marca'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Modelo</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['modelo'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Serial</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['serial'] . "</td>
-                                            <td align='rigth' style=' width:20%;'>Procesador</td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['procesador'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Memoria RAM</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['memoria_ram'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Disco Duro</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['disco_duro'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Sistema Operativo</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['sistema_operativo'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Cámara</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['camara'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Audio</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['audio'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Batería</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['bateria'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Tarjeta de Red (Alámbrica)</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['targeta_red_alambrica'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Tarjeta de Red (Inalámbrica)</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['targeta_red_inalambrica'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth' style=' width:20%;'><b>Cargador</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['cargador'] . "</td>
-                                            <td align='rigth' style=' width:20%;'><b>Pantalla</b></td>
-                                            <td align='rigth' style='width:30%;'>" . $_REQUEST['pantalla'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth'  style=' width:20%;'><b>Sitio web de soporte</b></td>
-                                            <td align='rigth' colspan='3' style='width:80%;'>" . $_REQUEST['web_soporte'] . "</td>
-                                        </tr>
-                                        <tr>
-                                            <td align='rigth'  style=' width:20%;'><b>Teléfono de soporte</b></td>
-                                            <td align='rigth' colspan='3' style='width:80%;'>" . $_REQUEST['telefono_soporte'] . "</td>
+                                            <td align='left'  style='width:49%;border:none;'>
+                                               <table style='width:100%;border;0.1px;'>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>¿El Operador realizó la Entrega del Computador?</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Serial: <b>" . $this->infoPortatil['serial'] . "</b></td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Procesador</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['procesador'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Arquitectura</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['arquitectura'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Memoria RAM</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['memoria_ram'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Compatibilidad</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['compatibilidad_memoria_ram'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Tecnologia</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['tecnologia_memoria_ram'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>ANTIVIRUS</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['antivirus'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Disco duro protegido contrao impacto</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['disco_anti_impacto'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Monitor</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['pantalla'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Teclado</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['teclado'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                </table>
+                                           </td>
+                                           <td align='center'  style='width:2%;border:none;'>
+                                            </td>
+                                            <td align='rigth' style='width:49%;border:none;'>
+                                                <table style='width:100%;border;0.1px;'>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Baterías</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['bateria_tipo'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Fuente Alimentación</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['cargador'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Salida Video</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['salida_video'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Tarjeta Memoria</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['targeta_memoria'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Rango Voltaje<br>Frecuencia</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['voltaje'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Puerto USB</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['puerto_usb'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Autonomía</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['autonomia'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Disco Duro</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['disco_duro'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Targeta de audio, micrófono y parlantes</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['targeta_audio_video'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Software</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['sistema_operativo'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
                                         </tr>
                                     </table>
-                                    <br>
-                            2. Que el computador recibido no presenta rayones, roturas, hendiduras o elementos sueltos.<br><br>
-                            3. Que entiende que el computador recibido no tiene costo adicional y se encuentra incorporado al contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br><br>
-                            4. Que se compromete a velar por la seguridad del equipo y a cuidarlo para mantener su capacidad de uso y goce en el marco del contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br>
-                                <br>
-                            5. Que se compromete a participar en por lo menos 20 horas de  capacitación sobre el manejo del equipo y/o aplicativos de uso productivo de esta herramienta como parte del proceso de apropiación social contemplado en el Anexo Técnico del proyecto Conexiones Digitales II<br><br><br>
-
-                            Para constancia de lo anterior, firma en la ciudad de " . $_REQUEST['municipio'] . ", municipio de " . $_REQUEST['municipio'] . ", departamento de " . $_REQUEST['departamento'] . ", el día " . $dia . " de " . $mes . " de " . $anno . ".
-                            <br>
-                            <br>
-                            <br>
-                            <br>
+                                    <table style='width:100%;border;0.1px;font-size:90%'>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Dispositivo Apuntador</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['mouse_tipo'] . ", con botones equivalentes a “mouse” estándar y dispositivo de desplazamiento vertical en pantalla (“Scroll”) </td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Cámara</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['camara'] . "</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Conectividad a Red (Alámbrica)</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>WiFi Integrada, Estándar IEEE 802.11 b/g/n, Encriptación WEP 64/128,Compatibilidad IPV4 / IPV6, Bluetooth 4.0</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Conectividad Inalámabrica</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>WiFi Integrada, Estándar IEEE 802.11 b/g/n, Encriptación WEP 64/128,Compatibilidad IPV4 / IPV6, Bluetooth 4.0</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Otro</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Opción de Activación / Desactivación desde teclado por tecla o combinación de teclas o desde funcionalidad directa externa. Ajuste automático de potencia</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td align='center'  style='width:42.5%;border:0.1px;'>El software y el hardware del Equipo funciona correctamente</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>La Carcaza del PC o portátil se encuentra personalizada con los logos del ministerio</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Estado del Regulador que alimenta el Equipo</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>El equipo se entregó embalado, garantizando la integridad del mismo</td>
+                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
+                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan='3' align='center'  style='width:100%;border:0.1px;'>Tener en cuenta las consideraciones generales, condiciones del software y personalización, garantía y condiciones de entrega</td>
+                                                    </tr>
+                                                </table>
+                                    <p style='text-align:justify'>Respecto al computador portátil descrito se deja constancia que para la entrega no se me cobró ningún tipo de cargo como usuario beneficiado del Proyecto Conexiones Digitales II y que el equipo fue entregado embalado, garantizando la integridad del mismo. Además certifico que se realizaron las siguientes pruebas de funcionalidad:</p>
+                                    <table align='center' style='width:85%;border:0.1px;'>
+                                            <tr>
+                                                <td align='center'  style='width:40%;border:0.1px;'>Correcto encendido/apagado</td>
+                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
+                                                <td align='center'  style='width:40%;border:0.1px;'>Equipo funcionando y navegando</td>
+                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
+                                            </tr>
+                                            <tr>
+                                                <td align='center' colspan='3' style='width:90%;border:0.1px;'>Funcionamiento de los periféricos, (teclado, parlante, touchpad)</td>
+                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
+                                            </tr>
+                                    </table>
+                                    <p style='text-align:justify'>A continuación, se detalla información importante en caso tal que se requiera soporte técnico para el equipo portátil entregado:</p>
+                                    <table align='center' style='width:100%;border:0.1px;'>
+                                            <tr>
+                                                <td align='center'  style='width:50%;border:0.1px;'>Garantía del equipo: Un año a partir de la fecha en que se firma la recepción</td>
+                                                <td align='center'  style='width:50%;border:0.1px;'>Mantenimiento Preventivo: 1 visitas por año</td>
+                                            </tr>
+                                            <tr>
+                                                <td align='center'  style='width:50%;border:0.1px;'>Contacto Garantía: Corporación Politécnica</td>
+                                                <td align='center'  style='width:50%;border:0.1px;'>Teléfono: 018000 961 016</td>
+                                            </tr>
+                                    </table>
+                                    <p style='text-align:justify'>Advertencia: Con el fin de no perder la garantía del fabricante en la eventualidad de presentarse fallas, el beneficiario ni un tercero no autorizado por el fabricante, puede manipular el equipo tratando de resolver el problema presentado.En caso de daño, hurto, el usuario de hacer el reporte a la mesa de ayuda al número 018000 961016, lo cual debe quedar consignado en
+un ticket para la gestión y seguimiento del mismo. En caso de hurto o pérdida no habrá reposición del equipo.Luego de la verificación de funcionamiento pleno del computador portátil y de sus características y accesorios, manifiesto mi entera
+conformidad y satisfacción del bien que recibo en la fecha, y me obligo a realizar su correcto uso, custodia y conservación, autorizando al prestador del servicio Corporación Politécnica a, para que ejerza el seguimiento y control sobre el adecuado y correcto uso, custodia y conservación del mismo.<br>A la terminación del plazo de ejecución de este contrato de comodato, tendré la opción de adquirir el bien antes descrito entregado en comodato. Para constancia de lo anterior, firmo con copia de mi documento de identidad hoy día " . $fecha_letra . ". En el municipio de <b>" . $_REQUEST['municipio'] . "</b>, Departamento <b>" . $_REQUEST['departamento'] . "</b>.</p>
 
                             <table width:100%;>
-                                <tr>
-                                    <td rowspan='2' style='width:50%;'>Firma:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $firmaBeneficiario . "</td>
-                                    <td style='width:50%;text-align:center;'><b>" . $_REQUEST['nombres'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b></td>
-                                </tr>
-                                <tr>
-                                    <td style='width:50%;text-align:center;'><b>" . number_format($_REQUEST['numero_identificacion'], 0, '', '.') . "</b></td>
-                                </tr>
-                            </table>
-
-
-                    ";
+                             <tr>
+                                <td align='center' colspan='2' style='width:45%;border:none;'>" . $firmaBeneficiario . "</td>
+                                <td align='center'  style='width:10%;border:none;'> </td>
+                                <td align='center' colspan='2' style='width:45%;border:none;'>" . $firmacontratista . "</td>
+                             </tr>
+                             <tr>
+                                <td align='center' colspan='2' style='width:45%;border:none;'>Firma Beneficiario</td>
+                                <td align='center'  style='width:10%;border:none;'> </td>
+                                <td align='center' colspan='2' style='width:45%;border:none;'>Firma Representante<br>Operador</td>
+                             </tr>
+                             <tr>
+                                <td align='center'  style='width:10%;border:none;'>Nombre</td>
+                                <td align='center'  style='width:35%;border:none;font-size:6px'><b>" . $_REQUEST['nombres'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b></td>
+                                <td align='center'  style='width:10%;border:none;'> </td>
+                                <td align='center'  style='width:10%;border:none;'>Nombre</td>
+                                <td align='center'  style='width:35%;border:none;'>_________________________</td>
+                             </tr>
+                             <tr>
+                                <td align='center'  style='width:10%;border:none;'>Cedula</td>
+                                <td align='center'  style='width:35%;border:none;font-size:6px'><b>" . $_REQUEST['numero_identificacion'] . "</b></td>
+                                <td align='center'  style='width:10%;border:none;'> </td>
+                                <td align='center'  style='width:10%;border:none;'>Cedula</td>
+                                <td align='center'  style='width:35%;border:none;'>_________________________</td>
+                             </tr>
+                            </table>";
 
         $contenidoPagina .= "</page>";
 
         $this->contenidoPagina = $contenidoPagina;
     }
+
+    public function informacionEstandarPortatil()
+    {
+
+        $this->infoPortatil = array(
+
+            'camara' => 'Integrada 720 px HD Grabación, Video y Fotografía',
+
+            'mouse_tipo' => 'Touchpad con capacidad multi-touch',
+            'sistema_operativo' => 'Ubuntu',
+
+            'targeta_audio_video' => 'Incorporados',
+
+            'disco_duro' => '500 GB velocidad de 5.400 rpm',
+
+            'autonomia' => 'Mín. Cuatro horas – 6 celdas',
+
+            'puerto_usb' => '(2)Usb 2.0 y (3) Ubs 3.0',
+
+            'voltaje' => '100 v a 120 v - 50 Hz a 60 Hz',
+
+            'targeta_memoria' => 'multi-format digital media reader(soporta SD, SDHC, SDXC)',
+
+            'salida_video' => 'VGA 1 y HMDI 1',
+
+            'cargador' => 'Adaptador Smart AC 100 v a 120 v',
+
+            'bateria_tipo' => 'Recargable Lithium Ion',
+
+            'teclado' => 'Español(Internacional)',
+
+            'marca' => 'Hewlett Packard',
+
+            'modelo' => 'HP 245 G4 Notebook PC',
+
+            'procesador' => 'AMD A8-7410 2200 MHz cores 2.2 GHz',
+
+            'arquitectura' => '64 Bits',
+
+            'memoria_ram' => 'DDR3 4096 MB',
+
+            'compatibilidad_memoria_ram' => 'PAE, NX, y SSE 4.x',
+
+            'tecnologia_memoria_ram' => 'DDR3',
+
+            'antivirus' => 'Clamav Antivirus',
+
+            'disco_anti_impacto' => 'N/A',
+
+            'serial' => '',
+
+            'audio' => 'Integrado Mono/Estereo',
+
+            'bateria' => '41610 mWh',
+
+            'targeta_red_alambrica' => 'Integrada',
+
+            'targeta_red_inalambrica' => 'Integrada',
+
+            'pantalla' => 'HD SVA anti-brillo LED14"',
+
+        );
+
+    }
+
+    public function limpiar_caracteres_especiales($s)
+    {
+        $s = ereg_replace("[áàâãª]", "a", $s);
+        $s = ereg_replace("[ÁÀÂÃ]", "A", $s);
+        $s = ereg_replace("[éèê]", "e", $s);
+        $s = ereg_replace("[ÉÈÊ]", "E", $s);
+        $s = ereg_replace("[íìî]", "i", $s);
+        $s = ereg_replace("[ÍÌÎ]", "I", $s);
+        $s = ereg_replace("[óòôõº]", "o", $s);
+        $s = ereg_replace("[ÓÒÔÕ]", "O", $s);
+        $s = ereg_replace("[úùû]", "u", $s);
+        $s = ereg_replace("[ÚÙÛ]", "U", $s);
+        $s = str_replace("ñ", "n", $s);
+        $s = str_replace("Ñ", "N", $s);
+
+        $s = str_replace("urbanizacion", "", strtolower($s));
+
+        return trim(strtoupper($s));
+    }
+
 }
 $miDocumento = new GenerarDocumento($this->miSql);

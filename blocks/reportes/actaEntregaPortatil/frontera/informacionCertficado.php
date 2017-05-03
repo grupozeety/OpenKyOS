@@ -69,6 +69,8 @@ class Certificado
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
         $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
+        //var_dump($infoBeneficiario);
+
         {
 
             $arreglo = array(
@@ -85,6 +87,8 @@ class Certificado
                 'telefono' => $infoBeneficiario['telefono'],
                 'celular' => $infoBeneficiario['celular_contrato'],
                 'correo' => $infoBeneficiario['correo'],
+                'codigo_municipio' => $infoBeneficiario['codigo_municipio'],
+                'codigo_departamento' => $infoBeneficiario['codigo_departamento'],
             );
 
             $_REQUEST = array_merge($_REQUEST, $arreglo);
@@ -128,6 +132,7 @@ class Certificado
 
             $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificacion', $_REQUEST['id_beneficiario']);
             $serial_pc = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
             if (!is_null($serial_pc['serial']) && $serial_pc['serial'] != '') {
 
                 $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $serial_pc['serial']);
@@ -1257,6 +1262,14 @@ class Certificado
                 $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
                 $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
                 $valorCodificado .= "&direccion=" . $direccion_general;
+
+                $valorCodificado .= "&tipo_beneficiario_contrato=" . $_REQUEST['tipo_beneficiario'];
+
+                $valorCodificado .= "&estrato_socioeconomico_contrato=" . $_REQUEST['estrato_socioeconomico'];
+
+                $valorCodificado .= "&codigo_departamento=" . $_REQUEST['codigo_departamento'];
+
+                $valorCodificado .= "&codigo_municipio=" . $_REQUEST['codigo_municipio'];
 
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.

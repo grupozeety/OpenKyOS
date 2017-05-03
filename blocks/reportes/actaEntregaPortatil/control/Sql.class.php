@@ -52,8 +52,9 @@ class Sql extends \Sql
                     cn.segundo_apellido as segundo_apellido_contrato,
                     cn.tipo_documento as tipo_documento_contrato,
                     cn.numero_identificacion as numero_identificacion_contrato,
-                    cn.celular as celular_contrato
-                             ";
+                    cn.celular as celular_contrato,
+                    bn.municipio as codigo_municipio,
+                    bn.departamento as codigo_departamento";
                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
                 $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
                 $cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
@@ -126,7 +127,6 @@ class Sql extends \Sql
                 $cadenaSql .= " '" . $variable['telefono_soporte'] . "', ";
                 $cadenaSql .= " '" . $variable['url_firma_instalador'] . "', ";
                 $cadenaSql .= " '" . $variable['url_firma_beneficiario'] . "');";
-                echo $cadenaSql;exit;
 
                 break;
 

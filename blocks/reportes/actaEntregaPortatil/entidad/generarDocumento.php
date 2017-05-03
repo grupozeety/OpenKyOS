@@ -84,7 +84,7 @@ class GenerarDocumento
 
         $_REQUEST = array_merge($_REQUEST, $infoCertificado);
 
-        if (is_null($_REQUEST['serial'])) {
+        if (!is_null($_REQUEST['serial']) && $_REQUEST['serial'] != '') {
 
             $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $_REQUEST['serial']);
             $this->infoPortatil = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
@@ -99,14 +99,14 @@ class GenerarDocumento
 
         if (!is_null($this->infoCertificado['fecha_entrega']) && $this->infoCertificado['fecha_entrega'] != '') {
 
-            $fecha = explode("-", $this->infoCertificado['fecha_entrega']);
-            $dia = $fecha[0];
+            $fecha = explode("-", $_REQUEST['fecha_entrega']);
+            $dia = $fecha[2];
             $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-            $mes = $mes[$fecha[1]];
-            $anno = $fecha[2];
+            $mes = $mes[$fecha[1] + 0];
+            $anno = $fecha[0];
             $fecha_letra = $dia . " del mes de " . $mes . " del Año " . $anno;
 
-            $_REQUEST['fecha_entrega'] = $this->infoCertificado['fecha_entrega'];
+            $_REQUEST['fecha_entrega'] = $_REQUEST['fecha_entrega'];
 
         } else {
 
@@ -500,70 +500,6 @@ conformidad y satisfacción del bien que recibo en la fecha, y me obligo a reali
         $contenidoPagina .= "</page>";
 
         $this->contenidoPagina = $contenidoPagina;
-    }
-
-    public function informacionEstandarPortatil()
-    {
-
-        $this->infoPortatil = array(
-
-            'camara' => 'Integrada 720 px HD Grabación, Video y Fotografía',
-
-            'mouse_tipo' => 'Touchpad con capacidad multi-touch',
-            'sistema_operativo' => 'Ubuntu',
-
-            'targeta_audio_video' => 'Incorporados',
-
-            'disco_duro' => '500 GB velocidad de 5.400 rpm',
-
-            'autonomia' => 'Mín. Cuatro horas – 6 celdas',
-
-            'puerto_usb' => '(2)Usb 2.0 y (3) Ubs 3.0',
-
-            'voltaje' => '100 v a 120 v - 50 Hz a 60 Hz',
-
-            'targeta_memoria' => 'multi-format digital media reader(soporta SD, SDHC, SDXC)',
-
-            'salida_video' => 'VGA 1 y HMDI 1',
-
-            'cargador' => 'Adaptador Smart AC 100 v a 120 v',
-
-            'bateria_tipo' => 'Recargable Lithium Ion',
-
-            'teclado' => 'Español(Internacional)',
-
-            'marca' => 'Hewlett Packard',
-
-            'modelo' => 'HP 245 G4 Notebook PC',
-
-            'procesador' => 'AMD A8-7410 2200 MHz cores 2.2 GHz',
-
-            'arquitectura' => '64 Bits',
-
-            'memoria_ram' => 'DDR3 4096 MB',
-
-            'compatibilidad_memoria_ram' => 'PAE, NX, y SSE 4.x',
-
-            'tecnologia_memoria_ram' => 'DDR3',
-
-            'antivirus' => 'Clamav Antivirus',
-
-            'disco_anti_impacto' => 'N/A',
-
-            'serial' => '',
-
-            'audio' => 'Integrado Mono/Estereo',
-
-            'bateria' => '41610 mWh',
-
-            'targeta_red_alambrica' => 'Integrada',
-
-            'targeta_red_inalambrica' => 'Integrada',
-
-            'pantalla' => 'HD SVA anti-brillo LED14"',
-
-        );
-
     }
 
     public function limpiar_caracteres_especiales($s)
