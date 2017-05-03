@@ -11,7 +11,8 @@ $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
 include $ruta . "/plugin/html2pdf/html2pdf.class.php";
-class GenerarDocumento {
+class GenerarDocumento
+{
     public $miConfigurador;
     public $elementos;
     public $miSql;
@@ -23,7 +24,8 @@ class GenerarDocumento {
     public $beneficiario;
     public $esteRecursoOP;
     public $rutaAbsoluta;
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
@@ -83,7 +85,8 @@ class GenerarDocumento {
         // $cadenaSql = $this->miSql->getCadenaSql('registrarRequisito', $arreglo);
         // $this->registroRequisito = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
     }
-    public function crearPDF() {
+    public function crearPDF()
+    {
 
         ob_start();
         $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
@@ -96,7 +99,8 @@ class GenerarDocumento {
         $html2pdf->WriteHTML($this->contenidoPagina);
         $html2pdf->Output($this->rutaAbsoluta . $this->nombreDocumento, 'F');
     }
-    public function asosicarCodigoDocumento() {
+    public function asosicarCodigoDocumento()
+    {
         $this->prefijo = substr(md5(uniqid(time())), 0, 6);
         $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', '008');
         $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
@@ -105,9 +109,10 @@ class GenerarDocumento {
         //$nombre_archivo = "AEP";
         $this->nombreDocumento = $_REQUEST['id_beneficiario'] . "_" . $descripcion_documento . "_" . $this->prefijo . '.pdf';
     }
-    public function estruturaDocumento() {
+    public function estruturaDocumento()
+    {
 
-        //var_dump($_REQUEST);exit;
+        var_dump($_REQUEST);exit;
         /*
          * $cadenaSql = $this->miSql->getCadenaSql('consultaNombreProyecto', $this->beneficiario['urbanizacion']);
          * $urbanizacion = $this->esteRecursoOP->ejecutarAcceso($cadenaSql, "busqueda");
@@ -408,5 +413,3 @@ class GenerarDocumento {
     }
 }
 $miDocumento = new GenerarDocumento($this->miSql);
-
-?>

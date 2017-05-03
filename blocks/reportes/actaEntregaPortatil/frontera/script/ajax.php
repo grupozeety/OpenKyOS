@@ -70,25 +70,25 @@ $urlConsultarInformacionPortatiles = $url . $cadena;
 
 function informacionPortatil(elem, request, response){
 	  $.ajax({
-	    url: "<?php echo $urlConsultarInformacionPortatiles;?>",
+	    url: "<?php echo $urlConsultarInformacionPortatiles; ?>",
 	    dataType: "json",
-	    data: { valor:$("#<?php echo $this->campoSeguro('id_serial');?>").val()},
+	    data: { valor:$("#<?php echo $this->campoSeguro('id_serial'); ?>").val()},
 	    success: function(data){
 	    	 if(data!=" "){
 
-				$("#<?php echo $this->campoSeguro('marca');?>").val(data.marca);
-				$("#<?php echo $this->campoSeguro('modelo');?>").val(data.modelo);
-				$("#<?php echo $this->campoSeguro('procesador');?>").val(data.procesador);
-				$("#<?php echo $this->campoSeguro('memoria_ram');?>").val(data.memoria_ram);
-				$("#<?php echo $this->campoSeguro('disco_duro');?>").val(data.disco_duro);
-				$("#<?php echo $this->campoSeguro('sistema_operativo');?>").val(data.sistema_operativo);
-				$("#<?php echo $this->campoSeguro('camara');?>").val(data.camara);
-				$("#<?php echo $this->campoSeguro('audio');?>").val(data.audio);
-				$("#<?php echo $this->campoSeguro('bateria');?>").val(data.bateria);
-				$("#<?php echo $this->campoSeguro('targeta_red_alambrica');?>").val(data.red_alamnbrica);
-				$("#<?php echo $this->campoSeguro('targeta_red_inalambrica');?>").val(data.red_inalambrica);
-				$("#<?php echo $this->campoSeguro('cargador');?>").val(data.cargador);
-				$("#<?php echo $this->campoSeguro('pantalla');?>").val(data.pantalla);
+				$("#<?php echo $this->campoSeguro('marca'); ?>").val(data.marca);
+				$("#<?php echo $this->campoSeguro('modelo'); ?>").val(data.modelo);
+				$("#<?php echo $this->campoSeguro('procesador'); ?>").val(data.procesador);
+				$("#<?php echo $this->campoSeguro('memoria_ram'); ?>").val(data.memoria_ram);
+				$("#<?php echo $this->campoSeguro('disco_duro'); ?>").val(data.disco_duro);
+				$("#<?php echo $this->campoSeguro('sistema_operativo'); ?>").val(data.sistema_operativo);
+				$("#<?php echo $this->campoSeguro('camara'); ?>").val(data.camara);
+				$("#<?php echo $this->campoSeguro('audio'); ?>").val(data.audio);
+				$("#<?php echo $this->campoSeguro('bateria'); ?>").val(data.bateria);
+				$("#<?php echo $this->campoSeguro('targeta_red_alambrica'); ?>").val(data.red_alamnbrica);
+				$("#<?php echo $this->campoSeguro('targeta_red_inalambrica'); ?>").val(data.red_inalambrica);
+				$("#<?php echo $this->campoSeguro('cargador'); ?>").val(data.cargador);
+				$("#<?php echo $this->campoSeguro('pantalla'); ?>").val(data.pantalla);
 
 		      }
 
@@ -100,26 +100,26 @@ function informacionPortatil(elem, request, response){
 
 
 
- 	$("#<?php echo $this->campoSeguro('serial');?>").autocomplete({
+ 	$("#<?php echo $this->campoSeguro('serial'); ?>").autocomplete({
 	   	minChars: 2,
-	   	serviceUrl: '<?php echo $urlConsultarPortatiles;?>',
+	   	serviceUrl: '<?php echo $urlConsultarPortatiles; ?>',
 	   	onSelect: function (suggestion) {
 
 	   		if(suggestion.data){
-			$("#<?php echo $this->campoSeguro('id_serial');?>").val(suggestion.data);
+			$("#<?php echo $this->campoSeguro('id_serial'); ?>").val(suggestion.data);
 			informacionPortatil();
 			}
 		}
 	});
 
 
-$("#<?php echo $this->campoSeguro('serial');?>").change(function() {
+$("#<?php echo $this->campoSeguro('serial'); ?>").change(function() {
 
 
-if($("#<?php echo $this->campoSeguro('id_serial');?>").val()==''){
+if($("#<?php echo $this->campoSeguro('id_serial'); ?>").val()==''){
 
 
-$("#<?php echo $this->campoSeguro('serial');?>").val("");
+$("#<?php echo $this->campoSeguro('serial'); ?>").val("");
 
 }
 
@@ -133,23 +133,23 @@ $("#<?php echo $this->campoSeguro('serial');?>").val("");
  * Código JavaScript Correspondiente a la utilización de las Peticiones Ajax.
  */
 
- 	$("#<?php echo $this->campoSeguro('tipo_documento');?>").select2({width:'100%'});
+ 	$("#<?php echo $this->campoSeguro('tipo_documento'); ?>").select2({width:'100%'});
 
 
 
 
 
- 	$("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
+ 	$("#<?php echo $this->campoSeguro('beneficiario'); ?>").autocomplete({
 	   	minChars: 3,
-	   	serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
+	   	serviceUrl: '<?php echo $urlConsultarBeneficiarios; ?>',
 	   	onSelect: function (suggestion) {
-			$("#<?php echo $this->campoSeguro('id');?>").val(suggestion.data);
+			$("#<?php echo $this->campoSeguro('id'); ?>").val(suggestion.data);
 		}
 	});
 
-	$("#<?php echo $this->campoSeguro('beneficiario');?>").change(function() {
-		if($("#<?php echo $this->campoSeguro('id');?>").val()==''){
-	    	$("#<?php echo $this->campoSeguro('beneficiario');?>").val('');
+	$("#<?php echo $this->campoSeguro('beneficiario'); ?>").change(function() {
+		if($("#<?php echo $this->campoSeguro('id'); ?>").val()==''){
+	    	$("#<?php echo $this->campoSeguro('beneficiario'); ?>").val('');
 	   	}
 	});
 
@@ -157,8 +157,8 @@ $("#<?php echo $this->campoSeguro('serial');?>").val("");
 	var d = new Date();
 	var strDate = d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear();
 
-	$('#<?php echo $this->campoSeguro("fecha_entrega");?>').datetimepicker({
-		format: 'dd-mm-yyyy',
+	$('#<?php echo $this->campoSeguro("fecha_entrega"); ?>').datetimepicker({
+		format: 'yyyy-mm-dd',
 	    language: "es",
 	    weekStart: 1,
 	    todayBtn:  1,
@@ -169,15 +169,15 @@ $("#<?php echo $this->campoSeguro('serial');?>").val("");
 	    forceParse: 0
 	});
 
-	$('#<?php echo $this->campoSeguro("fecha_entrega");?>').val(strDate);
+
 
 
 
 
 	$("#div1").hide();
 
-	$("#<?php echo $this->campoSeguro('tipo_beneficiario');?>").change(function() {
-		if($("#<?php echo $this->campoSeguro('tipo_beneficiario');?>").val() == 2){
+	$("#<?php echo $this->campoSeguro('tipo_beneficiario'); ?>").change(function() {
+		if($("#<?php echo $this->campoSeguro('tipo_beneficiario'); ?>").val() == 2){
 			$("#div1").show();
 		}else{
 			$("#div1").hide();
@@ -190,14 +190,14 @@ $("#<?php echo $this->campoSeguro('serial');?>").val("");
 
 	$('#limpiarBn').bind('click', function(e){
 		$sigdiv2.jSignature('reset');
-		$("#<?php echo $this->campoSeguro('firmaBeneficiario');?>").val('');
+		$("#<?php echo $this->campoSeguro('firmaBeneficiario'); ?>").val('');
 		$("#firma_digital_beneficiario").css("display","block");
 		$("#mensaje_firma_bn").css("display","none");
 		$("#guardarBn").css("display","block");
 	});
 
 	$('#guardarBn').bind('click', function(e){
-		$("#<?php echo $this->campoSeguro('firmaBeneficiario');?>").val(btoa($sigdiv2.jSignature("getData", "svg")));
+		$("#<?php echo $this->campoSeguro('firmaBeneficiario'); ?>").val(btoa($sigdiv2.jSignature("getData", "svg")));
 		$("#firma_digital_beneficiario").css("display","none");
 		$("#mensaje_firma_bn").css("display","block");
 		$("#guardarBn").css("display","none");
@@ -207,14 +207,14 @@ $("#<?php echo $this->campoSeguro('serial');?>").val("");
 
 	$('#limpiarIns').bind('click', function(e){
 		$sigdiv1.jSignature('reset');
-		$("#<?php echo $this->campoSeguro('firmaInstalador');?>").val('');
+		$("#<?php echo $this->campoSeguro('firmaInstalador'); ?>").val('');
 		$("#firma_digital_instalador").css("display","block");
 		$("#mensaje_firma_ins").css("display","none");
 		$("#guardarIns").css("display","block");
 	});
 
 	$('#guardarIns').bind('click', function(e){
-		$("#<?php echo $this->campoSeguro('firmaInstalador');?>").val(btoa($sigdiv1.jSignature("getData", "svg")));
+		$("#<?php echo $this->campoSeguro('firmaInstalador'); ?>").val(btoa($sigdiv1.jSignature("getData", "svg")));
 		$("#firma_digital_instalador").css("display","none");
 		$("#mensaje_firma_ins").css("display","block");
 		$("#guardarIns").css("display","none");

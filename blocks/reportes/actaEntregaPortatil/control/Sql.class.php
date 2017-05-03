@@ -104,9 +104,10 @@ class Sql extends \Sql
                 $cadenaSql .= " pantalla,";
                 $cadenaSql .= " web_soporte,";
                 $cadenaSql .= " telefono_soporte,";
+                $cadenaSql .= " firmainstalador,";
                 $cadenaSql .= " firmaBeneficiario)";
                 $cadenaSql .= " VALUES ('" . $variable['id_beneficiario'] . "',";
-                $cadenaSql .= " '" . $variable['fecha_entrega'] . "', ";
+                $cadenaSql .= (is_null($variable['fecha_entrega'])) ? "NULL," : " '" . $variable['fecha_entrega'] . "', ";
                 $cadenaSql .= " '" . $variable['marca'] . "', ";
                 $cadenaSql .= " '" . $variable['modelo'] . "', ";
                 $cadenaSql .= " '" . $variable['serial'] . "', ";
@@ -123,7 +124,9 @@ class Sql extends \Sql
                 $cadenaSql .= " '" . $variable['pantalla'] . "', ";
                 $cadenaSql .= " '" . $variable['web_soporte'] . "', ";
                 $cadenaSql .= " '" . $variable['telefono_soporte'] . "', ";
+                $cadenaSql .= " '" . $variable['url_firma_instalador'] . "', ";
                 $cadenaSql .= " '" . $variable['url_firma_beneficiario'] . "');";
+                echo $cadenaSql;exit;
 
                 break;
 
