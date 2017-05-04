@@ -322,7 +322,7 @@ class Sql extends \Sql
                 break;
 
             case 'ConsultaBeneficiariosActaServicio':
-                $cadenaSql = " SELECT";
+                $cadenaSql = " SELECT DISTINCT";
                 $cadenaSql .= " cn.id_beneficiario,";
                 $cadenaSql .= " cn.nombres,";
                 $cadenaSql .= " cn.primer_apellido,";
@@ -384,15 +384,16 @@ class Sql extends \Sql
                 $cadenaSql .= " cn.tipo_tecnologia as tecnologia,";
                 $cadenaSql .= " pr.descripcion as tipo_tecnologia";
                 $cadenaSql .= " FROM interoperacion.contrato AS cn";
-                $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios AS mp ON mp.id_beneficiario=cn.id_beneficiario AND mp.estado_registro='TRUE' ";
+                $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios AS mp ON mp.id_beneficiario=cn.id_beneficiario  ";
                 $cadenaSql .= " FULL JOIN parametros.parametros pr ON cn.tipo_tecnologia=pr.id_parametro";
                 $cadenaSql .= " WHERE ";
-                $cadenaSql .= " cn.estado_registro=TRUE ";
+                $cadenaSql .= " cn.estado_registro=TRUE AND mp.estado_registro='TRUE' ";
                 $cadenaSql .= " AND cn.id_beneficiario IN (" . $variable . ");";
+
                 break;
 
             case 'ConsultaBeneficiariosActaPortatil':
-                $cadenaSql = " SELECT ep.*, ";
+                $cadenaSql = " SELECT DISTINCT ep.*, ";
                 $cadenaSql .= " cn.numero_contrato,";
                 $cadenaSql .= " cn.estrato as tp_beneficiario,";
                 $cadenaSql .= " cn.direccion_domicilio,";
@@ -403,7 +404,9 @@ class Sql extends \Sql
                 $cadenaSql .= " cn.interior,";
                 $cadenaSql .= " cn.lote,";
                 $cadenaSql .= " cn.piso,";
+                $cadenaSql .= " cn.barrio,";
                 $cadenaSql .= " bn.municipio as codigo_municipio, ";
+                $cadenaSql .= " bn.departamento as codigo_departamento, ";
                 $cadenaSql .= " cn.nombres as nombre_contrato,";
                 $cadenaSql .= " cn.primer_apellido as primer_apellido_contrato,";
                 $cadenaSql .= " cn.segundo_apellido as segundo_apellido_contrato,";
@@ -435,6 +438,41 @@ class Sql extends \Sql
                 $cadenaSql = " UPDATE parametros.procesos_masivos";
                 $cadenaSql .= " SET estado_registro='FALSE'";
                 $cadenaSql .= " WHERE id_proceso='" . $_REQUEST['id_proceso'] . "'; ";
+                break;
+
+            case 'consultarInformacionEquipoSerial':
+                $cadenaSql = " SELECT";
+                $cadenaSql .= " camara_tipo ||' '||camara_formato||' '||camara_funcionalidad as camara,";
+                $cadenaSql .= " mouse_tipo,";
+                $cadenaSql .= " sistema_operativo,";
+                $cadenaSql .= " 'Incorporados' as targeta_audio_video,";
+                $cadenaSql .= " substr(disco_capacidad,0,4)||' GB velocidad de '||disco_velocidad as disco_duro,";
+                $cadenaSql .= " 'Mín. Cuatro horas – 6 celdas' as autonomia,";
+                $cadenaSql .= " '('||puerto_usb2_total||')Usb 2.0 y ('||puerto_usb3_total||') Ubs 3.0' as puerto_usb,";
+                $cadenaSql .= " alimentacion_voltaje ||' - '||alimentacion_frecuencia as voltaje,";
+                $cadenaSql .= " slot_expansion_tipo as targeta_memoria,";
+                $cadenaSql .= " 'VGA '||puerto_vga_total ||' y HMDI '||puerto_vga_total as salida_video,";
+                $cadenaSql .= " alimentacion_dispositivo||' '||alimentacion_voltaje as cargador, ";
+                $cadenaSql .= " 'Recargable '|| bateria_tipo as bateria_tipo,";
+                $cadenaSql .= " teclado_idioma||'(Internacional)' as teclado,";
+                $cadenaSql .= " marca, ";
+                $cadenaSql .= " modelo, ";
+                $cadenaSql .= " substr(cpu_version,0,12) ||' '|| cpu_velocidad ||' cores '||(substr(cpu_velocidad,0,5)::float / 1000)||' GHz' as procesador,";
+                $cadenaSql .= " cpu_bits||' Bits' as arquitectura,";
+                $cadenaSql .= " memoria_tipo||' '||memoria_capacidad as memoria_ram,";
+                $cadenaSql .= " 'PAE, NX, y SSE 4.x' as compatibilidad_memoria_ram,";
+                $cadenaSql .= " memoria_tipo as tecnologia_memoria_ram,";
+                $cadenaSql .= " antivirus,";
+                $cadenaSql .= " 'N/A' as disco_anti_impacto,";
+                $cadenaSql .= " serial,";
+                $cadenaSql .= " parlantes_tipo||' '||audio_tipo as audio,";
+                $cadenaSql .= " substr(bateria_autonomia,0,10) as bateria, ";
+                $cadenaSql .= " 'Integrada' as targeta_red_alambrica,";
+                $cadenaSql .= " 'Integrada' as targeta_red_inalambrica,";
+                $cadenaSql .= " substr(pantalla_tipo ,0,20)||substr(pantalla_tipo ,35,50)||substr(pantalla_tamanno ,0,5)as pantalla";
+                $cadenaSql .= " FROM interoperacion.politecnica_portatil";
+                $cadenaSql .= " WHERE serial='" . $variable . "';";
+
                 break;
 
         }
