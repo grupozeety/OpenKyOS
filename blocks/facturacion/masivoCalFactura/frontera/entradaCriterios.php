@@ -1,6 +1,6 @@
 <?php
 
-namespace facturacion\calculoFactura\frontera;
+namespace facturacion\masivoCalFactura\frontera;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "../index.php";

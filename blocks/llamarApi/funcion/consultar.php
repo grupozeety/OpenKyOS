@@ -571,10 +571,11 @@ class Consultar {
 	 */
 	
 	/**
-	 * Función Crear un Cliente en ERPNext basado en el beneficiario aprobado
+	 * Función Crear un Cliente en ERPNext cuando se generan los primeros conceptos de factura
 	 * Autor: Sosa,V
 	 * Version : 1.0.0.0
 	 * Fecha : 2016/10/22
+	 * Modificado: 2017/04
 	 */
 	public function crearCliente($datosConexion = '', $parametros) {
 		$this->configurarERPNext ( $datosConexion );
@@ -583,6 +584,23 @@ class Consultar {
 			echo json_encode ( $result->body->data );
 		}
 		
+		return false;
+	}
+	
+	/**
+	 * Función Crear una Factura en ERPNext
+	 * Autor: Sosa,V
+	 * Version : 1.0.0.0
+	 * Fecha : 2017/05/02
+	 */
+	public function crearFactura ($datosConexion = '', $parametros) {
+		$this->configurarERPNext ( $datosConexion );
+		$result = $this->clientFrappe->insert ( "Sales Invoice", json_decode ( $parametros ) );
+		
+		
+		if (! empty ( $result->body->data )) {
+			echo json_encode ( $result->body->data );
+		}
 		return false;
 	}
 	
