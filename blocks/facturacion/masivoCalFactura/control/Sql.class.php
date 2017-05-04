@@ -195,7 +195,7 @@ class Sql extends \Sql {
 					$cadenaSql .= " AND bp.deparamento='" . $variable ['urbanizacion'] . "' ";
 				}
 				
-				$cadenaSql .= " LIMIT 25";
+				//$cadenaSql .= " LIMIT 25";
 				break;
 			
 			case 'registrarAsociacion' :
