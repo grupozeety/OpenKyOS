@@ -170,6 +170,7 @@ class Calcular {
 			}
 		}
 	}
+	
 	public function verificarFactura() {
 		
 		$res = 0;
