@@ -45,9 +45,24 @@ class Sql extends \Sql
                  */
 
             case 'consultaInformacionBeneficiario':
-                $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ,cn.urbanizacion as nombre_urbanizacion, cn.departamento as nombre_departamento, cn.municipio as nombre_municipio,cn.direccion_domicilio, cn.manzana as manzana_contrato, cn.bloque as bloque_contrato,
-                cn.torre as torre_contrato,cn.casa_apartamento as casa_apto_contrato,cn.interior as interior_contrato,cn.lote as lote_contrato,cn.piso as piso_contrato, cn.estrato_socioeconomico,
-                cn.nombres as nombre_contrato,
+                $cadenaSql = " SELECT bn.*,
+                    pr.descripcion as descripcion_tipo ,
+                    cn.id id_contrato,
+                    cn.numero_contrato ,
+                    cn.urbanizacion as nombre_urbanizacion,
+                    cn.departamento as nombre_departamento,
+                    cn.municipio as nombre_municipio,
+                    cn.direccion_domicilio,
+                    cn.manzana as manzana_contrato,
+                    cn.bloque as bloque_contrato,
+                    cn.torre as torre_contrato,
+                    cn.casa_apartamento as casa_apto_contrato,
+                    cn.interior as interior_contrato,
+                    cn.lote as lote_contrato,
+                    cn.piso as piso_contrato,
+                    cn.barrio as barrio_contrato,
+                    cn.estrato_socioeconomico,
+                    cn.nombres as nombre_contrato,
                     cn.primer_apellido as primer_apellido_contrato,
                     cn.segundo_apellido as segundo_apellido_contrato,
                     cn.tipo_documento as tipo_documento_contrato,
@@ -159,6 +174,7 @@ class Sql extends \Sql
                 $cadenaSql .= " cn.interior,";
                 $cadenaSql .= " cn.lote,";
                 $cadenaSql .= " cn.piso,";
+                $cadenaSql .= " cn.barrio,";
                 $cadenaSql .= " cn.nombres as nombre_contrato,";
                 $cadenaSql .= " cn.primer_apellido as primer_apellido_contrato,";
                 $cadenaSql .= " cn.segundo_apellido as segundo_apellido_contrato,";

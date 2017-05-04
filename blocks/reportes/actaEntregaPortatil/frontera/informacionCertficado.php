@@ -69,8 +69,6 @@ class Certificado
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
         $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        //var_dump($infoBeneficiario);
-
         {
 
             $arreglo = array(
@@ -89,6 +87,7 @@ class Certificado
                 'correo' => $infoBeneficiario['correo'],
                 'codigo_municipio' => $infoBeneficiario['codigo_municipio'],
                 'codigo_departamento' => $infoBeneficiario['codigo_departamento'],
+                'fecha_entrega' => $infoCertificado['fecha_entrega'],
             );
 
             $_REQUEST = array_merge($_REQUEST, $arreglo);
@@ -121,6 +120,10 @@ class Certificado
 
             if ($infoBeneficiario['piso_contrato'] != '0' && $infoBeneficiario['piso_contrato'] != '') {
                 $anexo_dir .= " Piso #" . $infoBeneficiario['piso_contrato'];
+            }
+
+            if (!is_null($infoBeneficiario['barrio']) && $infoBeneficiario['barrio'] != '') {
+                $anexo_dir .= " Barrio " . $infoBeneficiario['barrio'];
             }
 
             $direccion_general = $infoBeneficiario['direccion_domicilio'] . $anexo_dir;
@@ -443,7 +446,11 @@ class Certificado
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Seleccione la Fecha de Instalación";
-                        $atributos['valor'] = "";
+                        if (isset($_REQUEST[$esteCampo])) {
+                            $atributos['valor'] = $_REQUEST[$esteCampo];
+                        } else {
+                            $atributos['valor'] = '';
+                        }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
                         $atributos['limitar'] = false;
