@@ -1,6 +1,6 @@
 <?php
 
-namespace facturacion\calculoFactura\entidad;
+namespace facturacion\masivoCalFactura\entidad;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
 	include "index.php";

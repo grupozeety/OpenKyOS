@@ -15,7 +15,7 @@ class Redireccionador {
 			case "ExitoInformacion" :
 				$variable = 'pagina=calculoFactura';
 				$variable .= '&mensajeModal=exitoInformacion';
-				$variable .= '&cliente='.$valor;
+				$variable .= '&cliente='.json_encode($valor);
 				break;
 			
 			case "ErrorInformacion" :

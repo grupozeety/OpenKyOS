@@ -1,6 +1,6 @@
 <?php
 
-namespace facturacion\calculoFactura\entidad;
+namespace facturacion\masivoCalFactura\entidad;
 
 use facturacion\masivoCalFactura\entidad\Calcular;
 
@@ -123,13 +123,18 @@ class FormProcessor {
 					);
 				}
 				
-				$resultado [$values ['id_beneficiario']] ['observaciones'] = $this->calcular->calcularFactura ( $values ['id_beneficiario'], $rolPeriodo );
-				$this->escribir_log ( $values ['identificacion'] . ':' . json_encode ( $resultado [$values ['id_beneficiario']] ['observaciones'] ) );
+				
+				$resultado [$values ['id_beneficiario']] ['observaciones'] = json_decode($this->calcular->calcularFactura ( $values ['id_beneficiario'], $rolPeriodo ),true);
+				
+			
+				$this->escribir_log ( $values ['identificacion'] . ':' . json_encode ( $resultado [$values ['id_beneficiario']] ['observaciones']['observaciones'].". ".$resultado [$values ['id_beneficiario']]['observaciones'] ['cliente'][0].". ". $resultado [$values ['id_beneficiario']]['observaciones'] ['cliente'][1] ) );
+				
 				// Saber qué periodo aplica cada rol
 			} else {
 				$mensaje = $values ['id_beneficiario'] . ": Sin factura generada. No hay Acta Entrega de Servicios activa.";
 				$this->escribir_log ( $mensaje );
 			}
+	
 		}
 
 		Redireccionador::redireccionar ( "Informacion", base64_encode ( $this->ruta_relativa_log ) );

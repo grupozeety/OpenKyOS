@@ -186,6 +186,11 @@ class Sql extends \Sql {
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
 				break;
 			
+			case 'actualizarFactura' :
+				$cadenaSql = " UPDATE facturacion.factura SET factura_erpnext='".$variable['invoice']."' ";
+				$cadenaSql .= " WHERE id_factura='" . $variable['id_factura'] . "'";
+				break;
+			
 			case 'estadoCliente' :
 				$cadenaSql = " SELECT cliente_creado FROM interoperacion.beneficiario_alfresco ";
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";

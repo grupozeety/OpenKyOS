@@ -1,5 +1,5 @@
 <?php
-namespace facturacion\calculoFactura;
+namespace facturacion\masivoCalFactura;
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
