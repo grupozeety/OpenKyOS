@@ -184,12 +184,13 @@ class Sql extends \Sql
                 $cadenaSql .= " cn.estrato_socioeconomico as estrato_socioeconomico_contrato,";
                 $cadenaSql .= " cn.urbanizacion as nombre_urbanizacion,";
                 $cadenaSql .= " cn.departamento as nombre_departamento,";
-                $cadenaSql .= " cn.municipio as nombre_municipio,";
+                $cadenaSql .= " mn.municipio as nombre_municipio,";
                 $cadenaSql .= " bp.departamento as codigo_departamento,";
                 $cadenaSql .= " bp.municipio as codigo_municipio";
                 $cadenaSql .= " FROM interoperacion.acta_entrega_portatil pr";
                 $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=pr.id_beneficiario AND cn.estado_registro='TRUE' ";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bp ON bp.id_beneficiario=cn.id_beneficiario AND bp.estado_registro='TRUE' ";
+                $cadenaSql .= " JOIN parametros.municipio mn ON mn.codigo_mun=bn.municipio  ";
                 $cadenaSql .= " WHERE pr.id_beneficiario ='" . $_REQUEST['id_beneficiario'] . "'";
                 $cadenaSql .= " AND pr.estado_registro='TRUE' ";
                 $cadenaSql .= " /*AND pr.serial IS NOT NULL*/ ";
