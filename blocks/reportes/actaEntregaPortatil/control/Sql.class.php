@@ -195,7 +195,6 @@ class Sql extends \Sql
                 $cadenaSql .= " AND pr.estado_registro='TRUE' ";
                 $cadenaSql .= " /*AND pr.serial IS NOT NULL*/ ";
                 $cadenaSql .= " /*AND pr.marca IS NOT NULL */";
-                echo $cadenaSql;exit;
                 break;
 
             case 'registrarRequisito':
