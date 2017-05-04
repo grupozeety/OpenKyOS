@@ -416,7 +416,7 @@ class Calcular {
 		if ($a == 0) {
 			$this->registroConceptos ['observaciones'] = 'Factura Generada Exitosamente';
 		} else {
-			$this->registroConceptos ['observaciones'] = 'Error en la generación de la factura';
+			$this->registroConceptos ['observaciones'] = 'Error en el registro de conceptos de factura.';
 		}
 	}
 	public function consultarCliente() {
