@@ -519,7 +519,7 @@ class GenerarDocumento
                                     <td rowspan='2' style='width:20%;'><b>Urbanización</b></td>
                                     <td rowspan='2' style='width:35%;'>" . $this->limpiar_caracteres_especiales($beneficiario['nombre_urbanizacion']) . "</td>
                                     <td style='width:15%;'><b>Municipio</b></td>
-                                    <td colspan='2' style='width:30%;'>" . $beneficiario['municipio'] . "</td>
+                                    <td colspan='2' style='width:30%;'>" . $beneficiario['nombre_municipio'] . "</td>
                                 </tr>
 
                                 <tr>

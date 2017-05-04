@@ -416,11 +416,12 @@ class Sql extends \Sql
                 $cadenaSql .= " cn.estrato_socioeconomico as estrato_socioeconomico_contrato,";
                 $cadenaSql .= " cn.urbanizacion as nombre_urbanizacion,";
                 $cadenaSql .= " cn.departamento as nombre_departamento,";
-                $cadenaSql .= " cn.municipio as nombre_municipio,";
+                $cadenaSql .= " mn.municipio as nombre_municipio,";
                 $cadenaSql .= " cn.barrio as barrio_contrato, cn.numero_identificacion,cn.nombres ";
                 $cadenaSql .= " FROM interoperacion.acta_entrega_portatil AS ep";
                 $cadenaSql .= " JOIN interoperacion.contrato as cn ON cn.id_beneficiario=ep.id_beneficiario AND cn.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial as bn ON bn.id_beneficiario=ep.id_beneficiario AND bn.estado_registro='TRUE' ";
+                $cadenaSql .= " JOIN parametros.municipio as mn ON mn.codigo_mun=bn.municipio";
                 $cadenaSql .= " WHERE  ep.estado_registro='TRUE' ";
                 $cadenaSql .= " AND ep.id_beneficiario IN (" . $variable . ");";
 
