@@ -1,6 +1,6 @@
 <?php
 
-namespace facturacion\calculoFactura\entidad;
+namespace facturacion\masivoCalFactura\entidad;
 
 class procesarAjax {
 	public $miConfigurador;
