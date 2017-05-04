@@ -422,7 +422,7 @@ class Calcular {
 	public function consultarCliente() {
 		$this->registroConceptos ['cliente'][0] = '';
 		
-		echo $cadenaSql = $this->miSql->getCadenaSql ( 'estadoCliente', $_REQUEST ['id_beneficiario'] );
+		$cadenaSql = $this->miSql->getCadenaSql ( 'estadoCliente', $_REQUEST ['id_beneficiario'] );
 		$this->clienteEstado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] [0];
 	}
 	public function revisarMora() {
