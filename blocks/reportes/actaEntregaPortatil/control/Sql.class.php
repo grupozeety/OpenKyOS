@@ -190,12 +190,12 @@ class Sql extends \Sql
                 $cadenaSql .= " FROM interoperacion.acta_entrega_portatil pr";
                 $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=pr.id_beneficiario AND cn.estado_registro='TRUE' ";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bp ON bp.id_beneficiario=cn.id_beneficiario AND bp.estado_registro='TRUE' ";
-                $cadenaSql .= " JOIN parametros.municipio mn ON mn.codigo_mun=bn.municipio  ";
+                $cadenaSql .= " JOIN parametros.municipio mn ON mn.codigo_mun=bp.municipio  ";
                 $cadenaSql .= " WHERE pr.id_beneficiario ='" . $_REQUEST['id_beneficiario'] . "'";
                 $cadenaSql .= " AND pr.estado_registro='TRUE' ";
                 $cadenaSql .= " /*AND pr.serial IS NOT NULL*/ ";
                 $cadenaSql .= " /*AND pr.marca IS NOT NULL */";
-
+                echo $cadenaSql;exit;
                 break;
 
             case 'registrarRequisito':
