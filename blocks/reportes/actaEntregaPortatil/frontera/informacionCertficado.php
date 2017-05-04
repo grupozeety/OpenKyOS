@@ -88,6 +88,7 @@ class Certificado
                 'codigo_municipio' => $infoBeneficiario['codigo_municipio'],
                 'codigo_departamento' => $infoBeneficiario['codigo_departamento'],
                 'fecha_entrega' => $infoCertificado['fecha_entrega'],
+                'estrato_socioeconomico' => $infoCertificado['estrato_socioeconomico'],
             );
 
             $_REQUEST = array_merge($_REQUEST, $arreglo);
