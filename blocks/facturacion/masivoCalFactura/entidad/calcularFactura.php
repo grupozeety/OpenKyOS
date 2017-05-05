@@ -8,7 +8,6 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 }
 include_once 'RestClient.class.php';
 include_once 'sincronizarErp.php';
-
 class Calcular {
 	public $miConfigurador;
 	public $lenguaje;
@@ -95,15 +94,16 @@ class Calcular {
 			$this->guardarFactura ();
 			
 			$this->guardarConceptos ();
-					
+			
 			/**
 			 * Crear Cliente
 			 */
 			$this->consultarCliente ();
 			
-			$facturaCrear ['estado']=1;
+			$facturaCrear ['estado'] = 1;
 			
 			$this->registroConceptos ['resultado'];
+			
 			if ($this->registroConceptos ['resultado'] == 0 && $this->clienteEstado == 'f') {
 				// // Crear el cliente
 				$clienteURL = $this->sincronizar->crearUrlCliente ( $_REQUEST ['id_beneficiario'] );
@@ -124,7 +124,7 @@ class Calcular {
 				$facturaCrearURL = $this->sincronizar->crearUrlFactura ( $this->informacion_factura );
 				$facturaCrear = $this->sincronizar->crearFactura ( $facturaCrearURL );
 			}
-			
+
 			if ($facturaCrear ['estado'] == 0) {
 				$invoice = array (
 						'invoice' => $facturaCrear ['recibo'],
@@ -142,10 +142,9 @@ class Calcular {
 			 * Revisar Resultado Proceso
 			 */
 			
-			return json_encode($this->registroConceptos);
+			return json_encode ( $this->registroConceptos );
 		}
 	}
-	
 	public function reglasRol() {
 		foreach ( $this->rolesPeriodo as $key => $vales ) {
 			
@@ -170,9 +169,7 @@ class Calcular {
 			}
 		}
 	}
-	
 	public function verificarFactura() {
-		
 		$res = 0;
 		foreach ( $this->rolesPeriodo as $key => $vales ) {
 			foreach ( $this->rolesPeriodo as $llave => $valores ) {
@@ -314,6 +311,7 @@ class Calcular {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarPeriodoRolUsuario', $usuariorolperiodo );
 			$periodoRolUsuario = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_usuario_rol_periodo'];
 			$this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] = $periodoRolUsuario;
+			$this->rolesPeriodo [$key] ['finPeriodo'] = $fin;
 		}
 	}
 	public function calculoFactura() {
@@ -339,7 +337,7 @@ class Calcular {
 	public function guardarFactura() {
 		$total = 0;
 		
-	foreach ( $this->rolesPeriodo as $key => $values ) {
+		foreach ( $this->rolesPeriodo as $key => $values ) {
 			$mora = $this->rolesPeriodo [$key] ['totalMora'];
 			break;
 		}
@@ -353,7 +351,8 @@ class Calcular {
 		$this->informacion_factura = array (
 				'total_factura' => $total,
 				'id_beneficiario' => $_REQUEST ['id_beneficiario'],
-				'id_ciclo' => $ciclo 
+				'id_ciclo' => $ciclo,
+				'fecha' => $this->rolesPeriodo [$key] ['finPeriodo'] 
 		);
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFactura', $this->informacion_factura );
@@ -374,8 +373,8 @@ class Calcular {
 						'id_factura' => $this->registroFactura ['factura'],
 						'id_regla' => $reglaid,
 						'valor_calculado' => $values ['valor'] [$llave],
-						'id_usuario_rol_periodo' => $this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] ,
-						'observacion' => ''
+						'id_usuario_rol_periodo' => $this->rolesPeriodo [$key] ['id_usuario_rol_periodo'],
+						'observacion' => '' 
 				);
 				
 				$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConceptos', $registroConceptos );
@@ -392,18 +391,18 @@ class Calcular {
 				foreach ( $values ['facturasMora'] as $llave => $valores ) {
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarReglaID', 'facturasMora' );
 					$reglaid = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_regla'];
-						
+					
 					$registroConceptos = array (
 							'id_factura' => $this->registroFactura ['factura'],
 							'id_regla' => $reglaid,
 							'valor_calculado' => $valores,
 							'id_usuario_rol_periodo' => $this->rolesPeriodo [$key] ['id_usuario_rol_periodo'],
-							'observacion' => $llave
+							'observacion' => $llave 
 					);
-						
+					
 					$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConceptos', $registroConceptos );
 					$this->registroConceptos [$key] = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
-						
+					
 					if ($this->registroConceptos [$key] == false) {
 						$a ++;
 					}
@@ -421,7 +420,7 @@ class Calcular {
 		}
 	}
 	public function consultarCliente() {
-		$this->registroConceptos ['cliente'][0] = '';
+		$this->registroConceptos ['cliente'] [0] = '';
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'estadoCliente', $_REQUEST ['id_beneficiario'] );
 		$this->clienteEstado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] [0];

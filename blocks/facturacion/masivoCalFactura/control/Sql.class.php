@@ -106,7 +106,7 @@ class Sql extends \Sql {
 			case 'consultarUsuarioRol_predeterminado' :
 				$cadenaSql = " SELECT  id_valor as id_rol, rol.descripcion ";
 				$cadenaSql .= " FROM facturacion.parametros_generales ";
-				$cadenaSql .= " JOIN facturacion.rol ON id_rol=parametros_generales.id_valor ";
+				$cadenaSql .= " JOIN facturacion.rol ON cast(id_rol as char)=parametros_generales.id_valor ";
 				$cadenaSql .= " WHERE parametros_generales.descripcion='rol'";
 				$cadenaSql .= " AND parametros_generales.estado_registro=TRUE ";
 				break;
@@ -195,7 +195,7 @@ class Sql extends \Sql {
 					$cadenaSql .= " AND bp.deparamento='" . $variable ['urbanizacion'] . "' ";
 				}
 				
-				//$cadenaSql .= " LIMIT 25";
+				$cadenaSql .= " LIMIT 5";
 				break;
 			
 			case 'registrarAsociacion' :
@@ -266,6 +266,12 @@ class Sql extends \Sql {
 				$cadenaSql = " SELECT cliente_creado FROM interoperacion.beneficiario_alfresco ";
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
 				break;
+				
+				case 'parametrosGlobales':
+					$cadenaSql = " SELECT descripcion , id_valor ";
+					$cadenaSql .= " FROM  facturacion.parametros_generales ";
+					$cadenaSql .= " WHERE estado_registro=TRUE ";
+					break;
 		}
 		
 		return $cadenaSql;
