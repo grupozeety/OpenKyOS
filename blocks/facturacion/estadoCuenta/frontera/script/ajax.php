@@ -231,6 +231,29 @@ $(document).ready(function() {
 	    		}
 	        ]
 	    } );
+	    
+	    	        $('#example tbody').on( 'click', '.optionEdit', function () {
+	    	var data = table.row( $(this).parents('tr') ).data();
+	        id = data['id_factura'];
+	        generarEnlace();
+	    } );
+	    
+	    
+	    	function generarEnlace(){
+	
+			$.ajax({
+				url: "<?php echo $urlGenerarEnlace;?>",
+				dataType: "json",
+				data: { valor: "<?php echo $valorCodificado;?>",
+						directorio: "<?php echo $directorio;?>",
+						id: id},
+				success: function(data){
+					location.href = data;
+				}
+				
+			});
+		};
+		
 
 	});
 	
@@ -291,28 +314,7 @@ $(document).ready(function() {
 	        ]
 	    } );
 	    
-	        $('#example tbody').on( 'click', '.optionEdit', function () {
-	    	var data = table.row( $(this).parents('tr') ).data();
-	        id = data['id_factura'];
-	        generarEnlace();
-	    } );
-	    
-	    
-	    	function generarEnlace(){
-	
-			$.ajax({
-				url: "<?php echo $urlGenerarEnlace;?>",
-				dataType: "json",
-				data: { valor: "<?php echo $valorCodificado;?>",
-						directorio: "<?php echo $directorio;?>",
-						id: id},
-				success: function(data){
-					location.href = data;
-				}
-				
-			});
-		};
-		
+
 		
 
 	});
