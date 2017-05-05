@@ -39,6 +39,15 @@ class Consultar {
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
+		$cadena=$this->sql->getCadenaSql ( "parametrosGlobales" );
+		$resultado=$esteRecursoDB->ejecutarAcceso ( $cadena, "busqueda" );
+		
+		
+		foreach($resultado as $key=>$values){
+			$valores[$values[0]]=$values[1];
+		}
+		
+		
 		// -------------------------------------------------------------------------------------------------
 		
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -72,40 +81,277 @@ class Consultar {
 				
 				{
 					
-					$esteCampo = 'rol';
-					$atributos ['nombre'] = $esteCampo;
+					$esteCampo = 'Agrupacion';
 					$atributos ['id'] = $esteCampo;
-					$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-					$atributos ["etiquetaObligatorio"] = true;
-					$atributos ['tab'] = $tab ++;
-					$atributos ['anchoEtiqueta'] = 2;
-					$atributos ['evento'] = '';
-					$atributos ['cadena_sql'] = $this->sql->getCadenaSql ( "parametroRol" );
-					$matrizItems = array (
-							array (
-									0,
-									' ' 
-							) 
-					);
-					$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
-					$atributos ['matrizItems'] = $matrizItems;
-					$atributos ['seleccion'] = ! is_null ( $matrizItems [0] ['id_valor'] ) ? $matrizItems [0] ['id_valor'] : - 1;
-					$atributos ['deshabilitado'] = false;
-					$atributos ['columnas'] = 1;
-					$atributos ['tamanno'] = 1;
-					$atributos ['ajax_function'] = "";
-					$atributos ['ajax_control'] = $esteCampo;
-					$atributos ['estilo'] = "bootstrap";
-					$atributos ['limitar'] = false;
-					$atributos ['anchoCaja'] = 3;
-					$atributos ['miEvento'] = '';
-					// $atributos ['validar'] = '';
-					
-					// Aplica atributos globales al control
-					$atributos = array_merge ( $atributos, $atributosGlobales );
-					echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+					$atributos ['leyenda'] = "General";
+					echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 					unset ( $atributos );
 					
+					{
+						$esteCampo = 'rol';
+						$atributos ['nombre'] = $esteCampo;
+						$atributos ['id'] = $esteCampo;
+						$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+						$atributos ["etiquetaObligatorio"] = true;
+						$atributos ['tab'] = $tab ++;
+						$atributos ['anchoEtiqueta'] = 2;
+						$atributos ['evento'] = '';
+					    $atributos ['cadena_sql'] = $this->sql->getCadenaSql ( "parametroRol" );
+						$matrizItems = array (
+								array (
+										0,
+										' ' 
+								) 
+						);
+						$matrizItems = $esteRecursoDB->ejecutarAcceso ( $atributos ['cadena_sql'], "busqueda" );
+						$atributos ['matrizItems'] = $matrizItems;
+						$atributos ['seleccion'] = ! is_null ( $matrizItems [0] ['id_valor'] ) ? $matrizItems [0] ['id_valor'] : - 1;
+						$atributos ['deshabilitado'] = false;
+						$atributos ['columnas'] = 1;
+						$atributos ['tamanno'] = 1;
+						$atributos ['ajax_function'] = "";
+						$atributos ['ajax_control'] = $esteCampo;
+						$atributos ['estilo'] = "bootstrap";
+						$atributos ['limitar'] = false;
+						$atributos ['anchoCaja'] = 3;
+						$atributos ['miEvento'] = '';
+						// $atributos ['validar'] = '';
+						
+						// Aplica atributos globales al control
+						$atributos = array_merge ( $atributos, $atributosGlobales );
+						echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+						unset ( $atributos );
+						
+						$esteCampo = 'diasPago';
+						$atributos ['nombre'] = $esteCampo;
+						$atributos ['tipo'] = "text";
+						$atributos ['id'] = $esteCampo;
+						$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+						$atributos ["etiquetaObligatorio"] = true;
+						$atributos ['tab'] = $tab ++;
+						$atributos ['anchoEtiqueta'] = 2;
+						$atributos ['estilo'] = "bootstrap";
+						$atributos ['evento'] = '';
+						$atributos ['deshabilitado'] = false;
+						$atributos ['readonly'] = false;
+						$atributos ['columnas'] = 1;
+						$atributos ['tamanno'] = 1;
+						$atributos ['placeholder'] = "Cantidad de días pago oportuno desde el 1er día mes siguiente";
+						if (isset ( $valores [$esteCampo] )) {
+							$atributos ['valor'] = $valores [$esteCampo];
+						} else {
+							$atributos ['valor'] = "";
+						}
+						$atributos ['ajax_function'] = "";
+						$atributos ['ajax_control'] = $esteCampo;
+						$atributos ['limitar'] = false;
+						$atributos ['anchoCaja'] = 5;
+						$atributos ['miEvento'] = '';
+						$atributos ['validar'] = 'required';
+						// Aplica atributos globales al control
+						$atributos = array_merge ( $atributos, $atributosGlobales );
+						echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+						unset ( $atributos );
+					}
+					echo $this->miFormulario->agrupacion ( 'fin' );
+					unset ( $atributos );
+					
+					$esteCampo = 'Agrupacion';
+					$atributos ['id'] = $esteCampo;
+					$atributos ['leyenda'] = " Configuración ERPNext";
+					echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
+					unset ( $atributos );
+					
+					{
+						
+						$esteCampo = 'cuentaDebito_erp';
+						$atributos ['nombre'] = $esteCampo;
+						$atributos ['tipo'] = "text";
+						$atributos ['id'] = $esteCampo;
+						$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+						$atributos ["etiquetaObligatorio"] = true;
+						$atributos ['tab'] = $tab ++;
+						$atributos ['anchoEtiqueta'] = 2;
+						$atributos ['estilo'] = "bootstrap";
+						$atributos ['evento'] = '';
+						$atributos ['deshabilitado'] = false;
+						$atributos ['readonly'] = false;
+						$atributos ['columnas'] = 1;
+						$atributos ['tamanno'] = 1;
+						$atributos ['placeholder'] = "Exactamente igual que en ERPNext";
+						if (isset ( $valores [$esteCampo] )) {
+							$atributos ['valor'] = $valores [$esteCampo];
+						} else {
+							$atributos ['valor'] = "";
+						}
+						$atributos ['ajax_function'] = "";
+						$atributos ['ajax_control'] = $esteCampo;
+						$atributos ['limitar'] = false;
+						$atributos ['anchoCaja'] = 5;
+						$atributos ['miEvento'] = '';
+						$atributos ['validar'] = 'required';
+						// Aplica atributos globales al control
+						$atributos = array_merge ( $atributos, $atributosGlobales );
+						echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+						unset ( $atributos );
+						
+						$esteCampo = 'cuentaCredito_erp';
+						$atributos ['nombre'] = $esteCampo;
+						$atributos ['tipo'] = "text";
+						$atributos ['id'] = $esteCampo;
+						$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+						$atributos ["etiquetaObligatorio"] = true;
+						$atributos ['tab'] = $tab ++;
+						$atributos ['anchoEtiqueta'] = 2;
+						$atributos ['estilo'] = "bootstrap";
+						$atributos ['evento'] = '';
+						$atributos ['deshabilitado'] = false;
+						$atributos ['readonly'] = false;
+						$atributos ['columnas'] = 1;
+						$atributos ['tamanno'] = 1;
+						$atributos ['placeholder'] = "Exactamente igual que en ERPNext";
+						if (isset ( $valores [$esteCampo] )) {
+							$atributos ['valor'] = $valores [$esteCampo];
+						} else {
+							$atributos ['valor'] = "";
+						}
+						$atributos ['ajax_function'] = "";
+						$atributos ['ajax_control'] = $esteCampo;
+						$atributos ['limitar'] = false;
+						$atributos ['anchoCaja'] = 5;
+						$atributos ['miEvento'] = '';
+						$atributos ['validar'] = 'required';
+						// Aplica atributos globales al control
+						$atributos = array_merge ( $atributos, $atributosGlobales );
+						echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+						unset ( $atributos );
+						
+						$esteCampo = 'grupoClientes_erp';
+						$atributos ['nombre'] = $esteCampo;
+						$atributos ['tipo'] = "text";
+						$atributos ['id'] = $esteCampo;
+						$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+						$atributos ["etiquetaObligatorio"] = true;
+						$atributos ['tab'] = $tab ++;
+						$atributos ['anchoEtiqueta'] = 2;
+						$atributos ['estilo'] = "bootstrap";
+						$atributos ['evento'] = '';
+						$atributos ['deshabilitado'] = false;
+						$atributos ['readonly'] = false;
+						$atributos ['columnas'] = 1;
+						$atributos ['tamanno'] = 1;
+						$atributos ['placeholder'] = "Exactamente igual que en ERPNext";
+						if (isset ( $valores [$esteCampo] )) {
+							$atributos ['valor'] = $valores [$esteCampo];
+						} else {
+							$atributos ['valor'] = "";
+						}
+						$atributos ['ajax_function'] = "";
+						$atributos ['ajax_control'] = $esteCampo;
+						$atributos ['limitar'] = false;
+						$atributos ['anchoCaja'] = 5;
+						$atributos ['miEvento'] = '';
+						$atributos ['validar'] = 'required';
+						// Aplica atributos globales al control
+						$atributos = array_merge ( $atributos, $atributosGlobales );
+						echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+						unset ( $atributos );
+						
+						$esteCampo = 'itemName_erp';
+						$atributos ['nombre'] = $esteCampo;
+						$atributos ['tipo'] = "text";
+						$atributos ['id'] = $esteCampo;
+						$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+						$atributos ["etiquetaObligatorio"] = true;
+						$atributos ['tab'] = $tab ++;
+						$atributos ['anchoEtiqueta'] = 2;
+						$atributos ['estilo'] = "bootstrap";
+						$atributos ['evento'] = '';
+						$atributos ['deshabilitado'] = false;
+						$atributos ['readonly'] = false;
+						$atributos ['columnas'] = 1;
+						$atributos ['tamanno'] = 1;
+						$atributos ['placeholder'] = "Exactamente igual que en ERPNext";
+						if (isset ( $valores [$esteCampo] )) {
+							$atributos ['valor'] = $valores [$esteCampo];
+						} else {
+							$atributos ['valor'] = "";
+						}
+						$atributos ['ajax_function'] = "";
+						$atributos ['ajax_control'] = $esteCampo;
+						$atributos ['limitar'] = false;
+						$atributos ['anchoCaja'] = 5;
+						$atributos ['miEvento'] = '';
+						$atributos ['validar'] = 'required';
+						// Aplica atributos globales al control
+						$atributos = array_merge ( $atributos, $atributosGlobales );
+						echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+						unset ( $atributos );
+						
+						$esteCampo = 'itemCode_erp';
+						$atributos ['nombre'] = $esteCampo;
+						$atributos ['tipo'] = "text";
+						$atributos ['id'] = $esteCampo;
+						$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+						$atributos ["etiquetaObligatorio"] = true;
+						$atributos ['tab'] = $tab ++;
+						$atributos ['anchoEtiqueta'] = 2;
+						$atributos ['estilo'] = "bootstrap";
+						$atributos ['evento'] = '';
+						$atributos ['deshabilitado'] = false;
+						$atributos ['readonly'] = false;
+						$atributos ['columnas'] = 1;
+						$atributos ['tamanno'] = 1;
+						$atributos ['placeholder'] = "Exactamente igual que en ERPNext";
+						if (isset ( $valores [$esteCampo] )) {
+							$atributos ['valor'] = $valores [$esteCampo];
+						} else {
+							$atributos ['valor'] = "";
+						}
+						$atributos ['ajax_function'] = "";
+						$atributos ['ajax_control'] = $esteCampo;
+						$atributos ['limitar'] = false;
+						$atributos ['anchoCaja'] = 5;
+						$atributos ['miEvento'] = '';
+						$atributos ['validar'] = 'required';
+						// Aplica atributos globales al control
+						$atributos = array_merge ( $atributos, $atributosGlobales );
+						echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+						unset ( $atributos );
+						
+						$esteCampo = 'stockUOM_erp';
+						$atributos ['nombre'] = $esteCampo;
+						$atributos ['tipo'] = "text";
+						$atributos ['id'] = $esteCampo;
+						$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+						$atributos ["etiquetaObligatorio"] = true;
+						$atributos ['tab'] = $tab ++;
+						$atributos ['anchoEtiqueta'] = 2;
+						$atributos ['estilo'] = "bootstrap";
+						$atributos ['evento'] = '';
+						$atributos ['deshabilitado'] = false;
+						$atributos ['readonly'] = false;
+						$atributos ['columnas'] = 1;
+						$atributos ['tamanno'] = 1;
+						$atributos ['placeholder'] = "Unidad Medida. Exactamente igual que en ERPNext";
+						if (isset ( $valores [$esteCampo] )) {
+							$atributos ['valor'] = $valores [$esteCampo];
+						} else {
+							$atributos ['valor'] = "";
+						}
+						$atributos ['ajax_function'] = "";
+						$atributos ['ajax_control'] = $esteCampo;
+						$atributos ['limitar'] = false;
+						$atributos ['anchoCaja'] = 5;
+						$atributos ['miEvento'] = '';
+						$atributos ['validar'] = 'required';
+						// Aplica atributos globales al control
+						$atributos = array_merge ( $atributos, $atributosGlobales );
+						echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+						unset ( $atributos );
+					}
+					echo $this->miFormulario->agrupacion ( 'fin' );
+					unset ( $atributos );
 					// ------------------Division para los botones-------------------------
 					$atributos ["id"] = "botones";
 					$atributos ["estilo"] = "marcoBotones";
@@ -201,7 +447,7 @@ class Consultar {
 	}
 	public function mensajeModal() {
 		switch ($_REQUEST ['mensajeModal']) {
-						
+			
 			case 'exitoInformacion' :
 				$mensaje = "Exito<br>Variable Actualizada.";
 				$atributos ['estiloLinea'] = 'success'; // success,error,information,warning
@@ -211,7 +457,6 @@ class Consultar {
 				$mensaje = "Error<br>Variable no Actualizada.";
 				$atributos ['estiloLinea'] = 'error'; // success,error,information,warning
 				break;
-	
 		}
 		
 		// ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------

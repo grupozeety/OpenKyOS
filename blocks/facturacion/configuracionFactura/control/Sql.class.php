@@ -28,14 +28,21 @@ class Sql extends \Sql {
 			case 'parametroRol' :
 				$cadenaSql = " SELECT id_rol, rol.descripcion , id_valor ";
 				$cadenaSql .= " FROM facturacion.rol ";
-				$cadenaSql .= " LEFT JOIN facturacion.parametros_generales pg on pg.id_valor=id_rol and pg.descripcion='rol' AND pg.estado_registro=TRUE ";
+				$cadenaSql .= " LEFT JOIN facturacion.parametros_generales pg on pg.id_valor=cast(id_rol as character varying) and pg.descripcion='rol' AND pg.estado_registro=TRUE ";
 				$cadenaSql .= " WHERE rol.estado_registro=TRUE ORDER BY id_valor ASC;";
+				break;
+				
+			case 'parametrosGlobales':
+				$cadenaSql = " SELECT descripcion , id_valor ";
+				$cadenaSql .= " FROM  facturacion.parametros_generales ";
+				$cadenaSql .= " WHERE estado_registro=TRUE ";
 				break;
 			
 			case 'actualizarRol' :
-				$cadenaSql = " UPDATE facturacion.parametros_generales SET  ";
-				$cadenaSql .= " id_valor='" . $variable . "' ";
-				$cadenaSql .= " WHERE descripcion='rol' ";
+				$cadenaSql = "";
+				foreach ( $variable as $key => $values ) {
+					$cadenaSql.= " UPDATE facturacion.parametros_generales SET  id_valor='" . $values . "' WHERE descripcion='".$key."'; ";
+				}
 				break;
 		}
 		

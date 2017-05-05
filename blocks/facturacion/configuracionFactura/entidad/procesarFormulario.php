@@ -8,7 +8,6 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 }
 
 include_once 'Redireccionador.php';
-
 class FormProcessor {
 	public $miConfigurador;
 	public $lenguaje;
@@ -46,23 +45,30 @@ class FormProcessor {
 		
 		$this->actualizarRol ();
 
-		
-		exit ();
-	}
-
-
-	public function actualizarRol() {
-		 $cadenaSql = $this->miSql->getCadenaSql ( 'actualizarRol', $_REQUEST['rol']);
-		$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
-
-		
-		if ($registro==TRUE) {
+		if ($this->registro == TRUE) {
 			Redireccionador::redireccionar ( "InsertoInformacion" );
-			exit();
+			exit ();
 		} else {
 			Redireccionador::redireccionar ( "NoInsertoInformacion" );
-			exit();
+			exit ();
 		}
+	}
+	public function actualizarRol() {
+	
+		$variable = array (
+				'rol' => $_REQUEST ['rol'],
+				'diasPago' => $_REQUEST ['diasPago'],
+				'cuentaDebito_erp' => $_REQUEST ['cuentaDebito_erp'],
+				'cuentaCredito_erp' => $_REQUEST ['cuentaCredito_erp'],
+				'grupoClientes_erp' => $_REQUEST ['grupoClientes_erp'],
+				'itemName_erp' => $_REQUEST ['itemName_erp'],
+				'itemCode_erp' => $_REQUEST ['itemCode_erp'],
+				'stockUOM_erp' => $_REQUEST ['stockUOM_erp'] 
+		);
+		
+
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarRol', $variable );
+		$this->registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 	}
 }
 
