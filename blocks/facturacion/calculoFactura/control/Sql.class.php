@@ -180,7 +180,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " AND fecha_pago_oportuno::date < CURRENT_DATE) ";
 				
 				break;
-			
+
 			case 'updateestadoCliente' :
 				$cadenaSql = " UPDATE interoperacion.beneficiario_alfresco SET cliente_creado=TRUE ";
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";

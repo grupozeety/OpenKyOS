@@ -64,7 +64,7 @@ for ($i=1;$i<4;$i++){
        autoclose: 1,
        daysOfWeekHighlighted: "0",
        todayHighlight: true,
-       startDate: new Date(),
+       //startDate: new Date(),
    });
   <?php 
 }
