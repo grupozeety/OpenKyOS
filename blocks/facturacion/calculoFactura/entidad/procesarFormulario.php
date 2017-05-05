@@ -127,6 +127,7 @@ class FormProcessor {
 			} else {
 				$this->registroConceptos  ['cliente'][1] = '<b>Error en la creación de Factura en ERPNext.</b>';
 			}
+
 			/**
 			 * 6.
 			 * Revisar Resultado Proceso
@@ -333,6 +334,7 @@ class FormProcessor {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarPeriodoRolUsuario', $usuariorolperiodo );
 			$periodoRolUsuario = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_usuario_rol_periodo'];
 			$this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] = $periodoRolUsuario;
+			$this->rolesPeriodo [$key] ['finPeriodo'] = $fin;
 		}
 	}
 	public function calculoFactura() {
@@ -372,7 +374,8 @@ class FormProcessor {
 		$this->informacion_factura = array (
 				'total_factura' => $total,
 				'id_beneficiario' => $_REQUEST ['id_beneficiario'],
-				'id_ciclo' => $ciclo 
+				'id_ciclo' => $ciclo,
+				'fecha'=>$this->rolesPeriodo [$key] ['finPeriodo']
 		);
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFactura', $this->informacion_factura );

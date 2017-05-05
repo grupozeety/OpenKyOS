@@ -91,10 +91,12 @@ class FormProcessor {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol', $values ['id_beneficiario'] );
 				$roles = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				
+				
 				if ($roles === FALSE) {
+				
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol_predeterminado' );
 					$roles = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-					
+			
 					// Registrar Usuario-Rol
 					$userrol = array (
 							'id_beneficiario' => $values ['id_beneficiario'],
