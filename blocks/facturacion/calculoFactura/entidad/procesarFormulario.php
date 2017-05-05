@@ -417,7 +417,7 @@ class FormProcessor {
 							'id_regla' => $reglaid,
 							'valor_calculado' => $valores,
 							'id_usuario_rol_periodo' => $this->rolesPeriodo [$key] ['id_usuario_rol_periodo'],
-							'observacion' => $llave 
+							'observacion' => $llave
 					);
 					
 					$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConceptos', $registroConceptos );
