@@ -117,6 +117,11 @@ class sincronizarErp {
 			$fechaOportuna=date('Y-m-d');
 		}
 		
+		$parametros['fechaOportuna']=$fechaOportuna;
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFecha', 	$parametros );
+		$fecha = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+		
 		$items [0] = array (
 				"qty" => 1,
 				"item_name" => $valores ['itemName_erp'],

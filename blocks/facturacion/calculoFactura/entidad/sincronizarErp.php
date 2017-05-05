@@ -116,6 +116,11 @@ class sincronizarErp {
 			$fechaOportuna = date ( 'Y-m-d' );
 		}
 		
+		$parametros ['fechaOportuna'] = $fechaOportuna;
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFecha', $parametros );
+		$fecha = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+		
 		$items [0] = array (
 				"qty" => 1,
 				"item_name" => $valores ['itemName_erp'],
@@ -124,7 +129,6 @@ class sincronizarErp {
 				"doctype" => "Sales Invoice Item",
 				"description" => $parametros ['id_ciclo'],
 				"rate" => $parametros ['total_factura'],
-				"income_account" => $valores ['cuentaCredito_erp'],
 				"debit_to" => $valores ['cuentaDebito_erp'],
 				"parenttype" => "Sales Invoice",
 				"parentfield" => "items" 
@@ -137,11 +141,11 @@ class sincronizarErp {
 				"territory" => "Colombia",
 				"customer_details" => $ben [0] [2],
 				"title" => $parametros ['id_factura'] . " - " . $ben [0] [0],
-				"debit_to" => $valores ['cuentaDebito_erp'],
 				"income_account" => $valores ['cuentaCredito_erp'],
 				"items" => $items,
 				"docstatus" => 1 
 		);
+		
 		// URL base
 		$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
 		$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
@@ -172,10 +176,11 @@ class sincronizarErp {
 		$operar = file_get_contents ( $url );
 		$validacion = strpos ( $operar, 'modified_by' );
 		
-		$res = ( array ) json_decode ( $operar );
-		$res2 = ( array ) ($res ['items'] [0]);
-		
 		if (is_numeric ( $validacion )) {
+			
+			$res = ( array ) json_decode ( $operar );
+			$res2 = ( array ) ($res ['items'] [0]);
+			
 			$variable = array (
 					'estado' => 0,
 					'mensaje' => "Factura Creada con Éxito",
