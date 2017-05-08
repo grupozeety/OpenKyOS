@@ -73,6 +73,7 @@ class Calcular {
 		} else {
 			
 			$this->datosContrato ();
+			$this->estadoServicio ();
 			
 			/**
 			 * 4.
@@ -124,7 +125,7 @@ class Calcular {
 				$facturaCrearURL = $this->sincronizar->crearUrlFactura ( $this->informacion_factura );
 				$facturaCrear = $this->sincronizar->crearFactura ( $facturaCrearURL );
 			}
-
+			
 			if ($facturaCrear ['estado'] == 0) {
 				$invoice = array (
 						'invoice' => $facturaCrear ['recibo'],
@@ -319,6 +320,10 @@ class Calcular {
 		$vm = $this->datosContrato ['vm'];
 		$factura = 0;
 		
+		if ($this->estadoServicio != 'ET0') {
+			$vm = 0;
+		}
+		
 		foreach ( $this->rolesPeriodo as $key => $values ) {
 			$total = 0;
 			foreach ( $values ['reglas'] as $variable => $c ) {
@@ -330,7 +335,7 @@ class Calcular {
 			}
 			
 			$factura = $factura + $total;
-			$this->rolesPeriodo [$key] ['valor'] ['vm'] = $this->datosContrato ['vm'];
+			$this->rolesPeriodo [$key] ['valor'] ['vm'] = $vm;
 			$this->rolesPeriodo [$key] ['valor'] ['total'] = $total;
 		}
 	}
@@ -428,6 +433,13 @@ class Calcular {
 	public function revisarMora() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'revisarMora', $_REQUEST ['id_beneficiario'] );
 		$moras = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	}
+	public function estadoServicio() {
+		$conexion2 = "otun";
+		$this->esteRecursoDBOtun = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion2 );
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'estadoServicio', $_REQUEST ['id_beneficiario'] );
+		$this->estadoServicio = $this->esteRecursoDBOtun->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] [0];
 	}
 }
 
