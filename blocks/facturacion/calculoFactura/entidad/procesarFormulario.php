@@ -67,6 +67,7 @@ class FormProcessor {
 			Redireccionador::redireccionar ( "ErrorFactura", '' );
 		} else {
 			$this->datosContrato ();
+			$this->estadoServicio ();
 			
 			/**
 			 * 4.
@@ -99,13 +100,13 @@ class FormProcessor {
 				$clienteURL = $this->sincronizar->crearUrlCliente ( $_REQUEST ['id_beneficiario'] );
 				$clienteCrear = $this->sincronizar->crearCliente ( $clienteURL );
 				if ($clienteCrear ['estado'] == 1) {
-					$this->registroConceptos ['cliente'][0] = 'Cliente no creado correctamente. Crearlo en ERPNext';
+					$this->registroConceptos ['cliente'] [0] = 'Cliente no creado correctamente. Crearlo en ERPNext';
 				} elseif ($clienteCrear ['estado'] == 0) {
 					
 					$cadenaSql = $this->miSql->getCadenaSql ( 'updateestadoCliente', $_REQUEST ['id_beneficiario'] );
 					$updatecliente = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 					
-					$this->registroConceptos ['cliente'][0] = 'Cliente creado correctamente.';
+					$this->registroConceptos ['cliente'] [0] = 'Cliente creado correctamente.';
 					
 					$facturaCrearURL = $this->sincronizar->crearUrlFactura ( $this->informacion_factura );
 					$facturaCrear = $this->sincronizar->crearFactura ( $facturaCrearURL );
@@ -113,21 +114,20 @@ class FormProcessor {
 			} else {
 				$facturaCrearURL = $this->sincronizar->crearUrlFactura ( $this->informacion_factura );
 				$facturaCrear = $this->sincronizar->crearFactura ( $facturaCrearURL );
-
 			}
 			
 			if ($facturaCrear ['estado'] == 0) {
-				$invoice=array(
-						'invoice'=>$facturaCrear['recibo'],
-						'id_factura'=>$this->informacion_factura ['id_factura'] 
+				$invoice = array (
+						'invoice' => $facturaCrear ['recibo'],
+						'id_factura' => $this->informacion_factura ['id_factura'] 
 				);
 				
-				$this->registroConceptos  ['cliente'][1] = 'Factura creada en ERPNext.';
-				$this->sincronizar->actualizarFactura($invoice);
+				$this->registroConceptos ['cliente'] [1] = 'Factura creada en ERPNext.';
+				$this->sincronizar->actualizarFactura ( $invoice );
 			} else {
-				$this->registroConceptos  ['cliente'][1] = '<b>Error en la creación de Factura en ERPNext.</b>';
+				$this->registroConceptos ['cliente'] [1] = '<b>Error en la creación de Factura en ERPNext.</b>';
 			}
-
+			
 			/**
 			 * 6.
 			 * Revisar Resultado Proceso
@@ -342,6 +342,10 @@ class FormProcessor {
 		$vm = $this->datosContrato ['vm'];
 		$factura = 0;
 		
+		if ($this->estadoServicio != 'ET0') {
+			$vm = 0;
+		}
+		
 		foreach ( $this->rolesPeriodo as $key => $values ) {
 			$total = 0;
 			foreach ( $values ['reglas'] as $variable => $c ) {
@@ -353,7 +357,7 @@ class FormProcessor {
 			}
 			
 			$factura = $factura + $total;
-			$this->rolesPeriodo [$key] ['valor'] ['vm'] = $this->datosContrato ['vm'];
+			$this->rolesPeriodo [$key] ['valor'] ['vm'] = $vm ;
 			$this->rolesPeriodo [$key] ['valor'] ['total'] = $total;
 		}
 	}
@@ -375,7 +379,7 @@ class FormProcessor {
 				'total_factura' => $total,
 				'id_beneficiario' => $_REQUEST ['id_beneficiario'],
 				'id_ciclo' => $ciclo,
-				'fecha'=>$this->rolesPeriodo [$key] ['finPeriodo']
+				'fecha' => $this->rolesPeriodo [$key] ['finPeriodo'] 
 		);
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFactura', $this->informacion_factura );
@@ -420,7 +424,7 @@ class FormProcessor {
 							'id_regla' => $reglaid,
 							'valor_calculado' => $valores,
 							'id_usuario_rol_periodo' => $this->rolesPeriodo [$key] ['id_usuario_rol_periodo'],
-							'observacion' => $llave
+							'observacion' => $llave 
 					);
 					
 					$cadenaSql = $this->miSql->getCadenaSql ( 'registrarConceptos', $registroConceptos );
@@ -443,7 +447,7 @@ class FormProcessor {
 		}
 	}
 	public function consultarCliente() {
-		$this->registroConceptos ['cliente'][0] = '';
+		$this->registroConceptos ['cliente'] [0] = '';
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'estadoCliente', $_REQUEST ['id_beneficiario'] );
 		$this->clienteEstado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] [0];
@@ -451,6 +455,13 @@ class FormProcessor {
 	public function revisarMora() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'revisarMora', $_REQUEST ['id_beneficiario'] );
 		$moras = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	}
+	public function estadoServicio() {
+		$conexion2 = "otun";
+		$this->esteRecursoDBOtun = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion2 );
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'estadoServicio', $_REQUEST ['id_beneficiario'] );
+		$this->estadoServicio = $this->esteRecursoDBOtun->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] [0];
 	}
 }
 

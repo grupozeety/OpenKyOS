@@ -206,6 +206,12 @@ class Sql extends \Sql {
 				$cadenaSql .= " FROM  facturacion.parametros_generales ";
 				$cadenaSql .= " WHERE estado_registro=TRUE ";
 				break;
+			
+			case 'estadoServicio' :
+				$cadenaSql = " SELECT estado_servicio ";
+				$cadenaSql .= " FROM logica.info_avan_oper ";
+				$cadenaSql .= " WHERE estado_registro=TRUE AND id_beneficiario='".$variable."' ;";
+				break;
 		}
 		
 		return $cadenaSql;
