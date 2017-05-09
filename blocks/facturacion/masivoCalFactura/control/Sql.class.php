@@ -195,7 +195,16 @@ class Sql extends \Sql {
 					$cadenaSql .= " AND bp.deparamento='" . $variable ['urbanizacion'] . "' ";
 				}
 				
-				//$cadenaSql .= " LIMIT 5";
+				// $cadenaSql .= " LIMIT 5";
+				break;
+			
+			case 'consultarBeneficiariosArea' :
+				$cadenaSql = " SELECT bp.id_beneficiario, bp.identificacion ";
+				$cadenaSql .= " FROM interoperacion.beneficiario_potencial bp ";
+				$cadenaSql .= " JOIN interoperacion.contrato con ON con.id_beneficiario=bp.id_beneficiario ";
+				$cadenaSql .= " WHERE con.estado_registro=TRUE ";
+				$cadenaSql .= " AND bp.estado_registro=TRUE ";
+				$cadenaSql .= " AND identificacion IN (" . $variable . "'0');";
 				break;
 			
 			case 'registrarAsociacion' :
