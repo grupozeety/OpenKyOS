@@ -43,6 +43,9 @@ class FormProcessor {
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
+		$conexion2 = "otun";
+		$this->esteRecursoDBOtun = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion2 );
+		
 		if ($_REQUEST ['beneficiario'] != '') {
 			$beneficiarios = explode ( ',', preg_replace ( "/[^0-9,]/", "", $_REQUEST ['beneficiario'] ) );
 			
@@ -51,12 +54,10 @@ class FormProcessor {
 				$string .= "'" . $beneficiarios [$key] . "',";
 			}
 			
-			$filtro[0]='beneficiarios';
+			$filtro [0] = 'beneficiarios';
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiariosArea', $string );
 			$this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-
-			
 		} elseif ($_REQUEST ['urbanizacion'] != '') {
 			$filtro = array (
 					'urbanizacion' => $_REQUEST ['urbanizacion'],
@@ -84,7 +85,7 @@ class FormProcessor {
 		} else {
 			Redireccionador::redireccionar ( "ErrorInformacion", '' );
 		}
-
+		
 		$this->filtro = $filtro [0];
 		
 		$this->creacion_log ();
@@ -104,11 +105,13 @@ class FormProcessor {
 		
 		foreach ( $this->beneficiarios as $key => $values ) {
 			
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $values ['id_beneficiario'] );
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiario', $values ['id_beneficiario'] );
 			$actaActiva = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
 			// Saber qué roles tiene asociados
 			
 			if ($actaActiva != FALSE) {
+				
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol', $values ['id_beneficiario'] );
 				$roles = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				
@@ -132,9 +135,10 @@ class FormProcessor {
 				
 				if ($fechaFin == FALSE) {
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $values ['id_beneficiario'] );
-					$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+					$fechaFin = $this->esteRecursoDBOtun->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				}
 				
+			
 				foreach ( $roles as $data => $valor ) {
 					$rolPeriodo [$roles [$data] ['id_rol']] = array (
 							'periodo' => 1,
@@ -143,14 +147,14 @@ class FormProcessor {
 							'reglas' => array () 
 					);
 				}
-				
+
 				$resultado [$values ['id_beneficiario']] ['observaciones'] = json_decode ( $this->calcular->calcularFactura ( $values ['id_beneficiario'], $rolPeriodo ), true );
 				
 				$this->escribir_log ( $values ['identificacion'] . ':' . json_encode ( $resultado [$values ['id_beneficiario']] ['observaciones'] ['observaciones'] . ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [0] . ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [1] ) );
 				
 				// Saber qué periodo aplica cada rol
 			} else {
-				$mensaje = $values ['id_beneficiario'] . ": Sin factura generada. No hay Acta Entrega de Servicios activa.";
+				$mensaje = $values ['identificacion']."-".$values ['id_beneficiario'] . ": Sin factura generada. No hay Acta Entrega de Servicios subida al sistema.";
 				$this->escribir_log ( $mensaje );
 			}
 		}

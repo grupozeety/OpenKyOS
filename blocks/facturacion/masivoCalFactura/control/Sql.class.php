@@ -224,11 +224,18 @@ class Sql extends \Sql {
 				$cadenaSql .= " ORDER BY urp.id_usuario_rol_periodo DESC ";
 				break;
 			
-			case 'consultarFechaInicio' :
-				$cadenaSql = " SELECT fecha_instalacion ";
+			case 'consultarActa' :
+				$cadenaSql = " SELECT mac_esc ";
 				$cadenaSql .= " FROM interoperacion.acta_entrega_servicios ";
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
-				$cadenaSql .= " AND estado_registro=TRUE AND fecha_instalacion IS NOT NULL AND fecha_instalacion!='' ";
+				$cadenaSql .= " AND estado_registro=TRUE AND mac_esc IS NOT NULL AND mac_esc!='' ";
+				break;
+			
+			case 'consultarFechaInicio' :
+				$cadenaSql = " SELECT fecha_inicio_operacion ";
+				$cadenaSql .= " FROM logica.info_avan_oper ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "'";
+				$cadenaSql .= " AND estado_registro=TRUE AND fecha_inicio_operacion IS NOT NULL  ";
 				break;
 			
 			case 'consultarFactura' :

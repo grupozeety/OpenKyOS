@@ -56,7 +56,6 @@ class sincronizarErp {
 				"territory" => "Colombia",
 				"customer_details" => $ben [0] [2]
 		);
-
 		// URL base
 		$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
 		$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
@@ -85,6 +84,7 @@ class sincronizarErp {
 		);
 
 		$operar = file_get_contents ( $url );
+	
 		$validacion = strpos ( $operar, 'modified_by' );
 
 		if (is_numeric ( $validacion )) {
