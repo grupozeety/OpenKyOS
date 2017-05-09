@@ -207,6 +207,24 @@ class Consultar {
                     echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
                     unset($atributos);
 					
+                    
+                    $esteCampo = "beneficiario";
+                    $atributos['nombre'] = $esteCampo;
+                    $atributos['id'] = $esteCampo;
+                    $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                    $atributos["etiquetaObligatorio"] = true;
+                    $atributos['tab'] = $tab++;
+                    if (isset($_REQUEST[$esteCampo])) {
+                    	$atributos['valor'] = $_REQUEST[$esteCampo];
+                    } else {
+                    	$atributos['valor'] = "";
+                    }
+                    //$atributos['validar'] = '';
+                    $atributos['filas'] = 3;
+                    // Aplica atributos globales al control
+                    $atributos = array_merge($atributos, $atributosGlobales);
+                    echo $this->miFormulario->campoTextAreaBootstrap($atributos);
+                    unset($atributos);
 					// ------------------Division para los botones-------------------------
 					$atributos ["id"] = "botones";
 					$atributos ["estilo"] = "marcoBotones";

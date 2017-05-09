@@ -42,35 +42,58 @@ class FormProcessor {
 		// Conexion a Base de Datos
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+
+		$conexion2 = "otun";
+		$this->esteRecursoDBOtun = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion2 );
 		
-		if ($_REQUEST ['urbanizacion'] != '') {
+		if ($_REQUEST ['beneficiario'] != '') {
+			$beneficiarios = explode ( ',', preg_replace ( "/[^0-9,]/", "", $_REQUEST ['beneficiario'] ) );
+			
+			$string = '';
+			foreach ( $beneficiarios as $key => $values ) {
+				$string .= "'" . $beneficiarios [$key] . "',";
+			}
+			
+			$filtro [0] = 'beneficiarios';
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiariosArea', $string );
+			$this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		} elseif ($_REQUEST ['urbanizacion'] != '') {
+
 			$filtro = array (
-					'urbanizacion' => $_REQUEST ['urbanizacion'] ,
-				        0 => $_REQUEST ['urbanizacion'] ,
+					'urbanizacion' => $_REQUEST ['urbanizacion'],
+					0 => $_REQUEST ['urbanizacion'] 
 			);
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiarios', $filtro );
+			$this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		} elseif ($_REQUEST ['municipio'] != '') {
 			$filtro = array (
-					'municipio' => $_REQUEST ['municipio'] ,
-				         0 => $_REQUEST ['municipio'] 
+					'municipio' => $_REQUEST ['municipio'],
+					0 => $_REQUEST ['municipio'] 
 			);
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiarios', $filtro );
+			$this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		} elseif ($_REQUEST ['departamento'] != '') {
 			$filtro = array (
-					'departamento' => $_REQUEST ['departamento'] ,
-				        0 => $_REQUEST ['departamento'] 
+					'departamento' => $_REQUEST ['departamento'],
+					0 => $_REQUEST ['departamento'] 
 			);
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiarios', $filtro );
+			$this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		} else {
 			Redireccionador::redireccionar ( "ErrorInformacion", '' );
 		}
 
-		$this->filtro=$filtro[0];
-                $this->creacion_log ();
+		$this->filtro = $filtro [0];
+		
+		$this->creacion_log ();
 
 		/**
 		 * Determinar Beneficiarios*
 		 */
-		
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiarios', $filtro );
-		$this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		$_REQUEST ['tiempo'] = time ();
 		
@@ -83,20 +106,21 @@ class FormProcessor {
 		
 		foreach ( $this->beneficiarios as $key => $values ) {
 			
-			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $values ['id_beneficiario'] );
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiario', $values ['id_beneficiario'] );
 			$actaActiva = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
 			// Saber qué roles tiene asociados
 			
 			if ($actaActiva != FALSE) {
+				
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol', $values ['id_beneficiario'] );
 				$roles = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				
-				
 				if ($roles === FALSE) {
-				
+					
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol_predeterminado' );
 					$roles = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-			
+					
 					// Registrar Usuario-Rol
 					$userrol = array (
 							'id_beneficiario' => $values ['id_beneficiario'],
@@ -110,11 +134,11 @@ class FormProcessor {
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRolPeriodo', $values ['id_beneficiario'] );
 				$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				
-
 				if ($fechaFin == FALSE) {
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $values ['id_beneficiario'] );
-					$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+					$fechaFin = $this->esteRecursoDBOtun->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				}
+				
 			
 				foreach ( $roles as $data => $valor ) {
 					$rolPeriodo [$roles [$data] ['id_rol']] = array (
@@ -124,19 +148,16 @@ class FormProcessor {
 							'reglas' => array () 
 					);
 				}
+
+				$resultado [$values ['id_beneficiario']] ['observaciones'] = json_decode ( $this->calcular->calcularFactura ( $values ['id_beneficiario'], $rolPeriodo ), true );
 				
-				
-				$resultado [$values ['id_beneficiario']] ['observaciones'] = json_decode($this->calcular->calcularFactura ( $values ['id_beneficiario'], $rolPeriodo ),true);
-				
-			
-				$this->escribir_log ( $values ['identificacion'] . ':' . json_encode ( $resultado [$values ['id_beneficiario']] ['observaciones']['observaciones'].". ".$resultado [$values ['id_beneficiario']]['observaciones'] ['cliente'][0].". ". $resultado [$values ['id_beneficiario']]['observaciones'] ['cliente'][1] ) );
+				$this->escribir_log ( $values ['identificacion'] . ':' . json_encode ( $resultado [$values ['id_beneficiario']] ['observaciones'] ['observaciones'] . ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [0] . ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [1] ) );
 				
 				// Saber qué periodo aplica cada rol
 			} else {
-				$mensaje = $values ['id_beneficiario'] . ": Sin factura generada. No hay Acta Entrega de Servicios activa.";
+				$mensaje = $values ['identificacion']."-".$values ['id_beneficiario'] . ": Sin factura generada. No hay Acta Entrega de Servicios subida al sistema.";
 				$this->escribir_log ( $mensaje );
 			}
-	
 		}
 
 		Redireccionador::redireccionar ( "Informacion", base64_encode ( $this->ruta_relativa_log ) );
@@ -150,9 +171,9 @@ class FormProcessor {
 	public function creacion_log() {
 		$prefijo = substr ( md5 ( uniqid ( time () ) ), 0, 6 );
 		
-		$this->ruta_absoluta_log = $this->rutaAbsoluta . "/entidad/logs/Log_".$this->filtro."_" . $prefijo . ".log";
+		$this->ruta_absoluta_log = $this->rutaAbsoluta . "/entidad/logs/Log_" . $this->filtro . "_" . $prefijo . ".log";
 		
-		$this->ruta_relativa_log = $this->rutaURL . "/entidad/logs/Log_".$this->filtro."_" . $prefijo . ".log";
+		$this->ruta_relativa_log = $this->rutaURL . "/entidad/logs/Log_" . $this->filtro . "_" . $prefijo . ".log";
 		
 		$this->log = fopen ( $this->ruta_absoluta_log, "w" );
 	}
