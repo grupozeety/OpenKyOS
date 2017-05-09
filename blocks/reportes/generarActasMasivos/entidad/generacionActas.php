@@ -110,7 +110,7 @@ class GenerarDocumento
 
                 $this->asosicarNombreArchivo($value, "Acta_Portatil");
 
-                $this->crearPDF('P');
+                $this->crearPDF('P', 'MargenesMinimas');
 
                 unset($this->contenidoPagina);
                 $this->contenidoPagina = null;
@@ -181,18 +181,41 @@ class GenerarDocumento
 
     }
 
-    public function crearPDF($orientacion = '')
+    public function crearPDF($orientacion = '', $margenes = '')
     {
         ob_start();
-        $html2pdf = new \HTML2PDF($orientacion, 'LETTER', 'es', true, 'UTF-8', array(
-            2,
-            2,
-            2,
-            10,
-        ));
+        $html2pdf = new \HTML2PDF($orientacion, 'LETTER', 'es', true, 'UTF-8', $this->parametrizarMargenesContenido($margenes));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
         $html2pdf->Output($this->ruta_archivos . "/" . $this->nombre_archivo, 'F');
+
+    }
+
+    public function parametrizarMargenesContenido($parametro = '')
+    {
+        switch ($parametro) {
+            case 'MargenesMinimas':
+
+                $arreglo = array(
+                    1,
+                    1,
+                    1,
+                    1,
+                );
+
+                break;
+
+            default:
+                $arreglo = array(
+                    2,
+                    2,
+                    2,
+                    10,
+                );
+                break;
+        }
+
+        return $arreglo;
 
     }
 
@@ -655,6 +678,7 @@ class GenerarDocumento
                                             </td>
                                         </tr>
                                     </table>
+                                    <br>
                                     <table style='width:100%;border;0.1px;font-size:90%'>
                                                     <tr>
                                                         <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
@@ -737,7 +761,9 @@ class GenerarDocumento
                                     <p style='text-align:justify'>Advertencia: Con el fin de no perder la garantía del fabricante en la eventualidad de presentarse fallas, el beneficiario ni un tercero no autorizado por el fabricante, puede manipular el equipo tratando de resolver el problema presentado.En caso de daño, hurto, el usuario de hacer el reporte a la mesa de ayuda al número 018000 961016, lo cual debe quedar consignado en
 un ticket para la gestión y seguimiento del mismo. En caso de hurto o pérdida no habrá reposición del equipo.Luego de la verificación de funcionamiento pleno del computador portátil y de sus características y accesorios, manifiesto mi entera
 conformidad y satisfacción del bien que recibo en la fecha, y me obligo a realizar su correcto uso, custodia y conservación, autorizando al prestador del servicio Corporación Politécnica a, para que ejerza el seguimiento y control sobre el adecuado y correcto uso, custodia y conservación del mismo.<br>A la terminación del plazo de ejecución de este contrato de comodato, tendré la opción de adquirir el bien antes descrito entregado en comodato. Para constancia de lo anterior, firmo con copia de mi documento de identidad hoy día " . $fecha_letra . ". En el municipio de <b>" . $beneficiario['municipio'] . "</b>, Departamento <b>" . $beneficiario['departamento'] . "</b>.</p>
-
+                            <br>
+                            <br>
+                            <br>
                             <table width:100%;>
                              <tr>
                                 <td align='center' colspan='2' style='width:45%;border:none;'>________________________________</td>
