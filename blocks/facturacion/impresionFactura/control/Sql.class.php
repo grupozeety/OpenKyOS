@@ -41,7 +41,7 @@ class Sql extends \Sql
         switch ($tipo) {
 
             /**
-                 * Clausulas específicas
+                 * Clausulas específicas|
                  */
 
             case 'consultarInformacionApi':
@@ -352,7 +352,7 @@ class Sql extends \Sql
             case 'actualizarFacturaBeneficiario':
                 $cadenaSql = " UPDATE facturacion.factura ";
                 $cadenaSql .= " SET estado_factura='Aprobado',";
-                $cadenaSql .= "  fecha_pago_oportuno='" . $variable['fecha_oportuna_pago'] . "',";
+                //$cadenaSql .= "  fecha_pago_oportuno='" . $variable['fecha_oportuna_pago'] . "',";
                 $cadenaSql .= "  indice_facturacion='" . $variable['indice_facturacion'] . "',";
                 $cadenaSql .= "  numeracion_facturacion='" . $variable['numeracion_facturacion'] . "',";
                 $cadenaSql .= "  codigo_barras='" . $variable['codigo_barras'] . "' ";

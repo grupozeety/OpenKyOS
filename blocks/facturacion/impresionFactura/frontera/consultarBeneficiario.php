@@ -90,6 +90,7 @@ class Registrador
         echo $this->miFormulario->formulario($atributos);
         {
 
+            echo '<a href="http://localhost/OpenKyOS/index.php?data=TYkaqw3PkmLwV3-NLArr-5_iORA8twT2Xf798Zg_G0krIxM4XZwkvcjAXBWVuibADWE62IzswzBqBjDp1dl3uZAQHA0cEpp7RgzLOxZTYQFol4ap__DhJN9d1acRhvOmNoQngZR1IHbgMs-vIdyqi1Oi2hdsyePP_1yarN8zZlh4a_b6vx8R3AUirFdLL2wfxZIpvotf5PBVqSa-PCYfU0hNsoDS1lIScnBY0jStgDgFSZ58BdUWvHH9k9sz8qpn"  target="_blank" ><img src="theme/basico/img/DecargaPDF.png"></a>';
             {
 
                 $esteCampo = 'AgrupacionBeneficiario';
@@ -197,37 +198,6 @@ class Registrador
                         unset($atributos);
 
                         {
-
-                            $esteCampo = 'fecha_oportuna_pago';
-                            $atributos['nombre'] = $esteCampo;
-                            $atributos['tipo'] = "text";
-                            $atributos['id'] = $esteCampo;
-                            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
-                            $atributos["etiquetaObligatorio"] = true;
-                            $atributos['tab'] = $tab++;
-                            $atributos['anchoEtiqueta'] = 2;
-                            $atributos['estilo'] = "bootstrap";
-                            $atributos['evento'] = '';
-                            $atributos['deshabilitado'] = false;
-                            $atributos['readonly'] = false;
-                            $atributos['columnas'] = 1;
-                            $atributos['tamanno'] = 1;
-                            $atributos['placeholder'] = "Ingrese Fecha Pago Oportuno";
-                            if (isset($_REQUEST[$esteCampo])) {
-                                $atributos['valor'] = $_REQUEST[$esteCampo];
-                            } else {
-                                $atributos['valor'] = "";
-                            }
-                            $atributos['ajax_function'] = "";
-                            $atributos['ajax_control'] = $esteCampo;
-                            $atributos['limitar'] = false;
-                            $atributos['anchoCaja'] = 10;
-                            $atributos['miEvento'] = '';
-                            $atributos['validar'] = 'required';
-                            // Aplica atributos globales al control
-                            $atributos = array_merge($atributos, $atributosGlobales);
-                            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
-                            unset($atributos);
 
                             $esteCampo = 'departamento';
                             $atributos['nombre'] = $esteCampo;

@@ -66,8 +66,6 @@ class FormProcessor
     public function registroProceso()
     {
 
-        $fechaOportuna = '&fecha_oportuna_pago=' . $_REQUEST['fecha_oportuna_pago'];
-
         if ($_REQUEST['correo'] == '1') {
             $datos_adicionales = implode(";", $this->Beneficiarios) . $fechaOportuna . '&correo';
         } elseif ($_REQUEST['correo'] == '0') {
