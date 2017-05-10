@@ -216,7 +216,8 @@ class GestionarContrato
                         echo $this->miFormulario->division("inicio", $atributos);
                         unset($atributos);
 
-                        {
+                        if (!is_null($infoCertificado['ruta_documento']) && $infoCertificado['ruta_documento'] != '') {
+
                             echo "<b><a id='link_a' target='_blank' href='" . $infoCertificado['ruta_documento'] . "'>Descarga Acta Entrega  de Servicios Instalados <br> Con Firma</a></b>";
                         }
 
@@ -248,12 +249,12 @@ class GestionarContrato
         switch ($_REQUEST['mensaje']) {
 
             case 'insertoInformacionCertificado':
-                $estilo_mensaje = 'success';     // information,warning,error,validation
+                $estilo_mensaje = 'success'; // information,warning,error,validation
                 $atributos["mensaje"] = '<b>Acta de Entrega Disponible</b>';
                 break;
 
             case 'noinsertoInformacionCertificado':
-                $estilo_mensaje = 'error';     // information,warning,error,validation
+                $estilo_mensaje = 'error'; // information,warning,error,validation
                 $atributos["mensaje"] = 'Error al generar el Acta de Entrega<b>';
                 break;
 
@@ -285,11 +286,11 @@ class GestionarContrato
 
             case 'insertoInformacionContrato':
                 $mensaje = "Exito en el registro información del Acta de Entrega";
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
             case 'errorGenerarArchivo':
                 $mensaje = "Error en el registro de información del Acta de Entrega";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
                 break;
 
