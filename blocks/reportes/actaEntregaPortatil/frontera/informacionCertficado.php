@@ -6,14 +6,16 @@ if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
 }
-class Certificado {
+class Certificado
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
     public $ruta;
     public $rutaURL;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -37,12 +39,10 @@ class Certificado {
             $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
         }
     }
-    public function edicionCertificado() {
+    public function edicionCertificado()
+    {
         $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
-        $conexion = "openproject";
-        $esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $_REQUEST['id_beneficiario'] = $_REQUEST['id'];
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
@@ -85,6 +85,10 @@ class Certificado {
                 'telefono' => $infoBeneficiario['telefono'],
                 'celular' => $infoBeneficiario['celular_contrato'],
                 'correo' => $infoBeneficiario['correo'],
+                'codigo_municipio' => $infoBeneficiario['codigo_municipio'],
+                'codigo_departamento' => $infoBeneficiario['codigo_departamento'],
+                'fecha_entrega' => $infoCertificado['fecha_entrega'],
+                'estrato_socioeconomico' => $infoBeneficiario['estrato_socioeconomico'],
             );
 
             $_REQUEST = array_merge($_REQUEST, $arreglo);
@@ -119,6 +123,10 @@ class Certificado {
                 $anexo_dir .= " Piso #" . $infoBeneficiario['piso_contrato'];
             }
 
+            if (!is_null($infoBeneficiario['barrio']) && $infoBeneficiario['barrio'] != '') {
+                $anexo_dir .= " Barrio " . $infoBeneficiario['barrio'];
+            }
+
             $direccion_general = $infoBeneficiario['direccion_domicilio'] . $anexo_dir;
 
         }
@@ -128,6 +136,7 @@ class Certificado {
 
             $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificacion', $_REQUEST['id_beneficiario']);
             $serial_pc = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
             if (!is_null($serial_pc['serial']) && $serial_pc['serial'] != '') {
 
                 $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $serial_pc['serial']);
@@ -234,7 +243,7 @@ class Certificado {
                         $atributos['estilo'] = "bootstrap";
                         $atributos['evento'] = '';
                         $atributos['deshabilitado'] = false;
-                        $atributos['readonly'] = TRUE;
+                        $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Ingrese Nombres";
@@ -265,7 +274,7 @@ class Certificado {
                         $atributos['estilo'] = "bootstrap";
                         $atributos['evento'] = '';
                         $atributos['deshabilitado'] = false;
-                        $atributos['readonly'] = TRUE;
+                        $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Ingrese Primer Apellido";
@@ -296,7 +305,7 @@ class Certificado {
                         $atributos['estilo'] = "bootstrap";
                         $atributos['evento'] = '';
                         $atributos['deshabilitado'] = false;
-                        $atributos['readonly'] = TRUE;
+                        $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Ingrese Segundo Apellido";
@@ -330,7 +339,7 @@ class Certificado {
                         } else {
                             $atributos['seleccion'] = '-1';
                         }
-                        $atributos['deshabilitado'] = TRUE;
+                        $atributos['deshabilitado'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['ajax_function'] = "";
@@ -370,7 +379,7 @@ class Certificado {
                         $atributos['estilo'] = "bootstrap";
                         $atributos['evento'] = '';
                         $atributos['deshabilitado'] = false;
-                        $atributos['readonly'] = TRUE;
+                        $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Ingrese Número Identificacion";
@@ -401,7 +410,7 @@ class Certificado {
                         $atributos['estilo'] = "bootstrap";
                         $atributos['evento'] = '';
                         $atributos['deshabilitado'] = false;
-                        $atributos['readonly'] = TRUE;
+                        $atributos['readonly'] = true;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "";
@@ -438,13 +447,17 @@ class Certificado {
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
                         $atributos['placeholder'] = "Seleccione la Fecha de Instalación";
-                        $atributos['valor'] = "";
+                        if (isset($_REQUEST[$esteCampo])) {
+                            $atributos['valor'] = $_REQUEST[$esteCampo];
+                        } else {
+                            $atributos['valor'] = '';
+                        }
                         $atributos['ajax_function'] = "";
                         $atributos['ajax_control'] = $esteCampo;
                         $atributos['limitar'] = false;
                         $atributos['anchoCaja'] = 10;
                         $atributos['miEvento'] = '';
-                        $atributos['validar'] = 'required';
+                        //$atributos['validar'] = 'required';
                         // Aplica atributos globales al control
                         $atributos = array_merge($atributos, $atributosGlobales);
                         echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
@@ -1159,6 +1172,38 @@ class Certificado {
                         echo $this->miFormulario->agrupacion('fin');
                         unset($atributos);
 
+                        $esteCampo = 'Agrupacion';
+                        $atributos['id'] = $esteCampo;
+                        $atributos['leyenda'] = "Firmas Representante Operador ";
+                        echo $this->miFormulario->agrupacion('inicio', $atributos);
+                        unset($atributos);
+                        {
+                            echo "<div id='mensaje_firma_ins' style='display:none;'><center><b>Firma Guardada<b></center></div>";
+                            echo "<div id='firma_digital_instalador'  style='border-style:double;'></div>";
+                            echo "<br>";
+                            echo "<input type='button' style='float:left' class='btn btn-default' id='guardarIns' value='Guardar'> <input type='button' id='limpiarIns' style='float:right' class='btn btn-default' value='Limpiar'>";
+
+                            $esteCampo = 'firmaInstalador';
+                            $atributos["id"] = $esteCampo; // No cambiar este nombre
+                            $atributos["tipo"] = "hidden";
+                            $atributos['estilo'] = '';
+                            $atributos["obligatorio"] = false;
+                            $atributos['marco'] = true;
+                            $atributos["etiqueta"] = "";
+                            if (isset($_REQUEST[$esteCampo])) {
+                                $atributos['valor'] = $_REQUEST[$esteCampo];
+                            } else {
+                                $atributos['valor'] = '';
+                            }
+                            $atributos = array_merge($atributos, $atributosGlobales);
+                            echo $this->miFormulario->campoCuadroTexto($atributos);
+                            unset($atributos);
+
+                        }
+
+                        echo $this->miFormulario->agrupacion('fin');
+                        unset($atributos);
+
                     }
 
                     // ------------------Division para los botones-------------------------
@@ -1226,6 +1271,14 @@ class Certificado {
                 $valorCodificado .= "&numero_contrato=" . $infoBeneficiario['numero_contrato'];
                 $valorCodificado .= "&direccion=" . $direccion_general;
 
+                $valorCodificado .= "&tipo_beneficiario_contrato=" . $_REQUEST['tipo_beneficiario'];
+
+                $valorCodificado .= "&estrato_socioeconomico_contrato=" . $_REQUEST['estrato_socioeconomico'];
+
+                $valorCodificado .= "&codigo_departamento=" . $_REQUEST['codigo_departamento'];
+
+                $valorCodificado .= "&codigo_municipio=" . $_REQUEST['codigo_municipio'];
+
                 /**
                  * SARA permite que los nombres de los campos sean dinámicos.
                  * Para ello utiliza la hora en que es creado el formulario para
@@ -1253,15 +1306,16 @@ class Certificado {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensaje() {
+    public function mensaje()
+    {
         switch ($_REQUEST['mensaje']) {
             case 'inserto':
-                $estilo_mensaje = 'success';     // information,warning,error,validation
+                $estilo_mensaje = 'success'; // information,warning,error,validation
                 $atributos["mensaje"] = 'Requisitos Correctamente Validados<br>Se ha Habilitado la Opcion de Descargar Borrador del Contrato';
                 break;
 
             case 'noinserto':
-                $estilo_mensaje = 'error';     // information,warning,error,validation
+                $estilo_mensaje = 'error'; // information,warning,error,validation
                 $atributos["mensaje"] = 'Error al validar los Requisitos.<br>Verifique los Documentos de Requisitos';
                 break;
 
@@ -1292,5 +1346,3 @@ class Certificado {
 $miSeleccionador = new Certificado($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->edicionCertificado();
-
-?>

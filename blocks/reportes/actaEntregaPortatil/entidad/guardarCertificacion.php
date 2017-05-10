@@ -10,7 +10,8 @@ if (!isset($GLOBALS["autorizado"])) {
 use reportes\actaEntregaPortatil\entidad\Redireccionador;
 
 include_once 'Redireccionador.php';
-class FormProcessor {
+class FormProcessor
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
@@ -23,7 +24,8 @@ class FormProcessor {
     public $rutaAbsoluta;
     public $clausulas;
     public $registro_info_contrato;
-    public function __construct($lenguaje, $sql) {
+    public function __construct($lenguaje, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->lenguaje = $lenguaje;
@@ -64,13 +66,15 @@ class FormProcessor {
             Redireccionador::redireccionar("NoInsertoInformacionActa");
         }
     }
-    public function procesarInformacion() {
+    public function procesarInformacion()
+    {
 
         $url_firma_beneficiario = $_REQUEST['firmaBeneficiario'];
+        $url_firma_instalador = $_REQUEST['firmaInstalador'];
 
         $arreglo = array(
             'id_beneficiario' => $_REQUEST['id_beneficiario'],
-            'fecha_entrega' => $_REQUEST['fecha_entrega'],
+            'fecha_entrega' => ($_REQUEST['fecha_entrega'] === '') ? null : $_REQUEST['fecha_entrega'],
             'marca' => $_REQUEST['marca'],
             'modelo' => $_REQUEST['modelo'],
             'serial' => $_REQUEST['serial'],
@@ -88,14 +92,16 @@ class FormProcessor {
             'web_soporte' => $_REQUEST['web_soporte'],
             'telefono_soporte' => $_REQUEST['telefono_soporte'],
             'url_firma_beneficiario' => $url_firma_beneficiario,
+            'url_firma_instalador' => $url_firma_instalador,
         );
+
         $cadenaSql = $this->miSql->getCadenaSql('registrarActaEntrega', $arreglo);
 
-        $cadenaSql = str_replace("''", 'null', $cadenaSql);
         $this->registroActa = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
-    public function cargarArchivos() {
+    public function cargarArchivos()
+    {
         $archivo_datos = '';
         foreach ($_FILES as $key => $archivo) {
 
@@ -134,5 +140,3 @@ class FormProcessor {
 }
 
 $miProcesador = new FormProcessor($this->lenguaje, $this->sql);
-?>
-
