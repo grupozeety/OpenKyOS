@@ -127,7 +127,7 @@ class GenerarDocumento
 
                 $arreglo = array(
                     'id_beneficiario' => $this->identificador_beneficiario,
-                    'fecha_oportuna_pago' => $_REQUEST['fecha_oportuna_pago'],
+                    //'fecha_oportuna_pago' => $_REQUEST['fecha_oportuna_pago'],
                     'indice_facturacion' => $this->InformacionFacturacion['indice_facturacion'],
                     'numeracion_facturacion' => $this->InformacionFacturacion['numeracion_facturacion'],
                     'codigo_barras' => $this->InformacionFacturacion['codigo_barras'],
@@ -249,7 +249,7 @@ class GenerarDocumento
                 break;
 
             case 3:
-                $height = '335px';
+                $height = '200px';
                 break;
 
             case 4:
@@ -287,7 +287,7 @@ class GenerarDocumento
 
                 if (isset($this->colspan) && $width == '100%') {
 
-                    $this->contenido .= "<td colspan='2' style='width:" . $width . ";height:" . $height . ";border:none;font-size:100%'  nowrap >";
+                    $this->contenido .= "<td colspan='2' style='width:" . $width . ";height:" . $height . ";border:none;font-size:100%;" . $columna->attributes() . "'  >";
 
                     // Permite generar el Contenido a unos Tipos de Parametros
                     $this->caracterizacionContenido($columna);
@@ -295,17 +295,19 @@ class GenerarDocumento
                     $this->contenido .= "</td>";
                 } else {
 
-                    $this->contenido .= "<td style='width:" . $width . ";height:" . $height . ";border:none;'  nowrap >";
+                    $this->contenido .= "<td  style='width:" . $width . ";height:" . $height . ";border:none;" . $columna->attributes() . "' >";
                     $this->caracterizacionContenido($columna);
 
                     $this->contenido .= "</td>";
                 }
+
             }
 
             $this->contenido .= "</tr>";
         }
 
         $this->contenido .= "</table>";
+
     }
     public function caracterizacionContenido($objetoDatos)
     {
@@ -316,7 +318,7 @@ class GenerarDocumento
             switch ($key) {
                 case 'titulo':
 
-                    $this->contenido .= "<div style='" . $this->atributos . "'><b>" . strtoupper($value) . "</b></div>";
+                    $this->contenido .= "<div style='" . $this->atributos . "'><b>" . ($value) . "</b></div>";
                     break;
 
                 case 'texto':
@@ -383,25 +385,28 @@ class GenerarDocumento
 
                 $this->contenido .= "<div style='" . $this->atributos . "'>";
 
-                $this->contenido .= "<table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
+                $this->contenido .= "<table style='border-collapse:collapse;border:0.2px;width:100%;'s>
                             <tr>
-                                <td colspan='2' style='vertical-align:middle;font-size:24px;height:30px;text-align:left;border:none;background-color:#bfbfbf;color:#fff'><b>Resumen</b></td>
+                                <td colspan='2' style='vertical-align:middle;font-size:24px;height:30px;text-align:left;border:none;background-color:#999;color:#fff'><b>Resumen</b></td>
                             </tr>
                             <tr>
-                                <td style='font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#bfbfbf;color:#fff'><b>Deuda Anterior </b></td>
-                                <td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#bfbfbf;color:#fff'>0</td>
+                                <td style='font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#999;color:#fff'><b>Deuda Anterior </b></td>
+                                <td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#999;color:#fff'>0</td>
                             </tr>
                             <tr>
-                                <td style='height:18px;font-size:16px;text-align:left;border:none;width:50%;background-color:#bfbfbf;color:#fff'><b>Cuota Mes </b></td>
-                                <td style='height:18px;font-size:16px;text-align:right;border:none;width:50%;background-color:#bfbfbf;color:#fff'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . " </td>
+                                <td style='height:18px;font-size:16px;text-align:left;border:none;width:50%;background-color:#999;color:#fff'><b>Cuota Mes </b></td>
+                                <td style='height:18px;font-size:16px;text-align:right;border:none;width:50%;background-color:#999;color:#fff'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . " </td>
                             </tr>
                             <tr>
                                 <td style='vertical-align:middle;font-size:20px;height:22px;text-align:left;border:none;width:50%;background-color:#009933;color:#fff'><b>Total a pagar</b></td>
                                 <td style='vertical-align:middle;height:22px;font-size:20px;text-align:right;border:none;width:50%;background-color:#009933;color:#fff'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
                             </tr>
+                        </table>
+                        <br>
+                        <table style='border:none;width:100%;'>
                            <tr>
-                                <td style='font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#bfbfbf;color:#444444'><b>Cuenta o Ref. Pago </b></td>
-                                <td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#bfbfbf;color:#444444'>" . $this->InformacionBeneficiario['numero_identificacion'] . "</td>
+                                <td style='font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#efefef;color:#444444'><b>Cuenta o Ref. Pago </b></td>
+                                <td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#efefef;color:#444444'>" . $this->InformacionBeneficiario['numero_identificacion'] . "</td>
                             </tr>
                         </table>";
 
