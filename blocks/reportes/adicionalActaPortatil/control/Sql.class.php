@@ -42,7 +42,7 @@ class Sql extends \Sql
             case 'consultaInformacionDocumentos':
                 $cadenaSql = " SELECT dc.*";
                 $cadenaSql .= " FROM interoperacion.documentos_contrato dc";
-                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.id_beneficiario=dc.id_beneficiario AND bn.estado_registro='TRUE' AND bn.municipio='" . $_REQUEST['municipio'] . "'";
+                //$cadenaSql .= " JOIN interoperacion.beneficiario_potencial bn ON bn.id_beneficiario=dc.id_beneficiario AND bn.estado_registro='TRUE' AND bn.municipio='" . $_REQUEST['municipio'] . "'";
                 $cadenaSql .= " WHERE dc.tipologia_documento='131'";
                 $cadenaSql .= " AND dc.estado_registro='TRUE'; ";
 
