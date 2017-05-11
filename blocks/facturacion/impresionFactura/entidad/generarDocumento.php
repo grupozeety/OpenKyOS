@@ -26,6 +26,7 @@ class GenerarDocumento
     public $contenido;
     public function __construct($sql, $beneficiarios, $ruta_archivos)
     {
+
         date_default_timezone_set('America/Bogota');
 
         $this->miConfigurador = \Configurador::singleton();
@@ -45,6 +46,8 @@ class GenerarDocumento
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
+        $this->rutaProceso = $this->rutaAbsoluta . "/archivos/procesoFactura/";
+
         $bloque = $this->miConfigurador->getVariableConfiguracion('esteBloque');
 
         if (!isset($bloque["grupo"]) || $bloque["grupo"] == "") {
@@ -119,7 +122,13 @@ class GenerarDocumento
                  * Parametrizacioón Posición
                  */
 
-                $this->crearPDF();
+                $this->crearPDFFactura();
+                $this->crearPDFDesprendible();
+
+                {
+
+                    $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
+                }
 
                 /**
                  * Actualizar Factura Beneficiario
@@ -651,7 +660,7 @@ class GenerarDocumento
         }
     }
     // ----------------------------------------------------------------------
-    public function crearPDF()
+    public function crearPDFFactura()
     {
         ob_start();
         $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
@@ -663,20 +672,40 @@ class GenerarDocumento
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
 
-        if (isset($_REQUEST['documento_intantaneo'])) {
+//        if (isset($_REQUEST['documento_intantaneo'])) {
 
-            $html2pdf->Output('Factura_actual.pdf', 'D');
+        $this->paginaFactura = $this->rutaProceso . 'Factura_actual.pdf';
 
-            echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
-
-            exit();
-        } else {
-
-            $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
-            $html2pdf->Output($this->archivo_adjunto, 'F');
-        }
+        $html2pdf->Output($this->paginaFactura, 'F');
 
     }
+
+    // ----------------------------------------------------------------------
+    public function crearPDFDesprendible()
+    {
+        ob_start();
+        $html2pdf = new \HTML2PDF('L', array(210, 80), 'es', true, 'UTF-8', array(
+            1,
+            1,
+            1,
+            1,
+        ));
+        $html2pdf->pdf->SetDisplayMode('fullpage');
+
+        $contenidoPagina = "<page backtop='0mm' backbottom='0mm' backleft='0mm' backright='0mm'>
+                                <div style='width:100%'>
+                                    <img width='785' height='294' src='http://localhost/OpenKyOS/theme/basico/img/desprendible.png'>
+                                </div>
+                            </page>";
+
+        $html2pdf->WriteHTML($contenidoPagina);
+
+        $this->paginaDesprendible = $this->rutaProceso . 'Desprendible_actual.pdf';
+
+        $html2pdf->Output($this->paginaDesprendible, 'F');
+
+    }
+
     public function estruturaDocumento()
     {
         $contenidoPagina = "<style type=\"text/css\">
@@ -712,6 +741,7 @@ class GenerarDocumento
 
         $this->contenidoPagina = $contenidoPagina;
     }
+
     public function enviarNotificacion()
     {
 
