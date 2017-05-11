@@ -119,32 +119,55 @@ class GenerarDocumento
                 $this->estruturaDocumento();
 
                 /**
-                 * Parametrizacioón Posición
+                 * Creacion Factura
                  */
 
                 $this->crearPDFFactura();
-                $this->crearPDFDesprendible();
-
-                {
-
-                    $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
-                }
 
                 /**
-                 * Actualizar Factura Beneficiario
+                 * Creación Desprendible
                  */
+                $this->crearPDFDesprendible();
 
-                $arreglo = array(
-                    'id_beneficiario' => $this->identificador_beneficiario,
-                    //'fecha_oportuna_pago' => $_REQUEST['fecha_oportuna_pago'],
-                    'indice_facturacion' => $this->InformacionFacturacion['indice_facturacion'],
-                    'numeracion_facturacion' => $this->InformacionFacturacion['numeracion_facturacion'],
-                    'codigo_barras' => $this->InformacionFacturacion['codigo_barras'],
+                if (!isset($_REQUEST['documento_intantaneo'])) {
+                    $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
 
-                );
+                    /**
+                     * Unir Documento
+                     */
+                    $this->unirDocumento();
+                } else {
 
-                $cadenaSql = $this->miSql->getCadenaSql('actualizarFacturaBeneficiario', $arreglo);
-                $actualizacionEstadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+                    /**
+                     * Unir Documento
+                     */
+                    $this->unirDocumento();
+
+                    /**
+                     * Descargar PDF
+                     */
+                    $this->descargarDocumento($this->rutaProceso . 'FacturaBeneficiario.pdf');
+
+                }
+
+                if (!isset($_REQUEST['documento_intantaneo'])) {
+
+                    /**
+                     * Actualizar Factura Beneficiario
+                     */
+                    $arreglo = array(
+                        'id_beneficiario' => $this->identificador_beneficiario,
+                        //'fecha_oportuna_pago' => $_REQUEST['fecha_oportuna_pago'],
+                        'indice_facturacion' => $this->InformacionFacturacion['indice_facturacion'],
+                        'numeracion_facturacion' => $this->InformacionFacturacion['numeracion_facturacion'],
+                        'codigo_barras' => $this->InformacionFacturacion['codigo_barras'],
+
+                    );
+
+                    $cadenaSql = $this->miSql->getCadenaSql('actualizarFacturaBeneficiario', $arreglo);
+                    $actualizacionEstadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                }
 
                 if (isset($_REQUEST['correo'])) {
 
@@ -152,7 +175,40 @@ class GenerarDocumento
                 }
             }
         }
+
     }
+
+    public function descargarDocumento($documento = '')
+    {
+
+        ob_start();
+
+        header("Content-type: application/pdf");
+        header('Content-Disposition: attachment; filename=FacturaBeneficiario' . date('Ymd') . '.pdf');
+        header('Pragma: no-cache');
+        readfile($documento);
+
+        echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
+        exit();
+
+    }
+
+    public function unirDocumento()
+    {
+
+        if (isset($this->archivo_adjunto)) {
+
+            $sentencia_linux = 'pdftk ' . $this->paginaFactura . ' ' . $this->paginaDesprendible . '  cat output ' . $this->archivo_adjunto;
+
+        } else {
+
+            $sentencia_linux = 'pdftk ' . $this->paginaFactura . ' ' . $this->paginaDesprendible . '  cat output ' . $this->rutaProceso . 'FacturaBeneficiario.pdf';
+
+        }
+
+        shell_exec($sentencia_linux);
+    }
+
     public function validarBeneficiario()
     {
 
@@ -672,8 +728,6 @@ class GenerarDocumento
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
 
-//        if (isset($_REQUEST['documento_intantaneo'])) {
-
         $this->paginaFactura = $this->rutaProceso . 'Factura_actual.pdf';
 
         $html2pdf->Output($this->paginaFactura, 'F');
@@ -684,7 +738,7 @@ class GenerarDocumento
     public function crearPDFDesprendible()
     {
         ob_start();
-        $html2pdf = new \HTML2PDF('L', array(210, 80), 'es', true, 'UTF-8', array(
+        $html2pdf = new \HTML2PDF('L', array(216, 80), 'es', true, 'UTF-8', array(
             1,
             1,
             1,
@@ -694,7 +748,7 @@ class GenerarDocumento
 
         $contenidoPagina = "<page backtop='0mm' backbottom='0mm' backleft='0mm' backright='0mm'>
                                 <div style='width:100%'>
-                                    <img width='785' height='294' src='http://localhost/OpenKyOS/theme/basico/img/desprendible.png'>
+                                    <img width='808' height='294' src='http://localhost/OpenKyOS/theme/basico/img/desprendible.png'>
                                 </div>
                             </page>";
 
