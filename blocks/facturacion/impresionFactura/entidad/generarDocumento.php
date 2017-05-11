@@ -249,7 +249,7 @@ class GenerarDocumento
                 break;
 
             case 3:
-                $height = '200px';
+                $height = '210px';
                 break;
 
             case 4:
@@ -406,7 +406,7 @@ class GenerarDocumento
                         <table style='border:none;width:100%;'>
                            <tr>
                                 <td style='font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#efefef;color:#444444'><b>Cuenta o Ref. Pago </b></td>
-                                <td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#efefef;color:#444444'>" . $this->InformacionBeneficiario['numero_identificacion'] . "</td>
+                                <td style='font-size:16px;height:13px;text-align:center;border:0.3px;border-top-left-radius:9px;border-bottom-left-radius:9px;border-top-right-radius:9px;border-bottom-right-radius:9px;;width:50%;background-color:#efefef;color:#444444;'>" . $this->InformacionBeneficiario['numero_identificacion'] . "</td>
                             </tr>
                         </table>";
 
@@ -567,6 +567,37 @@ class GenerarDocumento
                  * </tr>
                  * </table>";
                  */
+                $this->contenido .= "</div>";
+                break;
+
+            case 'Contacto':
+                $this->contenido .= "<div style='" . $this->atributos . "'>";
+
+                $this->contenido .= "<table style='border-collapse:collapse;border:none;width:100%;'>
+                                        <tr>
+                                            <td style='height:13px;text-align:left;border:none;width:50%;vertical-align:center'><img width='20' height='20' src='http://localhost/OpenKyOS/theme/basico/img/facebook.png'  >&nbsp;&nbsp;&nbsp;&nbsp;<b>Conexiones-Digitales-II</b></td>
+                                            <td style='height:13px;text-align:left;border:none;width:50%;'><b>Línea gratuita: 01 8000 961 016</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style='height:13px;text-align:left;border:none;width:50%;'><b>Conexiones-Digitales-II Sede Monteria:</b><br>Calle 67 # 2-112 piso 2</td>
+                                            <td style='height:13px;text-align:left;border:none;width:50%;'><b>Conexiones-Digitales-II Sede Sucre:</b><br>Carrera 20 #27-87 oficina 302<br>Edificio Camara de comercio</td>
+                                        </tr>
+                                        <tr>
+                                            <td  colspan='2' style='height:13px;text-align:center;border:none;width:100%;'><br><br>http://conexionesdigitales.politecnica.edu.co/</td>
+                                        </tr>
+                                  </table>";
+                $this->contenido .= "</div>";
+                break;
+
+            case 'FormaPago':
+                $this->contenido .= "<div style='" . $this->atributos . "'>";
+
+                $this->contenido .= "<table style='border-collapse:collapse;border:none;width:100%;'>
+                                        <tr>
+                                            <td style='height:13px;text-align:center;border:none;width:30%;vertical-align:center'>Forma de Pago : </td>
+                                            <td style='height:13px;text-align:left;border:none;width:70%;'><img width='200' height='50' src='http://localhost/OpenKyOS/theme/basico/img/FormaPago.png'></td>
+                                        </tr>
+                                    </table>";
                 $this->contenido .= "</div>";
                 break;
 

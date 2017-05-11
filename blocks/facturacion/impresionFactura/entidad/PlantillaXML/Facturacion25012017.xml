@@ -22,9 +22,12 @@
 	</seccion>
 	<seccion>
 		<columna estilos="background-color:#efefef;">
-			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='290' height='47'">http://localhost/OpenKyOS/blocks/facturacion/impresionFactura/frontera/css/imagen/forma_pago_2.png</imagen>
+			<texto estilos="color:#808080;font-size:80%;text-align:justify;width:90%;">*Conexiones-Digitales-II Si tiene alguna queja, reclamo o sugerencia con el servicio prestado no dude en comunicarse con nosotros:</texto>
+			<variable estilos="font-size:80%;text-align:center;">Contacto</variable>
 		</columna>
 		<columna estilos="background-color:#efefef;">
+
+				<variable estilos="font-size:80%;text-align:center;">FormaPago</variable>
 				<variable alineacionCodigoBarras="center" dimensionesCodigoBarras="width:95mm; height:25mm;font-size:2mm">CodigoBarras</variable>
 		</columna>
 	</seccion>
