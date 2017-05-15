@@ -24,12 +24,6 @@ class Sql extends \Sql
     }
     public function getCadenaSql($tipo, $variable = '')
     {
-        $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
-
-        foreach ($info_usuario['description'] as $key => $rol) {
-
-            $info_usuario['rol'][] = $rol;
-        }
 
         /**
          * 1.
@@ -91,7 +85,8 @@ class Sql extends \Sql
                 $cadenaSql .= " pb.correo_institucional, ";
                 $cadenaSql .= " pb.correo,cn.numero_identificacion,fc.fecha_pago_oportuno, ";
                 $cadenaSql .= " numeracion_facturacion,indice_facturacion,";
-                $cadenaSql .= " tb.descripcion as tipo_beneficiario";
+                $cadenaSql .= " tb.descripcion as tipo_beneficiario,";
+                $cadenaSql .= " (cn.valor_tarificacion * 15) as valor_contrato";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
@@ -103,13 +98,38 @@ class Sql extends \Sql
                 $cadenaSql .= " LIMIT 1;";
                 break;
 
+            case 'consultarFacturaMora':
+                $cadenaSql = " SELECT fc.* ";
+                $cadenaSql .= " FROM facturacion.factura fc ";
+                $cadenaSql .= " WHERE fc.estado_registro='TRUE'";
+                $cadenaSql .= " AND fc.id_factura='" . $variable . "' ;";
+                break;
+
+            case 'consultaValorPagado':
+                $cadenaSql = " SELECT SUM(pg.valor_pagado) as valor_pagado";
+                $cadenaSql .= " FROM facturacion.pago_factura pg";
+                $cadenaSql .= " JOIN facturacion.factura fc ON fc.id_factura=pg.id_factura";
+                $cadenaSql .= " WHERE pg.estado_registro='TRUE'";
+                $cadenaSql .= " AND fc.estado_registro='TRUE'";
+                $cadenaSql .= " AND fc.estado_factura='Pagada'";
+                $cadenaSql .= " AND fc.id_beneficiario='" . $variable . "';";
+                break;
+
+            case 'consultarValorPagado':
+                $cadenaSql = " SELECT fc.* ";
+                $cadenaSql .= " FROM facturacion.factura fc ";
+                $cadenaSql .= " WHERE fc.estado_registro='TRUE'";
+                $cadenaSql .= " AND fc.id_factura='" . $variable . "' ;";
+                break;
+
             case 'consultaValoresConceptos':
                 $cadenaSql = " SELECT ";
                 $cadenaSql .= " fc.id_factura,";
                 $cadenaSql .= " cp.valor_calculado as valor_concepto,";
                 $cadenaSql .= " rl.descripcion as concepto,";
                 $cadenaSql .= "to_char(urp.inicio_periodo, 'YYYY-MM-DD')as inicio_periodo,";
-                $cadenaSql .= "to_char(urp.fin_periodo, 'YYYY-MM-DD') as fin_periodo";
+                $cadenaSql .= "to_char(urp.fin_periodo, 'YYYY-MM-DD') as fin_periodo,";
+                $cadenaSql .= "cp.observacion";
                 $cadenaSql .= " FROM interoperacion.contrato cn";
                 $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";

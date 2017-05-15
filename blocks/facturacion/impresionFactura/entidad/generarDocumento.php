@@ -215,8 +215,31 @@ class GenerarDocumento
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacion', $this->identificador_beneficiario);
         $this->InformacionFacturacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
+        $cadenaSql = $this->miSql->getCadenaSql('consultaValorPagado', $this->identificador_beneficiario);
+        $this->ValorPagado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['valor_pagado'];
+
         $cadenaSql = $this->miSql->getCadenaSql('consultaValoresConceptos', $this->identificador_beneficiario);
         $this->Conceptos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        // Factura en Mora
+        if ($this->Conceptos != false) {
+
+            foreach ($this->Conceptos as $key => $value) {
+
+                if ($value['observacion'] != '') {
+                    $cadena = explode("(", $value['observacion']);
+                    $id_factura = $cadena[0];
+                }
+
+            }
+
+            if (isset($id_factura) && $id_factura != '') {
+                $cadenaSql = $this->miSql->getCadenaSql('consultarFacturaMora', $id_factura);
+                $this->FacturaMora = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+            }
+
+        }
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarBeneficiario', $this->identificador_beneficiario);
         $this->InformacionBeneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
