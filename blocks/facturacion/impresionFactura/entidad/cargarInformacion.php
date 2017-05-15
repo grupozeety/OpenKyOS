@@ -67,9 +67,9 @@ class FormProcessor
     {
 
         if ($_REQUEST['correo'] == '1') {
-            $datos_adicionales = implode(";", $this->Beneficiarios) . $fechaOportuna . '&correo';
+            $datos_adicionales = implode(";", $this->Beneficiarios) . '&correo';
         } elseif ($_REQUEST['correo'] == '0') {
-            $datos_adicionales = implode(";", $this->Beneficiarios) . $fechaOportuna;
+            $datos_adicionales = implode(";", $this->Beneficiarios);
         }
 
         $arreglo_registro = array(
