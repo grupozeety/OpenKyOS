@@ -705,7 +705,10 @@ class GenerarDocumento
                                             <td style='height:13px;text-align:left;border:none;width:50%;'><b>Conexiones-Digitales-II Sede Sucre:</b><br>Carrera 20 #27-87 oficina 302<br>Edificio Camara de comercio</td>
                                         </tr>
                                         <tr>
-                                            <td  colspan='2' style='height:13px;text-align:center;border:none;width:100%;'><br><br>http://conexionesdigitales.politecnica.edu.co/</td>
+                                            <td  colspan='2' style='height:13px;text-align:left;border:none;width:100%;'><b><br><br>
+                                            Corporación Politécnica Nacional de Colombia<br><br>
+                                            NIT 830.115.993-4<br><br>
+                                            http://conexionesdigitales.politecnica.edu.co/</b></td>
                                         </tr>
                                   </table>";
                 $this->contenido .= "</div>";
