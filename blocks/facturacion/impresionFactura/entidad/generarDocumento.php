@@ -221,6 +221,8 @@ class GenerarDocumento
         $cadenaSql = $this->miSql->getCadenaSql('consultaValoresConceptos', $this->identificador_beneficiario);
         $this->Conceptos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
+        $this->CuotaPeriodo = 0;
+
         // Factura en Mora
         if ($this->Conceptos != false) {
 
@@ -229,6 +231,10 @@ class GenerarDocumento
                 if ($value['observacion'] != '') {
                     $cadena = explode("(", $value['observacion']);
                     $id_factura = $cadena[0];
+                }
+
+                if (strpos(strtolower($value['concepto']), 'mora') === false) {
+                    $this->CuotaPeriodo = $this->CuotaPeriodo + $value['valor_concepto'];
                 }
 
             }
@@ -489,7 +495,7 @@ class GenerarDocumento
                 $this->contenido .= "</tr>
                             <tr>
                                 <td style='height:18px;font-size:16px;text-align:left;border:none;width:50%;background-color:#999;color:#fff'><b>Cuota Mes </b></td>
-                                <td style='height:18px;font-size:16px;text-align:right;border:none;width:50%;background-color:#999;color:#fff'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . " </td>
+                                <td style='height:18px;font-size:16px;text-align:right;border:none;width:50%;background-color:#999;color:#fff'>$ " . number_format($this->CuotaPeriodo, 2) . " </td>
                             </tr>
                             <tr>
                                 <td style='vertical-align:middle;font-size:20px;height:22px;text-align:left;border:none;width:50%;background-color:#009933;color:#fff'><b>Total a pagar</b></td>
