@@ -47,10 +47,10 @@ class Sql extends \Sql {
 				$cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data, proyecto as urbanizacion ";
 				$cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
 				$cadenaSql .= " JOIN interoperacion.documentos_contrato ac on ac.id_beneficiario=bp.id_beneficiario ";
-				$cadenaSql .= " JOIN facturacion.usuario_rol ur on ur.id_beneficiario=bp.id_beneficiario ";
+				//$cadenaSql .= " JOIN facturacion.usuario_rol ur on ur.id_beneficiario=bp.id_beneficiario ";
 				$cadenaSql .= " WHERE bp.estado_registro=TRUE ";
 				$cadenaSql .= " AND ac.estado_registro=TRUE ";
-				$cadenaSql .= " AND ur.estado_registro=TRUE ";
+				//$cadenaSql .= " AND ur.estado_registro=TRUE ";
 				$cadenaSql .= " AND ac.tipologia_documento=132 ";
 				$cadenaSql .= "     ) datos ";
 				$cadenaSql .= "WHERE data='" . $variable . "' ";
