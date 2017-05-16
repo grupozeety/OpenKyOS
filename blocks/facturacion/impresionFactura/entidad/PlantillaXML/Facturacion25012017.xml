@@ -2,33 +2,33 @@
 <factura>
 	<seccion>
 		<columna>
-			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='750' height='255'">http://localhost/OpenKyOS/theme/basico/img/imagenFactura.png</imagen>
+			<imagen alineacionImagen="center;z-index:-1000;" dimensionesImagen="width='750'">http://localhost/OpenKyOS/theme/basico/img/imagenFactura.png</imagen>
 			<titulo estilos="text-align:center;">Este beneficio hace parte del proyecto Conexiones Digitales II que lidera el Ministerio de Tecnologías de la Información y las Comunicaciones de Colombia (MinTIC).</titulo>
 		</columna>	
 	</seccion>
 	<seccion>
 		<columna>
-			<variable estilos="font-size:70%;text-align:center;">InformacionBeneficiario</variable>
-			<variable estilos="font-size:70%;text-align:center;">Conceptos</variable>
-			<texto estilos="color:#808080;font-size:70%;text-align:justify;">No somos grandes contribuyentes, ni agentes de retención en la fuente, Autorización DIAN para facturación electrónica No.$numero_factura del $fecha_factura_letras Autoriza Ty Habilita desde xxxxx hasta xxxxxx,.Actividad Económica Código CIIU 7210 Actividades de consultaría informática y actividades de administración de instalaciones informáticas tarifa 6.9 por 1.000. En virtud de la Ley 1341 de 2009, atendiendo los artículos 10 y 15 de la misma, el Decreto 4948 de 2009 y el Decreto 2618 de 2012 el Ministerio de Tecnologías de la Información y las Comunicaciones incorporo para la provisión de redes y/o servicios de Telecomunicaciones bajo el registro de TIC RTIC96001882 de fecha 2013-12-11, Según la nueva reforma tributaria Ley 1819 de 2016 Art 481 Bienes Exentos. Los servicios de conexión y acceso a Internet desde redes fijas de los suscriptores residenciales de los estratos 1 y 2.</texto>
-			<texto estilos="color:#808080;font-size:70%;text-align:justify;">La autoridad de inspección, vigilancia y control en materia de protección de los derechos de los usuarios es la Superintendencia de Industria y Comercio - Línea gratuita nacional 018000 910165 Cr3 23 32 Montería, Colombia</texto>
+			<variable estilos="text-align:center;">InformacionBeneficiario</variable>
+			<variable estilos="font-size:11px;text-align:center;color:#5b5e60;">Conceptos</variable>
+			<texto estilos="color:#3b393e;font-size:60%;text-align:justify;">No somos grandes contribuyentes, ni agentes de retención en la fuente, Autorización DIAN para facturación electrónica No.$numero_factura del $fecha_factura_letras Autoriza Ty Habilita desde xxxxx hasta xxxxxx,.Actividad Económica Código CIIU 7210 Actividades de consultaría informática y actividades de administración de instalaciones informáticas tarifa 6.9 por 1.000. En virtud de la Ley 1341 de 2009, atendiendo los artículos 10 y 15 de la misma, el Decreto 4948 de 2009 y el Decreto 2618 de 2012 el Ministerio de Tecnologías de la Información y las Comunicaciones incorporo para la provisión de redes y/o servicios de Telecomunicaciones bajo el registro de TIC RTIC96001882 de fecha 2013-12-11, Según la nueva reforma tributaria Ley 1819 de 2016 Art 481 Bienes Exentos. Los servicios de conexión y acceso a Internet desde redes fijas de los suscriptores residenciales de los estratos 1 y 2.</texto>
+			<texto estilos="color:#3b393e;font-size:75%;text-align:justify;">La autoridad de inspección, vigilancia y control en materia de protección de los derechos de los usuarios es la Superintendencia de Industria y Comercio - Línea gratuita nacional 018000 910165 Cr3 23 32 Montería, Colombia</texto>
 
 		</columna>
 		<columna estilos="background-color:#efefef;vertical-align:top;padding-left:33px;padding-top:33px;">
 			<variable estilos="font-size:93%;text-align:center;width:90%;">InformacionFacturacion</variable>
 			<variable estilos="font-size:10px;text-align:center;width:90%;">InformacionPagoResumido</variable>
-			<texto estilos="color:#808080;font-size:85%;text-align:justify;width:90%;">En caso de presentar una reclamación en relación con el monto facturado antes de la fecha de pago oportuno señalada en la factura, el usuario solamente deberá proceder al pago de las sumas que no sean objeto de reclamación.</texto>
+			<texto estilos="color:#2e2f2f;font-size:72%; font-style: italic;text-align:justify;width:90%;">En caso de presentar una reclamación en relación con el monto facturado antes de la fecha de pago oportuno señalada en la factura, el usuario solamente deberá proceder al pago de las sumas que no sean objeto de reclamación.</texto>
 		</columna>
 	</seccion>
 	<seccion>
 		<columna estilos="background-color:#efefef;">
-			<texto estilos="color:#808080;font-size:80%;text-align:justify;width:90%;">*Conexiones-Digitales-II Si tiene alguna queja, reclamo o sugerencia con el servicio prestado no dude en comunicarse con nosotros:</texto>
-			<variable estilos="font-size:80%;text-align:center;">Contacto</variable>
+			<texto estilos="text-align:justify;width:90%;font-size:75%;">*Conexiones-Digitales-II Si tiene alguna queja, reclamo o sugerencia con el servicio prestado no dude en comunicarse con nosotros:</texto>
+			<variable estilos="font-size:75%;text-align:center;">Contacto</variable>
 		</columna>
 		<columna estilos="background-color:#efefef;">
 
 				<variable estilos="font-size:80%;text-align:center;">FormaPago</variable>
-				<variable alineacionCodigoBarras="center" dimensionesCodigoBarras="width:95mm; height:25mm;font-size:2mm">CodigoBarras</variable>
+				<variable alineacionCodigoBarras="center" dimensionesCodigoBarras="width:95mm; height:15mm;font-size:2mm">CodigoBarras</variable>
 		</columna>
 	</seccion>
 </factura>

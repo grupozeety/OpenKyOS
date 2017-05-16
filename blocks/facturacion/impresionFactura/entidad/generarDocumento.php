@@ -343,7 +343,7 @@ class GenerarDocumento
                 break;
 
             case 3:
-                $height = '210px';
+                $height = '165px';
                 break;
 
             case 4:
@@ -479,27 +479,27 @@ class GenerarDocumento
 
                 $this->contenido .= "<div style='" . $this->atributos . "'>";
 
-                $this->contenido .= "<table style='border-collapse:collapse;border:0.2px;width:100%;'s>
+                $this->contenido .= "<table style='vertical-align:middle;border-collapse:collapse;border:0.2px;width:100%;'s>
                             <tr>
-                                <td colspan='2' style='vertical-align:middle;font-size:24px;height:30px;text-align:left;border:none;background-color:#999;color:#fff'><b>Resumen</b></td>
+                                <td colspan='2' style='font-size:24px;height:30px;text-align:left;border:none;background-color:#999;color:#fff;border-bottom: #fff;'><b>Resumen</b></td>
                             </tr>
                             <tr>
-                                <td style='font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#999;color:#fff'><b>Deuda Anterior </b></td>";
+                                <td style='font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'><b>Deuda Anterior </b></td>";
 
                 if (isset($this->FacturaMora) && !is_null($this->FacturaMora['total_factura'])) {
-                    $this->contenido .= "<td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#999;color:#fff'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
+                    $this->contenido .= "<td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
                 } else {
-                    $this->contenido .= "<td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#999;color:#fff'>$ 0</td>";
+                    $this->contenido .= "<td style='font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ 0</td>";
                 }
 
                 $this->contenido .= "</tr>
                             <tr>
-                                <td style='height:18px;font-size:16px;text-align:left;border:none;width:50%;background-color:#999;color:#fff'><b>Cuota Mes </b></td>
-                                <td style='height:18px;font-size:16px;text-align:right;border:none;width:50%;background-color:#999;color:#fff'>$ " . number_format($this->CuotaPeriodo, 2) . " </td>
+                                <td style='height:18px;font-size:16px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;'><b>Cuota Mes </b></td>
+                                <td style='height:18px;font-size:16px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;'>$ " . number_format($this->CuotaPeriodo, 2) . " </td>
                             </tr>
                             <tr>
-                                <td style='vertical-align:middle;font-size:20px;height:22px;text-align:left;border:none;width:50%;background-color:#009933;color:#fff'><b>Total a pagar</b></td>
-                                <td style='vertical-align:middle;height:22px;font-size:20px;text-align:right;border:none;width:50%;background-color:#009933;color:#fff'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
+                                <td style='vertical-align:middle;font-size:20px;height:23px;text-align:left;border:none;width:50%;background-color:#1a823f;color:#fff;'><b>Total a pagar</b></td>
+                                <td style='vertical-align:middle;height:22px;font-size:23px;text-align:right;border:none;width:50%;background-color:#1a823f;color:#fff;'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
                             </tr>
                         </table>
                         <br>
@@ -511,6 +511,7 @@ class GenerarDocumento
                         </table>";
 
                 $this->contenido .= "</div>";
+
                 break;
 
             case 'Conceptos':
@@ -518,7 +519,7 @@ class GenerarDocumento
 
                 $table = "<table style='border-collapse:collapse;border:0.1px;width:100%;' >
                             <tr>
-                                <td colspan='4' style='margin: 0 auto;font-size:16px;height:18px;text-align:left;border:0.1px;background-color:#4766cc;color:#fff'><b>Detalle de Cargos Facturados</b></td>
+                                <td colspan='4' style='margin: 0 auto;font-size:16px;height:18px;text-align:left;border:0.1px;background-color:#2a91bd;color:#fff;border-top-left-radius: 4px; border-bottom-left-radius: 4px;border-top-right-radius: 4px; border-bottom-right-radius: 4px;'><b>Detalle de Cargos Facturados</b></td>
                             </tr>";
 
                 $table .= "<tr>
@@ -558,15 +559,13 @@ class GenerarDocumento
 
                 }
 
-                $table = "<table style='margin: 0 auto;border-collapse:collapse;border:1px;width:100%;' nowrap >
+                $table = "<table style='border-collapse:collapse;border:none;width:100%;' nowrap >
                             <tr>
-                                <td style='font-size: 14px;height:20px;text-align:left;border:0.1px;background-color:#4766cc;border-top-left-radius: 4px; border-bottom-left-radius: 4px; color:#fff;width:50%;vertical-align:middle;'><b>Fecha Oportuna de Pago</b></td>
-                                <td style='height:15px;text-align:center;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;width:50%;vertical-align:middle;'><b>" . $fechaOportuna . "</b></td>
+                                <td style='font-size: 14px;height:20px;text-align:left;border:0.1px;background-color:#2a91bd;border-top-left-radius: 4px; border-bottom-left-radius: 4px; color:#fff;width:50%;vertical-align:middle;'><b>Fecha Oportuna de Pago</b></td>
+                                <td style='height:15px;text-align:center;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;width:50%;vertical-align:middle;color:#5b5e60'><b>" . $fechaOportuna . "</b></td>
                             </tr>
                             </table>
-                            <br>
-                            <br>
-                            <table style='margin: 0 auto;border-collapse:collapse;border:1px;width:100%;' nowrap>
+                            <table style='border-collapse:collapse;border:0.1px;width:100%;color:#5b5e60;font-size:11px;' nowrap>
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:30%'><b>Cliente No: </b></td>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>" . $this->InformacionBeneficiario['id_beneficiario'] . "</b></td>
@@ -608,61 +607,61 @@ class GenerarDocumento
 
                 $this->contenido .= "<table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
                             <tr>
-                                <td colspan='2' style='font-size: 16px;height:20px;text-align:left;border:none;background-color:#ff1a75;border-top-left-radius: 4px; border-top-right-radius:4px;border-bottom-right-radius:4px;border-bottom-left-radius: 4px;color:#fff'><b>Estado de Cuenta</b><br></td>
+                                <td colspan='2' style='font-size: 16px;height:20px;text-align:left;border:none;background-color:#f16c94;border-top-left-radius: 4px; border-top-right-radius:4px;border-bottom-right-radius:4px;border-bottom-left-radius: 4px;color:#fff'><b>Estado de Cuenta</b><br></td>
                             </tr>
                             <tr>
-                                  <td style='height:13px;text-align:left;border:none;width:50%;font-style:italic;'><b>Monto Total Contrato</b></td>
-                                  <td style='height:13px;text-align:right;border:none;width:50%;'>$ " . number_format($this->InformacionFacturacion['valor_contrato'], 2) . "</td>
+                                  <td style='height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Monto Total Contrato</b></td>
+                                  <td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ " . number_format($this->InformacionFacturacion['valor_contrato'], 2) . "</td>
                             </tr>
                             <tr>
-                                  <td style='height:13px;text-align:left;border:none;width:50%;font-style:italic;'><b>Monto Pagado</b></td>";
+                                  <td style='height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Monto Pagado</b></td>";
                 if (!is_null($this->ValorPagado)) {
-                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;'>$ " . number_format($this->ValorPagado, 2) . "</td>";
+                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ " . number_format($this->ValorPagado, 2) . "</td>";
                 } else {
-                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;'>$ 0</td>";
+                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ 0</td>";
                 }
 
                 $this->contenido .= "
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;width:50%;font-style:italic;'><b>En Mora </b></td>";
+                                <td style='height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>En Mora </b></td>";
 
                 if (isset($this->FacturaMora) && !is_null($this->FacturaMora['indice_facturacion']) && !is_null($this->FacturaMora['numeracion_facturacion'])) {
-                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;'>" . $this->FacturaMora['indice_facturacion'] . sprintf("%'.06d", $this->FacturaMora['numeracion_facturacion']) . "</td>";
+                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>" . $this->FacturaMora['indice_facturacion'] . sprintf("%'.06d", $this->FacturaMora['numeracion_facturacion']) . "</td>";
                 } else {
-                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;'> </td>";
+                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'> </td>";
                 }
 
                 $this->contenido .= "
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;width:50%;border-top-left-radius: 4px; border-bottom-left-radius: 4px;color:#444444;border-spacing: 3px'><b>Saldo Vencido </b></td>";
+                                <td style='height:13px;text-align:left;border:none;width:50%;border-top-left-radius: 4px; border-bottom-left-radius: 4px;border-spacing: 3px;font-size:12px;color:#5b5e60;'><b>Saldo Vencido </b></td>";
 
                 if (isset($this->FacturaMora) && !is_null($this->FacturaMora['total_factura'])) {
-                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;border-top-right-radius:4px;border-bottom-right-radius:4px;color:#444444'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
+                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;border-top-right-radius:4px;border-bottom-right-radius:4px;font-size:12px;color:#5b5e60;'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
                 } else {
-                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;border-top-right-radius:4px;border-bottom-right-radius:4px;color:#444444'>$ 0</td>";
+                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;border-top-right-radius:4px;border-bottom-right-radius:4px;font-size:12px;color:#5b5e60;'>$ 0</td>";
                 }
 
                 $this->contenido .= "
                             </tr>
                           </table>";
 
-                $this->contenido .= "<br><br><table style='border-collapse:collapse;border:1px;width:100%;' nowrap >
+                $this->contenido .= "<br><br><table style='vertical-align:middle;border-collapse:collapse;border:1px;width:100%;' nowrap >
                             <tr>
-                                <td colspan='2' style='font-size: 16px;height:20px;text-align:left;border:0.1px;background-color:#4766cc;border-top-left-radius: 4px; border-top-right-radius:4px;border-bottom-right-radius:4px;border-bottom-left-radius: 4px;color:#fff'><b>Periodo Facturado </b>" . $this->InformacionFacturacion['id_ciclo'] . "<br></td>
+                                <td colspan='2' style='font-size: 16px;height:20px;text-align:left;border:0.1px;background-color:#2a91bd;border-top-left-radius: 4px; border-top-right-radius:4px;border-bottom-right-radius:4px;border-bottom-left-radius: 4px;color:#fff'><b>Periodo Facturado </b>" . $this->InformacionFacturacion['id_ciclo'] . "<br></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;width:50%;'><b>Factura</b></td>
-                                <td style='height:13px;text-align:right;border:none;width:50%;'>" . $this->InformacionFacturacion['indice_facturacion'] . $this->InformacionFacturacion['numeracion_facturacion'] . "</td>
+                                <td style='height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;border-bottom: #5b5e60;'><b>Factura</b></td>
+                                <td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;border-bottom: #5b5e60;'>" . $this->InformacionFacturacion['indice_facturacion'] . $this->InformacionFacturacion['numeracion_facturacion'] . "</td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;width:50%;'><b>Valor</b></td>
-                                <td style='height:13px;text-align:right;border:none;width:50%;'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
+                                <td style='height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;border-bottom: #5b5e60;'><b>Valor</b></td>
+                                <td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;border-bottom: #5b5e60;'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;width:50%;'><b>IVA</b></td>
-                                <td style='height:13px;text-align:right;border:none;width:50%;'>$ 0.00</td>
+                                <td style='height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;border-bottom: #5b5e60;'><b>IVA</b></td>
+                                <td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;border-bottom: #5b5e60;'>$ 0.00</td>
                             </tr>
                           </table>";
 
@@ -711,9 +710,9 @@ class GenerarDocumento
                                             <td style='height:13px;text-align:left;border:none;width:50%;'><b>Conexiones-Digitales-II Sede Sucre:</b><br>Carrera 20 #27-87 oficina 302<br>Edificio Camara de comercio</td>
                                         </tr>
                                         <tr>
-                                            <td  colspan='2' style='height:13px;text-align:left;border:none;width:100%;'><b><br><br>
-                                            Corporación Politécnica Nacional de Colombia<br><br>
-                                            NIT 830.115.993-4<br><br>
+                                            <td  colspan='2' style='height:13px;text-align:left;border:none;width:100%;'><b>
+                                            Corporación Politécnica Nacional de Colombia<br>
+                                            NIT 830.115.993-4<br>
                                             http://conexionesdigitales.politecnica.edu.co/</b></td>
                                         </tr>
                                   </table>";
@@ -726,7 +725,7 @@ class GenerarDocumento
                 $this->contenido .= "<table style='border-collapse:collapse;border:none;width:100%;'>
                                         <tr>
                                             <td style='height:13px;text-align:center;border:none;width:30%;vertical-align:center'>Forma de Pago : </td>
-                                            <td style='height:13px;text-align:left;border:none;width:70%;'><img width='200' height='50' src='http://localhost/OpenKyOS/theme/basico/img/FormaPago.png'></td>
+                                            <td style='height:13px;text-align:left;border:none;width:70%;'><img width='200' height='45' src='http://localhost/OpenKyOS/theme/basico/img/FormaPago.png'></td>
                                         </tr>
                                     </table>";
                 $this->contenido .= "</div>";
