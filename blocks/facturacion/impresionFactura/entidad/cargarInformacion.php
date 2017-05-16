@@ -95,30 +95,31 @@ class FormProcessor
 
             $numeracion_actual = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['numeracion'];
 
-            if (!is_null($numeracion_actual) && $numeracion_actual < 500000) {
-                switch ($value) {
-                    case 'FSU':
+            switch ($value) {
+                case 'FVS':
 
-                        $numero_beneficiarios_facturar = $this->contarBeneficiarioPorDepartamento('70');
+                    $numero_beneficiarios_facturar = $this->contarBeneficiarioPorDepartamento('70');
+                    $limite = 867;
 
-                        break;
+                    break;
 
-                    case 'FCO':
-                        $numero_beneficiarios_facturar = $this->contarBeneficiarioPorDepartamento('23');
-                        break;
+                case 'FVM':
+                    $numero_beneficiarios_facturar = $this->contarBeneficiarioPorDepartamento('23');
+                    $limite = 130316;
+                    break;
 
-                }
+            }
 
-                if ((500000 - $numeracion_actual) < $numero_beneficiarios_facturar) {
+            if (!is_null($numeracion_actual) && $numeracion_actual < $limite) {
+
+                if (($limite - $numeracion_actual) < $numero_beneficiarios_facturar) {
 
                     Redireccionador::redireccionar("ErrorNumeroBeneficiariosFacturar");
                 }
 
-            } else if (!($numeracion_actual < 500000)) {
+            } else if (!($numeracion_actual < $limite)) {
 
-                echo "error_numero_fac";
-
-                Redireccionador::redireccionar("ErrorNumeracionFacturacion");
+                Redireccionador::redireccionar("ErrorNumeracionFacturacion", $value . " " . $limite);
 
             }
 

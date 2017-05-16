@@ -90,7 +90,7 @@ class Registrador
         echo $this->miFormulario->formulario($atributos);
         {
 
-            //secho '<a href="http://localhost/OpenKyOS/index.php?data=TYkaqw3PkmLwV3-NLArr-5_iORA8twT2Xf798Zg_G0krIxM4XZwkvcjAXBWVuibADWE62IzswzBqBjDp1dl3uZAQHA0cEpp7RgzLOxZTYQFol4ap__DhJN9d1acRhvOmNoQngZR1IHbgMs-vIdyqi1Oi2hdsyePP_1yarN8zZlh4a_b6vx8R3AUirFdLL2wfxZIpvotf5PBVqSa-PCYfU0hNsoDS1lIScnBY0jStgDgFSZ58BdUWvHH9k9sz8qpn"  target="_blank" ><img src="theme/basico/img/DecargaPDF.png"></a>';
+            //echo '<a href="http://localhost/OpenKyOS/index.php?data=TYkaqw3PkmLwV3-NLArr-5_iORA8twT2Xf798Zg_G0krIxM4XZwkvcjAXBWVuibADWE62IzswzBqBjDp1dl3uZAQHA0cEpp7RgzLOxZTYQFol4ap__DhJN9d1acRhvOmNoQngZR1IHbgMs-vIdyqi1Oi2hdsyePP_1yarN8zZlh4a_b6vx8R3AUirFdLL2wfxZIpvotf5PBVqSa-PCYfU0hNsoDS1lIScnBY0jStgDgFSZ58BdUWvHH9k9sz8qpn"  target="_blank" ><img src="theme/basico/img/DecargaPDF.png"></a>';
             {
 
                 $esteCampo = 'AgrupacionBeneficiario';
@@ -518,7 +518,7 @@ class Registrador
                 break;
 
             case 'errorNumeracionFacturacion':
-                $mensaje = "Error intentar crear proceso de facturación. La facturación superon a N°500000";
+                $mensaje = "Error intentar crear proceso de facturación. La facturación supero el limite de numero de facturación No. " . $_REQUEST['numero_factura'];
                 $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
                 break;

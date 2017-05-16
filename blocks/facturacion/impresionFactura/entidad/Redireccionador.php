@@ -43,6 +43,7 @@ class Redireccionador
             case "ErrorNumeracionFacturacion":
                 $variable = 'pagina=impresionFactura';
                 $variable .= '&mensaje=errorNumeracionFacturacion';
+                $variable .= '&numero_factura=' . $valor;
                 break;
 
             case "ErrorNumeroBeneficiariosFacturar":
