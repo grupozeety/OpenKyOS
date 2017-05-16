@@ -94,11 +94,7 @@ class GenerarDocumento
                  * Númeracion Facturación
                  */
 
-                if (is_null($this->InformacionFacturacion['numeracion_facturacion']) && is_null($this->InformacionFacturacion['indice_facturacion'])) {
-                    $this->parametrizacionNumeracionFacturacion();
-                } else {
-                    $this->InformacionFacturacion['numeracion_facturacion'] = sprintf("%'.06d", $this->InformacionFacturacion['numeracion_facturacion']);
-                }
+                $this->parametrizacionNumeracionFacturacion();
 
                 /**
                  * Cargar Estructura XML
@@ -264,20 +260,22 @@ class GenerarDocumento
         switch ($this->InformacionFacturacion['departamento']) {
             case '23':
 
-                $this->InformacionFacturacion['indice_facturacion'] = 'FCO';
+                $this->InformacionFacturacion['indice_facturacion'] = 'FVM';
+                $this->InformacionFacturacion['limite_facturacion'] = 'No.FVM 000001 al No. FVM 130316';
+                $limite = 130316;
 
-                $cadenaSql = $this->miSql->getCadenaSql('consultarNumeracionFactura', 'FCO');
+                $cadenaSql = $this->miSql->getCadenaSql('consultarNumeracionFactura', 'FVM');
                 $numeracion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
                 break;
 
             case '70':
 
-                $this->InformacionFacturacion['indice_facturacion'] = 'FSU';
-
-                $cadenaSql = $this->miSql->getCadenaSql('consultarNumeracionFactura', 'FSU');
+                $this->InformacionFacturacion['indice_facturacion'] = 'FVS';
+                $this->InformacionFacturacion['limite_facturacion'] = 'No.FVS 000001 al No. FVS 000867';
+                $cadenaSql = $this->miSql->getCadenaSql('consultarNumeracionFactura', 'FVS');
                 $numeracion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
+                $limite = 867;
                 break;
 
         }
@@ -291,7 +289,15 @@ class GenerarDocumento
             $numero_factura = $numeracion[0]['numeracion'] + 1;
         }
 
-        $this->InformacionFacturacion['numeracion_facturacion'] = sprintf("%'.06d", $numero_factura);
+        if (is_null($this->InformacionFacturacion['numeracion_facturacion'])) {
+
+            $this->InformacionFacturacion['numeracion_facturacion'] = sprintf("%'.06d", $numero_factura);
+
+        } else {
+
+            $this->InformacionFacturacion['numeracion_facturacion'] = sprintf("%'.06d", $this->InformacionFacturacion['numeracion_facturacion']);
+
+        }
 
     }
     public function cargarEstructuraXML()
@@ -435,13 +441,13 @@ class GenerarDocumento
 
     public function reemplazarTextos($variable)
     {
-        $texto_variable = ['$numero_factura', '$fecha_factura_letras'];
+        $texto_variable = ['$numero_factura', '$fecha_factura_letras', '$limite_factura'];
 
         foreach ($texto_variable as $key => $value) {
 
             switch ($value) {
                 case '$numero_factura':
-                    $variable = str_replace($value, $this->InformacionFacturacion['indice_facturacion'] . $this->InformacionFacturacion['numeracion_facturacion'], $variable);
+                    $variable = str_replace($value, $this->InformacionFacturacion['indice_facturacion'] . " " . $this->InformacionFacturacion['numeracion_facturacion'], $variable);
                     break;
 
                 case '$fecha_factura_letras':
@@ -451,6 +457,11 @@ class GenerarDocumento
                     $fecha_actual = strftime("%d de %B de %Y", time());
 
                     $variable = str_replace($value, $fecha_actual, $variable);
+
+                    break;
+
+                case '$limite_factura':
+                    $variable = str_replace($value, $this->InformacionFacturacion['limite_facturacion'], $variable);
                     break;
             }
 
@@ -592,7 +603,7 @@ class GenerarDocumento
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:30%'><b>Factura de Venta: </b></td>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>No " . $this->InformacionFacturacion['indice_facturacion'] . $this->InformacionFacturacion['numeracion_facturacion'] . "</b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>No. " . $this->InformacionFacturacion['indice_facturacion'] . " " . $this->InformacionFacturacion['numeracion_facturacion'] . "</b></td>
                             </tr>
                             </table>
 
@@ -627,7 +638,7 @@ class GenerarDocumento
                                 <td style='height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>En Mora </b></td>";
 
                 if (isset($this->FacturaMora) && !is_null($this->FacturaMora['indice_facturacion']) && !is_null($this->FacturaMora['numeracion_facturacion'])) {
-                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>" . $this->FacturaMora['indice_facturacion'] . sprintf("%'.06d", $this->FacturaMora['numeracion_facturacion']) . "</td>";
+                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>No. " . $this->FacturaMora['indice_facturacion'] . " " . sprintf("%'.06d", $this->FacturaMora['numeracion_facturacion']) . "</td>";
                 } else {
                     $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'> </td>";
                 }
@@ -653,7 +664,7 @@ class GenerarDocumento
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;border-bottom: #5b5e60;'><b>Factura</b></td>
-                                <td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;border-bottom: #5b5e60;'>" . $this->InformacionFacturacion['indice_facturacion'] . $this->InformacionFacturacion['numeracion_facturacion'] . "</td>
+                                <td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;border-bottom: #5b5e60;'>No. " . $this->InformacionFacturacion['indice_facturacion'] . " " . $this->InformacionFacturacion['numeracion_facturacion'] . "</td>
                             </tr>
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;border-bottom: #5b5e60;'><b>Valor</b></td>

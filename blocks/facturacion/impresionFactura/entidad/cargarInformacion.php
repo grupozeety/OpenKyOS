@@ -87,7 +87,7 @@ class FormProcessor
     public function validarNumerosFacturasActuales()
     {
 
-        $departamento_validar = ['FSU', 'FCO'];
+        $departamento_validar = ['FVM', 'FVS'];
 
         foreach ($departamento_validar as $key => $value) {
 
