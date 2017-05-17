@@ -1034,8 +1034,6 @@ conformidad y satisfacción del bien que recibo en la fecha, y me obligo a reali
                             Para constancia de lo anterior, firma en la ciudad de " . $beneficiario['municipio'] . ", municipio de " . $beneficiario['municipio'] . ", departamento de " . $beneficiario['departamento'] . ", el día ___________________________" . ".
                             <br>
                             <br>
-                                    <br>
-                                    <br>
                             <table width:100%;>
                                 <tr>
                                     <td rowspan='2' align='rigth' style='vertical-align:top;width:50%;'>Firma: <br>&nbsp;
