@@ -60,7 +60,7 @@ class FormProcessor
              *  2. Cambiar Estado Proceso
              **/
 
-//            $this->actualizarEstadoProceso();
+            $this->actualizarEstadoProceso();
 
             /**
              *  3. Creacion Directorio
