@@ -439,6 +439,16 @@ class GenerarDocumento
         }
     }
 
+    public function transformarFecha($fecha = '')
+    {
+        $tiempo = strtotime($fecha);
+
+        $fecha_transformada = strftime("%d ", $tiempo) . ucfirst(strftime("%h ", $tiempo)) . strftime("%Y", $tiempo);
+
+        return $fecha_transformada;
+
+    }
+
     public function reemplazarTextos($variable)
     {
         $texto_variable = ['$numero_factura', '$fecha_factura_letras', '$limite_factura'];
@@ -573,7 +583,7 @@ class GenerarDocumento
                 $table = "<table style='border-collapse:collapse;border:none;width:100%;' nowrap >
                             <tr>
                                 <td style='font-size: 14px;height:20px;text-align:left;border:0.1px;background-color:#2a91bd;border-top-left-radius: 4px; border-bottom-left-radius: 4px; color:#fff;width:50%;vertical-align:middle;'><b>Fecha Oportuna de Pago</b></td>
-                                <td style='height:15px;text-align:center;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;width:50%;vertical-align:middle;color:#5b5e60'><b>" . $fechaOportuna . "</b></td>
+                                <td style='height:15px;text-align:center;border:0.1px;background-color:#d6f4f9;border-top-right-radius:4px;border-bottom-right-radius:4px;width:50%;vertical-align:middle;color:#5b5e60'><b>" . $this->transformarFecha($fechaOportuna) . "</b></td>
                             </tr>
                             </table>
                             <table style='border-collapse:collapse;border:0.1px;width:100%;color:#5b5e60;font-size:11px;' nowrap>
@@ -604,6 +614,10 @@ class GenerarDocumento
                             <tr>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:30%'><b>Factura de Venta: </b></td>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>No. " . $this->InformacionFacturacion['indice_facturacion'] . " " . $this->InformacionFacturacion['numeracion_facturacion'] . "</b></td>
+                            </tr>
+                            <tr>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:30%'><b>Fecha de Expedición: </b></td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px;width:70%'><b>" . $this->transformarFecha(date('Y-m-d')) . "</b></td>
                             </tr>
                             </table>
 
@@ -863,7 +877,7 @@ class GenerarDocumento
 
                             </style>";
 
-        $contenidoPagina = "<page backtop='2mm' backbottom='2mm' backleft='2mm' backright='2mm'>";
+        $contenidoPagina = "<page backtop='1mm' backbottom='1mm' backleft='1mm' backright='1mm'>";
 
         $contenidoPagina .= $this->contenido;
 
