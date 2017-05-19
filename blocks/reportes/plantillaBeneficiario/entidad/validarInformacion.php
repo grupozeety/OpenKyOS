@@ -145,7 +145,7 @@ class FormProcessor
     {
         foreach ($this->datos_beneficiario as $key => $value) {
 
-            if ($value['longitud'] != 'Sin Longitud') {
+            if (!is_null($value['longitud']) && $value['longitud'] != '') {
 
                 if (!is_numeric($value['longitud']) && $value['longitud'] != 'NULL') {
 
@@ -160,8 +160,17 @@ class FormProcessor
                     $this->error = true;
                 }
 
+            } else {
+
+                $mensaje = " La longitud con respecto a la ubicación de  la  identificación del beneficiario " . $value['identificacion_beneficiario'] . "es ogligatoria.";
+
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
+
             }
-            if ($value['longitud'] != 'Sin Latitud' && $value['latitud'] != 'NULL') {
+
+            if (!is_null($value['latitud']) && $value['latitud'] != '') {
                 if (!is_numeric($value['latitud'])) {
                     $mensaje = " La latitud con respecto a la ubicación asociada a la identificación del beneficiario " . $value['identificacion_beneficiario'] . " no es valida dado que la latitud debe ser númerica  con decimales separados por coma.";
                     $this->escribir_log($mensaje);
@@ -174,6 +183,14 @@ class FormProcessor
 
                     $this->error = true;
                 }
+
+            } else {
+
+                $mensaje = " La latitud con respecto a la ubicación de  la  identificación del beneficiario " . $value['identificacion_beneficiario'] . "es ogligatoria.";
+
+                $this->escribir_log($mensaje);
+
+                $this->error = true;
 
             }
 
