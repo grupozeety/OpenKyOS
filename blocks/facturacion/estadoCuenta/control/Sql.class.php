@@ -113,6 +113,31 @@ class Sql extends \Sql {
 				$cadenaSql .= " AND factura.estado_registro=TRUE ";
 				$cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
 				$cadenaSql .= " GROUP BY   id_beneficiario ";
+				break;
+			
+			case 'estadoServicio' :
+				$cadenaSql = " SELECT estado_servicio , descripcion_parametro ";
+				$cadenaSql .= " FROM logica.info_avan_oper iao ";
+				$cadenaSql .= " JOIN parametros.parametros par ON estado_servicio=codigo_parametro ";
+				$cadenaSql .= " WHERE iao.estado_registro=TRUE ";
+				$cadenaSql .= " AND par.estado_registro=TRUE AND id_beneficiario='" . $variable . "' ;";
+				break;
+			
+			case 'imagenServicio' :
+				$cadenaSql = " SELECT ";
+				$cadenaSql .= " CASE count(estado_factura)";
+				$cadenaSql .= " WHEN 0 THEN 'Activo.png'";
+				$cadenaSql .= " WHEN 1 THEN 'Mora1.png'";
+				$cadenaSql .= " WHEN 2 THEN 'Mora2.png'";
+				$cadenaSql .= " WHEN 3 THEN 'Inactivo.png'";
+				$cadenaSql .= " END";
+				$cadenaSql .= " FROM facturacion.factura";
+				$cadenaSql .= " WHERE 1=1";
+				$cadenaSql .= " AND estado_registro=TRUE";
+				$cadenaSql .= " AND estado_factura='Mora'";
+				$cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
+				$cadenaSql .= " GROUP BY estado_factura ";
+				break;
 		}
 		
 		return $cadenaSql;
