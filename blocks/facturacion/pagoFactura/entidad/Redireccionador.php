@@ -41,6 +41,14 @@ class Redireccionador {
 				$variable = 'pagina=pagoFactura';
 				$variable .= '&mensajeModal=errorActualizacion';
 				break;
+			
+			case "EstadoCuenta" :
+
+				$variable = 'pagina=estadoCuenta';
+				$variable .= '&opcion=verFacturas';
+				$variable .= '&id_beneficiario='.$valor['id_beneficiario'];
+				$variable .= '&contenido='.$valor['pagina'];
+				break;
 		}
 		foreach ( $_REQUEST as $clave => $valor ) {
 			unset ( $_REQUEST [$clave] );

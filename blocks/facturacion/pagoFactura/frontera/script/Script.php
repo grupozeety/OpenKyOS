@@ -18,6 +18,7 @@ $funcion[$indice++] = "jquery.autocomplete.min.js";
 $funcion[$indice++] = "jquery.autocomplete.js";
 $funcion[$indice++] = "momento.js";
 $funcion[$indice++] = "ready.js";
+$funcion[$indice++] = "ready.php";
 
 $embebido [$indice] = true;
 $funcion [$indice ++] = "ajax.php";
