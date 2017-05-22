@@ -91,13 +91,17 @@ class Sql extends \Sql {
 				$cadenaSql .= " valor_pagado,  ";
 				$cadenaSql .= " valor_recibido,  ";
 				$cadenaSql .= " usuario_recibe,  ";
-				$cadenaSql .= " medio_pago)  ";
+				$cadenaSql .= " medio_pago,  ";
+				$cadenaSql .= " abono_adicional,  ";
+				$cadenaSql .= " valor_devuelto)  ";
 				$cadenaSql .= " VALUES ( ";
 				$cadenaSql .= " '" . $variable ['id_factura'] . "',";
 				$cadenaSql .= " '" . $variable ['valor_pagado'] . "',";
 				$cadenaSql .= " '" . $variable ['valor_recibido'] . "',";
 				$cadenaSql .= " '" . $variable ['usuario'] . "',";
-				$cadenaSql .= " '" . $variable ['medio_pago'] . "'";
+				$cadenaSql .= " '" . $variable ['medio_pago'] . "',";
+				$cadenaSql .= " '" . $variable ['abono_adicional'] . "',";
+				$cadenaSql .= " '" . $variable ['valor_devuelto'] . "'";
 				$cadenaSql .= "  ) RETURNING id_pago;";
 				break;
 			
@@ -110,7 +114,13 @@ class Sql extends \Sql {
 			case 'medioPago' :
 				$cadenaSql = " SELECT  descripcion ";
 				$cadenaSql .= " from parametros.parametros ";
-				$cadenaSql .= " WHERE rel_parametro=29 AND estado_registro=TRUE AND codigo='".$variable."'";
+				$cadenaSql .= " WHERE rel_parametro=29 AND estado_registro=TRUE AND codigo='" . $variable . "'";
+				break;
+			
+			case 'estadoServicio' :
+				$cadenaSql = " SELECT estado_servicio ";
+				$cadenaSql .= " FROM logica.info_avan_oper ";
+				$cadenaSql .= " WHERE estado_registro=TRUE AND id_beneficiario='" . $variable . "' ;";
 				break;
 		}
 		

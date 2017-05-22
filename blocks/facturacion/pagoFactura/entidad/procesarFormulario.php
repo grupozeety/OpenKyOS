@@ -40,7 +40,7 @@ class FormProcessor {
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		$_REQUEST ['tiempo'] = time ();
-	
+
 				/**
 		 * 1.
 		 * Revisar Valor de Factura Coincida con el Pago
@@ -79,7 +79,7 @@ class FormProcessor {
 	}
 	public function revisarFactura() {
 		$valor_recibido = $_REQUEST ['valor_recibido'];
-		$valor_factura = $_REQUEST ['valor_factura'];
+		$valor_factura = $_REQUEST ['valor_factura']+$_REQUEST['valor_abono'];
 		
 		if ($valor_recibido - $valor_factura < 0) {
 			Redireccionador::redireccionar ( "ErrorValor" );
@@ -104,13 +104,16 @@ class FormProcessor {
 				'valor_pagado' => $_REQUEST ['valor_factura'],
 				'valor_recibido' => $_REQUEST ['valor_recibido'],
 				'usuario' => $_REQUEST ['usuario'],
-				'medio_pago' => $_REQUEST ['medio_pago'] 
+				'medio_pago' => $_REQUEST ['medio_pago'],
+				'abono_adicional'=>$_REQUEST['valor_abono'],
+				'valor_devuelto'=> $_REQUEST ['valor_recibido']-$_REQUEST ['valor_factura']-$_REQUEST['valor_abono'],
 		);
 		
 	    $cadenaSql = $this->miSql->getCadenaSql ( 'registrarPago', $this->asociacion );
 		$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		$_REQUEST['idPago']=$registro[0][0];
+		$_REQUEST['valor_devuelto']=$_REQUEST ['valor_recibido']-$_REQUEST ['valor_factura']-$_REQUEST['valor_abono'];
 
 		return $registro;
 	}

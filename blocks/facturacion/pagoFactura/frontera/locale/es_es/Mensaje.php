@@ -5,7 +5,8 @@
 
 $this->idioma['noDefinido'] = 'Etiqueta No definida';
 
-$this->idioma['valor_recibido'] = 'Valor Recibido';
+$this->idioma['valor_recibido'] = 'Valor Total Recibido';
+$this->idioma['valor_abono'] = 'Valor Adicional Abono';
 $this->idioma['valor_recibidoTitulo'] = 'Valor Recibido';
 $this->idioma['medio_pago'] = 'Método de Pago';
 $this->idioma['botonCrear'] = 'Registrar Nuevo Método';
@@ -28,4 +29,5 @@ $this->idioma["usuario"]="Nombre Beneficiario";
 $this->idioma["ciclo"]="Ciclo de Facturación";
 $this->idioma["total"]="Total Factura";
 $this->idioma["estado"]="Estado Factura";
+$this->idioma["abono"]="¿Abonar a Deuda de Contrato?";
 ?>
