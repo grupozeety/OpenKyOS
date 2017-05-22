@@ -95,7 +95,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarPagos' :
-				$cadenaSql = " SELECT id_pago, pago_factura.id_factura, pago_factura.fecha_registro, usuario_recibe as cajero, valor_pagado, id_beneficiario ";
+				$cadenaSql = " SELECT id_pago, pago_factura.id_factura, pago_factura.fecha_registro, usuario_recibe as cajero, valor_pagado, id_beneficiario, abono_adicional , abono_adicional+valor_pagado as total_pagado ";
 				$cadenaSql .= " FROM facturacion.pago_factura ";
 				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=pago_factura.id_factura ";
 				$cadenaSql .= " WHERE 1=1 ";
@@ -105,7 +105,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'totalPagado' :
-				$cadenaSql = " SELECT  id_beneficiario, sum(valor_pagado) pagado ";
+				$cadenaSql = " SELECT  id_beneficiario, sum(valor_pagado + abono_adicional) pagado ";
 				$cadenaSql .= " FROM facturacion.pago_factura ";
 				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=pago_factura.id_factura ";
 				$cadenaSql .= " WHERE 1=1 ";
