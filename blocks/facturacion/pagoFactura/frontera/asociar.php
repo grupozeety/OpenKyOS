@@ -193,7 +193,7 @@ class Consultar {
 					unset ( $atributos );
 					{
 						// -----------------CONTROL: Botón ----------------------------------------------------------------
-						$esteCampo = 'botonPagar';
+						$esteCampo = 'botonPagar1';
 						$atributos ["id"] = $esteCampo;
 						$atributos ["tabIndex"] = $tab;
 						$atributos ["tipo"] = 'boton';

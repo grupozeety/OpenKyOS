@@ -18,6 +18,7 @@ $this->idioma["cabeceraNoEliminado"]="No ha sido posible cancelar el Factura. Un
 
 $this->idioma["botonValidar"]="Validar";
 $this->idioma["botonPagar"]="Pagar Factura";
+$this->idioma["botonPagar1"]="Pagar Factura";
 $this->idioma["botonPagarTitulo"]="Pagar Factura";
 $this->idioma["botonAceptarElim"]="Cancelar Factura";
 $this->idioma["botonCancelarElim"]="Atrás";
