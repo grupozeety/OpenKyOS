@@ -333,6 +333,8 @@ class Consultar {
 						    <th>Factura</th>
 				     		<th>Fecha de Pago</th>
 			                <th>Cajero</th>
+						 	<th>Valor Factura</th>
+						    <th>Valor Abono</th>
 							<th>Valor Total</th>
 			            </tr>
 			        </thead>

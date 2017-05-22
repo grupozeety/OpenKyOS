@@ -142,7 +142,10 @@ class GenerarDocumento {
 		$html2pdf->WriteHTML ( $this->contenidoPagina );
 		
 		$html2pdf->Output ( 'comprobantePago.pdf', 'D' );
-
+		
+		echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
+		
+		exit ();
 	}
 	public function estructuraDocumento() {
 		$contenidoPagina = "<style type=\"text/css\">

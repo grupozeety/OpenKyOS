@@ -79,7 +79,9 @@ class procesarAjax {
 						$resultadoFinal [] = array (
 								'id_factura' => "<center>" . $valor ['id_factura'] . "</center>",
 								'id_pago' => "<center>" . $valor ['id_pago'] . "</center>",
-								'total' => "<center> $ " . number_format ( $valor ['valor_pagado'], 2, ',', '.' ) . "</center>",
+								'total' => "<center> $ " . number_format ( $valor ['total_pagado'], 2, ',', '.' ) . "</center>",
+								'total_factura' => "<center> $ " . number_format ( $valor ['valor_pagado'], 2, ',', '.' ) . "</center>",
+								'total_abono' => "<center> $ " . number_format ( $valor ['abono_adicional'], 2, ',', '.' ) . "</center>",
 								'fecha_pago' => "<center>" . $valor ['fecha_registro'] . "</center>",
 								'cajero' => "<center>" . $valor ['cajero'] . "</center>"
 						);

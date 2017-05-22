@@ -20,7 +20,7 @@ $("#<?php echo $this->campoSeguro('abono');?>").click(function() {
     a=parseFloat($('#<?php echo $this->campoSeguro('valor_abono');?>').val());
     n=parseFloat($('#<?php echo $this->campoSeguro('valor_abono');?>').val())+anterior;
             $('#<?php echo $this->campoSeguro('valor_recibido');?>').val(n);
-            $("#<?php echo $this->campoSeguro('botonPagar');?>").prop('disabled', false);
+            $("#<?php echo $this->campoSeguro('botonPagar');?>").show();
          });
 
     $("#<?php echo $this->campoSeguro('valor_recibido');?>").change(function() {
@@ -33,6 +33,6 @@ $("#<?php echo $this->campoSeguro('abono');?>").click(function() {
 
         $("#<?php echo $this->campoSeguro('botonPagar');?>").click(function() {
         if($("#<?php echo $this->campoSeguro('medio_pago');?>").val()!=''){
-           $("#<?php echo $this->campoSeguro('botonPagar');?>").prop('disabled', true);
+           $("#<?php echo $this->campoSeguro('botonPagar');?>").hide();
            }
         });

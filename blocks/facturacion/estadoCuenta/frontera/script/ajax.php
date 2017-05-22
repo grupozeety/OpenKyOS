@@ -310,6 +310,8 @@ $(document).ready(function() {
 	            { "data": "id_factura" },
                 { "data": "fecha_pago" },
 	            { "data": "cajero" },
+	            { "data": "total_factura" },
+	            { "data": "total_abono" },
 	            { "data": "total" },
 	        ]
 	    } );
