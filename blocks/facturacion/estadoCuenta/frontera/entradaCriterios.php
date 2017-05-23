@@ -38,7 +38,7 @@ class Consultar {
 		$atributosGlobales ['campoSeguro'] = 'true';
 		
 		$_REQUEST ['tiempo'] = time ();
-		
+
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
@@ -48,7 +48,7 @@ class Consultar {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'totalPagado', $_REQUEST ['id_beneficiario'] );
 		$pagado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
-		$imagen='';
+		$imagen=      '';
 		$cadenaSql = $this->miSql->getCadenaSql ( 'imagenServicio', $_REQUEST ['id_beneficiario'] );
 		$imagen = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
@@ -88,7 +88,7 @@ class Consultar {
 			{
 				$esteCampo = 'Agrupacion';
 				$atributos ['id'] = $esteCampo;
-				$atributos ['leyenda'] = "Estado de Cuenta " . $_REQUEST ['beneficiario'];
+				$atributos ['leyenda'] = "Estado de Cuenta " . $beneficiario[0]['nombre'];
 				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 				unset ( $atributos );
 			}
@@ -333,6 +333,8 @@ class Consultar {
 						    <th>Factura</th>
 				     		<th>Fecha de Pago</th>
 			                <th>Cajero</th>
+						 	<th>Valor Factura</th>
+						    <th>Valor Abono</th>
 							<th>Valor Total</th>
 			            </tr>
 			        </thead>

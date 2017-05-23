@@ -155,6 +155,7 @@ $valorCodificado2 .= "&id=";
  
 $(document).ready(function() {
     $('#example2').DataTable();
+
 } );
 
 $(document).ready(function() {
@@ -290,3 +291,4 @@ $(document).ready(function() {
 	});
 	
 });
+

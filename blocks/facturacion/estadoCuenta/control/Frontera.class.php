@@ -57,6 +57,9 @@ class Frontera {
 					break;
 				
 				case "verFacturas" :
+					if(isset($_REQUEST['id_beneficiario'])){
+						$_REQUEST['id_beneficiario']=$_REQUEST['id_beneficiario'];
+					}
 					include_once $this->ruta . "frontera/entradaCriterios.php";
 					break;
 				

@@ -19,7 +19,6 @@ class Periodos {
 	public $ruta;
 	public $rutaURL;
 	public $miSesionSso;
-	
 	public function __construct($lenguaje, $formulario, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		
@@ -49,7 +48,6 @@ class Periodos {
 		$this->pagoFactura ();
 	}
 	public function pagoFactura() {
-		
 		$respuesta = $this->miSesionSso->getParametrosSesionAbierta ();
 		// Conexion a Base de Datos
 		$conexion = "interoperacion";
@@ -202,40 +200,69 @@ class Periodos {
 		echo $this->miFormulario->campoTexto ( $atributos );
 		unset ( $atributos );
 		
-		echo "<br><br><br><br>";
-		$esteCampo = 'medio_pago';
-		$atributos ['nombre'] = $esteCampo;
+		echo "<br><br><br>";
+		
+		// ---------------- CONTROL: Cuadro de Texto -----------
+		$esteCampo = 'abono';
 		$atributos ['id'] = $esteCampo;
-		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-		$atributos ["etiquetaObligatorio"] = true;
+		$atributos ['nombre'] = $esteCampo;
+		$atributos ["etiquetaObligatorio"] = false;
+		$atributos ['columnas'] = 1;
 		$atributos ['tab'] = $tab ++;
 		$atributos ['anchoEtiqueta'] = 2;
-		$atributos ['evento'] = '';
-		$atributos ['seleccion'] = - 1;
+		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+		$atributos ['seleccionado'] = false;
+		$atributos ['evento'] = ' ';
+		$atributos ['eventoFuncion'] = ' ';
+		$atributos ['valor'] = '';
 		$atributos ['deshabilitado'] = false;
-		$atributos ['columnas'] = 1;
-		$atributos ['tamanno'] = 1;
-		$atributos ['ajax_function'] = "";
-		$atributos ['ajax_control'] = $esteCampo;
-		$atributos ['estilo'] = "bootstrap";
-		$atributos ['limitar'] = false;
-		$atributos ['anchoCaja'] = 3;
-		$atributos ['miEvento'] = '';
-		$atributos ['validar'] = 'required';
-		$atributos ['cadena_sql'] = 'required';
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarTipoPago' );
-		$matrizItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-		$atributos ['matrizItems'] = $matrizItems;
-		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+		echo $this->miFormulario->campoCuadroSeleccion ( $atributos );
+		unset ( $atributos );
+		
+		$esteCampo = 'infoAbono';
+		$atributos ['id'] = $esteCampo;
+		$atributos ['leyenda'] = "";
+		echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
+		unset ( $atributos );
+		{
+			$esteCampo = 'valor_abono';
+			$atributos ['id'] = $esteCampo;
+			$atributos ['nombre'] = $esteCampo;
+			$atributos ['tipo'] = "number";
+			$atributos ['minimo'] = 0;
+			$atributos ['decimal'] = true;
+			$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+			$atributos ["etiquetaObligatorio"] = true;
+			$atributos ['tab'] = $tab ++;
+			$atributos ['anchoEtiqueta'] = 2;
+			$atributos ['estilo'] = "bootstrap";
+			$atributos ['evento'] = '';
+			$atributos ['deshabilitado'] = false;
+			$atributos ['readonly'] = false;
+			$atributos ['columnas'] = 1;
+			$atributos ['tamanno'] = 1;
+			$atributos ['placeholder'] = "Ingrese Valor Númerico";
+			$atributos ['valor'] = 0;
+			$atributos ['ajax_function'] = "";
+			$atributos ['ajax_control'] = $esteCampo;
+			$atributos ['limitar'] = false;
+			$atributos ['anchoCaja'] = 3;
+			$atributos ['miEvento'] = '';
+			$atributos ['validar'] = 'required';
+			// Aplica atributos globales al control
+			$atributos = array_merge ( $atributos, $atributosGlobales );
+			echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
+			unset ( $atributos );
+		}
+		echo $this->miFormulario->agrupacion ( 'fin' );
 		unset ( $atributos );
 		
 		$esteCampo = 'valor_recibido';
 		$atributos ['id'] = $esteCampo;
 		$atributos ['nombre'] = $esteCampo;
 		$atributos ['tipo'] = "number";
-		$atributos ['minimo'] = 0.1;
+		$atributos ['minimo'] = 0;
 		$atributos ['decimal'] = true;
 		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 		$atributos ["etiquetaObligatorio"] = true;
@@ -264,6 +291,33 @@ class Periodos {
 		echo $this->miFormulario->campoCuadroTextoBootstrap ( $atributos );
 		unset ( $atributos );
 		
+		$esteCampo = 'medio_pago';
+		$atributos ['nombre'] = $esteCampo;
+		$atributos ['id'] = $esteCampo;
+		$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+		$atributos ["etiquetaObligatorio"] = true;
+		$atributos ['tab'] = $tab ++;
+		$atributos ['anchoEtiqueta'] = 2;
+		$atributos ['evento'] = '';
+		$atributos ['seleccion'] = - 1;
+		$atributos ['deshabilitado'] = false;
+		$atributos ['columnas'] = 1;
+		$atributos ['tamanno'] = 1;
+		$atributos ['ajax_function'] = "";
+		$atributos ['ajax_control'] = $esteCampo;
+		$atributos ['estilo'] = "bootstrap";
+		$atributos ['limitar'] = false;
+		$atributos ['anchoCaja'] = 3;
+		$atributos ['miEvento'] = '';
+		$atributos ['validar'] = 'required';
+		$atributos ['cadena_sql'] = 'required';
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarTipoPago' );
+		$matrizItems = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		$atributos ['matrizItems'] = $matrizItems;
+		// Aplica atributos globales al control
+		$atributos = array_merge ( $atributos, $atributosGlobales );
+		echo $this->miFormulario->campoCuadroListaBootstrap ( $atributos );
+		unset ( $atributos );
 		// ------------------Division para los botones-------------------------
 		$atributos ["id"] = "botones";
 		$atributos ["estilo"] = "marcoBotones";
@@ -282,6 +336,7 @@ class Periodos {
 		$atributos ["estiloMarco"] = '';
 		$atributos ["estiloBoton"] = 'default';
 		$atributos ["block"] = false;
+		$atributos ['deshabilitado'] = true;
 		// verificar: true para verificar el formulario antes de pasarlo al servidor.
 		$atributos ["verificar"] = '';
 		$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
@@ -291,7 +346,10 @@ class Periodos {
 		
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
-		echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
+		
+		if ($factura [0] ['estado_factura'] == 'Aprobado') {
+			echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
+		}
 		unset ( $atributos );
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
@@ -320,12 +378,12 @@ class Periodos {
 		$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 		$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 		$valorCodificado .= "&opcion=registrarPago";
-		$valorCodificado .= "&usuario=".$respuesta['mail'][0];
-		$valorCodificado .= "&usuarioN=".$respuesta['givenName'][0];
-		$valorCodificado .= "&valor_factura=".$factura[0]['total_factura'];
-		$valorCodificado .= "&id_factura=".$_REQUEST ['id'];
-		$valorCodificado .= "&beneficiario=".$factura [0] ['nombres'];
-		
+		$valorCodificado .= "&usuario=" . $respuesta ['mail'] [0];
+		$valorCodificado .= "&usuarioN=" . $respuesta ['givenName'] [0];
+		$valorCodificado .= "&valor_factura=" . $factura [0] ['total_factura'];
+		$valorCodificado .= "&id_factura=" . $_REQUEST ['id'];
+		$valorCodificado .= "&beneficiario=" . $factura [0] ['nombres'];
+		$valorCodificado .= "&id_beneficiario=" .$factura [0] ['id_beneficiario'];
 		
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.

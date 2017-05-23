@@ -5,7 +5,8 @@
 
 $this->idioma['noDefinido'] = 'Etiqueta No definida';
 
-$this->idioma['valor_recibido'] = 'Valor Recibido';
+$this->idioma['valor_recibido'] = 'Valor Total Recibido';
+$this->idioma['valor_abono'] = 'Valor Adicional Abono';
 $this->idioma['valor_recibidoTitulo'] = 'Valor Recibido';
 $this->idioma['medio_pago'] = 'Método de Pago';
 $this->idioma['botonCrear'] = 'Registrar Nuevo Método';
@@ -17,6 +18,7 @@ $this->idioma["cabeceraNoEliminado"]="No ha sido posible cancelar el Factura. Un
 
 $this->idioma["botonValidar"]="Validar";
 $this->idioma["botonPagar"]="Pagar Factura";
+$this->idioma["botonPagar1"]="Pagar Factura";
 $this->idioma["botonPagarTitulo"]="Pagar Factura";
 $this->idioma["botonAceptarElim"]="Cancelar Factura";
 $this->idioma["botonCancelarElim"]="Atrás";
@@ -28,4 +30,5 @@ $this->idioma["usuario"]="Nombre Beneficiario";
 $this->idioma["ciclo"]="Ciclo de Facturación";
 $this->idioma["total"]="Total Factura";
 $this->idioma["estado"]="Estado Factura";
+$this->idioma["abono"]="¿Abonar a Deuda de Contrato?";
 ?>

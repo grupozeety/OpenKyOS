@@ -44,7 +44,8 @@ class Consultar {
 		
 		$cadenaSql = $this->sql->getCadenaSql ( 'consultarConceptos_especifico', $_REQUEST ['id'] );
 		$conceptos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-		
+
+
 		// -------------------------------------------------------------------------------------------------
 		
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -192,7 +193,7 @@ class Consultar {
 					unset ( $atributos );
 					{
 						// -----------------CONTROL: Botón ----------------------------------------------------------------
-						$esteCampo = 'botonPagar';
+						$esteCampo = 'botonPagar1';
 						$atributos ["id"] = $esteCampo;
 						$atributos ["tabIndex"] = $tab;
 						$atributos ["tipo"] = 'boton';
@@ -211,7 +212,9 @@ class Consultar {
 						
 						// Aplica atributos globales al control
 						$atributos = array_merge ( $atributos, $atributosGlobales );
-						echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
+						if ($factura [0] ['estado_factura'] == 'Aprobado') {
+							echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
+						}
 						unset ( $atributos );
 						// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 					}
@@ -287,7 +290,7 @@ class Consultar {
 				$valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
 				$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 				$valorCodificado .= "&opcion=pagar";
-				$valorCodificado .= "&id=".$_REQUEST ['id'];
+				$valorCodificado .= "&id=" . $_REQUEST ['id'];
 				
 				/**
 				 * SARA permite que los nombres de los campos sean dinámicos.
