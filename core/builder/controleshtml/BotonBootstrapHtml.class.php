@@ -8,7 +8,7 @@ require_once ("core/builder/controleshtml/Input.class.php");
 class BotonBootstrapHtml extends HtmlBase{
 
     function campoBotonBootstrapHtml($atributos) {
-        
+ 
         $this->setAtributos ( $atributos );
         
         $this->campoSeguro();
@@ -63,7 +63,7 @@ class BotonBootstrapHtml extends HtmlBase{
     }
     
     private function estiloBoton(){
-    
+
     	if(isset($this->atributos [self::ESTILOBOTON])){
     		 
     		switch ($this->atributos [self::ESTILOBOTON]){
@@ -116,7 +116,7 @@ class BotonBootstrapHtml extends HtmlBase{
     }
     
     private function botonModal(){
-    	
+
     	$this->estiloBoton();
     	
     	$this->cadenaBoton = "<button ";
@@ -134,11 +134,12 @@ class BotonBootstrapHtml extends HtmlBase{
     private function botonSimple(){
     	 
     	$this->estiloBoton();
-    	 
+
     	$this->cadenaBoton = "<input ";
     	$this->cadenaBoton .= "class='".$this->atributos [self::ESTILOBOTON]." ".$this->atributos ['block'] . "' ";
     	$this->cadenaBoton .= self::HTMLVALUE . "'" . $this->atributos [self::VALOR] . "' ";
     	$this->cadenaBoton .= self::HTMLTABINDEX . "'" . $this->atributos [self::TABINDEX] . "' ";
+    	$this->cadenaBoton .= "id='" . $this->atributos [self::ID] ."' ";
     	$this->cadenaBoton .= "type='submit' ";
     	$this->cadenaBoton .= ">";
     	
@@ -146,7 +147,7 @@ class BotonBootstrapHtml extends HtmlBase{
     }
     
     private function botonBasico(){
-    
+
     	$this->estiloBoton();
     
     	$this->cadenaBoton = "<input ";
@@ -161,11 +162,11 @@ class BotonBootstrapHtml extends HtmlBase{
     }
     
     private function boton($datosConfiguracion) {
-        
-    	
+    
        $this->estiloBoton();
         	
         if ($this->atributos [self::TIPO] == "boton") {
+       
             $this->cadenaBoton = "<button ";
             $this->cadenaBoton .= "class='".$this->atributos [self::ESTILOBOTON]." ".$this->atributos ['block']."' ";
             $this->cadenaBoton .= self::HTMLVALUE . "'" . $this->atributos [self::VALOR] . "' ";
@@ -197,7 +198,7 @@ class BotonBootstrapHtml extends HtmlBase{
                 $this->cadenaBoton .= $this->cuadroAsociado();
             }
         } else {
-    
+   
             $this->cadenaBoton = "<input ";
             $this->cadenaBoton .= self::HTMLVALUE . "'" . $this->atributos [self::VALOR] . "' ";
             $this->cadenaBoton .= self::HTMLNAME . "'" . $this->atributos [self::ID] . "' ";

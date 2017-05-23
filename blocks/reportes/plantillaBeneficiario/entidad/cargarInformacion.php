@@ -376,7 +376,7 @@ class FormProcessor
     {
         foreach ($this->datos_beneficiario as $key => $value) {
 
-            if ($value['longitud'] != 'Sin Longitud' && $value['longitud'] != 'NULL') {
+            if (!is_null($value['longitud']) && $value['longitud'] != '') {
                 if (!is_numeric($value['longitud'])) {
 
                     Redireccionador::redireccionar("ErrorCreacion");
@@ -384,9 +384,13 @@ class FormProcessor
 
                     Redireccionador::redireccionar("ErrorCreacion");
                 }
+            } else {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+
             }
 
-            if ($value['latitud'] != 'Sin Latitud' && $value['latitud'] != 'NULL') {
+            if (!is_null($value['latitud']) && $value['latitud'] != '') {
                 if (!is_numeric($value['latitud'])) {
 
                     Redireccionador::redireccionar("ErrorCreacion");
@@ -394,6 +398,10 @@ class FormProcessor
 
                     Redireccionador::redireccionar("ErrorCreacion");
                 }
+            } else {
+
+                Redireccionador::redireccionar("ErrorCreacion");
+
             }
 
         }

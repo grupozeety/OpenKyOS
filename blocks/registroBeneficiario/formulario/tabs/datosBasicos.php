@@ -11,13 +11,15 @@ use registroBeneficiario\funcion\redireccion;
 
 require_once 'blocks/agendarComisionamiento/funcion/sincronizar.php';
 // include "funcion/redireccionar.php";
-class Formulario {
+class Formulario
+{
 
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -30,7 +32,8 @@ class Formulario {
 
         $this->sincronizacion = new sincronizar($lenguaje, $sql, $formulario);
     }
-    public function formulario() {
+    public function formulario()
+    {
 
         /**
          * IMPORTANTE: Este formulario está utilizando jquery.
@@ -107,12 +110,10 @@ class Formulario {
 
         $deshabilitado = false;
 
-       
         if (isset($_REQUEST['id'])) {
             $cadena_sql = $this->miSql->getCadenaSql("cargarBeneficiarioPotencial");
             $cargueDatos = $esteRecursoDB->ejecutarAcceso($cadena_sql, "busqueda");
-  
-            
+
             if (count($cargueDatos) > 1) {
 
                 $documentos = "";
@@ -134,25 +135,25 @@ class Formulario {
                 redireccion::redireccionar("noExisteBeneficiario");
                 exit();
             } else {
-            	
-            	$data=array(
-            			'id'=>$_REQUEST['id'],
-            			'documento'=>$cargueDatos['identificacion_beneficiario'],
-            	);
-            	//Aquí sincronizar el menú de acceso rápido
-            	$cadena_sql = $this->miSql->getCadenaSql("sincronizarRapido",$data);
-            	$accesoRapido = $esteRecursoDB->ejecutarAcceso($cadena_sql, "registro");
-            	
+
+                $data = array(
+                    'id' => $_REQUEST['id'],
+                    'documento' => $cargueDatos['identificacion_beneficiario'],
+                );
+                //Aquí sincronizar el menú de acceso rápido
+                $cadena_sql = $this->miSql->getCadenaSql("sincronizarRapido", $data);
+                $accesoRapido = $esteRecursoDB->ejecutarAcceso($cadena_sql, "registro");
+
                 $cadenaSql = $this->miSql->getCadenaSql('estadoAlfresco', $_REQUEST['id']);
                 $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-                if ($estado_carpeta == FALSE) {
+                if ($estado_carpeta == false) {
                     $alfresco = $this->sincronizacion->alfresco($_REQUEST['id']);
                     if ($alfresco['estado'][0] == 0) {
                         $cadenaSql = $this->miSql->getCadenaSql('estadoAlfrescoUpdate', $_REQUEST['id']);
                         $estado_carpeta = $esteRecursoDB->ejecutarAcceso($cadenaSql, "insertar");
 
-                        if ($estado_carpeta == FALSE) {
+                        if ($estado_carpeta == false) {
                             redireccion::redireccionar('noAlfresco');
                             exit();
                         }
@@ -978,7 +979,7 @@ class Formulario {
             // ----------------FIN CONTROL: Campo Texto Manzana-------------------------------------------------------
 
             // ----------------INICIO CONTROL: Campo Texto Interior--------------------------------------------------------
-            
+
             $esteCampo = 'interior';
             $atributos['nombre'] = $esteCampo;
             $atributos['tipo'] = "text";
@@ -1002,19 +1003,19 @@ class Formulario {
             $atributos['miEvento'] = '';
             //             $atributos['validar'] = '';
             // Aplica atributos globales al control
-            
+
             if (isset($cargueDatos[$esteCampo])) {
-            	$atributos['valor'] = $cargueDatos[$esteCampo];
+                $atributos['valor'] = $cargueDatos[$esteCampo];
             } else {
-            	$atributos['valor'] = '';
+                $atributos['valor'] = '';
             }
-            
+
             $atributos = array_merge($atributos, $atributosGlobales);
             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
             unset($atributos);
-            
+
             // ----------------FIN CONTROL: Campo Texto Torre-------------------------------------------------------
-            
+
             // ----------------INICIO CONTROL: Campo Texto Torre--------------------------------------------------------
 
             $esteCampo = 'torre';
@@ -1130,7 +1131,7 @@ class Formulario {
             // ----------------FIN CONTROL: Campo Texto Apartamento-------------------------------------------------------
 
             // ----------------INICIO CONTROL: Campo Texto Apartamento--------------------------------------------------------
-            
+
             $esteCampo = 'lote';
             $atributos['nombre'] = $esteCampo;
             $atributos['tipo'] = "text";
@@ -1154,19 +1155,19 @@ class Formulario {
             $atributos['miEvento'] = '';
             //$atributos['validar'] = '';
             // Aplica atributos globales al control
-            
+
             if (isset($cargueDatos[$esteCampo])) {
-            	$atributos['valor'] = $cargueDatos[$esteCampo];
+                $atributos['valor'] = $cargueDatos[$esteCampo];
             } else {
-            	$atributos['valor'] = '';
+                $atributos['valor'] = '';
             }
-            
+
             $atributos = array_merge($atributos, $atributosGlobales);
             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
             unset($atributos);
-            
+
             // ----------------FIN CONTROL: Campo Texto Apartamento-------------------------------------------------------
-            
+
             // ----------------INICIO CONTROL: Lista Proyecto--------------------------------------------------------
 
             $esteCampo = 'urbanizacion';
@@ -1444,7 +1445,7 @@ class Formulario {
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = '';
+            $atributos['validar'] = 'required';
             // Aplica atributos globales al control
 
             if (isset($cargueDatos[$esteCampo])) {
@@ -1978,7 +1979,7 @@ class Formulario {
         $atributos['limitar'] = false;
         $atributos['anchoCaja'] = 12;
         $atributos['miEvento'] = '';
-        // $atributos ['validar'] = 'required';
+        $atributos['validar'] = 'required';
         // Aplica atributos globales al control
         echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
         unset($atributos);
@@ -2014,41 +2015,39 @@ class Formulario {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->modal($atributos);
         unset($atributos);
-        
+
         // ----------------INICIO CONTROL: Ventana Modal Mapa verificar---------------------------------
-        
+
         $atributos['tipoEtiqueta'] = 'inicio';
         $atributos['titulo'] = 'Error';
         $atributos['id'] = 'modalVerificar';
-        $atributos ['estiloLinea'] = 'error'; // success,error,information,warning
+        $atributos['estiloLinea'] = 'error'; // success,error,information,warning
         $mensaje = "Identificación Existe en Sistema.<br><br>Verifique en Gestión Estado Beneficiario";
-        	
+
         echo $this->miFormulario->modal($atributos);
         unset($atributos);
-        
 
         // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
         echo '<div style="text-align:center;">';
-        	
-        echo '<p><h5>'.$mensaje.'</h5></p>';
-        	
+
+        echo '<p><h5>' . $mensaje . '</h5></p>';
+
         echo '</div>';
-        	
+
         // ----------------FIN CONTROL: Mapa--------------------------------------------------------
-        	
+
         echo '<div style="text-align:center;">';
-        	
+
         echo '</div>';
-        
+
         // ----------------FIN CONTROL: Campo Texto Geolocalización------------------------------
-        
+
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->modal($atributos);
         unset($atributos);
-        
+
         // -----------------FIN CONTROL: Ventana Modal verificar-----------------------------------------------------------
-        
-        
+
         echo '  <script>
                     var markers = [];
                     function initMap() {
@@ -2134,24 +2133,41 @@ class Formulario {
         }
     }
 
-    public function mensaje($tab = '', $nombreBloque = '') {
+    public function mensaje($tab = '', $nombreBloque = '')
+    {
 
         switch ($_REQUEST['mensaje']) {
 
             case 'confirmaAct':
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
             case 'errorAct':
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'confirma':
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
             case 'error':
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
+                break;
+
+            case 'errorGeolocalizacion':
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
+                break;
+
+            case 'errorGeolocalizacionNoValida':
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
+                break;
+
+            case 'errorRangoLongitud':
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
+                break;
+
+            case 'errorRangoLatitud':
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
         }
 
@@ -2188,5 +2204,3 @@ class Formulario {
 $miFormulario = new Formulario($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miFormulario->formulario();
-
-?>

@@ -32,13 +32,13 @@ class Consultar {
 		
 		// Rescatar los datos de este bloque
 		$esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
-		
+
 		// ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
 		
 		$atributosGlobales ['campoSeguro'] = 'true';
 		
 		$_REQUEST ['tiempo'] = time ();
-		
+
 		$conexion = "interoperacion";
 		$esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
@@ -47,7 +47,19 @@ class Consultar {
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'totalPagado', $_REQUEST ['id_beneficiario'] );
 		$pagado = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-
+		
+		$imagen=      '';
+		$cadenaSql = $this->miSql->getCadenaSql ( 'imagenServicio', $_REQUEST ['id_beneficiario'] );
+		$imagen = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		if($imagen==FALSE){
+			$imagen[0][0]='Activo.png';
+		}
+		$conexion2 = "otun";
+		$this->esteRecursoDBOtun = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion2 );
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'estadoServicio', $_REQUEST ['id_beneficiario'] );
+		$estadoServicio = $this->esteRecursoDBOtun->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		// -------------------------------------------------------------------------------------------------
 		
@@ -76,11 +88,23 @@ class Consultar {
 			{
 				$esteCampo = 'Agrupacion';
 				$atributos ['id'] = $esteCampo;
-				$atributos ['leyenda'] = "Estado de Cuenta " . $_REQUEST ['beneficiario'];
+				$atributos ['leyenda'] = "Estado de Cuenta " . $beneficiario[0]['nombre'];
 				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 				unset ( $atributos );
 			}
 			{
+				$url = $this->miConfigurador->configuracion ['host'] . $this->miConfigurador->configuracion ['site'];
+				$atributos ['imagen'] =  $url.'/blocks/facturacion/'.$esteBloque ['nombre'].'/frontera/css/imagen/'.$imagen[0][0];
+				$atributos ['estilo'] = '';
+				$atributos ['etiqueta'] = '';
+				$atributos ['borde'] = '';
+				$atributos ['ancho'] = '';
+				$atributos ['alto'] = '';
+				$atributos = array_merge ( $atributos, $atributosGlobales );
+				echo $this->miFormulario->campoImagen ( $atributos );
+				unset ( $atributos );
+				
+				echo "<br><br><br><br>";
 				
 				$esteCampo = 'usuario';
 				$atributos ['nombre'] = $esteCampo;
@@ -194,7 +218,7 @@ class Consultar {
 				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
-				$atributos ['texto'] = $beneficiario [0] ['descr_servicio'];
+				$atributos ['texto'] = $estadoServicio [0] [1];
 				$atributos ['estilo'] = 'textoSubtituloCursiva';
 				$atributos ['anchoEtiqueta'] = 2;
 				$atributos ['estilo'] = "bootstrap";
@@ -248,7 +272,7 @@ class Consultar {
 				$atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
 				$atributos ["etiquetaObligatorio"] = true;
 				$atributos ['tab'] = $tab ++;
-				$atributos ['texto'] = "$ " . number_format ( $beneficiario [0] ['valor_total']-$pagado[0][1], 2, '.', ',' );
+				$atributos ['texto'] = "$ " . number_format ( $beneficiario [0] ['valor_total'] - $pagado [0] [1], 2, '.', ',' );
 				$atributos ['estilo'] = 'textoSubtituloCursiva';
 				$atributos ['anchoEtiqueta'] = 2;
 				$atributos ['estilo'] = "bootstrap";
@@ -270,7 +294,7 @@ class Consultar {
 				echo $this->miFormulario->agrupacion ( 'fin' );
 				unset ( $atributos );
 			}
-
+			
 			{
 				$esteCampo = 'Agrupacion';
 				$atributos ['id'] = $esteCampo;
@@ -309,12 +333,14 @@ class Consultar {
 						    <th>Factura</th>
 				     		<th>Fecha de Pago</th>
 			                <th>Cajero</th>
+						 	<th>Valor Factura</th>
+						    <th>Valor Abono</th>
 							<th>Valor Total</th>
 			            </tr>
 			        </thead>
 			    </table>
         	';
-			
+				
 				echo $this->miFormulario->agrupacion ( 'fin' );
 				unset ( $atributos );
 			}

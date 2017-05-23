@@ -80,4 +80,7 @@ $this->idioma['id_hogar'] = "Id Hogar";
 $this->idioma['nomenclatura'] = "Nomenclatura";
 $this->idioma['resolucion_adjudicacion'] = "Resolucion Adjudicación";
 
-?>
+$this->idioma['errorGeolocalizacion'] = "ERROR. El Campo de Geolocalización(Ubicación Geografica) es Obligatorio.";
+$this->idioma['errorGeolocalizacionNoValida'] = "ERROR. Caracteres del Campo de Geolocalización(Ubicación Geografica) no son Validos.<br>Recuerde que tiene que ser de tipo numérico.";
+$this->idioma['errorRangoLongitud'] = " La longitud con respecto a la ubicación geográfica no es valida dado que la longitud debe estar en un rango  de -77 y -73 ";
+$this->idioma['errorRangoLatitud'] = " La latitud con respecto a la ubicación geográfica no es valida dado que la latitud debe estar en un rango de 10 y 6 ";

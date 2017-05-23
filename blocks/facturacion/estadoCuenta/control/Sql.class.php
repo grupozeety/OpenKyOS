@@ -95,7 +95,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarPagos' :
-				$cadenaSql = " SELECT id_pago, pago_factura.id_factura, pago_factura.fecha_registro, usuario_recibe as cajero, valor_pagado, id_beneficiario ";
+				$cadenaSql = " SELECT id_pago, pago_factura.id_factura, pago_factura.fecha_registro, usuario_recibe as cajero, valor_pagado, id_beneficiario, abono_adicional , abono_adicional+valor_pagado as total_pagado ";
 				$cadenaSql .= " FROM facturacion.pago_factura ";
 				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=pago_factura.id_factura ";
 				$cadenaSql .= " WHERE 1=1 ";
@@ -105,7 +105,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'totalPagado' :
-				$cadenaSql = " SELECT  id_beneficiario, sum(valor_pagado) pagado ";
+				$cadenaSql = " SELECT  id_beneficiario, sum(valor_pagado + abono_adicional) pagado ";
 				$cadenaSql .= " FROM facturacion.pago_factura ";
 				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=pago_factura.id_factura ";
 				$cadenaSql .= " WHERE 1=1 ";
@@ -113,6 +113,31 @@ class Sql extends \Sql {
 				$cadenaSql .= " AND factura.estado_registro=TRUE ";
 				$cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
 				$cadenaSql .= " GROUP BY   id_beneficiario ";
+				break;
+			
+			case 'estadoServicio' :
+				$cadenaSql = " SELECT estado_servicio , descripcion_parametro ";
+				$cadenaSql .= " FROM logica.info_avan_oper iao ";
+				$cadenaSql .= " JOIN parametros.parametros par ON estado_servicio=codigo_parametro ";
+				$cadenaSql .= " WHERE iao.estado_registro=TRUE ";
+				$cadenaSql .= " AND par.estado_registro=TRUE AND id_beneficiario='" . $variable . "' ;";
+				break;
+			
+			case 'imagenServicio' :
+				$cadenaSql = " SELECT ";
+				$cadenaSql .= " CASE count(estado_factura)";
+				$cadenaSql .= " WHEN 0 THEN 'Activo.png'";
+				$cadenaSql .= " WHEN 1 THEN 'Mora1.png'";
+				$cadenaSql .= " WHEN 2 THEN 'Mora2.png'";
+				$cadenaSql .= " WHEN 3 THEN 'Inactivo.png'";
+				$cadenaSql .= " END";
+				$cadenaSql .= " FROM facturacion.factura";
+				$cadenaSql .= " WHERE 1=1";
+				$cadenaSql .= " AND estado_registro=TRUE";
+				$cadenaSql .= " AND estado_factura='Mora'";
+				$cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
+				$cadenaSql .= " GROUP BY estado_factura ";
+				break;
 		}
 		
 		return $cadenaSql;
