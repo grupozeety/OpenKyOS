@@ -1,5 +1,6 @@
 <?php
 namespace gestionBeneficiarios\generacionContrato\frontera;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "../index.php";
     exit();
@@ -9,14 +10,16 @@ if (!isset($GLOBALS["autorizado"])) {
  * Por tanto en el archivo ready.php se declaran algunas funciones js
  * que lo complementan.
  */
-class Contrato {
+class Contrato
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
     public $ruta;
     public $rutaURL;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -40,7 +43,8 @@ class Contrato {
             $this->rutaURL .= "/blocks/" . $esteBloque["grupo"] . "/" . $esteBloque["nombre"] . "/";
         }
     }
-    public function mostrarContrato() {
+    public function mostrarContrato()
+    {
 
         //Conexion a Base de Datos
         $conexion = "interoperacion";
@@ -696,7 +700,7 @@ class Contrato {
                         $atributos['limitar'] = false;
                         $atributos['anchoCaja'] = 10;
                         $atributos['miEvento'] = '';
-                        //$atributos['validar'] = 'required';
+                        $atributos['validar'] = 'required';
                         $atributos['cadena_sql'] = 'required';
                         //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
                         //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -1741,16 +1745,17 @@ class Contrato {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensaje() {
+    public function mensaje()
+    {
 
         switch ($_REQUEST['mensaje']) {
             case 'inserto':
-                $estilo_mensaje = 'success';     //information,warning,error,validation
+                $estilo_mensaje = 'success'; //information,warning,error,validation
                 $atributos["mensaje"] = 'Requisitos Correctamente Validados<br>Se ha Habilitado la Opcion de Descargar Borrador del Contrato';
                 break;
 
             case 'noinserto':
-                $estilo_mensaje = 'error';     //information,warning,error,validation
+                $estilo_mensaje = 'error'; //information,warning,error,validation
                 $atributos["mensaje"] = 'Error al validar los Requisitos.<br>Verifique los Documentos de Requisitos';
                 break;
 
@@ -1782,5 +1787,3 @@ class Contrato {
 $miSeleccionador = new Contrato($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->mostrarContrato();
-
-?>

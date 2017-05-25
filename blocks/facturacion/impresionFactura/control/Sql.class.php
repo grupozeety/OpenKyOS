@@ -98,6 +98,34 @@ class Sql extends \Sql
                 $cadenaSql .= " LIMIT 1;";
                 break;
 
+            case 'consultaInformacionFacturacionAnterior':
+                $cadenaSql = " SELECT fc.id_factura, ";
+                $cadenaSql .= " cn.numero_contrato, ";
+                $cadenaSql .= " to_date(aes.fecha_instalacion, 'DD-MM-YYYY') as fecha_venta,";
+                $cadenaSql .= " fc.estado_factura,";
+                $cadenaSql .= " to_char(fc.fecha_registro, 'YYYY-MM-DD')as fecha_factura,";
+                $cadenaSql .= " fc.total_factura,";
+                $cadenaSql .= " fc.id_ciclo,";
+                $cadenaSql .= " pb.municipio,";
+                $cadenaSql .= " pb.departamento,";
+                $cadenaSql .= " pb.id_beneficiario, ";
+                $cadenaSql .= " pb.correo_institucional, ";
+                $cadenaSql .= " pb.correo,cn.numero_identificacion,fc.fecha_pago_oportuno, ";
+                $cadenaSql .= " numeracion_facturacion,indice_facturacion,";
+                $cadenaSql .= " tb.descripcion as tipo_beneficiario,";
+                $cadenaSql .= " (cn.valor_tarificacion * 15) as valor_contrato";
+                $cadenaSql .= " FROM interoperacion.contrato cn";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN facturacion.factura fc ON fc.id_beneficiario=cn.id_beneficiario AND fc.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN parametros.parametros tb ON tb.codigo::int=pb.tipo_beneficiario AND tb.estado_registro='TRUE' AND tb.rel_parametro='1' ";
+                $cadenaSql .= " WHERE cn.estado_registro='TRUE'";
+                $cadenaSql .= " AND cn.id_beneficiario='" . $variable . "' ";
+                $cadenaSql .= " AND fc.estado_factura IN ('Mora','Pagada') ";
+                $cadenaSql .= " ORDER BY fc.fecha_registro DESC";
+                $cadenaSql .= " LIMIT 1;";
+                break;
+
             case 'consultarFacturaMora':
                 $cadenaSql = " SELECT fc.* ";
                 $cadenaSql .= " FROM facturacion.factura fc ";
@@ -113,6 +141,19 @@ class Sql extends \Sql
                 $cadenaSql .= " AND fc.estado_registro='TRUE'";
                 $cadenaSql .= " AND fc.estado_factura='Pagada'";
                 $cadenaSql .= " AND fc.id_beneficiario='" . $variable . "';";
+                break;
+
+            case 'consultaUltimoValorPagado':
+                $cadenaSql = " SELECT pg.id_pago,pg.valor_pagado as ultimo_valor_pagado";
+                $cadenaSql .= " FROM facturacion.pago_factura pg";
+                $cadenaSql .= " JOIN facturacion.factura fc ON fc.id_factura=pg.id_factura";
+                $cadenaSql .= " WHERE pg.estado_registro='TRUE'";
+                $cadenaSql .= " AND fc.estado_registro='TRUE'";
+                $cadenaSql .= " AND fc.estado_factura='Pagada'";
+                $cadenaSql .= " AND fc.id_beneficiario='" . $variable . "'";
+                $cadenaSql .= " ORDER BY pg.id_pago DESC ";
+                $cadenaSql .= " LIMIT 1;";
+
                 break;
 
             case 'consultarValorPagado':
