@@ -356,7 +356,7 @@ class GenerarDocumento
                 break;
 
             case 3:
-                $height = '165px';
+                $height = '150px';
                 break;
 
             case 4:
@@ -518,27 +518,27 @@ class GenerarDocumento
 
                 $this->contenido .= "<div style='" . $this->atributos . "'>";
 
-                $this->contenido .= "<table style='vertical-align:middle;border-collapse:collapse;border:0.2px;width:100%;'s>
+                $this->contenido .= "<table style='vertical-align:middle;border-collapse:collapse;border:none;width:100%;'s>
                             <tr>
-                                <td colspan='2' style='font-family:futuramdbtb;font-size:24px;height:35px;text-align:left;border:none;background-color:#999;color:#fff;border-bottom: #fff;'><b>Resumen</b></td>
+                                <td colspan='2' style='font-family:futuramdbtb;font-size:18px;height:30px;text-align:left;border:none;background-color:#999;color:#fff;border-bottom: #fff;'><b>Resumen</b></td>
                             </tr>
                             <tr>
-                                <td style='font-family:futura_extra_black_condensed_bt;font-size:16px;height:23px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'><b>Deuda Anterior </b></td>";
+                                <td style='font-family:futura_extra_black_condensed_bt;font-size:12.5px;height:17px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'><b>Deuda Anterior </b></td>";
 
                 if (isset($this->FacturaMora) && !is_null($this->FacturaMora['total_factura']) && $this->FacturaMora['total_factura'] != '') {
-                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:16px;height:23px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
+                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:12.5px;height:17px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
                 } else {
-                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:16px;height:23px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ 0</td>";
+                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:12.5px;height:17px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ 0</td>";
                 }
 
                 $this->contenido .= "</tr>
                             <tr>
-                                <td style='font-family:futura_extra_black_condensed_bt;height:23px;font-size:16px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;'><b>Cuota Mes </b></td>
-                                <td style='font-family:futuraltbt;height:23px;font-size:16px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;'>$ " . number_format($this->CuotaPeriodo, 2) . " </td>
+                                <td style='font-family:futura_extra_black_condensed_bt;height:17px;font-size:12.5px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'><b>Cuota Mes </b></td>
+                                <td style='font-family:futuraltbt;height:17px;font-size:12.5px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ " . number_format($this->CuotaPeriodo, 2) . " </td>
                             </tr>
                             <tr>
-                                <td style='font-family:futura_extra_black_condensed_bt;vertical-align:middle;font-size:20px;height:23px;text-align:left;border:none;width:50%;background-color:#1a823f;color:#fff;'><b>Total a pagar</b></td>
-                                <td style='font-family:futuraltbt;vertical-align:middle;height:23px;font-size:23px;text-align:right;border:none;width:50%;background-color:#1a823f;color:#fff;'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
+                                <td style='font-family:futura_extra_black_condensed_bt;vertical-align:middle;font-size:12.5px;height:17px;text-align:left;border:none;width:50%;background-color:#1a823f;color:#fff;'><b>Total a pagar</b></td>
+                                <td style='font-family:futuraltbt;vertical-align:middle;height:17px;font-size:12.5px;text-align:right;border:none;width:50%;background-color:#1a823f;color:#fff;'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
                             </tr>
                         </table>
                         <br>

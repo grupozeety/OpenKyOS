@@ -17,7 +17,7 @@
 		<columna estilos="background-color:#efefef;vertical-align:top;padding-left:15px;padding-top:15px;top;padding-right:15px;">
 			<variable estilos="font-size:93%;text-align:center;width:100%;">InformacionFacturacion</variable>
 			<variable estilos="font-size:10px;text-align:center;width:100%;">InformacionPagoResumido</variable>
-			<texto estilos="color:#2e2f2f;font-size:72%;font-family:font;text-align:justify;width:100%;">En caso de presentar una reclamación en relación con el monto facturado antes de la fecha de pago oportuno señalada en la factura, el usuario solamente deberá proceder al pago de las sumas que no sean objeto de reclamación.</texto>
+			<texto estilos="color:#2e2f2f;font-size:12.5px;font-style: italic;text-align:justify;width:100%;">En caso de presentar una reclamación en relación con el monto facturado antes de la fecha de pago oportuno señalada en la factura, el usuario solamente deberá proceder al pago de las sumas que no sean objeto de reclamación.</texto>
 		</columna>
 	</seccion>
 	<seccion>
