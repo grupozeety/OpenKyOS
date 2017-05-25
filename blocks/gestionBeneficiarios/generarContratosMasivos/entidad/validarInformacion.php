@@ -177,13 +177,13 @@ class FormProcessor
 
             if (isset($value['estrato_socioeconomico'])) {
 
-                if (!is_numeric($value['estrato_socioeconomico']) && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
+                if (!is_numeric($value['estrato_socioeconomico'])) {
                     $mensaje = " El estrato socioeconomico asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique el que estrato se un campo numerico correspondiente a estrato 1 y 2.";
                     $this->escribir_log($mensaje);
                     $this->error = true;
                 }
 
-                if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2' && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
+                if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2') {
                     $mensaje = " El estrato socioeconomico asosicado al beneficiario con identificación " . $value['identificacion_beneficiario'] . ", no es valido.Sugerencia verifique el que estrato se un campo numerico correspondiente a estrato 1 y 2.";
                     $this->escribir_log($mensaje);
                     $this->error = true;

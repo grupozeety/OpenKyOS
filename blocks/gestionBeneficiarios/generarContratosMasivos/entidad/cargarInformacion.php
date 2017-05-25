@@ -359,11 +359,11 @@ class FormProcessor
 
             if ($value['estrato_socioeconomico']) {
 
-                if (!is_numeric($value['estrato_socioeconomico']) && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
+                if (!is_numeric($value['estrato_socioeconomico'])) {
                     Redireccionador::redireccionar("ErrorCreacionContratos");
                 }
 
-                if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2' && $value['estrato_socioeconomico'] != 'Estrato No Clasificado') {
+                if ($value['estrato_socioeconomico'] != '1' && $value['estrato_socioeconomico'] != '2') {
                     Redireccionador::redireccionar("ErrorCreacionContratos");
                 }
 
