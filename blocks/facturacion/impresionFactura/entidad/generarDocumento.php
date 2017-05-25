@@ -11,7 +11,7 @@ $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
 require $ruta . "/plugin/html2pdf/html2pdf.class.php";
-require $ruta . "/plugin/tcpdf/include/tcpdf_fonts.php";
+
 class GenerarDocumento
 {
     public $miConfigurador;
@@ -209,11 +209,17 @@ class GenerarDocumento
     public function validarBeneficiario()
     {
 
+        $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacionAnterior', $this->identificador_beneficiario);
+        $this->InformacionFacturacionAnterior = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacion', $this->identificador_beneficiario);
         $this->InformacionFacturacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaValorPagado', $this->identificador_beneficiario);
         $this->ValorPagado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['valor_pagado'];
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultaUltimoValorPagado', $this->identificador_beneficiario);
+        $this->UltimoValorPagadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaValoresConceptos', $this->identificador_beneficiario);
         $this->Conceptos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -514,25 +520,25 @@ class GenerarDocumento
 
                 $this->contenido .= "<table style='vertical-align:middle;border-collapse:collapse;border:0.2px;width:100%;'s>
                             <tr>
-                                <td colspan='2' style='font-family:futuramdbtb;font-size:24px;height:30px;text-align:left;border:none;background-color:#999;color:#fff;border-bottom: #fff;'><b>Resumen</b></td>
+                                <td colspan='2' style='font-family:futuramdbtb;font-size:24px;height:35px;text-align:left;border:none;background-color:#999;color:#fff;border-bottom: #fff;'><b>Resumen</b></td>
                             </tr>
                             <tr>
-                                <td style='font-family:futura_extra_black_condensed_bt;font-size:16px;height:13px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'><b>Deuda Anterior </b></td>";
+                                <td style='font-family:futura_extra_black_condensed_bt;font-size:16px;height:23px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'><b>Deuda Anterior </b></td>";
 
-                if (isset($this->FacturaMora) && !is_null($this->FacturaMora['total_factura'])) {
-                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
+                if (isset($this->FacturaMora) && !is_null($this->FacturaMora['total_factura']) && $this->FacturaMora['total_factura'] != '') {
+                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:16px;height:23px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
                 } else {
-                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:16px;height:13px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ 0</td>";
+                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:16px;height:23px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ 0</td>";
                 }
 
                 $this->contenido .= "</tr>
                             <tr>
-                                <td style='font-family:futura_extra_black_condensed_bt;height:18px;font-size:16px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;'><b>Cuota Mes </b></td>
-                                <td style='font-family:futuraltbt;height:18px;font-size:16px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;'>$ " . number_format($this->CuotaPeriodo, 2) . " </td>
+                                <td style='font-family:futura_extra_black_condensed_bt;height:23px;font-size:16px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;'><b>Cuota Mes </b></td>
+                                <td style='font-family:futuraltbt;height:23px;font-size:16px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;'>$ " . number_format($this->CuotaPeriodo, 2) . " </td>
                             </tr>
                             <tr>
                                 <td style='font-family:futura_extra_black_condensed_bt;vertical-align:middle;font-size:20px;height:23px;text-align:left;border:none;width:50%;background-color:#1a823f;color:#fff;'><b>Total a pagar</b></td>
-                                <td style='font-family:futuraltbt;vertical-align:middle;height:22px;font-size:23px;text-align:right;border:none;width:50%;background-color:#1a823f;color:#fff;'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
+                                <td style='font-family:futuraltbt;vertical-align:middle;height:23px;font-size:23px;text-align:right;border:none;width:50%;background-color:#1a823f;color:#fff;'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
                             </tr>
                         </table>
                         <br>
@@ -652,8 +658,26 @@ class GenerarDocumento
                             </tr>
                             <tr>
                                   <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Monto Pagado</b></td>";
-                if (!is_null($this->ValorPagado)) {
+                if (!is_null($this->ValorPagado) && $this->ValorPagado != '') {
                     $this->contenido .= "<td style='font-family:futuraltbt;height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ " . number_format($this->ValorPagado, 2) . "</td>";
+                } else {
+                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ 0</td>";
+                }
+
+                $this->contenido .= "</tr>
+                                    <tr>
+                                  <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Valor Factura Anterior</b></td>";
+                if (!is_null($this->InformacionFacturacionAnterior['total_factura']) && $this->InformacionFacturacionAnterior['total_factura'] != '') {
+                    $this->contenido .= "<td style='font-family:futuraltbt;height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ " . number_format($this->InformacionFacturacionAnterior['total_factura'], 2) . "</td>";
+                } else {
+                    $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ 0</td>";
+                }
+
+                $this->contenido .= "</tr>
+                                    <tr>
+                                  <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Utimo Valor Pagado</b></td>";
+                if (!is_null($this->UltimoValorPagadoFactura['ultimo_valor_pagado']) && $this->UltimoValorPagadoFactura['ultimo_valor_pagado'] != '') {
+                    $this->contenido .= "<td style='font-family:futuraltbt;height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ " . number_format($this->UltimoValorPagadoFactura['ultimo_valor_pagado'], 2) . "</td>";
                 } else {
                     $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ 0</td>";
                 }
@@ -663,7 +687,7 @@ class GenerarDocumento
                             <tr>
                                 <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>En Mora </b></td>";
 
-                if (isset($this->FacturaMora) && !is_null($this->FacturaMora['indice_facturacion']) && !is_null($this->FacturaMora['numeracion_facturacion'])) {
+                if (isset($this->FacturaMora) && !is_null($this->FacturaMora['indice_facturacion']) && !is_null($this->FacturaMora['numeracion_facturacion']) && $this->FacturaMora['numeracion_facturacion'] != '') {
                     $this->contenido .= "<td style='font-family:futuraltbt;height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>No. " . $this->FacturaMora['indice_facturacion'] . " " . sprintf("%'.06d", $this->FacturaMora['numeracion_facturacion']) . "</td>";
                 } else {
                     $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'> </td>";
@@ -674,7 +698,7 @@ class GenerarDocumento
                             <tr>
                                 <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;border-top-left-radius: 4px; border-bottom-left-radius: 4px;border-spacing: 3px;font-size:12px;color:#5b5e60;'><b>Saldo Vencido </b></td>";
 
-                if (isset($this->FacturaMora) && !is_null($this->FacturaMora['total_factura'])) {
+                if (isset($this->FacturaMora) && !is_null($this->FacturaMora['total_factura']) && $this->FacturaMora['total_factura'] != '') {
                     $this->contenido .= "<td style='font-family:futuraltbt;height:13px;text-align:right;border:none;width:50%;border-top-right-radius:4px;border-bottom-right-radius:4px;font-size:12px;color:#5b5e60;'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
                 } else {
                     $this->contenido .= "<td style='height:13px;text-align:right;border:none;width:50%;border-top-right-radius:4px;border-bottom-right-radius:4px;font-size:12px;color:#5b5e60;'>$ 0</td>";
@@ -747,7 +771,7 @@ class GenerarDocumento
                                             <td style='height:13px;text-align:left;border:none;width:50%;'><b>Conexiones-Digitales-II Sede Sucre:</b><br>Carrera 20 #27-87 oficina 302<br>Edificio Camara de comercio</td>
                                         </tr>
                                         <tr>
-                                            <td  colspan='2' style='height:13px;text-align:left;border:none;width:100%;'><br><br><b>Corporación Politécnica Nacional de Colombia<br>
+                                            <td  colspan='2' style='height:13px;text-align:left;border:none;width:100%;'><br><b>Corporación Politécnica Nacional de Colombia<br>
                                             NIT 830.115.993-4<br>
                                             http://conexionesdigitales.politecnica.edu.co/</b></td>
                                         </tr>
@@ -840,7 +864,7 @@ class GenerarDocumento
     public function crearPDFDesprendible()
     {
         ob_start();
-        $html2pdf = new \HTML2PDF('L', array(216, 80), 'es', true, 'UTF-8', array(
+        $html2pdf = new \HTML2PDF('L', array(150, 60), 'es', true, 'UTF-8', array(
             1,
             1,
             1,
@@ -850,7 +874,7 @@ class GenerarDocumento
 
         $contenidoPagina = "<page backtop='0mm' backbottom='0mm' backleft='0mm' backright='0mm'>
                                 <div style='width:100%'>
-                                    <img width='808' height='294' src='http://localhost/OpenKyOS/theme/basico/img/desprendible.png'>
+                                    <img width='560' height='218' src='http://localhost/OpenKyOS/theme/basico/img/desprendible.png'>
                                 </div>
                             </page>";
 
