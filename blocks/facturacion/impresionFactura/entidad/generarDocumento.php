@@ -29,6 +29,7 @@ class GenerarDocumento
     public $rutaXML;
     public $estrutura;
     public $contenido;
+    public $FacturaMora = null;
     public function __construct($sql, $beneficiarios, $ruta_archivos)
     {
 
@@ -212,6 +213,8 @@ class GenerarDocumento
 
     public function validarBeneficiario()
     {
+
+        unset($this->FacturaMora);
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacionAnterior', $this->identificador_beneficiario);
         $this->InformacionFacturacionAnterior = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
