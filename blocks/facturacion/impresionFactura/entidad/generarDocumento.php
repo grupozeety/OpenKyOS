@@ -218,6 +218,7 @@ class GenerarDocumento
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacion', $this->identificador_beneficiario);
         $this->InformacionFacturacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+        var_dump($this->InformacionFacturacion);exit;
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaValorPagado', $this->identificador_beneficiario);
         $this->ValorPagado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['valor_pagado'];
@@ -257,7 +258,7 @@ class GenerarDocumento
         $cadenaSql = $this->miSql->getCadenaSql('consultarBeneficiario', $this->identificador_beneficiario);
         $this->InformacionBeneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        if ($this->InformacionBeneficiario && $this->Conceptos && $this->InformacionFacturacion) {
+        if ($this->InformacionBeneficiario && $this->Conceptos && $this->InformacionFacturacion && isset($this->InformacionFacturacion['estado_factura']) && $this->InformacionFacturacion['estado_factura'] == 'Borrador') {
             return true;
         } else {
             return false;
