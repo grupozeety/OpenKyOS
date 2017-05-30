@@ -134,7 +134,7 @@ class Sql extends \Sql
                 break;
 
             case 'consultaValorPagado':
-                $cadenaSql = " SELECT SUM(pg.valor_pagado) as valor_pagado";
+                $cadenaSql = " SELECT SUM(pg.valor_pagado + pg.abono_adicional) as valor_pagado";
                 $cadenaSql .= " FROM facturacion.pago_factura pg";
                 $cadenaSql .= " JOIN facturacion.factura fc ON fc.id_factura=pg.id_factura";
                 $cadenaSql .= " WHERE pg.estado_registro='TRUE'";
@@ -144,7 +144,7 @@ class Sql extends \Sql
                 break;
 
             case 'consultaUltimoValorPagado':
-                $cadenaSql = " SELECT pg.id_pago,pg.valor_pagado as ultimo_valor_pagado";
+                $cadenaSql = " SELECT pg.id_pago,(pg.valor_pagado + pg.abono_adicional) as ultimo_valor_pagado";
                 $cadenaSql .= " FROM facturacion.pago_factura pg";
                 $cadenaSql .= " JOIN facturacion.factura fc ON fc.id_factura=pg.id_factura";
                 $cadenaSql .= " WHERE pg.estado_registro='TRUE'";
