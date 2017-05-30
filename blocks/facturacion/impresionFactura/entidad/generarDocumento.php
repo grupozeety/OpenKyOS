@@ -14,7 +14,7 @@ require $ruta . "/plugin/html2pdf/html2pdf.class.php";
 
 // SMTP needs accurate times, and the PHP time zone MUST be set
 // This should be done in your php.ini, but this is how to do it if you don't have access to that
-require $this->ruta . '/plugin/PHPMailer/PHPMailerAutoload.php';
+require $ruta . '/plugin/PHPMailer/PHPMailerAutoload.php';
 
 class GenerarDocumento
 {
