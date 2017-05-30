@@ -12,6 +12,10 @@ $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfi
 
 require $ruta . "/plugin/html2pdf/html2pdf.class.php";
 
+// SMTP needs accurate times, and the PHP time zone MUST be set
+// This should be done in your php.ini, but this is how to do it if you don't have access to that
+require $this->ruta . '/plugin/PHPMailer/PHPMailerAutoload.php';
+
 class GenerarDocumento
 {
     public $miConfigurador;
@@ -948,10 +952,6 @@ class GenerarDocumento
         /**
          * This example shows settings to use when sending via Google's Gmail servers.
          */
-
-        // SMTP needs accurate times, and the PHP time zone MUST be set
-        // This should be done in your php.ini, but this is how to do it if you don't have access to that
-        require $this->ruta . '/plugin/PHPMailer/PHPMailerAutoload.php';
 
         // Create a new PHPMailer instance
         $mail = new \PHPMailer();
