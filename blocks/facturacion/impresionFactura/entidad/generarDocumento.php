@@ -661,7 +661,7 @@ class GenerarDocumento
                                   <td style='font-family:futuraltbt;height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ " . number_format($this->InformacionFacturacion['valor_contrato'], 2) . "</td>
                             </tr>
                             <tr>
-                                  <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Monto Pagado</b></td>";
+                                  <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Monto Pagado del Total Contrato</b></td>";
                 if (!is_null($this->ValorPagado) && $this->ValorPagado != '') {
                     $this->contenido .= "<td style='font-family:futuraltbt;height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ " . number_format($this->ValorPagado, 2) . "</td>";
                 } else {
@@ -679,7 +679,7 @@ class GenerarDocumento
 
                 $this->contenido .= "</tr>
                                     <tr>
-                                  <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Utimo Valor Pagado</b></td>";
+                                  <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Ultimo Valor Pagado</b></td>";
                 if (!is_null($this->UltimoValorPagadoFactura['ultimo_valor_pagado']) && $this->UltimoValorPagadoFactura['ultimo_valor_pagado'] != '') {
                     $this->contenido .= "<td style='font-family:futuraltbt;height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ " . number_format($this->UltimoValorPagadoFactura['ultimo_valor_pagado'], 2) . "</td>";
                 } else {
