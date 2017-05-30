@@ -272,11 +272,12 @@ class Calcular {
 		foreach ( $this->rolesPeriodo as $key => $values ) {
 			
 			// Acá se debe controlar el ciclo de facturación
+			$this->rolesPeriodo [$key] ['fecha'];
 			$dia = date ( 'd', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 day' ) );
 			
 			$fecha_fin_mes = date ( "Y-m-t", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) );
 			
-			if ($dia != 1) {
+			if ($dia != 2) {
 				if ($this->rolesPeriodo [$key] ['periodoValor'] == 1) {
 					$fin = date ( 'Y/m/d H:i:s', strtotime ( $fecha_fin_mes ) );
 				} elseif ($this->rolesPeriodo [$key] ['periodoValor'] == 720) {
@@ -286,6 +287,9 @@ class Calcular {
 				} else {
 					$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 month' ) );
 				}
+				$diferencia = (strtotime ( $fin ) - strtotime ( $this->rolesPeriodo [$key] ['fecha'] )) / (60 * 60 * 24);
+				$this->rolesPeriodo [$key] ['cantidad'] = $diferencia;
+				$this->rolesPeriodo [$key] ['periodoValor'] = ( int ) date ( 't', mktime ( 0, 0, 0, date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ), 1, date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) ) );
 			} else {
 				// Aquí se aumentan los periodos de facturacion
 				
@@ -329,13 +333,13 @@ class Calcular {
 			foreach ( $values ['reglas'] as $variable => $c ) {
 				$a = preg_replace ( "/\bvm\b/", ($vm / $values ['periodoValor']) * $values ['cantidad'], $c, - 1, $contar );
 				$b = preg_replace ( "/\bdm\b/", $values ['mora'], $a, - 1, $contar );
-				$valor = eval ( 'return (' . $b . ');' );
+				$valor = round ( eval ( 'return (' . $b . ');' ) );
 				$this->rolesPeriodo [$key] ['valor'] [$variable] = $valor;
 				$total = $total + $this->rolesPeriodo [$key] ['valor'] [$variable];
 			}
 			
 			$factura = $factura + $total;
-			$this->rolesPeriodo [$key] ['valor'] ['vm'] = $vm;
+			$this->rolesPeriodo [$key] ['valor'] ['vm'] = round ( ($vm / $values ['periodoValor']) * $values ['cantidad'] );
 			$this->rolesPeriodo [$key] ['valor'] ['total'] = $total;
 		}
 	}
@@ -444,5 +448,3 @@ class Calcular {
 }
 
 ?>
-
-
