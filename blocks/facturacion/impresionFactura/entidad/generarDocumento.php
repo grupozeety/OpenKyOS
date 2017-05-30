@@ -218,7 +218,6 @@ class GenerarDocumento
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacion', $this->identificador_beneficiario);
         $this->InformacionFacturacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-        var_dump($this->InformacionFacturacion);exit;
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaValorPagado', $this->identificador_beneficiario);
         $this->ValorPagado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['valor_pagado'];
