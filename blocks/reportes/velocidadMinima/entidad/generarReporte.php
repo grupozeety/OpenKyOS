@@ -43,15 +43,17 @@ class GenerarReporteInstalaciones {
 
         $this->informacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
+        //var_dump(  $this->informacion);
+        //     var_dump($cadenaSql);
+        //    var_dump($this->objCal3);
+      //    exit;
+
         //Consulta repote B
          $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionB');
 
          $this->informacion1 = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-      //   var_dump(  $this->informacion1);
-    //     var_dump($cadenaSql);
-      //    var_dump($this->objCal3);
-        //   exit;
+
 
 
          //Consulta reporte C
@@ -59,6 +61,8 @@ class GenerarReporteInstalaciones {
 
          $this->informacion2 = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
+         //var_dump(  $this->informacion2);
+         //exit;
         if ($this->informacion == false&&$this->informacion1 == false&&$this->informacion2 == false) {
 
             Redireccionador::redireccionar('SinResultado');

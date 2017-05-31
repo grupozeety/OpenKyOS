@@ -57,9 +57,9 @@ class Sql extends \Sql {
                 break;
 
                 case 'consultarInformacion':
-                  $cadenaSql=" Select a.dane_departamento,to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM') as fecha, aa.accesos_retirados,b.accesos_ingresados, ";
-                  $cadenaSql.=" c.accesos_enreubicacion,d.accesos_reemplazados_mesanterior,e.accesos_porreemplazar_mesanterior,";
-                  $cadenaSql.=" f.total_accesos, indi.indicador";
+                  $cadenaSql=" Select a.dane_departamento,to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM') as fecha,COALESCE(aa.accesos_retirados, 0) as accesos_retirados,COALESCE(b.accesos_ingresados,0) as accesos_ingresados, ";
+                  $cadenaSql.=" COALESCE(c.accesos_enreubicacion, 0) as accesos_enreubicacion,COALESCE(d.accesos_reemplazados_mesanterior, 0) as accesos_reemplazados_mesanterior,COALESCE( e.accesos_porreemplazar_mesanterior, 0) as accesos_porreemplazar_mesanterior,";
+                  $cadenaSql.=" COALESCE(f.total_accesos,0) as total_accesos, COALESCE(indi.indicador,0) as indicador";
                   $cadenaSql.=" From";
                   $cadenaSql.=" (";
                   $cadenaSql.=" Select distinct dane_departamento";
@@ -76,7 +76,7 @@ class Sql extends \Sql {
                   $cadenaSql.=" LEFT OUTER JOIN";
                   $cadenaSql.=" (Select dane_departamento,count(*) as accesos_ingresados";
                   $cadenaSql.=" from logica.info_avan_oper";
-                  $cadenaSql.=" where estado_servicio='EP01'";
+                  $cadenaSql.=" where estado_servicio='ET0'";
                   $cadenaSql.=" and to_char(fecha_novedad,'yyyy-MM')=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
                   $cadenaSql.=" group by dane_departamento) b";
                   $cadenaSql.=" ON(a.dane_departamento=b.dane_departamento)";
@@ -109,7 +109,7 @@ class Sql extends \Sql {
                   $cadenaSql.=" from logica.info_avan_oper";
                   $cadenaSql.=" where estado_registro=true";
                   $cadenaSql.=" AND estado_servicio='ET0'";
-                  $cadenaSql.=" AND to_char(fecha_novedad,'yyyy-MM')<=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
+                  $cadenaSql.=" AND to_char(fecha_inicio_operacion,'yyyy-MM')<=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
                   $cadenaSql.=" group by dane_departamento) f";
                   $cadenaSql.=" ON(a.dane_departamento=f.dane_departamento)";
                   $cadenaSql.=" LEFT OUTER JOIN";
@@ -120,7 +120,7 @@ class Sql extends \Sql {
                   $cadenaSql.=" from logica.info_avan_oper";
                   $cadenaSql.=" where estado_registro=true";
                   $cadenaSql.=" AND estado_servicio='ET0'";
-                  $cadenaSql.=" AND to_char(fecha_novedad,'yyyy-MM')<=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
+                  $cadenaSql.=" AND to_char(fecha_inicio_operacion,'yyyy-MM')<=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
                   $cadenaSql.=" group by dane_departamento) total";
                   $cadenaSql.=" ";
                   $cadenaSql.=" LEFT OUTER JOIN";
@@ -178,14 +178,14 @@ class Sql extends \Sql {
                   $cadenaSql.=" WHEN estado_servicio='EP07' THEN 'En reubicacion'";
                   $cadenaSql.=" END as subcategoria_noCon,";
                   $cadenaSql.=" CASE WHEN estado_servicio='EP02' THEN 'Suspendido'";
-                  $cadenaSql.=" WHEN estado_servicio='EP06' THEN 'En mantenimmmiento'";
+                  $cadenaSql.=" WHEN estado_servicio='EP06' THEN 'En mantenimiento'";
                   $cadenaSql.=" WHEN estado_servicio='EP05' THEN 'En instalacion'";
                   $cadenaSql.=" END as subcategoria_Con,";
                   $cadenaSql.=" CASE WHEN estado_servicio='EP02'OR estado_servicio='EP06' OR estado_servicio='EP05' THEN fecha_novedad";
                   $cadenaSql.=" END as fecha_Con,";
                   $cadenaSql.=" CASE WHEN estado_servicio='EP04' THEN fecha_novedad";
                   $cadenaSql.=" END as fecha_retiro,";
-                  $cadenaSql.=" CASE WHEN estado_servicio='ET0' AND estado_registro=true AND to_char(fecha_novedad,'yyyy-MM')=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM') THEN fecha_novedad";
+                  $cadenaSql.=" CASE WHEN estado_servicio='ET0' AND estado_registro=true AND to_char(fecha_inicio_operacion,'yyyy-MM')=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM') THEN fecha_novedad";
                   $cadenaSql.=" END as fecha_ingreso,";
                   $cadenaSql.=" meta_proyecto as meta";
                   $cadenaSql.=" from logica.info_avan_oper";
@@ -193,7 +193,7 @@ class Sql extends \Sql {
                   $cadenaSql.=" AND estado_registro=true";
                   $cadenaSql.=" ORDER BY categoria";
                   break;
-              
+
             case 'consultarBeneficiariosPotenciales':
                 $cadenaSql = " SELECT value , data ";
                 $cadenaSql .= "FROM ";

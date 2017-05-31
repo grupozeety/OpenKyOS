@@ -39,19 +39,19 @@ class GenerarReporteInstalaciones {
     }
     public function consultarInformacion() {
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultarInformacion');
+       $cadenaSql = $this->miSql->getCadenaSql('consultarInformacion');
 
         $this->informacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
         //Consulta repote B
-        $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionB');
+       $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionB');
 
          $this->informacion1 = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-      //   var_dump(  $this->informacion1);
+      //  var_dump(  $this->informacion);
     //     var_dump($cadenaSql);
       //    var_dump($this->objCal3);
-        //   exit;
+      //     exit;
 
 
          //Consulta reporte C
