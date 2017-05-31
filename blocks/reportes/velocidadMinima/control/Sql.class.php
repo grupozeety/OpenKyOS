@@ -140,13 +140,13 @@ class Sql extends \Sql {
                   $cadenaSql.=" and to_char(fecha_novedad,'yyyy-MM')<=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
                   $cadenaSql.=" group by dane_municipio) as j";
                   $cadenaSql.=" ON(qqqq.dane_municipio=j.dane_municipio)";
-                  $cadenaSql.=" where qqqq.fecha=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
-                  $cadenaSql.=" ORDER BY qqqq.fecha,qqqq.dane_municipio";
                   $cadenaSql.=" )qqqqq";
+                  $cadenaSql.=" where qqqqq.fecha=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
                   if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
-                     $cadenaSql .= " where qqqqq.dane_municipio='" . $_REQUEST['municipio'] . "'";
+                     $cadenaSql .= " AND qqqqq.dane_municipio='" . $_REQUEST['municipio'] . "'";
 
                   };
+                  $cadenaSql.=" ORDER BY qqqqq.fecha,qqqqq.dane_municipio";
 
 
                     break;
@@ -187,17 +187,14 @@ class Sql extends \Sql {
                   $cadenaSql.=" info_pqr.meta_proyecto";
                   $cadenaSql.=" FROM ";
                   $cadenaSql.=" logica.info_pqr";
-                  $cadenaSql.=" WHERE ";
-                  $cadenaSql.=" info_pqr.tipo_ticket = '1112' ";
+                  $cadenaSql.=" WHERE info_pqr.tipo_ticket = '1112' ";
                   $cadenaSql.=" AND to_char(info_pqr.fecha_registro,'yyyy-mm')=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
                   if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
-                     $cadenaSql .= " AND info.pqr.dane_municipio='" . $_REQUEST['municipio'] . "'";
+                     $cadenaSql .= " AND info_pqr.dane_municipio='" . $_REQUEST['municipio'] . "'";
 
                   }
-                  $cadenaSql.=" ORDER BY";
-                  $cadenaSql.=" fecha ASC, ";
-                  $cadenaSql.=" info_pqr.dane_municipio ASC;";
-                  $cadenaSql.=" ";
+                  $cadenaSql.=" ORDER BY fecha ASC, info_pqr.dane_municipio ASC;";
+
                         break;
 
             case 'consultarBeneficiariosPotenciales':

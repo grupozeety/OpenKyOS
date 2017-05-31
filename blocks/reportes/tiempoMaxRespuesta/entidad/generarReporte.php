@@ -44,7 +44,7 @@ class GenerarReporteInstalaciones {
         $this->informacion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
         //Consulta repote B
-         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionB');
+        $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionB');
 
          $this->informacion1 = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
@@ -55,7 +55,7 @@ class GenerarReporteInstalaciones {
 
 
          //Consulta reporte C
-         $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionC');
+        $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionC');
 
          $this->informacion2 = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
       //      var_dump(  $this->informacion2);
