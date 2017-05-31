@@ -48,12 +48,12 @@ class Calcular {
 		$this->reglasRol ();
 		$this->consultarUsuarioRol ();
 		
-		/**
-		 * 3.
-		 * Obtener Datos del Contrato
-		 */
+// 		/**
+// 		 * 3.
+// 		 * Obtener Datos del Contrato
+// 		 */
 		
-		$this->datosContrato ();
+// 		$this->datosContrato ();
 		
 		/**
 		 * 3.
@@ -174,7 +174,26 @@ class Calcular {
 		$res = 0;
 		foreach ( $this->rolesPeriodo as $key => $vales ) {
 			foreach ( $this->rolesPeriodo as $llave => $valores ) {
+				//Revisar si el ciclo anterior al facturar está en condiciones para ser recalculado
+				$ciclo = date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) );
 				
+				$datos = array (
+						'id_usuario_rol' => $this->rolesPeriodo [$llave] ['id_usuario_rol'],
+						'id_ciclo' => $ciclo,
+						'id_beneficiario' => $_REQUEST ['id_beneficiario']
+				);
+				
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFactura', $datos );
+				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+				if ($resultado != FALSE) {
+					//$this->registroConceptos ['observaciones'] = 'Ya existe una factura para el ciclo ' . $ciclo;
+					//$res ++;
+					echo $cadenaSql = $this->miSql->getCadenaSql ( 'inhabilitarFactura', $resultado[0]['id_factura'] );
+					$inhabilitar= $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
+				} 
+				
+		
 				$this->rolesPeriodo [$key] ['fecha'] = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 day' ) );
 				
 				$ciclo = date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) );
@@ -184,7 +203,7 @@ class Calcular {
 						'id_beneficiario' => $_REQUEST ['id_beneficiario'] 
 				);
 				
-				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFactura', $datos );
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFacturaActiva', $datos );
 				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				
 				if ($resultado != FALSE) {
@@ -255,7 +274,8 @@ class Calcular {
 						$dias = $dm_calculo->d;
 						
 						$this->rolesPeriodo [$key] ['mora'] = $this->rolesPeriodo [$key] ['mora'] + $dias;
-						$this->rolesPeriodo [$key] ['facturasMora'] [$facturasVencidas [$llave] ['id_factura'] . "(" . $facturasVencidas [$llave] ['id_ciclo'] . ")"] = $facturasVencidas [$llave] ['total_factura'];
+						//$this->rolesPeriodo [$key] ['facturasMora'] [$facturasVencidas [$llave] ['id_factura'] . "(" . $facturasVencidas [$llave] ['id_ciclo'] . ")"] = $facturasVencidas [$llave] ['total_factura'];
+						$this->rolesPeriodo [$key] ['facturasMora'] [$facturasVencidas [$llave] ['id_factura']] = $facturasVencidas [$llave] ['total_factura'];
 						$this->rolesPeriodo [$key] ['totalMora'] = $this->rolesPeriodo [$key] ['totalMora'] + $facturasVencidas [$llave] ['total_factura'];
 					}
 				}
