@@ -269,8 +269,7 @@ class Calcular {
 	
 	// Registrar el ciclo de facturación de acuerdo al periodo seleccionado
 	public function registrarPeriodo() {
-		foreach ( $this->rolesPeriodo as $key => $values ) {
-			
+		foreach ( $this->rolesPeriodo as $key => $values ) { 
 			// Acá se debe controlar el ciclo de facturación
 			$this->rolesPeriodo [$key] ['fecha'];
 			$dia = date ( 'd', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 day' ) );
@@ -287,7 +286,7 @@ class Calcular {
 				} else {
 					$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 month' ) );
 				}
-				$diferencia = (strtotime ( $fin ) - strtotime ( $this->rolesPeriodo [$key] ['fecha'] )) / (60 * 60 * 24);
+				$diferencia =1+ (strtotime ( $fin ) - strtotime ( $this->rolesPeriodo [$key] ['fecha'] )) / (60 * 60 * 24);
 				$this->rolesPeriodo [$key] ['cantidad'] = $diferencia;
 				$this->rolesPeriodo [$key] ['periodoValor'] = ( int ) date ( 't', mktime ( 0, 0, 0, date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ), 1, date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) ) );
 			} else {
