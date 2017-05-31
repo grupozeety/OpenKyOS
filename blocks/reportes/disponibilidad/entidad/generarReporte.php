@@ -54,7 +54,6 @@ class GenerarReporteInstalaciones {
 
          $this->informacion1 = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-
          //Consulta reporte B
          $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionB');
 
