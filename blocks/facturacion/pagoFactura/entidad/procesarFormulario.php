@@ -9,6 +9,10 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 
 include_once 'Redireccionador.php';
 include_once 'comprobante.php';
+
+include_once 'sincronizarErp.php';
+
+
 class FormProcessor {
 	public $miConfigurador;
 	public $lenguaje;

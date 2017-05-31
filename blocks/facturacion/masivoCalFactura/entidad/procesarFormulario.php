@@ -133,13 +133,12 @@ class FormProcessor {
 				// Saber la fecha desde de facturación
 				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRolPeriodo', $values ['id_beneficiario'] );
 				$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-				
+		
 				if ($fechaFin == FALSE) {
 					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $values ['id_beneficiario'] );
 					$fechaFin = $this->esteRecursoDBOtun->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				}
-				
-			
+					
 				foreach ( $roles as $data => $valor ) {
 					$rolPeriodo [$roles [$data] ['id_rol']] = array (
 							'periodo' => 1,
@@ -159,6 +158,7 @@ class FormProcessor {
 				$this->escribir_log ( $mensaje );
 			}
 		}
+
 
 		Redireccionador::redireccionar ( "Informacion", base64_encode ( $this->ruta_relativa_log ) );
 	}
