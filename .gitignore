@@ -6,6 +6,7 @@ blocks/gestionBeneficiarios/generacionContrato/entidad/firmas/*
 blocks/gestionBeneficiarios/generarContratosMasivos/entidad/archivos_validar/*
 blocks/gestionBeneficiarios/generarContratosMasivos/entidad/logs/*
 config/config.inc.php
+config/*
 blocks/reportes/generarActasMasivos/entidad/archivos_validar/*
 blocks/reportes/generarActasMasivos/entidad/logs/*
 blocks/reportes/plantillaFamiliares/entidad/logs/*
