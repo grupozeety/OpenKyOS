@@ -11,10 +11,11 @@ $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
 require $ruta . "/plugin/html2pdf/html2pdf.class.php";
-
-// SMTP needs accurate times, and the PHP time zone MUST be set
-// This should be done in your php.ini, but this is how to do it if you don't have access to that
 require $ruta . '/plugin/PHPMailer/PHPMailerAutoload.php';
+
+$this->sql = $this->miSql;
+include_once "blocks/facturacion/masivoCalFactura/entidad/sincronizarErp.php";
+use facturacion\masivoCalFactura\entidad\sincronizarErp;
 
 class GenerarDocumento
 {
@@ -66,6 +67,9 @@ class GenerarDocumento
 
         // Ruta XML para Creación PDF
         $this->rutaXML = $this->rutaAbsoluta . 'entidad/PlantillaXML/Facturacion25012017.xml';
+
+        //Objeto de Sincronización Erp
+        $this->ERP = new sincronizarErp('', $this->miSql);
 
         // Procedimiento
 
@@ -124,12 +128,12 @@ class GenerarDocumento
                  * Creacion Factura
                  */
 
-                $this->crearPDFFactura();
+                //$this->crearPDFFactura();
 
                 /**
                  * Creación Desprendible
                  */
-                $this->crearPDFDesprendible();
+                //$this->crearPDFDesprendible();
 
                 if (!isset($_REQUEST['documento_intantaneo'])) {
                     $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
@@ -137,7 +141,7 @@ class GenerarDocumento
                     /**
                      * Unir Documento
                      */
-                    $this->unirDocumento();
+                    //$this->unirDocumento();
                 } else {
 
                     /**
@@ -152,7 +156,13 @@ class GenerarDocumento
 
                 }
 
-                if (!isset($_REQUEST['documento_intantaneo'])) {
+                if (!isset($_REQUEST['documento_intantaneo']) && $this->InformacionFacturacion['estado_factura'] == 'Borrador') {
+
+                    /**
+                     * Crear Factura ERP NEXT
+                     */
+
+                    $this->crearFacturaErp();
 
                     /**
                      * Actualizar Factura Beneficiario
@@ -177,6 +187,17 @@ class GenerarDocumento
                 }
             }
         }
+
+    }
+
+    public function crearFacturaErp()
+    {
+        // Variable necesaria para crear factura
+        $_REQUEST['id_beneficiario'] = $this->identificador_beneficiario;
+
+        var_dump($_REQUEST);exit;
+
+        unset($_REQUEST['id_beneficiario']);
 
     }
 
