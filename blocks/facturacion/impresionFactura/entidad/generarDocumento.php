@@ -199,6 +199,7 @@ class GenerarDocumento
                             'numeracion_facturacion' => $this->InformacionFacturacion['numeracion_facturacion'],
                             'codigo_barras' => $this->InformacionFacturacion['codigo_barras'],
                             'id_factura' => $this->InformacionFacturacion['id_factura'],
+                            'factura_erp' => $sincronizacion['mensajeCreacion']['recibo'],
 
                         );
 
