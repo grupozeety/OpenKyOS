@@ -111,6 +111,18 @@ class GenerarDocumento
             if ($this->validarBeneficiario()) {
 
                 /**
+                 * Crear Factura ERP NEXT
+                 */
+
+                $sincronizacion = $this->crearFacturaErp();
+
+                /**
+                 * Asignación Fecha Oportuna de Pago
+                 */
+
+                $this->InformacionFacturacion['fecha_pago_oportuno'] = $sincronizacion['fechaOportunaPago'];
+
+                /**
                  * Númeracion Facturación
                  */
 
@@ -144,12 +156,6 @@ class GenerarDocumento
                  * Creación Desprendible
                  */
                 $this->crearPDFDesprendible();
-
-                /**
-                 * Crear Factura ERP NEXT
-                 */
-
-                $sincronizacion = $this->crearFacturaErp();
 
                 if (!isset($_REQUEST['documento_intantaneo'])) {
                     $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
