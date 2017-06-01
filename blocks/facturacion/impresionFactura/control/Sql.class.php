@@ -416,7 +416,8 @@ class Sql extends \Sql
                 $cadenaSql .= "  fecha_pago_oportuno='" . $variable['fecha_oportuna_pago'] . "',";
                 $cadenaSql .= "  indice_facturacion='" . $variable['indice_facturacion'] . "',";
                 $cadenaSql .= "  numeracion_facturacion='" . $variable['numeracion_facturacion'] . "',";
-                $cadenaSql .= "  codigo_barras='" . $variable['codigo_barras'] . "' ";
+                $cadenaSql .= "  codigo_barras='" . $variable['codigo_barras'] . "' ,";
+                $cadenaSql .= "  factura_erpnext ='" . $variable['factura_erp'] . "' ";
                 $cadenaSql .= " WHERE id_factura='" . $variable['id_factura'] . "';";
                 break;
 
