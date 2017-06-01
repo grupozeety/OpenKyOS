@@ -163,7 +163,7 @@ class FormProcessor {
 				$this->escribir_log ( $mensaje );
 			}
 		}
-		exit;
+
 		Redireccionador::redireccionar ( "Informacion", base64_encode ( $this->ruta_relativa_log ) );
 	}
 	public function escribir_log($mensaje) {
