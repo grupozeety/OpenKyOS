@@ -215,14 +215,16 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarUsuarioRolPeriodo' :
-				$cadenaSql = " SELECT DISTINCT  fin_periodo,urp.id_usuario_rol_periodo , urp.id_usuario_rol, urp.id_ciclo , id_beneficiario ";
+				$cadenaSql = " SELECT DISTINCT fin_periodo,urp.id_usuario_rol_periodo , urp.id_usuario_rol, urp.id_ciclo , factura.id_beneficiario , id_rol";
 				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
 				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
-				// $cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE and factura.estado_factura!='Borrador' ";
-				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE ";
-				$cadenaSql .= " WHERE id_beneficiario='" . $variable . "' ";
+				// $cadenaSql.=" JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE and factura.estado_factura!='Borrador' ";
+				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE";
+				$cadenaSql .= " JOIN facturacion.usuario_rol ON usuario_rol.id_usuario_rol=urp.id_usuario_rol";
+				$cadenaSql .= " WHERE factura.id_beneficiario='".$variable['id_beneficiario']."' ";
 				$cadenaSql .= " AND urp.estado_registro=TRUE ";
-				$cadenaSql .= " ORDER BY urp.id_usuario_rol_periodo DESC ";
+				$cadenaSql .= " AND id_rol='".$variable['id_rol']."' ";
+				$cadenaSql .= " ORDER BY urp.id_usuario_rol_periodo DESC";
 				break;
 			
 			case 'consultarActa' :
@@ -290,7 +292,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'inhabilitarFactura' :
-				$cadenaSql = " UPDATE facturacion.factura SET estado_registro='FALSE', observaciones='Inhabilitada por recalculo automatico' ";
+				$cadenaSql = " UPDATE facturacion.factura SET estado_registro='FALSE', observacion='Inhabilitada por recalculo automatico' ";
 				$cadenaSql .= " WHERE id_factura='" . $variable . "'";
 				break;
 			
