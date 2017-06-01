@@ -11,10 +11,11 @@ $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
 require $ruta . "/plugin/html2pdf/html2pdf.class.php";
-
-// SMTP needs accurate times, and the PHP time zone MUST be set
-// This should be done in your php.ini, but this is how to do it if you don't have access to that
 require $ruta . '/plugin/PHPMailer/PHPMailerAutoload.php';
+
+$this->sql = $this->miSql;
+include_once "blocks/facturacion/masivoCalFactura/entidad/sincronizarErp.php";
+use facturacion\masivoCalFactura\entidad\sincronizarErp;
 
 class GenerarDocumento
 {
@@ -67,6 +68,9 @@ class GenerarDocumento
         // Ruta XML para Creación PDF
         $this->rutaXML = $this->rutaAbsoluta . 'entidad/PlantillaXML/Facturacion25012017.xml';
 
+        //Objeto de Sincronización Erp
+        $this->ERP = new sincronizarErp('', $this->miSql);
+
         // Procedimiento
 
         $opciones = explode("&", $beneficiarios);
@@ -91,6 +95,16 @@ class GenerarDocumento
         $this->beneficiarios = explode(";", $opciones[0]);
 
         $this->ruta_archivos = $ruta_archivos;
+
+        /**
+         * Creación Log Sincronización Erp
+         */
+
+        $this->creacion_log();
+
+        /**
+         * Procedimiento crear Facturas
+         */
 
         foreach ($this->beneficiarios as $key => $this->identificador_beneficiario) {
 
@@ -131,13 +145,25 @@ class GenerarDocumento
                  */
                 $this->crearPDFDesprendible();
 
+                /**
+                 * Crear Factura ERP NEXT
+                 */
+
+                $sincronizacion = $this->crearFacturaErp();
+
                 if (!isset($_REQUEST['documento_intantaneo'])) {
                     $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
 
                     /**
                      * Unir Documento
                      */
-                    $this->unirDocumento();
+
+                    if ($sincronizacion['mensajeCreacion']['estado'] == 0) {
+
+                        $this->unirDocumento();
+
+                    }
+
                 } else {
 
                     /**
@@ -152,31 +178,94 @@ class GenerarDocumento
 
                 }
 
-                if (!isset($_REQUEST['documento_intantaneo'])) {
+                if (!isset($_REQUEST['documento_intantaneo']) && $this->InformacionFacturacion['estado_factura'] == 'Borrador') {
 
                     /**
                      * Actualizar Factura Beneficiario
                      */
-                    $arreglo = array(
-                        'id_beneficiario' => $this->identificador_beneficiario,
-                        //'fecha_oportuna_pago' => $_REQUEST['fecha_oportuna_pago'],
-                        'indice_facturacion' => $this->InformacionFacturacion['indice_facturacion'],
-                        'numeracion_facturacion' => $this->InformacionFacturacion['numeracion_facturacion'],
-                        'codigo_barras' => $this->InformacionFacturacion['codigo_barras'],
 
-                    );
+                    if ($sincronizacion['mensajeCreacion']['estado'] == 0) {
 
-                    $cadenaSql = $this->miSql->getCadenaSql('actualizarFacturaBeneficiario', $arreglo);
-                    $actualizacionEstadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+                        $arreglo = array(
+                            'id_beneficiario' => $this->identificador_beneficiario,
+                            'fecha_oportuna_pago' => $sincronizacion['fechaOportunaPago'],
+                            'indice_facturacion' => $this->InformacionFacturacion['indice_facturacion'],
+                            'numeracion_facturacion' => $this->InformacionFacturacion['numeracion_facturacion'],
+                            'codigo_barras' => $this->InformacionFacturacion['codigo_barras'],
+                            'id_factura' => $this->InformacionFacturacion['id_factura'],
+
+                        );
+
+                        $cadenaSql = $this->miSql->getCadenaSql('actualizarFacturaBeneficiario', $arreglo);
+                        $actualizacionEstadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                        if (isset($_REQUEST['correo'])) {
+
+                            $this->enviarNotificacion();
+                        }
+
+                        $mensaje_log = $this->InformacionBeneficiario['numero_identificacion'] . " " . $this->InformacionBeneficiario['nombre_beneficiario'] . " =>" . $sincronizacion['mensajeCreacion']['mensaje'] . " Recibo : " . $sincronizacion['mensajeCreacion']['recibo'];
+
+                    } else {
+
+                        $mensaje_log = $this->InformacionBeneficiario['numero_identificacion'] . " " . $this->InformacionBeneficiario['nombre_beneficiario'] . " =>" . $sincronizacion['mensajeCreacion']['mensaje'];
+
+                    }
+
+                    $this->escribir_log($mensaje_log);
 
                 }
 
-                if (isset($_REQUEST['correo'])) {
-
-                    $this->enviarNotificacion();
-                }
             }
         }
+        $this->cerrar_log();
+
+    }
+
+    public function escribir_log($mensaje)
+    {
+
+        fwrite($this->log, $mensaje . PHP_EOL);
+
+    }
+
+    public function cerrar_log()
+    {
+
+        fclose($this->log);
+
+    }
+
+    public function creacion_log()
+    {
+
+        $prefijo = substr(md5(uniqid(time())), 0, 6);
+
+        $this->ruta_absoluta_log = $this->ruta_archivos . "/" . $prefijo . "_creacionFacturasErp.log";
+
+        $this->log = fopen($this->ruta_absoluta_log, "w");
+    }
+
+    public function crearFacturaErp()
+    {
+        // Variable necesaria para crear factura
+        $_REQUEST['id_beneficiario'] = $this->identificador_beneficiario;
+
+        $arreglo = array(
+            'id_ciclo' => $this->InformacionFacturacion['id_ciclo'],
+            'total_factura' => $this->InformacionFacturacion['total_factura'],
+            'id_factura' => $this->InformacionFacturacion['id_factura'],
+        );
+
+        $arregloErp = $this->ERP->crearUrlFactura($arreglo);
+
+        $mensaje = $this->ERP->crearFactura($arregloErp['url']);
+
+        unset($_REQUEST['id_beneficiario']);
+
+        return array(
+            'fechaOportunaPago' => $arregloErp['fechaPagoOportuno'],
+            'mensajeCreacion' => $mensaje);
 
     }
 

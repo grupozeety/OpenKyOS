@@ -413,17 +413,11 @@ class Sql extends \Sql
             case 'actualizarFacturaBeneficiario':
                 $cadenaSql = " UPDATE facturacion.factura ";
                 $cadenaSql .= " SET estado_factura='Aprobado',";
-                //$cadenaSql .= "  fecha_pago_oportuno='" . $variable['fecha_oportuna_pago'] . "',";
+                $cadenaSql .= "  fecha_pago_oportuno='" . $variable['fecha_oportuna_pago'] . "',";
                 $cadenaSql .= "  indice_facturacion='" . $variable['indice_facturacion'] . "',";
                 $cadenaSql .= "  numeracion_facturacion='" . $variable['numeracion_facturacion'] . "',";
                 $cadenaSql .= "  codigo_barras='" . $variable['codigo_barras'] . "' ";
-                $cadenaSql .= " WHERE id_factura=(";
-                $cadenaSql .= " SELECT id_factura ";
-                $cadenaSql .= " FROM facturacion.factura";
-                $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "'";
-                $cadenaSql .= " ORDER BY id_factura DESC ";
-                $cadenaSql .= " LIMIT 1";
-                $cadenaSql .= " );";
+                $cadenaSql .= " WHERE id_factura='" . $variable['id_factura'] . "';";
                 break;
 
             case 'consultarNumeracionFactura':
@@ -440,6 +434,33 @@ class Sql extends \Sql
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
                 $cadenaSql .= " AND estado_factura='Aprobado'";
                 $cadenaSql .= " AND indice_facturacion='" . $variable . "';";
+                break;
+
+            //Variables Sincronizar ERP
+
+            case 'parametrosGlobales':
+                $cadenaSql = " SELECT descripcion , id_valor ";
+                $cadenaSql .= " FROM  facturacion.parametros_generales ";
+                $cadenaSql .= " WHERE estado_registro=TRUE ";
+                break;
+
+            case 'consultarInformacionBeneficiario':
+                $cadenaSql = " SELECT value , data , urbanizacion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data, proyecto as urbanizacion ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " JOIN interoperacion.documentos_contrato ac on ac.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND ac.estado_registro=TRUE ";
+                $cadenaSql .= " AND ac.tipologia_documento=132 ";
+                $cadenaSql .= "     ) datos ";
+                $cadenaSql .= "WHERE data='" . $variable . "' ";
+                $cadenaSql .= "LIMIT 10; ";
+                break;
+
+            case 'actualizarFechaPagoOportuno':
+                $cadenaSql = " UPDATE facturacion.factura SET fecha_pago_oportuno='" . $variable['fechaOportuna'] . "' ";
+                $cadenaSql .= " WHERE id_factura='" . $variable['id_factura'] . "'";
                 break;
 
         }
