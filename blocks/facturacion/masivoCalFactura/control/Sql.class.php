@@ -255,7 +255,7 @@ class Sql extends \Sql {
 				$cadenaSql=" SELECT DISTINCT urp.id_usuario_rol, urp.id_ciclo , id_beneficiario, factura.id_factura, fecha_pago_oportuno";
 				$cadenaSql.=" FROM facturacion.usuario_rol_periodo urp ";
 				$cadenaSql.=" JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
-				$cadenaSql.=" JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE and factura.estado_factura='Aprobado' and fecha_pago_oportuno < now()";
+				$cadenaSql.=" JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE and factura.estado_factura='Aprobado' and fecha_pago_oportuno > now()";
 				$cadenaSql.=" WHERE 1=1";
 				$cadenaSql.=" AND id_beneficiario='" . $variable . "' ";
 				$cadenaSql.=" AND urp.estado_registro=TRUE ";
