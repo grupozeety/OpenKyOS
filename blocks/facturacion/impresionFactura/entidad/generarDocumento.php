@@ -111,16 +111,19 @@ class GenerarDocumento
             if ($this->validarBeneficiario()) {
 
                 /**
-                 * Crear Factura ERP NEXT
-                 */
-
-                $sincronizacion = $this->crearFacturaErp();
-
-                /**
                  * Asignación Fecha Oportuna de Pago
                  */
 
-                $this->InformacionFacturacion['fecha_pago_oportuno'] = $sincronizacion['fechaOportunaPago'];
+                if (isset($this->InformacionFacturacion['estado_factura']) && $this->InformacionFacturacion['estado_factura'] == 'Borrador') {
+
+                    /**
+                     * Crear Factura ERP NEXT
+                     */
+
+                    $sincronizacion = $this->crearFacturaErp();
+
+                    $this->InformacionFacturacion['fecha_pago_oportuno'] = $sincronizacion['fechaOportunaPago'];
+                }
 
                 /**
                  * Númeracion Facturación
@@ -225,7 +228,10 @@ class GenerarDocumento
 
             }
         }
-        $this->cerrar_log();
+
+        if (!isset($_REQUEST['documento_intantaneo'])) {
+            $this->cerrar_log();
+        }
 
     }
 
@@ -246,11 +252,15 @@ class GenerarDocumento
     public function creacion_log()
     {
 
-        $prefijo = substr(md5(uniqid(time())), 0, 6);
+        if (!isset($_REQUEST['documento_intantaneo'])) {
 
-        $this->ruta_absoluta_log = $this->ruta_archivos . "/" . $prefijo . "_creacionFacturasErp.log";
+            $prefijo = substr(md5(uniqid(time())), 0, 6);
 
-        $this->log = fopen($this->ruta_absoluta_log, "w");
+            $this->ruta_absoluta_log = $this->ruta_archivos . "/" . $prefijo . "_creacionFacturasErp.log";
+
+            $this->log = fopen($this->ruta_absoluta_log, "w");
+        }
+
     }
 
     public function crearFacturaErp()
@@ -324,30 +334,41 @@ class GenerarDocumento
         $cadenaSql = $this->miSql->getCadenaSql('consultaUltimoValorPagado', $this->identificador_beneficiario);
         $this->UltimoValorPagadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaValoresConceptos', $this->identificador_beneficiario);
+        $cadenaSql = $this->miSql->getCadenaSql('consultaValoresConceptos', $this->InformacionFacturacion);
         $this->Conceptos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
         $this->CuotaPeriodo = 0;
 
         // Factura en Mora
+
+        $validar = false;
         if ($this->Conceptos != false) {
 
             foreach ($this->Conceptos as $key => $value) {
 
-                if ($value['observacion'] != '') {
-                    $cadena = explode("(", $value['observacion']);
-                    $id_factura = $cadena[0];
+                if ($value['factura_mora'] != '') {
+                    $id_factura = $value['factura_mora'];
                 }
 
-                if (strpos(strtolower($value['concepto']), 'mora') === false) {
+                if ($value['factura_mora'] == '') {
                     $this->CuotaPeriodo = $this->CuotaPeriodo + $value['valor_concepto'];
                 }
 
-            }
+                if (isset($id_factura) && $id_factura != '') {
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarFacturaMora', $id_factura);
+                    $FacturaMora = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (isset($id_factura) && $id_factura != '') {
-                $cadenaSql = $this->miSql->getCadenaSql('consultarFacturaMora', $id_factura);
-                $this->FacturaMora = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+                    $this->Conceptos[$key]['concepto'] = $this->Conceptos[$key]['concepto'] . " (" . $FacturaMora['indice_facturacion'] . sprintf("%'.06d", $FacturaMora['numeracion_facturacion']) . ") ";
+
+                    if ($validar == false) {
+
+                        $this->FacturaMora = $FacturaMora;
+
+                        $validar = true;
+
+                    }
+
+                }
 
             }
 
@@ -356,7 +377,7 @@ class GenerarDocumento
         $cadenaSql = $this->miSql->getCadenaSql('consultarBeneficiario', $this->identificador_beneficiario);
         $this->InformacionBeneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        if ($this->InformacionBeneficiario && $this->Conceptos && $this->InformacionFacturacion && isset($this->InformacionFacturacion['estado_factura']) && $this->InformacionFacturacion['estado_factura'] == 'Borrador') {
+        if ($this->InformacionBeneficiario && $this->Conceptos && $this->InformacionFacturacion) {
             return true;
         } else {
             return false;
