@@ -296,7 +296,8 @@ class Calcular {
 	
 	// Registrar el ciclo de facturación de acuerdo al periodo seleccionado
 	public function registrarPeriodo() {
-		foreach ( $this->rolesPeriodo as $key => $values ) { 
+		foreach ( $this->rolesPeriodo as $key => $values ) {
+			
 			// Acá se debe controlar el ciclo de facturación
 			$this->rolesPeriodo [$key] ['fecha'];
 			$dia = date ( 'd', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 day' ) );
