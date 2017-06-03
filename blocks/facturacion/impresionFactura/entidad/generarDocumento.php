@@ -680,24 +680,24 @@ class GenerarDocumento
             case 'Conceptos':
                 $this->contenido .= "<div style='" . $this->atributos . "'>";
 
-                $table = "<table style='border-collapse:collapse;border:0.1px;width:100%;' >
+                $table = "<table style='border-collapse:collapse;border:0.1px;width:100%;vertical-align:middle;' >
                             <tr>
                                 <td colspan='4' style='font-family:futura_extra_black_condensed_bt;margin: 0 auto;font-size:16px;height:18px;text-align:left;border:0.1px;background-color:#2a91bd;color:#fff;border-top-left-radius: 4px; border-bottom-left-radius: 4px;border-top-right-radius: 4px; border-bottom-right-radius: 4px;'><b>Detalle de Cargos Facturados</b></td>
                             </tr>";
 
                 $table .= "<tr>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:13px;text-align:center;border:0.1px;width:5%;'><br><b>N°</b><br></td>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:13px;text-align:center;border:0.1px;width:25%;'><br><b>Periodo Facturado</b><br></td>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:13px;text-align:center;border:0.1px;width:50%;'><br><b>Concepto</b><br></td>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:13px;text-align:center;border:0.1px;width:20%;'><br><b>Valor</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:5px;text-align:center;border:0.1px;width:4%;'><br><b>N°</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:5px;text-align:center;border:0.1px;width:35%;'><br><b>Periodo Facturado</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:5px;text-align:center;border:0.1px;width:41%;'><br><b>Concepto</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:5px;text-align:center;border:0.1px;width:20%;'><br><b>Valor</b><br></td>
                 </tr>";
                 $i = 1;
                 foreach ($this->Conceptos as $key => $value) {
                     $table .= "<tr>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;height:13px;text-align:center;border:0.1px;width:5%;'><br>" . $i . ".<br></td>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;height:13px;text-align:center;border:0.1px;width:25%;'><br>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "<br></td>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;height:13px;text-align:left;border:0.1px;width:50%;'><br>" . $value['concepto'] . "<br></td>
-                                  <td align='center' style='color:#5b5e60;font-family:futuraltbt;height:13px;text-align:left;border:0.1px;width:20%;'><br>$ " . number_format($value['valor_concepto'], 2) . "<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;height:5px;text-align:center;border:0.1px;width:4%;'><br>" . $i . ".<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;height:5px;text-align:center;border:0.1px;width:35%;'><br>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;height:5px;text-align:left;border:0.1px;width:41%;'><br>" . $value['concepto'] . "<br></td>
+                                  <td align='center' style='color:#5b5e60;font-family:futuraltbt;height:5px;text-align:left;border:0.1px;width:20%;'><br>$ " . number_format($value['valor_concepto'], 2) . "<br></td>
                                </tr>";
 
                     $i++;
