@@ -480,7 +480,7 @@ class GenerarDocumento
                 break;
 
             case 3:
-                $height = '150px';
+                $height = '145px';
                 break;
 
             case 4:
@@ -686,18 +686,18 @@ class GenerarDocumento
                             </tr>";
 
                 $table .= "<tr>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:5px;text-align:center;border:0.1px;width:4%;'><br><b>N°</b><br></td>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:5px;text-align:center;border:0.1px;width:35%;'><br><b>Periodo Facturado</b><br></td>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:5px;text-align:center;border:0.1px;width:41%;'><br><b>Concepto</b><br></td>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:5px;text-align:center;border:0.1px;width:20%;'><br><b>Valor</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;text-align:center;border:0.1px;width:4%;'><br><b>N°</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;text-align:center;border:0.1px;width:35%;'><br><b>Periodo Facturado</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;text-align:center;border:0.1px;width:41%;'><br><b>Concepto</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;text-align:center;border:0.1px;width:20%;'><br><b>Valor</b><br></td>
                 </tr>";
                 $i = 1;
                 foreach ($this->Conceptos as $key => $value) {
                     $table .= "<tr>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;height:5px;text-align:center;border:0.1px;width:4%;'><br>" . $i . ".<br></td>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;height:5px;text-align:center;border:0.1px;width:35%;'><br>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "<br></td>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;height:5px;text-align:left;border:0.1px;width:41%;'><br>" . $value['concepto'] . "<br></td>
-                                  <td align='center' style='color:#5b5e60;font-family:futuraltbt;height:5px;text-align:left;border:0.1px;width:20%;'><br>$ " . number_format($value['valor_concepto'], 2) . "<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;text-align:center;border:0.1px;width:4%;'><br>" . $i . ".<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;text-align:center;border:0.1px;width:35%;'><br>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;text-align:left;border:0.1px;width:41%;'><br>" . $value['concepto'] . "<br></td>
+                                  <td align='center' style='color:#5b5e60;font-family:futuraltbt;text-align:left;border:0.1px;width:20%;'><br>$ " . number_format($value['valor_concepto'], 2) . "<br></td>
                                </tr>";
 
                     $i++;
@@ -914,7 +914,7 @@ class GenerarDocumento
                 switch ($this->InformacionFacturacion['departamento']) {
                     case '23':
 
-                        $this->contenido .= "<td style='height:13px;text-align:left;border:none;width:70%;'><img width='200' height='45' src='http://localhost/OpenKyOS/theme/basico/img/FormaPago.png'></td>";
+                        $this->contenido .= "<td style='height:13px;text-align:left;border:none;width:70%;'><img width='200' height='43' src='http://localhost/OpenKyOS/theme/basico/img/FormaPago.png'></td>";
                         break;
 
                     case '70':
@@ -1041,7 +1041,7 @@ class GenerarDocumento
                                 }
                                 td, th {
                                     border: 1px solid #CCC;
-                                    height: 13px;
+
                                 } /* Make cells a bit taller */
 
                                 th {
