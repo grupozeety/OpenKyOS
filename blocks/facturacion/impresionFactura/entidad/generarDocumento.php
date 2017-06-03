@@ -694,10 +694,10 @@ class GenerarDocumento
                 $i = 1;
                 foreach ($this->Conceptos as $key => $value) {
                     $table .= "<tr>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;text-align:center;border:0.1px;width:4%;'><br>" . $i . ".<br></td>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;text-align:center;border:0.1px;width:35%;'><br>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "<br></td>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;text-align:left;border:0.1px;width:41%;'><br>" . $value['concepto'] . "<br></td>
-                                  <td align='center' style='color:#5b5e60;font-family:futuraltbt;text-align:left;border:0.1px;width:20%;'><br>$ " . number_format($value['valor_concepto'], 2) . "<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;font-size:8.5px;text-align:center;border:0.1px;width:4%;'><br>" . $i . ".<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;font-size:8.5px;text-align:center;border:0.1px;width:35%;'><br>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;font-size:8.5px;text-align:left;border:0.1px;width:41%;'><br>" . $value['concepto'] . "<br></td>
+                                  <td align='center' style='color:#5b5e60;font-family:futuraltbt;font-size:8.5px;text-align:left;border:0.1px;width:20%;'><br>$ " . number_format($value['valor_concepto'], 2) . "<br></td>
                                </tr>";
 
                     $i++;
