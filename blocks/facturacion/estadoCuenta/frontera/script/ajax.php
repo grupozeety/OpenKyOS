@@ -225,6 +225,7 @@ $(document).ready(function() {
 	            { "data": "id_ciclo" },
                 { "data": "total" },
 	            { "data": "estado_factura" },
+	            { "data": "observaciones" },
 	            	            {
 	      			"data": null,
 	      			"defaultContent": "<center><span class='glyphicon glyphicon-search optionEdit'></span></center>"
