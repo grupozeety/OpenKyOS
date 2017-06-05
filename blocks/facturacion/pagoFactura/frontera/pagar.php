@@ -384,7 +384,7 @@ class Periodos {
 		$valorCodificado .= "&id_factura=" . $_REQUEST ['id'];
 		$valorCodificado .= "&beneficiario=" . $factura [0] ['nombres'];
 		$valorCodificado .= "&id_beneficiario=" .$factura [0] ['id_beneficiario'];
-		
+		$valorCodificado .= "&estadoFactura=" .$factura [0] ['estado_factura'];
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.
 		 * Para ello utiliza la hora en que es creado el formulario para

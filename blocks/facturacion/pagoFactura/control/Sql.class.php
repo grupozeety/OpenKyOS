@@ -134,6 +134,24 @@ class Sql extends \Sql {
 				$cadenaSql .= " AND fac.id_factura='" . $variable . "' ";
 				
 				break;
+			
+			case 'consultarPadre' :
+				$cadenaSql = " SELECT fac.id_factura,fac.id_beneficiario,conceptos.observacion as factura_mora ";
+				$cadenaSql .= " FROM facturacion.factura fac JOIN interoperacion.beneficiario_potencial bp on  ";
+				$cadenaSql .= " bp.id_beneficiario=fac.id_beneficiario JOIN facturacion.conceptos on conceptos.id_factura=fac.id_factura  ";
+				$cadenaSql .= " AND conceptos.estado_registro=TRUE JOIN facturacion.usuario_rol_periodo urp on conceptos.id_usuario_rol_periodo=urp.id_usuario_rol_periodo ";
+				$cadenaSql .= " WHERE 1=1  ";
+				$cadenaSql .= " AND fac.estado_registro=TRUE  ";
+				$cadenaSql .= " AND bp.estado_registro=TRUE AND conceptos.observacion!='' ";
+				$cadenaSql .= " AND conceptos.observacion='" . $variable . "' ";
+				
+				break;
+			
+			case 'actualizarFacturaPadre' :
+				$cadenaSql = " UPDATE facturacion.factura ";
+				$cadenaSql .= " SET estado_factura='Reliquidar', estado_registro=FALSE, observacion='Pago Parcial No." . $variable ['idPago'] . " por concepto Mora' ";
+				$cadenaSql .= " WHERE id_factura='" . $variable['id_factura'] . "'";
+				break;
 		}
 		
 		return $cadenaSql;
