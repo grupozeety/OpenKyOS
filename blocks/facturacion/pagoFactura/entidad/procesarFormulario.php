@@ -43,6 +43,7 @@ class FormProcessor {
 		
 		$_REQUEST ['tiempo'] = time ();
 		
+		
 		/**
 		 * 1.
 		 * Revisar Valor de Factura Coincida con el Pago
@@ -78,7 +79,13 @@ class FormProcessor {
 		
 		if ($update == TRUE) {
 			$this->consultarMoras ();
+			
+			if($_REQUEST['estadoFactura']=='Mora'){
+				$this->inactivarPadre();
+			}
+			
 			$this->generarComprobante ();
+
 		} else {
 			Redireccionador::redireccionar ( "ErrorUpdate" );
 			exit ();
@@ -125,7 +132,7 @@ class FormProcessor {
 	public function actualizarFactura($idFactura) {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFactura', $idFactura );
 		$update = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
-		
+
 		return $update;
 	}
 	
@@ -140,6 +147,28 @@ class FormProcessor {
 		}
 	}
 	
+	public function inactivarPadre() {
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarPadre', $_REQUEST ['id_factura'] );
+		$padre = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+	
+		
+		if ($padre != FALSE) {
+			
+			
+			foreach ( $padre as $key => $values ) {
+				
+				$array=array(
+						'id_factura'=>$padre [$key] ['id_factura'] ,
+						'idPago'=>	$_REQUEST ['idPago']
+				);
+				
+				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFacturaPadre',$array );
+				$padreUpdate = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+			}
+		}
+	
+	}
+
 	public function generarComprobante() {
 		$this->comprobante->comprobante ();
 		exit ();

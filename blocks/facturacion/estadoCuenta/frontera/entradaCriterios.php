@@ -309,7 +309,8 @@ class Consultar {
 				     		<th>Ciclo Facturación</th>
 			                <th>Valor Total</th>
 							<th>Estado Factura</th>
-						    <th>Ver Factura</th>
+						    <th>Observaciones</th>
+						    <th>Ver Factura</th> 
 			            </tr>
 			        </thead>
 			    </table>
