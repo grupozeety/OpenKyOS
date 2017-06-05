@@ -11,8 +11,6 @@ include_once 'Redireccionador.php';
 include_once 'comprobante.php';
 
 include_once 'sincronizarErp.php';
-
-
 class FormProcessor {
 	public $miConfigurador;
 	public $lenguaje;
@@ -30,7 +28,7 @@ class FormProcessor {
 		
 		$this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion ( "raizDocumento" );
 		
-		$this->comprobante= new GenerarDocumento($lenguaje,$sql);
+		$this->comprobante = new GenerarDocumento ( $lenguaje, $sql );
 		
 		if (! isset ( $_REQUEST ["bloqueGrupo"] ) || $_REQUEST ["bloqueGrupo"] == "") {
 			$this->rutaURL .= "/blocks/" . $_REQUEST ["bloque"] . "/";
@@ -44,8 +42,8 @@ class FormProcessor {
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		$_REQUEST ['tiempo'] = time ();
-
-				/**
+		
+		/**
 		 * 1.
 		 * Revisar Valor de Factura Coincida con el Pago
 		 */
@@ -57,15 +55,21 @@ class FormProcessor {
 		 * Registrar Pago
 		 */
 		
-		$this->medioPago($_REQUEST['medio_pago']);
+		$this->medioPago ( $_REQUEST ['medio_pago'] );
+		/**
+		 * 3.
+		 * Revisar si tiene facturas en mora asociadas el pago
+		 */
 		
+	
 		$resultado = $this->registrarPago ();
-
+		
 		if ($resultado == FALSE) {
 			Redireccionador::redireccionar ( "ErrorPago" );
 			exit ();
 		} else {
-			$update = $this->actualizarFactura ();
+			$update = $this->actualizarFactura ( $_REQUEST ['id_factura'] );
+			
 		}
 		/**
 		 * 3.
@@ -73,6 +77,7 @@ class FormProcessor {
 		 */
 		
 		if ($update == TRUE) {
+			$this->consultarMoras ();
 			$this->generarComprobante ();
 		} else {
 			Redireccionador::redireccionar ( "ErrorUpdate" );
@@ -83,25 +88,21 @@ class FormProcessor {
 	}
 	public function revisarFactura() {
 		$valor_recibido = $_REQUEST ['valor_recibido'];
-		$valor_factura = $_REQUEST ['valor_factura']+$_REQUEST['valor_abono'];
+		$valor_factura = $_REQUEST ['valor_factura'] + $_REQUEST ['valor_abono'];
 		
 		if ($valor_recibido - $valor_factura < 0) {
 			Redireccionador::redireccionar ( "ErrorValor" );
 			exit ();
 		}
 	}
-	
 	public function medioPago($id) {
-	
 		$cadenaSql = $this->miSql->getCadenaSql ( 'medioPago', $id );
 		$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-	
-		$_REQUEST['medioTexto']=$registro[0][0];
-	
+		
+		$_REQUEST ['medioTexto'] = $registro [0] [0];
+		
 		return $registro;
 	}
-	
-	
 	public function registrarPago() {
 		$this->asociacion = array (
 				'id_factura' => $_REQUEST ['id_factura'],
@@ -109,26 +110,38 @@ class FormProcessor {
 				'valor_recibido' => $_REQUEST ['valor_recibido'],
 				'usuario' => $_REQUEST ['usuario'],
 				'medio_pago' => $_REQUEST ['medio_pago'],
-				'abono_adicional'=>$_REQUEST['valor_abono'],
-				'valor_devuelto'=> $_REQUEST ['valor_recibido']-$_REQUEST ['valor_factura']-$_REQUEST['valor_abono'],
+				'abono_adicional' => $_REQUEST ['valor_abono'],
+				'valor_devuelto' => $_REQUEST ['valor_recibido'] - $_REQUEST ['valor_factura'] - $_REQUEST ['valor_abono'] 
 		);
 		
-	    $cadenaSql = $this->miSql->getCadenaSql ( 'registrarPago', $this->asociacion );
+		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarPago', $this->asociacion );
 		$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
-		$_REQUEST['idPago']=$registro[0][0];
-		$_REQUEST['valor_devuelto']=$_REQUEST ['valor_recibido']-$_REQUEST ['valor_factura']-$_REQUEST['valor_abono'];
-
+		$_REQUEST ['idPago'] = $registro [0] [0];
+		$_REQUEST ['valor_devuelto'] = $_REQUEST ['valor_recibido'] - $_REQUEST ['valor_factura'] - $_REQUEST ['valor_abono'];
+		
 		return $registro;
 	}
-	public function actualizarFactura() {
-		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFactura', $_REQUEST ['id_factura'] );
+	public function actualizarFactura($idFactura) {
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFactura', $idFactura );
 		$update = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
-
+		
 		return $update;
 	}
+	
+	public function consultarMoras() {
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarMoras', $_REQUEST ['id_factura'] );
+		$moras = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		if ($moras != FALSE) {
+			foreach ( $moras as $key => $values ) {
+				$this->actualizarFactura ( $moras [$key] ['factura_mora'] );
+			}
+		}
+	}
+	
 	public function generarComprobante() {
-		$this->comprobante->comprobante();
+		$this->comprobante->comprobante ();
 		exit ();
 	}
 }
