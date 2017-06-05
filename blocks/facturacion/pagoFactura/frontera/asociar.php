@@ -45,7 +45,6 @@ class Consultar {
 		$cadenaSql = $this->sql->getCadenaSql ( 'consultarConceptos_especifico', $_REQUEST ['id'] );
 		$conceptos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
-
 		// -------------------------------------------------------------------------------------------------
 		
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------

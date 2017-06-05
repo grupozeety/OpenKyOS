@@ -59,7 +59,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " JOIN facturacion.conceptos on conceptos.id_factura=fac.id_factura AND conceptos.estado_registro=TRUE ";
 				$cadenaSql .= " JOIN facturacion.regla on regla.id_regla=conceptos.id_regla AND regla.estado_registro=TRUE ";
 				$cadenaSql .= " WHERE 1=1 ";
-				$cadenaSql .= " AND fac.estado_registro=TRUE ";
+				//$cadenaSql .= " AND fac.estado_registro=TRUE ";
 				$cadenaSql .= " AND bp.estado_registro=TRUE ";
 				$cadenaSql .= " AND fac.id_factura='" . $variable . "' ";
 				break;
@@ -74,7 +74,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " JOIN facturacion.usuario_rol on usuario_rol.id_beneficiario=fac.id_beneficiario AND usuario_rol.estado_registro=TRUE AND usuario_rol.id_usuario_rol=urp.id_usuario_rol ";
 				$cadenaSql .= " JOIN facturacion.rol on rol.id_rol=usuario_rol.id_rol and rol.estado_registro=TRUE ";
 				$cadenaSql .= " WHERE 1=1 ";
-				$cadenaSql .= " AND fac.estado_registro=TRUE ";
+				//$cadenaSql .= " AND fac.estado_registro=TRUE ";
 				$cadenaSql .= " AND bp.estado_registro=TRUE ";
 				$cadenaSql .= " AND fac.id_factura='" . $variable . "' ORDER BY rol.descripcion ASC, regla.descripcion ASC ";
 				break;
