@@ -112,10 +112,17 @@ class Sql extends \Sql {
 				break;
 			
 			case 'registrarFactura' :
-				$cadenaSql = " INSERT INTO facturacion.factura (id_beneficiario, total_factura, id_ciclo) ";
-				$cadenaSql .= " VALUES( ";
+				$cadenaSql = " INSERT INTO facturacion.factura (id_beneficiario, total_factura, ";
+				if ($variable ['estado_factura'] == 'Mora') {
+					$cadenaSql .= " estado_factura,";
+				}
+				$cadenaSql .= " id_ciclo)  VALUES( ";
 				$cadenaSql .= " '" . $variable ['id_beneficiario'] . "',";
 				$cadenaSql .= " '" . $variable ['total_factura'] . "',";
+				if ($variable ['estado_factura'] =='Mora') {
+					$cadenaSql .= " '" . $variable ['estado_factura'] . "',";
+				}
+				
 				$cadenaSql .= " '" . $variable ['id_ciclo'] . "' ) RETURNING id_factura;";
 				break;
 			
@@ -221,9 +228,9 @@ class Sql extends \Sql {
 				// $cadenaSql.=" JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE and factura.estado_factura!='Borrador' ";
 				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE";
 				$cadenaSql .= " JOIN facturacion.usuario_rol ON usuario_rol.id_usuario_rol=urp.id_usuario_rol";
-				$cadenaSql .= " WHERE factura.id_beneficiario='".$variable['id_beneficiario']."' ";
+				$cadenaSql .= " WHERE factura.id_beneficiario='" . $variable ['id_beneficiario'] . "' ";
 				$cadenaSql .= " AND urp.estado_registro=TRUE ";
-				$cadenaSql .= " AND id_rol='".$variable['id_rol']."' ";
+				$cadenaSql .= " AND id_rol='" . $variable ['id_rol'] . "' ";
 				$cadenaSql .= " ORDER BY urp.id_usuario_rol_periodo DESC";
 				break;
 			
@@ -245,20 +252,32 @@ class Sql extends \Sql {
 				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, urp.id_ciclo , id_beneficiario, factura.id_factura";
 				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
 				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
-				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE and factura.estado_factura='Borrador' ";
+				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE ";
+				// $cadenaSql .= " and factura.estado_factura='Borrador' ";
 				$cadenaSql .= " WHERE id_beneficiario='" . $variable ['id_beneficiario'] . "' ";
 				$cadenaSql .= " AND urp.estado_registro=TRUE ";
 				$cadenaSql .= " AND urp.id_ciclo='" . $variable ['id_ciclo'] . "' ";
 				break;
-				
-			case 'consultarFacturaAprobado':
-				$cadenaSql=" SELECT DISTINCT urp.id_usuario_rol, urp.id_ciclo , id_beneficiario, factura.id_factura, fecha_pago_oportuno";
-				$cadenaSql.=" FROM facturacion.usuario_rol_periodo urp ";
-				$cadenaSql.=" JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
-				$cadenaSql.=" JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE and factura.estado_factura='Aprobado' and fecha_pago_oportuno > now()";
-				$cadenaSql.=" WHERE 1=1";
-				$cadenaSql.=" AND id_beneficiario='" . $variable . "' ";
-				$cadenaSql.=" AND urp.estado_registro=TRUE ";
+			
+			case 'consultarFacturaB' :
+				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, urp.id_ciclo , id_beneficiario, factura.id_factura";
+				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
+				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
+				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE ";
+				$cadenaSql .= " and factura.estado_factura='Borrador' ";
+				$cadenaSql .= " WHERE id_beneficiario='" . $variable ['id_beneficiario'] . "' ";
+				$cadenaSql .= " AND urp.estado_registro=TRUE ";
+				$cadenaSql .= " AND urp.id_ciclo='" . $variable ['id_ciclo'] . "' ";
+				break;
+			
+			case 'consultarFacturaAprobado' :
+				$cadenaSql = " SELECT DISTINCT urp.id_usuario_rol, urp.id_ciclo , id_beneficiario, factura.id_factura, fecha_pago_oportuno";
+				$cadenaSql .= " FROM facturacion.usuario_rol_periodo urp ";
+				$cadenaSql .= " JOIN facturacion.conceptos on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
+				$cadenaSql .= " JOIN facturacion.factura ON factura.id_factura=conceptos.id_factura and factura.estado_registro=TRUE and factura.estado_factura='Aprobado' and fecha_pago_oportuno > now()";
+				$cadenaSql .= " WHERE 1=1";
+				$cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
+				$cadenaSql .= " AND urp.estado_registro=TRUE ";
 				break;
 			
 			case 'consultarFacturaActiva' :
