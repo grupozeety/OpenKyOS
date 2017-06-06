@@ -409,10 +409,10 @@ class GenerarDocumento
             case '70':
 
                 $this->InformacionFacturacion['indice_facturacion'] = 'FVS';
-                $this->InformacionFacturacion['limite_facturacion'] = 'No.FVS 000001 al No. FVS 000867';
+                $this->InformacionFacturacion['limite_facturacion'] = 'No.FVS 000001 al No. FVS 001445';
                 $cadenaSql = $this->miSql->getCadenaSql('consultarNumeracionFactura', 'FVS');
                 $numeracion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                $limite = 867;
+                $limite = 1445;
                 break;
 
         }
