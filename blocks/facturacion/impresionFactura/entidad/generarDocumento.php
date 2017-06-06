@@ -153,15 +153,15 @@ class GenerarDocumento
                  * Creacion Factura
                  */
 
-                $this->crearPDFFactura();
-
                 /**
                  * Creación Desprendible
                  */
-                $this->crearPDFDesprendible();
+                //$this->crearPDFDesprendible();
 
                 if (!isset($_REQUEST['documento_intantaneo'])) {
                     $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
+
+                    $this->crearPDFFactura();
 
                     /**
                      * Unir Documento
@@ -169,7 +169,7 @@ class GenerarDocumento
 
                     if ($sincronizacion['mensajeCreacion']['estado'] == 0) {
 
-                        $this->unirDocumento();
+                        //$this->unirDocumento();
 
                     }
 
@@ -178,12 +178,18 @@ class GenerarDocumento
                     /**
                      * Unir Documento
                      */
-                    $this->unirDocumento();
+                    //$this->unirDocumento();
 
                     /**
                      * Descargar PDF
                      */
-                    $this->descargarDocumento($this->rutaProceso . 'FacturaBeneficiario.pdf');
+
+                    $this->archivo_adjunto = $this->rutaProceso . 'FacturaBeneficiario.pdf';
+                    //exit;
+
+                    $this->crearPDFFactura();
+
+                    $this->descargarDocumento($this->archivo_adjunto);
 
                 }
 
@@ -403,10 +409,10 @@ class GenerarDocumento
             case '70':
 
                 $this->InformacionFacturacion['indice_facturacion'] = 'FVS';
-                $this->InformacionFacturacion['limite_facturacion'] = 'No.FVS 000001 al No. FVS 000867';
+                $this->InformacionFacturacion['limite_facturacion'] = 'No.FVS 000001 al No. FVS 001445';
                 $cadenaSql = $this->miSql->getCadenaSql('consultarNumeracionFactura', 'FVS');
                 $numeracion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                $limite = 867;
+                $limite = 1445;
                 break;
 
         }
@@ -484,7 +490,7 @@ class GenerarDocumento
                 break;
 
             case 4:
-                $height = '250px';
+                $height = '145px';
                 break;
 
             default:
@@ -556,7 +562,7 @@ class GenerarDocumento
                     break;
 
                 case 'imagen':
-                    $this->contenido .= "<div style='text-align:" . $this->atributos['alineacionImagen'];
+                    $this->contenido .= "<div style='" . $this->atributos['alineacionImagen'];
                     $this->contenido .= "'><img src='" . $value . "' " . $this->atributos['dimensionesImagen'] . "  ></div>";
                     break;
 
@@ -644,25 +650,25 @@ class GenerarDocumento
 
                 $this->contenido .= "<table style='vertical-align:middle;border-collapse:collapse;border:none;width:100%;'s>
                             <tr>
-                                <td colspan='2' style='font-family:futuramdbtb;font-size:18px;height:30px;text-align:left;border:none;background-color:#999;color:#fff;border-bottom: #fff;'><b>Resumen</b></td>
+                                <td colspan='2' style='font-family:futura_extra_black_condensed_bt;font-size:18px;height:30px;text-align:left;border:none;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'>Resumen</td>
                             </tr>
                             <tr>
-                                <td style='font-family:futura_extra_black_condensed_bt;font-size:12.5px;height:17px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'><b>Deuda Anterior </b></td>";
+                                <td style='font-family:futura_extra_black_condensed_bt;font-size:12.5px;height:17px;text-align:left;border:none;width:50%;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'><b>Deuda Anterior </b></td>";
 
                 if (isset($this->FacturaMora) && !is_null($this->FacturaMora['total_factura']) && $this->FacturaMora['total_factura'] != '') {
-                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:12.5px;height:17px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
+                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:12.5px;height:17px;text-align:right;border:none;width:50%;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
                 } else {
-                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:12.5px;height:17px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ 0</td>";
+                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:12.5px;height:17px;text-align:right;border:none;width:50%;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'>$ 0</td>";
                 }
 
                 $this->contenido .= "</tr>
                             <tr>
-                                <td style='font-family:futura_extra_black_condensed_bt;height:17px;font-size:12.5px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'><b>Cuota Mes </b></td>
-                                <td style='font-family:futuraltbt;height:17px;font-size:12.5px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ " . number_format($this->CuotaPeriodo, 2) . " </td>
+                                <td style='font-family:futura_extra_black_condensed_bt;height:17px;font-size:12.5px;text-align:left;border:none;width:50%;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'><b>Cuota Mes </b></td>
+                                <td style='font-family:futuraltbt;height:17px;font-size:12.5px;text-align:right;border:none;width:50%;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'>$ " . number_format($this->CuotaPeriodo, 2) . " </td>
                             </tr>
                             <tr>
-                                <td style='font-family:futura_extra_black_condensed_bt;vertical-align:middle;font-size:12.5px;height:17px;text-align:left;border:none;width:50%;background-color:#1a823f;color:#fff;'><b>Total a pagar</b></td>
-                                <td style='font-family:futuraltbt;vertical-align:middle;height:17px;font-size:12.5px;text-align:right;border:none;width:50%;background-color:#1a823f;color:#fff;'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
+                                <td style='font-family:futura_extra_black_condensed_bt;vertical-align:middle;font-size:13.5px;height:17px;text-align:left;border:none;width:50%;background-color:#rgb(230, 197, 96);color:#444444;'><b>TOTAL A PAGAR</b></td>
+                                <td style='font-family:futuraltbt;vertical-align:middle;height:17px;font-size:13.5px;text-align:right;border:none;width:50%;background-color:#rgb(230, 197, 96);color:#444444;'><b>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</b></td>
                             </tr>
                         </table>
                         <br>
@@ -986,7 +992,7 @@ class GenerarDocumento
     public function crearPDFFactura()
     {
         ob_start();
-        $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
+        $html2pdf = new \HTML2PDF('P', 'LEGAL', 'es', true, 'UTF-8', array(
             1,
             1,
             1,
@@ -996,9 +1002,9 @@ class GenerarDocumento
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
 
-        $this->paginaFactura = $this->rutaProceso . 'Factura_actual.pdf';
+        //$this->paginaFactura = $this->rutaProceso . 'Factura_actual.pdf';
 
-        $html2pdf->Output($this->paginaFactura, 'F');
+        $html2pdf->Output($this->archivo_adjunto, 'F');
 
     }
 
