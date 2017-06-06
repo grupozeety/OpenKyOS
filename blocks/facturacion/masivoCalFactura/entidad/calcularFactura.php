@@ -16,6 +16,7 @@ class Calcular {
 	public $miSql;
 	public $conexion;
 	public $sincronizar;
+	public $estadoFactura;
 	public function __construct($lenguaje, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
@@ -26,12 +27,13 @@ class Calcular {
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 	}
-	public function calcularFactura($beneficiario, $roles) {
+	public function calcularFactura($beneficiario, $roles, $estadoFactura) {
 		
 		/**
 		 * Definir variables Gloables*
 		 */
 		$_REQUEST ['id_beneficiario'] = $beneficiario;
+		$this->estadoFactura = $estadoFactura;
 		
 		/**
 		 * 1.
@@ -147,7 +149,7 @@ class Calcular {
 			 * 6.
 			 * Revisar Resultado Proceso
 			 */
-
+			
 			return json_encode ( $this->registroConceptos );
 		}
 	}
@@ -185,21 +187,22 @@ class Calcular {
 				$datos = array (
 						'id_usuario_rol' => $this->rolesPeriodo [$llave] ['id_usuario_rol'],
 						'id_ciclo' => $ciclo,
-						'id_beneficiario' => $_REQUEST ['id_beneficiario'] ,
-						'id_rol'=>$key
+						'id_beneficiario' => $_REQUEST ['id_beneficiario'],
+						'id_rol' => $key 
 				);
 				
-				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFactura', $datos );
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFacturaB', $datos );
 				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				
-				if ($resultado != FALSE) {
-					$cadenaSql = $this->miSql->getCadenaSql ( 'inhabilitarFactura', $resultado [0] ['id_factura'] );
-					$inhabilitar = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
-					
-					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRolPeriodo', $datos  );
-					$this->rolesPeriodo [$key] ['fecha'] = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" )[0][0];
-					
-				}
+			
+					if ($resultado != FALSE) {
+						$cadenaSql = $this->miSql->getCadenaSql ( 'inhabilitarFactura', $resultado [0] ['id_factura'] );
+						$inhabilitar = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
+						
+						$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRolPeriodo', $datos );
+						$this->rolesPeriodo [$key] ['fecha'] = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] [0];
+					}
+				
 				
 				$fechaCiclo = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 day' ) );
 				
@@ -384,12 +387,12 @@ class Calcular {
 			$total = $this->rolesPeriodo [$key] ['valor'] ['total'] + $total + $mora;
 		}
 		
-	
 		$this->informacion_factura = array (
 				'total_factura' => $total,
 				'id_beneficiario' => $_REQUEST ['id_beneficiario'],
 				'id_ciclo' => $this->rolesPeriodo [$key] ['ciclo'],
-				'fecha' => $this->rolesPeriodo [$key] ['finPeriodo'] 
+				'fecha' => $this->rolesPeriodo [$key] ['finPeriodo'],
+				'estado_factura' => $this->estadoFactura 
 		);
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFactura', $this->informacion_factura );
