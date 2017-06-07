@@ -140,7 +140,7 @@ class FormProcessor {
 							$rolPeriodo = $this->calFechaFinal ( $roles );
 							$resultado [$values ['id_beneficiario']] ['observaciones'] = json_decode ( $this->calcular->calcularFactura ( $values ['id_beneficiario'], $rolPeriodo, $this->estado ), true );
 							
-							$this->escribir_log ( $values ['identificacion'] . ':' . json_encode ( $resultado [$values ['id_beneficiario']] ['observaciones'] ['observaciones'] . ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [0] . ".  " ) );
+							$this->escribir_log ( $values ['identificacion'] . ':' . json_encode ( $resultado [$values ['id_beneficiario']] ['observaciones'] ['observaciones'] . ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [0] .  ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [1] .".") );
 						} while ( $this->iterar == 1 );
 					}
 					// Saber qué periodo aplica cada rol
@@ -189,9 +189,9 @@ class FormProcessor {
 			
 			$fechaFinal = date ( "Y/m/d H:i:s", strtotime ( $fechaFin [0] [0] ) );
 			
-			$a = date ( 'm', strtotime ( $fechaFinal . '+1 day' ) );
+			$a = date ( 'Y/m/d', strtotime ( $fechaFinal . '+1 day' ) );
 			
-			if ($a < date ( "m" )) {
+			if ($a < date ( "Y/m/d" )) {
 				$this->iterar = 1;
 				$this->estado='Mora';
 			} else {
