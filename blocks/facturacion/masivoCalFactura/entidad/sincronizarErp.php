@@ -135,7 +135,7 @@ class sincronizarErp
             "customer_group" => $ben[0][2],
             "territory" => "Colombia",
             "customer_details" => $ben[0][2],
-            "title" => $parametros['id_factura'] . " - " . $ben[0][0],
+            "title" => $parametros['id_factura'],
             "income_account" => $valores['cuentaCredito_erp'],
             "items" => $items,
             "docstatus" => 1,
