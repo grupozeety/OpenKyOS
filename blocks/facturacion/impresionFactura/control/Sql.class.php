@@ -457,7 +457,7 @@ class Sql extends \Sql
                 $cadenaSql = " SELECT max(numeracion_facturacion) as numeracion";
                 $cadenaSql .= " FROM facturacion.factura";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND estado_factura IN ('Aprobado','Mora')";
+                $cadenaSql .= " AND estado_factura IN ('Aprobado','Mora','Reliquidar')";
                 $cadenaSql .= " AND indice_facturacion='" . $variable . "';";
                 break;
 
