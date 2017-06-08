@@ -44,34 +44,13 @@ class sincronizarErp {
 	
 	
 	/**
-	 * Pagar Factura en ERPNext
+	 * inahbialitar Factura en ERPNext
 	 */
 	public function crearUrlFactura($parametros = '') {
 		
-		$items [0] = array (
-				"qty" => 1,
-				"item_name" => $valores ['itemName_erp'],
-				"item_code" => $valores ['itemCode_erp'],
-				"stock_uom" => $valores ['stockUOM_erp'],
-				"doctype" => "Sales Invoice Item",
-				"description" => $parametros ['id_ciclo'],
-				"rate" => $parametros ['total_factura'],
-				"debit_to" => $valores ['cuentaDebito_erp'],
-				"parenttype" => "Sales Invoice",
-				"parentfield" => "items" 
-		);
-		
 		$base = array (
-				"customer" => $ben [0] [0],
-				"customer_name" => $ben [0] [0],
-				"due_date" => $fechaOportuna,
-				"customer_group" => $ben [0] [2],
-				"territory" => "Colombia",
-				"customer_details" => $ben [0] [2],
-				"title" => $parametros ['id_factura'] . " - " . $ben [0] [0],
-				"income_account" => $valores ['cuentaCredito_erp'],
-				"items" => $items,
-				"docstatus" => 1 
+				"docname" => $parametros,
+				"docstatus" => 2 
 		);
 		
 		// URL base
@@ -85,7 +64,7 @@ class sincronizarErp {
 		$variable .= "&bloqueNombre=" . "llamarApi";
 		$variable .= "&bloqueGrupo=" . "";
 		$variable .= "&tiempo=" . $_REQUEST ['tiempo'];
-		$variable .= "&metodo=crearFactura";
+		$variable .= "&metodo=inactivarFactura";
 		$variable .= "&variables=" . json_encode ( $base );
 		// Codificar las variables
 		$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
@@ -96,13 +75,48 @@ class sincronizarErp {
 		return $material;
 	}
 	
-	public function crearFactura($url) {
+	/**
+	 * Estado Pagada Factura en ERPNext
+	 */
+	public function crearUrlFactura($parametros = '') {
+	
+		$base = array (
+				"docname" => $parametros,
+				"docstatus" => 2
+		);
+	
+		// URL base
+		$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
+		$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
+		$url .= "/index.php?";
+		// Variables
+		$variable = "pagina=openKyosApi";
+		$variable .= "&procesarAjax=true";
+		$variable .= "&action=index.php";
+		$variable .= "&bloqueNombre=" . "llamarApi";
+		$variable .= "&bloqueGrupo=" . "";
+		$variable .= "&tiempo=" . $_REQUEST ['tiempo'];
+		$variable .= "&metodo=pagarFactura";
+		$variable .= "&variables=" . json_encode ( $base );
+		// Codificar las variables
+		$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+		$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $enlace );
+		// URL definitiva
+		$material = $url . $cadena;
+	
+		return $material;
+	}
+	
+	
+	public function cancelarFactura($url) {
+		
 		$variable = array (
 				'estado' => 1,
-				'mensaje' => "Error creando Factura en ERPNext" 
+				'mensaje' => "Error cancelando Factura en ERPNext" 
 		);
 		
 		$operar = file_get_contents ( $url );
+
 		$validacion = strpos ( $operar, 'modified_by' );
 		
 		if (is_numeric ( $validacion )) {
@@ -112,7 +126,7 @@ class sincronizarErp {
 			
 			$variable = array (
 					'estado' => 0,
-					'mensaje' => "Factura Creada con Éxito",
+					'mensaje' => "Factura Cancelada con Éxito",
 					'recibo' => $res2 ['parent'] 
 			);
 		}

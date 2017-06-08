@@ -53,7 +53,7 @@ class Sql extends \Sql {
 			
 			case 'consultarFactura_especifico' :
 				$cadenaSql = " SELECT fac.id_factura, total_factura, estado_factura, fac.id_ciclo, fac.id_beneficiario, identificacion||' - '|| nombre ||' '|| primer_apellido ||' '||segundo_apellido as nombres ,  ";
-				$cadenaSql .= " regla.descripcion, conceptos.valor_calculado ";
+				$cadenaSql .= " regla.descripcion, conceptos.valor_calculado, factura_erpnext ";
 				$cadenaSql .= " FROM facturacion.factura fac ";
 				$cadenaSql .= " JOIN interoperacion.beneficiario_potencial bp on bp.id_beneficiario=fac.id_beneficiario ";
 				$cadenaSql .= " JOIN facturacion.conceptos on conceptos.id_factura=fac.id_factura AND conceptos.estado_registro=TRUE ";
@@ -136,7 +136,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarPadre' :
-				$cadenaSql = " SELECT fac.id_factura,fac.id_beneficiario,conceptos.observacion as factura_mora ";
+				$cadenaSql = " SELECT fac.id_factura,fac.id_beneficiario,conceptos.observacion as factura_mora, factura_erpnext ";
 				$cadenaSql .= " FROM facturacion.factura fac JOIN interoperacion.beneficiario_potencial bp on  ";
 				$cadenaSql .= " bp.id_beneficiario=fac.id_beneficiario JOIN facturacion.conceptos on conceptos.id_factura=fac.id_factura  ";
 				$cadenaSql .= " AND conceptos.estado_registro=TRUE JOIN facturacion.usuario_rol_periodo urp on conceptos.id_usuario_rol_periodo=urp.id_usuario_rol_periodo ";
