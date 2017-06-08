@@ -71,6 +71,7 @@ class FormProcessor {
 			exit ();
 		} else {
 			$update = $this->actualizarFactura ( $_REQUEST ['id_factura'] );
+			$this->actualizarERP($_REQUEST ['id_factura']);
 		}
 		/**
 		 * 3.
@@ -127,21 +128,38 @@ class FormProcessor {
 		
 		return $registro;
 	}
+	
 	public function actualizarFactura($idFactura) {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFactura', $idFactura );
 		$update = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
 		
 		return $update;
 	}
+	
+	public function actualizarFacturaM($idFactura) {
+		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFacturaM', $idFactura );
+		$update = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+	
+		return $update;
+	}
+	
 	public function consultarMoras() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarMoras', $_REQUEST ['id_factura'] );
 		$moras = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		if ($moras != FALSE) {
 			foreach ( $moras as $key => $values ) {
-				$this->actualizarFactura ( $moras [$key] ['factura_mora'] );
+				
+				$this->actualizarFacturaM ( $moras [$key] ['factura_mora'] );
+				
+				$cadenaSql = $this->miSql->getCadenaSql ( 'facturaERP', $moras [$key] ['factura_mora'] );
+				$erp = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" )[0]['factura_erpnext'];
+				
+				$url = $this->sincronizar->crearUrlFactura ( $erp );
+				$this->sincronizar->cancelarFactura ( $url );
 			}
 		}
+
 	}
 	public function inactivarPadre() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarPadre', $_REQUEST ['id_factura'] );
@@ -168,12 +186,19 @@ class FormProcessor {
 		exit ();
 	}
 	
-	public function actualizarERP(){
-		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFactura_especifico', $_REQUEST ['id_factura'] );
-		$padre = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+	public function actualizarERP($idFactura){
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFactura_especifico', $idFactura );
+		$padre = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+
+		$array=array(
+				'factura_erpnext'=>$padre [0] ['factura_erpnext'],
+				'id_beneficiario'=>$_REQUEST ['id_beneficiario'],
+				'total_factura'=>$padre[0]['total_factura'],
+				'id_factura'=>$_REQUEST['id_factura']
+		);
 		
-		$url = $this->sincronizar->crearUrlFacturaPago ( $padre [0] ['factura_erpnext'] );
-		$this->sincronizar->updateFacturaPago ( $url );
+		$url = $this->sincronizar->pagarUrlFactura (  $array);
+		$this->sincronizar->pagarFactura( $url );
 	}
 }
 
