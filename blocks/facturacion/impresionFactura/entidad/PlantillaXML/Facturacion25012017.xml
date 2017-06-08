@@ -31,7 +31,7 @@
 		</columna>
 	</seccion>
 	<seccion>
-		<columna estilos="vertical-align:middle;height:255px;border-top:dashed 1px #5b5e60;" >
+		<columna estilos="vertical-align:middle;height:240px;border-top:dashed 1px #5b5e60;" >
 			<imagen alineacionImagen="text-align:center;vertical-align:middle;" dimensionesImagen="width='567' height='227'">http://localhost/OpenKyOS/theme/basico/img/desprendible.png</imagen>
 		</columna>
 	</seccion>
