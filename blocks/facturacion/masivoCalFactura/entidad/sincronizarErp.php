@@ -129,7 +129,7 @@ class sincronizarErp
             "parentfield" => "items",
         );
         $base = array(
-            "customer" => $ben[0][0],
+            "customer" => $ben[0][0], 
             "customer_name" => $ben[0][0],
             "due_date" => $fechaOportuna,
             "customer_group" => $ben[0][2],
@@ -165,6 +165,7 @@ class sincronizarErp
             'fechaPagoOportuno' => $fechaOportuna,
         );
     }
+    
     public function crearFactura($url)
     {
         $variable = array(
