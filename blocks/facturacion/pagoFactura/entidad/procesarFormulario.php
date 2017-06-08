@@ -18,11 +18,14 @@ class FormProcessor {
 	public $miSql;
 	public $conexion;
 	public $esteRecursoDB;
+	public $sincronizar;
 	public function __construct($lenguaje, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
 		$this->lenguaje = $lenguaje;
 		$this->miSql = $sql;
+		
+		$this->sincronizar = new sincronizarErp ( $lenguaje, $sql );
 		
 		$this->rutaURL = $this->miConfigurador->getVariableConfiguracion ( "host" ) . $this->miConfigurador->getVariableConfiguracion ( "site" );
 		
@@ -42,8 +45,7 @@ class FormProcessor {
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		$_REQUEST ['tiempo'] = time ();
-		
-		
+
 		/**
 		 * 1.
 		 * Revisar Valor de Factura Coincida con el Pago
@@ -62,7 +64,6 @@ class FormProcessor {
 		 * Revisar si tiene facturas en mora asociadas el pago
 		 */
 		
-	
 		$resultado = $this->registrarPago ();
 		
 		if ($resultado == FALSE) {
@@ -70,7 +71,6 @@ class FormProcessor {
 			exit ();
 		} else {
 			$update = $this->actualizarFactura ( $_REQUEST ['id_factura'] );
-			
 		}
 		/**
 		 * 3.
@@ -80,18 +80,16 @@ class FormProcessor {
 		if ($update == TRUE) {
 			$this->consultarMoras ();
 			
-			if($_REQUEST['estadoFactura']=='Mora'){
-				$this->inactivarPadre();
+			if ($_REQUEST ['estadoFactura'] == 'Mora') {
+				$this->inactivarPadre ();
 			}
 			
 			$this->generarComprobante ();
-
 		} else {
 			Redireccionador::redireccionar ( "ErrorUpdate" );
 			exit ();
 		}
-		
-		exit ();
+
 	}
 	public function revisarFactura() {
 		$valor_recibido = $_REQUEST ['valor_recibido'];
@@ -132,10 +130,9 @@ class FormProcessor {
 	public function actualizarFactura($idFactura) {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFactura', $idFactura );
 		$update = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
-
+		
 		return $update;
 	}
-	
 	public function consultarMoras() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarMoras', $_REQUEST ['id_factura'] );
 		$moras = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
@@ -146,32 +143,37 @@ class FormProcessor {
 			}
 		}
 	}
-	
 	public function inactivarPadre() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarPadre', $_REQUEST ['id_factura'] );
 		$padre = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-	
 		
 		if ($padre != FALSE) {
-			
-			
 			foreach ( $padre as $key => $values ) {
 				
-				$array=array(
-						'id_factura'=>$padre [$key] ['id_factura'] ,
-						'idPago'=>	$_REQUEST ['idPago']
+				$array = array (
+						'id_factura' => $padre [$key] ['id_factura'],
+						'idPago' => $_REQUEST ['idPago'] 
 				);
 				
-				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFacturaPadre',$array );
+				$cadenaSql = $this->miSql->getCadenaSql ( 'actualizarFacturaPadre', $array );
 				$padreUpdate = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+				
+				$url = $this->sincronizar->crearUrlFactura ( $padre [$key] ['factura_erpnext'] );
+				$this->sincronizar->cancelarFactura ( $url );
 			}
 		}
-	
 	}
-
 	public function generarComprobante() {
 		$this->comprobante->comprobante ();
 		exit ();
+	}
+	
+	public function actualizarERP(){
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFactura_especifico', $_REQUEST ['id_factura'] );
+		$padre = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+		
+		$url = $this->sincronizar->crearUrlFacturaPago ( $padre [0] ['factura_erpnext'] );
+		$this->sincronizar->updateFacturaPago ( $url );
 	}
 }
 

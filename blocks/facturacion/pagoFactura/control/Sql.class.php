@@ -136,7 +136,7 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarPadre' :
-				$cadenaSql = " SELECT fac.id_factura,fac.id_beneficiario,conceptos.observacion as factura_mora ";
+				$cadenaSql = " SELECT fac.id_factura,fac.id_beneficiario,conceptos.observacion as factura_mora, factura_erpnext ";
 				$cadenaSql .= " FROM facturacion.factura fac JOIN interoperacion.beneficiario_potencial bp on  ";
 				$cadenaSql .= " bp.id_beneficiario=fac.id_beneficiario JOIN facturacion.conceptos on conceptos.id_factura=fac.id_factura  ";
 				$cadenaSql .= " AND conceptos.estado_registro=TRUE JOIN facturacion.usuario_rol_periodo urp on conceptos.id_usuario_rol_periodo=urp.id_usuario_rol_periodo ";
