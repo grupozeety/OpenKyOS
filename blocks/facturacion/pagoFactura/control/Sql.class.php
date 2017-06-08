@@ -53,7 +53,7 @@ class Sql extends \Sql {
 			
 			case 'consultarFactura_especifico' :
 				$cadenaSql = " SELECT fac.id_factura, total_factura, estado_factura, fac.id_ciclo, fac.id_beneficiario, identificacion||' - '|| nombre ||' '|| primer_apellido ||' '||segundo_apellido as nombres ,  ";
-				$cadenaSql .= " regla.descripcion, conceptos.valor_calculado, factura_erpnext ";
+				$cadenaSql .= " regla.descripcion, conceptos.valor_calculado ";
 				$cadenaSql .= " FROM facturacion.factura fac ";
 				$cadenaSql .= " JOIN interoperacion.beneficiario_potencial bp on bp.id_beneficiario=fac.id_beneficiario ";
 				$cadenaSql .= " JOIN facturacion.conceptos on conceptos.id_factura=fac.id_factura AND conceptos.estado_registro=TRUE ";

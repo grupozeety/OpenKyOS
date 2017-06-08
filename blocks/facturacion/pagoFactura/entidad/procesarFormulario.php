@@ -45,9 +45,7 @@ class FormProcessor {
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 		
 		$_REQUEST ['tiempo'] = time ();
-		ini_set("xdebug.var_display_max_children", -1);
-		ini_set("xdebug.var_display_max_data", -1);
-		ini_set("xdebug.var_display_max_depth", -1);
+
 		/**
 		 * 1.
 		 * Revisar Valor de Factura Coincida con el Pago
