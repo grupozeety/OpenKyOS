@@ -42,12 +42,10 @@ class sincronizarErp {
 		$_REQUEST ['tiempo'] = time ();
 	}
 	
-	
 	/**
 	 * inahbialitar Factura en ERPNext
 	 */
 	public function crearUrlFactura($parametros = '') {
-		
 		$base = array (
 				"docname" => $parametros,
 				"docstatus" => 2 
@@ -78,13 +76,50 @@ class sincronizarErp {
 	/**
 	 * Estado Pagada Factura en ERPNext
 	 */
-	public function crearUrlFactura($parametros = '') {
-	
-		$base = array (
-				"docname" => $parametros,
-				"docstatus" => 2
+	public function pagarUrlFactura($parametros = '') {
+
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiario', $parametros['id_beneficiario'] );
+		$ben = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		$cadenaSql = $this->miSql->getCadenaSql ( 'parametrosGlobales', $parametros ['id_beneficiario'] );
+		$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		foreach ( $resultado as $key => $values ) {
+			$valores [$values [0]] = $values [1];
+		}
+		
+		$debito = array (
+				'account' => $valores ['cuentaCredito_erp'],
+				'debit_in_account_currency' => (int)$parametros ['total_factura'],
+				'party_type' => 'Customer',
+				'party' => $ben [0] [0]
 		);
-	
+		
+		$credito = array (
+				'account' => $valores ['cuentaDebito_erp'],
+				'credit_in_account_currency' => (int)$parametros ['total_factura'],
+				'reference_type' => 'Sales Invoice',
+				'reference_name' => $parametros ['factura_erpnext'],
+				'party_type' => 'Customer',
+				'party' => $ben [0] [0] 
+		);
+		
+		$cuentas = array (
+				$debito,
+				$credito 
+		);
+		
+		$base = array (
+				'voucher_type' => 'Cash Entry',
+				'remark' => 'Pago de la factura No.' . $parametros ['factura_erpnext'] . ' - ' . $parametros ['id_factura'],
+				'accounts' => $cuentas,
+				'posting_date'=>date('Y-m-d'),
+				'company'=>'Corporacion Politecnica Nacional de Colombia',
+				'total_debit'=>(int)$parametros ['total_factura'],
+				'total_credit'=>(int)$parametros ['total_factura'],
+				'docstatus'=>1
+		);
+
 		// URL base
 		$url = $this->miConfigurador->getVariableConfiguracion ( "host" );
 		$url .= $this->miConfigurador->getVariableConfiguracion ( "site" );
@@ -103,16 +138,34 @@ class sincronizarErp {
 		$cadena = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $enlace );
 		// URL definitiva
 		$material = $url . $cadena;
-	
+		
 		return $material;
 	}
 	
-	
 	public function cancelarFactura($url) {
-		
 		$variable = array (
 				'estado' => 1,
 				'mensaje' => "Error cancelando Factura en ERPNext" 
+		);
+		
+		$operar = file_get_contents ( $url );
+		
+		$validacion = strpos ( $operar, 'modified_by' );
+		
+		if (is_numeric ( $validacion )) {
+			$variable = array (
+					'estado' => 0,
+					'mensaje' => "Factura Cancelada con Éxito" 
+			);
+		}
+		
+		return $variable;
+	}
+	
+	public function pagarFactura($url) {
+		$variable = array (
+				'estado' => 1,
+				'mensaje' => "Error pagando Factura en ERPNext" 
 		);
 		
 		$operar = file_get_contents ( $url );
@@ -121,19 +174,14 @@ class sincronizarErp {
 		
 		if (is_numeric ( $validacion )) {
 			
-			$res = ( array ) json_decode ( $operar );
-			$res2 = ( array ) ($res ['items'] [0]);
-			
 			$variable = array (
 					'estado' => 0,
-					'mensaje' => "Factura Cancelada con Éxito",
-					'recibo' => $res2 ['parent'] 
+					'mensaje' => "Factura Pagada con Éxito" 
 			);
 		}
 		
 		return $variable;
 	}
-	
 }
 
 $miProcesador = new sincronizarErp ( $this->lenguaje, $this->sql );

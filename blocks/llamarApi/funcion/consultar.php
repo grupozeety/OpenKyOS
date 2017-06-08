@@ -605,6 +605,47 @@ class Consultar {
 	}
 	
 	/**
+	 * Función Inactivar una Factura en ERPNext
+	 * Autor: Sosa,V
+	 * Version : 1.0.0.0
+	 * Fecha : 2017/06/07
+	 */
+	public function inactivarFactura ($datosConexion = '', $parametros) {
+
+		$variables=json_decode($parametros, true);
+
+		$this->configurarERPNext ( $datosConexion );
+		$result = $this->clientFrappe->update("Sales Invoice",$variables['docname'], json_decode($parametros) );
+
+		json_encode ( $result->body);
+	
+		if (! empty ( $result->body->data )) {
+			echo json_encode ( $result->body->data );
+		}
+		return false;
+	}
+	
+	/**
+	 * Función Pagar una Factura en ERPNext
+	 * Autor: Sosa,V
+	 * Version : 1.0.0.0
+	 * Fecha : 2017/06/08
+	 */
+	public function pagarFactura ($datosConexion = '', $parametros) {
+
+		$this->configurarERPNext ( $datosConexion );
+		$result = $this->clientFrappe->insert("Journal Entry",json_decode($parametros) );
+
+		json_encode ( $result->body);
+	
+		if (! empty ( $result->body->data )) {
+			echo json_encode ( $result->body->data );
+		}
+		return false;
+	}
+	
+	
+	/**
 	 * Funcion Crear Material Request - solicitudes de Material en ERPNext
 	 * Autor: Sosa, V.
 	 * Version : 1.0.0.0
