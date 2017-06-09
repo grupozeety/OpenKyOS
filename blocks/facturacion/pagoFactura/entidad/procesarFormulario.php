@@ -190,6 +190,7 @@ class FormProcessor {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFactura_especifico', $idFactura );
 		$padre = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
+		$_REQUEST['facturaNum']=$padre [0] ['indice_facturacion'].str_pad($padre[0]['numeracion_facturacion'], 6, "0", STR_PAD_LEFT);
 		$array=array(
 				'factura_erpnext'=>$padre [0] ['factura_erpnext'],
 				'id_beneficiario'=>$_REQUEST ['id_beneficiario'],

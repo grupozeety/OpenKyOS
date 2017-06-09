@@ -97,7 +97,7 @@ class GenerarDocumento {
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Valor</b></td>
                             </tr>
                             <tr>
-                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px>Factura No. " . $_REQUEST ['id_factura'] . "</td>
+                                <td style='height:13px;text-align:left;border:none;border-spacing: 3px>Factura No. " . $_REQUEST ['facturaNum']  . "</td>
                                 <td style='height:13px;text-align:left;border:none;border-spacing: 3px'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ " . number_format ( $_REQUEST ['valor_factura'], 2, '.', ',' ) . "</td>
                             </tr>";
 		
