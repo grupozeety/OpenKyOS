@@ -456,8 +456,7 @@ class Sql extends \Sql
             case 'consultarNumeracionFactura':
                 $cadenaSql = " SELECT max(numeracion_facturacion) as numeracion";
                 $cadenaSql .= " FROM facturacion.factura";
-                $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND estado_factura IN ('Aprobado','Mora','Reliquidar')";
+                $cadenaSql .= " WHERE estado_factura IN ('Aprobado','Mora','Reliquidar')";
                 $cadenaSql .= " AND indice_facturacion='" . $variable . "';";
                 break;
 
