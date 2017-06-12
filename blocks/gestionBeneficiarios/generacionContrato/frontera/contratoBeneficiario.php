@@ -1571,7 +1571,7 @@ class Contrato
                         echo "<div id='mensaje_firma_bn' style='display:none;'><center><b>Firma Guardada<b></center></div>";
                         echo "<div id='firma_digital_beneficiario'  style='border-style:double;'></div>";
                         echo "<br>";
-                        echo "<input type='button' style='float:left' class='btn btn-default' id='guardarBn' value='Guardar'> <input type='button' id='limpiarBn' style='float:right' class='btn btn-default' value='Limpiar'>";
+                        echo "<input type='button' style='float:left' class='btn btn-default' id='guardarBn' value='Guardar Firma Beneficiario'> <input type='button' id='limpiarBn' style='float:right' class='btn btn-default' value='Limpiar'>";
 
                         $esteCampo = 'firmaBeneficiario';
                         $atributos["id"] = $esteCampo; // No cambiar este nombre
