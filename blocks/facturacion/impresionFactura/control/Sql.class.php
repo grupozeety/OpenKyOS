@@ -134,7 +134,7 @@ class Sql extends \Sql
                 break;
 
             case 'consultaValorPagado':
-                $cadenaSql = " SELECT SUM(pg.valor_pagado) as valor_pagado";
+                $cadenaSql = " SELECT SUM(pg.valor_pagado + pg.abono_adicional) as valor_pagado";
                 $cadenaSql .= " FROM facturacion.pago_factura pg";
                 $cadenaSql .= " JOIN facturacion.factura fc ON fc.id_factura=pg.id_factura";
                 $cadenaSql .= " WHERE pg.estado_registro='TRUE'";
@@ -144,7 +144,7 @@ class Sql extends \Sql
                 break;
 
             case 'consultaUltimoValorPagado':
-                $cadenaSql = " SELECT pg.id_pago,pg.valor_pagado as ultimo_valor_pagado";
+                $cadenaSql = " SELECT pg.id_pago,(pg.valor_pagado + pg.abono_adicional) as ultimo_valor_pagado";
                 $cadenaSql .= " FROM facturacion.pago_factura pg";
                 $cadenaSql .= " JOIN facturacion.factura fc ON fc.id_factura=pg.id_factura";
                 $cadenaSql .= " WHERE pg.estado_registro='TRUE'";
@@ -164,6 +164,47 @@ class Sql extends \Sql
                 break;
 
             case 'consultaValoresConceptos':
+
+                $cadenaSql = " SELECT * FROM ";
+                $cadenaSql .= " (select conceptos.id_factura factura_imprimir, conceptos.observacion as factura_mora, ";
+                $cadenaSql .= " conceptos.id_usuario_rol_periodo, factura.id_ciclo,to_char( inicio_periodo ,'YYYY-MM-DD')as inicio_periodo,to_char( fin_periodo, 'YYYY-MM-DD') as fin_periodo, conceptos.valor_calculado as valor_concepto,rl.descripcion as concepto ";
+                $cadenaSql .= " from facturacion.conceptos";
+                $cadenaSql .= " left join facturacion.factura on conceptos.observacion=cast(factura.id_factura as character varying)";
+                $cadenaSql .= " left JOIN facturacion.conceptos as conceptos2 on conceptos2.id_factura=factura.id_factura";
+                $cadenaSql .= " left JOIN facturacion.usuario_rol_periodo urp on urp.id_usuario_rol_periodo=conceptos2.id_usuario_rol_periodo and conceptos2.estado_registro=TRUE ";
+                $cadenaSql .= "JOIN facturacion.regla rl ON rl.id_regla=conceptos.id_regla AND rl.estado_registro='TRUE' ";
+                $cadenaSql .= " WHERE conceptos.id_factura='" . $variable['id_factura'] . "'";
+                $cadenaSql .= " and conceptos.observacion!=''";
+                $cadenaSql .= " union";
+                $cadenaSql .= " select conceptos.id_factura, conceptos.observacion, ";
+                $cadenaSql .= " conceptos.id_usuario_rol_periodo, factura.id_ciclo, to_char( inicio_periodo ,'YYYY-MM-DD')as inicio_periodo,to_char( fin_periodo, 'YYYY-MM-DD') as fin_periodo, conceptos.valor_calculado as valor_concepto,rl.descripcion as concepto ";
+                $cadenaSql .= " from facturacion.conceptos";
+                $cadenaSql .= " left join facturacion.factura on conceptos.id_factura=factura.id_factura ";
+                $cadenaSql .= " left JOIN facturacion.usuario_rol_periodo urp on urp.id_usuario_rol_periodo=conceptos.id_usuario_rol_periodo and conceptos.estado_registro=TRUE ";
+                $cadenaSql .= "JOIN facturacion.regla rl ON rl.id_regla=conceptos.id_regla AND rl.estado_registro='TRUE' ";
+                $cadenaSql .= " WHERE conceptos.id_factura='" . $variable['id_factura'] . "'";
+                $cadenaSql .= " AND conceptos.observacion='') as consulta ORDER BY consulta.id_ciclo DESC;";
+
+                /**$cadenaSql = " SELECT ";
+                $cadenaSql .= " fc.id_factura,";
+                $cadenaSql .= " cp.valor_calculado as valor_concepto,";
+                $cadenaSql .= " rl.descripcion as concepto,";
+                $cadenaSql .= "to_char(urp.inicio_periodo, 'YYYY-MM-DD')as inicio_periodo,";
+                $cadenaSql .= "to_char(urp.fin_periodo, 'YYYY-MM-DD') as fin_periodo,";
+                $cadenaSql .= "cp.observacion";
+                $cadenaSql .= " FROM interoperacion.contrato cn";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_potencial pb ON pb.id_beneficiario=cn.id_beneficiario AND pb.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN interoperacion.acta_entrega_servicios aes ON aes.id_beneficiario=cn.id_beneficiario AND aes.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN facturacion.factura fc ON fc.id_beneficiario=cn.id_beneficiario AND fc.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN facturacion.conceptos cp ON cp.id_factura=fc.id_factura AND cp.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN facturacion.regla rl ON rl.id_regla=cp.id_regla AND rl.estado_registro='TRUE'";
+                $cadenaSql .= " JOIN facturacion.usuario_rol_periodo urp ON urp.id_usuario_rol_periodo=cp.id_usuario_rol_periodo AND urp.estado_registro='TRUE'";
+                $cadenaSql .= " WHERE cn.estado_registro='TRUE'";
+                $cadenaSql .= " AND cn.id_beneficiario='" . $variable['id_beneficiario'] . "' ";
+                $cadenaSql .= " AND fc.id_factura='" . $variable['id_factura'] . "';";**/
+                break;
+
+            case 'consultaValoresConceptosMora':
                 $cadenaSql = " SELECT ";
                 $cadenaSql .= " fc.id_factura,";
                 $cadenaSql .= " cp.valor_calculado as valor_concepto,";
@@ -179,16 +220,7 @@ class Sql extends \Sql
                 $cadenaSql .= " JOIN facturacion.regla rl ON rl.id_regla=cp.id_regla AND rl.estado_registro='TRUE'";
                 $cadenaSql .= " JOIN facturacion.usuario_rol_periodo urp ON urp.id_usuario_rol_periodo=cp.id_usuario_rol_periodo AND urp.estado_registro='TRUE'";
                 $cadenaSql .= " WHERE cn.estado_registro='TRUE'";
-                $cadenaSql .= " AND cn.id_beneficiario='" . $variable . "' ";
-                $cadenaSql .= " AND fc.id_factura=";
-                $cadenaSql .= " (";
-                $cadenaSql .= " SELECT id_factura";
-                $cadenaSql .= " FROM facturacion.factura";
-                $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
-                $cadenaSql .= " ORDER BY fecha_registro DESC";
-                $cadenaSql .= " LIMIT 1";
-                $cadenaSql .= " );";
+                $cadenaSql .= " AND fc.id_factura='" . $variable['id_factura'] . "';";
                 break;
 
             case 'consultarDepartamento':
@@ -413,24 +445,18 @@ class Sql extends \Sql
             case 'actualizarFacturaBeneficiario':
                 $cadenaSql = " UPDATE facturacion.factura ";
                 $cadenaSql .= " SET estado_factura='Aprobado',";
-                //$cadenaSql .= "  fecha_pago_oportuno='" . $variable['fecha_oportuna_pago'] . "',";
+                $cadenaSql .= "  fecha_pago_oportuno='" . $variable['fecha_oportuna_pago'] . "',";
                 $cadenaSql .= "  indice_facturacion='" . $variable['indice_facturacion'] . "',";
                 $cadenaSql .= "  numeracion_facturacion='" . $variable['numeracion_facturacion'] . "',";
-                $cadenaSql .= "  codigo_barras='" . $variable['codigo_barras'] . "' ";
-                $cadenaSql .= " WHERE id_factura=(";
-                $cadenaSql .= " SELECT id_factura ";
-                $cadenaSql .= " FROM facturacion.factura";
-                $cadenaSql .= " WHERE id_beneficiario='" . $variable['id_beneficiario'] . "'";
-                $cadenaSql .= " ORDER BY id_factura DESC ";
-                $cadenaSql .= " LIMIT 1";
-                $cadenaSql .= " );";
+                $cadenaSql .= "  codigo_barras='" . $variable['codigo_barras'] . "' ,";
+                $cadenaSql .= "  factura_erpnext ='" . $variable['factura_erp'] . "' ";
+                $cadenaSql .= " WHERE id_factura='" . $variable['id_factura'] . "';";
                 break;
 
             case 'consultarNumeracionFactura':
                 $cadenaSql = " SELECT max(numeracion_facturacion) as numeracion";
                 $cadenaSql .= " FROM facturacion.factura";
-                $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND estado_factura IN ('Aprobado','Mora')";
+                $cadenaSql .= " WHERE estado_factura IN ('Aprobado','Mora','Reliquidar')";
                 $cadenaSql .= " AND indice_facturacion='" . $variable . "';";
                 break;
 
@@ -440,6 +466,33 @@ class Sql extends \Sql
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
                 $cadenaSql .= " AND estado_factura='Aprobado'";
                 $cadenaSql .= " AND indice_facturacion='" . $variable . "';";
+                break;
+
+            //Variables Sincronizar ERP
+
+            case 'parametrosGlobales':
+                $cadenaSql = " SELECT descripcion , id_valor ";
+                $cadenaSql .= " FROM  facturacion.parametros_generales ";
+                $cadenaSql .= " WHERE estado_registro=TRUE ";
+                break;
+
+            case 'consultarInformacionBeneficiario':
+                $cadenaSql = " SELECT value , data , urbanizacion ";
+                $cadenaSql .= "FROM ";
+                $cadenaSql .= "(SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, bp.id_beneficiario  AS data, proyecto as urbanizacion ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " JOIN interoperacion.documentos_contrato ac on ac.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND ac.estado_registro=TRUE ";
+                $cadenaSql .= " AND ac.tipologia_documento=132 ";
+                $cadenaSql .= "     ) datos ";
+                $cadenaSql .= "WHERE data='" . $variable . "' ";
+                $cadenaSql .= "LIMIT 10; ";
+                break;
+
+            case 'actualizarFechaPagoOportuno':
+                $cadenaSql = " UPDATE facturacion.factura SET fecha_pago_oportuno='" . $variable['fechaOportuna'] . "' ";
+                $cadenaSql .= " WHERE id_factura='" . $variable['id_factura'] . "'";
                 break;
 
         }

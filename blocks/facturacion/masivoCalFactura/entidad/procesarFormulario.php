@@ -18,6 +18,9 @@ class FormProcessor {
 	public $miSql;
 	public $conexion;
 	public $esteRecursoDB;
+	public $id_beneficiario;
+	public $iterar;
+	public $estado;
 	public function __construct($lenguaje, $sql) {
 		date_default_timezone_set ( 'America/Bogota' );
 		
@@ -42,7 +45,7 @@ class FormProcessor {
 		// Conexion a Base de Datos
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-
+		
 		$conexion2 = "otun";
 		$this->esteRecursoDBOtun = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion2 );
 		
@@ -59,7 +62,7 @@ class FormProcessor {
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiariosArea', $string );
 			$this->beneficiarios = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		} elseif ($_REQUEST ['urbanizacion'] != '') {
-
+			
 			$filtro = array (
 					'urbanizacion' => $_REQUEST ['urbanizacion'],
 					0 => $_REQUEST ['urbanizacion'] 
@@ -86,11 +89,11 @@ class FormProcessor {
 		} else {
 			Redireccionador::redireccionar ( "ErrorInformacion", '' );
 		}
-
+		
 		$this->filtro = $filtro [0];
 		
 		$this->creacion_log ();
-
+		
 		/**
 		 * Determinar Beneficiarios*
 		 */
@@ -105,58 +108,47 @@ class FormProcessor {
 		 */
 		
 		foreach ( $this->beneficiarios as $key => $values ) {
+			$this->iterar = 0;
+			$this->id_beneficiario = $values ['id_beneficiario'];
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarBeneficiario', $values ['id_beneficiario'] );
 			$actaActiva = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 			
 			// Saber qué roles tiene asociados
 			
-			if ($actaActiva != FALSE) {
-				
-				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol', $values ['id_beneficiario'] );
-				$roles = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-				
-				if ($roles === FALSE) {
-					
-					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol_predeterminado' );
-					$roles = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-					
-					// Registrar Usuario-Rol
-					$userrol = array (
-							'id_beneficiario' => $values ['id_beneficiario'],
-							'id_rol' => $roles [0] [0] 
-					);
-					$cadenaSql = $this->miSql->getCadenaSql ( 'registrarAsociacion', $userrol );
-					$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
-				}
-				
-				// Saber la fecha desde de facturación
-				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRolPeriodo', $values ['id_beneficiario'] );
-				$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-				
-				if ($fechaFin == FALSE) {
-					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $values ['id_beneficiario'] );
-					$fechaFin = $this->esteRecursoDBOtun->ejecutarAcceso ( $cadenaSql, "busqueda" );
-				}
-				
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFacturaAprobado', $values ['id_beneficiario'] );
+			$resultadoAprobado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 			
-				foreach ( $roles as $data => $valor ) {
-					$rolPeriodo [$roles [$data] ['id_rol']] = array (
-							'periodo' => 1,
-							'cantidad' => 1,
-							'fecha' => date ( "Y/m/d H:i:s", strtotime ( $fechaFin [0] [0] ) ),
-							'reglas' => array () 
-					);
-				}
-
-				$resultado [$values ['id_beneficiario']] ['observaciones'] = json_decode ( $this->calcular->calcularFactura ( $values ['id_beneficiario'], $rolPeriodo ), true );
-				
-				$this->escribir_log ( $values ['identificacion'] . ':' . json_encode ( $resultado [$values ['id_beneficiario']] ['observaciones'] ['observaciones'] . ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [0] . ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [1] ) );
-				
-				// Saber qué periodo aplica cada rol
-			} else {
-				$mensaje = $values ['identificacion']."-".$values ['id_beneficiario'] . ": Sin factura generada. No hay Acta Entrega de Servicios subida al sistema.";
+			if ($resultadoAprobado != FALSE) {
+				$mensaje = $values ['identificacion'] . "-" . $values ['id_beneficiario'] . ": Existe una factura aprobada, pendiente de pago sin vencer.";
 				$this->escribir_log ( $mensaje );
+			} else {
+				
+				if ($actaActiva != FALSE) {
+					
+					$roles = $this->calcularRoles ();
+					
+					$rolPeriodo = $this->calFechaFinal ( $roles );
+					
+					$resultado [$values ['id_beneficiario']] ['observaciones'] = json_decode ( $this->calcular->calcularFactura ( $values ['id_beneficiario'], $rolPeriodo, $this->estado ), true );
+					
+					$this->escribir_log ( $values ['identificacion'] . ':' . json_encode ( $resultado [$values ['id_beneficiario']] ['observaciones'] ['observaciones'] . ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [0] . ".  " ) );
+					
+					// if ($this->iterar == 1) {
+					do {
+						$roles = $this->calcularRoles ();
+						$rolPeriodo = $this->calFechaFinal ( $roles );
+						$resultado [$values ['id_beneficiario']] ['observaciones'] = json_decode ( $this->calcular->calcularFactura ( $values ['id_beneficiario'], $rolPeriodo, $this->estado ), true );
+						
+						$this->escribir_log ( $values ['identificacion'] . ':' . json_encode ( $resultado [$values ['id_beneficiario']] ['observaciones'] ['observaciones'] . ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [0] . ". " . $resultado [$values ['id_beneficiario']] ['observaciones'] ['cliente'] [1] . "." ) );
+					} while ( $this->iterar == 1 );
+					
+					// }
+					// Saber qué periodo aplica cada rol
+				} else {
+					$mensaje = $values ['identificacion'] . "-" . $values ['id_beneficiario'] . ": Sin factura generada. No hay Acta Entrega de Servicios subida al sistema.";
+					$this->escribir_log ( $mensaje );
+				}
 			}
 		}
 
@@ -176,6 +168,68 @@ class FormProcessor {
 		$this->ruta_relativa_log = $this->rutaURL . "/entidad/logs/Log_" . $this->filtro . "_" . $prefijo . ".log";
 		
 		$this->log = fopen ( $this->ruta_absoluta_log, "w" );
+	}
+	public function calFechaFinal($roles) {
+		$this->iterar = 0;
+		
+		foreach ( $roles as $data => $valor ) {
+			
+			$array = array (
+					'id_rol' => $roles [$data] ['id_rol'],
+					'id_beneficiario' => $this->id_beneficiario 
+			);
+			
+			// Saber la fecha desde de facturación
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRolPeriodo', $array );
+			$fechaFin = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			if ($fechaFin == FALSE) {
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFechaInicio', $this->id_beneficiario );
+				$fechaFin = $this->esteRecursoDBOtun->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			}
+			
+			$fechaFinal = date ( "Y/m/d H:i:s", strtotime ( $fechaFin [0] [0] ) );
+			
+			$a = date ( 'Y/m/d', strtotime ( $fechaFinal . '+1 day' ) );
+			$m = date ( 'm', strtotime ( $fechaFinal . '+1 day' ) );
+			
+			if ($a < date ( "Y/m/01" )) {
+					$this->iterar = 1;
+					$this->estado = 'Mora';
+			} else {
+				$this->iterar = 0;
+				$this->estado = 'Borrador';
+			}
+			
+			$rolPeriodo [$roles [$data] ['id_rol']] = array (
+					'periodo' => 1,
+					'cantidad' => 1,
+					'fecha' => $fechaFinal,
+					'reglas' => array () 
+			);
+		}
+		
+		return $rolPeriodo;
+	}
+	public function calcularRoles() {
+		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol', $this->id_beneficiario );
+		$roles = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+		
+		if ($roles === FALSE) {
+			
+			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol_predeterminado' );
+			$roles = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
+			// Registrar Usuario-Rol
+			$userrol = array (
+					'id_beneficiario' => $this->id_beneficiario,
+					'id_rol' => $roles [0] [0] 
+			);
+			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarAsociacion', $userrol );
+			$registro = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "registro" );
+		}
+		
+		return $roles;
 	}
 }
 

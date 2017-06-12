@@ -177,17 +177,17 @@ class Sql extends \Sql {
                   $cadenaSql.=" ORDER BY fecha DESC, dane_municipio) as a";
                   $cadenaSql.=" left outer join";
                   $cadenaSql.=" (";
-                  $cadenaSql.=" Select dane_municipio, fecha, (accesos_activos*horas) as abajo";
+                  $cadenaSql.=" Select dane_municipio, (accesos_activos*horas) as abajo";
                   $cadenaSql.=" from";
                   $cadenaSql.=" (";
-                  $cadenaSql.=" Select dane_municipio,to_char(fecha_novedad,'yyyy-MM') as fecha, count(*) accesos_activos, 24*(DATE_PART('days', DATE_TRUNC('month', info_avan_oper.fecha_novedad) + '1 MONTH'::INTERVAL - DATE_TRUNC('month', info_avan_oper.fecha_novedad))) as horas";
+                  $cadenaSql.=" Select dane_municipio, count(*) accesos_activos, 24*(DATE_PART('days', DATE_TRUNC('month', info_avan_oper.fecha_novedad) + '1 MONTH'::INTERVAL - DATE_TRUNC('month', info_avan_oper.fecha_novedad))) as horas";
                   $cadenaSql.=" from logica.info_avan_oper";
                   $cadenaSql.=" where estado_registro=true";
                   $cadenaSql.=" and estado_servicio='ET0'";
                   $cadenaSql.=" and to_char(fecha_novedad,'yyyy-MM')<=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
-                  $cadenaSql.=" group by dane_municipio, horas, fecha";
+                  $cadenaSql.=" group by dane_municipio, horas";
                   $cadenaSql.=" ) as abajo)b";
-                  $cadenaSql.=" ON(b.dane_municipio=a.dane_municipio and a.fecha=b.fecha)";
+                  $cadenaSql.=" ON(b.dane_municipio=a.dane_municipio)";
                   $cadenaSql.=" ) as c";
                   if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
                      $cadenaSql .= " WHERE c.dane_municipio='" . $_REQUEST['municipio'] . "'";
@@ -234,7 +234,7 @@ class Sql extends \Sql {
                   $cadenaSql.=" info_pqr.meta_proyecto";
                   $cadenaSql.=" FROM ";
                   $cadenaSql.=" logica.info_pqr";
-                  $cadenaSql.=" WHERE to_char(info_pqr.fecha_registro,'yyyy-MM')=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
+                  $cadenaSql.=" WHERE to_char(info_pqr.fecha_apertura,'yyyy-MM')=to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
                   if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
                      $cadenaSql .= " AND info_pqr.dane_municipio='" . $_REQUEST['municipio'] . "'";
 
@@ -262,7 +262,8 @@ class Sql extends \Sql {
                   $cadenaSql.=" novedad_estado as causa";
                   $cadenaSql.=" FROM ";
                   $cadenaSql.=" logica.info_avan_oper";
-                  $cadenaSql.=" WHERE to_char(fecha_registro,'yyyy-mm')  = to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
+                  $cadenaSql.=" WHERE to_char(fecha_novedad,'yyyy-mm')  <= to_char('".$_REQUEST ['fecha_final']."'::timestamp,'yyyy-MM')";
+                  $cadenaSql.=" AND estado_registro=TRUE";
                   if (isset($_REQUEST['municipio']) && $_REQUEST['municipio'] != '') {
                      $cadenaSql .= " AND dane_municipio='" . $_REQUEST['municipio'] . "'";
 

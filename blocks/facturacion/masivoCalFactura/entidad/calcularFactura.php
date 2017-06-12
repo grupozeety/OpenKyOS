@@ -16,6 +16,9 @@ class Calcular {
 	public $miSql;
 	public $conexion;
 	public $sincronizar;
+	public $estadoFactura;
+	public $numeracionFactura = null;
+	public $indiceFacturacion = null;
 	public function __construct($lenguaje, $sql) {
 		$this->miConfigurador = \Configurador::singleton ();
 		$this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
@@ -26,12 +29,13 @@ class Calcular {
 		$conexion = "interoperacion";
 		$this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
 	}
-	public function calcularFactura($beneficiario, $roles) {
+	public function calcularFactura($beneficiario, $roles, $estadoFactura) {
 		
 		/**
 		 * Definir variables Gloables*
 		 */
 		$_REQUEST ['id_beneficiario'] = $beneficiario;
+		$this->estadoFactura = $estadoFactura;
 		
 		/**
 		 * 1.
@@ -48,12 +52,12 @@ class Calcular {
 		$this->reglasRol ();
 		$this->consultarUsuarioRol ();
 		
-		/**
-		 * 3.
-		 * Obtener Datos del Contrato
-		 */
+		// /**
+		// * 3.
+		// * Obtener Datos del Contrato
+		// */
 		
-		$this->datosContrato ();
+		// $this->datosContrato ();
 		
 		/**
 		 * 3.
@@ -89,6 +93,16 @@ class Calcular {
 			
 			/**
 			 * 5.
+			 * Parametrización de Numeración Facturación
+			 */
+			
+			if ($this->estadoFactura == 'Mora') {
+				
+				$this->parametrizacionNumeracionFacturacion ();
+			}
+			
+			/**
+			 * 6.
 			 * Guardar Conceptos de Facturación
 			 */
 			
@@ -117,26 +131,48 @@ class Calcular {
 					$updatecliente = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 					
 					$this->registroConceptos ['cliente'] [0] = 'Cliente creado correctamente.';
-					
-					$facturaCrearURL = $this->sincronizar->crearUrlFactura ( $this->informacion_factura );
-					$facturaCrear = $this->sincronizar->crearFactura ( $facturaCrearURL );
 				}
-			} else {
-				$facturaCrearURL = $this->sincronizar->crearUrlFactura ( $this->informacion_factura );
-				$facturaCrear = $this->sincronizar->crearFactura ( $facturaCrearURL );
 			}
 			
-			if ($facturaCrear ['estado'] == 0) {
-				$invoice = array (
-						'invoice' => $facturaCrear ['recibo'],
-						'id_factura' => $this->informacion_factura ['id_factura'] 
-				);
+			if ($this->estadoFactura == 'Mora') {
 				
-				$this->registroConceptos ['cliente'] [1] = 'Factura creada en ERPNext.';
-				$this->sincronizar->actualizarFactura ( $invoice );
-			} else {
-				$this->registroConceptos ['cliente'] [1] = 'Error en la creacion de Factura en ERPNext.';
+				$facturaCrearURL = $this->sincronizar->crearUrlFactura ( $this->informacion_factura );
+				$facturaCrear = $this->sincronizar->crearFactura ( $facturaCrearURL['url'] );
+
+				if ($facturaCrear ['estado'] == 0) {
+					$invoice = array (
+							'invoice' => $facturaCrear ['recibo'],
+							
+							'id_factura' => $this->informacion_factura ['id_factura'] 
+					);
+					
+					$this->registroConceptos ['cliente'] [1] = 'Factura creada en ERPNext.';
+					$this->sincronizar->actualizarFactura ( $invoice );
+				} else {
+					$this->registroConceptos ['cliente'] [1] = 'Error en la creacion de Factura en ERPNext.';
+				}
 			}
+
+			// Se elimina la creación de las facturas en los conceptos y se pasa a impresión de factura
+			
+			/*
+			 * else {
+			 * $facturaCrearURL = $this->sincronizar->crearUrlFactura ( $this->informacion_factura );
+			 * $facturaCrear = $this->sincronizar->crearFactura ( $facturaCrearURL );
+			 * }
+			 *
+			 * if ($facturaCrear ['estado'] == 0) {
+			 * $invoice = array (
+			 * 'invoice' => $facturaCrear ['recibo'],
+			 * 'id_factura' => $this->informacion_factura ['id_factura']
+			 * );
+			 *
+			 * $this->registroConceptos ['cliente'] [1] = 'Factura creada en ERPNext.';
+			 * $this->sincronizar->actualizarFactura ( $invoice );
+			 * } else {
+			 * $this->registroConceptos ['cliente'] [1] = 'Error en la creacion de Factura en ERPNext.';
+			 * }
+			 */
 			
 			/**
 			 * 6.
@@ -151,6 +187,7 @@ class Calcular {
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'consultarReglas', $key );
 			$reglas = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+			
 			foreach ( $reglas as $a => $b ) {
 				$this->rolesPeriodo [$key] ['reglas'] [$reglas [$a] ['identificador']] = $reglas [$a] ['formula'];
 				$this->rolesPeriodo [$key] ['mora'] = 0;
@@ -174,20 +211,40 @@ class Calcular {
 		$res = 0;
 		foreach ( $this->rolesPeriodo as $key => $vales ) {
 			foreach ( $this->rolesPeriodo as $llave => $valores ) {
-				
-				$this->rolesPeriodo [$key] ['fecha'] = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 day' ) );
-				
+				// Revisar si el ciclo anterior al facturar está en condiciones para ser recalculado
 				$ciclo = date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) );
+				
+				$datos = array (
+						'id_usuario_rol' => $this->rolesPeriodo [$llave] ['id_usuario_rol'],
+						'id_ciclo' => $ciclo,
+						'id_beneficiario' => $_REQUEST ['id_beneficiario'],
+						'id_rol' => $key 
+				);
+				
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFacturaB', $datos );
+				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+				
+				if ($resultado != false) {
+					$cadenaSql = $this->miSql->getCadenaSql ( 'inhabilitarFactura', $resultado [0] ['id_factura'] );
+					$inhabilitar = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "actualizar" );
+					
+					$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRolPeriodo', $datos );
+					$this->rolesPeriodo [$key] ['fecha'] = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] [0];
+				}
+				
+				$fechaCiclo = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 day' ) );
+				
+				$ciclo = date ( "Y", strtotime ( $fechaCiclo ) ) . '-' . date ( "m", strtotime ( $fechaCiclo ) );
 				$datos = array (
 						'id_usuario_rol' => $this->rolesPeriodo [$llave] ['id_usuario_rol'],
 						'id_ciclo' => $ciclo,
 						'id_beneficiario' => $_REQUEST ['id_beneficiario'] 
 				);
 				
-				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFactura', $datos );
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarFacturaActiva', $datos );
 				$resultado = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 				
-				if ($resultado != FALSE) {
+				if ($resultado != false) {
 					$this->registroConceptos ['observaciones'] = 'Ya existe una factura para el ciclo ' . $ciclo;
 					$res ++;
 				} else {
@@ -243,7 +300,7 @@ class Calcular {
 		
 		$dm = 0;
 		
-		if ($facturasVencidas != FALSE) {
+		if ($facturasVencidas != false) {
 			
 			foreach ( $facturasVencidas as $llave => $valor ) {
 				foreach ( $this->rolesPeriodo as $key => $values ) {
@@ -255,7 +312,8 @@ class Calcular {
 						$dias = $dm_calculo->d;
 						
 						$this->rolesPeriodo [$key] ['mora'] = $this->rolesPeriodo [$key] ['mora'] + $dias;
-						$this->rolesPeriodo [$key] ['facturasMora'] [$facturasVencidas [$llave] ['id_factura'] . "(" . $facturasVencidas [$llave] ['id_ciclo'] . ")"] = $facturasVencidas [$llave] ['total_factura'];
+						// $this->rolesPeriodo [$key] ['facturasMora'] [$facturasVencidas [$llave] ['id_factura'] . "(" . $facturasVencidas [$llave] ['id_ciclo'] . ")"] = $facturasVencidas [$llave] ['total_factura'];
+						$this->rolesPeriodo [$key] ['facturasMora'] [$facturasVencidas [$llave] ['id_factura']] = $facturasVencidas [$llave] ['total_factura'];
 						$this->rolesPeriodo [$key] ['totalMora'] = $this->rolesPeriodo [$key] ['totalMora'] + $facturasVencidas [$llave] ['total_factura'];
 					}
 				}
@@ -272,31 +330,36 @@ class Calcular {
 		foreach ( $this->rolesPeriodo as $key => $values ) {
 			
 			// Acá se debe controlar el ciclo de facturación
+			$this->rolesPeriodo [$key] ['fecha'];
 			$dia = date ( 'd', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 day' ) );
 			
+			$inicio = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 day' ) );
 			$fecha_fin_mes = date ( "Y-m-t", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) );
 			
 			if ($dia != 1) {
 				if ($this->rolesPeriodo [$key] ['periodoValor'] == 1) {
-					$fin = date ( 'Y/m/d H:i:s', strtotime ( $fecha_fin_mes ) );
+					$fin = date ( 'Y/m/t H:i:s', strtotime ( $fecha_fin_mes ) );
 				} elseif ($this->rolesPeriodo [$key] ['periodoValor'] == 720) {
 					$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+' . $values ['cantidad'] . ' hours' ) );
 				} elseif ($this->rolesPeriodo [$key] ['periodoValor'] == 30) {
 					$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+' . $values ['cantidad'] . ' days' ) );
 				} else {
-					$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 month' ) );
+					$fin = date ( 'Y/m/t H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) );
 				}
+				$diferencia = 1 + (strtotime ( $fin ) - strtotime ( $this->rolesPeriodo [$key] ['fecha'] )) / (60 * 60 * 24);
+				$this->rolesPeriodo [$key] ['cantidad'] = $diferencia;
+				$this->rolesPeriodo [$key] ['periodoValor'] = ( int ) date ( 't', mktime ( 0, 0, 0, date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ), 1, date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) ) );
 			} else {
 				// Aquí se aumentan los periodos de facturacion
 				
 				if ($this->rolesPeriodo [$key] ['periodoValor'] == 1) {
-					$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 month' ) );
+					$fin = date ( "Y-m-t H:i:s", strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 day' ) );
 				} elseif ($this->rolesPeriodo [$key] ['periodoValor'] == 720) {
 					$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+' . $values ['cantidad'] . ' hours' ) );
 				} elseif ($this->rolesPeriodo [$key] ['periodoValor'] == 30) {
 					$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+' . $values ['cantidad'] . ' days' ) );
 				} else {
-					$fin = date ( 'Y/m/d H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 month' ) );
+					$fin = date ( 'Y/m/t H:i:s', strtotime ( $this->rolesPeriodo [$key] ['fecha'] . '+ 1 day' ) );
 				}
 			}
 			// En un mundo ideal un float alcanzaría para dates basados en meses ((1 / $this->rolesPeriodo [$key] ['periodoValor']) * $values ['cantidad']);
@@ -304,15 +367,16 @@ class Calcular {
 			$usuariorolperiodo = array (
 					'id_usuario_rol' => $this->rolesPeriodo [$key] ['id_usuario_rol'],
 					'id_periodo' => $this->rolesPeriodo [$key] ['periodo'],
-					'inicio_periodo' => $this->rolesPeriodo [$key] ['fecha'],
+					'inicio_periodo' => $inicio,
 					'fin_periodo' => $fin,
-					'id_ciclo' => date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) 
+					'id_ciclo' => date ( "Y", strtotime ( $inicio ) ) . '-' . date ( "m", strtotime ( $inicio ) ) 
 			);
 			
 			$cadenaSql = $this->miSql->getCadenaSql ( 'registrarPeriodoRolUsuario', $usuariorolperiodo );
 			$periodoRolUsuario = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['id_usuario_rol_periodo'];
 			$this->rolesPeriodo [$key] ['id_usuario_rol_periodo'] = $periodoRolUsuario;
 			$this->rolesPeriodo [$key] ['finPeriodo'] = $fin;
+			$this->rolesPeriodo [$key] ['ciclo'] = date ( "Y", strtotime ( $inicio ) ) . '-' . date ( "m", strtotime ( $inicio ) );
 		}
 	}
 	public function calculoFactura() {
@@ -329,15 +393,47 @@ class Calcular {
 			foreach ( $values ['reglas'] as $variable => $c ) {
 				$a = preg_replace ( "/\bvm\b/", ($vm / $values ['periodoValor']) * $values ['cantidad'], $c, - 1, $contar );
 				$b = preg_replace ( "/\bdm\b/", $values ['mora'], $a, - 1, $contar );
-				$valor = eval ( 'return (' . $b . ');' );
+				$valor = round ( eval ( 'return (' . $b . ');' ) );
 				$this->rolesPeriodo [$key] ['valor'] [$variable] = $valor;
 				$total = $total + $this->rolesPeriodo [$key] ['valor'] [$variable];
 			}
 			
 			$factura = $factura + $total;
-			$this->rolesPeriodo [$key] ['valor'] ['vm'] = $vm;
+			$this->rolesPeriodo [$key] ['valor'] ['vm'] = round ( ($vm / $values ['periodoValor']) * $values ['cantidad'] );
 			$this->rolesPeriodo [$key] ['valor'] ['total'] = $total;
 		}
+	}
+	public function parametrizacionNumeracionFacturacion() {
+		$cadenaSql = $this->miSql->getCadenaSql ( 'departamentoBeneficiario', $_REQUEST ['id_beneficiario'] );
+		$departamento = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] ['departamento'];
+		
+		switch ($departamento) {
+			case '23' :
+				
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarNumeracionFactura', 'FVM' );
+				$numeracion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+				$limite = 130316;
+				$this->indiceFacturacion = 'FVM';
+				break;
+			
+			case '70' :
+				
+				$cadenaSql = $this->miSql->getCadenaSql ( 'consultarNumeracionFactura', 'FVS' );
+				$numeracion = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+				$limite = 1445;
+				$this->indiceFacturacion = 'FVS';
+				break;
+		}
+		
+		if (is_null ( $numeracion [0] ['numeracion'] )) {
+			
+			$numero_factura = 1;
+		} else {
+			
+			$numero_factura = $numeracion [0] ['numeracion'] + 1;
+		}
+		
+		$this->numeracionFactura = $numero_factura;
 	}
 	public function guardarFactura() {
 		$total = 0;
@@ -348,16 +444,17 @@ class Calcular {
 		}
 		
 		foreach ( $this->rolesPeriodo as $key => $values ) {
-			
 			$total = $this->rolesPeriodo [$key] ['valor'] ['total'] + $total + $mora;
-			$ciclo = date ( "Y", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) ) . '-' . date ( "m", strtotime ( $this->rolesPeriodo [$key] ['fecha'] ) );
 		}
 		
 		$this->informacion_factura = array (
 				'total_factura' => $total,
 				'id_beneficiario' => $_REQUEST ['id_beneficiario'],
-				'id_ciclo' => $ciclo,
-				'fecha' => $this->rolesPeriodo [$key] ['finPeriodo'] 
+				'id_ciclo' => $this->rolesPeriodo [$key] ['ciclo'],
+				'fecha' => $this->rolesPeriodo [$key] ['finPeriodo'],
+				'estado_factura' => $this->estadoFactura,
+				'indice_facturacion' => $this->indiceFacturacion,
+				'numero_factura' => $this->numeracionFactura 
 		);
 		
 		$cadenaSql = $this->miSql->getCadenaSql ( 'registrarFactura', $this->informacion_factura );
@@ -442,7 +539,3 @@ class Calcular {
 		$this->estadoServicio = $this->esteRecursoDBOtun->ejecutarAcceso ( $cadenaSql, "busqueda" ) [0] [0];
 	}
 }
-
-?>
-
-

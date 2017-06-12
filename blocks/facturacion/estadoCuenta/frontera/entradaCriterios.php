@@ -51,10 +51,15 @@ class Consultar {
 		$imagen=      '';
 		$cadenaSql = $this->miSql->getCadenaSql ( 'imagenServicio', $_REQUEST ['id_beneficiario'] );
 		$imagen = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-		
+
 		if($imagen==FALSE){
 			$imagen[0][0]='Activo.png';
 		}
+		
+		if(is_null($imagen[0][0])){
+			$imagen[0][0]='Inactivo.png';
+		}
+		
 		$conexion2 = "otun";
 		$this->esteRecursoDBOtun = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion2 );
 		
@@ -309,7 +314,8 @@ class Consultar {
 				     		<th>Ciclo Facturación</th>
 			                <th>Valor Total</th>
 							<th>Estado Factura</th>
-						    <th>Ver Factura</th>
+						    <th>Observaciones</th>
+						    <th>Ver Factura</th> 
 			            </tr>
 			        </thead>
 			    </table>

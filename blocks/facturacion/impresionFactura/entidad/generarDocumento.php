@@ -11,6 +11,11 @@ $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
 require $ruta . "/plugin/html2pdf/html2pdf.class.php";
+require $ruta . '/plugin/PHPMailer/PHPMailerAutoload.php';
+
+$this->sql = $this->miSql;
+include_once "blocks/facturacion/masivoCalFactura/entidad/sincronizarErp.php";
+use facturacion\masivoCalFactura\entidad\sincronizarErp;
 
 class GenerarDocumento
 {
@@ -25,6 +30,7 @@ class GenerarDocumento
     public $rutaXML;
     public $estrutura;
     public $contenido;
+    public $FacturaMora = null;
     public function __construct($sql, $beneficiarios, $ruta_archivos)
     {
 
@@ -62,6 +68,9 @@ class GenerarDocumento
         // Ruta XML para Creación PDF
         $this->rutaXML = $this->rutaAbsoluta . 'entidad/PlantillaXML/Facturacion25012017.xml';
 
+        //Objeto de Sincronización Erp
+        $this->ERP = new sincronizarErp('', $this->miSql);
+
         // Procedimiento
 
         $opciones = explode("&", $beneficiarios);
@@ -87,9 +96,34 @@ class GenerarDocumento
 
         $this->ruta_archivos = $ruta_archivos;
 
+        /**
+         * Creación Log Sincronización Erp
+         */
+
+        $this->creacion_log();
+
+        /**
+         * Procedimiento crear Facturas
+         */
+
         foreach ($this->beneficiarios as $key => $this->identificador_beneficiario) {
 
             if ($this->validarBeneficiario()) {
+
+                /**
+                 * Asignación Fecha Oportuna de Pago
+                 */
+
+                if (isset($this->InformacionFacturacion['estado_factura']) && $this->InformacionFacturacion['estado_factura'] == 'Borrador') {
+
+                    /**
+                     * Crear Factura ERP NEXT
+                     */
+
+                    $sincronizacion = $this->crearFacturaErp();
+
+                    $this->InformacionFacturacion['fecha_pago_oportuno'] = $sincronizacion['fechaOportunaPago'];
+                }
 
                 /**
                  * Númeracion Facturación
@@ -119,59 +153,142 @@ class GenerarDocumento
                  * Creacion Factura
                  */
 
-                $this->crearPDFFactura();
-
                 /**
                  * Creación Desprendible
                  */
-                $this->crearPDFDesprendible();
+                //$this->crearPDFDesprendible();
 
                 if (!isset($_REQUEST['documento_intantaneo'])) {
                     $this->archivo_adjunto = $this->ruta_archivos . "/Factura_" . $this->InformacionBeneficiario['numero_identificacion'] . "_" . str_replace(' ', '_', $this->InformacionBeneficiario['nombre_beneficiario']) . ".pdf";
 
+                    $this->crearPDFFactura();
+
                     /**
                      * Unir Documento
                      */
-                    $this->unirDocumento();
+
+                    if ($sincronizacion['mensajeCreacion']['estado'] == 0) {
+
+                        //$this->unirDocumento();
+
+                    }
+
                 } else {
 
                     /**
                      * Unir Documento
                      */
-                    $this->unirDocumento();
+                    //$this->unirDocumento();
 
                     /**
                      * Descargar PDF
                      */
-                    $this->descargarDocumento($this->rutaProceso . 'FacturaBeneficiario.pdf');
+
+                    $this->archivo_adjunto = $this->rutaProceso . 'FacturaBeneficiario.pdf';
+                    //exit;
+
+                    $this->crearPDFFactura();
+
+                    $this->descargarDocumento($this->archivo_adjunto);
 
                 }
 
-                if (!isset($_REQUEST['documento_intantaneo'])) {
+                if (!isset($_REQUEST['documento_intantaneo']) && $this->InformacionFacturacion['estado_factura'] == 'Borrador') {
 
                     /**
                      * Actualizar Factura Beneficiario
                      */
-                    $arreglo = array(
-                        'id_beneficiario' => $this->identificador_beneficiario,
-                        //'fecha_oportuna_pago' => $_REQUEST['fecha_oportuna_pago'],
-                        'indice_facturacion' => $this->InformacionFacturacion['indice_facturacion'],
-                        'numeracion_facturacion' => $this->InformacionFacturacion['numeracion_facturacion'],
-                        'codigo_barras' => $this->InformacionFacturacion['codigo_barras'],
 
-                    );
+                    if ($sincronizacion['mensajeCreacion']['estado'] == 0) {
 
-                    $cadenaSql = $this->miSql->getCadenaSql('actualizarFacturaBeneficiario', $arreglo);
-                    $actualizacionEstadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+                        $arreglo = array(
+                            'id_beneficiario' => $this->identificador_beneficiario,
+                            'fecha_oportuna_pago' => $sincronizacion['fechaOportunaPago'],
+                            'indice_facturacion' => $this->InformacionFacturacion['indice_facturacion'],
+                            'numeracion_facturacion' => $this->InformacionFacturacion['numeracion_facturacion'],
+                            'codigo_barras' => $this->InformacionFacturacion['codigo_barras'],
+                            'id_factura' => $this->InformacionFacturacion['id_factura'],
+                            'factura_erp' => $sincronizacion['mensajeCreacion']['recibo'],
+
+                        );
+
+                        $cadenaSql = $this->miSql->getCadenaSql('actualizarFacturaBeneficiario', $arreglo);
+                        $actualizacionEstadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                        if (isset($_REQUEST['correo'])) {
+
+                            $this->enviarNotificacion();
+                        }
+
+                        $mensaje_log = $this->InformacionBeneficiario['numero_identificacion'] . " " . $this->InformacionBeneficiario['nombre_beneficiario'] . " =>" . $sincronizacion['mensajeCreacion']['mensaje'] . " Recibo : " . $sincronizacion['mensajeCreacion']['recibo'];
+
+                    } else {
+
+                        $mensaje_log = $this->InformacionBeneficiario['numero_identificacion'] . " " . $this->InformacionBeneficiario['nombre_beneficiario'] . " =>" . $sincronizacion['mensajeCreacion']['mensaje'];
+
+                    }
+
+                    $this->escribir_log($mensaje_log);
 
                 }
 
-                if (isset($_REQUEST['correo'])) {
-
-                    $this->enviarNotificacion();
-                }
             }
         }
+
+        if (!isset($_REQUEST['documento_intantaneo'])) {
+            $this->cerrar_log();
+        }
+
+    }
+
+    public function escribir_log($mensaje)
+    {
+
+        fwrite($this->log, $mensaje . PHP_EOL);
+
+    }
+
+    public function cerrar_log()
+    {
+
+        fclose($this->log);
+
+    }
+
+    public function creacion_log()
+    {
+
+        if (!isset($_REQUEST['documento_intantaneo'])) {
+
+            $prefijo = substr(md5(uniqid(time())), 0, 6);
+
+            $this->ruta_absoluta_log = $this->ruta_archivos . "/" . $prefijo . "_creacionFacturasErp.log";
+
+            $this->log = fopen($this->ruta_absoluta_log, "w");
+        }
+
+    }
+
+    public function crearFacturaErp()
+    {
+        // Variable necesaria para crear factura
+        $_REQUEST['id_beneficiario'] = $this->identificador_beneficiario;
+
+        $arreglo = array(
+            'id_ciclo' => $this->InformacionFacturacion['id_ciclo'],
+            'total_factura' => $this->InformacionFacturacion['total_factura'],
+            'id_factura' => $this->InformacionFacturacion['id_factura'],
+        );
+
+        $arregloErp = $this->ERP->crearUrlFactura($arreglo);
+
+        $mensaje = $this->ERP->crearFactura($arregloErp['url']);
+
+        unset($_REQUEST['id_beneficiario']);
+
+        return array(
+            'fechaOportunaPago' => $arregloErp['fechaPagoOportuno'],
+            'mensajeCreacion' => $mensaje);
 
     }
 
@@ -209,6 +326,8 @@ class GenerarDocumento
     public function validarBeneficiario()
     {
 
+        unset($this->FacturaMora);
+
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionFacturacionAnterior', $this->identificador_beneficiario);
         $this->InformacionFacturacionAnterior = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
@@ -221,30 +340,41 @@ class GenerarDocumento
         $cadenaSql = $this->miSql->getCadenaSql('consultaUltimoValorPagado', $this->identificador_beneficiario);
         $this->UltimoValorPagadoFactura = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        $cadenaSql = $this->miSql->getCadenaSql('consultaValoresConceptos', $this->identificador_beneficiario);
+        $cadenaSql = $this->miSql->getCadenaSql('consultaValoresConceptos', $this->InformacionFacturacion);
         $this->Conceptos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
         $this->CuotaPeriodo = 0;
 
         // Factura en Mora
+
+        $validar = false;
         if ($this->Conceptos != false) {
 
             foreach ($this->Conceptos as $key => $value) {
 
-                if ($value['observacion'] != '') {
-                    $cadena = explode("(", $value['observacion']);
-                    $id_factura = $cadena[0];
+                if ($value['factura_mora'] != '') {
+                    $id_factura = $value['factura_mora'];
                 }
 
-                if (strpos(strtolower($value['concepto']), 'mora') === false) {
+                if ($value['factura_mora'] == '') {
                     $this->CuotaPeriodo = $this->CuotaPeriodo + $value['valor_concepto'];
                 }
 
-            }
+                if (isset($id_factura) && $id_factura != '') {
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarFacturaMora', $id_factura);
+                    $FacturaMora = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            if (isset($id_factura) && $id_factura != '') {
-                $cadenaSql = $this->miSql->getCadenaSql('consultarFacturaMora', $id_factura);
-                $this->FacturaMora = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+                    $this->Conceptos[$key]['concepto'] = $this->Conceptos[$key]['concepto'] . " (" . $FacturaMora['indice_facturacion'] . sprintf("%'.06d", $FacturaMora['numeracion_facturacion']) . ") ";
+
+                    if ($validar == false) {
+
+                        $this->FacturaMora = $FacturaMora;
+
+                        $validar = true;
+
+                    }
+
+                }
 
             }
 
@@ -279,10 +409,10 @@ class GenerarDocumento
             case '70':
 
                 $this->InformacionFacturacion['indice_facturacion'] = 'FVS';
-                $this->InformacionFacturacion['limite_facturacion'] = 'No.FVS 000001 al No. FVS 000867';
+                $this->InformacionFacturacion['limite_facturacion'] = 'No.FVS 000001 al No. FVS 001445';
                 $cadenaSql = $this->miSql->getCadenaSql('consultarNumeracionFactura', 'FVS');
                 $numeracion = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-                $limite = 867;
+                $limite = 1445;
                 break;
 
         }
@@ -356,11 +486,11 @@ class GenerarDocumento
                 break;
 
             case 3:
-                $height = '150px';
+                $height = '145px';
                 break;
 
             case 4:
-                $height = '250px';
+                $height = '145px';
                 break;
 
             default:
@@ -432,7 +562,7 @@ class GenerarDocumento
                     break;
 
                 case 'imagen':
-                    $this->contenido .= "<div style='text-align:" . $this->atributos['alineacionImagen'];
+                    $this->contenido .= "<div style='" . $this->atributos['alineacionImagen'];
                     $this->contenido .= "'><img src='" . $value . "' " . $this->atributos['dimensionesImagen'] . "  ></div>";
                     break;
 
@@ -520,25 +650,25 @@ class GenerarDocumento
 
                 $this->contenido .= "<table style='vertical-align:middle;border-collapse:collapse;border:none;width:100%;'s>
                             <tr>
-                                <td colspan='2' style='font-family:futuramdbtb;font-size:18px;height:30px;text-align:left;border:none;background-color:#999;color:#fff;border-bottom: #fff;'><b>Resumen</b></td>
+                                <td colspan='2' style='font-family:futura_extra_black_condensed_bt;font-size:18px;height:30px;text-align:left;border:none;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'>Resumen</td>
                             </tr>
                             <tr>
-                                <td style='font-family:futura_extra_black_condensed_bt;font-size:12.5px;height:17px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'><b>Deuda Anterior </b></td>";
+                                <td style='font-family:futura_extra_black_condensed_bt;font-size:12.5px;height:17px;text-align:left;border:none;width:50%;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'><b>Deuda Anterior </b></td>";
 
                 if (isset($this->FacturaMora) && !is_null($this->FacturaMora['total_factura']) && $this->FacturaMora['total_factura'] != '') {
-                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:12.5px;height:17px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
+                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:12.5px;height:17px;text-align:right;border:none;width:50%;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'>$ " . number_format($this->FacturaMora['total_factura'], 2) . "</td>";
                 } else {
-                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:12.5px;height:17px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ 0</td>";
+                    $this->contenido .= "<td style='font-family:futuraltbt;font-size:12.5px;height:17px;text-align:right;border:none;width:50%;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'>$ 0</td>";
                 }
 
                 $this->contenido .= "</tr>
                             <tr>
-                                <td style='font-family:futura_extra_black_condensed_bt;height:17px;font-size:12.5px;text-align:left;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'><b>Cuota Mes </b></td>
-                                <td style='font-family:futuraltbt;height:17px;font-size:12.5px;text-align:right;border:none;width:50%;background-color:#999;color:#fff;border-bottom: #fff;'>$ " . number_format($this->CuotaPeriodo, 2) . " </td>
+                                <td style='font-family:futura_extra_black_condensed_bt;height:17px;font-size:12.5px;text-align:left;border:none;width:50%;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'><b>Cuota Mes </b></td>
+                                <td style='font-family:futuraltbt;height:17px;font-size:12.5px;text-align:right;border:none;width:50%;background-color:#c7c7c7;color:#444444;border-bottom: #fff;'>$ " . number_format($this->CuotaPeriodo, 2) . " </td>
                             </tr>
                             <tr>
-                                <td style='font-family:futura_extra_black_condensed_bt;vertical-align:middle;font-size:12.5px;height:17px;text-align:left;border:none;width:50%;background-color:#1a823f;color:#fff;'><b>Total a pagar</b></td>
-                                <td style='font-family:futuraltbt;vertical-align:middle;height:17px;font-size:12.5px;text-align:right;border:none;width:50%;background-color:#1a823f;color:#fff;'>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</td>
+                                <td style='font-family:futura_extra_black_condensed_bt;vertical-align:middle;font-size:13.5px;height:17px;text-align:left;border:none;width:50%;background-color:#rgb(230, 197, 96);color:#444444;'><b>TOTAL A PAGAR</b></td>
+                                <td style='font-family:futuraltbt;vertical-align:middle;height:17px;font-size:13.5px;text-align:right;border:none;width:50%;background-color:#rgb(230, 197, 96);color:#444444;'><b>$ " . number_format($this->InformacionFacturacion['total_factura'], 2) . "</b></td>
                             </tr>
                         </table>
                         <br>
@@ -556,24 +686,24 @@ class GenerarDocumento
             case 'Conceptos':
                 $this->contenido .= "<div style='" . $this->atributos . "'>";
 
-                $table = "<table style='border-collapse:collapse;border:0.1px;width:100%;' >
+                $table = "<table style='border-collapse:collapse;border:0.1px;width:100%;vertical-align:middle;' >
                             <tr>
                                 <td colspan='4' style='font-family:futura_extra_black_condensed_bt;margin: 0 auto;font-size:16px;height:18px;text-align:left;border:0.1px;background-color:#2a91bd;color:#fff;border-top-left-radius: 4px; border-bottom-left-radius: 4px;border-top-right-radius: 4px; border-bottom-right-radius: 4px;'><b>Detalle de Cargos Facturados</b></td>
                             </tr>";
 
                 $table .= "<tr>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:13px;text-align:center;border:0.1px;width:5%;'><br><b>N°</b><br></td>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:13px;text-align:center;border:0.1px;width:25%;'><br><b>Periodo Facturado</b><br></td>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:13px;text-align:center;border:0.1px;width:50%;'><br><b>Concepto</b><br></td>
-                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;height:13px;text-align:center;border:0.1px;width:20%;'><br><b>Valor</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;text-align:center;border:0.1px;width:4%;'><br><b>N°</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;text-align:center;border:0.1px;width:35%;'><br><b>Periodo Facturado</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;text-align:center;border:0.1px;width:41%;'><br><b>Concepto</b><br></td>
+                <td style='color:#5b5e60;font-family:futura_extra_black_condensed_bt;text-align:center;border:0.1px;width:20%;'><br><b>Valor</b><br></td>
                 </tr>";
                 $i = 1;
                 foreach ($this->Conceptos as $key => $value) {
                     $table .= "<tr>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;height:13px;text-align:center;border:0.1px;width:5%;'><br>" . $i . ".<br></td>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;height:13px;text-align:center;border:0.1px;width:25%;'><br>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "<br></td>
-                                  <td style='color:#5b5e60;font-family:futuraltbt;height:13px;text-align:left;border:0.1px;width:50%;'><br>" . $value['concepto'] . "<br></td>
-                                  <td align='center' style='color:#5b5e60;font-family:futuraltbt;height:13px;text-align:left;border:0.1px;width:20%;'><br>$ " . number_format($value['valor_concepto'], 2) . "<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;font-size:8.5px;text-align:center;border:0.1px;width:4%;'><br>" . $i . ".<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;font-size:8.5px;text-align:center;border:0.1px;width:35%;'><br>" . $value['inicio_periodo'] . "  /  " . $value['fin_periodo'] . "<br></td>
+                                  <td style='color:#5b5e60;font-family:futuraltbt;font-size:8.5px;text-align:left;border:0.1px;width:41%;'><br>" . $value['concepto'] . "<br></td>
+                                  <td align='center' style='color:#5b5e60;font-family:futuraltbt;font-size:8.5px;text-align:left;border:0.1px;width:20%;'><br>$ " . number_format($value['valor_concepto'], 2) . "<br></td>
                                </tr>";
 
                     $i++;
@@ -657,7 +787,7 @@ class GenerarDocumento
                                   <td style='font-family:futuraltbt;height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ " . number_format($this->InformacionFacturacion['valor_contrato'], 2) . "</td>
                             </tr>
                             <tr>
-                                  <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Monto Pagado</b></td>";
+                                  <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Monto Pagado del Total Contrato</b></td>";
                 if (!is_null($this->ValorPagado) && $this->ValorPagado != '') {
                     $this->contenido .= "<td style='font-family:futuraltbt;height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ " . number_format($this->ValorPagado, 2) . "</td>";
                 } else {
@@ -675,7 +805,7 @@ class GenerarDocumento
 
                 $this->contenido .= "</tr>
                                     <tr>
-                                  <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Utimo Valor Pagado</b></td>";
+                                  <td style='font-family:futura_extra_black_condensed_bt;height:13px;text-align:left;border:none;width:50%;font-size:12px;color:#5b5e60;'><b>Ultimo Valor Pagado</b></td>";
                 if (!is_null($this->UltimoValorPagadoFactura['ultimo_valor_pagado']) && $this->UltimoValorPagadoFactura['ultimo_valor_pagado'] != '') {
                     $this->contenido .= "<td style='font-family:futuraltbt;height:13px;text-align:right;border:none;width:50%;font-size:12px;color:#5b5e60;'>$ " . number_format($this->UltimoValorPagadoFactura['ultimo_valor_pagado'], 2) . "</td>";
                 } else {
@@ -790,7 +920,7 @@ class GenerarDocumento
                 switch ($this->InformacionFacturacion['departamento']) {
                     case '23':
 
-                        $this->contenido .= "<td style='height:13px;text-align:left;border:none;width:70%;'><img width='200' height='45' src='http://localhost/OpenKyOS/theme/basico/img/FormaPago.png'></td>";
+                        $this->contenido .= "<td style='height:13px;text-align:left;border:none;width:70%;'><img width='200' height='43' src='http://localhost/OpenKyOS/theme/basico/img/FormaPago.png'></td>";
                         break;
 
                     case '70':
@@ -862,7 +992,7 @@ class GenerarDocumento
     public function crearPDFFactura()
     {
         ob_start();
-        $html2pdf = new \HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(
+        $html2pdf = new \HTML2PDF('P', 'LEGAL', 'es', true, 'UTF-8', array(
             1,
             1,
             1,
@@ -872,9 +1002,9 @@ class GenerarDocumento
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
 
-        $this->paginaFactura = $this->rutaProceso . 'Factura_actual.pdf';
+        //$this->paginaFactura = $this->rutaProceso . 'Factura_actual.pdf';
 
-        $html2pdf->Output($this->paginaFactura, 'F');
+        $html2pdf->Output($this->archivo_adjunto, 'F');
 
     }
 
@@ -917,7 +1047,7 @@ class GenerarDocumento
                                 }
                                 td, th {
                                     border: 1px solid #CCC;
-                                    height: 13px;
+
                                 } /* Make cells a bit taller */
 
                                 th {
@@ -948,10 +1078,6 @@ class GenerarDocumento
         /**
          * This example shows settings to use when sending via Google's Gmail servers.
          */
-
-        // SMTP needs accurate times, and the PHP time zone MUST be set
-        // This should be done in your php.ini, but this is how to do it if you don't have access to that
-        require $this->ruta . '/plugin/PHPMailer/PHPMailerAutoload.php';
 
         // Create a new PHPMailer instance
         $mail = new \PHPMailer();

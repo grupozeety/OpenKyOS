@@ -111,7 +111,9 @@ class sincronizarErp {
 			$valores [$values [0]] = $values [1];
 		}
 		
-		$fechaOportuna = date ( 'Y-m-d', strtotime ( $parametros ['fecha'] . '+ ' . $valores ['diasPago'] . ' day' ) );
+		//$fechaOportuna = date ( 'Y-m-d', strtotime ( $parametros ['fecha'] . '+ ' . $valores ['diasPago'] . ' day' ) );
+		$fechaOportuna = date ( 'Y-m-d', strtotime ( date('Y-m-d') . '+ ' . $valores ['diasPago'] . ' day' ) );
+		
 		if (strtotime ( $fechaOportuna ) < strtotime ( date ( 'Y-m-d' ) )) {
 			$fechaOportuna = date ( 'Y-m-d' );
 		}

@@ -99,7 +99,7 @@ class FormProcessor
                 case 'FVS':
 
                     $numero_beneficiarios_facturar = $this->contarBeneficiarioPorDepartamento('70');
-                    $limite = 867;
+                    $limite = 1445;
 
                     break;
 

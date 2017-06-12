@@ -42,13 +42,14 @@ class Sql extends \Sql {
 				break;
 			
 			case 'consultarFactura' :
-				$cadenaSql = " SELECT id_factura, total_factura, estado_factura, id_ciclo, fac.id_beneficiario, identificacion||' - '|| nombre ||' '|| primer_apellido ||' '||segundo_apellido as nombres ";
+				$cadenaSql = " SELECT id_factura, total_factura, estado_factura, id_ciclo, fac.id_beneficiario, identificacion||' - '|| nombre ||' '|| primer_apellido ||' '||segundo_apellido as nombres,  fac.observacion ";
 				$cadenaSql .= " FROM facturacion.factura fac";
 				$cadenaSql .= " JOIN interoperacion.beneficiario_potencial bp on bp.id_beneficiario=fac.id_beneficiario";
 				$cadenaSql .= " WHERE 1=1";
-				$cadenaSql .= " AND fac.estado_registro=TRUE";
+				//$cadenaSql .= " AND fac.estado_registro=TRUE";
 				$cadenaSql .= " AND fac.id_beneficiario='" . $variable . "' ";
 				// $cadenaSql .= " AND fac.estado_factura='Aprobado' ";
+				//$cadenaSql .= " AND fac.estado_factura='Aprobado' ";
 				$cadenaSql .= " AND bp.estado_registro=TRUE ORDER BY id_factura ASC ";
 				break;
 			

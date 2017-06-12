@@ -32,7 +32,7 @@ public function __construct($sql, $informacion,$informacion1,$informacion2) {
         $this->informacion2 = $informacion2;
 
 
-        //  var_dump($this->informacion1);
+        //  var_dump($this->informacion);
         //  var_dump($this->informacion2);
         //   exit;
 
@@ -269,7 +269,7 @@ public function __construct($sql, $informacion,$informacion1,$informacion2) {
 
               $this->objCal2->setCellValue('E1', 'Llamadas que excedieron el tiempo máximo de respuesta')->getStyle("E1")->applyFromArray($styleCentrado);
 
-              $this->objCal2->setCellValue('F1', 'Indicador tiempo máximo de resuesta')->getStyle("F1")->applyFromArray($styleCentrado);
+              $this->objCal2->setCellValue('F1', 'Indicador tiempo máximo de respuesta')->getStyle("F1")->applyFromArray($styleCentrado);
 
 
             }

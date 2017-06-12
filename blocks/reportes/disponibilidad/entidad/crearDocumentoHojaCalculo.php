@@ -499,10 +499,10 @@ public function __construct($sql, $informacion,$informacion1,$informacion2, $inf
                         $this->objCal3->getColumnDimension('R')->setWidth(15);
                         $this->objCal3->getColumnDimension('S')->setWidth(20);
                         $this->objCal3->getColumnDimension('T')->setWidth(15);
-                        $this->objCal3->getColumnDimension('U')->setWidth(15);
-                        $this->objCal3->getColumnDimension('V')->setWidth(15);
-                        $this->objCal3->getColumnDimension('W')->setWidth(15);
-                        $this->objCal3->getColumnDimension('X')->setWidth(15);
+                        $this->objCal3->getColumnDimension('U')->setWidth(65);
+                        $this->objCal3->getColumnDimension('V')->setWidth(65);
+                        $this->objCal3->getColumnDimension('W')->setWidth(65);
+                        $this->objCal3->getColumnDimension('X')->setWidth(65);
                         $this->objCal3->getColumnDimension('Y')->setWidth(15);
 
 
@@ -703,6 +703,7 @@ public function __construct($sql, $informacion,$informacion1,$informacion2, $inf
                                                 $this->objCal7->getColumnDimension('D')->setWidth(15);
                                                 $this->objCal7->getColumnDimension('E')->setWidth(15);
                                                 $this->objCal7->getColumnDimension('F')->setWidth(15);
+                                                $this->objCal7->getColumnDimension('G')->setWidth(15);
 
 
                                                 $this->objCal7->getStyle('A')->getAlignment()->setWrapText(true);
@@ -711,22 +712,24 @@ public function __construct($sql, $informacion,$informacion1,$informacion2, $inf
                                                 $this->objCal7->getStyle('D')->getAlignment()->setWrapText(true);
                                                 $this->objCal7->getStyle('E')->getAlignment()->setWrapText(true);
                                                 $this->objCal7->getStyle('F')->getAlignment()->setWrapText(true);
+                                                $this->objCal7->getStyle('G')->getAlignment()->setWrapText(true);
 
 
                                             }
                                             // Add some data
+                                            $this->objCal7->setCellValue('A1', 'Id Municipio')->getStyle("A1")->applyFromArray($styleCentrado);
 
-                                            $this->objCal7->setCellValue('A1', 'Id Beneficiario')->getStyle("A1")->applyFromArray($styleCentrado);
+                                            $this->objCal7->setCellValue('B1', 'Id Beneficiario')->getStyle("B1")->applyFromArray($styleCentrado);
 
-                                            $this->objCal7->setCellValue('B1', 'Mes')->getStyle("B1")->applyFromArray($styleCentrado);
+                                            $this->objCal7->setCellValue('C1', 'Mes')->getStyle("C1")->applyFromArray($styleCentrado);
 
-                                            $this->objCal7->setCellValue('C1', 'Fecha medición')->getStyle("C1")->applyFromArray($styleCentrado);
+                                            $this->objCal7->setCellValue('D1', 'Fecha medición')->getStyle("D1")->applyFromArray($styleCentrado);
 
-                                            $this->objCal7->setCellValue('D1', 'Velocidad de subida')->getStyle("D1")->applyFromArray($styleCentrado);
+                                            $this->objCal7->setCellValue('E1', 'Velocidad de subida')->getStyle("E1")->applyFromArray($styleCentrado);
 
-                                            $this->objCal7->setCellValue('E1', 'Velocidad de bajada')->getStyle("E1")->applyFromArray($styleCentrado);
+                                            $this->objCal7->setCellValue('F1', 'Velocidad de bajada')->getStyle("F1")->applyFromArray($styleCentrado);
 
-                                            $this->objCal7->setCellValue('F1', 'Observaciones')->getStyle("F1")->applyFromArray($styleCentrado);
+                                            $this->objCal7->setCellValue('G1', 'Observaciones')->getStyle("G1")->applyFromArray($styleCentrado);
 
 
                                           }

@@ -152,6 +152,14 @@ class Procesador {
 					$resultado = $this->consultar->crearFactura ( $this->datosConexionERPNext, $_REQUEST ['variables'] );
 					break;
 				
+				case 'inactivarFactura' :
+					$resultado = $this->consultar->inactivarFactura ( $this->datosConexionERPNext, $_REQUEST ['variables'] );
+					break;
+				
+				case 'pagarFactura' :
+					$resultado = $this->consultar->pagarFactura ( $this->datosConexionERPNext, $_REQUEST ['variables'] );
+					break;
+				
 				case 'crearSolicitud' :
 					$resultado = $this->consultar->crearMaterialRequest ( $this->datosConexionERPNext, $_REQUEST ['variables'] );
 					break;

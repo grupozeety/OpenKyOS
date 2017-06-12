@@ -45,7 +45,6 @@ class Consultar {
 		$cadenaSql = $this->sql->getCadenaSql ( 'consultarConceptos_especifico', $_REQUEST ['id'] );
 		$conceptos = $esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
 
-
 		// -------------------------------------------------------------------------------------------------
 		
 		// ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
@@ -212,7 +211,7 @@ class Consultar {
 						
 						// Aplica atributos globales al control
 						$atributos = array_merge ( $atributos, $atributosGlobales );
-						if ($factura [0] ['estado_factura'] == 'Aprobado') {
+						if ($factura [0] ['estado_factura'] == 'Aprobado' || $factura [0] ['estado_factura'] == 'Mora') {
 							echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
 						}
 						unset ( $atributos );

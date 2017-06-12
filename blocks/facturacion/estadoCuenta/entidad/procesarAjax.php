@@ -48,7 +48,8 @@ class procesarAjax {
 								'id_factura' => "<center>" . $valor ['id_factura'] . "</center>",
 								'id_ciclo' => "<center>" . $valor ['id_ciclo'] . "</center>",
 								'total' => "<center> $ " . number_format ( $valor ['total_factura'], 2, ',', '.' ) . "</center>",
-								'estado_factura' => "<center>" . $valor ['estado_factura'] . "</center>" 
+								'estado_factura' => "<center>" . $valor ['estado_factura'] . "</center>" ,
+								'observaciones' => "<center>" . $valor ['observacion'] . "</center>" 
 						);
 					}
 					

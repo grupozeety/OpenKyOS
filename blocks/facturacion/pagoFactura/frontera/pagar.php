@@ -347,10 +347,10 @@ class Periodos {
 		// Aplica atributos globales al control
 		$atributos = array_merge ( $atributos, $atributosGlobales );
 		
-		if ($factura [0] ['estado_factura'] == 'Aprobado') {
+		if ($factura [0] ['estado_factura'] == 'Aprobado' || $factura [0] ['estado_factura'] == 'Mora') {
 			echo $this->miFormulario->campoBotonBootstrapHtml ( $atributos );
 		}
-		unset ( $atributos );
+		unset ( $atributos ); 
 		// -----------------FIN CONTROL: Botón -----------------------------------------------------------
 		
 		// ------------------Fin Division para los botones-------------------------
@@ -384,7 +384,7 @@ class Periodos {
 		$valorCodificado .= "&id_factura=" . $_REQUEST ['id'];
 		$valorCodificado .= "&beneficiario=" . $factura [0] ['nombres'];
 		$valorCodificado .= "&id_beneficiario=" .$factura [0] ['id_beneficiario'];
-		
+		$valorCodificado .= "&estadoFactura=" .$factura [0] ['estado_factura'];
 		/**
 		 * SARA permite que los nombres de los campos sean dinámicos.
 		 * Para ello utiliza la hora en que es creado el formulario para
