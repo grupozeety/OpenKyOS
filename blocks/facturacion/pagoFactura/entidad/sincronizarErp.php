@@ -89,7 +89,7 @@ class sincronizarErp {
 		}
 		
 		$debito = array (
-				'account' => $valores ['cuentaCredito_erp'],
+				'account' => $valores ['cuentaDebitoPago_erp'],
 				'debit_in_account_currency' => (int)$parametros ['total_factura'],
 				'party_type' => 'Customer',
 				'party' => $ben [0] [0]
