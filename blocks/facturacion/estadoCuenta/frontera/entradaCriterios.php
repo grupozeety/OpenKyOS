@@ -93,7 +93,7 @@ class Consultar {
 			{
 				$esteCampo = 'Agrupacion';
 				$atributos ['id'] = $esteCampo;
-				$atributos ['leyenda'] = "Estado de Cuenta " . $beneficiario[0]['nombre'];
+				$atributos ['leyenda'] = "Estado de Cuenta " .  $beneficiario[0]['identificacion']." ".$beneficiario[0]['nombre'];
 				echo $this->miFormulario->agrupacion ( 'inicio', $atributos );
 				unset ( $atributos );
 			}
