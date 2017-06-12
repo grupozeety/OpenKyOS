@@ -50,7 +50,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " AND fac.id_beneficiario='" . $variable . "' ";
 				// $cadenaSql .= " AND fac.estado_factura='Aprobado' ";
 				//$cadenaSql .= " AND fac.estado_factura='Aprobado' ";
-				$cadenaSql .= " AND bp.estado_registro=TRUE ORDER BY id_factura ASC ";
+				$cadenaSql .= " AND bp.estado_registro=TRUE ORDER BY id_factura DESC ";
 				break;
 			
 			case 'consultarFactura_especifico' :
@@ -83,7 +83,7 @@ class Sql extends \Sql {
 			
 			case 'contratoBeneficiario' :
 				$cadenaSql = " SELECT bp.id_beneficiario, nombre ||' ' || bp.primer_apellido ||' '|| bp.segundo_apellido as nombre, numero_contrato, fecha_contrato, estado_contrato, parametros.descripcion as descr_contrato, ";
-				$cadenaSql .= " servicio.estado_servicio, parametros2.descripcion as descr_servicio, valor_mensual*15 as valor_total ";
+				$cadenaSql .= " servicio.estado_servicio, parametros2.descripcion as descr_servicio, valor_mensual*15 as valor_total, bp.identificacion ";
 				$cadenaSql .= " FROM interoperacion.beneficiario_potencial bp ";
 				$cadenaSql .= " JOIN interoperacion.contrato on bp.id_beneficiario=contrato.id_beneficiario ";
 				$cadenaSql .= " LEFT JOIN interoperacion.servicio on contrato.id=servicio.id_contrato ";
@@ -102,7 +102,7 @@ class Sql extends \Sql {
 				$cadenaSql .= " WHERE 1=1 ";
 				$cadenaSql .= " AND pago_factura.estado_registro=TRUE ";
 				$cadenaSql .= " AND factura.estado_registro=TRUE ";
-				$cadenaSql .= " AND id_beneficiario='" . $variable . "' ";
+				$cadenaSql .= " AND id_beneficiario='" . $variable . "' ORDER BY id_pago DESC";
 				break;
 			
 			case 'totalPagado' :

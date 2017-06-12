@@ -9,6 +9,7 @@ $this->idioma['regla'] = 'Regla';
 $this->idioma['rol'] = 'Rol Predeterminado';
 
 $this->idioma['cuentaDebito_erp'] = 'Cuenta Debitar Factura';
+$this->idioma['cuentaDebitoPago_erp'] = 'Cuenta Debitar Pago';
 $this->idioma['cuentaCredito_erp'] = 'Cuenta Credito Factura';
 $this->idioma['grupoClientes_erp'] = 'Grupo Clientes';
 $this->idioma['itemName_erp'] = 'Item Name ERPNext';
