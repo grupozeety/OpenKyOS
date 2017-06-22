@@ -94,28 +94,37 @@ class GenerarReporteExcelInstalaciones
 
             $anexo_dir = '';
 
-            if ($value['manzana'] != 0) {
+            if ($value['manzana'] != '0' && $value['manzana'] != '') {
                 $anexo_dir .= " Manzana  #" . $value['manzana'] . " - ";
             }
 
-            if ($value['bloque'] != 0) {
+            if ($value['bloque'] != '0' && $value['bloque'] != '') {
                 $anexo_dir .= " Bloque #" . $value['bloque'] . " - ";
             }
 
-            if ($value['torre'] != 0) {
+            if ($value['torre'] != '0' && $value['torre'] != '') {
                 $anexo_dir .= " Torre #" . $value['torre'] . " - ";
             }
 
-            if ($value['casa_apartamento'] != 0) {
+            if ($value['casa_apartamento'] != '0' && $value['casa_apartamento'] != '') {
                 $anexo_dir .= " Casa/Apartamento #" . $value['casa_apartamento'];
             }
 
-            if ($value['interior'] != 0) {
+            if ($value['interior'] != '0' && $value['interior'] != '') {
                 $anexo_dir .= " Interior #" . $value['interior'];
             }
 
-            if ($value['lote'] != 0) {
+            if ($value['lote'] != '0' && $value['lote'] != '') {
                 $anexo_dir .= " Lote #" . $value['lote'];
+            }
+
+            if ($value['piso'] != '0' && $value['piso'] != '') {
+                $anexo_dir .= " Piso #" . $value['piso'];
+
+            }
+
+            if (!is_null($value['barrio']) && $value['barrio'] != '') {
+                $anexo_dir .= " Barrio " . $value['barrio'];
             }
 
             $this->objCal->setActiveSheetIndex(0)->setCellValue('I' . $i, $value['direccion_domicilio'] . " " . $anexo_dir)->getStyle('I' . $i)->applyFromArray($styleCentradoVertical);
