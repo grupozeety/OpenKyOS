@@ -920,7 +920,7 @@ class GenerarDocumento
                 switch ($this->InformacionFacturacion['departamento']) {
                     case '23':
 
-                        $this->contenido .= "<td style='height:13px;text-align:left;border:none;width:70%;'><img width='200' height='43' src='http://localhost/OpenKyOS/theme/basico/img/FormaPago.png'></td>";
+                        $this->contenido .= "<td style='height:13px;text-align:left;border:none;width:70%;'><img width='200' height='43' src='http://localhost/OpenKyOS/theme/basico/img/FormaPago1.png'></td>";
                         break;
 
                     case '70':
