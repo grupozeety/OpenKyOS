@@ -925,7 +925,8 @@ class GenerarDocumento
 
                     case '70':
 
-                        $this->contenido .= "<td style='height:13px;text-align:left;border:none;width:70%;'><br>Administración del conjunto residencial<br><br>Horario: Lunes a Viernes de 8:00 a 12:00 y de 2:00 a 6:00 pm</td>";
+                        $this->contenido .= "<td style='height:13px;text-align:left;border:none;width:70%;'><img width='200' height='50' src='http://localhost/OpenKyOS/theme/basico/img/FormaPago2.1.png'></td>";
+//                        $this->contenido .= "<td style='height:13px;text-align:left;border:none;width:70%;'><br>Administración del conjunto residencial<br><br>Horario: Lunes a Viernes de 8:00 a 12:00 y de 2:00 a 6:00 pm</td>";
                         break;
 
                     default:
