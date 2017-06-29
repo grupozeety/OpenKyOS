@@ -131,7 +131,7 @@ class FormProcessor {
 					$rolPeriodo = $this->calFechaFinal ( $roles );
 					
 					if ($rolPeriodo == 0) {
-						$mensaje = $values ['identificacion'] . "-" . $values ['id_beneficiario'] . ": Revisar fecha inicio contrato, fecha inicio operacion. Error en recuperacion.";
+						$mensaje = $values ['identificacion'] . "-" . $values ['id_beneficiario'] . ": Revisar fecha inicio contrato, fecha inicio operacion. Valor nulo en base de datos.";
 						$this->escribir_log ( $mensaje );
 					} else {
 						$resultado [$values ['id_beneficiario']] ['observaciones'] = json_decode ( $this->calcular->calcularFactura ( $values ['id_beneficiario'], $rolPeriodo, $this->estado ), true );
@@ -189,15 +189,13 @@ class FormProcessor {
 				$fechaFin = $this->esteRecursoDBOtun->ejecutarAcceso ( $cadenaSql, "busqueda" );
 			}
 			
-			$fechaFinal = date ( "Y/m/d H:i:s", strtotime ( $fechaFin [0] [0] ) );
-			
-			$a = date ( 'Y/m/d', strtotime ( $fechaFinal . '+1 day' ) );
-			$m = date ( 'm', strtotime ( $fechaFinal . '+1 day' ) );
-			$y = date ( 'Y', strtotime ( $fechaFinal . '+1 day' ) );
-			
-			if ($y < 2016) {
+			if ($fechaFin == FALSE) {
 				$rolPeriodo = 0;
 			} else {
+				$fechaFinal = date ( "Y/m/d H:i:s", strtotime ( $fechaFin [0] [0] ) );
+				
+				$a = date ( 'Y/m/d', strtotime ( $fechaFinal . '+1 day' ) );
+				$m = date ( 'm', strtotime ( $fechaFinal . '+1 day' ) );
 				
 				if ($a < date ( "Y/m/01" )) {
 					$this->iterar = 1;
@@ -218,6 +216,7 @@ class FormProcessor {
 		
 		return $rolPeriodo;
 	}
+	
 	public function calcularRoles() {
 		$cadenaSql = $this->miSql->getCadenaSql ( 'consultarUsuarioRol', $this->id_beneficiario );
 		$roles = $this->esteRecursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
