@@ -133,7 +133,8 @@ class Calcular {
 					$this->registroConceptos ['cliente'] [0] = 'Cliente creado correctamente.';
 				}
 			}
-			
+
+			$this->registroConceptos ['cliente'] [1] = '';			
 			if ($this->estadoFactura == 'Mora') {
 				
 				$facturaCrearURL = $this->sincronizar->crearUrlFactura ( $this->informacion_factura );
