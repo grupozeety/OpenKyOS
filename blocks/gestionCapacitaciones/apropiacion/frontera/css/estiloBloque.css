@@ -1,0 +1,34 @@
+/*
+Código css correspondiente al Bloque.
+*/
+
+
+
+.col-lg-2 {
+    text-align: left;
+}
+
+
+.col-xs-2 {
+    text-align: left;
+}
+
+
+.td{
+
+text-align: center;
+    padding: 0px;
+
+}
+
+div.dataTables_filter label {
+    float: right;
+}
+
+
+@media (max-height: 720px) {
+
+  div.example_paginate label {
+      text-align: right;
+  }
+}
