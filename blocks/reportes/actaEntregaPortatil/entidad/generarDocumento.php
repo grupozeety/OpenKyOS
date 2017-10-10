@@ -251,7 +251,7 @@ class GenerarDocumento
                                 </tr>
 
                                 <tr>
-                                    <td style='width:100%;'>No. de Identificación</td>
+                                    <td colspan='2' style='width:100%;'><b>Datos de Vivienda</b></td>
                                 </tr>
                             </table>
 
