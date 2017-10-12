@@ -193,7 +193,6 @@ class GenerarDocumento
 
         }
 
-        //var_dump($infoCertificado);exit;
         $contenidoPagina = "
                             <style type=\"text/css\">
                                 table {
@@ -224,7 +223,7 @@ class GenerarDocumento
                                 }
                             </style>";
 
-        $contenidoPagina .= "<page backtop='25mm' backbottom='10mm' backleft='20mm' backright='20mm' footer='page'>
+        $contenidoPagina .= "<page backtop='25mm' backbottom='10mm' backleft='20mm'     backright='20mm' footer='page'>
                             <page_header>
                                 <table  style='width:100%;' >
                                         <tr>
@@ -255,7 +254,7 @@ class GenerarDocumento
                                 </tr>
                                 <tr>
                                     <td style='width:21%;background-color:#efefef;'>No. de Identificación</td>
-                                    <td colspan='3' style='width:80%;'><b>" . $_REQUEST['numero_identificacion_contrato'] . "</b></td>
+                                    <td colspan='3' style='width:80%;'><b>" . number_format($_REQUEST['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
                                 </tr>
                                 <tr>
                                     <td colspan='4' style='width:100%;'><b>Datos de Vivienda</b></td>
@@ -342,7 +341,7 @@ class GenerarDocumento
                             ";
 
         $contenidoPagina .= $informacion_beneficiario;
-        //var_dump($infoCertificado);exit;
+
         $contenidoPagina .= "<br>
                             <div align='center'><b>CERTIFICA BAJO GRAVEDAD DE JURAMENTO:</b></div>
                             <p style='text-align:justify'>
@@ -419,7 +418,7 @@ class GenerarDocumento
                                     <td rowspan='2' style='width:50%;color:#999999'><b>Firma<br><br><br><br><br></b><br></td>
                                 </tr>
                                 <tr>
-                                    <td style='width:50%;'>No. de Identificación:<br><br><b>" . $_REQUEST['numero_identificacion_contrato'] . "</b></td>
+                                    <td style='width:50%;'>No. de Identificación:<br><br><b>" . number_format($_REQUEST['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
                                 </tr>
                             </table>";
 
