@@ -162,6 +162,8 @@ class GenerarDocumento
                 $anexo_dir .= " Barrio " . $this->infoCertificado['barrio'];
             }
 
+            $direccion_beneficiario = strtoupper(trim($_REQUEST['direccion'] . " " . $anexo_dir));
+
         }
 
         // Caraterizacioón Codigo Departamento
@@ -182,6 +184,16 @@ class GenerarDocumento
 
         }
 
+        {
+            // Nombre Beneficiario
+
+            $nombre_beneficiario = $_REQUEST['nombre_contrato'] . " " . $_REQUEST['primer_apellido_contrato'] . " " . $_REQUEST['segundo_apellido_contrato'];
+
+            $nombre_beneficiario = strtoupper(trim($nombre_beneficiario));
+
+        }
+
+        //var_dump($infoCertificado);exit;
         $contenidoPagina = "
                             <style type=\"text/css\">
                                 table {
@@ -207,328 +219,197 @@ class GenerarDocumento
 
                                 }
                                 page{
-                                    font-size:11px;
+                                    font-size:13px;
 
                                 }
-                            </style>
+                            </style>";
 
-
-
-                        <page backtop='25mm' backbottom='10mm' backleft='10mm' backright='10mm' footer='page'>
+        $contenidoPagina .= "<page backtop='25mm' backbottom='10mm' backleft='20mm' backright='20mm' footer='page'>
                             <page_header>
-                                 <table  style='width:100%;' >
-                                          <tr>
+                                <table  style='width:100%;' >
+                                        <tr>
                                                 <td align='center' style='width:100%;border=none;' >
                                                 <img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='45'>
                                                 </td>
                                                 <tr>
-                                                <td style='width:100%;border:none;text-align:center;font-size:9px;'><b>008 - ACTA DE ENTREGA DE COMPUTADOR PORTÁTIL</b></td>
+                                                <td> </td>
                                                 </tr>
                                                 <tr>
                                                 <td style='width:100%;border:none;text-align:center;'><br><br><b>008 - ACTA DE ENTREGA DE COMPUTADOR PORTÁTIL</b></td>
                                                 </tr>
 
                                         </tr>
-                                    </table>
+                                </table>
+                            </page_header>";
 
-                        </page_header>
-                       ";
-
-        $contenidoPagina .= "<p>El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:</p>
+        $informacion_beneficiario = "<p>El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:</p>
 
                             <table width:100%;>
                                 <tr>
-                                    <td style='width:20%;'>Contrato de Servicios</td>
-                                    <td style='width:80%;'> </td>
+                                    <td style='width:21%;background-color:#efefef;'>Contrato de Servicios</td>
+                                    <td colspan='3' align='center' style='width:80%;'><b>" . $_REQUEST['numero_contrato'] . "</b></td>
                                 </tr>
                                 <tr>
-                                    <td style='width:20%;'>Beneficiario</td>
-                                    <td style='width:80%;'> </td>
+                                    <td style='width:21%;background-color:#efefef;'>Beneficiario</td>
+                                    <td colspan='3' style='width:80%;'><b>" . $nombre_beneficiario . "</b></td>
                                 </tr>
                                 <tr>
-                                    <td style='width:20%;'>No. de Identificación</td>
-                                    <td style='width:80%;'> </td>
+                                    <td style='width:21%;background-color:#efefef;'>No. de Identificación</td>
+                                    <td colspan='3' style='width:80%;'><b>" . $_REQUEST['numero_identificacion_contrato'] . "</b></td>
                                 </tr>
+                                <tr>
+                                    <td colspan='4' style='width:100%;'><b>Datos de Vivienda</b></td>
+                                </tr>
+                                <tr>
+                                    <td align='center' style='width:20%;'>Tipo</td>
+                                    <td align='center' style='width:26.6%;'>Estrato 2 (<b>" . $tipo_residencial_2 . "</b> )</td>
+                                    <td align='center' style='width:26.6%;'>Estrato 1 (<b>" . $tipo_residencial_1 . "</b>)</td>
+                                    <td align='center' style='width:26.6%;'>VIP (<b>" . $tipo_vip . "</b>)</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:21%;background-color:#efefef;'>Dirección</td>
+                                    <td colspan='3' style='width:80%;'>" . $direccion_beneficiario . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:21%;background-color:#efefef;'>Departamento</td>
+                                    <td align='center' style='width:26.6%;'>" . $_REQUEST['nombre_departamento'] . "</td>
+                                    <td align='center' style='width:26.6%;background-color:#efefef;'>Municipio</td>
+                                    <td align='center' style='width:26.6%;'> </td>
+                                </tr>
+                                <tr>
+                                    <td style='width:21%;background-color:#efefef;'>Urbanización</td>
+                                    <td colspan='3' style='width:80%;'>" . $this->limpiar_caracteres_especiales($_REQUEST['nombre_urbanizacion']) . "</td>
+                                </tr>
+                            </table>";
 
-                                <tr>
-                                    <td colspan='2' style='width:100%;'><b>Datos de Vivienda</b></td>
-                                </tr>
-                            </table>
-
+        $contenidoPagina .= $informacion_beneficiario;
+        $contenidoPagina .= "<br>
                             <br>
+                            <div align='center'><b>MANIFIESTO QUE:</b></div>
                             <br>
-                            <br>
-
-                            <table width:100%;>
-                                <tr>
-                                    <td style='width:20%;'><b>Nombres y Apellidos</b></td>
-                                    <td style='width:35%;'><b>" . $_REQUEST['nombre_contrato'] . " " . $_REQUEST['primer_apellido_contrato'] . " " . $_REQUEST['segundo_apellido_contrato'] . "</b></td>
-                                    <td style='width:15%;'><b>Fecha Entrega</b></td>
-                                    <td colspan='2' style='width:30%;'>" . $_REQUEST['fecha_entrega'] . "</td>
-                                </tr>
-
-                                <tr>
-                                    <td style='width:20%;'><b>Dirección</b></td>
-                                    <td style='width:35%;'>" . $_REQUEST['direccion'] . " " . $anexo_dir . "</td>
-                                    <td style='width:15%;'><b>Cedula</b></td>
-                                    <td colspan='2' style='width:30%;'><b>" . number_format($_REQUEST['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
-                                </tr>
-                                <tr>
-                                    <td rowspan='2' style='width:20%;'><b>Urbanización</b></td>
-                                    <td rowspan='2' style='width:35%;'>" . $this->limpiar_caracteres_especiales($_REQUEST['nombre_urbanizacion']) . "</td>
-                                    <td style='width:15%;'><b>Municipio</b></td>
-                                    <td colspan='2' style='width:30%;'>" . $_REQUEST['nombre_municipio'] . "</td>
-                                </tr>
-
-                                <tr>
-                                    <td style='width:15%;'><b>Departamento</b></td>
-                                    <td style='width:15%;'>CORDOBA(<b>" . $departamento_cordoba . "</b>)</td>
-                                    <td style='width:15%;'>SUCRE(<b>" . $departamento_sucre . "</b>)</td>
-                                </tr>
-                            </table>
                             <p style='text-align:justify'>
-                            El contratista entrega un computador portátil Marca HP 245 G4 Notebook PC nuevo, a título de uso, goce y disfrute hasta la terminación del contrato de aporte suscrito entre el Fondo TIC y Corporación Politécnica. En consecuencia, el computador no puede ser vendido, arrendado, trasferido, dado en prenda, servir de garantía, so pena de perder el beneficio. Tal como mis datos aparecen en la parte superior de este formato, confirmo que, recibí en comodato el computador portátil con las siguientes características:
+                               1. El contratista entregó un computador portátil marca HP 245 G4 Notebook PC nuevo, a titulo de uso y goce hasta la terminación del contrato de aporte suscrito entre el Fondo TIC y la Corporación Politécnica. En consecuencia, el computador no puede ser vendido, arrendado,transferido, dado en prenda, servir de garantía, so pena de perder el beneficio.<br><br>
+                               2. Respecto al computador descrito en la hoja 2 de este documento, dejo constancia que no se me cobro ningún tipo de cargo como usuario beneficiado del Proyecto de Conexiones Digitales y que el equipo fue entregado embalado, garantizando la integridad del mismo.<br><br>
+                               3. Además certifico que se realizaron las siguientes pruebas de funcionalidad:
                             </p>
-                                   <table style='width:100%;border;none;font-size:90%'>
+                             <br>
+                             <div align='center'>
+                                <table align='center' style='width:50%'>
+                                    <tr>
+                                        <td style='width:80%;background-color:#efefef;'>Correcto encendido/apagado</td>
+                                        <td align='center' style='width:20%;'>SI</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='width:80%;background-color:#efefef;'>Equipo funcionando y navegando</td>
+                                        <td align='center' style='width:20%;'>SI</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='width:80%;background-color:#efefef;'>Funciona el teclado, parlante y touchpad</td>
+                                        <td align='center' style='width:20%;'>SI</td>
+                                    </tr>
+                                </table>
+                             </div>
+                             <br>
+                            <p style='text-align:justify'>
+                            4. La garantía del equipo es un año a partir de la fecha de entrega en la que se firma este documento.<br><br>
+                            5. El Contacto de Garantía es la Corporación Politécnica, y me puedo comunicar con la línea gratuita las 24 horas del día de los 7 días de la semana. ((018000 961016)).<br><br>
+                            6. Que con el fin de no perder la garantía del fabricante en la eventualidad de presentarse fallas, el beneficiario ni un tercero no autorizado por el fabricante, pueden manipular el equipo tratando de resolver el problema presentado.<br><br>
+                            7. En caso de daño, hurto, el usuario debe hacer el reporte a la mesa de ayuda con numero 018000961016, lo cual debe quedar consignado en un ticket para la gestión y seguimiento del mismo.<br><br>
+                            8. En caso de pérdida o hurto no habrá reposición del equipo.<br><br>
+                            9. Que manifiesto mi entera conformidad y satisfacción del bien que recibo en la fecha y me obligo a realizar su correcto uso, custodia y conservación, autorizando al prestador del servicio (Corporación Politécnica) para que ejerza seguimiento y control sobre el mismo.<br><br>
+                            10. Que a la terminación del plazo de ejecución de este contrato de comodato, tendré la opción de adquirir el bien antes descrito.
+                            </p>";
+
+        $contenidoPagina .= "</page>";
+
+        $contenidoPagina .= "<page backtop='25mm' backbottom='10mm' backleft='20mm' backright='20mm' footer='page'>
+                            <page_header>
+                                <table  style='width:100%;' >
                                         <tr>
-                                            <td align='left'  style='width:49%;border:none;'>
-                                               <table style='width:100%;border;0.1px;'>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>¿El Operador realizó la Entrega del Computador?</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Serial: <b>" . $this->infoPortatil['serial'] . "</b></td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Procesador</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['procesador'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Arquitectura</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['arquitectura'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Memoria RAM</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['memoria_ram'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Compatibilidad</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['compatibilidad_memoria_ram'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Tecnologia</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['tecnologia_memoria_ram'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>ANTIVIRUS</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['antivirus'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Disco duro protegido contrao impacto</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['disco_anti_impacto'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Monitor</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['pantalla'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Teclado</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['teclado'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                </table>
-                                           </td>
-                                           <td align='center'  style='width:2%;border:none;'>
-                                            </td>
-                                            <td align='rigth' style='width:49%;border:none;'>
-                                                <table style='width:100%;border;0.1px;'>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Baterías</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['bateria_tipo'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Fuente Alimentación</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['cargador'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Salida Video</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['salida_video'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Tarjeta Memoria</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['targeta_memoria'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Rango Voltaje<br>Frecuencia</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['voltaje'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Puerto USB</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['puerto_usb'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Autonomía</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['autonomia'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Disco Duro</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['disco_duro'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Targeta de audio, micrófono y parlantes</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['targeta_audio_video'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Software</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['sistema_operativo'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
+                                                <td align='center' style='width:100%;border=none;' >
+                                                <img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='45'>
+                                                </td>
+                                                <tr>
+                                                <td> </td>
+                                                </tr>
+                                                <tr>
+                                                <td style='width:100%;border:none;text-align:center;'><br><br><b>008 - ACTA DE ENTREGA DE COMPUTADOR PORTÁTIL</b></td>
+                                                </tr>
+
                                         </tr>
-                                    </table>
-                                    <br>
-                                    <table style='width:100%;border;0.1px;font-size:90%'>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Dispositivo Apuntador</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['mouse_tipo'] . ", con botones equivalentes a “mouse” estándar y dispositivo de desplazamiento vertical en pantalla (“Scroll”) </td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Cámara</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['camara'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Conectividad a Red (Alámbrica)</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>WiFi Integrada, Estándar IEEE 802.11 b/g/n, Encriptación WEP 64/128,Compatibilidad IPV4 / IPV6, Bluetooth 4.0</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Conectividad Inalámabrica</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>WiFi Integrada, Estándar IEEE 802.11 b/g/n, Encriptación WEP 64/128,Compatibilidad IPV4 / IPV6, Bluetooth 4.0</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Otro</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Opción de Activación / Desactivación desde teclado por tecla o combinación de teclas o desde funcionalidad directa externa. Ajuste automático de potencia</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                    <td align='center'  style='width:42.5%;border:0.1px;'>El software y el hardware del Equipo funciona correctamente</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>La Carcaza del PC o portátil se encuentra personalizada con los logos del ministerio</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Estado del Regulador que alimenta el Equipo</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>El equipo se entregó embalado, garantizando la integridad del mismo</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan='3' align='center'  style='width:100%;border:0.1px;'>Tener en cuenta las consideraciones generales, condiciones del software y personalización, garantía y condiciones de entrega</td>
-                                                    </tr>
-                                                </table>
-                                    <p style='text-align:justify'>Respecto al computador portátil descrito se deja constancia que para la entrega no se me cobró ningún tipo de cargo como usuario beneficiado del Proyecto Conexiones Digitales II y que el equipo fue entregado embalado, garantizando la integridad del mismo. Además certifico que se realizaron las siguientes pruebas de funcionalidad:</p>
-                                    <table align='center' style='width:85%;border:0.1px;'>
-                                            <tr>
-                                                <td align='center'  style='width:40%;border:0.1px;'>Correcto encendido/apagado</td>
-                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
-                                                <td align='center'  style='width:40%;border:0.1px;'>Equipo funcionando y navegando</td>
-                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
-                                            </tr>
-                                            <tr>
-                                                <td align='center' colspan='3' style='width:90%;border:0.1px;'>Funcionamiento de los periféricos, (teclado, parlante, touchpad)</td>
-                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
-                                            </tr>
-                                    </table>
-                                    <p style='text-align:justify'>A continuación, se detalla información importante en caso tal que se requiera soporte técnico para el equipo portátil entregado:</p>
-                                    <table align='center' style='width:100%;border:0.1px;'>
-                                            <tr>
-                                                <td align='center'  style='width:50%;border:0.1px;'>Garantía del equipo: Un año a partir de la fecha en que se firma la recepción</td>
-                                                <td align='center'  style='width:50%;border:0.1px;'>Mantenimiento Preventivo: 1 visitas por año</td>
-                                            </tr>
-                                            <tr>
-                                                <td align='center'  style='width:50%;border:0.1px;'>Contacto Garantía: Corporación Politécnica</td>
-                                                <td align='center'  style='width:50%;border:0.1px;'>Teléfono: 018000 961 016</td>
-                                            </tr>
-                                    </table>
-                                    <p style='text-align:justify'>Advertencia: Con el fin de no perder la garantía del fabricante en la eventualidad de presentarse fallas, el beneficiario ni un tercero no autorizado por el fabricante, puede manipular el equipo tratando de resolver el problema presentado.En caso de daño, hurto, el usuario de hacer el reporte a la mesa de ayuda al número 018000 961016, lo cual debe quedar consignado en
-un ticket para la gestión y seguimiento del mismo. En caso de hurto o pérdida no habrá reposición del equipo.Luego de la verificación de funcionamiento pleno del computador portátil y de sus características y accesorios, manifiesto mi entera
-conformidad y satisfacción del bien que recibo en la fecha, y me obligo a realizar su correcto uso, custodia y conservación, autorizando al prestador del servicio Corporación Politécnica a, para que ejerza el seguimiento y control sobre el adecuado y correcto uso, custodia y conservación del mismo.<br>A la terminación del plazo de ejecución de este contrato de comodato, tendré la opción de adquirir el bien antes descrito entregado en comodato. Para constancia de lo anterior, firmo con copia de mi documento de identidad hoy día " . $fecha_letra . ". En el municipio de <b>" . $_REQUEST['municipio'] . "</b>, Departamento <b>" . $_REQUEST['departamento'] . "</b>.</p>
+                                </table>
+                            </page_header>
+                            ";
+
+        $contenidoPagina .= $informacion_beneficiario;
+        $contenidoPagina .= "<br>
                             <br>
+                            <div align='center'><b>CERTIFICA BAJO GRAVEDAD DE JURAMENTO:</b></div>
                             <br>
+                            <p style='text-align:justify'>
+                              1. Que recibe un computador portátil NUEVO, sin uso, original de fábrica y en perfecto estado de funcionamiento, con las siguientes características:
+                            </p>
                             <br>
-                            <table width:100%;>
-                             <tr>
-                                <td align='center' colspan='2' style='width:45%;border:none;'>________________________________</td>
-                                <td align='center'  style='width:10%;border:none;'> </td>
-                                <td align='center' colspan='2' style='width:45%;border:none;'>________________________________</td>
-                             </tr>
-                             <tr>
-                                <td align='center' colspan='2' style='width:45%;border:none;'>Firma Beneficiario</td>
-                                <td align='center'  style='width:10%;border:none;'> </td>
-                                <td align='center' colspan='2' style='width:45%;border:none;'>Firma Representante<br>Operador</td>
-                             </tr>
-                             <tr>
-                                <td align='center'  style='width:10%;border:none;'>Nombre</td>
-                                <td align='center'  style='width:35%;border:none;font-size:6px'><b>" . $_REQUEST['nombre_contrato'] . " " . $_REQUEST['primer_apellido_contrato'] . " " . $_REQUEST['segundo_apellido_contrato'] . "</b></td>
-                                <td align='center'  style='width:10%;border:none;'> </td>
-                                <td align='center'  style='width:10%;border:none;'>Nombre</td>
-                                <td align='center'  style='width:35%;border:none;'>_________________________</td>
-                             </tr>
-                             <tr>
-                                <td align='center'  style='width:10%;border:none;'>Cedula</td>
-                                <td align='center'  style='width:35%;border:none;font-size:6px'><b>" . $_REQUEST['numero_identificacion_contrato'] . "</b></td>
-                                <td align='center'  style='width:10%;border:none;'> </td>
-                                <td align='center'  style='width:10%;border:none;'>Cedula</td>
-                                <td align='center'  style='width:35%;border:none;'>_________________________</td>
-                             </tr>
+                            <table>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Modelo</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['modelo'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Marca</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['marca'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Procesador</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['modelo'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Serial</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['serial'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Disco Duro</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['disco_duro'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Memoria RAM</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['memoria_ram'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Cámara</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['camara'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Sistema Operativo</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['sistema_operativo'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Batería</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['bateria'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Audio</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['audio'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Tarjeta de Red<br>(Inalámbrica)</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['targeta_red_inalambrica'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Tarjeta de Red<br>(Alámbrica)</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['targeta_red_alambrica'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Pantalla</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['pantalla'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Cargador</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['cargador'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Sitio Web de Soporte</b></td>
+                                    <td colspan='3' style='width:80%'></td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Teléfono de Soporte</b></td>
+                                    <td colspan='3' style='width:80%'> </td>
+                                </tr>
                             </table>
-
-
-                    ";
-
+                            <br>
+                            <p style='text-align:justify'>
+                            2. Que el computador recibido no presenta rayones, roturas, hendiduras o elementos sueltos.<br><br>
+                            3. Que entiende que el computador recibido no tiene costo adicional y se encuentra incorporado al contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br><br>
+                            4. Que se compromete a velar por la seguridad del equipo y a cuidarlo para mantener su capacidad de uso y goce en el marco del contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br><br>
+                            5. Que se compromete a participar en por lo menos 20 horas de capacitación sobre el manejo del equipo y/o aplicativos de uso productivo de esta herramienta como parte del proceso de
+                            apropiación social contemplado en el Anexo Técnico del proyecto Conexiones Digitales II.<br><br>
+                            </p>";
         $contenidoPagina .= "</page>";
 
         $this->contenidoPagina = $contenidoPagina;
