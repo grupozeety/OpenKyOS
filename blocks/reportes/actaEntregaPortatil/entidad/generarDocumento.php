@@ -72,7 +72,7 @@ class GenerarDocumento
 
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
-        $html2pdf->Output('Acta_Entrega_servicio_CC_' . $this->infoCertificado['identificacion'] . '_' . date('Y-m-d') . '.pdf', 'D');
+        $html2pdf->Output('Acta_Entrega_Portatil_CC_' . $this->infoCertificado['numero_identificacion_contrato'] . '_' . date('Y-m-d') . '.pdf', 'D');
     }
     public function estruturaDocumento()
     {
@@ -104,13 +104,13 @@ class GenerarDocumento
             $mes         = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             $mes         = $mes[$fecha[1] + 0];
             $anno        = $fecha[0];
-            $fecha_letra = $dia . " del mes de " . $mes . " del Año " . $anno;
+            $fecha_letra = $dia . " del mes de " . $mes . " del año " . $anno;
 
             $_REQUEST['fecha_entrega'] = $_REQUEST['fecha_entrega'];
 
         } else {
 
-            $fecha_letra = "_________ del mes de _________ del Año _________";
+            $fecha_letra = "_________ del mes de _________ del año _________";
 
             $_REQUEST['fecha_entrega'] = '';
 
@@ -274,7 +274,7 @@ class GenerarDocumento
                                     <td style='width:21%;background-color:#efefef;'>Departamento</td>
                                     <td align='center' style='width:26.6%;'>" . $_REQUEST['nombre_departamento'] . "</td>
                                     <td align='center' style='width:26.6%;background-color:#efefef;'>Municipio</td>
-                                    <td align='center' style='width:26.6%;'> </td>
+                                    <td align='center' style='width:26.6%;'>" . $_REQUEST['nombre_municipio'] . "</td>
                                 </tr>
                                 <tr>
                                     <td style='width:21%;background-color:#efefef;'>Urbanización</td>
@@ -342,14 +342,12 @@ class GenerarDocumento
                             ";
 
         $contenidoPagina .= $informacion_beneficiario;
+        //var_dump($infoCertificado);exit;
         $contenidoPagina .= "<br>
-                            <br>
                             <div align='center'><b>CERTIFICA BAJO GRAVEDAD DE JURAMENTO:</b></div>
-                            <br>
                             <p style='text-align:justify'>
                               1. Que recibe un computador portátil NUEVO, sin uso, original de fábrica y en perfecto estado de funcionamiento, con las siguientes características:
                             </p>
-                            <br>
                             <table>
                                 <tr>
                                     <td style='width:20%;background-color:#efefef;'><b>Modelo</b></td>
@@ -359,9 +357,9 @@ class GenerarDocumento
                                 </tr>
                                 <tr>
                                     <td style='width:20%;background-color:#efefef;'><b>Procesador</b></td>
-                                    <td style='width:30%'>" . $this->infoPortatil['modelo'] . "</td>
+                                    <td style='width:30%'>" . $this->infoPortatil['procesador'] . "</td>
                                     <td style='width:18%;background-color:#efefef;'><b>Serial</b></td>
-                                    <td style='width:32%'>" . $this->infoPortatil['serial'] . "</td>
+                                    <td style='width:32%'>" . $_REQUEST['serial'] . "</td>
                                 </tr>
                                 <tr>
                                     <td style='width:20%;background-color:#efefef;'><b>Disco Duro</b></td>
@@ -395,14 +393,13 @@ class GenerarDocumento
                                 </tr>
                                 <tr>
                                     <td style='width:20%;background-color:#efefef;'><b>Sitio Web de Soporte</b></td>
-                                    <td colspan='3' style='width:80%'></td>
+                                    <td colspan='3' style='width:80%'>" . $_REQUEST['web_soporte'] . "</td>
                                 </tr>
                                 <tr>
                                     <td style='width:20%;background-color:#efefef;'><b>Teléfono de Soporte</b></td>
-                                    <td colspan='3' style='width:80%'> </td>
+                                    <td colspan='3' style='width:80%'>" . $_REQUEST['telefono_soporte'] . "</td>
                                 </tr>
                             </table>
-                            <br>
                             <p style='text-align:justify'>
                             2. Que el computador recibido no presenta rayones, roturas, hendiduras o elementos sueltos.<br><br>
                             3. Que entiende que el computador recibido no tiene costo adicional y se encuentra incorporado al contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br><br>
@@ -410,6 +407,22 @@ class GenerarDocumento
                             5. Que se compromete a participar en por lo menos 20 horas de capacitación sobre el manejo del equipo y/o aplicativos de uso productivo de esta herramienta como parte del proceso de
                             apropiación social contemplado en el Anexo Técnico del proyecto Conexiones Digitales II.<br><br>
                             </p>";
+
+        $contenidoPagina .= "<p style='text-align:justify'>
+                            Para constancia de lo anterior, firma en el municipio de " . $_REQUEST['nombre_municipio'] . ", departamento de " . $_REQUEST['nombre_departamento'] . ",
+                            <br>el día " . $fecha_letra . " .
+                            </p><br>";
+
+        $contenidoPagina .= "<table style='width:100%;border-color:#999999;>
+                                <tr>
+                                    <td style='width:50%;'>Nombre Beneficiario:<br><br><b>" . $nombre_beneficiario . "</b></td>
+                                    <td rowspan='2' style='width:50%;color:#999999'><b>Firma<br><br><br><br><br></b><br></td>
+                                </tr>
+                                <tr>
+                                    <td style='width:50%;'>No. de Identificación:<br><br><b>" . $_REQUEST['numero_identificacion_contrato'] . "</b></td>
+                                </tr>
+                            </table>";
+
         $contenidoPagina .= "</page>";
 
         $this->contenidoPagina = $contenidoPagina;
