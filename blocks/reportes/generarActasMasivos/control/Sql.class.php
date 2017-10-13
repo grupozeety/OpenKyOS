@@ -21,7 +21,7 @@ class Sql extends \Sql
          * 1.
          * Revisar las variables para evitar SQL Injection
          */
-        $prefijo = $this->miConfigurador->getVariableConfiguracion("prefijo");
+        $prefijo  = $this->miConfigurador->getVariableConfiguracion("prefijo");
         $idSesion = $this->miConfigurador->getVariableConfiguracion("id_sesion");
 
         switch ($tipo) {
@@ -324,8 +324,11 @@ class Sql extends \Sql
             case 'ConsultaBeneficiariosActaServicio':
                 $cadenaSql = " SELECT DISTINCT";
                 $cadenaSql .= " cn.id_beneficiario,";
-                $cadenaSql .= " cn.nombres,";
-                $cadenaSql .= " cn.primer_apellido,";
+                $cadenaSql .= " cn.nombres as nombre_contrato,";
+                $cadenaSql .= " cn.primer_apellido as primer_apellido_contrato,";
+                $cadenaSql .= " cn.segundo_apellido as segundo_apellido_contrato,";
+                $cadenaSql .= " cn.nombres ,";
+                $cadenaSql .= " cn.primer_apellido, ";
                 $cadenaSql .= " cn.segundo_apellido,";
                 $cadenaSql .= " cn.numero_identificacion,";
                 $cadenaSql .= " cn.numero_contrato,";

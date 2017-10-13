@@ -34,15 +34,15 @@ class GenerarDocumento
     public function __construct($sql, $proceso, $ruta_archivos)
     {
         $this->miConfigurador = \Configurador::singleton();
-        $this->miSesionSso = \SesionSso::singleton();
+        $this->miSesionSso    = \SesionSso::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
-        $this->miSql = $sql;
-        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
-        $this->miProceso = $proceso;
+        $this->miSql         = $sql;
+        $this->rutaURL       = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $this->miProceso     = $proceso;
         $this->ruta_archivos = $ruta_archivos;
 
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
-        $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
+        $esteBloque    = $this->miConfigurador->configuracion['esteBloque'];
 
         if (!isset($esteBloque["grupo"]) || $esteBloque["grupo"] == "") {
 
@@ -52,7 +52,7 @@ class GenerarDocumento
         }
 
         //Conexion a Base de Datos
-        $conexion = "interoperacion";
+        $conexion              = "interoperacion";
         $this->esteRecursoDBPR = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $this->nombre = base64_decode($this->miProceso['nombre_archivo']);
@@ -82,7 +82,7 @@ class GenerarDocumento
 
                 unset($this->nombre_archivo);
                 $this->nombre_archivo = null;
-                $value = null;
+                $value                = null;
 
             }
 
@@ -183,6 +183,7 @@ class GenerarDocumento
 
     public function crearPDF($orientacion = '', $margenes = '')
     {
+
         ob_start();
         $html2pdf = new \HTML2PDF($orientacion, 'LETTER', 'es', true, 'UTF-8', $this->parametrizarMargenesContenido($margenes));
         $html2pdf->pdf->SetDisplayMode('fullpage');
@@ -223,39 +224,10 @@ class GenerarDocumento
     {
 
         {
-            $anexo_dir = '';
 
-            if ($beneficiario['manzana'] != '0' && $beneficiario['manzana'] != '') {
-                $anexo_dir .= " Manzana  #" . $beneficiario['manzana'];
-            }
+            $direccion_beneficiario = $this->esctruturarDireccionBeneficiario($beneficiario);
 
-            if ($beneficiario['bloque'] != '0' && $beneficiario['bloque'] != '') {
-                $anexo_dir .= " Bloque #" . $beneficiario['bloque'];
-            }
-
-            if ($beneficiario['torre'] != '0' && $beneficiario['torre'] != '') {
-                $anexo_dir .= " Torre #" . $beneficiario['torre'];
-            }
-
-            if ($beneficiario['casa_apartamento'] != '0' && $beneficiario['casa_apartamento'] != '') {
-                $anexo_dir .= " Casa/Apartamento #" . $beneficiario['casa_apartamento'];
-            }
-
-            if ($beneficiario['interior'] != '0' && $beneficiario['interior'] != '') {
-                $anexo_dir .= " Interior #" . $beneficiario['interior'];
-            }
-
-            if ($beneficiario['lote'] != '0' && $beneficiario['lote'] != '') {
-                $anexo_dir .= " Lote #" . $beneficiario['lote'];
-            }
-
-            if ($beneficiario['piso'] != '0' && $beneficiario['piso'] != '') {
-                $anexo_dir .= " Piso #" . $beneficiario['piso'];
-            }
-
-            if (!is_null($beneficiario['barrio']) && $beneficiario['barrio'] != '') {
-                $anexo_dir .= " Barrio " . $beneficiario['barrio_contrato'];
-            }
+            $nombre_beneficiario = $this->estruturarNombreBeneficiario($beneficiario);
         }
 
         $contenidoPagina = "
@@ -292,7 +264,7 @@ class GenerarDocumento
 //var_dump($beneficiario);exit;
 
         {
-            $tipo_vip = ($beneficiario['tipo_beneficiario_contrato'] == "1") ? "<b>VIP</b>" : "";
+            $tipo_vip           = ($beneficiario['tipo_beneficiario_contrato'] == "1") ? "<b>VIP</b>" : "";
             $tipo_residencial_1 = ($beneficiario['tipo_beneficiario_contrato'] == "2") ? (($beneficiario['estrato_socioeconomico_contrato'] == "1") ? "<b>Adicional Est. 1</b>" : "") : "";
             $tipo_residencial_2 = ($beneficiario['tipo_beneficiario_contrato'] == "2") ? (($beneficiario['estrato_socioeconomico_contrato'] == "2") ? "<b>Adicional Est. 1</b>" : "") : "";
 
@@ -323,9 +295,9 @@ class GenerarDocumento
                                                 <br>
                                                 <b>CODIGO DANE Y ESTRATO: </b>" . $beneficiario['codigo_municipio'] . " - " . $tipo . "<br><br>
                                                 <b>MUNICIPIO:</b>  " . $beneficiario['nombre_municipio'] . "<br><br>
-                                                <b>SUBPROYECTO: </b>" . $beneficiario['nombre_urbanizacion'] . "<br><br>
-                                                <b>BENEFICIARIO: </b>" . $beneficiario['nombre_contrato'] . " " . $beneficiario['primer_apellido_contrato'] . " " . $beneficiario['segundo_apellido_contrato'] . "<br><br>
-                                                <b>DIRECCIÓN: </b>" . $beneficiario['direccion_domicilio'] . "  " . $anexo_dir . "<br><br>
+                                                <b>SUBPROYECTO: </b>" . $this->limpiar_caracteres_especiales($beneficiario['nombre_urbanizacion']) . "<br><br>
+                                                <b>BENEFICIARIO: </b>" . $nombre_beneficiario . "<br><br>
+                                                <b>DIRECCIÓN: </b>" . $direccion_beneficiario . "<br><br>
                                                 <br>
                                                 <br>
 
@@ -372,18 +344,18 @@ class GenerarDocumento
 
         if (!is_null($beneficiario['fecha_entrega']) && $beneficiario['fecha_entrega'] != '') {
 
-            $fecha = explode("-", $beneficiario['fecha_entrega']);
-            $dia = $fecha[2];
-            $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-            $mes = $mes[$fecha[1] + 0];
-            $anno = $fecha[0];
+            $fecha       = explode("-", $beneficiario['fecha_entrega']);
+            $dia         = $fecha[2];
+            $mes         = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            $mes         = $mes[$fecha[1] + 0];
+            $anno        = $fecha[0];
             $fecha_letra = $dia . " del mes de " . $mes . " del Año " . $anno;
 
             $beneficiario['fecha_entrega'] = $beneficiario['fecha_entrega'];
 
         } else {
 
-            $fecha_letra = "_________ del mes de _________ del Año _________";
+            $fecha_letra = "_________ del mes de _________ del año _________";
 
             $beneficiario['fecha_entrega'] = '';
 
@@ -391,7 +363,7 @@ class GenerarDocumento
 
         {
 
-            $tipo_vip = ($beneficiario['tipo_beneficiario_contrato'] == "1") ? "<b>X</b>" : "";
+            $tipo_vip           = ($beneficiario['tipo_beneficiario_contrato'] == "1") ? "<b>X</b>" : "";
             $tipo_residencial_1 = ($beneficiario['tipo_beneficiario_contrato'] == "2") ? (($beneficiario['estrato_socioeconomico_contrato'] == "1") ? "<b>X</b>" : "") : "";
             $tipo_residencial_2 = ($beneficiario['tipo_beneficiario_contrato'] == "2") ? (($beneficiario['estrato_socioeconomico_contrato'] == "2") ? "<b>X</b>" : "") : "";
         }
@@ -400,40 +372,7 @@ class GenerarDocumento
 
         {
 
-            $anexo_dir = '';
-
-            if ($beneficiario['manzana'] != '0' && $beneficiario['manzana'] != '') {
-                $anexo_dir .= " Manzana  #" . $beneficiario['manzana'] . " - ";
-            }
-
-            if ($beneficiario['bloque'] != '0' && $beneficiario['bloque'] != '') {
-                $anexo_dir .= " Bloque #" . $beneficiario['bloque'] . " - ";
-            }
-
-            if ($beneficiario['torre'] != '0' && $beneficiario['torre'] != '') {
-                $anexo_dir .= " Torre #" . $beneficiario['torre'] . " - ";
-            }
-
-            if ($beneficiario['casa_apartamento'] != '0' && $beneficiario['casa_apartamento'] != '') {
-                $anexo_dir .= " Casa/Apartamento #" . $beneficiario['casa_apartamento'];
-            }
-
-            if ($beneficiario['interior'] != '0' && $beneficiario['interior'] != '') {
-                $anexo_dir .= " Interior #" . $beneficiario['interior'];
-            }
-
-            if ($beneficiario['lote'] != '0' && $beneficiario['lote'] != '') {
-                $anexo_dir .= " Lote #" . $beneficiario['lote'];
-            }
-
-            if ($beneficiario['piso'] != '0' && $beneficiario['piso'] != '') {
-                $anexo_dir .= " Piso #" . $beneficiario['piso'];
-
-            }
-
-            if (!is_null($beneficiario['barrio']) && $beneficiario['barrio'] != '') {
-                $anexo_dir .= " Barrio " . $beneficiario['barrio'];
-            }
+            $direccion_beneficiario = $this->esctruturarDireccionBeneficiario($beneficiario);
 
         }
 
@@ -442,22 +381,22 @@ class GenerarDocumento
         if ($beneficiario['codigo_departamento'] == '23') {
 
             $departamento_cordoba = 'X';
-            $departamento_sucre = '';
+            $departamento_sucre   = '';
 
         } elseif ($beneficiario['codigo_departamento'] == '70') {
 
             $departamento_cordoba = ' ';
-            $departamento_sucre = 'X';
+            $departamento_sucre   = 'X';
 
         } else {
             $departamento_cordoba = ' ';
-            $departamento_sucre = ' ';
+            $departamento_sucre   = ' ';
 
         }
 
         if (!is_null($beneficiario['serial']) && $beneficiario['serial'] != '') {
 
-            $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $beneficiario['serial']);
+            $cadenaSql          = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $beneficiario['serial']);
             $this->infoPortatil = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             foreach ($this->infoPortatil as $key => $value) {
@@ -466,6 +405,23 @@ class GenerarDocumento
 
         } else {
             $this->informacionEstandarPortatil();
+        }
+
+        {
+            if ($this->infoPortatil['marca'] == 'Hewlett Packard' && $beneficiario['web_soporte'] == '' && $beneficiario['telefono_soporte'] == '') {
+                $this->infoPortatil['web_soporte']      = "http://www.hp.com/latam/co/soporte/cas/";
+                $this->infoPortatil['telefono_soporte'] = "0180005147468368 - 018000961016";
+            } else {
+                $this->infoPortatil['web_soporte']      = $beneficiario['web_soporte'];
+                $this->infoPortatil['telefono_soporte'] = $beneficiario['telefono_soporte'];
+            }
+
+        }
+        {
+            // Nombre Beneficiario
+
+            $nombre_beneficiario = $this->estruturarNombreBeneficiario($beneficiario);
+
         }
 
         $contenidoPagina = "
@@ -493,14 +449,12 @@ class GenerarDocumento
 
                                 }
                                 page{
-                                    font-size:9px;
+                                    font-size:13px;
 
                                 }
-                            </style>
+                            </style>";
 
-
-
-                        <page backtop='25mm' backbottom='5mm' backleft='10mm' backright='10mm' footer='page'>
+        $encabezado = "<page backtop='25mm' backbottom='5mm' backleft='20mm'          backright='20mm' footer='page'>
                             <page_header>
                                  <table  style='width:100%;' >
                                           <tr>
@@ -508,7 +462,7 @@ class GenerarDocumento
                                                 <img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='45'>
                                                 </td>
                                                 <tr>
-                                                <td style='width:100%;border:none;text-align:center;font-size:9px;'><b>008 - ACTA DE ENTREGA DE COMPUTADOR PORTÁTIL</b></td>
+                                                <td> </td>
                                                 </tr>
                                                 <tr>
                                                 <td style='width:100%;border:none;text-align:center;'><br><br><b>008 - ACTA DE ENTREGA DE COMPUTADOR PORTÁTIL</b></td>
@@ -519,280 +473,173 @@ class GenerarDocumento
 
                         </page_header>
                        ";
-//var_dump($beneficiario);exit;
 
-        // trim($beneficiario['serial'])
+        $contenidoPagina .= $encabezado;
 
-        $contenidoPagina .= "<p>El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:</p>
+        $informacion_beneficiario = "<p>El suscrito beneficiario del Proyecto Conexiones Digitales II, cuyos datos se presentan a continuación:</p>
+
                             <table width:100%;>
                                 <tr>
-                                    <td style='width:20%;'><b>Nombres y Apellidos</b></td>
-                                    <td style='width:35%;'><b>" . $beneficiario['nombre_contrato'] . " " . $beneficiario['primer_apellido_contrato'] . " " . $beneficiario['segundo_apellido_contrato'] . "</b></td>
-                                    <td style='width:15%;'><b>Fecha Entrega</b></td>
-                                    <td colspan='2' style='width:30%;'>" . $beneficiario['fecha_entrega'] . "</td>
+                                    <td style='width:21%;background-color:#efefef;'>Contrato de Servicios</td>
+                                    <td colspan='3' align='center' style='width:80%;'><b>" . $beneficiario['numero_contrato'] . "</b></td>
                                 </tr>
+                                <tr>
+                                    <td style='width:21%;background-color:#efefef;'>Beneficiario</td>
+                                    <td colspan='3' style='width:80%;'><b>" . $nombre_beneficiario . "</b></td>
+                                </tr>
+                                <tr>
+                                    <td style='width:21%;background-color:#efefef;'>No. de Identificación</td>
+                                    <td colspan='3' style='width:80%;'><b>" . number_format($beneficiario['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
+                                </tr>
+                                <tr>
+                                    <td colspan='4' style='width:100%;'><b>Datos de Vivienda</b></td>
+                                </tr>
+                                <tr>
+                                    <td align='center' style='width:20%;'>Tipo</td>
+                                    <td align='center' style='width:26.6%;'>Estrato 2 (<b>" . $tipo_residencial_2 . "</b> )</td>
+                                    <td align='center' style='width:26.6%;'>Estrato 1 (<b>" . $tipo_residencial_1 . "</b>)</td>
+                                    <td align='center' style='width:26.6%;'>VIP (<b>" . $tipo_vip . "</b>)</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:21%;background-color:#efefef;'>Dirección</td>
+                                    <td colspan='3' style='width:80%;'>" . $direccion_beneficiario . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:21%;background-color:#efefef;'>Departamento</td>
+                                    <td align='center' style='width:26.6%;'>" . $beneficiario['nombre_departamento'] . "</td>
+                                    <td align='center' style='width:26.6%;background-color:#efefef;'>Municipio</td>
+                                    <td align='center' style='width:26.6%;'>" . $beneficiario['nombre_municipio'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:21%;background-color:#efefef;'>Urbanización</td>
+                                    <td colspan='3' style='width:80%;'>" . $this->limpiar_caracteres_especiales($beneficiario['nombre_urbanizacion']) . "</td>
+                                </tr>
+                            </table>";
 
-                                <tr>
-                                    <td style='width:20%;'><b>Dirección</b></td>
-                                    <td style='width:35%;'>" . $beneficiario['direccion_domicilio'] . " " . $anexo_dir . "</td>
-                                    <td style='width:15%;'><b>Cedula</b></td>
-                                    <td colspan='2' style='width:30%;'><b>" . number_format($beneficiario['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
-                                </tr>
-                                <tr>
-                                    <td rowspan='2' style='width:20%;'><b>Urbanización</b></td>
-                                    <td rowspan='2' style='width:35%;'>" . $this->limpiar_caracteres_especiales($beneficiario['nombre_urbanizacion']) . "</td>
-                                    <td style='width:15%;'><b>Municipio</b></td>
-                                    <td colspan='2' style='width:30%;'>" . $beneficiario['nombre_municipio'] . "</td>
-                                </tr>
+        $contenidoPagina .= $informacion_beneficiario;
 
+        $contenidoPagina .= "<br>
+                            <br>
+                            <div align='center'><b>MANIFIESTO QUE:</b></div>
+                            <br>
+                            <p style='text-align:justify'>
+                               1. El contratista entregó un computador portátil marca HP 245 G4 Notebook PC nuevo, a titulo de uso y goce hasta la terminación del contrato de aporte suscrito entre el Fondo TIC y la Corporación Politécnica. En consecuencia, el computador no puede ser vendido, arrendado,transferido, dado en prenda, servir de garantía, so pena de perder el beneficio.<br><br>
+                               2. Respecto al computador descrito en la hoja 2 de este documento, dejo constancia que no se me cobro ningún tipo de cargo como usuario beneficiado del Proyecto de Conexiones Digitales y que el equipo fue entregado embalado, garantizando la integridad del mismo.<br><br>
+                               3. Además certifico que se realizaron las siguientes pruebas de funcionalidad:
+                            </p>
+                             <br>
+                             <div align='center'>
+                                <table align='center' style='width:50%'>
+                                    <tr>
+                                        <td style='width:80%;background-color:#efefef;'>Correcto encendido/apagado</td>
+                                        <td align='center' style='width:20%;'>SI</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='width:80%;background-color:#efefef;'>Equipo funcionando y navegando</td>
+                                        <td align='center' style='width:20%;'>SI</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='width:80%;background-color:#efefef;'>Funciona el teclado, parlante y touchpad</td>
+                                        <td align='center' style='width:20%;'>SI</td>
+                                    </tr>
+                                </table>
+                             </div>
+                             <br>
+                            <p style='text-align:justify'>
+                            4. La garantía del equipo es un año a partir de la fecha de entrega en la que se firma este documento.<br><br>
+                            5. El Contacto de Garantía es la Corporación Politécnica, y me puedo comunicar con la línea gratuita las 24 horas del día de los 7 días de la semana. ((018000 961016)).<br><br>
+                            6. Que con el fin de no perder la garantía del fabricante en la eventualidad de presentarse fallas, el beneficiario ni un tercero no autorizado por el fabricante, pueden manipular el equipo tratando de resolver el problema presentado.<br><br>
+                            7. En caso de daño, hurto, el usuario debe hacer el reporte a la mesa de ayuda con numero 018000961016, lo cual debe quedar consignado en un ticket para la gestión y seguimiento del mismo.<br><br>
+                            8. En caso de pérdida o hurto no habrá reposición del equipo.<br><br>
+                            9. Que manifiesto mi entera conformidad y satisfacción del bien que recibo en la fecha y me obligo a realizar su correcto uso, custodia y conservación, autorizando al prestador del servicio (Corporación Politécnica) para que ejerza seguimiento y control sobre el mismo.<br><br>
+                            10. Que a la terminación del plazo de ejecución de este contrato de comodato, tendré la opción de adquirir el bien antes descrito.
+                            </p>";
+
+        $contenidoPagina .= "</page>";
+
+        $contenidoPagina .= $encabezado;
+
+        $contenidoPagina .= $informacion_beneficiario;
+
+        $contenidoPagina .= "<br>
+                            <div align='center'><b>CERTIFICA BAJO GRAVEDAD DE JURAMENTO:</b></div>
+                            <p style='text-align:justify'>
+                              1. Que recibe un computador portátil NUEVO, sin uso, original de fábrica y en perfecto estado de funcionamiento, con las siguientes características:
+                            </p>
+                            <table>
                                 <tr>
-                                    <td style='width:15%;'><b>Departamento</b></td>
-                                    <td style='width:15%;'>CORDOBA(<b>" . $departamento_cordoba . "</b>)</td>
-                                    <td style='width:15%;'>SUCRE(<b>" . $departamento_sucre . "</b>)</td>
+                                    <td style='width:20%;background-color:#efefef;'><b>Modelo</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['modelo'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Marca</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['marca'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Procesador</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['procesador'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Serial</b></td>
+                                    <td style='width:32%'>" . $beneficiario['serial'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Disco Duro</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['disco_duro'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Memoria RAM</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['memoria_ram'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Cámara</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['camara'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Sistema Operativo</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['sistema_operativo'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Batería</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['bateria'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Audio</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['audio'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Tarjeta de Red<br>(Inalámbrica)</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['targeta_red_inalambrica'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Tarjeta de Red<br>(Alámbrica)</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['targeta_red_alambrica'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Pantalla</b></td>
+                                    <td style='width:30%'>" . $this->infoPortatil['pantalla'] . "</td>
+                                    <td style='width:18%;background-color:#efefef;'><b>Cargador</b></td>
+                                    <td style='width:32%'>" . $this->infoPortatil['cargador'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Sitio Web de Soporte</b></td>
+                                    <td colspan='3' style='width:80%'>" . $this->infoPortatil['web_soporte'] . "</td>
+                                </tr>
+                                <tr>
+                                    <td style='width:20%;background-color:#efefef;'><b>Teléfono de Soporte</b></td>
+                                    <td colspan='3' style='width:80%'>" . $this->infoPortatil['telefono_soporte'] . "</td>
                                 </tr>
                             </table>
                             <p style='text-align:justify'>
-                            El contratista entrega un computador portátil Marca HP 245 G4 Notebook PC nuevo, a título de uso, goce y disfrute hasta la terminación del contrato de aporte suscrito entre el Fondo TIC y Corporación Politécnica. En consecuencia, el computador no puede ser vendido, arrendado, trasferido, dado en prenda, servir de garantía, so pena de perder el beneficio. Tal como mis datos aparecen en la parte superior de este formato, confirmo que, recibí en comodato el computador portátil con las siguientes características:
-                            </p>
-                                   <table style='width:100%;border;none;font-size:90%'>
-                                        <tr>
-                                            <td align='left'  style='width:49%;border:none;'>
-                                               <table style='width:100%;border;0.1px;'>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>¿El Operador realizó la Entrega del Computador?</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Serial: <b>" . $this->infoPortatil['serial'] . "</b></td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Procesador</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['procesador'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Arquitectura</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['arquitectura'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Memoria RAM</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['memoria_ram'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Compatibilidad</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['compatibilidad_memoria_ram'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Tecnologia</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['tecnologia_memoria_ram'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>ANTIVIRUS</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['antivirus'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Disco duro protegido contrao impacto</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['disco_anti_impacto'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Monitor</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['pantalla'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Teclado</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['teclado'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                </table>
-                                           </td>
-                                           <td align='center'  style='width:2%;border:none;'>
-                                            </td>
-                                            <td align='rigth' style='width:49%;border:none;'>
-                                                <table style='width:100%;border;0.1px;'>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Baterías</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['bateria_tipo'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Fuente Alimentación</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['cargador'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Salida Video</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['salida_video'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Tarjeta Memoria</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['targeta_memoria'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Rango Voltaje<br>Frecuencia</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['voltaje'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Puerto USB</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['puerto_usb'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Autonomía</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['autonomia'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Disco Duro</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['disco_duro'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Targeta de audio, micrófono y parlantes</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['targeta_audio_video'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Software</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['sistema_operativo'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <br>
-                                    <table style='width:100%;border;0.1px;font-size:90%'>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>HARDWARE/SOFTWARE</b></td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'><b>EXIGIDO</b></td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'><b>CUMPLE<br>(SI/NO)</b></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Dispositivo Apuntador</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['mouse_tipo'] . ", con botones equivalentes a “mouse” estándar y dispositivo de desplazamiento vertical en pantalla (“Scroll”) </td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Cámara</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>" . $this->infoPortatil['camara'] . "</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Conectividad a Red (Alámbrica)</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>WiFi Integrada, Estándar IEEE 802.11 b/g/n, Encriptación WEP 64/128,Compatibilidad IPV4 / IPV6, Bluetooth 4.0</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Conectividad Inalámabrica</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>WiFi Integrada, Estándar IEEE 802.11 b/g/n, Encriptación WEP 64/128,Compatibilidad IPV4 / IPV6, Bluetooth 4.0</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Otro</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Opción de Activación / Desactivación desde teclado por tecla o combinación de teclas o desde funcionalidad directa externa. Ajuste automático de potencia</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                    <td align='center'  style='width:42.5%;border:0.1px;'>El software y el hardware del Equipo funciona correctamente</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>La Carcaza del PC o portátil se encuentra personalizada con los logos del ministerio</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>Estado del Regulador que alimenta el Equipo</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>El equipo se entregó embalado, garantizando la integridad del mismo</td>
-                                                        <td align='center'  style='width:42.5%;border:0.1px;'>SI</td>
-                                                        <td align='center'  style='width:15%;border:0.1px;'>SI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan='3' align='center'  style='width:100%;border:0.1px;'>Tener en cuenta las consideraciones generales, condiciones del software y personalización, garantía y condiciones de entrega</td>
-                                                    </tr>
-                                                </table>
-                                    <p style='text-align:justify'>Respecto al computador portátil descrito se deja constancia que para la entrega no se me cobró ningún tipo de cargo como usuario beneficiado del Proyecto Conexiones Digitales II y que el equipo fue entregado embalado, garantizando la integridad del mismo. Además certifico que se realizaron las siguientes pruebas de funcionalidad:</p>
-                                    <table align='center' style='width:85%;border:0.1px;'>
-                                            <tr>
-                                                <td align='center'  style='width:40%;border:0.1px;'>Correcto encendido/apagado</td>
-                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
-                                                <td align='center'  style='width:40%;border:0.1px;'>Equipo funcionando y navegando</td>
-                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
-                                            </tr>
-                                            <tr>
-                                                <td align='center' colspan='3' style='width:90%;border:0.1px;'>Funcionamiento de los periféricos, (teclado, parlante, touchpad)</td>
-                                                <td align='center'  style='width:10%;border:0.1px;'>SI( ) NO( )</td>
-                                            </tr>
-                                    </table>
-                                    <p style='text-align:justify'>A continuación, se detalla información importante en caso tal que se requiera soporte técnico para el equipo portátil entregado:</p>
-                                    <table align='center' style='width:100%;border:0.1px;'>
-                                            <tr>
-                                                <td align='center'  style='width:50%;border:0.1px;'>Garantía del equipo: Un año a partir de la fecha en que se firma la recepción</td>
-                                                <td align='center'  style='width:50%;border:0.1px;'>Mantenimiento Preventivo: 1 visitas por año</td>
-                                            </tr>
-                                            <tr>
-                                                <td align='center'  style='width:50%;border:0.1px;'>Contacto Garantía: Corporación Politécnica</td>
-                                                <td align='center'  style='width:50%;border:0.1px;'>Teléfono: 018000 961 016</td>
-                                            </tr>
-                                    </table>
-                                    <p style='text-align:justify'>Advertencia: Con el fin de no perder la garantía del fabricante en la eventualidad de presentarse fallas, el beneficiario ni un tercero no autorizado por el fabricante, puede manipular el equipo tratando de resolver el problema presentado.En caso de daño, hurto, el usuario de hacer el reporte a la mesa de ayuda al número 018000 961016, lo cual debe quedar consignado en
-un ticket para la gestión y seguimiento del mismo. En caso de hurto o pérdida no habrá reposición del equipo.Luego de la verificación de funcionamiento pleno del computador portátil y de sus características y accesorios, manifiesto mi entera
-conformidad y satisfacción del bien que recibo en la fecha, y me obligo a realizar su correcto uso, custodia y conservación, autorizando al prestador del servicio Corporación Politécnica a, para que ejerza el seguimiento y control sobre el adecuado y correcto uso, custodia y conservación del mismo.<br>A la terminación del plazo de ejecución de este contrato de comodato, tendré la opción de adquirir el bien antes descrito entregado en comodato. Para constancia de lo anterior, firmo con copia de mi documento de identidad hoy día " . $fecha_letra . ". En el municipio de <b>" . $beneficiario['municipio'] . "</b>, Departamento <b>" . $beneficiario['departamento'] . "</b>.</p>
-                            <br>
-                            <br>
-                            <br>
-                            <table width:100%;>
-                             <tr>
-                                <td align='center' colspan='2' style='width:45%;border:none;'>________________________________</td>
-                                <td align='center'  style='width:10%;border:none;'> </td>
-                                <td align='center' colspan='2' style='width:45%;border:none;'>________________________________</td>
-                             </tr>
-                             <tr>
-                                <td align='center' colspan='2' style='width:45%;border:none;'>Firma Beneficiario</td>
-                                <td align='center'  style='width:10%;border:none;'> </td>
-                                <td align='center' colspan='2' style='width:45%;border:none;'>Firma Representante<br>Operador</td>
-                             </tr>
-                             <tr>
-                                <td align='center'  style='width:10%;border:none;'>Nombre</td>
-                                <td align='center'  style='width:35%;border:none;font-size:6px'><b>" . $beneficiario['nombre_contrato'] . " " . $beneficiario['primer_apellido_contrato'] . " " . $beneficiario['segundo_apellido_contrato'] . "</b></td>
-                                <td align='center'  style='width:10%;border:none;'> </td>
-                                <td align='center'  style='width:10%;border:none;'>Nombre</td>
-                                <td align='center'  style='width:35%;border:none;'>_________________________</td>
-                             </tr>
-                             <tr>
-                                <td align='center'  style='width:10%;border:none;'>Cedula</td>
-                                <td align='center'  style='width:35%;border:none;font-size:6px'><b>" . $beneficiario['numero_identificacion_contrato'] . "</b></td>
-                                <td align='center'  style='width:10%;border:none;'> </td>
-                                <td align='center'  style='width:10%;border:none;'>Cedula</td>
-                                <td align='center'  style='width:35%;border:none;'>_________________________</td>
-                             </tr>
-                            </table>
+                            2. Que el computador recibido no presenta rayones, roturas, hendiduras o elementos sueltos.<br><br>
+                            3. Que entiende que el computador recibido no tiene costo adicional y se encuentra incorporado al contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br><br>
+                            4. Que se compromete a velar por la seguridad del equipo y a cuidarlo para mantener su capacidad de uso y goce en el marco del contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br><br>
+                            5. Que se compromete a participar en por lo menos 20 horas de capacitación sobre el manejo del equipo y/o aplicativos de uso productivo de esta herramienta como parte del proceso de
+                            apropiación social contemplado en el Anexo Técnico del proyecto Conexiones Digitales II.<br><br>
+                            </p>";
 
+        $contenidoPagina .= "<p style='text-align:justify'>
+                            Para constancia de lo anterior, firma en el municipio de " . $beneficiario['nombre_municipio'] . ", departamento de " . $beneficiario['nombre_departamento'] . ",
+                            <br>el día " . $fecha_letra . " .
+                            </p><br>";
 
-                    ";
+        $contenidoPagina .= "<table style='width:100%;border-color:#999999;>
+                                <tr>
+                                    <td style='width:50%;'>Nombre Beneficiario:<br><br><b>" . $nombre_beneficiario . "</b></td>
+                                    <td rowspan='2' style='width:50%;color:#999999'><b>Firma<br><br><br><br><br></b><br></td>
+                                </tr>
+                                <tr>
+                                    <td style='width:50%;'>No. de Identificación:<br><br><b>" . number_format($beneficiario['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
+                                </tr>
+                            </table>";
 
         $contenidoPagina .= "</page>";
 
@@ -809,43 +656,12 @@ conformidad y satisfacción del bien que recibo en la fecha, y me obligo a reali
     public function estruturaDocumentoActaServicios($beneficiario)
     {
 
-        $anexo_dir = '';
-
-        if ($beneficiario['manzana'] != '0' && $beneficiario['manzana'] != '') {
-            $anexo_dir .= " Manzana  #" . $beneficiario['manzana'] . " - ";
-        }
-
-        if ($beneficiario['bloque'] != '0' && $beneficiario['bloque'] != '') {
-            $anexo_dir .= " Bloque #" . $beneficiario['bloque'] . " - ";
-        }
-
-        if ($beneficiario['torre'] != '0' && $beneficiario['torre'] != '') {
-            $anexo_dir .= " Torre #" . $beneficiario['torre'] . " - ";
-        }
-
-        if ($beneficiario['casa_apartamento'] != '0' && $beneficiario['casa_apartamento'] != '') {
-            $anexo_dir .= " Casa/Apartamento #" . $beneficiario['casa_apartamento'];
-        }
-
-        if ($beneficiario['interior'] != '0' && $beneficiario['interior'] != '') {
-            $anexo_dir .= " Interior #" . $beneficiario['interior'];
-        }
-
-        if ($beneficiario['lote'] != '0' && $beneficiario['lote'] != '') {
-            $anexo_dir .= " Lote #" . $beneficiario['lote'];
-        }
-
-        if ($beneficiario['piso'] != '0' && $beneficiario['piso'] != '') {
-            $anexo_dir .= " Piso #" . $beneficiario['piso'];
-        }
-
-        if (!is_null($beneficiario['barrio']) && $beneficiario['barrio'] != '') {
-            $anexo_dir .= " Barrio " . $beneficiario['barrio'];
-        }
+        $direccion_beneficiario = $this->esctruturarDireccionBeneficiario($beneficiario);
+        $nombre_beneficiario    = $this->estruturarNombreBeneficiario($beneficiario);
 
         {
 
-            $tipo_vip = ($beneficiario['estrato'] == 1) ? "<b>X</b>" : "";
+            $tipo_vip           = ($beneficiario['estrato'] == 1) ? "<b>X</b>" : "";
             $tipo_residencial_1 = ($beneficiario['estrato'] == 2) ? (($beneficiario['estrato_socioeconomico'] == 1) ? "<b>X</b>" : "") : "";
             $tipo_residencial_2 = ($beneficiario['estrato'] == 2) ? (($beneficiario['estrato_socioeconomico'] == 2) ? "<b>X</b>" : "") : "";
 
@@ -887,7 +703,7 @@ conformidad y satisfacción del bien que recibo en la fecha, y me obligo a reali
                                                 <img src='" . $this->rutaURL . "frontera/css/imagen/logos_contrato.png'  width='500' height='45'>
                                                 </td>
                                                 <tr>
-                                                <td style='width:100%;border:none;text-align:center;font-size:9px;'><b>004/009 ACTA DE ENTREGA DE SERVICIO DE BANDA ANCHA AL USUARIO</b></td>
+                                                <td></td>
                                                 </tr>
                                                 <tr>
                                                 <td style='width:100%;border:none;text-align:center;'><br><br><b>004/009 ACTA DE ENTREGA DE SERVICIO DE BANDA ANCHA AL USUARIO</b></td>
@@ -910,7 +726,7 @@ conformidad y satisfacción del bien que recibo en la fecha, y me obligo a reali
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>Beneficiario</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . $beneficiario['nombres'] . " " . $beneficiario['primer_apellido'] . " " . $beneficiario['segundo_apellido'] . "</b></td>
+                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . $nombre_beneficiario . "</b></td>
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>No de Identificación</td>
@@ -927,7 +743,7 @@ conformidad y satisfacción del bien que recibo en la fecha, y me obligo a reali
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>Dirección</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'>" . $beneficiario['direccion_domicilio'] . $anexo_dir . "</td>
+                                    <td colspan='3' style='width:75%;text-align:center;'>" . $direccion_beneficiario . "</td>
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>Departamento</td>
@@ -937,7 +753,7 @@ conformidad y satisfacción del bien que recibo en la fecha, y me obligo a reali
                                 </tr>
                                 <tr>
                                     <td style='width:25%;'>Urbanización</td>
-                                    <td colspan='3' style='width:75%;text-align:center;'>" . $beneficiario['urbanizacion'] . "</td>
+                                    <td colspan='3' style='width:75%;text-align:center;'><b>" . $this->limpiar_caracteres_especiales($beneficiario['urbanizacion']) . "</b></td>
                                 </tr>
                             </table>
                             <br>
@@ -1041,7 +857,7 @@ conformidad y satisfacción del bien que recibo en la fecha, y me obligo a reali
                                     <br>&nbsp;
 
                                     </td>
-                                    <td style='width:50%;text-align:center;'><b>" . $beneficiario['nombres'] . " " . $beneficiario['primer_apellido'] . " " . $beneficiario['segundo_apellido'] . "</b></td>
+                                    <td style='width:50%;text-align:center;'><b>" . $nombre_beneficiario . "</b></td>
                                 </tr>
                                 <tr>
                                     <td style='width:50%;text-align:center;'><b>" . number_format($beneficiario['numero_identificacion'], 0, '', '.') . "</b></td>
@@ -1062,60 +878,60 @@ conformidad y satisfacción del bien que recibo en la fecha, y me obligo a reali
 
         $this->infoPortatil = array(
 
-            'camara' => 'Integrada 720 px HD Grabación, Video y Fotografía',
+            'camara'                     => 'Integrada 720 px HD Grabación, Video y Fotografía',
 
-            'mouse_tipo' => 'Touchpad con capacidad multi-touch',
-            'sistema_operativo' => 'Ubuntu',
+            'mouse_tipo'                 => 'Touchpad con capacidad multi-touch',
+            'sistema_operativo'          => 'Ubuntu',
 
-            'targeta_audio_video' => 'Incorporados',
+            'targeta_audio_video'        => 'Incorporados',
 
-            'disco_duro' => '500 GB velocidad de 5.400 rpm',
+            'disco_duro'                 => '500 GB velocidad de 5.400 rpm',
 
-            'autonomia' => 'Mín. Cuatro horas – 6 celdas',
+            'autonomia'                  => 'Mín. Cuatro horas – 6 celdas',
 
-            'puerto_usb' => '(2)Usb 2.0 y (3) Ubs 3.0',
+            'puerto_usb'                 => '(2)Usb 2.0 y (3) Ubs 3.0',
 
-            'voltaje' => '100 v a 120 v - 50 Hz a 60 Hz',
+            'voltaje'                    => '100 v a 120 v - 50 Hz a 60 Hz',
 
-            'targeta_memoria' => 'multi-format digital media reader(soporta SD, SDHC, SDXC)',
+            'targeta_memoria'            => 'multi-format digital media reader(soporta SD, SDHC, SDXC)',
 
-            'salida_video' => 'VGA 1 y HMDI 1',
+            'salida_video'               => 'VGA 1 y HMDI 1',
 
-            'cargador' => 'Adaptador Smart AC 100 v a 120 v',
+            'cargador'                   => 'Adaptador Smart AC 100 v a 120 v',
 
-            'bateria_tipo' => 'Recargable Lithium Ion',
+            'bateria_tipo'               => 'Recargable Lithium Ion',
 
-            'teclado' => 'Español(Internacional)',
+            'teclado'                    => 'Español(Internacional)',
 
-            'marca' => 'Hewlett Packard',
+            'marca'                      => 'Hewlett Packard',
 
-            'modelo' => 'HP 245 G4 Notebook PC',
+            'modelo'                     => 'HP 245 G4 Notebook PC',
 
-            'procesador' => 'AMD A8-7410 2200 MHz cores 2.2 GHz',
+            'procesador'                 => 'AMD A8-7410 2200 MHz cores 2.2 GHz',
 
-            'arquitectura' => '64 Bits',
+            'arquitectura'               => '64 Bits',
 
-            'memoria_ram' => 'DDR3 4096 MB',
+            'memoria_ram'                => 'DDR3 4096 MB',
 
             'compatibilidad_memoria_ram' => 'PAE, NX, y SSE 4.x',
 
-            'tecnologia_memoria_ram' => 'DDR3',
+            'tecnologia_memoria_ram'     => 'DDR3',
 
-            'antivirus' => 'Clamav Antivirus',
+            'antivirus'                  => 'Clamav Antivirus',
 
-            'disco_anti_impacto' => 'N/A',
+            'disco_anti_impacto'         => 'N/A',
 
-            'serial' => '',
+            'serial'                     => '',
 
-            'audio' => 'Integrado Mono/Estereo',
+            'audio'                      => 'Integrado Mono/Estereo',
 
-            'bateria' => '41610 mWh',
+            'bateria'                    => '41610 mWh',
 
-            'targeta_red_alambrica' => 'Integrada',
+            'targeta_red_alambrica'      => 'Integrada',
 
-            'targeta_red_inalambrica' => 'Integrada',
+            'targeta_red_inalambrica'    => 'Integrada',
 
-            'pantalla' => 'HD SVA anti-brillo LED14"',
+            'pantalla'                   => 'HD SVA anti-brillo LED14"',
 
         );
 
@@ -1140,6 +956,62 @@ conformidad y satisfacción del bien que recibo en la fecha, y me obligo a reali
         $s = str_replace("urbanizacion", "", strtolower($s));
 
         return trim(strtoupper($s));
+    }
+
+    public function estruturarNombreBeneficiario($beneficiario)
+    {
+
+        // Nombre Beneficiario
+
+        $nombre_beneficiario = $beneficiario['nombre_contrato'] . " " . $beneficiario['primer_apellido_contrato'] . " " . $beneficiario['segundo_apellido_contrato'];
+
+        $nombre_beneficiario = strtoupper(trim($nombre_beneficiario));
+
+        return $nombre_beneficiario;
+    }
+
+    public function esctruturarDireccionBeneficiario($beneficiario)
+    {
+
+        $anexo_dir = '';
+
+        if ($beneficiario['manzana'] != '0' && $beneficiario['manzana'] != '') {
+            $anexo_dir .= " Manzana  #" . $beneficiario['manzana'] . " - ";
+        }
+
+        if ($beneficiario['bloque'] != '0' && $beneficiario['bloque'] != '') {
+            $anexo_dir .= " Bloque #" . $beneficiario['bloque'] . " - ";
+        }
+
+        if ($beneficiario['torre'] != '0' && $beneficiario['torre'] != '') {
+            $anexo_dir .= " Torre #" . $beneficiario['torre'] . " - ";
+        }
+
+        if ($beneficiario['casa_apartamento'] != '0' && $beneficiario['casa_apartamento'] != '') {
+            $anexo_dir .= " Casa/Apartamento #" . $beneficiario['casa_apartamento'];
+        }
+
+        if ($beneficiario['interior'] != '0' && $beneficiario['interior'] != '') {
+            $anexo_dir .= " Interior #" . $beneficiario['interior'];
+        }
+
+        if ($beneficiario['lote'] != '0' && $beneficiario['lote'] != '') {
+            $anexo_dir .= " Lote #" . $beneficiario['lote'];
+        }
+
+        if ($beneficiario['piso'] != '0' && $beneficiario['piso'] != '') {
+            $anexo_dir .= " Piso #" . $beneficiario['piso'];
+
+        }
+
+        if (!is_null($beneficiario['barrio']) && $beneficiario['barrio'] != '') {
+            $anexo_dir .= " Barrio " . $beneficiario['barrio'];
+        }
+
+        $direccion_beneficiario = strtoupper(trim($beneficiario['direccion_domicilio'] . " " . $anexo_dir));
+
+        return $direccion_beneficiario;
+
     }
 }
 $miDocumento = new GenerarDocumento($this->miSql, $this->proceso, $this->rutaAbsoluta_archivos);
