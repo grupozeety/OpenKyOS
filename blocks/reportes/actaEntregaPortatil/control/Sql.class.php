@@ -20,22 +20,22 @@ class Sql extends \Sql
     public function __construct()
     {
         $this->miConfigurador = \Configurador::singleton();
-        $this->miSesionSso = \SesionSso::singleton();
+        //$this->miSesionSso = \SesionSso::singleton();
     }
     public function getCadenaSql($tipo, $variable = '')
     {
-        $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
+        /*   $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
 
         foreach ($info_usuario['description'] as $key => $rol) {
 
-            $info_usuario['rol'][] = $rol;
-        }
+        $info_usuario['rol'][] = $rol;
+        }*/
 
         /**
          * 1.
          * Revisar las variables para evitar SQL Injection
          */
-        $prefijo = $this->miConfigurador->getVariableConfiguracion("prefijo");
+        $prefijo  = $this->miConfigurador->getVariableConfiguracion("prefijo");
         $idSesion = $this->miConfigurador->getVariableConfiguracion("id_sesion");
 
         switch ($tipo) {

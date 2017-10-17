@@ -622,8 +622,7 @@ class GenerarDocumento
                             2. Que el computador recibido no presenta rayones, roturas, hendiduras o elementos sueltos.<br><br>
                             3. Que entiende que el computador recibido no tiene costo adicional y se encuentra incorporado al contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br><br>
                             4. Que se compromete a velar por la seguridad del equipo y a cuidarlo para mantener su capacidad de uso y goce en el marco del contrato de servicio suscrito con la Corporación Politécnica Nacional de Colombia.<br><br>
-                            5. Que se compromete a participar en por lo menos 20 horas de capacitación sobre el manejo del equipo y/o aplicativos de uso productivo de esta herramienta como parte del proceso de
-                            apropiación social contemplado en el Anexo Técnico del proyecto Conexiones Digitales II.<br><br>
+                            <br><br>
                             </p>";
 
         $contenidoPagina .= "<p style='text-align:justify'>
