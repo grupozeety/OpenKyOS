@@ -1,0 +1,27 @@
+/*
+Código css correspondiente al Bloque.
+*/
+th.dt-center, td.dt-center {
+	text-align: center;
+}
+
+div.dataTables_filter label {
+    float: right;
+}
+
+.col-xs-2 {
+    text-align: left;
+}
+
+.col-lg-2 {
+    text-align: left;
+}
+
+.col-xs-12 {
+    text-align: left;
+}
+
+#example_paginate{
+text-align: center;
+}
+}
