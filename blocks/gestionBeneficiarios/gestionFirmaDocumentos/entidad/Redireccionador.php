@@ -29,6 +29,11 @@ class Redireccionador
                 $variable .= '&mensaje=errorFormatoArchivos';
                 break;
 
+            case "errorCargaArchivo":
+                $variable = 'pagina=gestionFirmaDocumentos';
+                $variable .= '&mensaje=errorCargaArchivo';
+                break;
+
         }
         foreach ($_REQUEST as $clave => $valor) {
             unset($_REQUEST[$clave]);

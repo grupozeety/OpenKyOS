@@ -37,6 +37,10 @@ class GenerarReporteInstalaciones
 
         $this->cargarFirmaDirectorio();
 
+        /** 2. Registro y/o Actualizacíón Firma **/
+
+        $this->gestionFirma();
+
         exit;
 
         $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiarios', $estado);
@@ -53,6 +57,13 @@ class GenerarReporteInstalaciones
         }
     }
 
+    public function gestionFirma()
+    {
+
+        var_dump($_REQUEST);exit;
+
+    }
+
     public function cargarFirmaDirectorio()
     {
 
@@ -62,7 +73,14 @@ class GenerarReporteInstalaciones
 
         $this->archivo['nombre'] = str_replace(' ', '_', $prefijo);
 
-        var_dump($this->archivo);exit;
+        $this->archivo['ruta_archivo'] = "/archivos/firmasBeneficiarios/";
+
+        $archivo_destino = $this->miConfigurador->configuracion['raizDocumento'] . $this->archivo['ruta_archivo'] . $this->archivo['nombre'];
+
+        if (!copy($this->archivo['tmp_name'], $archivo_destino)) {
+
+            $this->error('errorCargaArchivo');
+        }
 
     }
 
