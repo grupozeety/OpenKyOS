@@ -12,8 +12,8 @@ class procesarAjax
 
         $this->ruta = $this->miConfigurador->getVariableConfiguracion("rutaBloque");
 
-        $this->sql     = $sql;
-        $conexion      = "interoperacion";
+        $this->sql = $sql;
+        $conexion = "interoperacion";
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         switch ($_REQUEST['funcion']) {
@@ -32,40 +32,6 @@ class procesarAjax
                     $resultado[$key] = array_intersect_key($resultadoItems[$key], array_flip($keys));
                 }
                 echo '{"suggestions":' . json_encode($resultado) . '}';
-
-                break;
-
-            case 'consultarProcesos':
-
-                $cadenaSql = $this->sql->getCadenaSql('consultarBeneficiarios');
-                $procesos  = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-
-                if ($procesos) {
-                    foreach ($procesos as $key => $valor) {
-                        $resultadoFinal[] = array(
-                            'id_beneficiario'      => "<center>" . $valor['id_beneficiario'] . "</center>",
-                            'identificacion'       => "<center>" . $valor['identificacion'] . "</center>",
-                            'nombre'               => "<center>" . $valor['nombre_beneficiario'] . "</center>",
-                            'estado_interventoria' => "<center>" . $valor['estado_interventoria'] . "</center>",
-                            'estado_sistema'       => "<center>" . $valor['estado_beneficiario'] . "</center>",
-                        );
-                    }
-
-                    $total = count($resultadoFinal);
-
-                    $resultado = json_encode($resultadoFinal);
-
-                    $resultado = '{
-                                "recordsTotal":' . $total . ',
-                                "recordsFiltered":' . $total . ',
-                                "data":' . $resultado . '}';
-                } else {
-                    $resultado = '{
-                                "recordsTotal":0 ,
-                                "recordsFiltered":0 ,
-                                "data": 0 }';
-                }
-                echo $resultado;
 
                 break;
 

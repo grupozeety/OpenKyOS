@@ -19,19 +19,14 @@ class Redireccionador
                 $variable .= '&mensaje=exitoActualizacion';
                 break;
 
-            case "errorActualizacion":
+            case "errorArchivo":
                 $variable = 'pagina=gestionFirmaDocumentos';
-                $variable .= '&mensaje=errorActualizacion';
+                $variable .= '&mensaje=errorArchivo';
                 break;
 
-            case "errorBeneficiario":
+            case "errorFormatoArchivo":
                 $variable = 'pagina=gestionFirmaDocumentos';
-                $variable .= '&mensaje=errorBeneficiario';
-                break;
-
-            case "errorProceso":
-                $variable = 'pagina=gestionFirmaDocumentos';
-                $variable .= '&mensaje=errorProceso';
+                $variable .= '&mensaje=errorFormatoArchivos';
                 break;
 
         }
@@ -39,11 +34,11 @@ class Redireccionador
             unset($_REQUEST[$clave]);
         }
 
-        $url               = $miConfigurador->configuracion["host"] . $miConfigurador->configuracion["site"] . "/index.php?";
-        $enlace            = $miConfigurador->configuracion['enlace'];
-        $variable          = $miConfigurador->fabricaConexiones->crypto->codificar($variable);
+        $url = $miConfigurador->configuracion["host"] . $miConfigurador->configuracion["site"] . "/index.php?";
+        $enlace = $miConfigurador->configuracion['enlace'];
+        $variable = $miConfigurador->fabricaConexiones->crypto->codificar($variable);
         $_REQUEST[$enlace] = $enlace . '=' . $variable;
-        $redireccion       = $url . $_REQUEST[$enlace];
+        $redireccion = $url . $_REQUEST[$enlace];
 
         echo "<script>location.replace('    " . $redireccion . "')</script>";
 

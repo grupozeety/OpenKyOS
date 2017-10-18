@@ -22,7 +22,7 @@ class Sql extends \Sql
          * 1.
          * Revisar las variables para evitar SQL Injection
          */
-        $prefijo  = $this->miConfigurador->getVariableConfiguracion("prefijo");
+        $prefijo = $this->miConfigurador->getVariableConfiguracion("prefijo");
         $idSesion = $this->miConfigurador->getVariableConfiguracion("id_sesion");
 
         switch ($tipo) {
@@ -32,14 +32,18 @@ class Sql extends \Sql
                  */
 
             case 'consultarBeneficiariosPotenciales':
-                $cadenaSql = " SELECT value,  data ";
+                $cadenaSql = " SELECT value , data ";
                 $cadenaSql .= "FROM ";
-                $cadenaSql .= "(SELECT DISTINCT identificacion AS value, id_beneficiario AS data ";
-                $cadenaSql .= " FROM interoperacion.beneficiario_potencial  ";
-                $cadenaSql .= " WHERE nombre IS NOT NULL";
-                $cadenaSql .= " AND id_beneficiario IS NOT NULL";
-                $cadenaSql .= " AND identificacion IS NOT NULL";
-                $cadenaSql .= " ) datos ";
+                $cadenaSql .= "(SELECT DISTINCT bp.identificacion ||' - ('||bp.nombre||' '||bp.primer_apellido||' '||bp.segundo_apellido||')' AS  value, bp.id_beneficiario  AS data ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " LEFT JOIN interoperacion.agendamiento_comisionamiento ac on ac.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " JOIN interoperacion.beneficiario_alfresco ba ON bp.id_beneficiario=ba.id_beneficiario ";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND ba.estado_registro=TRUE ";
+                $cadenaSql .= " AND ba.carpeta_creada=TRUE ";
+                $cadenaSql .= $variable;
+                $cadenaSql .= "     ) datos ";
                 $cadenaSql .= "WHERE value ILIKE '%" . $_GET['query'] . "%' ";
                 $cadenaSql .= "LIMIT 10; ";
                 break;

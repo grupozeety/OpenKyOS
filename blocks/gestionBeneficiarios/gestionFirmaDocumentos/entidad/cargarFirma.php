@@ -15,6 +15,7 @@ class GenerarReporteInstalaciones
     public $proyectos_general;
     public $directorio_archivos;
     public $ruta_directorio = '';
+    public $archivo;
 
     public function __construct($sql)
     {
@@ -26,63 +27,71 @@ class GenerarReporteInstalaciones
 
         $conexion = "interoperacion";
 
-//        $conexion = "produccion";
-
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        $this->rutaURL      = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        /** 1. Validar Firma **/
+
+        $this->validarArchivoFirma();
+
+        /** 2. Cargar Firma **/
+
+        $this->cargarFirmaDirectorio();
+
+        exit;
+
+        $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiarios', $estado);
+
+        $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
-
-        if (isset($_REQUEST['beneficiario']) && $_REQUEST['beneficiario'] == '') {
-            Redireccionador::redireccionar('errorBeneficiario');
-        }
-
-        if (isset($_REQUEST['proceso']) && $_REQUEST['proceso'] != '1' && $_REQUEST['proceso'] != '2' && $_REQUEST['proceso'] != '3' && $_REQUEST['proceso'] != '4') {
-            Redireccionador::redireccionar('errorProceso');
-        }
-
-        switch ($_REQUEST['proceso']) {
-            case '1':
-                $estado = 'FALSE';
-
-                $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiarios', $estado);
-
-                $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-
-                break;
-
-            case '2':
-                $estado = 'TRUE';
-
-                $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiarios', $estado);
-
-                $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-                break;
-
-            case '3':
-                $estado = 'REVISION';
-
-                $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiariosInterventoria', $estado);
-
-                $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-                break;
-
-            case '4':
-                $estado = 'APROBADO';
-
-                $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiariosInterventoria', $estado);
-
-                $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-                break;
-
-        }
 
         if ($this->beneficiario) {
             Redireccionador::redireccionar('exitoActualizacion');
         } else {
-            Redireccionador::redireccionar('errorActualizacion');
+
         }
     }
+
+    public function cargarFirmaDirectorio()
+    {
+
+        $informacion_archivo = pathinfo($this->archivo['name']);
+
+        $prefijo = substr(md5(uniqid(time())), 0, 10) . '.' . $informacion_archivo['extension'];
+
+        $this->archivo['nombre'] = str_replace(' ', '_', $prefijo);
+
+        var_dump($this->archivo);exit;
+
+    }
+
+    public function validarArchivoFirma()
+    {
+
+        if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] == 0 && $_FILES['archivo']['size'] > 0) {
+
+            $this->archivo = $_FILES['archivo'];
+
+            if ($this->archivo['type'] != 'image/png') {
+
+                $this->error('errorFormatoArchivo');
+
+            }
+
+        } else {
+
+            $this->error('errorArchivo');
+
+        }
+
+    }
+
+    public function error($var = '')
+    {
+        Redireccionador::redireccionar($var);
+    }
+
 }
 
 $miProcesador = new GenerarReporteInstalaciones($this->sql);

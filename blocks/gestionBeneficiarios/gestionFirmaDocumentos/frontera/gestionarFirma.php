@@ -44,11 +44,11 @@ class Registrador
         // -------------------------------------------------------------------------------------------------
 
         // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
-        $esteCampo           = $esteBloque['nombre'];
-        $atributos['id']     = $esteCampo;
+        $esteCampo = $esteBloque['nombre'];
+        $atributos['id'] = $esteCampo;
         $atributos['nombre'] = $esteCampo;
         // Si no se coloca, entonces toma el valor predeterminado 'application/x-www-form-urlencoded'
-        $atributos['tipoFormulario'] = '';
+        $atributos['tipoFormulario'] = 'multipart/form-data';
         // Si no se coloca, entonces toma el valor predeterminado 'POST'
         $atributos['metodo'] = 'POST';
         // Si no se coloca, entonces toma el valor predeterminado 'index.php' (Recomendado)
@@ -56,109 +56,109 @@ class Registrador
         $atributos['titulo'] = $this->lenguaje->getCadena($esteCampo);
         // Si no se coloca, entonces toma el valor predeterminado.
         $atributos['estilo'] = '';
-        $atributos['marco']  = true;
-        $tab                 = 1;
+        $atributos['marco'] = true;
+        $tab = 1;
         // ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
 
         // ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
         $atributos['tipoEtiqueta'] = 'inicio';
         echo $this->miFormulario->formulario($atributos);
-        $esteCampo            = 'Agrupacion';
-        $atributos['id']      = $esteCampo;
-        $atributos['leyenda'] = "<b>Gestión Estado Beneficiarios</b>";
+        $esteCampo = 'Agrupacion';
+        $atributos['id'] = $esteCampo;
+        $atributos['leyenda'] = "<b>Gestión Firma Beneficiario</b>";
         echo $this->miFormulario->agrupacion('inicio', $atributos);
         unset($atributos);
 
-        $esteCampo                        = 'proceso';
-        $atributos['nombre']              = $esteCampo;
-        $atributos['id']                  = $esteCampo;
-        $atributos['etiqueta']            = $this->lenguaje->getCadena($esteCampo);
-        $atributos["etiquetaObligatorio"] = true;
-        $atributos['tab']                 = $tab++;
-        $atributos['anchoEtiqueta']       = 1;
-        $atributos['evento']              = '';
-        if (isset($_REQUEST[$esteCampo])) {
-            $atributos['seleccion'] = $_REQUEST[$esteCampo];
-        } else {
-            $atributos['seleccion'] = '1';
-        }
-        $atributos['deshabilitado'] = false;
-        $atributos['columnas']      = 1;
-        $atributos['tamanno']       = 1;
-        $atributos['ajax_function'] = "";
-        $atributos['ajax_control']  = $esteCampo;
-        $atributos['estilo']        = "bootstrap";
-        $atributos['limitar']       = false;
-        $atributos['anchoCaja']     = 3;
-        $atributos['miEvento']      = '';
-        //$atributos['validar'] = 'required';
-        $atributos['cadena_sql'] = 'required';
-        //$cadenaSql = $this->miSql->getCadenaSql('consultarMedioPago');
-        //$resultado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
-        $matrizItems = array(
-            array(
-                '1',
-                'Inactivación Beneficiarios',
-            ),
-            array(
-                '2',
-                'Activación Beneficiarios',
-            ),
-            array(
-                '3',
-                'En Revisión (Estado Interventoria)',
-            ),
-            array(
-                '4',
-                'Aprobado (Estado Interventoria)',
-            ),
+        {
+            // ----------------INICIO CONTROL: Lista Proyectos---------------------------
 
-        );
-
-        $atributos['matrizItems'] = $matrizItems;
-        // Aplica atributos globales al control
-        $atributos = array_merge($atributos, $atributosGlobales);
-        echo $this->miFormulario->campoCuadroListaBootstrap($atributos);
-        unset($atributos);
-
-        $esteCampo                        = "beneficiario";
-        $atributos['nombre']              = $esteCampo;
-        $atributos['id']                  = $esteCampo;
-        $atributos['etiqueta']            = $this->lenguaje->getCadena($esteCampo);
-        $atributos["etiquetaObligatorio"] = true;
-        $atributos['tab']                 = $tab++;
-        if (isset($_REQUEST[$esteCampo])) {
-            $atributos['valor'] = $_REQUEST[$esteCampo];
-        } else {
+            $esteCampo = 'beneficiario';
+            $atributos['nombre'] = $esteCampo;
+            $atributos['tipo'] = "text";
+            $atributos['id'] = $esteCampo;
+            $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+            $atributos["etiquetaObligatorio"] = true;
+            $atributos['tab'] = $tab++;
+            $atributos['anchoEtiqueta'] = 2;
+            $atributos['estilo'] = "bootstrap";
+            $atributos['evento'] = '';
+            $atributos['deshabilitado'] = false;
+            $atributos['readonly'] = false;
+            $atributos['columnas'] = 1;
+            $atributos['tamanno'] = 1;
+            $atributos['placeholder'] = "Ingrese Mínimo 3 Caracteres de Busqueda";
             $atributos['valor'] = "";
+            $atributos['ajax_function'] = "";
+            $atributos['ajax_control'] = $esteCampo;
+            $atributos['limitar'] = false;
+            $atributos['anchoCaja'] = 10;
+            $atributos['miEvento'] = '';
+            $atributos['validar'] = 'required';
+            // Aplica atributos globales al control
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+            unset($atributos);
+
+            $esteCampo = 'id_beneficiario';
+            $atributos["id"] = $esteCampo; // No cambiar este nombre
+            $atributos["tipo"] = "hidden";
+            $atributos['estilo'] = '';
+            $atributos["obligatorio"] = false;
+            $atributos['marco'] = true;
+            $atributos["etiqueta"] = "";
+            if (isset($_REQUEST[$esteCampo])) {
+                $atributos['valor'] = $_REQUEST[$esteCampo];
+            } else {
+                $atributos['valor'] = '';
+            }
+            $atributos = array_merge($atributos, $atributosGlobales);
+            echo $this->miFormulario->campoCuadroTexto($atributos);
+            unset($atributos);
+
+            $esteCampo = "archivo"; // Código documento
+            $atributos["id"] = $esteCampo;
+            $atributos["nombre"] = $esteCampo;
+            $atributos["tipo"] = "file";
+            $atributos["obligatorio"] = true;
+            $atributos["etiquetaObligatorio"] = false;
+            $atributos["tabIndex"] = $tab++;
+            $atributos["columnas"] = 1;
+            $atributos["anchoCaja"] = 10;
+            $atributos["estilo"] = "textoDerecha";
+            $atributos["anchoEtiqueta"] = 2;
+            $atributos["tamanno"] = 500000;
+            $atributos["validar"] = "required";
+            $atributos["estilo"] = "file";
+            $atributos["etiqueta"] = $this->lenguaje->getCadena($esteCampo);
+            $atributos["bootstrap"] = true;
+            $tab++;
+            // $atributos ["valor"] = $valorCodificado;
+            $atributos = array_merge($atributos);
+            echo $this->miFormulario->campoCuadroTexto($atributos);
+            unset($atributos);
+
         }
 
-        $atributos['validar'] = 'required';
-        $atributos['filas']   = 3;
-        // Aplica atributos globales al control
-        $atributos = array_merge($atributos, $atributosGlobales);
-        echo $this->miFormulario->campoTextAreaBootstrap($atributos);
-        unset($atributos);
         // ------------------Division para los botones-------------------------
-        $atributos['id']     = 'divMensaje';
+        $atributos['id'] = 'divMensaje';
         $atributos['estilo'] = 'marcoBotones';
         echo $this->miFormulario->division("inicio", $atributos);
         unset($atributos);
         {
-            $esteCampo             = 'botonRegistro';
-            $atributos["id"]       = $esteCampo;
+            $esteCampo = 'botonRegistro';
+            $atributos["id"] = $esteCampo;
             $atributos["tabIndex"] = $tab;
-            $atributos["tipo"]     = 'boton';
+            $atributos["tipo"] = 'boton';
             // submit: no se coloca si se desea un tipo button genérico
-            $atributos['submit']      = true;
-            $atributos["simple"]      = true;
+            $atributos['submit'] = true;
+            $atributos["simple"] = true;
             $atributos["estiloMarco"] = '';
             $atributos["estiloBoton"] = 'default';
-            $atributos["block"]       = false;
+            $atributos["block"] = false;
             // verificar: true para verificar el formulario antes de pasarlo al servidor.
-            $atributos["verificar"]        = '';
-            $atributos["tipoSubmit"]       = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-            $atributos["valor"]            = $this->lenguaje->getCadena($esteCampo);
+            $atributos["verificar"] = '';
+            $atributos["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+            $atributos["valor"] = $this->lenguaje->getCadena($esteCampo);
             $atributos['nombreFormulario'] = $esteBloque['nombre'];
             $tab++;
 
@@ -172,33 +172,9 @@ class Registrador
         unset($atributos);
         // -----------------CONTROL: Botón ----------------------------------------------------------------
 
-        echo "<br><br><br>";
-
-        echo '<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th><center>ID Beneficiario</center></th>
-                                    <th><center>Número Identificación</center></th>
-                                    <th><center>Nombre Beneficiario</center></th>
-                                    <th><center>Estado Interventoría</center></th>
-                                    <th><center>Estado en el Sistema</center></th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th><center>ID Beneficiario</center></th>
-                                    <th><center>Número Identificación</center></th>
-                                    <th><center>Nombre Beneficiario</center></th>
-                                    <th><center>Estado Interventoría</center></th>
-                                    <th><center>Estado en el Sistema</center></th>
-                                </tr>
-                            </tfoot>
-                          </table>';
-
-        echo "<br><br><br>";
         // ------------------Division para los botones-------------------------
-        $atributos["id"]            = "consulta_reporte";
-        $atributos["estilo"]        = "marcoBotones";
+        $atributos["id"] = "consulta_reporte";
+        $atributos["estilo"] = "marcoBotones";
         $atributos["estiloEnLinea"] = "display:block;";
         echo $this->miFormulario->division("inicio", $atributos);
         unset($atributos);
@@ -240,19 +216,19 @@ class Registrador
         // Paso 2: codificar la cadena resultante
         $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar($valorCodificado);
 
-        $atributos["id"]          = "formSaraData"; // No cambiar este nombre
-        $atributos["tipo"]        = "hidden";
-        $atributos['estilo']      = '';
+        $atributos["id"] = "formSaraData"; // No cambiar este nombre
+        $atributos["tipo"] = "hidden";
+        $atributos['estilo'] = '';
         $atributos["obligatorio"] = false;
-        $atributos['marco']       = true;
-        $atributos["etiqueta"]    = "";
-        $atributos["valor"]       = $valorCodificado;
+        $atributos['marco'] = true;
+        $atributos["etiqueta"] = "";
+        $atributos["valor"] = $valorCodificado;
         echo $this->miFormulario->campoCuadroTexto($atributos);
         unset($atributos);
 
         // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
         // Se debe declarar el mismo atributo de marco con que se inició el formulario.
-        $atributos['marco']        = true;
+        $atributos['marco'] = true;
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
 
@@ -264,22 +240,22 @@ class Registrador
     {
         switch ($_REQUEST['mensaje']) {
             case 'errorBeneficiario':
-                $mensaje                  = "<b>Error Identificaciones Beneficiarios</b>";
+                $mensaje = "<b>Error Identificaciones Beneficiarios</b>";
                 $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'errorProceso':
-                $mensaje                  = "<b>Error Proceso</b>";
+                $mensaje = "<b>Error Proceso</b>";
                 $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'exitoActualizacion':
-                $mensaje                  = "<b>Exito en la Actualización</b>";
+                $mensaje = "<b>Exito en la Actualización</b>";
                 $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
             case 'errorActualizacion':
-                $mensaje                  = "<b>Error en la Actualización</b>";
+                $mensaje = "<b>Error en la Actualización</b>";
                 $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
@@ -288,8 +264,8 @@ class Registrador
         // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
 
         $atributos['tipoEtiqueta'] = 'inicio';
-        $atributos['titulo']       = 'Mensaje';
-        $atributos['id']           = 'mensaje';
+        $atributos['titulo'] = 'Mensaje';
+        $atributos['id'] = 'mensaje';
         echo $this->miFormulario->modal($atributos);
         unset($atributos);
 
