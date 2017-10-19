@@ -93,7 +93,13 @@ class GenerarReporteInstalaciones
 
             $this->archivo = $_FILES['archivo'];
 
-            if ($this->archivo['type'] != 'image/png') {
+            $formato_permitido = array(
+                'image/jpeg',
+                'image/png',
+
+            );
+
+            if (!in_array($this->archivo['type'], $formato_permitido)) {
 
                 $this->error('errorFormatoArchivo');
 
