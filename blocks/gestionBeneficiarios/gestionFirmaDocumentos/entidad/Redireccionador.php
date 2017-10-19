@@ -14,9 +14,9 @@ class Redireccionador
 
         switch ($opcion) {
 
-            case "exitoActualizacion":
+            case "exitoGestionFirma":
                 $variable = 'pagina=gestionFirmaDocumentos';
-                $variable .= '&mensaje=exitoActualizacion';
+                $variable .= '&mensaje=exitoGestionFirma';
                 break;
 
             case "errorArchivo":
@@ -26,12 +26,17 @@ class Redireccionador
 
             case "errorFormatoArchivo":
                 $variable = 'pagina=gestionFirmaDocumentos';
-                $variable .= '&mensaje=errorFormatoArchivos';
+                $variable .= '&mensaje=errorFormatoArchivo';
                 break;
 
             case "errorCargaArchivo":
                 $variable = 'pagina=gestionFirmaDocumentos';
                 $variable .= '&mensaje=errorCargaArchivo';
+                break;
+
+            case "errorRegistroFirma":
+                $variable = 'pagina=gestionFirmaDocumentos';
+                $variable .= '&mensaje=errorRegistroFirma';
                 break;
 
         }

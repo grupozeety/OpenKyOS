@@ -41,26 +41,28 @@ class GenerarReporteInstalaciones
 
         $this->gestionFirma();
 
-        exit;
-
-        $cadenaSql = $this->miSql->getCadenaSql('actulizarBeneficiarios', $estado);
-
-        $this->beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-
-        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
-        $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
-
-        if ($this->beneficiario) {
-            Redireccionador::redireccionar('exitoActualizacion');
-        } else {
-
+        if ($this->registro) {
+            Redireccionador::redireccionar('exitoGestionFirma');
         }
     }
 
     public function gestionFirma()
     {
 
-        var_dump($_REQUEST);exit;
+        $arreglo = array(
+            'id_beneficiario' => $_REQUEST['id_beneficiario'],
+            'nombre_archivo' => $this->archivo['nombre'],
+            'ruta_archivo' => $this->archivo['ruta_archivo'],
+        );
+
+        $cadenaSql = $this->miSql->getCadenaSql('gestionarFirma', $arreglo);
+
+        $this->registro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+        if (!$this->registro) {
+
+            $this->error('errorRegistroFirma');
+        }
 
     }
 

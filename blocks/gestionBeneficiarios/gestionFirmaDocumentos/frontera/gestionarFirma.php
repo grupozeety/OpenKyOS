@@ -232,30 +232,39 @@ class Registrador
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
 
+        $this->mensajeImagen($tab, $esteBloque['nombre']);
+
         if (isset($_REQUEST['mensaje'])) {
             $this->mensajeModal($tab, $esteBloque['nombre']);
         }
     }
+
     public function mensajeModal($tab = '', $nombreBloque = '')
     {
         switch ($_REQUEST['mensaje']) {
-            case 'errorBeneficiario':
-                $mensaje = "<b>Error Identificaciones Beneficiarios</b>";
-                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
-                break;
 
-            case 'errorProceso':
-                $mensaje = "<b>Error Proceso</b>";
-                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
-                break;
-
-            case 'exitoActualizacion':
-                $mensaje = "<b>Exito en la Actualización</b>";
+            case 'exitoGestionFirma':
+                $mensaje = "<b>Exito en el Registro y/o Actualización<br>Firma Beneficiario</b>";
                 $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
-            case 'errorActualizacion':
-                $mensaje = "<b>Error en la Actualización</b>";
+            case 'errorArchivo':
+                $mensaje = "<b>Error Imagen Firma Beneficiario<br>Verifique la Imagen</b>";
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
+                break;
+
+            case 'errorFormatoArchivo':
+                $mensaje = "<b>Error Formato Imagen Firma<br>Verifique que el Formato sea .png</b>";
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
+                break;
+
+            case 'errorCargaArchivo':
+                $mensaje = "<b>Error al Cargar la Imagen en el Sistema</b>";
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
+                break;
+
+            case 'errorRegistroFirma':
+                $mensaje = "<b>Error en la Actualización y/o Registro<br>Firma Beneficiario</b>";
                 $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
@@ -273,6 +282,37 @@ class Registrador
         echo '<div style="text-align:center;">';
 
         echo '<p><h5>' . $mensaje . '</h5></p>';
+
+        echo '</div>';
+
+        // ----------------FIN CONTROL: Mapa--------------------------------------------------------
+
+        echo '<div style="text-align:center;">';
+
+        echo '</div>';
+
+        $atributos['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+    }
+
+    public function mensajeImagen($tab = '', $nombreBloque = '')
+    {
+
+        // ----------------INICIO CONTROL: Ventana Modal Beneficiario Eliminado---------------------------------
+
+        $atributos['tipoEtiqueta'] = 'inicio';
+        $atributos['titulo'] = 'Firma Actual Beneficiario';
+        $atributos['id'] = 'imagenBeneficiario';
+        echo $this->miFormulario->modal($atributos);
+        unset($atributos);
+
+        // ----------------INICIO CONTROL: Mapa--------------------------------------------------------
+        echo '<div style="text-align:center;">';
+
+        //echo '<p><h5>' . $mensaje . '</h5></p>';
+
+        echo "<IMG id='imagen' style='width:100%;height: auto;' >";
 
         echo '</div>';
 

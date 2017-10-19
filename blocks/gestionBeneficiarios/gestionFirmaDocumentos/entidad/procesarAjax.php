@@ -35,8 +35,39 @@ class procesarAjax
 
                 break;
 
+            case 'consultaFirma':
+
+                if (iconv_strlen($_REQUEST['value']) != 5) {
+                    echo "Error";
+                    exit;
+                }
+
+                $cadenaSql = $this->sql->getCadenaSql('consultarFirma', $_REQUEST['value']);
+
+                $firma = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+                if ($firma) {
+                    $url_firma = $this->miConfigurador->configuracion['host'];
+
+                    $url_firma .= $this->miConfigurador->configuracion['site'];
+
+                    $url_firma .= $firma[0]['ruta_archivo'];
+
+                    $url_firma .= $firma[0]['nombre_archivo'];
+
+                    echo json_encode($url_firma);
+
+                } else {
+                    echo "Error";
+                    exit;
+
+                }
+
+                break;
+
         }
+
     }
 }
-
 $miProcesarAjax = new procesarAjax($this->sql);
+exit();
