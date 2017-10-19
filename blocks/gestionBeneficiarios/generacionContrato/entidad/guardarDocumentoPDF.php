@@ -114,7 +114,7 @@ class GenerarDocumento
         ));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
-        $html2pdf->Output($this->rutaAbsoluta . $this->nombreContrato, 'D');
+        $html2pdf->Output($this->rutaAbsoluta . $this->nombreContrato, 'F');
 
     }
     public function estruturaDocumento()
