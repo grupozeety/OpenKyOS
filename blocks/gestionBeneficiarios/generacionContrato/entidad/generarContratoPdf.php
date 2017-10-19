@@ -13,7 +13,8 @@ include $ruta . "/plugin/html2pdf/html2pdf.class.php";
 
 include_once "core/auth/SesionSso.class.php";
 
-class GenerarDocumento {
+class GenerarDocumento
+{
     public $miConfigurador;
     public $elementos;
     public $miSql;
@@ -23,10 +24,10 @@ class GenerarDocumento {
     public $esteRecursoDB;
     public $clausulas;
     public $beneficiario;
-    public $esteRecursoOP;
-    public function __construct($sql) {
+
+    public function __construct($sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
-        $this->miSesionSso = \SesionSso::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
@@ -35,14 +36,6 @@ class GenerarDocumento {
         //Conexion a Base de Datos
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
-        $conexion = "openproject";
-        $this->esteRecursoOP = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-
-        foreach ($this->info_usuario['description'] as $key => $rol) {
-
-            $this->info_usuario['rol'][] = $rol;
-        }
 
         if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
 
@@ -70,18 +63,18 @@ class GenerarDocumento {
         $this->crearPDF();
 
     }
-    public function obtenerInformacionBeneficiario() {
+    public function obtenerInformacionBeneficiario()
+    {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
 
         $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $this->beneficiario = $beneficiario[0];
 
-        //var_dump($this->beneficiario);exit;
-
     }
 
-    public function crearPDF() {
+    public function crearPDF()
+    {
 
         ob_start();
         $html2pdf = new \HTML2PDF('P', 'LEGAL', 'es', true, 'UTF-8', array(
@@ -95,7 +88,8 @@ class GenerarDocumento {
         $html2pdf->Output('BorradorContrato_N_' . $this->beneficiario['numero_contrato'] . '_' . date('Y-m-d') . '.pdf', 'D');
 
     }
-    public function estruturaDocumento() {
+    public function estruturaDocumento()
+    {
         unset($requisitos);
         $arreglo = array(
             'perfil_beneficiario' => $_REQUEST['tipo'],
@@ -533,5 +527,3 @@ class GenerarDocumento {
     }
 }
 $miDocumento = new GenerarDocumento($this->sql);
-
-?>

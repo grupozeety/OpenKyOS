@@ -13,7 +13,8 @@ include $ruta . "/plugin/html2pdf/html2pdf.class.php";
 
 include_once "core/auth/SesionSso.class.php";
 
-class GenerarDocumento {
+class GenerarDocumento
+{
     public $miConfigurador;
     public $elementos;
     public $miSql;
@@ -26,21 +27,14 @@ class GenerarDocumento {
     public $clausulas;
     public $beneficiario;
     public $esteRecursoOP;
-    public $miSesionSso;
     public $info_usuario;
     public $nombre_contrato;
-    public function __construct($sql) {
+    public function __construct($sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
-        $this->miSesionSso = \SesionSso::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
-        $this->info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
-
-        foreach ($this->info_usuario['description'] as $key => $rol) {
-
-            $this->info_usuario['rol'][] = $rol;
-        }
 
         //Conexion a Base de Datos
         $conexion = "interoperacion";
@@ -84,13 +78,10 @@ class GenerarDocumento {
 
         $this->registro_info_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-        //$cadenaSql = $this->miSql->getCadenaSql('actualizarServicio', $this->registro_info_contrato['id']);
-
-        //$this->actualizarServicio = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-
     }
 
-    public function asosicarCodigoDocumento() {
+    public function asosicarCodigoDocumento()
+    {
 
         $this->prefijo = substr(md5(uniqid(time())), 0, 6);
         $cadenaSql = $this->miSql->getCadenaSql('consultarParametroContrato', '128');
@@ -102,7 +93,8 @@ class GenerarDocumento {
 
     }
 
-    public function obtenerInformacionBeneficiario() {
+    public function obtenerInformacionBeneficiario()
+    {
 
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionContrato');
         $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
@@ -111,7 +103,8 @@ class GenerarDocumento {
 
     }
 
-    public function crearPDF() {
+    public function crearPDF()
+    {
         ob_start();
         $html2pdf = new \HTML2PDF('P', 'LEGAL', 'es', true, 'UTF-8', array(
             2,
@@ -121,11 +114,11 @@ class GenerarDocumento {
         ));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->WriteHTML($this->contenidoPagina);
-        $html2pdf->Output($this->rutaAbsoluta . $this->nombreContrato, 'F');
+        $html2pdf->Output($this->rutaAbsoluta . $this->nombreContrato, 'D');
 
     }
-    public function estruturaDocumento() {
-
+    public function estruturaDocumento()
+    {
         unset($requisitos);
         $arreglo = array(
             'perfil_beneficiario' => $_REQUEST['tipo_beneficiario'],
@@ -133,7 +126,6 @@ class GenerarDocumento {
 
         );
         $cadenaSql = $this->miSql->getCadenaSql('consultarValidacionRequisitos', $arreglo);
-
         $requisitos = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
         $cadenaSql = $this->miSql->getCadenaSql('consultarTipoDocumento', "Cédula de Ciudadanía");
@@ -182,69 +174,12 @@ class GenerarDocumento {
         }
 
         {
-            {
-
-                {
-                    $firmaBeneficiario = base64_decode($this->beneficiario['url_firma_beneficiarios']);
-                    $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
-                    $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
-                    $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
-                }
-
-                {
-
-                    $firmacontratista = base64_decode($this->beneficiario['url_firma_contratista']);
-                    $firmacontratista = str_replace("image/svg+xml,", '', $firmacontratista);
-                    $firmacontratista = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista);
-                    $firmacontratista = str_replace("svg", 'draw', $firmacontratista);
-
-                }
-
-                $firmaBeneficiario = str_replace("height", 'height="40" pasos2', $firmaBeneficiario);
-                $firmaBeneficiario = str_replace("width", 'width="125" pasos1', $firmaBeneficiario);
-                $firmacontratista = str_replace("height", 'height="40" pasos2', $firmacontratista);
-                $firmacontratista = str_replace("width", 'width="125" pasos1', $firmacontratista);
-
-                $cadena = $_SERVER['HTTP_USER_AGENT'];
-                $resultado = stristr($cadena, "Android");
-
-                if ($resultado) {
-                    $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista);
-                    $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
-                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario);
-                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
-                } else {
-                    $firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista);
-                    $firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
-                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario);
-                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
-
-                }
-
-            }
-
-            ini_set('xdebug.var_display_max_depth', 20000);
-            ini_set('xdebug.var_display_max_children', 20000);
-            ini_set('xdebug.var_display_max_data', 20000);
-
-            $firma_beneficiario = $firmaBeneficiario;
-
-            $firma_contratista = $firmacontratista;
-            //var_dump($firma_beneficiario);
-            //var_dump($firma_contratista);exit;
-
-            //var_dump($_SERVER['HTTP_USER_AGENT']);EXIT;
-
-        }
-        {
 
             $cadenaSql = $this->miSql->getCadenaSql('consultarParametroParticular', $this->beneficiario['medio_pago']);
             $medioPago = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
-            //var_dump($medioPago);
             $cadenaSql = $this->miSql->getCadenaSql('consultarParametroParticular', $this->beneficiario['tipo_pago']);
             $tipoPago = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-            //var_dump($tipoPago);exit;
 
             $medio_virtual = ($medioPago['descripcion'] == 'Virtual') ? "X" : " ";
 
@@ -255,12 +190,6 @@ class GenerarDocumento {
             $tipo_pospago = ($tipoPago['descripcion'] == 'Pospago') ? "X" : " ";
 
             $tipo_anticipado = ($tipoPago['descripcion'] == 'Anticipado') ? "X" : " ";
-
-        }
-
-        {
-
-            $comisionador = (isset($this->info_usuario['uid'][1])) ? $this->info_usuario['uid'][1] : " ";
 
         }
 
@@ -575,7 +504,7 @@ class GenerarDocumento {
                      <table style='width:100%;border:none'>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>FIRMA :</td>
-                   <td style='width:75%;text-align:left;border:none'>" . $firma_beneficiario . "</td>
+                   <td style='width:75%;text-align:left;border:none'>" . $this->crearFirmaBeneficiario() . "</td>
                     </tr>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>Nombre Usuario:</td>
@@ -589,10 +518,6 @@ class GenerarDocumento {
                 </td>
             </tr>
         </table>
-        <br>
-        <br>
-        <br>
-        <br>
         <br>
         </nobreak>";
 
@@ -618,7 +543,63 @@ class GenerarDocumento {
         $this->contenidoPagina = $contenidoPagina;
 
     }
+
+    public function crearFirmaBeneficiario()
+    {
+
+        if (isset($_REQUEST['ImagenFirma'])) {
+
+            $firmaBeneficiario = "<img src='" . $_REQUEST['ImagenFirma'] . "'  style='width: 45%;height: auto;' >";
+
+        } else {
+
+            {
+
+                {
+                    $firmaBeneficiario = base64_decode($this->beneficiario['url_firma_beneficiarios']);
+                    $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
+                }
+                /*
+                {
+
+                $firmacontratista = base64_decode($this->beneficiario['url_firma_contratista']);
+                $firmacontratista = str_replace("image/svg+xml,", '', $firmacontratista);
+                $firmacontratista = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista);
+                $firmacontratista = str_replace("svg", 'draw', $firmacontratista);
+
+                }
+                 */
+
+                $firmaBeneficiario = str_replace("height", 'height="40" pasos2', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("width", 'width="125" pasos1', $firmaBeneficiario);
+
+                //$firmacontratista = str_replace("height", 'height="40" pasos2', $firmacontratista);
+                //$firmacontratista = str_replace("width", 'width="125" pasos1', $firmacontratista);
+
+                $cadena = $_SERVER['HTTP_USER_AGENT'];
+                $resultado = stristr($cadena, "Android");
+
+                if ($resultado) {
+                    //$firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista);
+                    //$firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+                } else {
+                    //$firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista);
+                    //$firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+
+                }
+
+            }
+
+        }
+
+        return $firmaBeneficiario;
+
+    }
 }
 $miDocumento = new GenerarDocumento($this->miSql);
-
-?>
