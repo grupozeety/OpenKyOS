@@ -526,7 +526,7 @@ class GenerarDocumento
                      <table style='width:100%;border:none'>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>FIRMA :</td>
-                    <td style='width:75%;text-align:left;border:none'>_________________________</td>
+                    <td style='width:75%;text-align:left;border:none'>" . $this->crearFirmaBeneficiario($beneficiario['id_beneficiario']) . "</td>
                     </tr>
                     <tr>
                     <td style='width:25%;text-align:left;border:none'>Nombre Usuario:</td>
@@ -556,6 +556,31 @@ class GenerarDocumento
         $contenidoPagina = null;
         unset($beneficiario);
         $beneficiario = null;
+    }
+
+    public function crearFirmaBeneficiario($beneficiario)
+    {
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarFirma', $beneficiario);
+        $firma = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda");
+
+        if (isset($firma)) {
+
+            $estructuraFirma = $this->miConfigurador->configuracion['host'];
+            $estructuraFirma .= $this->miConfigurador->configuracion['site'];
+            $estructuraFirma .= $firma[0]['ruta_archivo'];
+            $estructuraFirma .= $firma[0]['nombre_archivo'];
+
+            $firmaBeneficiario = "<img src='" . $estructuraFirma . "'  style='width: 45%;height: auto;' >";
+
+        } else {
+
+            $firmaBeneficiario = "_________________________";
+
+        }
+
+        return $firmaBeneficiario;
+
     }
 }
 $miDocumento = new GenerarDocumento($this->miSql, $this->proceso, $this->rutaAbsoluta_archivos);

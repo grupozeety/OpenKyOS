@@ -237,6 +237,13 @@ class Sql extends \Sql
                 $cadenaSql .= " WHERE id_proceso='" . $_REQUEST['id_proceso'] . "'; ";
                 break;
 
+            case 'consultarFirma':
+                $cadenaSql = " SELECT nombre_archivo, ruta_archivo";
+                $cadenaSql .= " FROM interoperacion.firma_beneficiario";
+                $cadenaSql .= " WHERE estado_registro = TRUE";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "';";
+                break;
+
         }
 
         return $cadenaSql;
