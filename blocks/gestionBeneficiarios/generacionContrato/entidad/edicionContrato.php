@@ -9,7 +9,8 @@ if (!isset($GLOBALS["autorizado"])) {
 use gestionBeneficiarios\generacionContrato\entidad\Redireccionador;
 
 include_once 'Redireccionador.php';
-class FormProcessor {
+class FormProcessor
+{
 
     public $miConfigurador;
     public $lenguaje;
@@ -23,7 +24,8 @@ class FormProcessor {
     public $rutaAbsoluta;
     public $clausulas;
     public $registro_info_contrato;
-    public function __construct($lenguaje, $sql) {
+    public function __construct($lenguaje, $sql)
+    {
 
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -47,8 +49,6 @@ class FormProcessor {
 
         $_REQUEST['tiempo'] = time();
 
-        //$this->cargarClausula();
-
         /**
          *  1. CargarArchivos en el Directorio
          **/
@@ -61,11 +61,11 @@ class FormProcessor {
 
         $this->procesarInformacion();
 
-        if ($_REQUEST['firmaBeneficiario'] != '') {
+        /**
+         *  3. Validación generación Documento
+         **/
 
-            include_once "guardarDocumentoPDF.php";
-
-        }
+        $this->validacionGeneracionDocumento();
 
         if ($this->actualizar_info_contrato) {
             Redireccionador::redireccionar("ActualizoInformacionContrato");
@@ -75,7 +75,31 @@ class FormProcessor {
 
     }
 
-    public function procesarInformacion() {
+    public function validacionGeneracionDocumento()
+    {
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarFirma', $_REQUEST['id_beneficiario']);
+
+        $firma_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        if ($firma_beneficiario) {
+
+            $_REQUEST['ImagenFirma'] = $this->miConfigurador->configuracion['host'];
+            $_REQUEST['ImagenFirma'] .= $this->miConfigurador->configuracion['site'];
+            $_REQUEST['ImagenFirma'] .= $firma_beneficiario[0]['ruta_archivo'];
+            $_REQUEST['ImagenFirma'] .= $firma_beneficiario[0]['nombre_archivo'];
+
+            include_once "guardarDocumentoPDF.php";
+
+        } else if ($_REQUEST['firmaBeneficiario'] != '') {
+
+            include_once "guardarDocumentoPDF.php";
+
+        }
+    }
+
+    public function procesarInformacion()
+    {
 
         if ($this->archivos_datos === '') {
             $soporte = '';
@@ -164,7 +188,8 @@ class FormProcessor {
 
     }
 
-    public function cargarArchivos() {
+    public function cargarArchivos()
+    {
 
         $archivo_datos = '';
         foreach ($_FILES as $key => $archivo) {
@@ -209,5 +234,3 @@ class FormProcessor {
 }
 
 $miProcesador = new FormProcessor($this->lenguaje, $this->sql);
-?>
-
