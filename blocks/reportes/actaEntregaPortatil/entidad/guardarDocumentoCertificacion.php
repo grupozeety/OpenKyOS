@@ -28,14 +28,14 @@ class GenerarDocumento
     {
         $this->miConfigurador = \Configurador::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
-        $this->miSql   = $sql;
+        $this->miSql = $sql;
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
 
         // Conexion a Base de Datos
-        $conexion            = "interoperacion";
+        $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        $this->rutaURL      = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 
         if (!isset($_REQUEST["bloqueGrupo"]) || $_REQUEST["bloqueGrupo"] == "") {
@@ -58,7 +58,7 @@ class GenerarDocumento
          * Crear PDF
          */
 
-        $this->rutaURL      = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
         $this->rutaAbsoluta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
         $this->rutaURL .= '/archivos/actas_entrega_portatil/';
         $this->rutaAbsoluta .= '/archivos/actas_entrega_portatil/';
@@ -68,7 +68,7 @@ class GenerarDocumento
 
         $arreglo = array(
             'nombre_contrato' => $this->nombreDocumento,
-            'ruta_contrato'   => $this->rutaURL . $this->nombreDocumento,
+            'ruta_contrato' => $this->rutaURL . $this->nombreDocumento,
         );
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarDocumentoCertificado', $arreglo);
@@ -76,10 +76,10 @@ class GenerarDocumento
         $this->registro_certificado = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
         $arreglo = array(
-            'id_beneficiario'  => $_REQUEST['id_beneficiario'],
-            'tipologia'        => "555",
+            'id_beneficiario' => $_REQUEST['id_beneficiario'],
+            'tipologia' => "555",
             'nombre_documento' => $this->nombreDocumento,
-            'ruta_relativa'    => $this->rutaURL . $this->nombreDocumento,
+            'ruta_relativa' => $this->rutaURL . $this->nombreDocumento,
         );
 
         // $cadenaSql = $this->miSql->getCadenaSql('registrarRequisito', $arreglo);
@@ -103,10 +103,10 @@ class GenerarDocumento
     }
     public function asosicarCodigoDocumento()
     {
-        $this->prefijo         = substr(md5(uniqid(time())), 0, 6);
-        $cadenaSql             = $this->miSql->getCadenaSql('consultarParametro', '008');
-        $id_parametro          = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
-        $tipo_documento        = $id_parametro['id_parametro'];
+        $this->prefijo = substr(md5(uniqid(time())), 0, 6);
+        $cadenaSql = $this->miSql->getCadenaSql('consultarParametro', '008');
+        $id_parametro = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
+        $tipo_documento = $id_parametro['id_parametro'];
         $descripcion_documento = $id_parametro['id_parametro'] . '_' . $id_parametro['descripcion'];
         //$nombre_archivo = "AEP";
         $this->nombreDocumento = $_REQUEST['id_beneficiario'] . "_" . $descripcion_documento . "_" . $this->prefijo . '.pdf';
@@ -122,7 +122,7 @@ class GenerarDocumento
 
         if (!is_null($_REQUEST['serial']) && $_REQUEST['serial'] != '') {
 
-            $cadenaSql          = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $_REQUEST['serial']);
+            $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $_REQUEST['serial']);
             $this->infoPortatil = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             foreach ($this->infoPortatil as $key => $value) {
@@ -135,50 +135,6 @@ class GenerarDocumento
 
         $archivo_datos = '';
 
-        {
-
-            {
-                $firmaBeneficiario = base64_decode($_REQUEST['firmaBeneficiario']);
-                $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
-                $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
-                $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
-
-                $firmaBeneficiario = str_replace("height", 'height="50" pasos2', $firmaBeneficiario);
-                $firmaBeneficiario = str_replace("width", 'width="92" pasos1', $firmaBeneficiario);
-
-            }
-
-            if ($_REQUEST['firmaInstalador'] != '') {
-
-                $firmacontratista = base64_decode($_REQUEST['firmaInstalador']);
-                $firmacontratista = str_replace("image/svg+xml,", '', $firmacontratista);
-                $firmacontratista = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista);
-                $firmacontratista = str_replace("svg", 'draw', $firmacontratista);
-
-                $firmacontratista = str_replace("height", 'height="20" pasos2', $firmacontratista);
-                $firmacontratista = str_replace("width", 'width="62" pasos1', $firmacontratista);
-
-            } else {
-
-                $firmacontratista = '________________________________';
-            }
-
-            $cadena    = $_SERVER['HTTP_USER_AGENT'];
-            $resultado = stristr($cadena, "Android");
-
-            if ($resultado) {
-                $firmacontratista  = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista);
-                $firmacontratista  = str_replace("/>", ' /></g>', $firmacontratista);
-                $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario);
-                $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
-            } else {
-                $firmacontratista  = str_replace("<path", '<g viewBox="0 0 92 50" transform="scale(0.1,0.1)"><path', $firmacontratista);
-                $firmacontratista  = str_replace("/>", ' /></g>', $firmacontratista);
-                $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 92 50" transform="scale(0.1,0.1)"><path', $firmaBeneficiario);
-                $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
-            }
-        }
-
         ini_set('xdebug.var_display_max_depth', 20000);
         ini_set('xdebug.var_display_max_children', 20000);
         ini_set('xdebug.var_display_max_data', 20000);
@@ -187,10 +143,10 @@ class GenerarDocumento
 
             $fecha = explode("-", $_REQUEST['fecha_entrega']);
 
-            $dia         = $fecha[2];
-            $mes         = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-            $mes         = $mes[$fecha[1] + 0];
-            $anno        = $fecha[0];
+            $dia = $fecha[2];
+            $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            $mes = $mes[$fecha[1] + 0];
+            $anno = $fecha[0];
             $fecha_letra = $dia . " del mes de " . $mes . " del año " . $anno;
 
         } else {
@@ -201,7 +157,7 @@ class GenerarDocumento
 
         {
 
-            $tipo_vip           = ($_REQUEST['tipo_beneficiario_contrato'] == "1") ? "<b>X</b>" : "";
+            $tipo_vip = ($_REQUEST['tipo_beneficiario_contrato'] == "1") ? "<b>X</b>" : "";
             $tipo_residencial_1 = ($_REQUEST['tipo_beneficiario_contrato'] == "2") ? (($_REQUEST['estrato_socioeconomico_contrato'] == "1") ? "<b>X</b>" : "") : "";
             $tipo_residencial_2 = ($_REQUEST['tipo_beneficiario_contrato'] == "2") ? (($_REQUEST['estrato_socioeconomico_contrato'] == "2") ? "<b>X</b>" : "") : "";
         }
@@ -213,16 +169,16 @@ class GenerarDocumento
         if ($_REQUEST['codigo_departamento'] == '23') {
 
             $departamento_cordoba = 'X';
-            $departamento_sucre   = '';
+            $departamento_sucre = '';
 
         } elseif ($_REQUEST['codigo_departamento'] == '70') {
 
             $departamento_cordoba = ' ';
-            $departamento_sucre   = 'X';
+            $departamento_sucre = 'X';
 
         } else {
             $departamento_cordoba = ' ';
-            $departamento_sucre   = ' ';
+            $departamento_sucre = ' ';
 
         }
 
@@ -267,7 +223,7 @@ class GenerarDocumento
                                 }
                             </style>";
 
-        $contenidoPagina .= "<page backtop='25mm' backbottom='10mm' backleft='12mm' backright='20mm' footer='page'>
+        $contenidoPagina .= "<page backtop='25mm' backbottom='15mm' backleft='12mm' backright='20mm' footer='page'>
                             <page_header>
                                  <table  style='width:100%;' >
                                           <tr>
@@ -461,7 +417,7 @@ class GenerarDocumento
         $contenidoPagina .= "<table style='width:100%;border-color:#999999;>
                                 <tr>
                                     <td style='width:50%;'>Nombre Beneficiario:<br><br><b>" . $nombre_beneficiario . "</b></td>
-                                    <td rowspan='2' style='width:50%;color:#999999'><b>Firma<br><br><br><div align='center'>" . $firmaBeneficiario . "</div></b></td>
+                                    <td rowspan='2' style='width:50%;color:#999999'><b>Firma<br><div align='center'>" . $this->crearFirmaBeneficiario() . "</div></b></td>
                                 </tr>
                                 <tr>
                                     <td style='width:50%;'>No. de Identificación:<br><br><b>" . number_format($_REQUEST['numero_identificacion'], 0, '', '.') . "</b></td>
@@ -471,6 +427,7 @@ class GenerarDocumento
         $contenidoPagina .= "</page>";
 
         $this->contenidoPagina = $contenidoPagina;
+
     }
 
     public function informacionEstandarPortatil()
@@ -478,62 +435,120 @@ class GenerarDocumento
 
         $this->infoPortatil = array(
 
-            'camara'                     => 'Integrada 720 px HD Grabación, Video y Fotografía',
+            'camara' => 'Integrada 720 px HD Grabación, Video y Fotografía',
 
-            'mouse_tipo'                 => 'Touchpad con capacidad multi-touch',
-            'sistema_operativo'          => 'Ubuntu',
+            'mouse_tipo' => 'Touchpad con capacidad multi-touch',
+            'sistema_operativo' => 'Ubuntu',
 
-            'targeta_audio_video'        => 'Incorporados',
+            'targeta_audio_video' => 'Incorporados',
 
-            'disco_duro'                 => '500 GB velocidad de 5.400 rpm',
+            'disco_duro' => '500 GB velocidad de 5.400 rpm',
 
-            'autonomia'                  => 'Mín. Cuatro horas – 6 celdas',
+            'autonomia' => 'Mín. Cuatro horas – 6 celdas',
 
-            'puerto_usb'                 => '(2)Usb 2.0 y (3) Ubs 3.0',
+            'puerto_usb' => '(2)Usb 2.0 y (3) Ubs 3.0',
 
-            'voltaje'                    => '100 v a 120 v - 50 Hz a 60 Hz',
+            'voltaje' => '100 v a 120 v - 50 Hz a 60 Hz',
 
-            'targeta_memoria'            => 'multi-format digital media reader(soporta SD, SDHC, SDXC)',
+            'targeta_memoria' => 'multi-format digital media reader(soporta SD, SDHC, SDXC)',
 
-            'salida_video'               => 'VGA 1 y HMDI 1',
+            'salida_video' => 'VGA 1 y HMDI 1',
 
-            'cargador'                   => 'Adaptador Smart AC 100 v a 120 v',
+            'cargador' => 'Adaptador Smart AC 100 v a 120 v',
 
-            'bateria_tipo'               => 'Recargable Lithium Ion',
+            'bateria_tipo' => 'Recargable Lithium Ion',
 
-            'teclado'                    => 'Español(Internacional)',
+            'teclado' => 'Español(Internacional)',
 
-            'marca'                      => 'Hewlett Packard',
+            'marca' => 'Hewlett Packard',
 
-            'modelo'                     => 'HP 245 G4 Notebook PC',
+            'modelo' => 'HP 245 G4 Notebook PC',
 
-            'procesador'                 => 'AMD A8-7410 2200 MHz cores 2.2 GHz',
+            'procesador' => 'AMD A8-7410 2200 MHz cores 2.2 GHz',
 
-            'arquitectura'               => '64 Bits',
+            'arquitectura' => '64 Bits',
 
-            'memoria_ram'                => 'DDR3 4096 MB',
+            'memoria_ram' => 'DDR3 4096 MB',
 
             'compatibilidad_memoria_ram' => 'PAE, NX, y SSE 4.x',
 
-            'tecnologia_memoria_ram'     => 'DDR3',
+            'tecnologia_memoria_ram' => 'DDR3',
 
-            'antivirus'                  => 'Clamav Antivirus',
+            'antivirus' => 'Clamav Antivirus',
 
-            'disco_anti_impacto'         => 'N/A',
+            'disco_anti_impacto' => 'N/A',
 
-            'serial'                     => '',
+            'serial' => '',
 
-            'audio'                      => 'Integrado Mono/Estereo',
+            'audio' => 'Integrado Mono/Estereo',
 
-            'bateria'                    => '41610 mWh',
+            'bateria' => '41610 mWh',
 
-            'targeta_red_alambrica'      => 'Integrada',
+            'targeta_red_alambrica' => 'Integrada',
 
-            'targeta_red_inalambrica'    => 'Integrada',
+            'targeta_red_inalambrica' => 'Integrada',
 
-            'pantalla'                   => 'HD SVA anti-brillo LED14"',
+            'pantalla' => 'HD SVA anti-brillo LED14"',
 
         );
+
+    }
+
+    public function crearFirmaBeneficiario()
+    {
+
+        if (isset($_REQUEST['ImagenFirma'])) {
+
+            $firmaBeneficiario = "<img src='" . $_REQUEST['ImagenFirma'] . "'  style='width: 60%;height: auto;' >";
+
+        } else {
+
+            {
+
+                {
+                    $firmaBeneficiario = base64_decode($_REQUEST['firmaBeneficiario']);
+                    $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
+                }
+                /*
+                {
+
+                $firmacontratista = base64_decode($this->beneficiario['url_firma_contratista']);
+                $firmacontratista = str_replace("image/svg+xml,", '', $firmacontratista);
+                $firmacontratista = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista);
+                $firmacontratista = str_replace("svg", 'draw', $firmacontratista);
+
+                }
+                 */
+
+                $firmaBeneficiario = str_replace("height", 'height="40" pasos2', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("width", 'width="125" pasos1', $firmaBeneficiario);
+
+                //$firmacontratista = str_replace("height", 'height="40" pasos2', $firmacontratista);
+                //$firmacontratista = str_replace("width", 'width="125" pasos1', $firmacontratista);
+
+                $cadena = $_SERVER['HTTP_USER_AGENT'];
+                $resultado = stristr($cadena, "Android");
+
+                if ($resultado) {
+                    //$firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista);
+                    //$firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+                } else {
+                    //$firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista);
+                    //$firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+
+                }
+
+            }
+
+        }
+
+        return $firmaBeneficiario;
 
     }
 

@@ -55,10 +55,11 @@ class FormProcessor
 
         $this->procesarInformacion();
 
-        if ($_REQUEST['firmaBeneficiario'] != '') {
+        /**
+         *  3. Validación generación Documento
+         **/
 
-            include_once "guardarDocumentoCertificacion.php";
-        }
+        $this->validacionGeneracionDocumento();
 
         if ($this->registroActa) {
             Redireccionador::redireccionar("InsertoInformacionActa");
@@ -66,11 +67,35 @@ class FormProcessor
             Redireccionador::redireccionar("NoInsertoInformacionActa");
         }
     }
+
+    public function validacionGeneracionDocumento()
+    {
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarFirma', $_REQUEST['id_beneficiario']);
+
+        $firma_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        if ($firma_beneficiario) {
+
+            $_REQUEST['ImagenFirma'] = $this->miConfigurador->configuracion['host'];
+            $_REQUEST['ImagenFirma'] .= $this->miConfigurador->configuracion['site'];
+            $_REQUEST['ImagenFirma'] .= $firma_beneficiario[0]['ruta_archivo'];
+            $_REQUEST['ImagenFirma'] .= $firma_beneficiario[0]['nombre_archivo'];
+
+            include_once "guardarDocumentoCertificacion.php";
+
+        } else if ($_REQUEST['firmaBeneficiario'] != '') {
+
+            include_once "guardarDocumentoCertificacion.php";
+
+        }
+    }
+
     public function procesarInformacion()
     {
 
         $url_firma_beneficiario = $_REQUEST['firmaBeneficiario'];
-        $url_firma_instalador = $_REQUEST['firmaInstalador'];
+        $url_firma_instalador = '';
 
         $arreglo = array(
             'id_beneficiario' => $_REQUEST['id_beneficiario'],
@@ -100,43 +125,7 @@ class FormProcessor
         $this->registroActa = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }
-    public function cargarArchivos()
-    {
-        $archivo_datos = '';
-        foreach ($_FILES as $key => $archivo) {
 
-            if ($archivo['error'] == 0) {
-
-                $this->prefijo = substr(md5(uniqid(time())), 0, 6);
-                /*
-                 * obtenemos los datos del Fichero
-                 */
-                $tamano = $archivo['size'];
-                $tipo = $archivo['type'];
-                $nombre_archivo = str_replace(" ", "", $archivo['name']);
-                /*
-                 * guardamos el fichero en el Directorio
-                 */
-                $ruta_absoluta = $this->rutaAbsoluta . "/entidad/firmas/" . $this->prefijo . "_" . $nombre_archivo;
-
-                $ruta_relativa = $this->rutaURL . "/entidad/firmas/" . $this->prefijo . "_" . $nombre_archivo;
-
-                $archivo['rutaDirectorio'] = $ruta_absoluta;
-
-                if (!copy($archivo['tmp_name'], $ruta_absoluta)) {
-                    Redireccionador::redireccionar("ErrorCargarFicheroDirectorio");
-                }
-
-                $archivo_datos[] = array(
-                    'ruta_archivo' => $ruta_relativa,
-                    'nombre_archivo' => $archivo['name'],
-                    'campo' => $key,
-                );
-            }
-        }
-
-        $this->archivos_datos = $archivo_datos;
-    }
 }
 
 $miProcesador = new FormProcessor($this->lenguaje, $this->sql);
