@@ -191,10 +191,11 @@ $urbanizacion = $urbanizacion[0];
 
         if ($_REQUEST['fecha_instalacion'] != '') {
             $fecha = explode("-", $_REQUEST['fecha_instalacion']);
-            $dia = $fecha[0];
+
+            $dia = $fecha[2];
             $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             $mes = $mes[$fecha[1] + 0];
-            $anno = $fecha[2];
+            $anno = $fecha[0];
 
         } else {
 
@@ -441,7 +442,7 @@ $urbanizacion = $urbanizacion[0];
                             <br>
                             <table width:100%;>
                                 <tr>
-                                    <td rowspan='2' style='width:50%;'>Firma:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $firma_beneficiario . "</td>
+                                    <td rowspan='2' style='width:50%;'>Firma:<br><div align='center'>" . $this->crearFirmaBeneficiario() . "</div></td>
                                     <td style='width:50%;text-align:center;'><b>" . $_REQUEST['nombres'] . " " . $_REQUEST['primer_apellido'] . " " . $_REQUEST['segundo_apellido'] . "</b></td>
                                 </tr>
                                 <tr>
@@ -469,6 +470,64 @@ $urbanizacion = $urbanizacion[0];
         $contenidoPagina .= "</page>";
 
         $this->contenidoPagina = $contenidoPagina;
+    }
+
+    public function crearFirmaBeneficiario()
+    {
+
+        if (isset($_REQUEST['ImagenFirma'])) {
+
+            $firmaBeneficiario = "<img src='" . $_REQUEST['ImagenFirma'] . "'  style='width: 60%;height: auto;' >";
+
+        } else {
+
+            {
+
+                {
+                    $firmaBeneficiario = base64_decode($_REQUEST['firmaBeneficiario']);
+                    $firmaBeneficiario = str_replace("image/svg+xml,", '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("svg", 'draw', $firmaBeneficiario);
+                }
+                /*
+                {
+
+                $firmacontratista = base64_decode($this->beneficiario['url_firma_contratista']);
+                $firmacontratista = str_replace("image/svg+xml,", '', $firmacontratista);
+                $firmacontratista = str_replace('<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">', '', $firmacontratista);
+                $firmacontratista = str_replace("svg", 'draw', $firmacontratista);
+
+                }
+                 */
+
+                $firmaBeneficiario = str_replace("height", 'height="40" pasos2', $firmaBeneficiario);
+                $firmaBeneficiario = str_replace("width", 'width="125" pasos1', $firmaBeneficiario);
+
+                //$firmacontratista = str_replace("height", 'height="40" pasos2', $firmacontratista);
+                //$firmacontratista = str_replace("width", 'width="125" pasos1', $firmacontratista);
+
+                $cadena = $_SERVER['HTTP_USER_AGENT'];
+                $resultado = stristr($cadena, "Android");
+
+                if ($resultado) {
+                    //$firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmacontratista);
+                    //$firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.2,0.2)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+                } else {
+                    //$firmacontratista = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmacontratista);
+                    //$firmacontratista = str_replace("/>", ' /></g>', $firmacontratista);
+                    $firmaBeneficiario = str_replace("<path", '<g viewBox="0 0 50 50" transform="scale(0.08,0.08)"><path', $firmaBeneficiario);
+                    $firmaBeneficiario = str_replace("/>", ' /></g>', $firmaBeneficiario);
+
+                }
+
+            }
+
+        }
+
+        return $firmaBeneficiario;
+
     }
 }
 $miDocumento = new GenerarDocumento($this->miSql);

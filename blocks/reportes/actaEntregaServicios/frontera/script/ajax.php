@@ -61,12 +61,12 @@ $urlConsultarProyectos = $url . $cadena;
 
  $(document).ready(function() {
 
-	$("#<?php echo $this->campoSeguro("geolocalizacion")?>").keydown(function(e){
+	$("#<?php echo $this->campoSeguro("geolocalizacion") ?>").keydown(function(e){
 		e.preventDefault();
 	});
 
 	$(function() {
-		$("#<?php echo $this->campoSeguro("geolocalizacion")?>").focus(function() {
+		$("#<?php echo $this->campoSeguro("geolocalizacion") ?>").focus(function() {
 			 initMap();
 	        $("#myModal").modal("show");
 
@@ -74,8 +74,8 @@ $urlConsultarProyectos = $url . $cadena;
 	});
 
 	$("#botonAgregarLocalizacion").click(function( e ) {
-	    $("#<?php echo $this->campoSeguro("geolocalizacion")?>").val( $("#geomodal").val());
-		$("#<?php echo $this->campoSeguro("geolocalizacion")?>").change();
+	    $("#<?php echo $this->campoSeguro("geolocalizacion") ?>").val( $("#geomodal").val());
+		$("#<?php echo $this->campoSeguro("geolocalizacion") ?>").change();
 		$('#myModal').modal('hide');
 	});
 
@@ -94,7 +94,7 @@ $urlConsultarProyectos = $url . $cadena;
 	                 lng: position.coords.longitude
 	         };
 
-			$("#<?php echo $this->campoSeguro('geolocalizacion');?>").val(pos.lat + "," + pos.lng).change();
+			$("#<?php echo $this->campoSeguro('geolocalizacion'); ?>").val(pos.lat + "," + pos.lng).change();
 
 	         infoWindow.setPosition(pos);
 	         infoWindow.setContent("Localización Encontrada.");
@@ -148,29 +148,29 @@ $urlConsultarProyectos = $url . $cadena;
 	}
 
 
- 	$("#<?php echo $this->campoSeguro('tipo_documento_int')?>").select2({width:'100%',readonly: true});
- 	$("#<?php echo $this->campoSeguro('tipo_documento_int')?>").prop('disabled', true);
+ 	$("#<?php echo $this->campoSeguro('tipo_documento_int') ?>").select2({width:'100%',readonly: true});
+ 	$("#<?php echo $this->campoSeguro('tipo_documento_int') ?>").prop('disabled', true);
 
-	$("#<?php echo $this->campoSeguro('tipo_beneficiario_int')?>").select2({width:'100%'});
-	$("#<?php echo $this->campoSeguro('tipo_beneficiario_int')?>").prop('disabled', true);
+	$("#<?php echo $this->campoSeguro('tipo_beneficiario_int') ?>").select2({width:'100%'});
+	$("#<?php echo $this->campoSeguro('tipo_beneficiario_int') ?>").prop('disabled', true);
 
-	$("#<?php echo $this->campoSeguro('estrato_int')?>").select2({width:'100%'});
-	$("#<?php echo $this->campoSeguro('estrato_int')?>").prop('disabled', true);
+	$("#<?php echo $this->campoSeguro('estrato_int') ?>").select2({width:'100%'});
+	$("#<?php echo $this->campoSeguro('estrato_int') ?>").prop('disabled', true);
 
-	$("#<?php echo $this->campoSeguro('tipo_tecnologia_int')?>").select2({width:'100%'});
-	$("#<?php echo $this->campoSeguro('tipo_tecnologia_int')?>").prop('disabled', true);
+	$("#<?php echo $this->campoSeguro('tipo_tecnologia_int') ?>").select2({width:'100%'});
+	$("#<?php echo $this->campoSeguro('tipo_tecnologia_int') ?>").prop('disabled', true);
 
- 	$("#<?php echo $this->campoSeguro('beneficiario');?>").autocomplete({
+ 	$("#<?php echo $this->campoSeguro('beneficiario'); ?>").autocomplete({
 	   	minChars: 3,
-	   	serviceUrl: '<?php echo $urlConsultarBeneficiarios;?>',
+	   	serviceUrl: '<?php echo $urlConsultarBeneficiarios; ?>',
 	   	onSelect: function (suggestion) {
-			$("#<?php echo $this->campoSeguro('id');?>").val(suggestion.data);
+			$("#<?php echo $this->campoSeguro('id'); ?>").val(suggestion.data);
 		}
 	});
 
-	$("#<?php echo $this->campoSeguro('beneficiario');?>").change(function() {
-		if($("#<?php echo $this->campoSeguro('id');?>").val()==''){
-	    	$("#<?php echo $this->campoSeguro('beneficiario');?>").val('');
+	$("#<?php echo $this->campoSeguro('beneficiario'); ?>").change(function() {
+		if($("#<?php echo $this->campoSeguro('id'); ?>").val()==''){
+	    	$("#<?php echo $this->campoSeguro('beneficiario'); ?>").val('');
 	   	}
 	});
 
@@ -178,8 +178,8 @@ $urlConsultarProyectos = $url . $cadena;
 	var d = new Date();
 	var strDate = d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear();
 
-	$('#<?php echo $this->campoSeguro("fecha_instalacion");?>').datetimepicker({
-		format: 'dd-mm-yyyy',
+	$('#<?php echo $this->campoSeguro("fecha_instalacion"); ?>').datetimepicker({
+		format: 'yyyy-mm-dd',
 	    language: "es",
 	    weekStart: 1,
 	    todayBtn:  1,
@@ -193,8 +193,8 @@ $urlConsultarProyectos = $url . $cadena;
 
 
 
-	$('#<?php echo $this->campoSeguro("fecha_comisionamiento");?>').datetimepicker({
-		format: 'dd-mm-yyyy',
+	$('#<?php echo $this->campoSeguro("fecha_comisionamiento"); ?>').datetimepicker({
+		format:  'yyyy-mm-dd',
 	    language: "es",
 	    weekStart: 1,
 	    todayBtn:  1,
@@ -207,43 +207,43 @@ $urlConsultarProyectos = $url . $cadena;
 
 
 
-	if($("#<?php echo $this->campoSeguro('urbanizacion')?>").length > 0){
+	if($("#<?php echo $this->campoSeguro('urbanizacion') ?>").length > 0){
 		var urbanizacion;
 	}
 
 /*
 
 	function urbanizacion(){
-		$("#<?php echo $this->campoSeguro('urbanizacion')?>").html('');
-		$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
+		$("#<?php echo $this->campoSeguro('urbanizacion') ?>").html('');
+		$("<option value=''>Seleccione .....</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion') ?>");
 
 		$.ajax({
-			url: "<?php echo $urlConsultarProyectos;?>",
+			url: "<?php echo $urlConsultarProyectos; ?>",
 			dataType: "json",
 			data: { metodo:''},
 			success: function(data){
 				urbanizacion = data;
 				$.each(data , function(indice,valor){
-					$("<option value='"+data[ indice ].id+"'>" + data[ indice ].urbanizacion + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion')?>");
+					$("<option value='"+data[ indice ].id+"'>" + data[ indice ].urbanizacion + "</option>").appendTo("#<?php echo $this->campoSeguro('urbanizacion') ?>");
 				});
-				$("#<?php echo $this->campoSeguro('urbanizacion')?>").val($("#<?php echo $this->campoSeguro('id_urbanizacion')?>").val()).change();
+				$("#<?php echo $this->campoSeguro('urbanizacion') ?>").val($("#<?php echo $this->campoSeguro('id_urbanizacion') ?>").val()).change();
 			}
 		});
 	};
 
-	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
-		$("#<?php echo $this->campoSeguro('id_urbanizacion');?>").val($("#<?php echo $this->campoSeguro('urbanizacion');?> option:selected").text());
+	$("#<?php echo $this->campoSeguro('urbanizacion'); ?>").change(function() {
+		$("#<?php echo $this->campoSeguro('id_urbanizacion'); ?>").val($("#<?php echo $this->campoSeguro('urbanizacion'); ?> option:selected").text());
 	});
 
-	$("#<?php echo $this->campoSeguro('urbanizacion');?>").change(function() {
-		if($("#<?php echo $this->campoSeguro('urbanizacion');?>").val() != ""){
+	$("#<?php echo $this->campoSeguro('urbanizacion'); ?>").change(function() {
+		if($("#<?php echo $this->campoSeguro('urbanizacion'); ?>").val() != ""){
 			$.each(urbanizacion , function(indice,valor){
-				if(urbanizacion[indice].id == $("#<?php echo $this->campoSeguro('urbanizacion');?>").val()){
+				if(urbanizacion[indice].id == $("#<?php echo $this->campoSeguro('urbanizacion'); ?>").val()){
 					var departamento = urbanizacion[indice].departamento.split(" - ");
 					var municipio = urbanizacion[indice].municipio.split(" - ");
-					$("#<?php echo $this->campoSeguro('departamento');?>").val(departamento[1]);
-					$("#<?php echo $this->campoSeguro('municipio');?>").val(municipio[1]);
-					$("#<?php echo $this->campoSeguro('codigo_dane');?>").val(departamento[0] + " - " + municipio[0]);
+					$("#<?php echo $this->campoSeguro('departamento'); ?>").val(departamento[1]);
+					$("#<?php echo $this->campoSeguro('municipio'); ?>").val(municipio[1]);
+					$("#<?php echo $this->campoSeguro('codigo_dane'); ?>").val(departamento[0] + " - " + municipio[0]);
 				}
 			});
 		}
@@ -254,8 +254,8 @@ $urlConsultarProyectos = $url . $cadena;
 
 	$("#div1").hide();
 
-	$("#<?php echo $this->campoSeguro('tipo_beneficiario');?>").change(function() {
-		if($("#<?php echo $this->campoSeguro('tipo_beneficiario');?>").val() == 3){
+	$("#<?php echo $this->campoSeguro('tipo_beneficiario'); ?>").change(function() {
+		if($("#<?php echo $this->campoSeguro('tipo_beneficiario'); ?>").val() == 3){
 			$("#div1").show();
 		}else{
 			$("#div1").hide();
@@ -267,20 +267,20 @@ $urlConsultarProyectos = $url . $cadena;
 
 	$('#limpiarBn').bind('click', function(e){
 		$sigdiv2.jSignature('reset');
-		$("#<?php echo $this->campoSeguro('firmaBeneficiario');?>").val('');
+		$("#<?php echo $this->campoSeguro('firmaBeneficiario'); ?>").val('');
 		$("#firma_digital_beneficiario").css("display","block");
 		$("#mensaje_firma_bn").css("display","none");
 		$("#guardarBn").css("display","block");
 	});
 
 	$('#guardarBn').bind('click', function(e){
-		$("#<?php echo $this->campoSeguro('firmaBeneficiario');?>").val(btoa($sigdiv2.jSignature("getData", "svg")));
+		$("#<?php echo $this->campoSeguro('firmaBeneficiario'); ?>").val(btoa($sigdiv2.jSignature("getData", "svg")));
 		$("#firma_digital_beneficiario").css("display","none");
 		$("#mensaje_firma_bn").css("display","block");
 		$("#guardarBn").css("display","none");
 	});
 
-	if($("#<?php echo $this->campoSeguro('firmaBeneficiario');?>").val() != ""){
+	if($("#<?php echo $this->campoSeguro('firmaBeneficiario'); ?>").val() != ""){
 		$("#firma_digital_beneficiario").css("display","none");
 		$("#mensaje_firma_bn").css("display","block");
 		$("#guardarBn").css("display","none");
@@ -291,14 +291,14 @@ $urlConsultarProyectos = $url . $cadena;
 
 	$('#limpiarIns').bind('click', function(e){
 		$sigdiv1.jSignature('reset');
-		$("#<?php echo $this->campoSeguro('firmaInstalador');?>").val('');
+		$("#<?php echo $this->campoSeguro('firmaInstalador'); ?>").val('');
 		$("#firma_digital_instalador").css("display","block");
 		$("#mensaje_firma_ins").css("display","none");
 		$("#guardarIns").css("display","block");
 	});
 
 	$('#guardarIns').bind('click', function(e){
-		$("#<?php echo $this->campoSeguro('firmaInstalador');?>").val(btoa($sigdiv1.jSignature("getData", "svg")));
+		$("#<?php echo $this->campoSeguro('firmaInstalador'); ?>").val(btoa($sigdiv1.jSignature("getData", "svg")));
 		$("#firma_digital_instalador").css("display","none");
 		$("#mensaje_firma_ins").css("display","block");
 		$("#guardarIns").css("display","none");

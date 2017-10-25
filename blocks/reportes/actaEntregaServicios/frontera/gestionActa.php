@@ -54,6 +54,10 @@ class GestionarContrato
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionCertificado');
         $infoCertificado = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
+        if (is_null($infoCertificado)) {
+            \reportes\actaEntregaServicios\Entidad::redireccionar("registrarActa", $_REQUEST['id_beneficiario']);
+        }
+
         $_REQUEST['id'] = $_REQUEST['id_beneficiario'];
         $cadenaSql = $this->miSql->getCadenaSql('consultaInformacionBeneficiario');
         $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0];

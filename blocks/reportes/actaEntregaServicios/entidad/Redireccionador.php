@@ -1,14 +1,17 @@
 <?php
 namespace reportes\actaEntregaServicios\entidad;
+
 if (!isset($GLOBALS["autorizado"])) {
     include "index.php";
     exit();
 }
-class Redireccionador {
-    public static function redireccionar($opcion, $valor = "") {
+class Redireccionador
+{
+    public static function redireccionar($opcion, $valor = "")
+    {
 
         $miConfigurador = \Configurador::singleton();
-        
+
         switch ($opcion) {
 
             case "InsertoInformacionActa":
@@ -25,8 +28,16 @@ class Redireccionador {
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
                 break;
 
+            case "registrarActa":
+                $variable = 'pagina=actaEntregaServicios';
+                $variable .= "&id=" . $valor;
+                $variable .= "&opcion=editarCertificacion";
+                $variable .= "&editar=editar";
+                $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
+                break;
+
         }
-        
+
         foreach ($_REQUEST as $clave => $valor) {
             unset($_REQUEST[$clave]);
         }
@@ -42,4 +53,11 @@ class Redireccionador {
         exit();
     }
 }
-?>
+
+if (isset($opcion)) {
+
+    $redireccionar = new Redireccionador();
+
+    $redireccionar->redireccionar($opcion, $valor);
+
+}

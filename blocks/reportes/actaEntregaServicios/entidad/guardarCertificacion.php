@@ -62,15 +62,39 @@ class FormProcessor
 
         $this->procesarInformacion();
 
-        if ($_REQUEST['firmaBeneficiario'] != '') {
+        /**
+         *  3. Validación generación Documento
+         **/
 
-            include_once "guardarDocumentoCertificacion.php";
-        }
+        $this->validacionGeneracionDocumento();
 
         if ($this->registroActa) {
             Redireccionador::redireccionar("InsertoInformacionActa");
         } else {
             Redireccionador::redireccionar("NoInsertoInformacionActa");
+        }
+    }
+
+    public function validacionGeneracionDocumento()
+    {
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarFirma', $_REQUEST['id_beneficiario']);
+
+        $firma_beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
+
+        if ($firma_beneficiario) {
+
+            $_REQUEST['ImagenFirma'] = $this->miConfigurador->configuracion['host'];
+            $_REQUEST['ImagenFirma'] .= $this->miConfigurador->configuracion['site'];
+            $_REQUEST['ImagenFirma'] .= $firma_beneficiario[0]['ruta_archivo'];
+            $_REQUEST['ImagenFirma'] .= $firma_beneficiario[0]['nombre_archivo'];
+
+            include_once "guardarDocumentoCertificacion.php";
+
+        } else if ($_REQUEST['firmaBeneficiario'] != '') {
+
+            include_once "guardarDocumentoCertificacion.php";
+
         }
     }
     public function procesarInformacion()
@@ -141,6 +165,7 @@ class FormProcessor
         }
 
         $cadenaSql = str_replace("''", 'null', $cadenaSql);
+
         $this->registroActa = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
 
     }

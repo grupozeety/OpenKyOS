@@ -20,16 +20,16 @@ class Sql extends \Sql
     public function __construct()
     {
         $this->miConfigurador = \Configurador::singleton();
-        $this->miSesionSso = \SesionSso::singleton();
+        //$this->miSesionSso = \SesionSso::singleton();
     }
     public function getCadenaSql($tipo, $variable = '')
     {
-        $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
+        /*$info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
 
         foreach ($info_usuario['description'] as $key => $rol) {
 
-            $info_usuario['rol'][] = $rol;
-        }
+        $info_usuario['rol'][] = $rol;
+        }*/
 
         /**
          * 1.
@@ -41,45 +41,15 @@ class Sql extends \Sql
         switch ($tipo) {
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
 
-//             case 'consultaInformacionBeneficiario' :
-            //                 $cadenaSql = " SELECT bn.*,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato  ";
-            //                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
-            //                 $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
-            //                 $cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
-            //                 $cadenaSql .= " LEFT JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id_beneficiario AND cn.estado_registro=TRUE ";
-            //                 $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
-            //                 $cadenaSql .= " AND pr.estado_registro = TRUE ";
-            //                 $cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST ['id'] . "';";
-            //                 break;
-
-//             case 'consultarBeneficiariosPotenciales' :
-            //                 $cadenaSql = " SELECT DISTINCT identificacion ||' - ('||nombre||' '||primer_apellido||' '||segundo_apellido||')' AS  value, id_beneficiario  AS data  ";
-            //                 $cadenaSql .= " FROM  interoperacion.beneficiario_potencial ";
-            //                 $cadenaSql .= "WHERE estado_registro=TRUE ";
-            //                 $cadenaSql .= "AND  cast(identificacion  as text) ILIKE '%" . $_GET ['query'] . "%' ";
-            //                 $cadenaSql .= "OR nombre ILIKE '%" . $_GET ['query'] . "%' ";
-            //                 $cadenaSql .= "OR primer_apellido ILIKE '%" . $_GET ['query'] . "%' ";
-            //                 $cadenaSql .= "OR segundo_apellido ILIKE '%" . $_GET ['query'] . "%' ";
-            //                 $cadenaSql .= "LIMIT 10; ";
-
-//                 break;
-
-//             case 'consultaInformacionBeneficiario':
-            //                 $cadenaSql = " SELECT bn.*, dep.departamento as dep ,mun.municipio as mun,pr.descripcion as descripcion_tipo , cn.id id_contrato, cn.numero_contrato ,cn.urbanizacion as nombre_urbanizacion, cn.departamento as nombre_departamento, cn.municipio as nombre_municipio,cn.direccion_domicilio, cn.manzana as manzana_contrato, cn.bloque as bloque_contrato,
-            //                 cn.torre as torre_contrato,cn.casa_apartamento as casa_apto_contrato,cn.interior as interior_contrato,cn.lote as lote_contrato, cn.estrato_socioeconomico "    ;
-            //                 $cadenaSql .= " FROM interoperacion.beneficiario_potencial bn ";
-            //                 $cadenaSql .= " JOIN parametros.parametros pr ON pr.codigo= bn.tipo_beneficiario::text ";
-            //                 $cadenaSql .= "JOIN parametros.relacion_parametro rl ON rl.id_rel_parametro= pr.rel_parametro AND rl.descripcion='Tipo de Beneficario o Cliente' ";
-            //                 $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario= bn.id_beneficiario AND cn.estado_registro=TRUE ";
-            //                 $cadenaSql .= " JOIN parametros.departamento as dep ON dep.codigo_dep=bn.departamento";
-            //                 $cadenaSql .= " JOIN parametros.municipio as mun ON mun.codigo_mun=bn.municipio";
-            //                 $cadenaSql .= " WHERE bn.estado_registro = TRUE ";
-            //                 $cadenaSql .= " AND pr.estado_registro = TRUE ";
-            //                 $cadenaSql .= " AND bn.id_beneficiario= '" . $_REQUEST['id'] . "';";
-            //                 break;
+            case 'consultarFirma':
+                $cadenaSql = " SELECT nombre_archivo, ruta_archivo";
+                $cadenaSql .= " FROM interoperacion.firma_beneficiario";
+                $cadenaSql .= " WHERE estado_registro = TRUE";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "';";
+                break;
 
             case 'consultaInformacionBeneficiario':
                 $cadenaSql = " SELECT ";
@@ -360,7 +330,7 @@ class Sql extends \Sql
                 $cadenaSql .= " '" . $variable['reporte_fallos'] . "',";
                 $cadenaSql .= " '" . $variable['acceso_reportando'] . "',";
                 $cadenaSql .= " '" . $variable['paginas_visitadas'] . "',";
-                $cadenaSql .= " '" . $variable['fecha_comisionamiento'] . "')";
+                $cadenaSql .= " '" . $variable['fecha_comisionamiento'] . "');";
                 break;
 
             case 'consultarParametro':
@@ -449,21 +419,6 @@ class Sql extends \Sql
                 $cadenaSql .= " ON cn.tipo_tecnologia=pr.id_parametro";
                 $cadenaSql .= " WHERE cn.id_beneficiario ='" . $_REQUEST['id_beneficiario'] . "'";
                 $cadenaSql .= " AND aes.estado_registro=TRUE";
-                break;
-
-            case 'registrarRequisito':
-                $cadenaSql = " INSERT INTO interoperacion.documentos_contrato(";
-                $cadenaSql .= " id_beneficiario, ";
-                $cadenaSql .= " tipologia_documento,";
-                $cadenaSql .= " nombre_documento, ";
-                $cadenaSql .= " ruta_relativa, ";
-                $cadenaSql .= " usuario)";
-                $cadenaSql .= " VALUES ('" . $variable['id_beneficiario'] . "',";
-                $cadenaSql .= " '" . $variable['tipologia'] . "',";
-                $cadenaSql .= " '" . $variable['nombre_documento'] . "',";
-                $cadenaSql .= " '" . $variable['ruta_relativa'] . "',";
-                $cadenaSql .= " '" . $info_usuario['uid'][0] . "');";
-
                 break;
 
             case "parametroTipoVivienda":
