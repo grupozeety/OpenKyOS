@@ -564,7 +564,7 @@ class GenerarDocumento
         $cadenaSql = $this->miSql->getCadenaSql('consultarFirma', $beneficiario);
         $firma = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda");
 
-        if (isset($firma)) {
+        if (isset($firma) && $firma) {
 
             $estructuraFirma = $this->miConfigurador->configuracion['host'];
             $estructuraFirma .= $this->miConfigurador->configuracion['site'];
