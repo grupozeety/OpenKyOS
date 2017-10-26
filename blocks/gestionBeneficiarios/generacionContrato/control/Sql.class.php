@@ -13,16 +13,19 @@ include_once "core/auth/SesionSso.class.php";
 
 // Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 // en camel case precedida por la palabra sql
-class Sql extends \Sql {
+class Sql extends \Sql
+{
 
     public $miConfigurador;
     public $miSesionSso;
-    public function __construct() {
+    public function __construct()
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miSesionSso = \SesionSso::singleton();
     }
-    public function getCadenaSql($tipo, $variable = '') {
+    public function getCadenaSql($tipo, $variable = '')
+    {
         $info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
 
         foreach ($info_usuario['description'] as $key => $rol) {
@@ -40,8 +43,15 @@ class Sql extends \Sql {
         switch ($tipo) {
 
             /**
-             * Clausulas específicas
-             */
+                 * Clausulas específicas
+                 */
+
+            case 'consultarFirma':
+                $cadenaSql = " SELECT nombre_archivo, ruta_archivo";
+                $cadenaSql .= " FROM interoperacion.firma_beneficiario";
+                $cadenaSql .= " WHERE estado_registro = TRUE";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "';";
+                break;
 
             case 'consultarBeneficiariosPotenciales':
                 $cadenaSql = " SELECT value , data ";
@@ -159,8 +169,8 @@ class Sql extends \Sql {
                 $cadenaSql .= " AND cd.id_beneficiario = '" . $_REQUEST['id_beneficiario'] . "'";
                 break;
             /**
-             * ********************************************************************************
-             */
+                 * ********************************************************************************
+                 */
             // Las siguientes son para incluir el contrato para ser gestionado por verificar
             case 'consultarContratoExistente':
                 $cadenaSql = " SELECT id, id_beneficiario, tipologia_documento,nombre_documento, ruta_relativa, tipo_requisito, codigo_requisito ";
@@ -230,8 +240,8 @@ class Sql extends \Sql {
                 break;
 
             /**
-             * ********************************************************************************
-             */
+                 * ********************************************************************************
+                 */
 
             case 'consultarNumeralesContrato':
                 $cadenaSql = " SELECT pr.id_parametro, pr.descripcion ";
@@ -717,4 +727,3 @@ class Sql extends \Sql {
         return $cadenaSql;
     }
 }
-?>
