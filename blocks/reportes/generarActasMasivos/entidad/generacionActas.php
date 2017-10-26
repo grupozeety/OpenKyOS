@@ -34,15 +34,15 @@ class GenerarDocumento
     public function __construct($sql, $proceso, $ruta_archivos)
     {
         $this->miConfigurador = \Configurador::singleton();
-        $this->miSesionSso    = \SesionSso::singleton();
+        $this->miSesionSso = \SesionSso::singleton();
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
-        $this->miSql         = $sql;
-        $this->rutaURL       = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
-        $this->miProceso     = $proceso;
+        $this->miSql = $sql;
+        $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
+        $this->miProceso = $proceso;
         $this->ruta_archivos = $ruta_archivos;
 
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
-        $esteBloque    = $this->miConfigurador->configuracion['esteBloque'];
+        $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
 
         if (!isset($esteBloque["grupo"]) || $esteBloque["grupo"] == "") {
 
@@ -52,7 +52,7 @@ class GenerarDocumento
         }
 
         //Conexion a Base de Datos
-        $conexion              = "interoperacion";
+        $conexion = "interoperacion";
         $this->esteRecursoDBPR = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
         $this->nombre = base64_decode($this->miProceso['nombre_archivo']);
@@ -82,7 +82,7 @@ class GenerarDocumento
 
                 unset($this->nombre_archivo);
                 $this->nombre_archivo = null;
-                $value                = null;
+                $value = null;
 
             }
 
@@ -264,7 +264,7 @@ class GenerarDocumento
 //var_dump($beneficiario);exit;
 
         {
-            $tipo_vip           = ($beneficiario['tipo_beneficiario_contrato'] == "1") ? "<b>VIP</b>" : "";
+            $tipo_vip = ($beneficiario['tipo_beneficiario_contrato'] == "1") ? "<b>VIP</b>" : "";
             $tipo_residencial_1 = ($beneficiario['tipo_beneficiario_contrato'] == "2") ? (($beneficiario['estrato_socioeconomico_contrato'] == "1") ? "<b>Adicional Est. 1</b>" : "") : "";
             $tipo_residencial_2 = ($beneficiario['tipo_beneficiario_contrato'] == "2") ? (($beneficiario['estrato_socioeconomico_contrato'] == "2") ? "<b>Adicional Est. 1</b>" : "") : "";
 
@@ -344,11 +344,11 @@ class GenerarDocumento
 
         if (!is_null($beneficiario['fecha_entrega']) && $beneficiario['fecha_entrega'] != '') {
 
-            $fecha       = explode("-", $beneficiario['fecha_entrega']);
-            $dia         = $fecha[2];
-            $mes         = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-            $mes         = $mes[$fecha[1] + 0];
-            $anno        = $fecha[0];
+            $fecha = explode("-", $beneficiario['fecha_entrega']);
+            $dia = $fecha[2];
+            $mes = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            $mes = $mes[$fecha[1] + 0];
+            $anno = $fecha[0];
             $fecha_letra = $dia . " del mes de " . $mes . " del Año " . $anno;
 
             $beneficiario['fecha_entrega'] = $beneficiario['fecha_entrega'];
@@ -363,7 +363,7 @@ class GenerarDocumento
 
         {
 
-            $tipo_vip           = ($beneficiario['tipo_beneficiario_contrato'] == "1") ? "<b>X</b>" : "";
+            $tipo_vip = ($beneficiario['tipo_beneficiario_contrato'] == "1") ? "<b>X</b>" : "";
             $tipo_residencial_1 = ($beneficiario['tipo_beneficiario_contrato'] == "2") ? (($beneficiario['estrato_socioeconomico_contrato'] == "1") ? "<b>X</b>" : "") : "";
             $tipo_residencial_2 = ($beneficiario['tipo_beneficiario_contrato'] == "2") ? (($beneficiario['estrato_socioeconomico_contrato'] == "2") ? "<b>X</b>" : "") : "";
         }
@@ -381,22 +381,22 @@ class GenerarDocumento
         if ($beneficiario['codigo_departamento'] == '23') {
 
             $departamento_cordoba = 'X';
-            $departamento_sucre   = '';
+            $departamento_sucre = '';
 
         } elseif ($beneficiario['codigo_departamento'] == '70') {
 
             $departamento_cordoba = ' ';
-            $departamento_sucre   = 'X';
+            $departamento_sucre = 'X';
 
         } else {
             $departamento_cordoba = ' ';
-            $departamento_sucre   = ' ';
+            $departamento_sucre = ' ';
 
         }
 
         if (!is_null($beneficiario['serial']) && $beneficiario['serial'] != '') {
 
-            $cadenaSql          = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $beneficiario['serial']);
+            $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionEquipoSerial', $beneficiario['serial']);
             $this->infoPortatil = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             foreach ($this->infoPortatil as $key => $value) {
@@ -409,10 +409,10 @@ class GenerarDocumento
 
         {
             if ($this->infoPortatil['marca'] == 'Hewlett Packard' && $beneficiario['web_soporte'] == '' && $beneficiario['telefono_soporte'] == '') {
-                $this->infoPortatil['web_soporte']      = "http://www.hp.com/latam/co/soporte/cas/";
+                $this->infoPortatil['web_soporte'] = "http://www.hp.com/latam/co/soporte/cas/";
                 $this->infoPortatil['telefono_soporte'] = "0180005147468368 - 018000961016";
             } else {
-                $this->infoPortatil['web_soporte']      = $beneficiario['web_soporte'];
+                $this->infoPortatil['web_soporte'] = $beneficiario['web_soporte'];
                 $this->infoPortatil['telefono_soporte'] = $beneficiario['telefono_soporte'];
             }
 
@@ -633,7 +633,7 @@ class GenerarDocumento
         $contenidoPagina .= "<table style='width:100%;border-color:#999999;>
                                 <tr>
                                     <td style='width:50%;'>Nombre Beneficiario:<br><br><b>" . $nombre_beneficiario . "</b></td>
-                                    <td rowspan='2' style='width:50%;color:#999999'><b>Firma<br><br><br><br><br></b><br></td>
+                                    <td rowspan='2' style='width:50%;color:#999999'><b>Firma:" . $this->crearFirmaBeneficiario($beneficiario['id_beneficiario']) . "</b></td>
                                 </tr>
                                 <tr>
                                     <td style='width:50%;'>No. de Identificación:<br><br><b>" . number_format($beneficiario['numero_identificacion_contrato'], 0, '', '.') . "</b></td>
@@ -656,11 +656,11 @@ class GenerarDocumento
     {
 
         $direccion_beneficiario = $this->esctruturarDireccionBeneficiario($beneficiario);
-        $nombre_beneficiario    = $this->estruturarNombreBeneficiario($beneficiario);
+        $nombre_beneficiario = $this->estruturarNombreBeneficiario($beneficiario);
 
         {
 
-            $tipo_vip           = ($beneficiario['estrato'] == 1) ? "<b>X</b>" : "";
+            $tipo_vip = ($beneficiario['estrato'] == 1) ? "<b>X</b>" : "";
             $tipo_residencial_1 = ($beneficiario['estrato'] == 2) ? (($beneficiario['estrato_socioeconomico'] == 1) ? "<b>X</b>" : "") : "";
             $tipo_residencial_2 = ($beneficiario['estrato'] == 2) ? (($beneficiario['estrato_socioeconomico'] == 2) ? "<b>X</b>" : "") : "";
 
@@ -851,11 +851,7 @@ class GenerarDocumento
                             <br>
                             <table width:100%;>
                                 <tr>
-                                    <td rowspan='2' align='rigth' style='vertical-align:top;width:50%;'>Firma: <br>&nbsp;
-                                    <br>&nbsp;
-                                    <br>&nbsp;
-
-                                    </td>
+                                    <td rowspan='2' align='rigth' style='vertical-align:top;width:50%;'>Firma:" . $this->crearFirmaBeneficiario($beneficiario['id_beneficiario']) . "</td>
                                     <td style='width:50%;text-align:center;'><b>" . $nombre_beneficiario . "</b></td>
                                 </tr>
                                 <tr>
@@ -877,62 +873,87 @@ class GenerarDocumento
 
         $this->infoPortatil = array(
 
-            'camara'                     => 'Integrada 720 px HD Grabación, Video y Fotografía',
+            'camara' => 'Integrada 720 px HD Grabación, Video y Fotografía',
 
-            'mouse_tipo'                 => 'Touchpad con capacidad multi-touch',
-            'sistema_operativo'          => 'Ubuntu',
+            'mouse_tipo' => 'Touchpad con capacidad multi-touch',
+            'sistema_operativo' => 'Ubuntu',
 
-            'targeta_audio_video'        => 'Incorporados',
+            'targeta_audio_video' => 'Incorporados',
 
-            'disco_duro'                 => '500 GB velocidad de 5.400 rpm',
+            'disco_duro' => '500 GB velocidad de 5.400 rpm',
 
-            'autonomia'                  => 'Mín. Cuatro horas – 6 celdas',
+            'autonomia' => 'Mín. Cuatro horas – 6 celdas',
 
-            'puerto_usb'                 => '(2)Usb 2.0 y (3) Ubs 3.0',
+            'puerto_usb' => '(2)Usb 2.0 y (3) Ubs 3.0',
 
-            'voltaje'                    => '100 v a 120 v - 50 Hz a 60 Hz',
+            'voltaje' => '100 v a 120 v - 50 Hz a 60 Hz',
 
-            'targeta_memoria'            => 'multi-format digital media reader(soporta SD, SDHC, SDXC)',
+            'targeta_memoria' => 'multi-format digital media reader(soporta SD, SDHC, SDXC)',
 
-            'salida_video'               => 'VGA 1 y HMDI 1',
+            'salida_video' => 'VGA 1 y HMDI 1',
 
-            'cargador'                   => 'Adaptador Smart AC 100 v a 120 v',
+            'cargador' => 'Adaptador Smart AC 100 v a 120 v',
 
-            'bateria_tipo'               => 'Recargable Lithium Ion',
+            'bateria_tipo' => 'Recargable Lithium Ion',
 
-            'teclado'                    => 'Español(Internacional)',
+            'teclado' => 'Español(Internacional)',
 
-            'marca'                      => 'Hewlett Packard',
+            'marca' => 'Hewlett Packard',
 
-            'modelo'                     => 'HP 245 G4 Notebook PC',
+            'modelo' => 'HP 245 G4 Notebook PC',
 
-            'procesador'                 => 'AMD A8-7410 2200 MHz cores 2.2 GHz',
+            'procesador' => 'AMD A8-7410 2200 MHz cores 2.2 GHz',
 
-            'arquitectura'               => '64 Bits',
+            'arquitectura' => '64 Bits',
 
-            'memoria_ram'                => 'DDR3 4096 MB',
+            'memoria_ram' => 'DDR3 4096 MB',
 
             'compatibilidad_memoria_ram' => 'PAE, NX, y SSE 4.x',
 
-            'tecnologia_memoria_ram'     => 'DDR3',
+            'tecnologia_memoria_ram' => 'DDR3',
 
-            'antivirus'                  => 'Clamav Antivirus',
+            'antivirus' => 'Clamav Antivirus',
 
-            'disco_anti_impacto'         => 'N/A',
+            'disco_anti_impacto' => 'N/A',
 
-            'serial'                     => '',
+            'serial' => '',
 
-            'audio'                      => 'Integrado Mono/Estereo',
+            'audio' => 'Integrado Mono/Estereo',
 
-            'bateria'                    => '41610 mWh',
+            'bateria' => '41610 mWh',
 
-            'targeta_red_alambrica'      => 'Integrada',
+            'targeta_red_alambrica' => 'Integrada',
 
-            'targeta_red_inalambrica'    => 'Integrada',
+            'targeta_red_inalambrica' => 'Integrada',
 
-            'pantalla'                   => 'HD SVA anti-brillo LED14"',
+            'pantalla' => 'HD SVA anti-brillo LED14"',
 
         );
+
+    }
+
+    public function crearFirmaBeneficiario($beneficiario)
+    {
+
+        $cadenaSql = $this->miSql->getCadenaSql('consultarFirma', $beneficiario);
+        $firma = $this->esteRecursoDBPR->ejecutarAcceso($cadenaSql, "busqueda");
+
+        if (isset($firma) && $firma) {
+
+            $estructuraFirma = $this->miConfigurador->configuracion['host'];
+            $estructuraFirma .= $this->miConfigurador->configuracion['site'];
+            $estructuraFirma .= $firma[0]['ruta_archivo'];
+            $estructuraFirma .= $firma[0]['nombre_archivo'];
+
+            $firmaBeneficiario = "<br><div align='center'><img src='" . $estructuraFirma . "'  style='width: 45%;height: auto;' ></div>";
+
+        } else {
+
+            $firmaBeneficiario = "<br><br><br><br><br>";
+
+        }
+
+        return $firmaBeneficiario;
 
     }
 

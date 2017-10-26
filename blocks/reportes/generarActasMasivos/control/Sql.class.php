@@ -21,7 +21,7 @@ class Sql extends \Sql
          * 1.
          * Revisar las variables para evitar SQL Injection
          */
-        $prefijo  = $this->miConfigurador->getVariableConfiguracion("prefijo");
+        $prefijo = $this->miConfigurador->getVariableConfiguracion("prefijo");
         $idSesion = $this->miConfigurador->getVariableConfiguracion("id_sesion");
 
         switch ($tipo) {
@@ -31,6 +31,13 @@ class Sql extends \Sql
                  */
 
             //Validaciones
+
+            case 'consultarFirma':
+                $cadenaSql = " SELECT nombre_archivo, ruta_archivo";
+                $cadenaSql .= " FROM interoperacion.firma_beneficiario";
+                $cadenaSql .= " WHERE estado_registro = TRUE";
+                $cadenaSql .= " AND id_beneficiario='" . $variable . "';";
+                break;
 
             case 'consultarExitenciaActaServicios':
                 $cadenaSql = " SELECT aes.id_beneficiario,cn.numero_identificacion";
