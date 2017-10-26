@@ -31,7 +31,7 @@ class GenerarDocumento
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
         $this->miSql = $sql;
         $this->rutaURL = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site");
-        $this->info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
+        // $this->info_usuario = $this->miSesionSso->getParametrosSesionAbierta();
 
         //Conexion a Base de Datos
         $conexion = "interoperacion";
