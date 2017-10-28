@@ -16,6 +16,11 @@ class procesarAjax
         $conexion = "interoperacion";
 
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
+        $conexion = "otunWs";
+
+        $this->esteRecursoDBOtunWS = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
+
         // URL base
         $url = $this->miConfigurador->getVariableConfiguracion("host");
         $url .= $this->miConfigurador->getVariableConfiguracion("site");
@@ -24,6 +29,45 @@ class procesarAjax
         $esteBloque = $this->miConfigurador->configuracion['esteBloque'];
 
         switch ($_REQUEST['funcion']) {
+
+            case 'consultarInformacionApropiacion':
+
+                $cadenaSql = $this->sql->getCadenaSql('consultarInformacionApropiacion', $_REQUEST['idActividad']);
+
+                $informacion = $this->esteRecursoDBOtunWS->ejecutarAcceso($cadenaSql, "busqueda")[0];
+
+                echo json_encode($informacion);
+
+                break;
+
+            case 'consultarActividad':
+
+                $cadenaSql = $this->sql->getCadenaSql('consultarActividad');
+
+                $resultadoItems = $this->esteRecursoDBOtunWS->ejecutarAcceso($cadenaSql, "busqueda");
+
+                if ($resultadoItems) {
+                    foreach ($resultadoItems as $key => $values) {
+                        $keys = array(
+                            'value',
+                            'data',
+                        );
+                        $resultado[$key] = array_intersect_key($resultadoItems[$key], array_flip($keys));
+
+                    }
+
+                } else {
+
+                    $resultado[0] = array(
+                        'value' => 'Nueva Actividad a Registrar',
+                        'data' => null,
+                    );
+
+                }
+
+                echo '{"suggestions":' . json_encode($resultado) . '}';
+
+                break;
 
             case 'consultaInformacionBeneficiarios':
 

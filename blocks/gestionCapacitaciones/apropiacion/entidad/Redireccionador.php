@@ -17,6 +17,18 @@ class Redireccionador
             case 'ExitoRegistro':
                 $variable = 'pagina=apropiacion';
                 $variable .= '&mensaje=exitoRegistro';
+                $variable .= '&idActividad=' . $valor;
+                break;
+
+            case 'ErrorAsociacionActividadBeneficiario':
+                $variable = 'pagina=apropiacion';
+                $variable .= '&mensaje=errorAsociacionActividadBeneficiario';
+                $variable .= '&idActividad=' . $valor;
+                break;
+
+            case 'ErrorAsociacionActividad':
+                $variable = 'pagina=apropiacion';
+                $variable .= '&mensaje=errorAsociacionActividad';
                 break;
 
             case "ErrorRegistro":

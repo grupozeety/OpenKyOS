@@ -29,6 +29,62 @@ class Sql extends \Sql
             /**
                  * Clausulas específicas
                  */
+
+            case 'consultarInformacionCapacitacion':
+                $cadenaSql = " SELECT DISTINCT";
+                $cadenaSql .= " id_info_aprop,";
+                $cadenaSql .= " actividad,";
+                $cadenaSql .= " id_actividad,";
+                $cadenaSql .= " tipo_actividad, ";
+                $cadenaSql .= " fecha_actividad ";
+                $cadenaSql .= " FROM logica.info_aprop";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_actividad='" . $variable . "'";
+                $cadenaSql .= " ORDER BY id_info_aprop ASC";
+                $cadenaSql .= " LIMIT 1;";
+                break;
+
+            case 'consultarValidarActividad':
+                $cadenaSql = " SELECT id_actividad, ";
+                $cadenaSql .= " actividad";
+                $cadenaSql .= " FROM logica.info_aprop ";
+                $cadenaSql .= " WHERE estado_registro=TRUE";
+                $cadenaSql .= " AND id_beneficiario='NO ASIGNADO' ";
+                $cadenaSql .= " AND id_actividad='" . $variable . "';";
+                break;
+
+            case 'consultarValidarBeneficiarioActividad':
+                $cadenaSql = " SELECT id_actividad, ";
+                $cadenaSql .= " actividad";
+                $cadenaSql .= " FROM logica.info_aprop ";
+                $cadenaSql .= " WHERE estado_registro=TRUE";
+                $cadenaSql .= " AND id_beneficiario='" . $variable['id_beneficiario'] . "'";
+                $cadenaSql .= " AND id_actividad='" . $variable['id_actividad'] . "';";
+                break;
+
+            case 'consultarInformacionApropiacion':
+                $cadenaSql = " SELECT DISTINCT";
+                $cadenaSql .= " id_info_aprop,";
+                $cadenaSql .= " tipo_actividad,";
+                $cadenaSql .= " fecha_actividad,";
+                $cadenaSql .= " actividad,";
+                $cadenaSql .= " id_actividad";
+                $cadenaSql .= " FROM logica.info_aprop";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND id_actividad='" . $variable . "'";
+                $cadenaSql .= " ORDER BY id_info_aprop ASC";
+                $cadenaSql .= " LIMIT 1;";
+                break;
+
+            case 'consultarActividad':
+                $cadenaSql = " SELECT DISTINCT id_actividad as data, actividad as value";
+                $cadenaSql .= " FROM logica.info_aprop";
+                $cadenaSql .= " WHERE estado_registro='TRUE'";
+                $cadenaSql .= " AND actividad ILIKE '%" . $_GET['query'] . "%' ";
+                $cadenaSql .= " LIMIT 10; ";
+
+                break;
+
             case 'consultarTipoActividad':
                 $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
                 $cadenaSql .= " FROM parametros.generales";

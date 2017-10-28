@@ -72,7 +72,6 @@ class Apropiacion
         if (isset($_REQUEST['idActividad']) && $_REQUEST['idActividad'] != '') {
 
             $cadenaSql = $this->miSql->getCadenaSql('consultarInformacionCapacitacion', $_REQUEST['idActividad']);
-
             $capacitacion = $esteRecursoDBOtunWS->ejecutarAcceso($cadenaSql, "busqueda")[0];
 
             if ($capacitacion) {
@@ -80,10 +79,8 @@ class Apropiacion
                 $arreglo_capacitacion = array(
                     'actividad' => $capacitacion['actividad'],
                     'identificadorActividad' => $capacitacion['id_actividad'],
-                    'fechaCapacitacion' => $capacitacion['fecha_capacitacion'],
-                    'horas' => $capacitacion['horas_capacitacion'],
-                    'servicio' => $capacitacion['servicio_capacitacion'],
-                    'detalleServicio' => $capacitacion['detalle_servicio'],
+                    'fechaApropiacion' => $capacitacion['fecha_actividad'],
+                    'tipoActividad' => $capacitacion['tipo_actividad'],
 
                 );
 
@@ -271,6 +268,8 @@ class Apropiacion
             $atributos = array_merge($atributos, $atributosGlobales);
             echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
             unset($atributos);
+
+            echo "<input type='button' id='limpiarBn' style='float:right' class='btn btn-default' value='Limpiar Capacitación'>";
 
         }
 
@@ -586,8 +585,13 @@ class Apropiacion
                 $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
+            case 'errorAsociacionActividadBeneficiario':
+                $mensaje = "Error<br><b>Ya existe asociado el beneficiario la actividad  de apropiación</b>";
+                $atributos['estiloLinea'] = 'error'; //
+                break;
+
             case 'errorAsociacionActividad':
-                $mensaje = "Error<br><b>Ya existe asociada la indentificación del capacitado a la actividad  de Apropiación</b>";
+                $mensaje = "Error<br><b>Ya existe actividad  de apropiación sin beneficiario</b>";
                 $atributos['estiloLinea'] = 'error'; //
                 break;
 

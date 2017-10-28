@@ -50,20 +50,32 @@ class FormProcessor
 
         switch ($_REQUEST['opcion']) {
             case 'registrarApropiacion':
-                var_dump($_REQUEST);
+
                 //Validación Actividad
-                if ($_REQUEST['identificadorActividad'] != '') {
+                if ($_REQUEST['identificadorActividad'] != '' && $_REQUEST['id_beneficiario'] != 'NO ASIGNADO') {
 
                     $arregloValidar = array(
                         'id_actividad' => $_REQUEST['identificadorActividad'],
-                        'identificacion' => $_REQUEST['identificacion'],
-                        'fecha_actividad' => $_REQUEST['fechaApropiacion'],
+                        'id_beneficiario' => $_REQUEST['id_beneficiario'],
 
                     );
 
-                    $cadenaSql = $this->miSql->getCadenaSql('consultarActividadValidar', $arregloValidar);
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarValidarBeneficiarioActividad', $arregloValidar);
 
-                    $validar_actividad = $this->esteRecursoDBOtunWs->ejecutarAcceso($cadenaSql, "busqueda");
+                    $validar_actividad = $this->esteRecursoDBOtunWS->ejecutarAcceso($cadenaSql, "busqueda");
+
+                    if ($validar_actividad != false) {
+
+                        Redireccionador::redireccionar("ErrorAsociacionActividadBeneficiario", $_REQUEST['identificadorActividad']);
+
+                    }
+
+                } else if ($_REQUEST['identificadorActividad'] != '' && $_REQUEST['id_beneficiario'] == 'NO ASIGNADO') {
+
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarValidarActividad', $_REQUEST['identificadorActividad']);
+
+                    $validar_actividad = $this->esteRecursoDBOtunWS->ejecutarAcceso($cadenaSql, "busqueda");
+
                     if ($validar_actividad != false) {
 
                         Redireccionador::redireccionar("ErrorAsociacionActividad", $_REQUEST['identificadorActividad']);
@@ -114,7 +126,7 @@ class FormProcessor
                 $this->proceso = $this->esteRecursoDBOtunWS->ejecutarAcceso($cadenaSql, "busqueda");
 
                 if (isset($this->proceso) && $this->proceso != null) {
-                    Redireccionador::redireccionar("ExitoRegistro", $this->proceso);
+                    Redireccionador::redireccionar("ExitoRegistro", $this->proceso[0]['id_actividad']);
                 } else {
                     Redireccionador::redireccionar("ErrorRegistro");
                 }
