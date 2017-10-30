@@ -6,6 +6,9 @@ $indice = 0;
  */
 
 $estilo[$indice++] = "estiloBloque.css";
+$estilo[$indice++] = "jquery.auto-complete.css";
+$estilo[$indice++] = "bootstrap-datetimepicker.css";
+$estilo[$indice++] = "bootstrap-datetimepicker.min.css";
 $estilo[$indice++] = "responsive.bootstrap.min.css";
 
 $indice++;
@@ -22,5 +25,3 @@ if ($unBloque["grupo"] == "") {
 foreach ($estilo as $nombre) {
     echo "<link rel='stylesheet' type='text/css' href='" . $rutaBloque . "/frontera/css/" . $nombre . "'>\n";
 }
-?>
-

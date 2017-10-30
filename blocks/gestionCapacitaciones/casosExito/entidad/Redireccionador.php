@@ -15,32 +15,41 @@ class Redireccionador
 
         switch ($opcion) {
             case 'ExitoRegistro':
-                $variable = 'pagina=gestionPeriodos';
+                $variable = 'pagina=competenciasTIC';
                 $variable .= '&mensaje=exitoRegistro';
+                $variable .= '&idActividad=' . $valor;
+
                 break;
 
             case "ErrorRegistro":
-                $variable = 'pagina=gestionPeriodos';
+                $variable = 'pagina=competenciasTIC';
                 $variable .= '&mensaje=errorRegistro';
                 break;
 
+            case "ErrorAsociacionActividad":
+                $variable = 'pagina=competenciasTIC';
+                $variable .= '&mensaje=errorAsociacionActividad';
+                $variable .= '&idActividad=' . $valor;
+                break;
+
+            //____________________________________________________
             case 'ExitoActualizacion':
-                $variable = 'pagina=gestionPeriodos';
+                $variable = 'pagina=competenciasTIC';
                 $variable .= '&mensaje=exitoActualizacion';
                 break;
 
             case "ErrorActualizacion":
-                $variable = 'pagina=gestionPeriodos';
+                $variable = 'pagina=competenciasTIC';
                 $variable .= '&mensaje=errorActualizacion';
                 break;
 
             case 'ExitoEliminar':
-                $variable = 'pagina=gestionPeriodos';
+                $variable = 'pagina=competenciasTIC';
                 $variable .= '&mensaje=exitoEliminar';
                 break;
 
             case "ErrorEliminar":
-                $variable = 'pagina=gestionPeriodos';
+                $variable = 'pagina=competenciasTIC';
                 $variable .= '&mensaje=errorEliminar';
                 break;
 

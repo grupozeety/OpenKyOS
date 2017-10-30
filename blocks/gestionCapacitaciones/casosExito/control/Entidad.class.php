@@ -74,17 +74,14 @@ class Entidad
         }
 
         switch ($_REQUEST['opcion']) {
-            case 'registrarPeriodoParticular':
+            case 'registrarCompetencia':
                 $this->cargarInformacion();
                 break;
 
-            case 'actualizarPeriodoParticular':
+            case 'actualizarCompetencia':
                 $this->cargarInformacion();
                 break;
 
-            case 'eliminarPeriodo':
-                $this->eliminar();
-                break;
         }
 
         return $resultado;
