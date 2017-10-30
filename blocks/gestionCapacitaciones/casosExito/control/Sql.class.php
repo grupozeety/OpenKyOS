@@ -54,39 +54,25 @@ class Sql extends \Sql
                 $cadenaSql .= "LIMIT 10; ";
                 break;
 
-            case 'consultarPerteneciaEtnica':
+            case 'consultarCategoriaAprendizaje':
                 $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
                 $cadenaSql .= " FROM parametros.generales";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND tipo='PertenenciaEtnica';";
+                $cadenaSql .= " AND tipo='CategorizacionAprendizaje';";
                 break;
 
-            case 'consultarOcupacion':
+            case 'consultarCategoriaApropiacion':
                 $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
                 $cadenaSql .= " FROM parametros.generales";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND tipo='Ocupacion';";
+                $cadenaSql .= " AND tipo='CategorizacionApropiacion';";
                 break;
 
-            case 'consultarNivelEducativo':
+            case 'consultarRelacionPlan':
                 $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
                 $cadenaSql .= " FROM parametros.generales";
                 $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND tipo='NivelEducativo';";
-                break;
-
-            case 'consultarServicio':
-                $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
-                $cadenaSql .= " FROM parametros.generales";
-                $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND tipo='ServicioCapacitacion';";
-                break;
-
-            case 'consultarDetalleServicio':
-                $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
-                $cadenaSql .= " FROM parametros.generales";
-                $cadenaSql .= " WHERE estado_registro='TRUE'";
-                $cadenaSql .= " AND tipo='DetalleServicio';";
+                $cadenaSql .= " AND tipo='RelacionPlan';";
                 break;
 
             case "registroCompetencia":

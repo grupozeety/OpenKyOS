@@ -13,6 +13,50 @@ $this->idioma['municipio'] = 'Municipio';
 
 $this->idioma['beneficiario'] = 'Beneficiario Asociado';
 
+$this->idioma['botonGuardar'] = 'Guardar';
+
+//_______________________________________________
+
+$this->idioma['titulo'] = 'Titulo';
+
+$this->idioma['etiqueta'] = 'Etiqueta (hashtag)';
+
+$this->idioma['resumen'] = 'Resumen';
+
+$this->idioma['testimonio'] = 'Testimonio';
+
+$this->idioma['contexto'] = 'Contexto';
+
+$this->idioma['imagen1'] = 'Imagen 1';
+
+$this->idioma['imagen2'] = 'Imagen 2';
+
+$this->idioma['imagen3'] = 'Imagen 3';
+
+$this->idioma['codigo'] = 'Código Embebido';
+
+$this->idioma['categoriaAprendizaje'] = 'Categoria Aprendizaje';
+
+$this->idioma['categoriaApropiacion'] = 'Categoria Apropiación';
+
+$this->idioma['relacionPlan'] = 'Relación Plan';
+
+//_______________________________________________
+
+$this->idioma['cedulaAdmin'] = 'Cedula';
+
+$this->idioma['nombreAdmin'] = 'Nombre';
+
+$this->idioma['telefonoAdmin'] = 'Teléfono';
+
+$this->idioma['celularAdmin'] = 'Celular';
+
+$this->idioma['emailAdmin'] = 'Email';
+
+$this->idioma['emailPerfilAdmin'] = 'Email Perfil Facebook';
+
+//________________________________________________
+
 $this->idioma['identificacion'] = 'Identificación';
 
 $this->idioma['nombre'] = 'Nombre';
@@ -46,5 +90,3 @@ $this->idioma['servicio'] = 'Servicio';
 $this->idioma['detalleServicio'] = 'Detalle Servicio';
 
 $this->idioma['actividad'] = 'Actividad';
-
-$this->idioma['botonGuardar'] = 'Guardar';
