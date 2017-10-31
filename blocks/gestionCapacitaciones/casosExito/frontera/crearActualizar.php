@@ -461,11 +461,11 @@ class Periodos
             if (isset($_REQUEST[$esteCampo])) {
                 $atributos['seleccion'] = $_REQUEST[$esteCampo];
             } else {
-                $atributos['seleccion'] = '1';
+                $atributos['seleccion'] = '-1';
             }
             $atributos['deshabilitado'] = false;
             $atributos['columnas'] = 1;
-            $atributos['tamanno'] = 1;
+            $atributos['tamanno'] = 4;
             $atributos['ajax_function'] = "";
             $atributos['ajax_control'] = $esteCampo;
             $atributos['estilo'] = "bootstrap";
@@ -790,6 +790,39 @@ class Periodos
                 echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
                 unset($atributos);
 
+                $esteCampo = 'perfilAdmin';
+                $atributos['id'] = $esteCampo;
+                $atributos['nombre'] = $esteCampo;
+                $atributos['tipo'] = "url";
+                $atributos['minimo'] = 0;
+                $atributos['decimal'] = false;
+                $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                $atributos["etiquetaObligatorio"] = true;
+                $atributos['tab'] = $tab++;
+                $atributos['anchoEtiqueta'] = 2;
+                $atributos['estilo'] = "bootstrap";
+                $atributos['evento'] = '';
+                $atributos['deshabilitado'] = false;
+                $atributos['readonly'] = false;
+                $atributos['columnas'] = 1;
+                $atributos['tamanno'] = 1;
+                $atributos['placeholder'] = "Url perfil de facebook administrador/gestor";
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['valor'] = "";
+                }
+                $atributos['ajax_function'] = "";
+                $atributos['ajax_control'] = $esteCampo;
+                $atributos['limitar'] = false;
+                $atributos['anchoCaja'] = 10;
+                $atributos['miEvento'] = '';
+                $atributos['validar'] = 'required';
+                // Aplica atributos globales al control
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                unset($atributos);
+
                 $esteCampo = 'emailPerfilAdmin';
                 $atributos['id'] = $esteCampo;
                 $atributos['nombre'] = $esteCampo;
@@ -849,7 +882,7 @@ class Periodos
                 $atributos['readonly'] = false;
                 $atributos['columnas'] = 1;
                 $atributos['tamanno'] = 1;
-                $atributos['placeholder'] = "Ingrese cedula administrador/gestor";
+                $atributos['placeholder'] = "Ingrese cedula coordinador";
                 if (isset($_REQUEST[$esteCampo])) {
                     $atributos['valor'] = $_REQUEST[$esteCampo];
                 } else {
@@ -882,7 +915,7 @@ class Periodos
                 $atributos['readonly'] = false;
                 $atributos['columnas'] = 1;
                 $atributos['tamanno'] = 1;
-                $atributos['placeholder'] = "Ingrese nombre administrador/gestor";
+                $atributos['placeholder'] = "Ingrese nombre coordinador";
                 if (isset($_REQUEST[$esteCampo])) {
                     $atributos['valor'] = $_REQUEST[$esteCampo];
                 } else {
@@ -915,7 +948,7 @@ class Periodos
                 $atributos['readonly'] = false;
                 $atributos['columnas'] = 1;
                 $atributos['tamanno'] = 1;
-                $atributos['placeholder'] = "Ingrese teléfono administrador/gestor";
+                $atributos['placeholder'] = "Ingrese teléfono coordinador";
                 if (isset($_REQUEST[$esteCampo])) {
                     $atributos['valor'] = $_REQUEST[$esteCampo];
                 } else {
@@ -948,7 +981,7 @@ class Periodos
                 $atributos['readonly'] = false;
                 $atributos['columnas'] = 1;
                 $atributos['tamanno'] = 1;
-                $atributos['placeholder'] = "Ingrese celular administrador/gestor";
+                $atributos['placeholder'] = "Ingrese celular coordinador";
                 if (isset($_REQUEST[$esteCampo])) {
                     $atributos['valor'] = $_REQUEST[$esteCampo];
                 } else {
@@ -981,7 +1014,40 @@ class Periodos
                 $atributos['readonly'] = false;
                 $atributos['columnas'] = 1;
                 $atributos['tamanno'] = 1;
-                $atributos['placeholder'] = "Ingrese email administrador/gestor";
+                $atributos['placeholder'] = "Ingrese email coordinador";
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['valor'] = "";
+                }
+                $atributos['ajax_function'] = "";
+                $atributos['ajax_control'] = $esteCampo;
+                $atributos['limitar'] = false;
+                $atributos['anchoCaja'] = 10;
+                $atributos['miEvento'] = '';
+                $atributos['validar'] = 'required';
+                // Aplica atributos globales al control
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                unset($atributos);
+
+                $esteCampo = 'perfilCoord';
+                $atributos['id'] = $esteCampo;
+                $atributos['nombre'] = $esteCampo;
+                $atributos['tipo'] = "url";
+                $atributos['minimo'] = 0;
+                $atributos['decimal'] = false;
+                $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                $atributos["etiquetaObligatorio"] = true;
+                $atributos['tab'] = $tab++;
+                $atributos['anchoEtiqueta'] = 2;
+                $atributos['estilo'] = "bootstrap";
+                $atributos['evento'] = '';
+                $atributos['deshabilitado'] = false;
+                $atributos['readonly'] = false;
+                $atributos['columnas'] = 1;
+                $atributos['tamanno'] = 1;
+                $atributos['placeholder'] = "Url perfil de facebook coordinador";
                 if (isset($_REQUEST[$esteCampo])) {
                     $atributos['valor'] = $_REQUEST[$esteCampo];
                 } else {
@@ -1014,7 +1080,7 @@ class Periodos
                 $atributos['readonly'] = false;
                 $atributos['columnas'] = 1;
                 $atributos['tamanno'] = 1;
-                $atributos['placeholder'] = "Ingrese email perfil facebook administrador/gestor";
+                $atributos['placeholder'] = "Ingrese email perfil facebook coordinador";
                 if (isset($_REQUEST[$esteCampo])) {
                     $atributos['valor'] = $_REQUEST[$esteCampo];
                 } else {
@@ -1096,10 +1162,10 @@ class Periodos
         $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
         $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
         if (isset($_REQUEST['opcion']) && $_REQUEST['opcion'] == 'actualizarCompetencia') {
-            $valorCodificado .= "&opcion=actualizarCompetencia";
-            $valorCodificado .= "&id_competencia=" . $_REQUEST['id_competencia'];
+            $valorCodificado .= "&opcion=actualizarCasoExito";
+            $valorCodificado .= "&id_caso=" . $_REQUEST['id_caso'];
         } else {
-            $valorCodificado .= "&opcion=registrarCompetencia";
+            $valorCodificado .= "&opcion=registrarCasoExito";
         }
 
         /**
@@ -1136,18 +1202,18 @@ class Periodos
 
         switch ($_REQUEST['mensaje']) {
             case 'exitoRegistro':
-                $mensaje = "Exito<br>Competencia TIC Registrada";
+                $mensaje = "Exito<br><b>Registro Caso de Éxito</b>";
                 $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
             case 'errorRegistro':
-                $mensaje = "Error<br>Registro de Competencia TIC";
+                $mensaje = "Error<br><b>Registro Caso de Éxito</b>";
                 $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
-            case 'errorAsociacionActividad':
-                $mensaje = "Error<br><b>Ya existe asociada la indentificación del capacitado a la actividad  de Competencia TIC</b>";
-                $atributos['estiloLinea'] = 'error'; //
+            case 'errorValidacionBeneficiario':
+                $mensaje = "Error<br><b>Beneficiario no valido</b>";
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             //-------------------------------------------------

@@ -53,6 +53,8 @@ $this->idioma['celularAdmin'] = 'Celular';
 
 $this->idioma['emailAdmin'] = 'Email';
 
+$this->idioma['perfilAdmin'] = 'Perfil Facebook';
+
 $this->idioma['emailPerfilAdmin'] = 'Email Perfil Facebook';
 
 $this->idioma['cedulaCoord'] = 'Cedula';
@@ -64,6 +66,8 @@ $this->idioma['telefonoCoord'] = 'Teléfono';
 $this->idioma['celularCoord'] = 'Celular';
 
 $this->idioma['emailCoord'] = 'Email';
+
+$this->idioma['perfilCoord'] = 'Perfil Facebook';
 
 $this->idioma['emailPerfilCoord'] = 'Email Perfil Facebook';
 

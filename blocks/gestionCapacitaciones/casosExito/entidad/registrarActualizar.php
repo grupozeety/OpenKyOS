@@ -46,122 +46,76 @@ class FormProcessor
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
-        var_dump($_REQUEST);exit;
-
         $_REQUEST['tiempo'] = time();
 
         switch ($_REQUEST['opcion']) {
 
-            case 'registrarCompetencia':
+            case 'registrarCasoExito':
+                //Validación Beneficiario
 
-                //Validación de Actividad con Capacitado : Debe solo estar asociada a una sola actividad
+                if ($_REQUEST['id_beneficiario'] != '') {
 
-                if ($_REQUEST['identificadorActividad'] != '') {
+                    $cadenaSql = $this->miSql->getCadenaSql('consultarBeneficiario', $_REQUEST['id_beneficiario']);
+                    $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
 
-                    $arregloValidar = array(
-                        'id_actividad' => $_REQUEST['identificadorActividad'],
-                        'identificacion' => $_REQUEST['identificacion'],
-
-                    );
-
-                    $cadenaSql = $this->miSql->getCadenaSql('consultarActividadValidar', $arregloValidar);
-
-                    $validar_actividad = $this->esteRecursoDBOtunWs->ejecutarAcceso($cadenaSql, "busqueda");
-                    if ($validar_actividad != false) {
-
-                        Redireccionador::redireccionar("ErrorAsociacionActividad", $_REQUEST['identificadorActividad']);
-
+                    if (!$beneficiario) {
+                        Redireccionador::redireccionar("ErrorValidacionBeneficiario");
                     }
-
-                }
-
-                // Creación identificador actividad
-
-                if ($_REQUEST['identificadorActividad'] == '') {
-
-                    $cadenaSql = $this->miSql->getCadenaSql('consultarIdentificadorActividad');
-
-                    $id_actividad = $this->esteRecursoDBOtunWs->ejecutarAcceso($cadenaSql, "busqueda")[0];
-
-                    if (is_null($id_actividad['max'])) {
-                        $_REQUEST['identificadorActividad'] = 1;
-
-                    } else {
-
-                        $_REQUEST['identificadorActividad'] = $id_actividad['max'] + 1;
-                    }
-
-                }
-
-                //Actualización Información Beneficiarios en Caso de existir
-
-                if ($_REQUEST['id_beneficiario'] != 'NO ASIGNADO') {
-
-                    $arregloBeneficiario = array(
-                        'pertenenciaEtnica' => $this->obtenerCodigoParametro($_REQUEST['pertenenciaEtnica']),
-                        'ocupacion' => $this->obtenerCodigoParametro($_REQUEST['ocupacion']),
-                        'nivelEducacion' => $this->obtenerCodigoParametro($_REQUEST['nivelEducativo']),
-                        'genero' => ($_REQUEST['genero'] == 'F') ? 1 : (($_REQUEST['genero'] == 'M') ? 2 : null),
-                        'idBeneficiario' => $_REQUEST['id_beneficiario'],
-                        'estrato' => $_REQUEST['estrato'],
-                        'correo' => $_REQUEST['correo'],
-                        'edad' => $_REQUEST['edad'],
-                        'telefono' => $_REQUEST['telefono'],
-                    );
-
-                    $cadenaSql = $this->miSql->getCadenaSql('actualizarBeneficiario', $arregloBeneficiario);
-
-                    $beneficiario = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-
-                    $cadenaSql = $this->miSql->getCadenaSql('actualizarContrato', $arregloBeneficiario);
-
-                    $contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
-
+                } else {
+                    Redireccionador::redireccionar("ErrorValidacionBeneficiario");
                 }
 
                 $arreglo = array(
                     'anio' => 2015,
                     'nit_operador' => "8301159934",
-                    'id_capacitado' => $_REQUEST['identificacion'],
-                    'dane_centro_poblado' => "NA",
+                    'cedula' => $_REQUEST['cedulaAdmin'],
+                    'nombre_administrador' => $_REQUEST['nombreAdmin'],
+                    'telefono_fijo_admin' => $_REQUEST['telefonoAdmin'],
+                    'telefono_celular_admin' => $_REQUEST['celularAdmin'],
+                    'direccion_email_admin' => $_REQUEST['emailAdmin'],
+                    'perfil_facebook_admin' => $_REQUEST['perfilAdmin'],
+                    'email_facebook_admin' => $_REQUEST['emailPerfilAdmin'],
+                    'cedula_coordinador' => $_REQUEST['cedulaCoord'],
+                    'telefono_fijo_coord' => $_REQUEST['telefonoCoord'],
+                    'telefono_celular_coord' => $_REQUEST['celularCoord'],
+                    'direccion_email_coord' => $_REQUEST['emailCoord'],
+                    'perfil_facebook_coord' => $_REQUEST['perfilCoord'],
+                    'email_facebook_coord' => $_REQUEST['emailPerfilCoord'],
+                    'titulo_caso_exit' => $_REQUEST['titulo'],
+                    'etiqueta' => $_REQUEST['etiqueta'],
+                    'resumen' => $_REQUEST['resumen'],
+                    'testimonio' => $_REQUEST['testimonio'],
+                    'contexto' => $_REQUEST['contexto'],
+                    'imagen_1' => $_REQUEST['imagen1'],
+                    'imagen_2' => $_REQUEST['imagen2'],
+                    'imagen_3' => $_REQUEST['imagen3'],
+                    'codigo_embebido' => $_REQUEST['codigo'],
+                    'categorizacion_aprendizaje' => $_REQUEST['categoriaAprendizaje'],
+                    'categorizacion_apropiacion' => $_REQUEST['categoriaApropiacion'],
+                    'relacion_plan' => implode(",", $_REQUEST['relacionPlan']),
+                    'id_beneficiario' => $_REQUEST['id_beneficiario'],
+                    'dane_centro_poblado' => "NO APLICA",
                     'dane_departamento' => $_REQUEST['departamento'],
                     'dane_institucion' => "NO APLICA",
                     'dane_municipio' => $_REQUEST['municipio'],
-                    'nombre_capacitado' => $_REQUEST['nombre'],
-                    'correo_capacitado' => $_REQUEST['correo'],
-                    'telefono_contacto' => $_REQUEST['telefono'],
-                    'genero' => $_REQUEST['genero'],
-                    'pertenecia_etnica' => $_REQUEST['pertenenciaEtnica'],
-                    'nivel_educativo' => $_REQUEST['nivelEducativo'],
-                    'servicio_capacitacion' => $_REQUEST['servicio'],
-                    'detalle_servicio' => $_REQUEST['detalleServicio'],
-                    'ocupacion' => $_REQUEST['ocupacion'],
-                    'edad' => $_REQUEST['edad'],
-                    'estrato' => $_REQUEST['estrato'],
-                    'deserto' => $_REQUEST['desercion'],
-                    'fecha_capacitacion' => $_REQUEST['fechaCapacitacion'],
-                    'horas_capacitacion' => $_REQUEST['horas'],
-                    'id_actividad' => $_REQUEST['identificadorActividad'],
-                    'actividad' => $_REQUEST['actividad'],
-                    'id_beneficiario' => $_REQUEST['id_beneficiario'],
                     'numero_contrato' => 681,
                     'codigo_simona' => "NO APLICA",
                     'region' => "KVD-R6",
                 );
 
-                $cadenaSql = $this->miSql->getCadenaSql('registroCompetencia', $arreglo);
+                $cadenaSql = $this->miSql->getCadenaSql('registroExitoCaso', $arreglo);
 
-                $this->proceso = $this->esteRecursoDBOtunWs->ejecutarAcceso($cadenaSql, "busqueda");
+                $this->proceso = $this->esteRecursoDBOtunWs->ejecutarAcceso($cadenaSql, "acceso");
 
                 if (isset($this->proceso) && $this->proceso != null) {
-                    Redireccionador::redireccionar("ExitoRegistro", $this->proceso[0][0]);
+                    Redireccionador::redireccionar("ExitoRegistro");
                 } else {
                     Redireccionador::redireccionar("ErrorRegistro");
                 }
 
                 break;
 
-            case 'actualizarCompetencia':
+            case 'actualizarCasoExito':
 
                 $arreglo = array(
                     'unidad' => $_REQUEST['unidad'],

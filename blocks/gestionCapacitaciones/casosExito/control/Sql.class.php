@@ -54,6 +54,17 @@ class Sql extends \Sql
                 $cadenaSql .= "LIMIT 10; ";
                 break;
 
+            case 'consultarBeneficiario':
+
+                $cadenaSql = "  SELECT bp.id_beneficiario ";
+                $cadenaSql .= " FROM  interoperacion.beneficiario_potencial bp ";
+                $cadenaSql .= " JOIN interoperacion.contrato cn ON cn.id_beneficiario=bp.id_beneficiario ";
+                $cadenaSql .= " WHERE bp.estado_registro=TRUE ";
+                $cadenaSql .= " AND cn.estado_registro=TRUE  ";
+                $cadenaSql .= " AND bp.id_beneficiario='" . $variable . "'; ";
+
+                break;
+
             case 'consultarCategoriaAprendizaje':
                 $cadenaSql = " SELECT valor,valor||' - '||descripcion as descripcion";
                 $cadenaSql .= " FROM parametros.generales";
@@ -75,35 +86,42 @@ class Sql extends \Sql
                 $cadenaSql .= " AND tipo='RelacionPlan';";
                 break;
 
-            case "registroCompetencia":
-
-                $cadenaSql = " INSERT INTO logica.info_compe(";
-                $cadenaSql .= " anio, ";
-                $cadenaSql .= " nit_operador, ";
-                $cadenaSql .= " id_capacitado, ";
-                $cadenaSql .= " dane_centro_poblado, ";
-                $cadenaSql .= " dane_departamento, ";
-                $cadenaSql .= " dane_institucion, ";
-                $cadenaSql .= " dane_municipio, ";
-                $cadenaSql .= " nombre_capacitado, ";
-                $cadenaSql .= " correo_capacitado, ";
-                $cadenaSql .= " telefono_contacto,";
-                $cadenaSql .= " genero, ";
-                $cadenaSql .= " pertenecia_etnica, ";
-                $cadenaSql .= " nivel_educativo, ";
-                $cadenaSql .= " servicio_capacitacion, ";
-                $cadenaSql .= " detalle_servicio, ";
-                $cadenaSql .= " ocupacion, ";
-                $cadenaSql .= " edad, ";
-                $cadenaSql .= " estrato, ";
-                $cadenaSql .= " deserto, ";
-                $cadenaSql .= " fecha_capacitacion, ";
-                $cadenaSql .= " horas_capacitacion, ";
-                $cadenaSql .= " id_actividad, ";
-                $cadenaSql .= " actividad, ";
-                $cadenaSql .= " id_beneficiario, ";
-                $cadenaSql .= " numero_contrato, ";
-                $cadenaSql .= " codigo_simona, ";
+            case "registroExitoCaso":
+                $cadenaSql = " INSERT INTO logica.info_caso_exit(";
+                $cadenaSql .= " anio,";
+                $cadenaSql .= " nit_operador,";
+                $cadenaSql .= " cedula,";
+                $cadenaSql .= " nombre_administrador,";
+                $cadenaSql .= " telefono_fijo_admin,";
+                $cadenaSql .= " telefono_celular_admin,";
+                $cadenaSql .= " direccion_email_admin,";
+                $cadenaSql .= " perfil_facebook_admin,";
+                $cadenaSql .= " email_facebook_admin,";
+                $cadenaSql .= " cedula_coordinador,";
+                $cadenaSql .= " telefono_fijo_coord,";
+                $cadenaSql .= " telefono_celular_coord,";
+                $cadenaSql .= " direccion_email_coord,";
+                $cadenaSql .= " perfil_facebook_coord,";
+                $cadenaSql .= " email_facebook_coord,";
+                $cadenaSql .= " titulo_caso_exit,";
+                $cadenaSql .= " etiqueta,";
+                $cadenaSql .= " resumen,";
+                $cadenaSql .= " testimonio,";
+                $cadenaSql .= " contexto,";
+                $cadenaSql .= " imagen_1,";
+                $cadenaSql .= " imagen_2,";
+                $cadenaSql .= " imagen_3,";
+                $cadenaSql .= " codigo_embebido,";
+                $cadenaSql .= " categorizacion_aprendizaje,";
+                $cadenaSql .= " categorizacion_apropiacion,";
+                $cadenaSql .= " relacion_plan,";
+                $cadenaSql .= " id_beneficiario,";
+                $cadenaSql .= " dane_centro_poblado,";
+                $cadenaSql .= " dane_departamento,";
+                $cadenaSql .= " dane_institucion,";
+                $cadenaSql .= " dane_municipio,";
+                $cadenaSql .= " numero_contrato,";
+                $cadenaSql .= " codigo_simona,";
                 $cadenaSql .= " region)";
                 $cadenaSql .= " VALUES (";
                 foreach ($variable as $key => $value) {
@@ -112,7 +130,7 @@ class Sql extends \Sql
 
                 }
 
-                $cadenaSql .= ") RETURNING id_actividad;";
+                $cadenaSql .= ");";
 
                 $cadenaSql = str_replace(",)", ")", $cadenaSql);
 

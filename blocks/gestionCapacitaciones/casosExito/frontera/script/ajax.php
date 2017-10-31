@@ -155,8 +155,8 @@ function informacionBeneficiario(elem, request, response){
 
               }else{
 
-                $("#<?php echo $this->campoSeguro('id_beneficiario') ?>").val('NO ASIGNADO');
-                $("#<?php echo $this->campoSeguro('beneficiario') ?>").val('NO ASIGNADO');
+                $("#<?php echo $this->campoSeguro('id_beneficiario') ?>").val('');
+                $("#<?php echo $this->campoSeguro('beneficiario') ?>").val('');
 
 
               }
@@ -238,8 +238,6 @@ function informacionBeneficiario(elem, request, response){
       }else{
         $("#<?php echo $this->campoSeguro('id_beneficiario') ?>").val('NO ASIGNADO');
         $("#<?php echo $this->campoSeguro('beneficiario') ?>").val('NO ASIGNADO');
-
-
 
       }
 

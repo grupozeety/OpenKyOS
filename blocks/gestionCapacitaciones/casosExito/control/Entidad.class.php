@@ -74,11 +74,11 @@ class Entidad
         }
 
         switch ($_REQUEST['opcion']) {
-            case 'registrarCompetencia':
+            case 'registrarCasoExito':
                 $this->cargarInformacion();
                 break;
 
-            case 'actualizarCompetencia':
+            case 'actualizarCasoExito':
                 $this->cargarInformacion();
                 break;
 
