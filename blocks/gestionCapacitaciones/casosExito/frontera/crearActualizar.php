@@ -268,7 +268,7 @@ class Periodos
             $esteCampo = 'imagen1';
             $atributos['id'] = $esteCampo;
             $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "text";
+            $atributos['tipo'] = "url";
             $atributos['minimo'] = 0;
             $atributos['decimal'] = false;
             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
@@ -301,7 +301,7 @@ class Periodos
             $esteCampo = 'imagen2';
             $atributos['id'] = $esteCampo;
             $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "text";
+            $atributos['tipo'] = "url";
             $atributos['minimo'] = 0;
             $atributos['decimal'] = false;
             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
@@ -334,7 +334,7 @@ class Periodos
             $esteCampo = 'imagen3';
             $atributos['id'] = $esteCampo;
             $atributos['nombre'] = $esteCampo;
-            $atributos['tipo'] = "text";
+            $atributos['tipo'] = "url";
             $atributos['minimo'] = 0;
             $atributos['decimal'] = false;
             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
@@ -472,7 +472,8 @@ class Periodos
             $atributos['limitar'] = false;
             $atributos['anchoCaja'] = 10;
             $atributos['miEvento'] = '';
-            $atributos['validar'] = 'required';
+            $atributos['miEvento'] = '';
+            $atributos['multiple'] = true;
             $atributos['cadena_sql'] = 'required';
             $cadenaSql = $this->miSql->getCadenaSql('consultarRelacionPlan');
             $matrizItems = $esteRecursoDBOtunWS->ejecutarAcceso($cadenaSql, "busqueda");
@@ -627,7 +628,7 @@ class Periodos
                 $esteCampo = 'cedulaAdmin';
                 $atributos['id'] = $esteCampo;
                 $atributos['nombre'] = $esteCampo;
-                $atributos['tipo'] = "numeric";
+                $atributos['tipo'] = "number";
                 $atributos['minimo'] = 0;
                 $atributos['decimal'] = false;
                 $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
@@ -693,7 +694,7 @@ class Periodos
                 $esteCampo = 'telefonoAdmin';
                 $atributos['id'] = $esteCampo;
                 $atributos['nombre'] = $esteCampo;
-                $atributos['tipo'] = "numeric";
+                $atributos['tipo'] = "number";
                 $atributos['minimo'] = 0;
                 $atributos['decimal'] = false;
                 $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
@@ -726,7 +727,7 @@ class Periodos
                 $esteCampo = 'celularAdmin';
                 $atributos['id'] = $esteCampo;
                 $atributos['nombre'] = $esteCampo;
-                $atributos['tipo'] = "numeric";
+                $atributos['tipo'] = "number";
                 $atributos['minimo'] = 0;
                 $atributos['decimal'] = false;
                 $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
@@ -759,7 +760,7 @@ class Periodos
                 $esteCampo = 'emailAdmin';
                 $atributos['id'] = $esteCampo;
                 $atributos['nombre'] = $esteCampo;
-                $atributos['tipo'] = "text";
+                $atributos['tipo'] = "email";
                 $atributos['minimo'] = 0;
                 $atributos['decimal'] = false;
                 $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
@@ -792,7 +793,215 @@ class Periodos
                 $esteCampo = 'emailPerfilAdmin';
                 $atributos['id'] = $esteCampo;
                 $atributos['nombre'] = $esteCampo;
+                $atributos['tipo'] = "email";
+                $atributos['minimo'] = 0;
+                $atributos['decimal'] = false;
+                $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                $atributos["etiquetaObligatorio"] = true;
+                $atributos['tab'] = $tab++;
+                $atributos['anchoEtiqueta'] = 2;
+                $atributos['estilo'] = "bootstrap";
+                $atributos['evento'] = '';
+                $atributos['deshabilitado'] = false;
+                $atributos['readonly'] = false;
+                $atributos['columnas'] = 1;
+                $atributos['tamanno'] = 1;
+                $atributos['placeholder'] = "Ingrese email perfil facebook administrador/gestor";
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['valor'] = "";
+                }
+                $atributos['ajax_function'] = "";
+                $atributos['ajax_control'] = $esteCampo;
+                $atributos['limitar'] = false;
+                $atributos['anchoCaja'] = 10;
+                $atributos['miEvento'] = '';
+                $atributos['validar'] = 'required';
+                // Aplica atributos globales al control
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                unset($atributos);
+
+            }
+            echo $this->miFormulario->agrupacion('fin');
+            unset($atributos);
+
+            $esteCampo = 'AgrupacionGeneral';
+            $atributos['id'] = $esteCampo;
+            $atributos['leyenda'] = "Información Coordinador";
+            echo $this->miFormulario->agrupacion('inicio', $atributos);
+            unset($atributos);
+            {
+                $esteCampo = 'cedulaCoord';
+                $atributos['id'] = $esteCampo;
+                $atributos['nombre'] = $esteCampo;
+                $atributos['tipo'] = "number";
+                $atributos['minimo'] = 0;
+                $atributos['decimal'] = false;
+                $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                $atributos["etiquetaObligatorio"] = true;
+                $atributos['tab'] = $tab++;
+                $atributos['anchoEtiqueta'] = 2;
+                $atributos['estilo'] = "bootstrap";
+                $atributos['evento'] = '';
+                $atributos['deshabilitado'] = false;
+                $atributos['readonly'] = false;
+                $atributos['columnas'] = 1;
+                $atributos['tamanno'] = 1;
+                $atributos['placeholder'] = "Ingrese cedula administrador/gestor";
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['valor'] = "";
+                }
+                $atributos['ajax_function'] = "";
+                $atributos['ajax_control'] = $esteCampo;
+                $atributos['limitar'] = false;
+                $atributos['anchoCaja'] = 10;
+                $atributos['miEvento'] = '';
+                $atributos['validar'] = 'required';
+                // Aplica atributos globales al control
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                unset($atributos);
+
+                $esteCampo = 'nombreCoord';
+                $atributos['id'] = $esteCampo;
+                $atributos['nombre'] = $esteCampo;
                 $atributos['tipo'] = "text";
+                $atributos['minimo'] = 0;
+                $atributos['decimal'] = false;
+                $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                $atributos["etiquetaObligatorio"] = true;
+                $atributos['tab'] = $tab++;
+                $atributos['anchoEtiqueta'] = 2;
+                $atributos['estilo'] = "bootstrap";
+                $atributos['evento'] = '';
+                $atributos['deshabilitado'] = false;
+                $atributos['readonly'] = false;
+                $atributos['columnas'] = 1;
+                $atributos['tamanno'] = 1;
+                $atributos['placeholder'] = "Ingrese nombre administrador/gestor";
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['valor'] = "";
+                }
+                $atributos['ajax_function'] = "";
+                $atributos['ajax_control'] = $esteCampo;
+                $atributos['limitar'] = false;
+                $atributos['anchoCaja'] = 10;
+                $atributos['miEvento'] = '';
+                $atributos['validar'] = 'required';
+                // Aplica atributos globales al control
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                unset($atributos);
+
+                $esteCampo = 'telefonoCoord';
+                $atributos['id'] = $esteCampo;
+                $atributos['nombre'] = $esteCampo;
+                $atributos['tipo'] = "number";
+                $atributos['minimo'] = 0;
+                $atributos['decimal'] = false;
+                $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                $atributos["etiquetaObligatorio"] = true;
+                $atributos['tab'] = $tab++;
+                $atributos['anchoEtiqueta'] = 2;
+                $atributos['estilo'] = "bootstrap";
+                $atributos['evento'] = '';
+                $atributos['deshabilitado'] = false;
+                $atributos['readonly'] = false;
+                $atributos['columnas'] = 1;
+                $atributos['tamanno'] = 1;
+                $atributos['placeholder'] = "Ingrese teléfono administrador/gestor";
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['valor'] = "";
+                }
+                $atributos['ajax_function'] = "";
+                $atributos['ajax_control'] = $esteCampo;
+                $atributos['limitar'] = false;
+                $atributos['anchoCaja'] = 10;
+                $atributos['miEvento'] = '';
+                $atributos['validar'] = 'required';
+                // Aplica atributos globales al control
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                unset($atributos);
+
+                $esteCampo = 'celularCoord';
+                $atributos['id'] = $esteCampo;
+                $atributos['nombre'] = $esteCampo;
+                $atributos['tipo'] = "number";
+                $atributos['minimo'] = 0;
+                $atributos['decimal'] = false;
+                $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                $atributos["etiquetaObligatorio"] = true;
+                $atributos['tab'] = $tab++;
+                $atributos['anchoEtiqueta'] = 2;
+                $atributos['estilo'] = "bootstrap";
+                $atributos['evento'] = '';
+                $atributos['deshabilitado'] = false;
+                $atributos['readonly'] = false;
+                $atributos['columnas'] = 1;
+                $atributos['tamanno'] = 1;
+                $atributos['placeholder'] = "Ingrese celular administrador/gestor";
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['valor'] = "";
+                }
+                $atributos['ajax_function'] = "";
+                $atributos['ajax_control'] = $esteCampo;
+                $atributos['limitar'] = false;
+                $atributos['anchoCaja'] = 10;
+                $atributos['miEvento'] = '';
+                $atributos['validar'] = 'required';
+                // Aplica atributos globales al control
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                unset($atributos);
+
+                $esteCampo = 'emailCoord';
+                $atributos['id'] = $esteCampo;
+                $atributos['nombre'] = $esteCampo;
+                $atributos['tipo'] = "email";
+                $atributos['minimo'] = 0;
+                $atributos['decimal'] = false;
+                $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
+                $atributos["etiquetaObligatorio"] = true;
+                $atributos['tab'] = $tab++;
+                $atributos['anchoEtiqueta'] = 2;
+                $atributos['estilo'] = "bootstrap";
+                $atributos['evento'] = '';
+                $atributos['deshabilitado'] = false;
+                $atributos['readonly'] = false;
+                $atributos['columnas'] = 1;
+                $atributos['tamanno'] = 1;
+                $atributos['placeholder'] = "Ingrese email administrador/gestor";
+                if (isset($_REQUEST[$esteCampo])) {
+                    $atributos['valor'] = $_REQUEST[$esteCampo];
+                } else {
+                    $atributos['valor'] = "";
+                }
+                $atributos['ajax_function'] = "";
+                $atributos['ajax_control'] = $esteCampo;
+                $atributos['limitar'] = false;
+                $atributos['anchoCaja'] = 10;
+                $atributos['miEvento'] = '';
+                $atributos['validar'] = 'required';
+                // Aplica atributos globales al control
+                $atributos = array_merge($atributos, $atributosGlobales);
+                echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
+                unset($atributos);
+
+                $esteCampo = 'emailPerfilCoord';
+                $atributos['id'] = $esteCampo;
+                $atributos['nombre'] = $esteCampo;
+                $atributos['tipo'] = "email";
                 $atributos['minimo'] = 0;
                 $atributos['decimal'] = false;
                 $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);

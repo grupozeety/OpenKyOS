@@ -46,6 +46,8 @@ class FormProcessor
         $conexion = "interoperacion";
         $this->esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
 
+        var_dump($_REQUEST);exit;
+
         $_REQUEST['tiempo'] = time();
 
         switch ($_REQUEST['opcion']) {
