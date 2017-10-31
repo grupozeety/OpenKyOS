@@ -36,7 +36,8 @@
  */
 require_once "core/builder/HtmlBase.class.php";
 
-class SelectBootstrap extends HtmlBase {
+class SelectBootstrap extends HtmlBase
+{
 
     /**
      * Punto de entrada para generar controles tipo <select>
@@ -44,7 +45,8 @@ class SelectBootstrap extends HtmlBase {
      * @param array $atributos
      * @return string
      */
-    public function campoCuadroListaBootstrap($atributos) {
+    public function campoCuadroListaBootstrap($atributos)
+    {
 
         $this->setAtributos($atributos);
 
@@ -115,7 +117,8 @@ class SelectBootstrap extends HtmlBase {
      * @return void
      * @access public
      */
-    public function cuadro_lista($atributos) {
+    public function cuadro_lista($atributos)
+    {
 
         $this->campoSeguro();
 
@@ -151,7 +154,8 @@ class SelectBootstrap extends HtmlBase {
         return $this->cadena_html;
     }
 
-    public function armarSelect() {
+    public function armarSelect()
+    {
         $this->cadena_html = "<select ";
 
         if (isset($this->atributos[self::DESHABILITADO]) && $this->atributos[self::DESHABILITADO]) {
@@ -168,16 +172,23 @@ class SelectBootstrap extends HtmlBase {
             $this->cadena_html .= " style='width:" . $this->atributos[self::ANCHOETIQUETA] . "' ";
         }
 
-        $this->cadena_html .= "name='" . $this->atributos[self::NOMBRE] . "' size='" . $this->atributos[self::TAMANNO] . "' " . $this->atributos[self::EVENTO] . " " . self::HTMLTABINDEX . "'" . $this->atributos['tab'] . "'>\n";
+        if (isset($this->atributos[self::MULTIPLE]) && $this->atributos[self::MULTIPLE] == true) {
+            $nombre = $this->atributos[self::NOMBRE] . "[]";
+        } else {
+            $nombre = $this->atributos[self::NOMBRE];
+        }
+
+        $this->cadena_html .= "name='" . $nombre . "' size='" . $this->atributos[self::TAMANNO] . "' " . $this->atributos[self::EVENTO] . " " . self::HTMLTABINDEX . "'" . $this->atributos['tab'] . "'>\n";
 
         // Si no se especifica una seleccion se agrega un espacio en blanco
 
 //         if (isset($this->atributos[self::SELECCION]) && $this->atributos[self::SELECCION] == -1) {
-//             $this->cadena_html .= "<option value=''>Seleccione .....</option>\n";
-//         }
-        
-        $this->cadena_html .= "<option value=''>Seleccione .....</option>\n"; 
+        //             $this->cadena_html .= "<option value=''>Seleccione .....</option>\n";
+        //         }
 
+        if (!isset($this->atributos[self::MULTIPLE])) {
+            $this->cadena_html .= "<option value=''>Seleccione .....</option>\n";
+        }
         // Si el control esta asociado a otro control que aparece si no hay un valor en la lista
         if (isset($this->atributos["otraOpcion"])) {
             if ($this->atributos[self::SELECCION] == "sara") {
@@ -192,7 +203,8 @@ class SelectBootstrap extends HtmlBase {
         $this->cadena_html .= "</select>\n";
     }
 
-    private function ArmarListado() {
+    private function ArmarListado()
+    {
 
         if (isset($this->atributos[self::SELECCION])) {
             $seleccion = $this->atributos[self::SELECCION];
@@ -239,7 +251,8 @@ class SelectBootstrap extends HtmlBase {
         }
     }
 
-    public function listadoInicialCuadroLista() {
+    public function listadoInicialCuadroLista()
+    {
         if (isset($this->atributos['miniRegistro'])) {
             if (isset($this->atributos[self::SELECCION])) {
                 $seleccion = $this->atributos[self::SELECCION];
@@ -281,7 +294,8 @@ class SelectBootstrap extends HtmlBase {
         }
     }
 
-    private function definirEvento() {
+    private function definirEvento()
+    {
         switch ($this->atributos[self::EVENTO]) {
             case 1:
             case 'submit':
@@ -307,7 +321,8 @@ class SelectBootstrap extends HtmlBase {
      *
      * @return string
      */
-    private function armarEvento() {
+    private function armarEvento()
+    {
         $this->control = explode("|", $this->atributos["ajax_control"]);
         $miEvento = "onchange=\"" . $this->atributos["ajax_function"];
         $miEvento .= "(";
@@ -318,7 +333,8 @@ class SelectBootstrap extends HtmlBase {
         return $miEvento . ")\"";
     }
 
-    private function armarEvento2() {
+    private function armarEvento2()
+    {
         $this->control = explode("|", $this->atributos["ajax_control"]);
         $miEvento = "onchange=\"" . $this->atributos["ajax_function"];
 
@@ -335,7 +351,8 @@ class SelectBootstrap extends HtmlBase {
      * @access private
      * @return none
      */
-    public function rescatarRegistroCuadroLista() {
+    public function rescatarRegistroCuadroLista()
+    {
         // Si no se ha pasado una tabla de valores, entonces debe realizarse una busqueda con la opcion determinada
         // Si se ha pasado una tabla de valores, entonces se utiliza esa tabla y no se hacen consultas
         $cuadroSql = $this->atributos["cadena_sql"];
@@ -381,7 +398,8 @@ class SelectBootstrap extends HtmlBase {
     // Funcion que genera listas desplegables con grupos de opciones
     // matrizItems es un vector, donde la posicion cero y las posiciones pares corresponden a los labels de los grupos de opciones y las posiciones impares corresponden a las opciones por cada grupo.
     // Las posiciones impar contienen un vector con las opciones correspondientes al grupo de opciones
-    public function cuadro_listaGrupos($arregloAtributos, $datosConfiguracion) {
+    public function cuadro_listaGrupos($arregloAtributos, $datosConfiguracion)
+    {
 
         /**
          * Los atributos que acepta este widget son:
@@ -453,7 +471,8 @@ class SelectBootstrap extends HtmlBase {
         return $this->mi_cuadro;
     }
 
-    private function procesarAtributosCuadroLista($arregloAtributos, $datosConfiguracion) {
+    private function procesarAtributosCuadroLista($arregloAtributos, $datosConfiguracion)
+    {
         switch ($arregloAtributos[self::EVENTO]) {
             case 1:
                 $miEvento = 'onchange="this.form.submit()"';
@@ -482,7 +501,8 @@ class SelectBootstrap extends HtmlBase {
         return $cadena;
     }
 
-    private function atributoClassSelect() {
+    private function atributoClassSelect()
+    {
 
         if (isset($this->atributos[self::ESTILO]) && $this->atributos[self::ESTILO] == self::BOOTSTRAP) {
 
