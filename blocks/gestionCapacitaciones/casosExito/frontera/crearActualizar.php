@@ -365,22 +365,36 @@ class Periodos
             unset($atributos);
 
             $esteCampo = "codigo";
-            $atributos['nombre'] = $esteCampo;
             $atributos['id'] = $esteCampo;
+            $atributos['nombre'] = $esteCampo;
+            $atributos['tipo'] = "url";
+            $atributos['minimo'] = 0;
+            $atributos['decimal'] = false;
             $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
             $atributos["etiquetaObligatorio"] = true;
             $atributos['tab'] = $tab++;
+            $atributos['anchoEtiqueta'] = 2;
+            $atributos['estilo'] = "bootstrap";
+            $atributos['evento'] = '';
+            $atributos['deshabilitado'] = false;
+            $atributos['readonly'] = false;
+            $atributos['columnas'] = 1;
+            $atributos['tamanno'] = 1;
+            $atributos['placeholder'] = "Ingrese url de codigo embebido multimedia";
             if (isset($_REQUEST[$esteCampo])) {
                 $atributos['valor'] = $_REQUEST[$esteCampo];
             } else {
-                $atributos['valor'] = '';
+                $atributos['valor'] = "";
             }
+            $atributos['ajax_function'] = "";
+            $atributos['ajax_control'] = $esteCampo;
+            $atributos['limitar'] = false;
+            $atributos['anchoCaja'] = 10;
+            $atributos['miEvento'] = '';
             $atributos['validar'] = 'required';
-            $atributos['placeholder'] = "Ingrese código enbebido multimedia";
-            $atributos['filas'] = 2;
             // Aplica atributos globales al control
             $atributos = array_merge($atributos, $atributosGlobales);
-            echo $this->miFormulario->campoTextAreaBootstrap($atributos);
+            echo $this->miFormulario->campoCuadroTextoBootstrap($atributos);
             unset($atributos);
 
             $esteCampo = 'categoriaAprendizaje';
