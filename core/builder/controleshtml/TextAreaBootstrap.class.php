@@ -9,9 +9,11 @@ require_once "core/builder/HtmlBase.class.php";
  * $atributos['columnas']
  *
  */
-class TextAreaBootstrap extends HtmlBase {
+class TextAreaBootstrap extends HtmlBase
+{
 
-    public function campoTextAreaBootstrap($atributos) {
+    public function campoTextAreaBootstrap($atributos)
+    {
 
         $this->setAtributos($atributos);
 
@@ -22,6 +24,10 @@ class TextAreaBootstrap extends HtmlBase {
         $this->cadenaHTML .= ' <label for="' . $atributos['id'] . '">' . $atributos['etiqueta'] . '</label>';
 
         $this->cadenaHTML .= ' <textarea class="form-control" rows="' . $atributos['filas'] . '" id="' . $this->atributos['id'] . '"  name="' . $this->atributos['id'] . '"  value="' . $atributos['valor'] . '" ';
+
+        if (isset($this->atributos[self::PLACEHOLDER])) {
+            $this->cadenaHTML .= "placeholder='" . $this->atributos[self::PLACEHOLDER] . "' ";
+        }
 
         if (isset($atributos['validar']) && $atributos['validar'] = 'required') {
             $this->cadenaHTML .= 'required="true"  ';
