@@ -11,14 +11,16 @@ if (!isset($GLOBALS["autorizado"])) {
  * Por tanto en el archivo ready.php se declaran algunas funciones js
  * que lo complementan.
  */
-class GestionarContrato {
+class GestionarContrato
+{
     public $miConfigurador;
     public $lenguaje;
     public $miFormulario;
     public $miSql;
     public $ruta;
     public $rutaURL;
-    public function __construct($lenguaje, $formulario, $sql) {
+    public function __construct($lenguaje, $formulario, $sql)
+    {
         $this->miConfigurador = \Configurador::singleton();
 
         $this->miConfigurador->fabricaConexiones->setRecursoDB('principal');
@@ -46,7 +48,8 @@ class GestionarContrato {
         }
     }
 
-    public function registrarContratoBorrador() {
+    public function registrarContratoBorrador()
+    {
 
         $cadenaSql = $this->miSql->getCadenaSql('registrarContrato');
         $registro_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
@@ -58,7 +61,8 @@ class GestionarContrato {
 
     }
 
-    public function formulario() {
+    public function formulario()
+    {
 
         if (isset($_REQUEST['mensaje'])) {
 
@@ -89,7 +93,7 @@ class GestionarContrato {
         $infoBeneficiario = $esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda");
         $infoBeneficiario = $infoBeneficiario[0];
 
-        if ($infoContrato['numero_identificacion'] != NULL) {
+        if ($infoContrato['numero_identificacion'] != null) {
 
             $_REQUEST['mensaje'] = 'insertoInformacionContrato';
         }
@@ -229,7 +233,7 @@ class GestionarContrato {
 
                     // Acordar Roles
 
-                    if (is_null($infoBeneficiario['id_contrato']) != true && $infoContrato != NULL && $infoContrato['numero_identificacion'] === NULL) {
+                    if (is_null($infoBeneficiario['id_contrato']) != true && $infoContrato != null && $infoContrato['numero_identificacion'] === null) {
 
                         // -----------------CONTROL: Botón ----------------------------------------------------------------
                         $esteCampo = 'botonVisualizarContrato';
@@ -253,7 +257,7 @@ class GestionarContrato {
                         echo $this->miFormulario->campoBotonBootstrapHtml($atributos);
                         unset($atributos);
                         // -----------------FIN CONTROL: Botón -----------------------------------------------------------
-                    } elseif ($infoContrato['numero_identificacion'] != NULL) {
+                    } elseif ($infoContrato['numero_identificacion'] != null) {
 
                         $url = $this->miConfigurador->getVariableConfiguracion("host");
                         $url .= $this->miConfigurador->getVariableConfiguracion("site");
@@ -268,7 +272,7 @@ class GestionarContrato {
 
                         {
 
-                            if ($infoContrato['numero_identificacion'] != NULL) {
+                            if ($infoContrato['numero_identificacion'] != null) {
                                 $valorCodificado = "action=" . $esteBloque["nombre"];
                             } else {
                                 $valorCodificado = (is_null($infoBeneficiario['id_contrato']) != true) ? "actionBloque=" . $esteBloque["nombre"] : "action=" . $esteBloque["nombre"];
@@ -281,7 +285,7 @@ class GestionarContrato {
                             $valorCodificado .= "&botonGenerarPdf=false";
                             $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
 
-                            if ($infoContrato['numero_identificacion'] != NULL) {
+                            if ($infoContrato['numero_identificacion'] != null) {
                                 $valorCodificado .= "&opcion=generarContratoPDF";
                             } else {
                                 $valorCodificado .= (is_null($infoBeneficiario['id_contrato']) != true) ? "&opcion=mostrarContrato" : "&opcion=cargarRequisitos";
@@ -304,7 +308,7 @@ class GestionarContrato {
                         // ------------------Division para los botones-------------------------
                         {
 
-                            if ($infoContrato['numero_identificacion'] != NULL) {
+                            if ($infoContrato['numero_identificacion'] != null) {
                                 $valorCodificado = "action=" . $esteBloque["nombre"];
                             } else {
                                 $valorCodificado = (is_null($infoBeneficiario['id_contrato']) != true) ? "actionBloque=" . $esteBloque["nombre"] : "action=" . $esteBloque["nombre"];
@@ -317,7 +321,7 @@ class GestionarContrato {
                             $valorCodificado .= "&botonGenerarPdf=true";
                             $valorCodificado .= "&tipo_beneficiario=" . $infoBeneficiario['tipo_beneficiario'];
 
-                            if ($infoContrato['numero_identificacion'] != NULL) {
+                            if ($infoContrato['numero_identificacion'] != null) {
                                 $valorCodificado .= "&opcion=generarContratoPDF";
                             } else {
                                 $valorCodificado .= (is_null($infoBeneficiario['id_contrato']) != true) ? "&opcion=mostrarContrato" : "&opcion=cargarRequisitos";
@@ -425,7 +429,7 @@ class GestionarContrato {
 
                 // $valorCodificado = "action=" . $esteBloque["nombre"];
 
-                if ($infoContrato['numero_identificacion'] != NULL) {
+                if ($infoContrato['numero_identificacion'] != null) {
                     $valorCodificado = "action=" . $esteBloque["nombre"];
                 } else {
                     $valorCodificado = (is_null($infoBeneficiario['id_contrato']) != true) ? "actionBloque=" . $esteBloque["nombre"] : "action=" . $esteBloque["nombre"];
@@ -435,7 +439,7 @@ class GestionarContrato {
                 $valorCodificado .= "&bloque=" . $esteBloque['nombre'];
                 $valorCodificado .= "&bloqueGrupo=" . $esteBloque["grupo"];
 
-                if ($infoContrato['numero_identificacion'] != NULL) {
+                if ($infoContrato['numero_identificacion'] != null) {
                     $valorCodificado .= "&opcion=generarContratoPDF";
                 } else {
                     $valorCodificado .= (is_null($infoBeneficiario['id_contrato']) != true) ? "&opcion=mostrarContrato" : "&opcion=cargarRequisitos";
@@ -474,27 +478,28 @@ class GestionarContrato {
         $atributos['tipoEtiqueta'] = 'fin';
         echo $this->miFormulario->formulario($atributos);
     }
-    public function mensaje() {
+    public function mensaje()
+    {
 
         switch ($_REQUEST['mensaje']) {
 
             case 'requisitosFaltantes':
-                $estilo_mensaje = 'warning';     // information,warning,error,validation
+                $estilo_mensaje = 'warning'; // information,warning,error,validation
                 $atributos["mensaje"] = '<b>Aún hay documentos por cargar<br>¿Esta Seguro de Generar el Contrato?</b>';
                 break;
 
             case 'requisitosCompletos':
-                $estilo_mensaje = 'success';     // information,warning,error,validation
+                $estilo_mensaje = 'success'; // information,warning,error,validation
                 $atributos["mensaje"] = '<b>Todos los documentos están cargados</b>';
                 break;
 
             case 'minimoRequisitos':
-                $estilo_mensaje = 'error';     // information,warning,error,validation
+                $estilo_mensaje = 'error'; // information,warning,error,validation
                 $atributos["mensaje"] = '<b>Oh No!!!! <br>Cargue mínimo el documento de identidad para generar contrato<b>';
                 break;
 
             case 'Pregunta':
-                $estilo_mensaje = 'success';     // information,warning,error,validation
+                $estilo_mensaje = 'success'; // information,warning,error,validation
                 $atributos["mensaje"] = '<b>¿Desea Generar el Contrato?<b>';
                 break;
 
@@ -522,45 +527,51 @@ class GestionarContrato {
 
     }
 
-    public function mensajeModal() {
+    public function mensajeModal()
+    {
 
         switch ($_REQUEST['mensaje']) {
 
             case 'insertoInformacionContrato':
                 $mensaje = "Exito en el registro información del contrato";
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
             case 'ActualizoinformacionContrato':
                 $mensaje = "Exito en la Actualización información del contrato";
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
             case 'errorGenerarArchivo':
                 $mensaje = "Error en el registro de información del Contrato";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
                 break;
 
             case 'registroSoporteContrato':
                 $mensaje = "Exito en el registro de Soporte Contrato";
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
             case 'errorRegistroSoporteContrato':
                 $mensaje = "Error en el registro de soporte de Contrato";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
                 break;
 
             case 'errorTipoSoporteContrato':
                 $mensaje = "Error en el Tipo de Archivo soporte de Contrato.<br>Recordar que los Archivos soposrtados para imagenes son : <b>jpeg y png</b>";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
                 break;
 
             case 'errorArchivo':
                 $mensaje = "Error en algun(os) Archivo(s).<br>Verifique los Archivos";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
 
+                break;
+
+            case 'noInsertoInformacionContrato':
+                $mensaje = "Error en el registro de la información del Contrato";
+                $atributos['estiloLinea'] = 'error'; //
                 break;
 
         }
@@ -597,5 +608,3 @@ class GestionarContrato {
 $miSeleccionador = new GestionarContrato($this->lenguaje, $this->miFormulario, $this->sql);
 
 $miSeleccionador->formulario();
-
-?>

@@ -9,7 +9,7 @@ if (!isset($GLOBALS["autorizado"])) {
 use gestionBeneficiarios\generacionContrato\entidad\Redireccionador;
 
 include_once 'Redireccionador.php';
-class FormProcessor
+class CrearContrato
 {
 
     public $miConfigurador;
@@ -63,16 +63,20 @@ class FormProcessor
 
         $this->procesarInformacion();
 
-        /**
-         *  3. Validación generación Documento
-         **/
+        if (isset($this->registro_info_contrato) && $this->registro_info_contrato == true) {
 
-        $this->validacionGeneracionDocumento();
+            /**
+             *  3. Validación generación Documento
+             **/
 
-        if ($this->registro_info_contrato) {
+            $this->validacionGeneracionDocumento();
+
             Redireccionador::redireccionar("InsertoInformacionContrato");
+
         } else {
+
             Redireccionador::redireccionar("NoInsertoInformacionContrato");
+
         }
 
     }
@@ -188,9 +192,27 @@ class FormProcessor
             'nombre_comisionador' => $_REQUEST['nombre_comisionador'],
         );
 
-        $cadenaSql = $this->miSql->getCadenaSql('registrarInformacionContrato', $arreglo);
+        if ($this->actualizarBeneficiarioPotencial($arreglo, $this->miSql, $this->esteRecursoDB)) {
 
-        $this->registro_info_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            $cadenaSql = $this->miSql->getCadenaSql('registrarInformacionContrato', $arreglo);
+            $this->registro_info_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+        }
+
+    }
+
+    public static function actualizarBeneficiarioPotencial($arreglo, $miSql = '', $esteRecursoDB = '')
+    {
+
+        $cadenaSql = $miSql->getCadenaSql('actualizarBeneficiarioPotencial', $arreglo);
+
+        $actualizacion_beneficiario_potencial = $esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+        if ($actualizacion_beneficiario_potencial) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
@@ -249,4 +271,4 @@ Entre las siguientes partes a saber: LA CORPORACIÓN POLITÉCNICA NACIONAL DE CO
 
 }
 
-$miProcesador = new FormProcessor($this->lenguaje, $this->sql);
+$miProcesador = new CrearContrato($this->lenguaje, $this->sql);

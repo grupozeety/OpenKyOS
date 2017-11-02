@@ -6,9 +6,11 @@ if (!isset($GLOBALS["autorizado"])) {
     exit();
 }
 
+use gestionBeneficiarios\generacionContrato\entidad\CrearContrato;
 use gestionBeneficiarios\generacionContrato\entidad\Redireccionador;
 
 include_once 'Redireccionador.php';
+include_once 'guardarContrato.php';
 class FormProcessor
 {
 
@@ -61,16 +63,20 @@ class FormProcessor
 
         $this->procesarInformacion();
 
-        /**
-         *  3. Validación generación Documento
-         **/
+        if (isset($this->actualizar_info_contrato) && $this->actualizar_info_contrato == true) {
 
-        $this->validacionGeneracionDocumento();
+            /**
+             *  3. Validación generación Documento
+             **/
 
-        if ($this->actualizar_info_contrato) {
+            $this->validacionGeneracionDocumento();
+
             Redireccionador::redireccionar("ActualizoInformacionContrato");
+
         } else {
+
             Redireccionador::redireccionar("NoInsertoInformacionContrato");
+
         }
 
     }
@@ -182,9 +188,11 @@ class FormProcessor
             'nombre_comisionador' => $_REQUEST['nombre_comisionador'],
         );
 
-        $cadenaSql = $this->miSql->getCadenaSql('actualizarInformacionContrato', $arreglo);
+        if (CrearContrato::actualizarBeneficiarioPotencial($arreglo, $this->miSql, $this->esteRecursoDB)) {
 
-        $this->actualizar_info_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+            $cadenaSql = $this->miSql->getCadenaSql('actualizarInformacionContrato', $arreglo);
+            $this->actualizar_info_contrato = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+        }
 
     }
 

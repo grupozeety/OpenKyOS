@@ -463,7 +463,7 @@ class Contrato
 
                         $esteCampo = 'num_manzana';
                         $atributos['nombre'] = $esteCampo;
-                        $atributos['tipo'] = "text";
+                        $atributos['tipo'] = "number";
                         $atributos['id'] = $esteCampo;
                         $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                         $atributos["etiquetaObligatorio"] = true;
@@ -475,6 +475,7 @@ class Contrato
                         $atributos['readonly'] = false;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
+                        $atributos['maximo'] = 999;
                         $atributos['placeholder'] = "Ingrese Número de Manzana";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
@@ -494,7 +495,7 @@ class Contrato
 
                         $esteCampo = 'num_bloque';
                         $atributos['nombre'] = $esteCampo;
-                        $atributos['tipo'] = "text";
+                        $atributos['tipo'] = "number";
                         $atributos['id'] = $esteCampo;
                         $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                         $atributos["etiquetaObligatorio"] = true;
@@ -506,6 +507,7 @@ class Contrato
                         $atributos['readonly'] = false;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
+                        $atributos['maximo'] = 999;
                         $atributos['placeholder'] = "Ingrese Número de Bloque";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
@@ -525,7 +527,7 @@ class Contrato
 
                         $esteCampo = 'num_torre';
                         $atributos['nombre'] = $esteCampo;
-                        $atributos['tipo'] = "text";
+                        $atributos['tipo'] = "number";
                         $atributos['id'] = $esteCampo;
                         $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                         $atributos["etiquetaObligatorio"] = true;
@@ -537,6 +539,7 @@ class Contrato
                         $atributos['readonly'] = false;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
+                        $atributos['maximo'] = 999;
                         $atributos['placeholder'] = "Ingrese Número Torre";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
@@ -556,7 +559,7 @@ class Contrato
 
                         $esteCampo = 'interior';
                         $atributos['nombre'] = $esteCampo;
-                        $atributos['tipo'] = "text";
+                        $atributos['tipo'] = "number";
                         $atributos['id'] = $esteCampo;
                         $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                         $atributos["etiquetaObligatorio"] = true;
@@ -568,6 +571,7 @@ class Contrato
                         $atributos['readonly'] = false;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
+                        $atributos['maximo'] = 999;
                         $atributos['placeholder'] = "Ingrese Número Casa o Apartamento";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
@@ -587,7 +591,7 @@ class Contrato
 
                         $esteCampo = 'lote';
                         $atributos['nombre'] = $esteCampo;
-                        $atributos['tipo'] = "text";
+                        $atributos['tipo'] = "number";
                         $atributos['id'] = $esteCampo;
                         $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                         $atributos["etiquetaObligatorio"] = true;
@@ -599,6 +603,7 @@ class Contrato
                         $atributos['readonly'] = false;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
+                        $atributos['maximo'] = 999;
                         $atributos['placeholder'] = "Ingrese Número Casa o Apartamento";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
@@ -618,7 +623,7 @@ class Contrato
 
                         $esteCampo = 'num_apto_casa';
                         $atributos['nombre'] = $esteCampo;
-                        $atributos['tipo'] = "text";
+                        $atributos['tipo'] = "number";
                         $atributos['id'] = $esteCampo;
                         $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                         $atributos["etiquetaObligatorio"] = true;
@@ -630,6 +635,7 @@ class Contrato
                         $atributos['readonly'] = false;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
+                        $atributos['maximo'] = 999;
                         $atributos['placeholder'] = "Ingrese Número Casa o Apartamento";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];
@@ -649,7 +655,7 @@ class Contrato
 
                         $esteCampo = 'piso';
                         $atributos['nombre'] = $esteCampo;
-                        $atributos['tipo'] = "text";
+                        $atributos['tipo'] = "number";
                         $atributos['id'] = $esteCampo;
                         $atributos['etiqueta'] = $this->lenguaje->getCadena($esteCampo);
                         $atributos["etiquetaObligatorio"] = true;
@@ -661,6 +667,7 @@ class Contrato
                         $atributos['readonly'] = false;
                         $atributos['columnas'] = 1;
                         $atributos['tamanno'] = 1;
+                        $atributos['maximo'] = 999;
                         $atributos['placeholder'] = "Ingrese Número Piso";
                         if (isset($_REQUEST[$esteCampo])) {
                             $atributos['valor'] = $_REQUEST[$esteCampo];

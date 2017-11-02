@@ -6,9 +6,11 @@ if (!isset($GLOBALS["autorizado"])) {
     include "index.php";
     exit();
 }
-class Redireccionador {
+class Redireccionador
+{
 
-    public static function redireccionar($opcion, $valor = "") {
+    public static function redireccionar($opcion, $valor = "")
+    {
         $miConfigurador = \Configurador::singleton();
 
         switch ($opcion) {
@@ -60,7 +62,7 @@ class Redireccionador {
                 $variable .= '&mensaje=noInsertoInformacionContrato';
                 $variable .= '&proceso=gestionarContrato';
                 $variable .= '&id_beneficiario=' . $_REQUEST['id_beneficiario'];
-                $variable .= '&tipo=' . $_REQUEST['tipo'];
+                $variable .= '&tipo=' . $_REQUEST['id_beneficiario'];
                 break;
 
             case "verifico":
@@ -129,6 +131,7 @@ class Redireccionador {
             default:
                 $variable = '';
         }
+
         foreach ($_REQUEST as $clave => $valor) {
             unset($_REQUEST[$clave]);
         }
@@ -145,4 +148,3 @@ class Redireccionador {
     }
 
 }
-?>
