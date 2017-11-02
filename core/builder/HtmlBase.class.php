@@ -8,7 +8,8 @@ include_once "core/manager/Configurador.class.php";
  *
  * $atributos['anchoEtiqueta']: Entero. Define el ancho de la etqiueta en pixeles.
  */
-class HtmlBase {
+class HtmlBase
+{
 
     public $instanciaFormulario;
 
@@ -93,8 +94,8 @@ class HtmlBase {
     const VALOR = 'valor';
 
     const ETIQUETA = 'etiqueta';
-    
-    const ETIQUETA_BOTON= 'etiquetaBoton';
+
+    const ETIQUETA_BOTON = 'etiquetaBoton';
 
     const ANCHOETIQUETA = 'anchoEtiqueta';
 
@@ -123,6 +124,8 @@ class HtmlBase {
     const ENLACE = 'enlace';
 
     const MINIMO = 'minimo';
+
+    const MAXIMO = 'maximo';
 
     const ENLACECODIFICAR = 'enlaceCodificar';
 
@@ -156,14 +159,16 @@ class HtmlBase {
 
     const HTMLENDLABEL = '</label>';
 
-    public function __construct(&$instanciaAgregador = '') {
+    public function __construct(&$instanciaAgregador = '')
+    {
         //Se hace una referencia a la instancia del Agregador que es de la que hereda el FormularioHtml
         $this->instanciaFormulario = $instanciaAgregador;
         $this->miConfigurador = Configurador::singleton();
 
     }
 
-    public function setAtributos($misAtributos) {
+    public function setAtributos($misAtributos)
+    {
 
         $this->atributos = $misAtributos;
         if (isset($this->atributos['atributos'])) {
@@ -175,13 +180,15 @@ class HtmlBase {
 
     }
 
-    public function setConfiguracion($configuracion) {
+    public function setConfiguracion($configuracion)
+    {
 
         $this->configuracion = $configuracion;
 
     }
 
-    public function etiqueta() {
+    public function etiqueta()
+    {
 
         $this->mi_etiqueta = "";
 
@@ -221,7 +228,8 @@ class HtmlBase {
 
     }
 
-    public function campoSeguro($campo = '') {
+    public function campoSeguro($campo = '')
+    {
 
         /**
          * Sección normal
@@ -256,7 +264,8 @@ class HtmlBase {
      * @param string $estilo
      */
 
-    public function definirEstilo($estilo = '') {
+    public function definirEstilo($estilo = '')
+    {
 
         if (!isset($this->atributos[self::ESTILO])) {
             $this->atributos[self::ESTILO] = $estilo;
@@ -277,7 +286,8 @@ class HtmlBase {
      *
      * @return string
      */
-    public function definirAtributosGenerales() {
+    public function definirAtributosGenerales()
+    {
 
         $cadena = '';
 
@@ -313,4 +323,3 @@ class HtmlBase {
     }
 
 }
-?>

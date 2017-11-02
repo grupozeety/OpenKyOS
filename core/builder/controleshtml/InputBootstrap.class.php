@@ -22,11 +22,13 @@
  *
  */
 require_once "core/builder/HtmlBase.class.php";
-class InputBootstrap extends HtmlBase {
+class InputBootstrap extends HtmlBase
+{
 
     public $cadenaHTML = '';
 
-    public function campoCuadroTextoBootstrap($atributos) {
+    public function campoCuadroTextoBootstrap($atributos)
+    {
 
         $this->setAtributos($atributos);
 
@@ -57,29 +59,29 @@ class InputBootstrap extends HtmlBase {
         $this->cadenaHTML .= '">';
 
         if (isset($this->atributos[self::ETIQUETA]) && $this->atributos[self::ETIQUETA] != "") {
-     
-        	//Manejo de responsiveness
-        	$relacion= $this->atributos['anchoEtiqueta']*100/12;
-        	$estiloLabel='';
-        	$estiloControl='';
-        	 
-        	// Para xs = extra small screens (mobile phones)
-        	if($relacion<33){
-        		$estiloLabel.='col-xs-12 ';
-        		$estiloControl.='col-xs-12 ';
-        	}else{
-        		$estiloLabel.='col-xs-'.$this->atributos['anchoEtiqueta'].' ';
-        		$estiloControl.='col-xs-'.$this->atributos['anchoCaja'].' ';
-        	}
-        	$estiloLabel.='col-sm-'.$this->atributos['anchoEtiqueta'].' col-md-'.$this->atributos['anchoEtiqueta'].' col-lg-'.$this->atributos['anchoEtiqueta'];
-        	$estiloControl.='col-sm-'.$this->atributos['anchoCaja'].' col-md-'.$this->atributos['anchoCaja'].' col-lg-'.$this->atributos['anchoCaja'];
-        	 
-        	//Fin manejo de responsiveness
-        	
-            $this->cadenaHTML .= '<label for="'. $this->atributos['id'].'" class="'.$estiloLabel.' col-form-label">';
+
+            //Manejo de responsiveness
+            $relacion = $this->atributos['anchoEtiqueta'] * 100 / 12;
+            $estiloLabel = '';
+            $estiloControl = '';
+
+            // Para xs = extra small screens (mobile phones)
+            if ($relacion < 33) {
+                $estiloLabel .= 'col-xs-12 ';
+                $estiloControl .= 'col-xs-12 ';
+            } else {
+                $estiloLabel .= 'col-xs-' . $this->atributos['anchoEtiqueta'] . ' ';
+                $estiloControl .= 'col-xs-' . $this->atributos['anchoCaja'] . ' ';
+            }
+            $estiloLabel .= 'col-sm-' . $this->atributos['anchoEtiqueta'] . ' col-md-' . $this->atributos['anchoEtiqueta'] . ' col-lg-' . $this->atributos['anchoEtiqueta'];
+            $estiloControl .= 'col-sm-' . $this->atributos['anchoCaja'] . ' col-md-' . $this->atributos['anchoCaja'] . ' col-lg-' . $this->atributos['anchoCaja'];
+
+            //Fin manejo de responsiveness
+
+            $this->cadenaHTML .= '<label for="' . $this->atributos['id'] . '" class="' . $estiloLabel . ' col-form-label">';
             $this->cadenaHTML .= $this->atributos['etiqueta'];
             $this->cadenaHTML .= '</label>';
-            $this->cadenaHTML .= '<div class="'.$estiloControl.'">';
+            $this->cadenaHTML .= '<div class="' . $estiloControl . '">';
 
         }
 
@@ -100,7 +102,8 @@ class InputBootstrap extends HtmlBase {
         return $this->cadenaHTML;
     }
 
-    public function cuadro_texto($atributos = '') {
+    public function cuadro_texto($atributos = '')
+    {
 
         $cadena = '<input ';
 
@@ -125,7 +128,8 @@ class InputBootstrap extends HtmlBase {
         $cadena .= ">\n";
         return $cadena;
     }
-    private function atributosGeneralesCuadroTexto() {
+    private function atributosGeneralesCuadroTexto()
+    {
         $cadena = '';
 
         if (!isset($this->atributos[self::TIPO])) {
@@ -148,6 +152,10 @@ class InputBootstrap extends HtmlBase {
 
         if (isset($this->atributos[self::MINIMO])) {
             $cadena .= "min=" . "'" . $this->atributos[self::MINIMO] . "' ";
+        }
+
+        if (isset($this->atributos[self::MAXIMO])) {
+            $cadena .= "max=" . "'" . $this->atributos[self::MAXIMO] . "' ";
         }
 
         if (isset($this->atributos[self::VALOR])) {
@@ -179,7 +187,8 @@ class InputBootstrap extends HtmlBase {
 
         return $cadena;
     }
-    private function atributoClassCuadroTexto() {
+    private function atributoClassCuadroTexto()
+    {
         $cadena = self::HTMLCLASS . "'";
 
         // --------------Atributo class --------------------------------
