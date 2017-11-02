@@ -738,31 +738,48 @@ class Sql extends \Sql
                 }
                 if ($variable['manzana'] != '0') {
                     $cadenaSql .= " manzana='" . $variable['manzana'] . "',";
+                } else {
+                    $cadenaSql .= " manzana=NULL,";
                 }
                 if ($variable['bloque'] != '0') {
                     $cadenaSql .= " bloque='" . $variable['bloque'] . "', ";
+                } else {
+                    $cadenaSql .= " bloque=NULL,";
                 }
                 if ($variable['torre'] != '0') {
                     $cadenaSql .= " torre='" . $variable['torre'] . "', ";
+                } else {
+                    $cadenaSql .= " torre=NULL,";
                 }
                 if ($variable['interior'] != '0') {
                     $cadenaSql .= " interior='" . $variable['interior'] . "',";
+                } else {
+                    $cadenaSql .= " interior=NULL,";
                 }
                 if ($variable['lote'] != '0') {
                     $cadenaSql .= " lote='" . $variable['lote'] . "', ";
+                } else {
+                    $cadenaSql .= " lote=NULL,";
                 }
                 if ($variable['casa_apartamento'] != '0') {
                     $cadenaSql .= " apartamento='" . $variable['casa_apartamento'] . "',";
+                } else {
+                    $cadenaSql .= " apartamento=NULL,";
                 }
                 if ($variable['piso'] != '0') {
                     $cadenaSql .= " piso='" . $variable['piso'] . "', ";
+                } else {
+                    $cadenaSql .= " piso=NULL,";
                 }
                 if ($variable['telefono'] != '') {
                     $cadenaSql .= " telefono='" . $variable['telefono'] . "', ";
+                } else {
+                    $cadenaSql .= " telefono=NULL,";
                 }
                 if ($variable['celular'] != '') {
                     $cadenaSql .= " celular='" . $variable['celular'] . "',";
-
+                } else {
+                    $cadenaSql .= " celular=NULL,";
                 }
                 $cadenaSql .= " WHERE estado_registro=TRUE ";
                 $cadenaSql .= " AND id_beneficiario='" . $_REQUEST['id_beneficiario'] . "';";
