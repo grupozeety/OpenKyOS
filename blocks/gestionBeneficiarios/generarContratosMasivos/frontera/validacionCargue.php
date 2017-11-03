@@ -513,47 +513,47 @@ class Registrador
 
             case 'errorFormatoArchivo':
                 $mensaje = "Error<br>Formato Archivo Invalido";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'errorArchivoNoValido':
                 $mensaje = "Error<br>Archivo No Valido";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'errorCargarArchivo':
                 $mensaje = "Error<br>Al Cargar Archivo";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'errorCargarInformacion':
                 $mensaje = "Error<br>Al Cargar Informacion Hoja de Cálculo";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'errorInformacionCargar':
                 $mensaje = "Error<br>Existen Inconsistencias en la Información a Cargar.<br>Para más Informacion Visualizar Log : <a  target='_blank' href='" . base64_decode($_REQUEST['log']) . "'>Link Log Errores</a>";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'exitoInformacion':
                 $mensaje = "Exito<br>Información Correctamente Validada y sin Errores.<br>Dirigirse a la Opcion \"Crear y Cargar Contratos\" ";
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
             case 'errorCreacionContratos':
                 $mensaje = "Error<br>Existen Inconsistencias en la Información a Cargar.<br>Para más Informacion Validar el Archivo en el Opción \"Validar Formato de Información Contrato\"";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'exitoRegistroProceso':
                 $mensaje = "Exito<br>Se ha Registrado con exito el <b>Proceso # " . $_REQUEST['proceso'] . "</b>.<br>Para más Informacion consulte la Opción \"Consulta Estado de Generación Contratos\"";
-                $atributos['estiloLinea'] = 'success';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'success'; //success,error,information,warning
                 break;
 
             case 'errorRegistroProceso':
                 $mensaje = "Error<br>Error en el Registro del Proceso";
-                $atributos['estiloLinea'] = 'error';     //success,error,information,warning
+                $atributos['estiloLinea'] = 'error'; //success,error,information,warning
                 break;
 
             case 'errorEliminarProceso':
@@ -612,32 +612,32 @@ class Registrador
                 break;
 
             case 'noinserto':
-                $estilo_mensaje = 'error';     // information,warning,error,validation
+                $estilo_mensaje = 'error'; // information,warning,error,validation
                 $atributos["mensaje"] = 'Error al validar los Requisitos.<br>Verifique los Documentos.';
                 break;
 
             case 'insertoInformacionContrato':
-                $estilo_mensaje = 'success';     // information,warning,error,validation
+                $estilo_mensaje = 'success'; // information,warning,error,validation
                 $atributos["mensaje"] = 'Se ha registrado la información de contrato con exito.<br>Habilitado la Opcion de Descargar Contrato';
                 break;
 
             case 'noInsertoInformacionContrato':
-                $estilo_mensaje = 'error';     // information,warning,error,validation
+                $estilo_mensaje = 'error'; // information,warning,error,validation
                 $atributos["mensaje"] = 'Error al registrar información del contrato';
                 break;
 
             case 'verifico':
-                $estilo_mensaje = 'success';     // information,warning,error,validation
+                $estilo_mensaje = 'success'; // information,warning,error,validation
                 $atributos["mensaje"] = 'Documento Verificado';
                 break;
 
             case 'noverifico':
-                $estilo_mensaje = 'warning';     // information,warning,error,validation
+                $estilo_mensaje = 'warning'; // information,warning,error,validation
                 $atributos["mensaje"] = 'Atención, fallo en actualización.';
                 break;
 
             case 'novalido':
-                $estilo_mensaje = 'error';     // information,warning,error,validation
+                $estilo_mensaje = 'error'; // information,warning,error,validation
                 $atributos["mensaje"] = 'Tipo de Archivo no Válido.';
                 break;
 

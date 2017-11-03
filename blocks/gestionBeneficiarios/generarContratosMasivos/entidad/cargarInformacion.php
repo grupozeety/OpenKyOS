@@ -10,9 +10,6 @@ $ruta = $this->miConfigurador->getVariableConfiguracion("raizDocumento");
 $host = $this->miConfigurador->getVariableConfiguracion("host") . $this->miConfigurador->getVariableConfiguracion("site") . "/plugin/html2pfd/";
 
 require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel.php";
-
-//require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel/Reader/Excel2007.php";
-
 require_once $ruta . "/plugin/PHPExcel/Classes/PHPExcel/IOFactory.php";
 
 include_once 'Redireccionador.php';
@@ -220,12 +217,31 @@ class FormProcessor
 
         foreach ($this->informacion_registrar as $key => $value) {
 
+            $_REQUEST['id_beneficiario'] = $value['id_beneficiario'];
+
+            $this->actualizarBeneficiarioPotencial($value);
+
             $cadenaSql = $this->miSql->getCadenaSql('registrarContrato', $value);
 
             $cadenaSql = str_replace(",)", ")", $cadenaSql);
 
             $this->contrato[] = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "busqueda")[0]['numero_contrato'];
 
+        }
+
+    }
+
+    public function actualizarBeneficiarioPotencial($arreglo)
+    {
+
+        $cadenaSql = $this->miSql->getCadenaSql('actualizarBeneficiarioPotencial', $arreglo);
+
+        $actualizacion_beneficiario_potencial = $this->esteRecursoDB->ejecutarAcceso($cadenaSql, "acceso");
+
+        if ($actualizacion_beneficiario_potencial) {
+            return true;
+        } else {
+            return false;
         }
 
     }
